@@ -4035,7 +4035,10 @@
       "previous_handover_observed_at": "2026-11-06T13:46:04Z",
       "current_observed_at": "2026-11-06T17:07:23.606286Z",
       "attribution": "Unresolved aggregate discrepancy: historical handover lacks a complete per-job snapshot. Bounded selected admin-control event query since handover returned no matching job events, not proof no direct/automatic change occurred. worker-outcome-check is currently paused and source created it paused; do not infer it is the changed job or reactivate it.",
-      "next_safe_action": "Reconcile actual per-job historical/audit evidence before production release; preserve current settings and do not invent an actor or a configuration change."
+      "next_safe_action": "Reconcile actual per-job historical/audit evidence before production release; preserve current settings and do not invent an actor or a configuration change.",
+      "resolution_recorded_at": "2026-11-06T18:12:35Z",
+      "resolution_reference": "job_reconciliation_1800",
+      "resolution": "Subsequent indexed automatic event reconstruction explains the aggregate discrepancy; original historical observation retained above."
     },
     "local_worktree_inventory": [
       {
@@ -4098,5 +4101,3783 @@
     "critical_operations_initiated": [],
     "new_workflows_started": [],
     "production_changes": false
+  },
+  "job_reconciliation_1800": {
+    "execution_id": "codex-job-reconcile-20261106T175943Z",
+    "checkpoint_id": "CP-382-20261106T181235Z",
+    "recorded_at": "2026-11-06T18:12:35Z",
+    "predecessor_admin_commit": "979315d52a079e97cbd45473829d6e58d4de5230",
+    "workstream_id": "WS-382-JOB-RECONCILE-1800",
+    "source_review": {
+      "schema_version": "1.0.0",
+      "workstream_id": "WS-382-JOB-RECONCILE-1800",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "reviewer": "Codex independent read-only source agent /root/job_source_1800",
+      "recorded_at": "2026-11-06T18:05:25.594976Z",
+      "canonical_admin_commit": "979315d52a079e97cbd45473829d6e58d4de5230",
+      "checkpoint": "CP-382-20261106T172215Z",
+      "pilot_source_commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "pilot_source_commit_at": "2026-11-06T02:21:02Z",
+      "worktree": "/workspace/resume-1800/review-jobs",
+      "git_status": "clean detached HEAD",
+      "owned_output": "/workspace/resume-1800/job-source-review.json",
+      "code_functions_migrations_owned": [],
+      "basis": "Existing canonical artifact provides17:07UTC176jobs/163active; no live DB query by this agent. Compared current immutable source defaults/retirements/guard mechanisms, not prior-conversation claims.",
+      "summary": {
+        "reviewed_inactive_jobs": 13,
+        "explicit_retirement_pauses": 6,
+        "created_paused_activation_separate": 1,
+        "jobs_held_off_seeded": 2,
+        "dynamic_state_not_fixed_by_source": 4,
+        "actual_runtime_delta_attributed": true,
+        "production_changes": 0,
+        "attribution_scope": "Recorded automatic transitions between the historical aggregate and independently verified17:07/18:06snapshots; original13:46per-jobstates inferred."
+      },
+      "records": [
+        {
+          "jobid": 37,
+          "jobname": "cron-history-retention",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261016110000_cf247_housekeeping_daily.sql",
+              "line": 54,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261016110000_cf247_housekeeping_daily.sql#L54",
+              "meaning": "Explicit active=false; housekeeping-daily replaces legacy retention"
+            },
+            {
+              "path": "supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql",
+              "line": 34,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql#L34",
+              "meaning": "Retired jobs skipped by area resume and cannot be resumed/run"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 48,
+          "jobname": "coverage-discover",
+          "source_classification": "held_off_seed_not_runtime_event",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 148,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L148",
+              "meaning": "jobs.held_off seeded with coverage-discover and coverage-discover-2"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 632,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L632",
+              "meaning": "Trial resume excludes jobs held off"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 57,
+          "jobname": "coverage-reextract",
+          "source_classification": "runtime_managed_state_not_fixed_by_source",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql",
+              "line": 1498,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql#L1498",
+              "meaning": "Changes command to settings-driven reextract; does not set active"
+            },
+            {
+              "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+              "line": 300,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L300",
+              "meaning": "Generic coverage-sweep idle pause/retry loop may manage this job if actual command/mode matches"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 76,
+          "jobname": "course-link-reverse",
+          "source_classification": "runtime_idle_watch_pause_resume",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql",
+              "line": 947,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql#L947",
+              "meaning": "Explicitly enrolled in job_idle_watch"
+            },
+            {
+              "path": "supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql",
+              "line": 233,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql#L233",
+              "meaning": "waste_idle_guard_v1 pauses empty/no-input watched job; resumes only its own pause when input waits"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 79,
+          "jobname": "coverage-discover-2",
+          "source_classification": "held_off_seed_not_runtime_event",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 148,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L148",
+              "meaning": "jobs.held_off seeded with both discovery jobs"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 632,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L632",
+              "meaning": "Trial resume excludes jobs held off"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 81,
+          "jobname": "course-link-search-worker",
+          "source_classification": "runtime_managed_state_not_fixed_by_source",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+              "line": 300,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L300",
+              "meaning": "Generic coverage-sweep idle pause/retry loop"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 720,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L720",
+              "meaning": "Settings and lane guard preserve existing schedule/active state"
+            },
+            {
+              "path": "supabase/migrations/20261103200000_cf247_plan_step_lane_hold.sql",
+              "line": 161,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103200000_cf247_plan_step_lane_hold.sql#L161",
+              "meaning": "Do not idle-pause a lane while a governed task is waiting; task waiting also wakes it"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 99,
+          "jobname": "provider-calendar-intakes",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261022042000_cf247_intakes_page_only.sql",
+              "line": 32,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261022042000_cf247_intakes_page_only.sql#L32",
+              "meaning": "Explicit active=false for calendar-derived intake writer; course-page-only replaces it"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 100,
+          "jobname": "provider-calendar-defaults",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261022042000_cf247_intakes_page_only.sql",
+              "line": 33,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261022042000_cf247_intakes_page_only.sql#L33",
+              "meaning": "Explicit active=false for calendar defaults; course-page-only replaces it"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 130,
+          "jobname": "l4-rule-low-agreement",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261031020000_cf247_f1c_rule4_paused.sql",
+              "line": 21,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261031020000_cf247_f1c_rule4_paused.sql#L21",
+              "meaning": "Explicit active=false for Rule4"
+            },
+            {
+              "path": "supabase/migrations/20261031060000_cf247_d3_rule4_retired.sql",
+              "line": 20,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261031060000_cf247_d3_rule4_retired.sql#L20",
+              "meaning": "Retirement requires already inactive, records replacement and post-check"
+            },
+            {
+              "path": "supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql",
+              "line": 34,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql#L34",
+              "meaning": "Retired job resume/run/frequency controls are refused"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 146,
+          "jobname": "provider-contact-page",
+          "source_classification": "runtime_managed_state_not_fixed_by_source",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261010006700_cf247_contact_quality.sql",
+              "line": 50,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261010006700_cf247_contact_quality.sql#L50",
+              "meaning": "Historical explicit active=true; current false cannot be attributed to this old migration"
+            },
+            {
+              "path": "supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql",
+              "line": 1503,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql#L1503",
+              "meaning": "Current contact_page command is settings-driven coverage-sweep"
+            },
+            {
+              "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+              "line": 300,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L300",
+              "meaning": "Generic idle pause/retry may govern coverage-sweep contact_page mode"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 151,
+          "jobname": "cron-history-trim",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261016110000_cf247_housekeeping_daily.sql",
+              "line": 55,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261016110000_cf247_housekeeping_daily.sql#L55",
+              "meaning": "Explicit active=false; housekeeping-daily replacement"
+            },
+            {
+              "path": "supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql",
+              "line": 34,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261101070000_cf247_ur07_retired_jobs.sql#L34",
+              "meaning": "Retired jobs are not resumed through area controls"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 158,
+          "jobname": "onboarding-pilot-snapshot",
+          "source_classification": "explicit_retirement_pause",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261013012500_cf247_progress_tab.sql",
+              "line": 11,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261013012500_cf247_progress_tab.sql#L11",
+              "meaning": "Old Pilot panel retired; Progress replaces it"
+            },
+            {
+              "path": "supabase/migrations/20261013012500_cf247_progress_tab.sql",
+              "line": 260,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261013012500_cf247_progress_tab.sql#L260",
+              "meaning": "Explicit active=false if job exists"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        },
+        {
+          "jobid": 355,
+          "jobname": "worker-outcome-check",
+          "source_classification": "created_paused_activation_separate",
+          "evidence": [
+            {
+              "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+              "line": 19,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L19",
+              "meaning": "Created PAUSED"
+            },
+            {
+              "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+              "line": 804,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L804",
+              "meaning": "Schedules missing job then sets active=false"
+            },
+            {
+              "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+              "line": 834,
+              "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L834",
+              "meaning": "Post-check requires paused"
+            }
+          ],
+          "runtime_transition_attributed": false,
+          "recorded_snapshot_active": false
+        }
+      ],
+      "automatic_transition_evidence": [
+        {
+          "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+          "line": 300,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L300",
+          "meaning": "flag_jobs_v1 scans scheduled coverage-sweep modes; enough no-work answered calls can pause and raise idle_paused; due recheck/waiting work can release and requeue"
+        },
+        {
+          "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+          "line": 63,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L63",
+          "meaning": "pipeline.enrichment_flag_events: id bigserial,flag_id bigint,action,actor,actor_kind,reason,evidence,at; index(flag_id,at)"
+        },
+        {
+          "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+          "line": 217,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L217",
+          "meaning": "One wake may produce both released and requeued events; do not count as two jobs"
+        },
+        {
+          "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+          "line": 632,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L632",
+          "meaning": "jobs.held_off excludes trial resumes"
+        },
+        {
+          "path": "supabase/migrations/20261102040000_cf247_ss014_d14_monitoring_accuracy.sql",
+          "line": 60,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261102040000_cf247_ss014_d14_monitoring_accuracy.sql#L60",
+          "meaning": "flag.answer_wait_seconds means not-yet-answered requests do not count as empty"
+        },
+        {
+          "path": "supabase/migrations/20261103200000_cf247_plan_step_lane_hold.sql",
+          "line": 161,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103200000_cf247_plan_step_lane_hold.sql#L161",
+          "meaning": "Current lane-task override prevents pause/wakes waiting task lane; source-after md5668251ec6027c1e9e6dd7d7a9b340bb9"
+        },
+        {
+          "path": "supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql",
+          "line": 64,
+          "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015010000_cf247_enrichment_waste_rules.sql#L64",
+          "meaning": "pipeline.job_idle_watch has jobname/paused_at/resumed_at/last_checked_at/last_output/last_input; do not execute its output_sql/input_sql merely to inspect it"
+        }
+      ],
+      "relevant_settings": [
+        "flag.empty_calls_to_pause",
+        "flag.job_recheck_hours",
+        "flag.never_pause_modes",
+        "flag.answer_wait_seconds",
+        "jobs.held_off",
+        "tasks.lane_hold_on",
+        "waste.idle_pause_hours"
+      ],
+      "candidate_explanation": "Upgraded from source-supported hypothesis to parent-runtime/offline-reviewed reconciliation: automatic flag-recheck transitions explain164→163in the observed scope, with exact all176state agreement at independently recorded17:07endpoint. Original13:46per-job states remain inferred; no global absence-of-external-writes assertion.",
+      "next_safe_parent_checks": [
+        "Verify current job inventory and live flag_jobs_v1 source hash independently.",
+        "Join selected job entity_key rows in pipeline.enrichment_flags to pipeline.enrichment_flag_events on native bigint flag_id, constrain relevant time window and exact job names, then inspect action/actor_kind and minimal evidence. Do not invoke any guard function.",
+        "Inspect relevant job_idle_watch paused_at/resumed_at and exact selected flags, plus existing held-off setting. No job activation or SQL definition execution.",
+        "Use per-job flag/event history plus last actual cron run to distinguish automatic idle pause, human hold, retirement and unverified historical count. A current paused state or missing run alone is not a transition event."
+      ],
+      "limitations": [
+        "Immutable source shows intended mechanisms and defaults, not actual production job state/history or an actor.",
+        "Prior handover contains aggregate164active/12inactive without complete per-job state, so source alone cannot choose one changed job or rule out inaccurate aggregate reporting.",
+        "No verified post13:46 source change exists in this selected main commit; this does not prove account/manual/automatic runtime changes absent.",
+        "No database, tests, network paid tools, GitHub writes, source writes, migrations, activation, ownership acceptance or production mutation performed."
+      ],
+      "completion_summary": "Source audit covers13inactivejobs at17:07, not current18:06. Offline independent128event/87transition reconstruction confirms all176prior states and source-consistent164→163netchange across3jobs; no conflicts. Current18:06inventory161active/15inactive also follows recorded guard transitions. No production changes; source worktree clean.",
+      "source_review_snapshot_at": "2026-11-06T17:07:23.606286Z",
+      "scope_note": "The13source-audited inactive jobs belong to the17:07snapshot, not the later18:06live inventory. At18:06:24UTC the supplied runtime snapshot has15inactive/161active.",
+      "offline_runtime_review": {
+        "reviewed_at": "2026-11-06T18:10:30.987948Z",
+        "basis": "Independent offline reversal from parent-supplied actual runtime/events JSON, directly recomputed rather than trusting parent reconstruction totals. No new DB/network/test query.",
+        "inputs": [
+          {
+            "path": "/workspace/resume-1800/job-runtime-events.json",
+            "sha256": "460f953a1f9094ff4e7247c4114f9a248ba36071b093bbabed3c022227184f52"
+          },
+          {
+            "path": "/workspace/resume-1800/job-reconstruction.json",
+            "sha256": "1396f040362048e200de58414a0b098c7af3c57c78f022d46845e5d23ddda35c"
+          }
+        ],
+        "runtime_observed_at": "2026-11-06 18:06:24.245349+00",
+        "current_jobs": 176,
+        "current_active": 161,
+        "current_inactive": 15,
+        "event_rows": 128,
+        "actual_transition_rows": 87,
+        "ignored_requeued_duplicate_rows": 41,
+        "event_action_counts": {
+          "re_raised": 46,
+          "released": 41,
+          "requeued": 41
+        },
+        "all_recorded_actors_flag_recheck_auto": true,
+        "max_events_per_flag": 22,
+        "per_flag_query_cap": 100,
+        "cap_hit_in_supplied_rows": false,
+        "reverse_state_conflicts": [],
+        "independent_1707_comparison": {
+          "at": "2026-11-06T17:07:23.606286Z",
+          "reference": "Admin979315d52a079e97cbd45473829d6e58d4de5230 docs/platform/validation/2026-11-06-controller-cutover-verification.json latest_read_only_reconciliation.production_baseline.jobs",
+          "all176_states_match": true,
+          "active": 163
+        },
+        "claude_handover_reconstruction": {
+          "at": "2026-11-06T13:46:04Z",
+          "inferred_active": 164,
+          "recorded_aggregate_active": 164,
+          "original_per_job_snapshot_available": false,
+          "observation_limit": "The reconstructed per-job map is inferred from the event chain and18:06endpoint; only the historical aggregate164 is independently recorded in Claude handover. No event occurs between13:40 and13:50 in supplied chronology, covering the handover13:44–13:46read interval."
+        },
+        "net_changes_1346_to_1707": {
+          "coverage-reextract": {
+            "inferred_at_1346": true,
+            "independently_recorded_at_1707": false
+          },
+          "coverage-ai-match": {
+            "inferred_at_1346": false,
+            "independently_recorded_at_1707": true
+          },
+          "provider-contact-page": {
+            "inferred_at_1346": true,
+            "independently_recorded_at_1707": false
+          }
+        },
+        "net_active_delta_1346_to_1707": -1,
+        "last_supporting_transition_before_1707": [
+          {
+            "job": "coverage-reextract",
+            "id": 122273,
+            "at": "2026-11-06T16:50:00.609191+00:00",
+            "action": "re_raised"
+          },
+          {
+            "job": "coverage-ai-match",
+            "id": 122277,
+            "at": "2026-11-06T17:00:00.919192+00:00",
+            "action": "released"
+          },
+          {
+            "job": "provider-contact-page",
+            "id": 122270,
+            "at": "2026-11-06T16:50:00.609191+00:00",
+            "action": "re_raised"
+          }
+        ],
+        "net_changes_1707_to_1806": {
+          "coverage-read": {
+            "at_1707": true,
+            "at_1806": false
+          },
+          "coverage-find-site": {
+            "at_1707": true,
+            "at_1806": false
+          },
+          "scholarship-discover": {
+            "at_1707": true,
+            "at_1806": false
+          },
+          "course-link-search-worker": {
+            "at_1707": false,
+            "at_1806": true
+          },
+          "provider-contact-page": {
+            "at_1707": false,
+            "at_1806": true
+          },
+          "coverage-read-2": {
+            "at_1707": true,
+            "at_1806": false
+          }
+        },
+        "worker_outcome_check": {
+          "inferred_at_1346": false,
+          "independent_at_1707": false,
+          "current_at_1806": false,
+          "attributed_as_changed_job": false
+        },
+        "conclusion": "The164→163aggregate discrepancy is sufficiently reconciled in the observed scope by recorded, source-consistent auto idle/trial transitions: coverage-reextract -1, coverage-ai-match +1, provider-contact-page -1. All176independent17:07states match reverse reconstruction, with no contradictions. No job reactivation/correction is needed to match the old count.",
+        "limits": [
+          "Exact original13:46per-job snapshot is absent; do not label inferred states directly observed then.",
+          "Matching known endpoints/event sequence explains the aggregate change; it does not prove there were no unrecorded or compensating external/direct writes, deleted histories or transitions outside this selected time/flag scope.",
+          "All runtime evidence was supplied by parent; child independently verified offline arithmetic and source semantics, not live DB execution."
+        ]
+      }
+    },
+    "live_index_and_hash_verification": {
+      "observed_at": "2026-11-06 18:05:40.048249+00",
+      "flag_indexes": [
+        {
+          "index": "enrichment_flag_events_pkey",
+          "table": "enrichment_flag_events",
+          "definition": "CREATE UNIQUE INDEX enrichment_flag_events_pkey ON pipeline.enrichment_flag_events USING btree (id)"
+        },
+        {
+          "index": "enrichment_flag_events_flag_idx",
+          "table": "enrichment_flag_events",
+          "definition": "CREATE INDEX enrichment_flag_events_flag_idx ON pipeline.enrichment_flag_events USING btree (flag_id, at)"
+        },
+        {
+          "index": "enrichment_flags_pkey",
+          "table": "enrichment_flags",
+          "definition": "CREATE UNIQUE INDEX enrichment_flags_pkey ON pipeline.enrichment_flags USING btree (id)"
+        },
+        {
+          "index": "enrichment_flags_entity_entity_key_field_reason_code_key",
+          "table": "enrichment_flags",
+          "definition": "CREATE UNIQUE INDEX enrichment_flags_entity_entity_key_field_reason_code_key ON pipeline.enrichment_flags USING btree (entity, entity_key, field, reason_code)"
+        },
+        {
+          "index": "enrichment_flags_open_idx",
+          "table": "enrichment_flags",
+          "definition": "CREATE INDEX enrichment_flags_open_idx ON pipeline.enrichment_flags USING btree (reason_code) WHERE (cleared_at IS NULL)"
+        },
+        {
+          "index": "enrichment_flags_provider_idx",
+          "table": "enrichment_flags",
+          "definition": "CREATE INDEX enrichment_flags_provider_idx ON pipeline.enrichment_flags USING btree (provider_id) WHERE (state = 'raised'::text)"
+        },
+        {
+          "index": "enrichment_flags_due_idx",
+          "table": "enrichment_flags",
+          "definition": "CREATE INDEX enrichment_flags_due_idx ON pipeline.enrichment_flags USING btree (next_check_at) WHERE ((state = 'raised'::text) AND (next_check_at IS NOT NULL))"
+        },
+        {
+          "index": "job_idle_watch_pkey",
+          "table": "job_idle_watch",
+          "definition": "CREATE UNIQUE INDEX job_idle_watch_pkey ON pipeline.job_idle_watch USING btree (jobname)"
+        }
+      ],
+      "flag_jobs_md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+      "active_jobs": 161
+    },
+    "runtime": {
+      "observed_at": "2026-11-06 18:06:24.245349+00",
+      "flags": [
+        {
+          "id": 506768,
+          "state": "released",
+          "checks": 118,
+          "cleared_at": "2026-11-06T16:00:00.962178+00:00",
+          "entity_key": "central-find",
+          "flagged_at": "2026-11-06T15:40:00.570583+00:00",
+          "updated_at": "2026-11-06T16:00:00.962178+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T16:00:00.962178+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 1,
+          "state": "raised",
+          "checks": 0,
+          "cleared_at": null,
+          "entity_key": "course-link-reverse",
+          "flagged_at": "2026-10-14T23:17:46.258964+00:00",
+          "updated_at": "2026-11-04T02:43:47.002234+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": null
+        },
+        {
+          "id": 388484,
+          "state": "released",
+          "checks": 108,
+          "cleared_at": "2026-11-06T18:00:00.503187+00:00",
+          "entity_key": "course-link-search-worker",
+          "flagged_at": "2026-11-06T17:50:00.344999+00:00",
+          "updated_at": "2026-11-06T18:00:00.503187+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T18:00:00.503187+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 230709,
+          "state": "released",
+          "checks": 100,
+          "cleared_at": "2026-11-06T18:00:00.503187+00:00",
+          "entity_key": "coverage-ai-match",
+          "flagged_at": "2026-11-06T17:40:00.560198+00:00",
+          "updated_at": "2026-11-06T18:00:00.503187+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T18:00:00.503187+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 1354041,
+          "state": "released",
+          "checks": 31,
+          "cleared_at": "2026-11-03T01:30:00.927198+00:00",
+          "entity_key": "coverage-discover",
+          "flagged_at": "2026-11-03T01:10:00.8722+00:00",
+          "updated_at": "2026-11-03T01:30:00.927198+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-03T01:30:00.927198+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 250466,
+          "state": "released",
+          "checks": 42,
+          "cleared_at": "2026-11-03T01:30:00.927198+00:00",
+          "entity_key": "coverage-discover-2",
+          "flagged_at": "2026-11-03T01:10:00.8722+00:00",
+          "updated_at": "2026-11-03T01:30:00.927198+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-03T01:30:00.927198+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 230721,
+          "state": "raised",
+          "checks": 181,
+          "cleared_at": null,
+          "entity_key": "coverage-find-site",
+          "flagged_at": "2026-11-06T18:00:00.503187+00:00",
+          "updated_at": "2026-11-06T18:00:00.503187+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": "2026-11-06T18:15:00.503187+00:00"
+        },
+        {
+          "id": 230710,
+          "state": "raised",
+          "checks": 553,
+          "cleared_at": null,
+          "entity_key": "coverage-read",
+          "flagged_at": "2026-11-06T17:50:00.344999+00:00",
+          "updated_at": "2026-11-06T17:50:00.344999+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": "2026-11-06T18:05:00.344999+00:00"
+        },
+        {
+          "id": 3513583,
+          "state": "raised",
+          "checks": 503,
+          "cleared_at": null,
+          "entity_key": "coverage-read-2",
+          "flagged_at": "2026-11-06T17:50:00.344999+00:00",
+          "updated_at": "2026-11-06T17:50:00.344999+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": "2026-11-06T18:05:00.344999+00:00"
+        },
+        {
+          "id": 802455,
+          "state": "raised",
+          "checks": 116,
+          "cleared_at": null,
+          "entity_key": "coverage-reextract",
+          "flagged_at": "2026-11-06T17:50:00.344999+00:00",
+          "updated_at": "2026-11-06T17:50:00.344999+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": "2026-11-06T18:05:00.344999+00:00"
+        },
+        {
+          "id": 230711,
+          "state": "released",
+          "checks": 101,
+          "cleared_at": "2026-11-06T17:40:00.560198+00:00",
+          "entity_key": "coverage-reidentify",
+          "flagged_at": "2026-11-06T17:30:01.003188+00:00",
+          "updated_at": "2026-11-06T17:40:00.560198+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T17:40:00.560198+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 703897,
+          "state": "released",
+          "checks": 28,
+          "cleared_at": "2026-11-02T23:40:00.437179+00:00",
+          "entity_key": "cricos-peo",
+          "flagged_at": "2026-11-02T23:20:00.564867+00:00",
+          "updated_at": "2026-11-02T23:40:00.437179+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-02T23:40:00.437179+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 1650018,
+          "state": "released",
+          "checks": 22,
+          "cleared_at": "2026-11-06T18:00:00.503187+00:00",
+          "entity_key": "logo-find",
+          "flagged_at": "2026-11-06T17:40:00.560198+00:00",
+          "updated_at": "2026-11-06T18:00:00.503187+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T18:00:00.503187+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 3447496,
+          "state": "released",
+          "checks": 3,
+          "cleared_at": "2026-10-23T22:20:00.881979+00:00",
+          "entity_key": "programme-read",
+          "flagged_at": "2026-10-23T18:10:00.772625+00:00",
+          "updated_at": "2026-10-23T22:20:00.881979+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-10-23T22:20:00.881979+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 289893,
+          "state": "released",
+          "checks": 154,
+          "cleared_at": "2026-11-06T17:10:00.559206+00:00",
+          "entity_key": "provider-contact-page",
+          "flagged_at": "2026-11-06T16:50:00.609191+00:00",
+          "updated_at": "2026-11-06T17:10:00.559206+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T17:10:00.559206+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 230744,
+          "state": "released",
+          "checks": 25,
+          "cleared_at": "2026-11-06T17:40:00.560198+00:00",
+          "entity_key": "provider-facts",
+          "flagged_at": "2026-11-06T17:30:01.003188+00:00",
+          "updated_at": "2026-11-06T17:40:00.560198+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-06T17:40:00.560198+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 487057,
+          "state": "raised",
+          "checks": 21,
+          "cleared_at": null,
+          "entity_key": "scholarship-discover",
+          "flagged_at": "2026-11-06T17:50:00.344999+00:00",
+          "updated_at": "2026-11-06T17:50:00.344999+00:00",
+          "reason_code": "idle_paused",
+          "released_at": null,
+          "next_check_at": "2026-11-06T18:05:00.344999+00:00"
+        },
+        {
+          "id": 329321,
+          "state": "released",
+          "checks": 24,
+          "cleared_at": "2026-11-03T19:20:00.53522+00:00",
+          "entity_key": "scholarship-read",
+          "flagged_at": "2026-11-03T19:00:00.936361+00:00",
+          "updated_at": "2026-11-03T19:20:00.53522+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-11-03T19:20:00.53522+00:00",
+          "next_check_at": null
+        },
+        {
+          "id": 3352000,
+          "state": "released",
+          "checks": 0,
+          "cleared_at": "2026-10-22T19:09:55.146573+00:00",
+          "entity_key": "source-find",
+          "flagged_at": "2026-10-22T18:30:00.848689+00:00",
+          "updated_at": "2026-10-22T19:09:55.146573+00:00",
+          "reason_code": "idle_paused",
+          "released_at": "2026-10-22T19:09:55.146573+00:00",
+          "next_check_at": null
+        }
+      ],
+      "events": [
+        {
+          "at": "2026-11-06T13:40:00.53509+00:00",
+          "id": 122185,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T13:38:00.338226+00:00",
+            "from": "2026-11-06T13:09:00.282231+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T13:40:00.53509+00:00",
+          "id": 122186,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode ai_match)",
+          "flag_id": 230709,
+          "evidence": {
+            "to": "2026-11-06T13:38:00.171678+00:00",
+            "from": "2026-11-06T13:09:00.203208+00:00",
+            "mode": "ai_match",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T13:50:00.299044+00:00",
+          "id": 122187,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 103,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T13:50:00.299044+00:00",
+          "id": 122188,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T13:50:00.299044+00:00",
+          "id": 122189,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reextract)",
+          "flag_id": 802455,
+          "evidence": {
+            "to": "2026-11-06T13:47:00.328375+00:00",
+            "from": "2026-11-06T13:18:00.290213+00:00",
+            "mode": "reextract",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T14:00:00.975849+00:00",
+          "id": 122190,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T13:57:48.925959+00:00",
+            "from": "2026-11-06T13:50:48.430685+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:00:00.975849+00:00",
+          "id": 122191,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "ai_match",
+            "runs": null,
+            "check": 96,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T14:00:00.975849+00:00",
+          "id": 122192,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T14:00:00.975849+00:00",
+          "id": 122193,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T13:57:48.925959+00:00",
+            "from": "2026-11-06T13:50:48.430685+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:10:00.476109+00:00",
+          "id": 122194,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reextract",
+            "runs": null,
+            "check": 113,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T14:10:00.476109+00:00",
+          "id": 122195,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T14:10:00.476109+00:00",
+          "id": 122196,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reidentify)",
+          "flag_id": 230711,
+          "evidence": {
+            "to": "2026-11-06T14:08:00.290198+00:00",
+            "from": "2026-11-06T13:39:00.211181+00:00",
+            "mode": "reidentify",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T14:10:00.476109+00:00",
+          "id": 122197,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode find_site)",
+          "flag_id": 230721,
+          "evidence": {
+            "to": "2026-11-06T14:07:00.300182+00:00",
+            "from": "2026-11-06T12:40:00.670231+00:00",
+            "mode": "find_site",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122198,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 497,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122199,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122200,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 547,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122201,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122202,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reidentify",
+            "runs": null,
+            "check": 97,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T14:20:00.516767+00:00",
+          "id": 122203,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T14:30:01.012401+00:00",
+          "id": 122204,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T14:28:00.248181+00:00",
+            "from": "2026-11-06T13:59:00.249474+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T14:30:01.012401+00:00",
+          "id": 122205,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T14:27:33.28316+00:00",
+            "from": "2026-11-06T14:20:32.515004+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:30:01.012401+00:00",
+          "id": 122206,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230721,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "find_site",
+            "runs": null,
+            "check": 180,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T14:30:01.012401+00:00",
+          "id": 122207,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230721,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T14:30:01.012401+00:00",
+          "id": 122208,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T14:27:33.28316+00:00",
+            "from": "2026-11-06T14:20:32.515004+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122209,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 104,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122210,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122211,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 498,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122212,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122213,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode ai_match)",
+          "flag_id": 230709,
+          "evidence": {
+            "to": "2026-11-06T14:38:00.183342+00:00",
+            "from": "2026-11-06T14:09:00.181182+00:00",
+            "mode": "ai_match",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122214,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 548,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:40:00.659201+00:00",
+          "id": 122215,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T14:50:00.449195+00:00",
+          "id": 122216,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode contact_page)",
+          "flag_id": 289893,
+          "evidence": {
+            "to": "2026-11-06T14:48:00.237591+00:00",
+            "from": "2026-11-06T13:21:00.266189+00:00",
+            "mode": "contact_page",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T14:50:00.449195+00:00",
+          "id": 122217,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reextract)",
+          "flag_id": 802455,
+          "evidence": {
+            "to": "2026-11-06T14:48:00.345199+00:00",
+            "from": "2026-11-06T14:19:00.244202+00:00",
+            "mode": "reextract",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T15:00:00.933194+00:00",
+          "id": 122218,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reidentify)",
+          "flag_id": 230711,
+          "evidence": {
+            "to": "2026-11-06T14:58:00.284187+00:00",
+            "from": "2026-11-06T14:29:00.209181+00:00",
+            "mode": "reidentify",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T15:00:00.933194+00:00",
+          "id": 122219,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "ai_match",
+            "runs": null,
+            "check": 97,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T15:00:00.933194+00:00",
+          "id": 122220,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122221,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T15:07:36.058615+00:00",
+            "from": "2026-11-06T15:00:35.444415+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122222,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 289893,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "contact_page",
+            "runs": null,
+            "check": 153,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122223,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 289893,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122224,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T15:07:36.058615+00:00",
+            "from": "2026-11-06T15:00:35.444415+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122225,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reextract",
+            "runs": null,
+            "check": 114,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122226,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122227,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reidentify",
+            "runs": null,
+            "check": 98,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T15:10:00.463245+00:00",
+          "id": 122228,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T15:20:00.522191+00:00",
+          "id": 122229,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T15:18:00.284093+00:00",
+            "from": "2026-11-06T14:49:00.253192+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122230,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 105,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122231,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122232,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 499,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122233,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122234,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 549,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T15:30:01.05923+00:00",
+          "id": 122235,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T15:40:00.570583+00:00",
+          "id": 122236,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T15:37:34.740251+00:00",
+            "from": "2026-11-06T15:30:34.030543+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T15:40:00.570583+00:00",
+          "id": 122237,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T15:37:34.740251+00:00",
+            "from": "2026-11-06T15:30:34.030543+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T15:40:00.570583+00:00",
+          "id": 122238,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode ai_match)",
+          "flag_id": 230709,
+          "evidence": {
+            "to": "2026-11-06T15:38:00.221611+00:00",
+            "from": "2026-11-06T15:09:00.195181+00:00",
+            "mode": "ai_match",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T15:40:00.570583+00:00",
+          "id": 122239,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode central_find)",
+          "flag_id": 506768,
+          "evidence": {
+            "to": "2026-11-06T15:37:00.345746+00:00",
+            "from": "2026-11-06T13:12:00.366214+00:00",
+            "mode": "central_find",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "central-find"
+        },
+        {
+          "at": "2026-11-06T15:50:00.628466+00:00",
+          "id": 122240,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reextract)",
+          "flag_id": 802455,
+          "evidence": {
+            "to": "2026-11-06T15:48:00.240276+00:00",
+            "from": "2026-11-06T15:19:00.319186+00:00",
+            "mode": "reextract",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T15:50:00.628466+00:00",
+          "id": 122241,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reidentify)",
+          "flag_id": 230711,
+          "evidence": {
+            "to": "2026-11-06T15:48:00.258218+00:00",
+            "from": "2026-11-06T15:19:00.243203+00:00",
+            "mode": "reidentify",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122242,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 500,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122243,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122244,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode find_site)",
+          "flag_id": 230721,
+          "evidence": {
+            "to": "2026-11-06T15:58:00.329196+00:00",
+            "from": "2026-11-06T14:31:00.260956+00:00",
+            "mode": "find_site",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122245,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reidentify",
+            "runs": null,
+            "check": 99,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122246,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122247,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 550,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122248,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122249,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "ai_match",
+            "runs": null,
+            "check": 98,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122250,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122251,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 506768,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "central_find",
+            "runs": null,
+            "check": 118,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "central-find"
+        },
+        {
+          "at": "2026-11-06T16:00:00.962178+00:00",
+          "id": 122252,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 506768,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "central-find"
+        },
+        {
+          "at": "2026-11-06T16:10:00.529215+00:00",
+          "id": 122253,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T16:08:00.297192+00:00",
+            "from": "2026-11-06T15:39:00.226899+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T16:10:00.529215+00:00",
+          "id": 122254,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T16:07:33.70698+00:00",
+            "from": "2026-11-06T16:00:33.06542+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:10:00.529215+00:00",
+          "id": 122255,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reextract",
+            "runs": null,
+            "check": 115,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T16:10:00.529215+00:00",
+          "id": 122256,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T16:10:00.529215+00:00",
+          "id": 122257,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T16:07:33.70698+00:00",
+            "from": "2026-11-06T16:00:33.06542+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:20:00.474632+00:00",
+          "id": 122258,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 106,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T16:20:00.474632+00:00",
+          "id": 122259,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T16:20:00.474632+00:00",
+          "id": 122260,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230721,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "find_site",
+            "runs": null,
+            "check": 181,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T16:20:00.474632+00:00",
+          "id": 122261,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230721,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        },
+        {
+          "at": "2026-11-06T16:30:01.038221+00:00",
+          "id": 122262,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 501,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:30:01.038221+00:00",
+          "id": 122263,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:30:01.038221+00:00",
+          "id": 122264,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 551,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:30:01.038221+00:00",
+          "id": 122265,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:40:00.632615+00:00",
+          "id": 122266,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T16:37:33.489537+00:00",
+            "from": "2026-11-06T16:30:32.833177+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T16:40:00.632615+00:00",
+          "id": 122267,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reidentify)",
+          "flag_id": 230711,
+          "evidence": {
+            "to": "2026-11-06T16:38:00.288959+00:00",
+            "from": "2026-11-06T16:09:00.247203+00:00",
+            "mode": "reidentify",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:40:00.632615+00:00",
+          "id": 122268,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode ai_match)",
+          "flag_id": 230709,
+          "evidence": {
+            "to": "2026-11-06T16:38:00.262964+00:00",
+            "from": "2026-11-06T16:09:00.18819+00:00",
+            "mode": "ai_match",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T16:40:00.632615+00:00",
+          "id": 122269,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T16:37:33.489537+00:00",
+            "from": "2026-11-06T16:30:32.833177+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T16:50:00.609191+00:00",
+          "id": 122270,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode contact_page)",
+          "flag_id": 289893,
+          "evidence": {
+            "to": "2026-11-06T16:48:00.236817+00:00",
+            "from": "2026-11-06T15:21:00.233203+00:00",
+            "mode": "contact_page",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T16:50:00.609191+00:00",
+          "id": 122271,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reidentify",
+            "runs": null,
+            "check": 100,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:50:00.609191+00:00",
+          "id": 122272,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T16:50:00.609191+00:00",
+          "id": 122273,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reextract)",
+          "flag_id": 802455,
+          "evidence": {
+            "to": "2026-11-06T16:48:00.328843+00:00",
+            "from": "2026-11-06T16:19:00.275188+00:00",
+            "mode": "reextract",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122274,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T16:58:00.284198+00:00",
+            "from": "2026-11-06T16:29:00.274645+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122275,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 502,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122276,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122277,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "ai_match",
+            "runs": null,
+            "check": 99,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122278,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122279,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 552,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:00:00.919192+00:00",
+          "id": 122280,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122281,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 107,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122282,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122283,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T17:07:47.500925+00:00",
+            "from": "2026-11-06T17:00:47.155273+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122284,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 289893,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "contact_page",
+            "runs": null,
+            "check": 154,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122285,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 289893,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-contact-page"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122286,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reextract",
+            "runs": null,
+            "check": 116,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122287,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 802455,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T17:10:00.559206+00:00",
+          "id": 122288,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T17:07:47.500925+00:00",
+            "from": "2026-11-06T17:00:47.155273+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:20:00.519236+00:00",
+          "id": 122289,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 503,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:20:00.519236+00:00",
+          "id": 122290,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:20:00.519236+00:00",
+          "id": 122291,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "read",
+            "runs": null,
+            "check": 553,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:20:00.519236+00:00",
+          "id": 122292,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230710,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:30:01.003188+00:00",
+          "id": 122293,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reidentify)",
+          "flag_id": 230711,
+          "evidence": {
+            "to": "2026-11-06T17:28:00.356185+00:00",
+            "from": "2026-11-06T16:59:00.21924+00:00",
+            "mode": "reidentify",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T17:30:01.003188+00:00",
+          "id": 122294,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode provider_facts)",
+          "flag_id": 230744,
+          "evidence": {
+            "to": "2026-11-06T17:20:00.372182+00:00",
+            "from": "2026-11-06T12:30:00.467179+00:00",
+            "mode": "provider_facts",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-facts"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122295,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode logo_find)",
+          "flag_id": 1650018,
+          "evidence": {
+            "to": "2026-11-06T17:30:00.419175+00:00",
+            "from": "2026-11-06T12:40:00.280886+00:00",
+            "mode": "logo_find",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "logo-find"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122296,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "reidentify",
+            "runs": null,
+            "check": 101,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122297,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230711,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reidentify"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122298,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230744,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "provider_facts",
+            "runs": null,
+            "check": 25,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-facts"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122299,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230744,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "provider-facts"
+        },
+        {
+          "at": "2026-11-06T17:40:00.560198+00:00",
+          "id": 122300,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode ai_match)",
+          "flag_id": 230709,
+          "evidence": {
+            "to": "2026-11-06T17:38:00.230657+00:00",
+            "from": "2026-11-06T17:09:00.138829+00:00",
+            "mode": "ai_match",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T17:50:00.344999+00:00",
+          "id": 122301,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode link_search)",
+          "flag_id": 388484,
+          "evidence": {
+            "to": "2026-11-06T17:47:00.294191+00:00",
+            "from": "2026-11-06T17:18:00.317172+00:00",
+            "mode": "link_search",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T17:50:00.344999+00:00",
+          "id": 122302,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 3513583,
+          "evidence": {
+            "to": "2026-11-06T17:47:34.966295+00:00",
+            "from": "2026-11-06T17:40:34.252279+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read-2"
+        },
+        {
+          "at": "2026-11-06T17:50:00.344999+00:00",
+          "id": 122303,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode scholarship_discover)",
+          "flag_id": 487057,
+          "evidence": {
+            "to": "2026-11-06T17:40:00.310255+00:00",
+            "from": "2026-11-06T12:50:00.282286+00:00",
+            "mode": "scholarship_discover",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "scholarship-discover"
+        },
+        {
+          "at": "2026-11-06T17:50:00.344999+00:00",
+          "id": 122304,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode read)",
+          "flag_id": 230710,
+          "evidence": {
+            "to": "2026-11-06T17:47:34.966295+00:00",
+            "from": "2026-11-06T17:40:34.252279+00:00",
+            "mode": "read",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-read"
+        },
+        {
+          "at": "2026-11-06T17:50:00.344999+00:00",
+          "id": 122305,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode reextract)",
+          "flag_id": 802455,
+          "evidence": {
+            "to": "2026-11-06T17:47:00.326988+00:00",
+            "from": "2026-11-06T17:18:00.429283+00:00",
+            "mode": "reextract",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-reextract"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122306,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "link_search",
+            "runs": null,
+            "check": 108,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122307,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 388484,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "course-link-search-worker"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122308,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 1650018,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "logo_find",
+            "runs": null,
+            "check": 22,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "logo-find"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122309,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 1650018,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "logo-find"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122310,
+          "actor": "flag-recheck",
+          "action": "released",
+          "reason": "Trial run: switched on again to look for new work",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": "ai_match",
+            "runs": null,
+            "check": 100,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122311,
+          "actor": "flag-recheck",
+          "action": "requeued",
+          "reason": "Back in the queue: job switched on",
+          "flag_id": 230709,
+          "evidence": {
+            "to": null,
+            "from": null,
+            "mode": null,
+            "runs": null,
+            "check": null,
+            "with_work": null
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-ai-match"
+        },
+        {
+          "at": "2026-11-06T18:00:00.503187+00:00",
+          "id": 122312,
+          "actor": "flag-recheck",
+          "action": "re_raised",
+          "reason": "Paused: its last 30 runs found nothing to do (worker mode find_site)",
+          "flag_id": 230721,
+          "evidence": {
+            "to": "2026-11-06T17:58:00.288449+00:00",
+            "from": "2026-11-06T16:31:00.289189+00:00",
+            "mode": "find_site",
+            "runs": 30,
+            "check": null,
+            "with_work": 0
+          },
+          "actor_kind": "auto",
+          "entity_key": "coverage-find-site"
+        }
+      ],
+      "idle_watch": [
+        {
+          "jobname": "course-link-reverse",
+          "paused_at": "2026-10-14T23:17:46.258964+00:00",
+          "last_input": 0,
+          "resumed_at": null,
+          "last_output": 0,
+          "last_checked_at": "2026-11-06T17:17:00.225528+00:00"
+        }
+      ],
+      "controls": {
+        "jobs.held_off": [
+          "coverage-discover",
+          "coverage-discover-2"
+        ],
+        "flag.job_recheck_hours": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "flag.never_pause_modes": [
+          "openrouter_balance"
+        ],
+        "flag.answer_wait_seconds": 120,
+        "flag.empty_calls_to_pause": 30
+      },
+      "current_inventory_summary": {
+        "total": 176,
+        "active": 161,
+        "inactive_names": [
+          "course-link-reverse",
+          "coverage-discover",
+          "coverage-discover-2",
+          "coverage-find-site",
+          "coverage-read",
+          "coverage-read-2",
+          "coverage-reextract",
+          "cron-history-retention",
+          "cron-history-trim",
+          "l4-rule-low-agreement",
+          "onboarding-pilot-snapshot",
+          "provider-calendar-defaults",
+          "provider-calendar-intakes",
+          "scholarship-discover",
+          "worker-outcome-check"
+        ]
+      },
+      "inventory_reference": "Prior full176-job identity snapshot: latest_read_only_reconciliation.production_baseline.jobs in this artifact. Current booleans derive from that snapshot plus recorded transitions; reconstruction independently matches all176states at17:07."
+    },
+    "reconstruction": {
+      "current_observed_at": "2026-11-06 18:06:24.245349+00",
+      "current_active": 161,
+      "total_jobs": 176,
+      "event_rows": 128,
+      "transition_events": 87,
+      "all_auto_actors": true,
+      "transition_state_conflicts": [],
+      "history_caps_hit": false,
+      "reconstruction": [
+        {
+          "at": "2026-11-06T17:07:23.606286+00:00",
+          "inferred_active": 163,
+          "inferred_inactive": [
+            "course-link-reverse",
+            "course-link-search-worker",
+            "coverage-discover",
+            "coverage-discover-2",
+            "coverage-reextract",
+            "cron-history-retention",
+            "cron-history-trim",
+            "l4-rule-low-agreement",
+            "onboarding-pilot-snapshot",
+            "provider-calendar-defaults",
+            "provider-calendar-intakes",
+            "provider-contact-page",
+            "worker-outcome-check"
+          ],
+          "used_event_ids": [
+            122281,
+            122283,
+            122284,
+            122286,
+            122288,
+            122289,
+            122291,
+            122293,
+            122294,
+            122295,
+            122296,
+            122298,
+            122300,
+            122301,
+            122302,
+            122303,
+            122304,
+            122305,
+            122306,
+            122308,
+            122310,
+            122312
+          ],
+          "assumption": "Only source-confirmed flag-recheck transitions were reversed; requeued event duplicates ignored.",
+          "all176_job_states_equal_independent_1707_snapshot": true
+        },
+        {
+          "at": "2026-11-06T13:46:04+00:00",
+          "inferred_active": 164,
+          "inferred_inactive": [
+            "course-link-reverse",
+            "course-link-search-worker",
+            "coverage-ai-match",
+            "coverage-discover",
+            "coverage-discover-2",
+            "cron-history-retention",
+            "cron-history-trim",
+            "l4-rule-low-agreement",
+            "onboarding-pilot-snapshot",
+            "provider-calendar-defaults",
+            "provider-calendar-intakes",
+            "worker-outcome-check"
+          ],
+          "used_event_ids": [
+            122187,
+            122189,
+            122190,
+            122191,
+            122193,
+            122194,
+            122196,
+            122197,
+            122198,
+            122200,
+            122202,
+            122204,
+            122205,
+            122206,
+            122208,
+            122209,
+            122211,
+            122213,
+            122214,
+            122216,
+            122217,
+            122218,
+            122219,
+            122221,
+            122222,
+            122224,
+            122225,
+            122227,
+            122229,
+            122230,
+            122232,
+            122234,
+            122236,
+            122237,
+            122238,
+            122239,
+            122240,
+            122241,
+            122242,
+            122244,
+            122245,
+            122247,
+            122249,
+            122251,
+            122253,
+            122254,
+            122255,
+            122257,
+            122258,
+            122260,
+            122262,
+            122264,
+            122266,
+            122267,
+            122268,
+            122269,
+            122270,
+            122271,
+            122273,
+            122274,
+            122275,
+            122277,
+            122279,
+            122281,
+            122283,
+            122284,
+            122286,
+            122288,
+            122289,
+            122291,
+            122293,
+            122294,
+            122295,
+            122296,
+            122298,
+            122300,
+            122301,
+            122302,
+            122303,
+            122304,
+            122305,
+            122306,
+            122308,
+            122310,
+            122312
+          ],
+          "assumption": "Only source-confirmed flag-recheck transitions were reversed; requeued event duplicates ignored."
+        }
+      ],
+      "conclusion": "All176states at17:07 independently matched by reverse replay of recorded flag-recheck events. The same chain reconstructs164active atClaude13:46checkpoint. Difference is explained by existing automatic idle pauses/trial resumes; no reactivation or controller-write inference."
+    },
+    "health": {
+      "observed_at": "2026-11-06 18:07:35.364038+00",
+      "deadline_helper_md5": "f01e9be83e58c9c48c33e5fde4de05d9",
+      "description_guard_md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
+      "flag_jobs_md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+      "other_active_client_transactions": 0,
+      "recent_runs": {
+        "running": 0,
+        "bounded_rows": 12000,
+        "latest_start": "2026-11-06T18:07:00.317355+00:00",
+        "oldest_start": "2026-11-06T10:43:32.616984+00:00",
+        "covers_last_2h": true,
+        "failures_last_2h": 0,
+        "failures_since_handover": 0
+      },
+      "jobs": [
+        {
+          "name": "integration-validate",
+          "jobid": 354,
+          "active": true,
+          "last_success": "2026-11-06T17:51:07.253005+00:00",
+          "runs_since_handover": 9
+        },
+        {
+          "name": "worker-outcome-check",
+          "jobid": 355,
+          "active": false,
+          "last_success": null,
+          "runs_since_handover": 0
+        },
+        {
+          "name": "consumer-api-guard",
+          "jobid": 213,
+          "active": true,
+          "last_success": null,
+          "runs_since_handover": 0
+        },
+        {
+          "name": "first-run-verify",
+          "jobid": 374,
+          "active": true,
+          "last_success": "2026-11-06T18:02:05.989786+00:00",
+          "runs_since_handover": 9
+        },
+        {
+          "name": "layer4-groups",
+          "jobid": 375,
+          "active": true,
+          "last_success": "2026-11-06T18:06:02.606212+00:00",
+          "runs_since_handover": 22
+        },
+        {
+          "name": "aer-outcome-register",
+          "jobid": 347,
+          "active": true,
+          "last_success": "2026-11-06T18:05:00.437531+00:00",
+          "runs_since_handover": 52
+        },
+        {
+          "name": "platform-alerts",
+          "jobid": 348,
+          "active": true,
+          "last_success": "2026-11-06T18:00:00.52253+00:00",
+          "runs_since_handover": 26
+        },
+        {
+          "name": "aer-scheduled-read",
+          "jobid": 358,
+          "active": true,
+          "last_success": "2026-11-06T17:13:10.750935+00:00",
+          "runs_since_handover": 4
+        },
+        {
+          "name": "flag-recheck",
+          "jobid": 188,
+          "active": true,
+          "last_success": "2026-11-06T18:00:04.327262+00:00",
+          "runs_since_handover": 26
+        },
+        {
+          "name": "layer4-readiness",
+          "jobid": 367,
+          "active": true,
+          "last_success": "2026-11-06T17:52:08.219683+00:00",
+          "runs_since_handover": 9
+        },
+        {
+          "name": "aer-reconcile",
+          "jobid": 353,
+          "active": true,
+          "last_success": "2026-11-06T17:27:03.526959+00:00",
+          "runs_since_handover": 4
+        },
+        {
+          "name": "intake-dates-apply",
+          "jobid": 351,
+          "active": true,
+          "last_success": "2026-11-06T17:26:31.417505+00:00",
+          "runs_since_handover": 4
+        },
+        {
+          "name": "provider-description-read",
+          "jobid": 352,
+          "active": true,
+          "last_success": "2026-11-06T18:06:05.90165+00:00",
+          "runs_since_handover": 18
+        },
+        {
+          "name": "central-find",
+          "jobid": 150,
+          "active": true,
+          "last_success": "2026-11-06T18:07:00.429276+00:00",
+          "runs_since_handover": 49
+        }
+      ],
+      "alert_summary": {
+        "overdue": 75,
+        "pending": 78,
+        "unlinked": 0,
+        "duplicates": 0,
+        "historical": 62,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_list_read",
+          "queue_watch:course_page_search"
+        ],
+        "unattempted": 78,
+        "active_events": 16
+      },
+      "queues": [
+        {
+          "key": "ai_page_match",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:05:48.406059+00:00"
+        },
+        {
+          "key": "central_ai",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-05T04:15:18.786556+00:00"
+        },
+        {
+          "key": "central_find",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-22T03:54:11.025363+00:00"
+        },
+        {
+          "key": "companion_read",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-02T10:42:14.399783+00:00"
+        },
+        {
+          "key": "course_list_read",
+          "state": "out_of_toolset",
+          "pending": 68,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:03:05.281243+00:00"
+        },
+        {
+          "key": "course_page_discover",
+          "state": "paused",
+          "pending": 18,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:37:09.537559+00:00"
+        },
+        {
+          "key": "course_page_read",
+          "state": "moving",
+          "pending": 8,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 3,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T17:31:10.241197+00:00"
+        },
+        {
+          "key": "course_page_search",
+          "state": "out_of_toolset",
+          "pending": 265,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T11:56:00.359438+00:00"
+        },
+        {
+          "key": "credential_read",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-01T01:06:08.870743+00:00"
+        },
+        {
+          "key": "enrich_plans",
+          "state": "moving",
+          "pending": 38,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T18:00:00.918206+00:00"
+        },
+        {
+          "key": "fee_reader",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-04T15:22:22.646034+00:00"
+        },
+        {
+          "key": "onboarding",
+          "state": "stuck",
+          "pending": 1,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:36:00.297196+00:00"
+        },
+        {
+          "key": "programme_read",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-23T22:28:14.095082+00:00"
+        },
+        {
+          "key": "scholarship_candidates",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T14:30:26.110361+00:00"
+        },
+        {
+          "key": "scholarship_discover",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T02:05:00.501111+00:00"
+        },
+        {
+          "key": "scholarship_read",
+          "state": "moving",
+          "pending": 7,
+          "per_hour": 13,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 13,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T17:55:04.36092+00:00"
+        },
+        {
+          "key": "source_find",
+          "state": "moving",
+          "pending": 998,
+          "per_hour": 2,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 2,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T17:56:04.168193+00:00"
+        }
+      ],
+      "controls": {
+        "run_now.jobs": [
+          "intake-dates-apply"
+        ],
+        "jobs.held_off": [
+          "coverage-discover",
+          "coverage-discover-2"
+        ],
+        "pdesc.enabled": 1,
+        "pdesc.ai_usd_max": 1,
+        "alerts.webhook_enabled": false,
+        "alerts.delivery_enabled": true,
+        "alerts.collect_within_minutes": 120
+      },
+      "current_p0_issues": [
+        {
+          "title": "Intake dates: 5 UNSW start dates published without course-specific offering evidence (v2.15.481)",
+          "status": "triaged",
+          "severity": "P0",
+          "issue_ref": "IQ-00313",
+          "fingerprint": "intake-dates:unsupported-published:v2.15.481"
+        },
+        {
+          "title": "AI fee reader divides credit points by the unit load: wrong active fee visible to consumers (Murdoch 096011C 12,600 vs page 37,800)",
+          "status": "deployed",
+          "severity": "P0",
+          "issue_ref": "IQ-00111",
+          "fingerprint": "fee:ai_reader_credit_point_unit"
+        }
+      ],
+      "migrations": {
+        "count": 1791,
+        "head": "20261106400000",
+        "all_versions_match_predecessor_checkpoint": true,
+        "reference": "STUDYSEARCH-CONTROLLER-STATE.json#/production/migrations/applied_versions",
+        "sorted_versions_sha256": "0569333575c72d5dc011b10293f0e9440f89839f791abb7be5107caa85cf9726"
+      }
+    },
+    "frontend": {
+      "observed_at": "2026-11-06T18:04:04.263262Z",
+      "http_status": 200,
+      "asset_status": 200,
+      "asset_path": "/assets/index-DYGiA8uP.js",
+      "asset_sha256": "2099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540",
+      "ui_2_15_489_present": true,
+      "package_0_1_416_present": true,
+      "exact_cloudflare_commit": null
+    },
+    "edge_metadata": [
+      {
+        "id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+        "slug": "coverage-sweep",
+        "name": "coverage-sweep",
+        "status": "ACTIVE",
+        "version": 239,
+        "created_at": 1790650965321,
+        "updated_at": 1793931705512,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/coverage-sweep/index.ts",
+        "ezbr_sha256": "995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5"
+      },
+      {
+        "id": "cc8d40be-2226-42d8-99ad-58ea9a95468c",
+        "slug": "zoho-api-v2",
+        "name": "zoho-api-v2",
+        "status": "ACTIVE",
+        "version": 5,
+        "created_at": 1792106726305,
+        "updated_at": 1792386044334,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/zoho-api-v2/index.ts",
+        "ezbr_sha256": "891bd9b10dad1f73332d70f123a17d92014e950597fb76d41e3687a7a632b193"
+      },
+      {
+        "id": "dd4711f6-b02a-47a4-adef-fb7f1df92d8a",
+        "slug": "website-api-v2",
+        "name": "website-api-v2",
+        "status": "ACTIVE",
+        "version": 3,
+        "created_at": 1792111991690,
+        "updated_at": 1793188041990,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/website-api-v2/index.ts",
+        "ezbr_sha256": "ea8d8ec5649a87bc7542a1fd6e18b5c68b36087bf00c548230eefbbd40697fdf"
+      }
+    ],
+    "queries": {
+      "automatic_flag_events": "begin read only;\nset local statement_timeout='5s';\nwith flags as materialized (\n select f.id,f.entity_key,f.reason_code,f.state,f.flagged_at,f.updated_at,f.cleared_at,f.released_at,f.next_check_at,f.checks\n from pipeline.enrichment_flags f where f.entity='job' and f.reason_code='idle_paused'\n), events as materialized (\n select f.entity_key,e.id,e.flag_id,e.at,e.action,\n case when e.actor_kind='auto' then e.actor else '[person omitted]' end actor,e.actor_kind,\n case when e.actor_kind='auto' then left(e.reason,300) else '[person reason omitted]' end reason,\n jsonb_build_object('mode',e.evidence->'mode','runs',e.evidence->'runs','with_work',e.evidence->'with_work','from',e.evidence->'from','to',e.evidence->'to','check',e.evidence->'check') evidence\n from flags f join lateral (\n select * from pipeline.enrichment_flag_events e where e.flag_id=f.id and e.at>='2026-11-06T13:40:00Z' order by e.at desc,e.id desc limit 100\n ) e on true\n)\nselect now() observed_at,\n(select jsonb_agg(jsonb_build_object('jobid',jobid,'name',jobname,'active',active,'schedule',schedule) order by jobid) from cron.job) jobs,\n(select jsonb_agg(to_jsonb(f) order by entity_key) from flags f) flags,\n(select jsonb_agg(to_jsonb(e) order by at,id) from events e) events,\n(select jsonb_agg(jsonb_build_object('jobname',jobname,'paused_at',paused_at,'resumed_at',resumed_at,'last_checked_at',last_checked_at,'last_output',last_output,'last_input',last_input)) from pipeline.job_idle_watch) idle_watch,\n(select jsonb_object_agg(key,value) from pipeline.platform_toolset_settings where toolset_key='pipeline' and key in ('jobs.held_off','flag.empty_calls_to_pause','flag.job_recheck_hours','flag.never_pause_modes','flag.answer_wait_seconds')) controls;\ncommit;",
+      "bounded_health": "begin read only;\nset local statement_timeout='5s';\nwith recent as materialized (\n select runid,jobid,status,start_time,end_time from cron.job_run_details order by runid desc limit 12000\n), alerts as materialized (\n select a.id,a.check_key,a.kind,a.attempts,a.created_at,a.dedupe_key,\n case when i.id is null then 'unlinked'\n when i.resolved_at is not null or a.kind='recovered' or a.created_at<i.first_seen then 'historical'\n else 'active' end classification\n from pipeline.platform_alerts a left join pipeline.platform_issues i on i.id=a.issue_id where a.status='pending'\n)\nselect now() observed_at,\n(select jsonb_agg(version order by version) from supabase_migrations.schema_migrations) migration_versions,\nmd5(pg_get_functiondef('security.course_deadline_in_quote_v1(date,text)'::regprocedure)) deadline_helper_md5,\nmd5(pg_get_functiondef('security.course_description_check_v1(uuid,jsonb)'::regprocedure)) description_guard_md5,\nmd5(pg_get_functiondef('security.flag_jobs_v1()'::regprocedure)) flag_jobs_md5,\n(select count(*) from pg_stat_activity where pid<>pg_backend_pid() and backend_type='client backend' and state='active' and xact_start is not null) other_active_client_transactions,\n(select jsonb_build_object('bounded_rows',count(*),'oldest_start',min(start_time),'latest_start',max(start_time),'covers_last_2h',min(start_time)<=now()-interval '2 hours','failures_last_2h',count(*) filter(where start_time>=now()-interval '2 hours' and status='failed'),'failures_since_handover',count(*) filter(where start_time>='2026-11-06T13:46:04Z' and status='failed'),'running',count(*) filter(where status='running')) from recent) recent_runs,\n(select jsonb_agg(jsonb_build_object('jobid',j.jobid,'name',j.jobname,'active',j.active,'last_success',g.last_success,'runs_since_handover',g.runs_since_handover)) from cron.job j left join lateral (select max(end_time) filter(where status='succeeded') last_success,count(*) filter(where start_time>='2026-11-06T13:46:04Z') runs_since_handover from recent r where r.jobid=j.jobid) g on true where j.jobname in ('provider-description-read','intake-dates-apply','aer-scheduled-read','aer-reconcile','aer-outcome-register','integration-validate','layer4-groups','layer4-readiness','consumer-api-guard','first-run-verify','central-find','worker-outcome-check','platform-alerts','flag-recheck')) jobs,\n(select jsonb_build_object('pending',count(*),'unattempted',count(*) filter(where attempts=0),'overdue',count(*) filter(where created_at<now()-make_interval(mins=>security.pipeline_num_v1('alerts.collect_within_minutes',120)::int)),'historical',count(*) filter(where classification='historical'),'active_events',count(*) filter(where classification='active'),'unlinked',count(*) filter(where classification='unlinked'),'active_keys',coalesce(jsonb_agg(distinct check_key) filter(where classification='active'),'[]'::jsonb),'duplicates',(select count(*) from (select dedupe_key from alerts group by dedupe_key having count(*)>1) d)) from alerts) alert_summary,\n(select jsonb_agg(jsonb_build_object('key',key,'state',state,'pending',pending,'done_window',done_window,'failed_window',failed_window,'per_hour',per_hour,'checked_at',checked_at,'last_progress',last_progress) order by key) from pipeline.queue_watch_state) queues,\n(select jsonb_object_agg(key,value) from pipeline.platform_toolset_settings where toolset_key='pipeline' and key in ('alerts.delivery_enabled','alerts.webhook_enabled','alerts.collect_within_minutes','run_now.jobs','enrich.course_description_reask_max','central.english_search_non_university','pdesc.enabled','pdesc.ai_usd_max','jobs.held_off')) controls,\n(select jsonb_agg(jsonb_build_object('issue_ref',issue_ref,'fingerprint',fingerprint,'severity',severity,'status',status,'title',title)) from (select issue_ref,fingerprint,severity,status,title from pipeline.integration_issues where severity='P0' and status not in ('closed','resolved') order by updated_at desc limit 20) i) current_p0_issues;\ncommit;"
+    },
+    "net_1346_to_1707": {
+      "coverage-reextract": -1,
+      "coverage-ai-match": 1,
+      "provider-contact-page": -1
+    },
+    "method": "Read-only native bigint flag joins using live-verified entity and flag_id/at indexes; cap100events perflag, maxobserved22. Reverse only source-confirmed flag-recheck raised/re_raised/released transitions, ignoring requeued duplicates; verify after-state consistency and independently compare all176states to17:07snapshot. No production helper was invoked.",
+    "resolution": "The164→163 discrepancy is explained by recorded automatic idle pause/trial-resume transitions. Current18:06count is161, not a fixed target. No job needs reactivation to restore a historical count.",
+    "limits": [
+      "Original13:46per-job snapshot is not available; those individual states are inferred, while the historical aggregate164 independently matches.",
+      "Matching recorded snapshots and automatic events does not prove absence of all direct/external writes; account-level fencing remains unverified.",
+      "Source audit13inactivejobs is specifically the17:07snapshot; current18:06inventory has15inactive.",
+      "Cron12000row sample spans10:43–18:07UTC and covers the last2hours and since13:46handover, with no failed rows; successful schedules do not prove admission/publication outcomes.",
+      "Business P0s remain open. Exactthreewrongdeadlines stillactive at18:08; no data correction, reserve override or business issue closure."
+    ],
+    "local_worktree_inventory": [
+      {
+        "worktree": "/workspace/delivery-pilot",
+        "head": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+        "branch": "delivery895-final-register-preservation",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/delivery-893",
+        "head": "99e00249cf2698ef384f724a6649ce901082adc4",
+        "branch": "delivery-893-release",
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-894",
+        "head": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+        "branch": null,
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-p0-deadline",
+        "head": "bad902ad387115004d12b629b34ab21b5266bb2c",
+        "branch": "delivery-p0-deadline-382",
+        "uncommitted": [
+          "?? deadline-cli-generation.json",
+          "?? deadline-enabled-review-validation.json",
+          "?? deadline-local-validation.json",
+          "?? deadline-pg17-enabled-review-validation.log",
+          "?? deadline-pg17-validation.json",
+          "?? deadline-pg17-validation.log",
+          "?? deadline-review-paste-refusal.log",
+          "?? deadline-s233-validation.log",
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/repair-ownership-followup",
+        "head": "c13b516d0383067a734a30077da3ddf3e66e201a",
+        "branch": "ws382-screenshot-guard",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/review-895-readonly",
+        "head": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+        "branch": "ws382-safe-dispatch-inputs",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1702/review-context",
+        "head": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "branch": null,
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1800/review-jobs",
+        "head": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "branch": null,
+        "uncommitted": []
+      }
+    ],
+    "production_mutations_initiated": [],
+    "in_flight_operations_initiated": []
   }
 }

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T180524Z",
-  "created_at": "2026-11-06T18:05:24Z",
+  "checkpoint_id": "CP-382-20261106T181235Z",
+  "created_at": "2026-11-06T18:12:35Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-job-reconcile-20261106T175943Z",
-  "trigger": "interrupted_session_recovery",
+  "trigger": "workstream_completion_and_intentional_session_termination",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_job_reconciliation",
+    "mode": "read_only_cycle_complete_authority_blocked",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -34,11 +34,12 @@
     "worker": {
       "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": "2026-11-06T17:11:58.772605Z",
+      "verified_at": "2026-11-06T18:04:04.263262Z",
       "evidence_ids": [
         "EV-FRONTEND-LIVE",
         "EV-FINAL-READS",
-        "EV-DEADLINE-CONTEXT-1702"
+        "EV-DEADLINE-CONTEXT-1702",
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     "migrations": {
@@ -1837,20 +1838,22 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T15:30:30.955788Z",
+      "verified_at": "2026-11-06T18:07:35.364038Z",
       "evidence_ids": [
-        "EV-MIGRATIONS"
+        "EV-MIGRATIONS",
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     "function_hashes": [
       {
         "signature": "security.course_description_check_v1(p_course uuid, p_result jsonb)",
         "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
-        "verified_at": "2026-11-06T17:07:23.606286Z",
+        "verified_at": "2026-11-06T18:07:35.364038Z",
         "evidence_ids": [
           "EV-GUARDS",
           "EV-RECOVERY-LIVE",
-          "EV-DEADLINE-CONTEXT-1702"
+          "EV-DEADLINE-CONTEXT-1702",
+          "EV-JOB-RECONCILE-FINAL"
         ]
       },
       {
@@ -1919,18 +1922,28 @@
       {
         "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
         "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
-        "verified_at": "2026-11-06T17:07:23.606286Z",
+        "verified_at": "2026-11-06T18:07:35.364038Z",
         "evidence_ids": [
           "EV-DEADLINE-REPAIR",
           "EV-DEADLINE-COHORT",
-          "EV-DEADLINE-CONTEXT-1702"
+          "EV-DEADLINE-CONTEXT-1702",
+          "EV-JOB-RECONCILE-FINAL"
+        ]
+      },
+      {
+        "signature": "security.flag_jobs_v1()",
+        "md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+        "verified_at": "2026-11-06T18:07:35.364038Z",
+        "evidence_ids": [
+          "EV-JOB-RECONCILE-FINAL"
         ]
       }
     ],
     "scheduled_jobs": {
       "status": "verified",
       "evidence_ids": [
-        "EV-JOBS"
+        "EV-JOBS",
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     "settings": {
@@ -2460,7 +2473,7 @@
       "branch": null,
       "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
       "worktree": "/workspace/resume-1800/review-jobs (detached immutable main)",
-      "state": "investigating",
+      "state": "completed",
       "owned_paths": [
         "/workspace/resume-1800/job-source-review.json"
       ],
@@ -2475,9 +2488,9 @@
       "dependencies": [],
       "blockers": [],
       "test_evidence_ids": [
-        "EV-JOB-RECONCILE-START"
+        "EV-JOB-RECONCILE-FINAL"
       ],
-      "completion_summary": null
+      "completion_summary": "Resolved automatic job-count discrepancy with actual indexed events, all176state comparison and independent review. Historical13:46individualstates inferred; no claim excluding all direct writes. Sourceworktree clean; no mutator invoked or source/production change. Current15inactive differs from13source-audited prior snapshot."
     }
   ],
   "prs": [
@@ -2969,10 +2982,9 @@
         {
           "key": "ai_page_match",
           "state": "done",
-          "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T15:05:48.406059+00:00"
@@ -2980,10 +2992,9 @@
         {
           "key": "central_ai",
           "state": "nothing_left",
-          "reason": "5 central pages the ai could not read",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-05T04:15:18.786556+00:00"
@@ -2991,10 +3002,9 @@
         {
           "key": "central_find",
           "state": "nothing_left",
-          "reason": "1 providers whose central page search failed",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-22T03:54:11.025363+00:00"
@@ -3002,10 +3012,9 @@
         {
           "key": "companion_read",
           "state": "nothing_left",
-          "reason": "247 companion pages given up after repeated failed reads",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-02T10:42:14.399783+00:00"
@@ -3013,10 +3022,9 @@
         {
           "key": "course_list_read",
           "state": "out_of_toolset",
-          "reason": "Work is waiting but firecrawl:reads cannot be used until a person acts (credit or balance used up)",
-          "pending": 67,
+          "pending": 68,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T15:03:05.281243+00:00"
@@ -3024,32 +3032,29 @@
         {
           "key": "course_page_discover",
           "state": "paused",
-          "reason": "Switched off by a person: coverage-discover-2, coverage-discover",
           "pending": 18,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:37:09.537559+00:00"
         },
         {
           "key": "course_page_read",
-          "state": "nothing_left",
-          "reason": "2091 matched pages given up after three failed reads",
-          "pending": 0,
-          "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
-          "done_window": 0,
+          "state": "moving",
+          "pending": 8,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 3,
           "failed_window": 0,
-          "last_progress": "2026-11-06T14:55:35.88949+00:00"
+          "last_progress": "2026-11-06T17:31:10.241197+00:00"
         },
         {
           "key": "course_page_search",
           "state": "out_of_toolset",
-          "reason": "Work is waiting but firecrawl:course_search cannot be used until a person acts (credit or balance used up)",
           "pending": 265,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T11:56:00.359438+00:00"
@@ -3057,10 +3062,9 @@
         {
           "key": "credential_read",
           "state": "nothing_left",
-          "reason": "485 course pages that state no credential, or more than one level",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-01T01:06:08.870743+00:00"
@@ -3068,21 +3072,19 @@
         {
           "key": "enrich_plans",
           "state": "moving",
-          "reason": null,
           "pending": 38,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
-          "last_progress": "2026-11-06T17:00:00.938179+00:00"
+          "last_progress": "2026-11-06T18:00:00.918206+00:00"
         },
         {
           "key": "fee_reader",
           "state": "nothing_left",
-          "reason": "5 fee pages the ai could not read",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-04T15:22:22.646034+00:00"
@@ -3090,10 +3092,9 @@
         {
           "key": "onboarding",
           "state": "stuck",
-          "reason": "1 waiting and nothing finished since 06 Nov 23:36",
           "pending": 1,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:36:00.297196+00:00"
@@ -3101,10 +3102,9 @@
         {
           "key": "programme_read",
           "state": "done",
-          "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-23T22:28:14.095082+00:00"
@@ -3112,10 +3112,9 @@
         {
           "key": "scholarship_candidates",
           "state": "done",
-          "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T14:30:26.110361+00:00"
@@ -3123,42 +3122,39 @@
         {
           "key": "scholarship_discover",
           "state": "done",
-          "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T02:05:00.501111+00:00"
         },
         {
           "key": "scholarship_read",
-          "state": "done",
-          "reason": null,
-          "pending": 0,
-          "per_hour": 20,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
-          "done_window": 20,
+          "state": "moving",
+          "pending": 7,
+          "per_hour": 13,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 13,
           "failed_window": 0,
-          "last_progress": "2026-11-06T17:00:15.305184+00:00"
+          "last_progress": "2026-11-06T17:55:04.36092+00:00"
         },
         {
           "key": "source_find",
           "state": "moving",
-          "reason": null,
-          "pending": 1000,
-          "per_hour": 1,
-          "checked_at": "2026-11-06T17:04:00.252173+00:00",
-          "done_window": 1,
+          "pending": 998,
+          "per_hour": 2,
+          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "done_window": 2,
           "failed_window": 0,
-          "last_progress": "2026-11-06T16:56:17.025002+00:00"
+          "last_progress": "2026-11-06T17:56:04.168193+00:00"
         }
       ],
       "unit": "rows and recorded one-hour rates",
-      "measured_at": "2026-11-06T17:17:25.974627Z",
+      "measured_at": "2026-11-06T18:07:35.364038Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-CONTEXT-1702-CONTROLS"
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     {
@@ -3746,25 +3742,26 @@
       "workstream_id": "WS-PROVIDER",
       "name": "Current alert outbox and deadline counts",
       "value": {
-        "pending": 77,
-        "unattempted_pending": 77,
+        "pending": 78,
+        "unattempted_pending": 78,
         "waiting_beyond_deadline": 75,
         "historical_recovered_episode_events": 62,
-        "active_episode_events": 15,
-        "active_conditions": 4,
+        "active_episode_events": 16,
+        "active_conditions": 5,
         "duplicate_dedupe_keys": 0,
         "active_keys": [
           "alerts:not_collected",
           "budgets:firecrawl",
           "coverage_queues:discover",
+          "queue_watch:course_list_read",
           "queue_watch:course_page_search"
         ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T17:17:25.974627Z",
+      "measured_at": "2026-11-06T18:07:35.364038Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-CONTEXT-1702-FINAL"
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     {
@@ -4076,6 +4073,38 @@
       "evidence_ids": [
         "EV-CONTEXT-1702-CONTROLS"
       ]
+    },
+    {
+      "id": "M-JOB-RECONCILIATION-1800",
+      "workstream_id": "WS-382-JOB-RECONCILE-1800",
+      "name": "Reconciled automatic job-state transitions; no reactivation or business acceptance",
+      "value": {
+        "event_rows": 128,
+        "transitions": 87,
+        "current_active": 161,
+        "total_jobs": 176,
+        "reconstructed_historical_active": 164,
+        "independent_1707_active": 163,
+        "all176_1707_states_matched": true,
+        "state_conflicts": 0,
+        "history_cap_hit": false,
+        "recent_cron": {
+          "running": 0,
+          "bounded_rows": 12000,
+          "latest_start": "2026-11-06T18:07:00.317355+00:00",
+          "oldest_start": "2026-11-06T10:43:32.616984+00:00",
+          "covers_last_2h": true,
+          "failures_last_2h": 0,
+          "failures_since_handover": 0
+        },
+        "requeued_nontransition_records": 41
+      },
+      "unit": "recorded events/jobs and bounded cron sample",
+      "measured_at": "2026-11-06T18:07:35.364038Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-JOB-RECONCILE-FINAL"
+      ]
     }
   ],
   "integration_issues": [
@@ -4163,12 +4192,13 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Alertcollectionfailure:17:17UTC77pending/allunattempted/75overdue;62historicalevents and15active across4conditions,0duplicates. Noacknowledgement/deliverybythisexecution.",
+      "summary": "Alert collection remains unrecovered:18:07UTC78pending/allunattempted/75overdue,62historical+16activeevents across5conditions,0duplicates. No acknowledgement/delivery by this execution.",
       "next_action": "After exclusive authority, verify authorised alert collector destination/runtime and recover delivery with existing protocol; never acknowledge or discard alerts merely to clear watchdog.",
       "evidence_ids": [
         "EV-JOBS",
         "EV-ALERT-COLLECTOR",
-        "EV-CONTEXT-1702-CONTROLS"
+        "EV-CONTEXT-1702-CONTROLS",
+        "EV-JOB-RECONCILE-FINAL"
       ]
     },
     {
@@ -4555,19 +4585,6 @@
         "Preserve all223quotationidentities and validclosingprecedence",
         "Bounded indexed/read-only plan and load window",
         "Report actual successes, timeouts and unverified scope separately"
-      ],
-      "safe_without_production_write": true
-    },
-    {
-      "id": "NA-JOB-COUNT-RECONCILE",
-      "workstream_id": "WS-382",
-      "action": "Reconcile historical164activejobs versus current163of176 using actual per-job/audit evidence. Selected post-handover admin-control query returned no job events, which does not rule out direct/automatic changes; source created worker-outcome-check paused. Do not invent an actor, changed job or reactivation authority.",
-      "owner": "Next actual read-only controller execution",
-      "depends_on": [],
-      "verification_required": [
-        "Immutable handover/current cron inventory",
-        "Evidence sufficient to attribute or explain difference",
-        "No job activation or pause inferred from aggregate count"
       ],
       "safe_without_production_write": true
     },
@@ -5018,12 +5035,19 @@
       "kind": "github_live_reconciliation",
       "observed_at": "2026-11-06T18:05:24Z",
       "summary": "Current mandatoryrecords/382 read and checkpoint validated. All seven openPRheads unchanged; final895/896/894/893 checks success. No runningworkflow; historical34749286102 unchanged. Atomic6d95released/noowner/nolease/adoptionpending. pilotunprotected andsecretAPI403. Frontend18:04HTTP/asset200/UI489/.416/hash2099cae6; edge239ACTIVE/hash995d5111 unchanged. Runtime ready with no accountbindings. Source-only agent investigating automatic job flags."
+    },
+    {
+      "id": "EV-JOB-RECONCILE-FINAL",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json",
+      "kind": "source_and_indexed_production_read_only_reconciliation",
+      "observed_at": "2026-11-06T18:12:35Z",
+      "summary": "128automaticflagrecords/87transitions; reverse-stateconsistency0conflicts, exact176state match to17:07snapshot163active; reconstructsClaude1346aggregate164. Current18:06is161active/176total. Sourceaudit13priorinactivejobs and independent offline review complete. Liveflaghelperhash668251ecmatches source. Full1791migrationledgerexactmatch/head400000; deadlinef01e9/courseff3d6unchanged. Last12000cronrows cover10:43–18:07/last2hwith0failures. Alerts78pending/allunattempted/75overdue/62historical+16activeevents across5conditions. No correction/release."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Read immutable Admin979315d5 model/index/handover/state/schema, current382decisions and PilotCLAUDE/guides. Validated172215checkpoint. Fresh heads/currentchecks unchanged, pilotunprotected/secretAPI403, no runningworkflow; atomic6d95owner/lease null/adoptionpending.",
-    "current_action": "Bounded read-only reconciliation of164→163activecronjobs using source review, indexed automatic flag events and bounded run history. No production write or unchanged suite rerun.",
-    "next_safe_action": "During18:06–08UTC permitted load window inspect current jobs/flags/events and bounded cron history, verify relevant live hashes and operational controls. Never invoke flag_jobs_v1 or reactivate a job to match a count.",
+    "last_completed_atomic_action": "Resolved164→163jobcount discrepancy with128automaticflagrecords/87transitions, no conflicts, and exactall176state match to17:07snapshot; independent source/runtime review confirms. Fresh18:07ledger1791versions matches exactly, relevanthashes unchanged; last2hcronfailures0. Alerts78pending/75overdue; exact3baddeadlinesstillactive18:08. No production mutation.",
+    "current_action": "Bounded cycle ending; reviewer and SQL complete, no active agent/local test/production reservation/deployment or new workflow from this execution. Publishing validated canonical evidence only; scheduled platform jobs continue independently.",
+    "next_safe_action": "Return to deadline P0: preserve disabled exactthree-row scope, reconcile source/year/audience gaps or extend remaining consumer reads with planned single-course probes in load windows. Do not repeat resolved job-count investigation or reactivate to match a count. Account owners complete D-382-CUTOVER before actual-execution atomic acceptance and reserved sequential releases.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5042,7 +5066,8 @@
       "Do not rerun unchanged final full suites or rebuild continuity:895bcceb/8967984/8948bde/893201b bundles and finalchecks are verified.",
       "Do not treat source denial probes, environment references or nominalrepo.admin=true as installed security controls; actual account APIs returned403.",
       "Do not count 223 references as intakes or classify all helper refusals as bad deadlines. Preserve all distinct quotations and explicit-closing precedence; do not repeat the timed-out ten-course consumer batch unchanged or expand the exact three-row correction.",
-      "Do not treat four current official-source corroborations as verified historical artifact or exact year/audience identity; all five reviewed intake years remain null. Do not repeat the failed three-course consumer batch unchanged; the planned one-course probe succeeded. Never reactivate a job merely to restore a historical aggregate count."
+      "Do not treat four current official-source corroborations as verified historical artifact or exact year/audience identity; all five reviewed intake years remain null. Do not repeat the failed three-course consumer batch unchanged; the planned one-course probe succeeded. Never reactivate a job merely to restore a historical aggregate count.",
+      "The164→163jobcount discrepancy is reconciled by actual automatic flag events; active counts vary with approved idle/trial control. Do not reactivate jobs to restore164, blame worker-outcome-check, double-count requeued events, or infer complete credential fencing from this diagnostic resolution."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -5050,22 +5075,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T172215Z",
+    "predecessor_checkpoint": "CP-382-20261106T180524Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Scheduled recovery starts one bounded read-only job-count reconciliation from current GitHub records. Source repairs and CI are preserved; no controller acceptance or production action.",
-    "baseline": "**Baseline:** Fresh18:04UTCfrontendHTTP/asset200/UI2.15.489/package0.1.416/hash2099cae6 and edge239ACTIVE/hash995d5111 unchanged. Pilotmain4ba94e3f. Last DB baseline17:07UTC has1791migrations/head400000/helperf01e9/courseguardff3d6; fresh DB/hash/job verification is planned in the permitted load window. ExactCloudflarecommit/authenticatedUI remain unknown.",
-    "completed": "**Completed:** Four of five official current-page contexts corroborate application-close dates; UNE retained date remains unresolved. All five exact catalogue intake/date matches verified, but years are null and audience pairing is unverified. One additional suspect date verified in all three consumer SQL outputs; cumulative sample9dates/7courses spans16:16and17:18UTC. Stale892/895 pending-CI coordination corrected; current checks all success, no suite rerun. PilotPRsmerged0; productionreleases0; correctedrows0.",
+    "reason": "**Reason:** One bounded recovery cycle completed. The job-count discrepancy is explained by recorded automatic transitions, with no production mutation. Account fencing and ownership acceptance remain blocked.",
+    "baseline": "**Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416, HTTP/asset 200 and hash 2099cae6 verified at 18:04 UTC; edge 239 ACTIVE/hash 995d5111 unchanged. At 18:07 all 1,791 migration versions match, head 20261106400000; deadline helper f01e9, course guard ff3d6 and job guard 668251ec unchanged. The observed 18:06 inventory is 161 active of 176, explained by automatic idle controls. Exact Cloudflare commit and authenticated UI remain unknown.",
+    "completed": "**Completed:** Job-count discrepancy resolved: 128 flag records contain 87 state transitions and 41 complementary requeued records excluded from the transition count. Reconstruction matches all 176 independently recorded 17:07 states (163 active) and reproduces the historical 164 aggregate at 13:46. Independent review confirms; individual 13:46 states remain inferred. Existing source/CI repairs preserved, no tests rerun. Pilot PRs merged: 0; production releases: 0; corrections: 0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** WS-382-JOB-RECONCILE-1800: independent source-only reviewer in detached4ba94e3f worktree/workspace/resume-1800/review-jobs owns only local job-source-review.json. Root owns live read-only SQL and canonical Admin record/evidence updates. No code/function/migration writes.",
+    "workstreams": "**Workstreams:** WS-382-JOB-RECONCILE-1800 completed with independent source and offline review in clean detached worktree /workspace/resume-1800/review-jobs at 4ba94e3f. Root owns live read-only evidence and canonical Admin updates. Eight worktrees inventoried: tracked files clean; prior untracked validation logs/node_modules retained. No active agent or new code, function or migration branch.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** One source-only reviewer and planned bounded read-only SQL. No production reservation, write, migration, deployment or new workflow. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null/adoptionpending, targeted to stopped142259execution; current execution has not accepted ownership.",
-    "next_safe_action": "**Next safe action:** Inspect automatic job-flag events and bounded cron history during18:06–08UTC; verify current hashes/controls/queues and distinguish recorded automatic transitions from unsupported attribution. Do not invoke mutators or activate jobs. D-382-CUTOVER account actions remain required before ownership and releases.",
-    "risks_recovery": "**Risks/recovery:** Alert backlog17:17UTC is77pending/allunattempted/75overdue:62historical events,15active across4conditions,0duplicates. Delivery remains enabled/webhookoff; collection not recovered. Latest2,000cronrecords cover16:02–17:17UTC with0failures, not two hours. Three-course consumer probe timed out; only a separately planned one-course probe passed. Four current source corroborations do not authorise disposition. pilot is unprotected/secretAPI403; actual fencing, ownership and release/admission/reserve/consumer gates remain.",
-    "evidence": "**Evidence:** [five-source/exact-intake/consumer audit](validation/2026-11-06-deadline-semantic-p0.json), [health/jobs/controls/worktrees](validation/2026-11-06-controller-cutover-verification.json), [corrected892status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892#issuecomment-6690815616), [corrected895status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6690817860), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). No unattended execution, heartbeat or successor acceptance claimed."
+    "in_flight": "**In flight:** No agent, SQL, local test, production reservation, write, deployment or new workflow initiated by this execution remains active. Platform scheduled jobs continue independently. GitHub has no running workflow; only reconciled historical run 34749286102 is queued. Atomic ref 6d95 has no owner or lease and adoption remains pending, targeting the stopped 14:22:59 execution. No active authority accepted or released.",
+    "next_safe_action": "**Next safe action:** Return to deadline P0 source/year/audience reconciliation or planned single-course consumer probes during load windows, preserving the disabled exact three-row correction scope. Do not repeat resolved job-count work or restore a historical count. GitHub, Cloudflare and Supabase owners complete D-382-CUTOVER before actual-execution acceptance and reserved #895 → #896 → #894 → #893 releases, with #892 integrated.",
+    "risks_recovery": "**Risks/recovery:** All three original bad deadline values remain active at 18:08 UTC. The wider nine-date/seven-course SQL sample remains historical; 58 courses and HTTP/cache exposure remain unverified. Alerts at 18:07: 78 pending, all unattempted, 75 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The latest 12,000 cron rows cover 10:43–18:07 and the last two hours, with zero failures; schedule success is not business acceptance. Count reconciliation does not establish absence of all direct writes. The environment is unprotected and secret API returns 403; account, ownership, release, admission, hold and reserve gates remain.",
+    "evidence": "**Evidence:** [indexed job events/source review/reconstruction/health](validation/2026-11-06-controller-cutover-verification.json), [latest exact deadline read](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat or successor acceptance claimed."
   }
 }

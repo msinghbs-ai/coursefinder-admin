@@ -441,3 +441,21 @@ Termination: no active agent/SQL/test/production reservation/deployment/newworkf
 ## CP-382-20261106T180524Z — bounded job reconciliation starts
 
 Actual execution `codex-job-reconcile-20261106T175943Z`, UTC. Recovered canonical979315d5; mandatory records/current382decisions/Pilotguides re-read and CP172215validated. Currentheads/holds/checks unchanged; no runningworkflow. Atomic6d95unowned/adoptionpending and account403 controls unchanged. Independent detached source lane reviews13inactivejobs; root plans indexed automatic flag events and bounded cron history. No source repair, suite rerun or production action. Preserve pending release/admission/reserve/consumer gates.
+
+
+## CP-382-20261106T181235Z — automatic job-count discrepancy reconciled
+
+Execution `codex-job-reconcile-20261106T175943Z`; created 2026-11-06T18:12:35Z (UTC). Existing canonical records only.
+
+- **Issues fixed:** resolved the164→163active-job diagnostic discrepancy through recorded automatic transitions. No code or production repair claimed.
+- **PRs merged:** zero Pilot PRs; completed source corrections and current green checks preserved without a suite rerun.
+- **Production releases verified:** zero; no migration, job toggle, data correction, admission or control change.
+- **Operational outcomes:**128indexed flag events contain87 actual automatic transitions and 41 complementary requeued records excluded from the transition count. Reverse replay has zero state conflicts, matches all176states in the independent17:07snapshot (163active), and reconstructs the13:46aggregate164. Net changes across that interval: coverage-reextract−1, coverage-ai-match+1, provider-contact-page−1. Current18:06inventory is161active/15inactive. Independent review confirms; original13:46individualstates remain inferred. worker-outcome-check was not the changed job and stays paused.
+- **Unresolved blockers:** real D-382-CUTOVER account controls/fencing, actual-execution atomic acceptance, applicable release and separate exactthree-rowcorrection authority. Resolving a count difference does not establish universal absence of direct writes.
+- **Next executable action:** return to deadline P0 source/year/audience gaps and planned single-course consumer probes in permitted windows. Account owners perform the existing consolidated cutover action before ownership/reservations and ordered releases. Do not repeat this resolved diagnostic or reactivate jobs to restore a historical number.
+
+Fresh production read18:07:35UTC verifies all1,791migrationversions against the canonical list/head20261106400000; deadlinef01e9/courseff3d6/flag668251ec hashes unchanged. The last12,000cronrecords span10:43–18:07, cover the last2hours and the post-Claude-handover interval, and contain0failures. No stronger business-outcome claim follows from successful schedules. Alerts remain78pending/allunattempted/75overdue:62historical events and16active across5conditions,0duplicates. Course-list/search remain out of toolset; onboarding has1stuck item. No delivery acknowledgement or budget override. Exactthreeoriginalbaddeadlinevalues remain active18:08.
+
+Source audit covered13inactivejobs from the prior17:07snapshot:6retirement pauses,1createdpaused,2administrativeholds,4dynamic jobs. Actual event reads explain current changes through flag-recheck, not another AI controller. Live indexes support nativebigint flag joins;100events-per-flag cap was not reached (max22). No flag/waste helper was invoked. Human actor/reason values were omitted from exported event data; only operational automatic evidence is retained.
+
+Termination: independent reviewer and root reads complete; no active operation initiated by this execution, reservation, local test, deployment or new workflow. Platform jobs continue independently. Eight worktrees have clean tracked files; prior untracked logs/node_modules are retained/inventoried. Atomic6d95 remains released/published without owner/lease and adoptionpending; no transfer accepted or active authority released. No unattended execution, heartbeat, future completion or successor acceptance claimed.

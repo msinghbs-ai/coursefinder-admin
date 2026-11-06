@@ -7344,5 +7344,34 @@
       "Initial frontend local probe assumed a single JavaScript asset and failed on vendor preloads; default urllib User-Agent requests returned403. Corrected explicitly identified GET selected the index module and returned200 at17:11UTC, with unchanged release/hash. No challenge/auth bypass.",
       "Three-course/nine-call consumer batch exceeded4s; no rows admitted. EXPLAIN without ANALYZE showed document sequential scan. A newly narrowed one-course/three-call probe succeeded; no unchanged retry, API/index edit or broad rerun."
     ]
+  },
+  "latest_exact_three_recheck": {
+    "execution_id": "codex-job-reconcile-20261106T175943Z",
+    "observed_at": "2026-11-06T18:08:30.994799Z",
+    "rows": [
+      {
+        "observed_at": "2026-11-06 18:08:30.994799+00",
+        "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+        "application_deadline": "2026-11-02",
+        "status": "active",
+        "still_expected_bad_value": true
+      },
+      {
+        "observed_at": "2026-11-06 18:08:30.994799+00",
+        "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+        "application_deadline": "2027-02-15",
+        "status": "active",
+        "still_expected_bad_value": true
+      },
+      {
+        "observed_at": "2026-11-06 18:08:30.994799+00",
+        "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+        "application_deadline": "2026-10-12",
+        "status": "active",
+        "still_expected_bad_value": true
+      }
+    ],
+    "corrections": 0,
+    "authority_scope": "Existing disabled exactthree-row pathway unchanged; no broader correction or consumerHTTP/cache acceptance inferred."
   }
 }

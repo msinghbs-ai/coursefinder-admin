@@ -17,19 +17,19 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Scheduled recovery starts one bounded read-only job-count reconciliation from current GitHub records. Source repairs and CI are preserved; no controller acceptance or production action.
+**Reason:** One bounded recovery cycle completed. The job-count discrepancy is explained by recorded automatic transitions, with no production mutation. Account fencing and ownership acceptance remain blocked.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Fresh18:04UTCfrontendHTTP/asset200/UI2.15.489/package0.1.416/hash2099cae6 and edge239ACTIVE/hash995d5111 unchanged. Pilotmain4ba94e3f. Last DB baseline17:07UTC has1791migrations/head400000/helperf01e9/courseguardff3d6; fresh DB/hash/job verification is planned in the permitted load window. ExactCloudflarecommit/authenticatedUI remain unknown.
+**Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416, HTTP/asset 200 and hash 2099cae6 verified at 18:04 UTC; edge 239 ACTIVE/hash 995d5111 unchanged. At 18:07 all 1,791 migration versions match, head 20261106400000; deadline helper f01e9, course guard ff3d6 and job guard 668251ec unchanged. The observed 18:06 inventory is 161 active of 176, explained by automatic idle controls. Exact Cloudflare commit and authenticated UI remain unknown.
 
 <!-- controller-handover:completed -->
-**Completed:** Four of five official current-page contexts corroborate application-close dates; UNE retained date remains unresolved. All five exact catalogue intake/date matches verified, but years are null and audience pairing is unverified. One additional suspect date verified in all three consumer SQL outputs; cumulative sample9dates/7courses spans16:16and17:18UTC. Stale892/895 pending-CI coordination corrected; current checks all success, no suite rerun. PilotPRsmerged0; productionreleases0; correctedrows0.
+**Completed:** Job-count discrepancy resolved: 128 flag records contain 87 state transitions and 41 complementary requeued records excluded from the transition count. Reconstruction matches all 176 independently recorded 17:07 states (163 active) and reproduces the historical 164 aggregate at 13:46. Independent review confirms; individual 13:46 states remain inferred. Existing source/CI repairs preserved, no tests rerun. Pilot PRs merged: 0; production releases: 0; corrections: 0.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-382-JOB-RECONCILE-1800: independent source-only reviewer in detached4ba94e3f worktree/workspace/resume-1800/review-jobs owns only local job-source-review.json. Root owns live read-only SQL and canonical Admin record/evidence updates. No code/function/migration writes.
+**Workstreams:** WS-382-JOB-RECONCILE-1800 completed with independent source and offline review in clean detached worktree /workspace/resume-1800/review-jobs at 4ba94e3f. Root owns live read-only evidence and canonical Admin updates. Eight worktrees inventoried: tracked files clean; prior untracked validation logs/node_modules retained. No active agent or new code, function or migration branch.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,16 +38,16 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** One source-only reviewer and planned bounded read-only SQL. No production reservation, write, migration, deployment or new workflow. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null/adoptionpending, targeted to stopped142259execution; current execution has not accepted ownership.
+**In flight:** No agent, SQL, local test, production reservation, write, deployment or new workflow initiated by this execution remains active. Platform scheduled jobs continue independently. GitHub has no running workflow; only reconciled historical run 34749286102 is queued. Atomic ref 6d95 has no owner or lease and adoption remains pending, targeting the stopped 14:22:59 execution. No active authority accepted or released.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Inspect automatic job-flag events and bounded cron history during18:06–08UTC; verify current hashes/controls/queues and distinguish recorded automatic transitions from unsupported attribution. Do not invoke mutators or activate jobs. D-382-CUTOVER account actions remain required before ownership and releases.
+**Next safe action:** Return to deadline P0 source/year/audience reconciliation or planned single-course consumer probes during load windows, preserving the disabled exact three-row correction scope. Do not repeat resolved job-count work or restore a historical count. GitHub, Cloudflare and Supabase owners complete D-382-CUTOVER before actual-execution acceptance and reserved #895 → #896 → #894 → #893 releases, with #892 integrated.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Alert backlog17:17UTC is77pending/allunattempted/75overdue:62historical events,15active across4conditions,0duplicates. Delivery remains enabled/webhookoff; collection not recovered. Latest2,000cronrecords cover16:02–17:17UTC with0failures, not two hours. Three-course consumer probe timed out; only a separately planned one-course probe passed. Four current source corroborations do not authorise disposition. pilot is unprotected/secretAPI403; actual fencing, ownership and release/admission/reserve/consumer gates remain.
+**Risks/recovery:** All three original bad deadline values remain active at 18:08 UTC. The wider nine-date/seven-course SQL sample remains historical; 58 courses and HTTP/cache exposure remain unverified. Alerts at 18:07: 78 pending, all unattempted, 75 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The latest 12,000 cron rows cover 10:43–18:07 and the last two hours, with zero failures; schedule success is not business acceptance. Count reconciliation does not establish absence of all direct writes. The environment is unprotected and secret API returns 403; account, ownership, release, admission, hold and reserve gates remain.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [five-source/exact-intake/consumer audit](validation/2026-11-06-deadline-semantic-p0.json), [health/jobs/controls/worktrees](validation/2026-11-06-controller-cutover-verification.json), [corrected892status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892#issuecomment-6690815616), [corrected895status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6690817860), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). No unattended execution, heartbeat or successor acceptance claimed.
+**Evidence:** [indexed job events/source review/reconstruction/health](validation/2026-11-06-controller-cutover-verification.json), [latest exact deadline read](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat or successor acceptance claimed.
 
 
 ## Progress dashboard
