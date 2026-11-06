@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Active integration cycle; actual Claude release is now published and independently reconciled. Transfer publication is recorded; no active production authority or successor acceptance claimed.
+**Reason:** This bounded cycle is ending at an external account and authority gate. Source repairs and evidence are published. Claude’s explicit release is reconciled; no active successor ownership or production adoption is claimed.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilot main4ba94e3f remains production UI2.15.489/package0.1.416, coverage Worker0.59.8. At13:55:14Z DB1791 migrations/head20261106400000 and deadline helper f01e9be83e58c9c48c33e5fde4de05d9. Exact Cloudflare commit/authenticated UI remain unverified. No production mutation by this execution.
+**Baseline:** Pilot main `4ba94e3f` still serves UI 2.15.489/package 0.1.416 (HTTP and asset 200 at 14:11 UTC; asset hash unchanged). Coverage Worker remains 0.59.8, edge version 239 ACTIVE. Database: 1,791 migrations, head 20261106400000 at 13:55 UTC. The old deadline helper remains live. All 18 English hashes, its job hash and the course-description hash match the proposed migration baselines. Exact Cloudflare commit and authenticated UI remain unverified.
 
 <!-- controller-handover:completed -->
-**Completed:** Original63 alerts classified47 historical/16 active/0 exact duplicates; all undelivered. Confirmed deadline P0 escalated and guard/review-only correction published. #896 genuinePG73 and governed1951 passed/0 failed/0 skipped/0 flaky. #895 source1951 passed; final metadata reuse in progress. #894/#893 ordered candidates published; genuinePG gates passed; full suites running. Pilot PRs merged0; releases verified0; rows corrected0.
+**Completed:** Shared parity now executes real local PostgreSQL and fails on SQL errors. The four #894 defects and #893/#892 repairs are preserved. Verified final evidence: #894 1,967 passed; #893 1,992 passed; #896 1,951 passed; each has zero failures, skips or flakes and passing final metadata/build/parity/release checks. #895 source has 1,951 passing tests; its metadata gate remains pending. Original 63 alerts: 47 historical, 16 active, zero exact duplicates. This execution merged zero Pilot PRs, verified zero production releases and corrected zero production rows.
 
 <!-- controller-handover:priorities -->
-**Priorities:** Deadline P0 containment and guard; external fencing and ownership completion; release sequence895→896→894→893 with892 source integrated895; bounded877/889 and other operational acceptance. Preserve890/875 holds, budgets and human authority.
+**Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 → #896 → #894 → #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** All agent engineering is handed to root; no active agent writes. Root owns final evidence/register integration and any later authorised production operation. Read-only877/889 acceptance lane completed; no new framework or repeated completed repairs.
+**Workstreams:** All agents have stopped and engineering is published. Canonical remote heads: #895 bcc3d57a, #896 dc5c343d, #894 8035c350, #893 0edc65d6. Local preservation references and untracked test evidence are recorded in the dated response; there is no unique uncommitted engineering. The isolated test database was removed.
 
 <!-- controller-handover:pending_prs_migrations -->
-**Pending PRs/migrations:** #895 bcc3d57a UI490/.417 includes892 source; #896 4baa3265 UI491/.418/migration450000; #894 cd8b81c9 UI492/.419/migration500000/Worker0.59.9; #893 fda1e581 UI493/.420/migration550000/Worker0.59.10. All unmerged and migrations unapplied;890/875 held.
+**Pending PRs/migrations:** #895 bcc3d57a: UI 2.15.490/package 0.1.417, includes #892. #896 dc5c343d: UI 2.15.491/package 0.1.418, migration 450000. #894 8035c350: UI 2.15.492/package 0.1.419, migration 500000, Worker 0.59.9. #893 0edc65d6: UI 2.15.493/package 0.1.420, migration 550000, Worker 0.59.10. All remain unmerged and unapplied; #890/#875 holds remain.
 
 <!-- controller-handover:decisions -->
-**Decisions:** Consolidated D-382-CUTOVER remains in Admin382 comment6685993075. Actual Claude release6686299314 resolves missing acknowledgement, not credential/adoption controls. Still require real protected pilot and Cloudflare/direct-SQL cutover proof, applicable explicit release approvals and exact three-deadline correction approval. Consumer API, destructive-data, human Layer4/trust and vendor reserve restrictions remain.
+**Decisions:** Claude’s actual acknowledgement resolves the missing predecessor response. Remaining D-382-CUTOVER actions are real protected pilot/main credentials and branch controls, the reviewed Cloudflare/direct-SQL cutover with recovery preserved, applicable explicit release authority, and approval for the exact three-deadline correction. Consumer API, destructive-data, human Layer 4/trust and vendor reserve restrictions remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** Branch CI: #894 run42229130399, #893 run42229294179, #895 metadata run42226902408. No production operation by this execution. Atomic ref45bda42a is released/published, ownernull/lease null/adoption pending. Historical34749286102 remains queued0jobs with deleted definition; not labelled cancelled.
+**In flight:** Only development CI #895 run 42226902408 remains active, installing Chromium since 13:37:22 UTC before candidate tests. Its exact external cause is unverified. No agent, local test or production operation from this execution is running. Atomic ref 45bda42a records release publication: owner null, lease null, adoption pending. Historical run 34749286102 remains queued with zero jobs and a deleted workflow definition; it is not labelled cancelled.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Finish final evidence on current published heads and same-run registers. Platform Admin/account controller must perform remaining D-382-CUTOVER account controls; verify those live, then reconcile/accept/adopt/verify/complete ownership through existing protocol before reservation-bound sequential releases. No blind retry of predecessor commands.
+**Next safe action:** Inspect the existing #895 run first and preserve verified #894/#893/#896 evidence. An authorised account owner must complete the remaining D-382-CUTOVER controls and decisions. A fresh successor must recheck live GitHub/production, retarget its execution through the documented atomic protocol, and verify fencing and recovery before accepting active authority. Then execute reserved sequential releases and measured production acceptance.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Three wrong deadlines still live; candidate guard and disabled correction paste are not containment. Alert delivery still blocked; prior70 pending/64 overdue is a dated measurement. #877 has0 new calls/spend since release and pending human proposals; #889 observer healthy but authenticated UI/re-login checks remain. Never infer active owner from release publication or expired heartbeat.
+**Risks/recovery:** Three incorrect deadlines remain exposed in production. The guard and disabled review paste are candidates only. At 14:08 UTC, 71 alerts were pending and unattempted; the last overdue count of 64 was measured at 13:19 UTC. #877 has zero new calls/spend since release, four human proposals and one hold. #889’s observer is healthy; authenticated UI, re-login and consumer HTTP/cache checks remain pending. The pilot environment was still unprotected at 14:09 UTC. No unattended monitoring, heartbeat or successor acceptance is claimed.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [atomic release](https://github.com/msinghbs-ai/coursefinder-admin/commit/45bda42a36d909891497368821f447710f932b84), [896 full evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42228204487), [896 real PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42228204813), [894 full run](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42229130399), [893 full run](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42229294179), [consolidated decision](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685993075), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
+**Evidence:** [#894 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42231823589), [#893 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42230839017), [#896 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42230441319), [#895 pending gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42226902408), [atomic release](https://github.com/msinghbs-ai/coursefinder-admin/commit/45bda42a36d909891497368821f447710f932b84), [consolidated decision](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685993075), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
 
 
 ## Progress dashboard
