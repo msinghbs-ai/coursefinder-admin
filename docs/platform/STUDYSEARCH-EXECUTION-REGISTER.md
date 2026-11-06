@@ -17,10 +17,10 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** One bounded recovery cycle completed from GitHub. Source context, current intake and operational evidence are published; stopping with no production authority accepted and no critical operation initiated.
+**Reason:** Scheduled recovery starts one bounded read-only job-count reconciliation from current GitHub records. Source repairs and CI are preserved; no controller acceptance or production action.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416 and HTTP/asset200/hash2099cae6 verified17:11UTC; edge239 ACTIVE/hash995d5111 unchanged. DB17:07 has1,791migrations/head20261106400000/helperf01e9/courseguardff3d6. Last exact read17:18:57 shows zero other active client transactions. Current163activejobs/176total differs from historical164; attribution unresolved. ExactCloudflarecommit/authenticatedUI remain unknown.
+**Baseline:** Fresh18:04UTCfrontendHTTP/asset200/UI2.15.489/package0.1.416/hash2099cae6 and edge239ACTIVE/hash995d5111 unchanged. Pilotmain4ba94e3f. Last DB baseline17:07UTC has1791migrations/head400000/helperf01e9/courseguardff3d6; fresh DB/hash/job verification is planned in the permitted load window. ExactCloudflarecommit/authenticatedUI remain unknown.
 
 <!-- controller-handover:completed -->
 **Completed:** Four of five official current-page contexts corroborate application-close dates; UNE retained date remains unresolved. All five exact catalogue intake/date matches verified, but years are null and audience pairing is unverified. One additional suspect date verified in all three consumer SQL outputs; cumulative sample9dates/7courses spans16:16and17:18UTC. Stale892/895 pending-CI coordination corrected; current checks all success, no suite rerun. PilotPRsmerged0; productionreleases0; correctedrows0.
@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-P0-DEADLINE-CONTEXT-1702 completed in clean detached7984e7bd worktree, with five public-source captures and independent review; root verified contexts/current rows and owns canonical evidence. Seven worktrees inventoried: tracked files clean; predecessor validation logs and node_modules remain untracked in delivery893/894/896. Local refs are evidence, not instructions to republish. No active agent, source/function/migration change or new branch.
+**Workstreams:** WS-382-JOB-RECONCILE-1800: independent source-only reviewer in detached4ba94e3f worktree/workspace/resume-1800/review-jobs owns only local job-source-review.json. Root owns live read-only SQL and canonical Admin record/evidence updates. No code/function/migration writes.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No operation initiated by this execution remains active: reviewer, SQL and local checks complete, no production reservation/write/deployment or new workflow. Platform scheduled jobs continue independently. GitHub has no running workflow; only reconciled historical34749286102 is queued. Atomic6d95 remains owner/lease null and adoption pending, targeting stopped142259execution. No active ownership accepted or released.
+**In flight:** One source-only reviewer and planned bounded read-only SQL. No production reservation, write, migration, deployment or new workflow. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null/adoptionpending, targeted to stopped142259execution; current execution has not accepted ownership.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Resolve UNE historical context and the reviewed intake year/audience/artifact gaps; reconcile the164→163active-job count difference through bounded evidence. Remaining58consumercourses need planned one-course probes within load windows. Account owners complete D-382-CUTOVER before acceptance by the actual execution, reservations and sequential895→896→894→893 releases; original three-row correction remains separately gated.
+**Next safe action:** Inspect automatic job-flag events and bounded cron history during18:06–08UTC; verify current hashes/controls/queues and distinguish recorded automatic transitions from unsupported attribution. Do not invoke mutators or activate jobs. D-382-CUTOVER account actions remain required before ownership and releases.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** Alert backlog17:17UTC is77pending/allunattempted/75overdue:62historical events,15active across4conditions,0duplicates. Delivery remains enabled/webhookoff; collection not recovered. Latest2,000cronrecords cover16:02–17:17UTC with0failures, not two hours. Three-course consumer probe timed out; only a separately planned one-course probe passed. Four current source corroborations do not authorise disposition. pilot is unprotected/secretAPI403; actual fencing, ownership and release/admission/reserve/consumer gates remain.

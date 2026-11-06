@@ -436,3 +436,8 @@ Alert measurement17:17:25UTC:77pending/allunattempted/75overdue,62historical and
 Read-path failure/recovery: three courses × three consumer calls exceeded4s. EXPLAIN without ANALYZE shows a sequential course-document identifier scan; after inspecting the plan, one separately narrowed course × three calls passed. No API/index/schema change or unchanged broad rerun. Diagnostic SQL/client formatting failures are recorded and contribute no evidence; successful results carry separate timestamps. Public identified frontend GET200 and unchanged asset hash verified17:11; defaulturllib403 is recorded, not treated as a service outage.
 
 Termination: no active agent/SQL/test/production reservation/deployment/newworkflow from this execution. GitHub heads/atomicref unchanged and no workflow running at final read; historical queued34749286102 remains non-executable. Seven local worktrees have clean tracked files; predecessor untracked validation logs/node_modules preserved and inventoried. No active ownership was accepted or released; transfer remains pending. No heartbeat, unattended execution, future completion or successor acceptance claimed.
+
+
+## CP-382-20261106T180524Z — bounded job reconciliation starts
+
+Actual execution `codex-job-reconcile-20261106T175943Z`, UTC. Recovered canonical979315d5; mandatory records/current382decisions/Pilotguides re-read and CP172215validated. Currentheads/holds/checks unchanged; no runningworkflow. Atomic6d95unowned/adoptionpending and account403 controls unchanged. Independent detached source lane reviews13inactivejobs; root plans indexed automatic flag events and bounded cron history. No source repair, suite rerun or production action. Preserve pending release/admission/reserve/consumer gates.
