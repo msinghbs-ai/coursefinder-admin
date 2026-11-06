@@ -637,3 +637,33 @@ Single journal for this session. Times are UTC with Sydney in brackets. Facts ar
   - **D4** approves the D-382-CUTOVER GitHub `pilot` environment and Cloudflare deploy fence. **Supabase credential revocation is withdrawn from my earlier request:** no credential will be revoked without verified ownership and dependency checks and a separate approval.
   - **D5** order #895, #896, #894, #893; #892 and #897 integrated once by ancestry (#892 is inside #895; #897 follows #893); #890 and #875 held.
   - **D6** no repeated approvals or redundant checkpoints. State at this entry: account controls not verified (owner installation outstanding); ownership accepted, not active; no PR merged; main unchanged (4ba94e3f); no release; P0 and P1 outstanding.
+
+### Account-owner cutover checklist (prepared 2026-11-07 by Claude; single source, supersedes any earlier ask)
+
+Basis: D-382-CUTOVER, PR #895 (head bcceb856, tested source 1e7eaabe), current main (4ba94e3f) workflows, Platform Admin D4. Values are never requested; names only. UNKNOWN means this session could not read it (GitHub environment, secret, variable and Actions-permission paths are blocked by the session proxy; branch protection returns 403; no Cloudflare or Supabase console access).
+
+**Facts that shape the order.** (1) Current main has no `environment:` references, so creating and restricting `pilot` now changes nothing live. (2) #895 adds `environment: pilot` to 19 workflows and the controller guard. (3) A job that uses an environment can still read repository-level secrets of the same name that the environment lacks, and branch workflows that do not use an environment can read them freely. So the environment restriction alone does not deny old refs; the denial becomes real only when repository-level copies are removed, which is a later step after replacements are verified. (4) GitHub never shows existing secret values. (5) #895 adds no CODEOWNERS or ruleset.
+
+**Phase 1: you, now (nothing here needs #895).**
+1. GitHub, msinghbs-ai/Coursefinder-Pilot › Settings › Environments › `pilot`. Current: UNKNOWN (Codex reported it unprotected). Set: Deployment branches and tags = Selected branches and tags = `main` only; no required reviewers. Why: the 19 reviewed workflows then run with production credentials only from main. Rollback: remove the branch rule or delete the environment (current main ignores it).
+2. Same environment, names only. Secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_DB_PASSWORD`, `COURSEFINDER_UAT_EMAIL`, `COURSEFINDER_UAT_PASSWORD`, `ADMIN_REPO_TOKEN`. Variables: `SUPABASE_PROJECT_REF`, `STUDYSEARCH_UAT_ALLOWED_ORIGIN` (the existing production origin), `DEPLOYED_WEEKLY_LIVE_ACTING` (leave off), `AER_WEEKLY_REPORT_ENABLED` (as today). Current: UNKNOWN. Copy, never move: leave every repository-level secret and variable untouched. If you do not hold a value, create a replacement of the same scope (a new Supabase access token, a new fine-grained token for `ADMIN_REPO_TOKEN`) and leave the old one active. Do not reset the database password; if it is not known, tell me and it stays UNKNOWN. Rollback: delete the environment copies; repository-level ones still work.
+3. Cloudflare, Workers & Pages › coursefinder-pilot › Settings › Builds › Build configuration › Deploy command. Current: UNKNOWN (presumably `npx wrangler deploy`). First record the current deploy command, build command and variable NAMES (text, no secrets). Then set the pinned command below. Why: the only production frontend path is the Cloudflare Git build on a main push; the command fails closed unless the controller is active with a matching reservation. Effect: from this moment frontend publication is held, because ownership is not active; the live site stays on v2.15.489. UNKNOWN: whether the build image has `python3` and `git` and can reach GitHub (if not, builds fail closed with a different error and that is a blocker I want to know). Do not restrict or revoke alternate deployment tokens now. Verify (you or me from the log): Retry build on the latest main deployment; expected: build stops at the guard with `BLOCKED: controller authority could not be verified`, no Worker version change. Rollback: restore the recorded command, Retry build.
+4. GitHub › Settings › Branches (or Rules) › main. Current: UNKNOWN. Record the rule and required status check names only. Change nothing, and do not add "restrict pushes" or required human approvals: my sha-pinned squash merge through the API must still work.
+5. Supabase: no change. Do not revoke or rotate anything. Any credential removal needs your separate approval after I verify ownership and dependencies.
+
+**Phase 2: me, after Phase 1.** Inspect what I can; merge #895 pinned to head with `Controller-*` trailers. Expected, not a fault: the deploy-on-merge run on that push stops at the guard (nothing to deploy: #895 has no migration or edge change), and Cloudflare publication is held. Then dispatch the read-only `edge-drift-check` from a non-main ref (expected: refused by the environment branch rule) and from main (expected: runs and reads function slugs using the environment secrets). Record adoption, complete the transfer to active, then reserve and release in order.
+
+**Phase 3: later, only after Phase 2 passes; I will ask separately.** Delete the five repository-level secrets, one at a time, with the environment copies already proven. Rollback: re-add from the source of truth.
+
+Pinned Cloudflare deploy command (guard SHA-256 independently verified equal to the pinned value and byte-identical at the #895 head):
+
+```bash
+set -euo pipefail
+controller_guard_file=$(mktemp)
+trap 'rm -f "$controller_guard_file"' EXIT
+curl --fail --silent --show-error https://raw.githubusercontent.com/msinghbs-ai/Coursefinder-Pilot/1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d/scripts/ci/controller-guard.py > "$controller_guard_file"
+printf '%s  %s\n' cfa06ba903d4849fba714e772b52e7e67b5ecf1c5a7d838ca8c2c46e61209cc9 "$controller_guard_file" | sha256sum --check -
+if [ "$(git rev-parse --is-shallow-repository)" = true ]; then git fetch --no-tags --unshallow origin; fi
+python3 "$controller_guard_file" --entry-point cloudflare-frontend --commit "${WORKERS_CI_COMMIT_SHA:?}"
+npx wrangler deploy
+```
