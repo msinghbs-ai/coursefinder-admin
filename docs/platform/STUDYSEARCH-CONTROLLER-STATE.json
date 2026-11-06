@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T143810Z",
-  "created_at": "2026-11-06T14:38:10Z",
+  "checkpoint_id": "CP-382-20261106T145156Z",
+  "created_at": "2026-11-06T14:51:56Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-takeover-20261106T142259Z",
-  "trigger": "governed_control_write_after",
+  "trigger": "integration_issue_change",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -2287,15 +2287,16 @@
       "id": "WS-382-ADOPTION",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex ownership-entry agent (development only); root integrates",
-      "branch": "ws382-uncovered-mutators",
-      "commit": "bcc3d57afd48e2282accff3eaf90e4d1cd36f5a7",
+      "branch": "ws382-screenshot-guard",
+      "commit": "0519caf6be8b41910d37f1a06ce8d61e2a212c39",
       "worktree": "/workspace/repair-ownership-followup",
       "state": "implementing",
       "owned_paths": [
         ".github/workflows/component-register.yml",
         ".github/workflows/db-archive-export.yml",
         "scripts/ci/controller-guard.py",
-        "tests/uat/cf-247-s69-governed-deployment-contract.spec.mjs"
+        "tests/uat/cf-247-s69-phase3-ci-deploys.spec.mjs",
+        ".github/workflows/ui-review-screenshots.yml"
       ],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2316,7 +2317,7 @@
       "test_evidence_ids": [
         "EV-GATE-PREP"
       ],
-      "completion_summary": "Earlier source1951pass remains historical. Newly confirmed2writer gaps assigned for guard/concurrency/trusted-recovery repair; SHOW_RUN becomes GET-only. Account PUT actually403; no external control changed."
+      "completion_summary": "First2writer gaps repaired and published;9existing s69 contracts pass with actual shell zero-write denial/allowed-write/GET-only tests. Third screenshot arbitraryclick surface assigned; full19job classification in progress. Current Node22CI running on changed source."
     },
     {
       "id": "WS-P0-DEADLINE",
@@ -2364,18 +2365,17 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 893,
       "branch": "cf247-english-requirements-complete",
-      "commit": "0edc65d69e351d4c0b48a58a083288f128cefdce",
+      "commit": "fd85ed022ae2536221ab8893b34cd7e1d2bd863e",
       "state": "open",
       "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-893",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42229294179,
-        42230839017,
-        42230839099,
-        42230839204,
-        42230839408
+        42236529880,
+        42236529772,
+        42236529775,
+        42236529643
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2388,24 +2388,23 @@
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified bundle; refresh release/ownership/live hashes and execute only after all gates."
+      "next_action": "Current source adds2writer repairs; third screenshot gap is being fixed. Verify new full-suite evidence after final coverage repair; prior passing counts are history, not current-source acceptance."
     },
     {
       "id": "PR-894",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 894,
       "branch": "cf247-course-descriptions-complete",
-      "commit": "8035c3509671a2cb7ebcfe5d5040e53730f1311c",
+      "commit": "bdc304786a9f714b1fa49ed4818c157e913d66c8",
       "state": "open",
       "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-894",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42229130399,
-        42231823589,
-        42231823558,
-        42231823645
+        42236527995,
+        42236527777,
+        42236527766
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2418,7 +2417,7 @@
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified bundle; refresh release/ownership/live hashes and execute only after all gates."
+      "next_action": "Current source adds2writer repairs; third screenshot gap is being fixed. Verify new full-suite evidence after final coverage repair; prior passing counts are history, not current-source acceptance."
     },
     {
       "id": "PR-892",
@@ -2678,15 +2677,14 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 895,
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "bcc3d57afd48e2282accff3eaf90e4d1cd36f5a7",
+      "commit": "0519caf6be8b41910d37f1a06ce8d61e2a212c39",
       "state": "open",
       "draft": true,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-382-ADOPTION",
       "ci_status": "pending",
       "run_ids": [
-        42224237322,
-        42226902408
+        42236506521
       ],
       "release_gates": [
         "All controller entry points adopt canonical reservation",
@@ -2700,24 +2698,22 @@
         "Production ownership/adoption pending",
         "Newly confirmed component-register/archive writer fencing gaps"
       ],
-      "next_action": "Repair assigned2writer gaps and SHOW_RUN sideeffect, validate new source and account controls; do not regard earlier1951pass as coverage of these gaps."
+      "next_action": "Current source adds2writer repairs; third screenshot gap is being fixed. Verify new full-suite evidence after final coverage repair; prior passing counts are history, not current-source acceptance."
     },
     {
       "id": "PR-896",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 896,
       "branch": "delivery-p0-deadline-382",
-      "commit": "dc5c343d5d886ac03ce971254918d2c3b2d11bb5",
+      "commit": "ea740b492877dfda5f8e868b8e630e4bae5de6f3",
       "state": "open",
       "draft": true,
       "owner": "Codex (development only)",
       "workstream_id": "WS-P0-DEADLINE",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42228204487,
-        42228204813,
-        42230441319,
-        42230441266
+        42236514426,
+        42236514491
       ],
       "release_gates": [
         "895cutoverandverifiedexclusiveauthority",
@@ -2732,7 +2728,7 @@
         "Externalownership/accountcutover",
         "Exactcorrectionapprovalpending"
       ],
-      "next_action": "Preserve verified bundle; refresh release/ownership/live hashes and execute only after all gates."
+      "next_action": "Current source adds2writer repairs; third screenshot gap is being fixed. Verify new full-suite evidence after final coverage repair; prior passing counts are history, not current-source acceptance."
     }
   ],
   "releases": [
@@ -3671,11 +3667,12 @@
       "value": {
         "pending": 73,
         "unattempted_pending": 73,
-        "overdue_last_measured": 64,
-        "overdue_measured_at": "2026-11-06T13:19:47.338410Z"
+        "waiting_beyond_deadline": 69,
+        "watchdog_ok": false,
+        "delivery_enabled": true
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T14:26:25.860583Z",
+      "measured_at": "2026-11-06T14:46:39.607025Z",
       "status": "verified",
       "evidence_ids": [
         "EV-DELIVERY-PRODUCTION"
@@ -3684,24 +3681,20 @@
     {
       "id": "M-ALERT-RECONCILIATION",
       "workstream_id": "WS-PROVIDER",
-      "name": "Original63 alerts classified by exact issue episode",
+      "name": "Original63 alert events reconciled against current exact issue episodes",
       "value": {
         "original_ids": "21-83",
         "total": 63,
-        "historical_recovered_episode_events": 47,
-        "active_episode_events": 16,
-        "active_keys": [
-          "alerts:not_collected",
-          "budgets:firecrawl",
-          "coverage_queues:discover"
-        ],
+        "historical_recovered_episode_events": 51,
+        "active_episode_events": 12,
         "duplicate_dedupe_keys": 0,
         "unattempted": 63,
-        "total_pending": 68,
-        "overdue_at_1232": 64
+        "prior1232historical": 47,
+        "prior1232active": 16,
+        "note": "Old discovery episode recovered; new discovery recurrence remains active. No alert acknowledged or delivered."
       },
       "unit": "alerts and events; classification is not acknowledgement",
-      "measured_at": "2026-11-06T12:32:50.817293Z",
+      "measured_at": "2026-11-06T14:46:39.607025Z",
       "status": "verified",
       "evidence_ids": [
         "EV-ALERT-CLASSIFICATION"
@@ -3770,6 +3763,34 @@
       "status": "verified",
       "evidence_ids": [
         "EV-FINAL-CANDIDATES"
+      ]
+    },
+    {
+      "id": "M-ALL-PENDING-ALERTS-1446",
+      "workstream_id": "WS-PROVIDER",
+      "name": "All current pending alert events, not independent fault count",
+      "value": {
+        "pending": 73,
+        "historical_recovered_episode_events": 56,
+        "active_episode_events": 17,
+        "active_conditions": 6,
+        "duplicate_dedupe_keys": 0,
+        "unattempted": 73,
+        "overdue": 69,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "queue_watch:course_list_read",
+          "coverage_queues:discover",
+          "queue_watch:companion_read",
+          "queue_watch:course_page_search"
+        ]
+      },
+      "unit": "alert events and current conditions",
+      "measured_at": "2026-11-06T14:46:39.607025Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-TAKEOVER-ALERTS"
       ]
     }
   ],
@@ -4124,8 +4145,8 @@
       "source": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496",
       "severity": "P1",
       "state": "open",
-      "summary": "Component register DBwrites and archive private Storagewrites lack controller guards; SHOW_RUN creates bucket before purported read-only path. pilot environment alone is not fencing.",
-      "next_action": "Assigned agent owns2workflows/controllerguard/existing s69 on ws382-uncovered-mutators; root integrates and tests before any895cutover.",
+      "summary": "Three omitted write-capable surfaces: component-register DBwrites, archive Storagewrites and screenshot arbitrarybuttonclicks; SHOW_RUN bucket sideeffect also confirmed. First2repaired; screenshot/inputbinding repair underway.",
+      "next_action": "Finish third path and complete inventory; all19privilegedjobs must be correctly classified. Existing two throwaway definitions refuse Pilot; preserve actualreport readers.",
       "evidence_ids": [
         "EV-TAKEOVER-CONTROL"
       ]
@@ -4183,7 +4204,7 @@
     {
       "id": "D-382-CUTOVER",
       "status": "pending",
-      "summary": "Claude release and historical run non-executability verified; no further acknowledgement/deletion required. GitHub owner must grant installed-app environment/secret/protection permissions or perform controls directly (actualPUT403); Cloudflare owner installs real deploy gate and alternate credential controls; Supabase owner restricts directwrite credentials. Preserve19reviewedjobs/recovery; exact3deadline correction approval remains separate.",
+      "summary": "Claude release and historical run non-executability verified; no further acknowledgement/deletion required. GitHub owner must grant installed-app environment/secret/protection permissions or perform controls directly (actualPUT403); Cloudflare owner installs real deploy gate and alternate credential controls; Supabase owner restricts directwrite credentials. Preserve19privilegedjobs including actualreaders/recovery; exact3deadline correction approval remains separate.",
       "authority": "Platform Admin/account owner",
       "required_for": [
         "production_controller_acceptance",
@@ -4632,12 +4653,19 @@
       "kind": "production_query",
       "observed_at": "2026-11-06T14:38:10Z",
       "summary": "Actual14:30 PUT /repos/msinghbs-ai/Coursefinder-Pilot/environments/pilot denied403 Resource not accessible by integration; no configuration changed. Responsible owner msinghbs-ai repository/installed-app administrator.14candidate CLI probes against live atomicref all denied current/competing actor across7entries; not proof external bypass is fenced. New real895gaps: component-register DBwrites and archive Storagewrites; SHOW_RUN bucket sideeffect. Exact3deadlineSQLexposures still present14:33."
+    },
+    {
+      "id": "EV-TAKEOVER-ALERTS",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/validation/2026-11-06-controller-cutover-verification.json",
+      "kind": "production_query",
+      "observed_at": "2026-11-06T14:46:39.607025Z",
+      "summary": "All73pending rows joined exact issueUUID:56historical-recovered/17active-events representing6conditions;0duplicate dedupekeys/all73attempts0. Original63now51historic/12active; old discovery episode closed but fresh91active. Live watchdog false,69overdue, health/alerts cron succeeded. No transport retryfailure observed and no outboxmutation. Reserve/out-of-toolset holds preserved."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Authorised pilot environment PUT denied403; no configuration change.14live verifier denial probes passed; exact3consumer exposures reverified.",
-    "current_action": "Repair two real uncovered production mutators in895 isolated branch; production authority remains inactive.",
-    "next_safe_action": "Integrate component-register/archive fencing and genuine read-only SHOW_RUN repair, run meaningful existing guards/full governed suite, preserve dependencies. Account owner must supply environment/secrets/Cloudflare/directSQL controls before active authority.",
+    "last_completed_atomic_action": "Published component-register/archive guard repairs to all4dependent candidate branches; reconciled all73pendingalerts against exact issue episodes.",
+    "current_action": "Agent repairs third confirmed UI screenshot write-capable path and completes19job audit; root preserves release ancestry and reviews actual CI.",
+    "next_safe_action": "Publish and test final screenshot/remaining coverage repair on all dependent candidates; account owner must resolve actual403 control boundary before active ownership or release.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4659,22 +4687,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T142912Z",
+    "predecessor_checkpoint": "CP-382-20261106T143810Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Takeover cycle continues after a real account-control refusal and discovery of two additional #895 production writers. Claude release is verified; no further acknowledgement or historical-run deletion is required.",
+    "reason": "**Reason:** Active takeover engineering continues. First two newly found #895 writer repairs are published; the complete inventory found a third screenshot write-capable path. Account controls remain genuinely unavailable after an actual403 refusal.",
     "baseline": "**Baseline:** Fresh14:26 UTC database read confirms1,791 migrations/head20261106400000, olddeadlinehelperf01e9 and courseguardff3d6 unchanged. Alerts73pending/allunattempted. Last14:11 HTTP/asset baseline remains UI2.15.489/package0.1.416; coverageWorker0.59.8/edge239. Followup activeclienttransaction inventory empty; exactCloudflarecommit/authenticatedUI stillunverified.",
-    "completed": "**Completed:** Current atomic target reconciled at6d95b3e1. Actual pilot environment PUT returned403 and changed nothing.14live candidate verifier probes denied both current and competing actors across7entrypoints. Earlier passing894/893/896 bundles remain preserved. Exact3deadline exposures reverified14:33. No Pilot merge, deployment, migration or data correction.",
+    "completed": "**Completed:** Component-register and archive guards, typed resources, production concurrency and trusted recovery published to all4candidates; existing s69 9/9 passes actual workflow denial/allowed-write/GET-only checks. FullCI runs on changed source. All73pending alerts reconciled:56historical episodes/17active events across6conditions,0duplicates/allunattempted;69overdue. Pilotmerges0;productionreleases0;rowscorrected0.",
     "priorities": "**Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 \u2192 #896 \u2192 #894 \u2192 #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.",
-    "workstreams": "**Workstreams:** Ownership-entry agent owns component-register.yml, db-archive-export.yml, controller-guard.py and the existing s69 contract in /workspace/repair-ownership-followup, branch ws382-uncovered-mutators, basebcc3d57a. Acceptance requires guard-before-write, valid approved recovery and genuinely GET-only SHOW_RUN. Root owns integration/checkpoints/releases; no agent production authority.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcc3d57a: UI 2.15.490/package 0.1.417, includes #892. #896 dc5c343d: UI 2.15.491/package 0.1.418, migration 450000. #894 8035c350: UI 2.15.492/package 0.1.419, migration 500000, Worker 0.59.9. #893 0edc65d6: UI 2.15.493/package 0.1.420, migration 550000, Worker 0.59.10. All remain unmerged and unapplied; #890/#875 holds remain.",
+    "workstreams": "**Workstreams:** Agent owns /workspace/repair-ownership-followup, branch ws382-screenshot-guard, base8950519caf6. Current work adds screenshot input-bound reservation before login/capture and audits19privilegedjobdefinitions. Previously assigned2workflows,controllerguard/existing s69 remain its files; ui-review-screenshots.yml added. Root owns integration and all release authority.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** Current first-repair heads8950519caf6\u2192896ea740b49\u2192894bdc30478\u2192893fd85ed02 preserve ancestry. Allocated UI490/491/492/493, Workers0.59.9/.10 and migration450000/500000/550000 unchanged; allunmerged/unapplied. Earlier passing bundles are retained history; current changed source needs freshCI.890/875held.",
     "decisions": "**Decisions:** msinghbs-ai GitHub repository/installed-app administrator must grant required environment/secret/protection access or perform scoped controls directly; actual environment PUT403 is evidence. Cloudflare account owner must install the pinned deploy command and control alternate tokens. Supabase owner must restrict direct write access. Claude cessation is acknowledged, not credential revocation. Exact three-row correction authority, human Layer4/trust, consumer API, reserves and existing holds remain.",
-    "in_flight": "**In flight:** One isolated development agent repairs two newly found writer gaps in #895. Old metadata CI42226902408 still installsChromium. No production write/deploy is running from this execution. Atomic6d95b3e1 remains released/published with no owner/lease/adoption. Historical34749286102 is independently non-executable and is not a blocker merely because its record remains.",
-    "next_safe_action": "**Next safe action:** Finish and test the two actual writer repairs, then integrate their source into release candidates with dependencies preserved. Verify real account controls and authorised recovery before accepting active controller authority. Continue safe engineering while GitHub/Cloudflare/Supabase owners supply unavailable controls.",
-    "risks_recovery": "**Risks/recovery:** Candidate verifier denial does not fence uninstalled workflows or direct credentials. Component-register/archive writes were omitted from prior adoption inventory; fix before cutover. No account configuration changed after403. Three incorrect deadlines still reach all3SQLconsumers;73alerts pending/unattempted14:26. Do not enable review paste, fabricate credential revocation or mark ownership complete.",
+    "in_flight": "**In flight:** Screenshot guard agent and branch-only governed CI on the four changed candidates. Earlier stalled895metadata run is superseded by changed-source workflow concurrency, not blindly rerun. No production operation by this execution. Atomic6d95b3e1 remains published/noowner/nolease/adoptionpending. Historical34749286102 independently cannot execute and requires no deletion.",
+    "next_safe_action": "**Next safe action:** Finish screenshot reservation/inputbinding and full job classification, publish final source preserving release ancestry, then verify actual full-suite/parity/build results and bundles. GitHub account owner must grant or perform unavailable environment/secrets/protection controls; Cloudflare/Supabase owners must complete their controls before active controller acceptance and releases.",
+    "risks_recovery": "**Risks/recovery:**19privileged definitions include writers and2throwaway-project writers; they are not19verifiedreaders. Screenshot arbitraryclicks remain an adoption gap until repaired. Three wrongdeadlines remain live. All73alerts are stillundelivered;69overdue14:46. Original discovery episode closure is not recovery of the current recurrence. Never clear reserve/out-of-toolset holds or infer transport failures from unattempted events.",
     "evidence": "**Evidence:** [control attempt and live denial evidence](validation/2026-11-06-controller-cutover-verification.json), [two writer gaps](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496), [actual Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [atomic reconciliation](https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
   }
 }

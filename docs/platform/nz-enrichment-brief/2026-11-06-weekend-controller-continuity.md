@@ -324,3 +324,13 @@ Fresh14:26 UTC baseline:1791migrations/head400000, olddeadlinehashf01e9/coursegu
 - Next executable action: agent owns /workspace/repair-ownership-followup, branch ws382-uncovered-mutators atbcc3d57a; files are the2workflows,controllerguard andexisting s69. Add guard/concurrency/trusted recovery, typed resource checks and GET-only manifest retrieval, then root integrates/test/publishes. No migrations or API changes in this lane.
 
 Evidence: [machine-readable control attempt and live denial probes](../validation/2026-11-06-controller-cutover-verification.json), [Pilot895gapassignment](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496). Production remains held while this independent engineering continues.
+
+
+## CP-382-20261106T145156Z — two writer repairs published; screenshot gap assigned
+
+- Issues fixed: component-register and archive now have typed controller guards, exact resource/tree checks, production concurrency and trusted recovery; SHOW_RUN genuinely performs onlyGETs. Existing9s69 cases pass process-level denial→0writes/allow→1write/read→2GETs assertions. FullCI runs on new source. Audit found third screenshot arbitrary-click surface; an input-bound gate is being added before login/capture. No claim of complete adoption.
+- PRs merged:0. Published first-repair heads8950519caf6,896ea740b49,894bdc30478,893fd85ed02 with dependencies, version allocations and migrations preserved.
+- Production releases verified:0. No production merge/deploy/migration/setting/data correction.
+- Operational outcomes: complete14:46 audit of73pending events yields56historical-recovered/17active,0duplicate dedupekeys/all73unattempted;69overdue. Six activeconditions are collector failure, enforced Firecrawlreserve, discoveryrecurrence and3out-of-toolsetqueues. Original63 now51historical/12active because an olddiscoveryepisode recovered; a freshdiscoveryepisode remains active. No acknowledgement/delivery/budgetoverride.
+- Unresolved blockers: actualGitHubenvironmentPUT403 and secret/protection403, missing Cloudflare/directSQLcontrols; screenshotcoveragefix and new full-suite evidence; exact3rowcorrectionauthority. 19privilegedjobdefinitions include productionwriters and2throwaway-project writerdefinitions, not19readers; previous wording is corrected.
+- Next executable action: finish screenshot guard and full19job audit on agentbranch ws382-screenshot-guard in /workspace/repair-ownership-followup (base8950519caf6), then root integratesfinalsource and verifiesallgates while accountowners supply actual controls. Existing #890/#875, human admission/trust, destructive/API and reserve holds preserved.
