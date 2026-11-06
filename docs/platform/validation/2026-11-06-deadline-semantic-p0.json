@@ -565,5 +565,31 @@
       }
     ]
   },
-  "critical_escalation": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695"
+  "critical_escalation": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695",
+  "implementation_validation": {
+    "candidate_pr": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896",
+    "candidate_commit": "1501870807c8529705ddf2f47184e0a0f0a2b052",
+    "cli_generation": {
+      "cli_version": "2.120.0",
+      "generated_original_name": "20261106125737_cf247_deadline_closing_semantics.sql",
+      "reserved_never_applied_name": "20261106450000_cf247_deadline_closing_semantics.sql",
+      "reason": "New unapplied migration moved into reserved logical ordering slot after current400000 and before pending500000/550000; not an execution timestamp",
+      "sha256": "a72d2ace3b4cf6df28b0196f529a91bae933309352eaae1539b2043d97d19013",
+      "filled_artifact_sha256_before_comment_reconciliation": "75526dcd7f9f312b56fdee5cdd77422db3230a067a6cb32c68da3070527f9e1e",
+      "final_helper_md5": "2357306ca969fb7b299021bac3b6f3fa"
+    },
+    "postgres": "17.6",
+    "assertions": 73,
+    "errors": 0,
+    "admission_assertions": 59,
+    "enabled_review_assertions": 14,
+    "production_corrections": 0,
+    "correction_default_approved": false,
+    "after_helper_md5": "2357306ca969fb7b299021bac3b6f3fa",
+    "enabled_review_log_sha256": "61ab699de6fc277f36f8a572b2553d212fef541829852c22e78b94e37db5a8b0",
+    "limitations": [
+      "Refresh and consumer builders in the enabled review fixture are labelled stand-ins, not production grants/HTTP/cache/concurrency acceptance.",
+      "Final full-suite CI and actual production authority/correction approval remain gates."
+    ]
+  }
 }

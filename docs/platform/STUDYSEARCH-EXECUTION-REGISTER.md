@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Complete Integration and Production Delivery mandate is executing. A new confirmed deadline-integrity P0 takes priority; prior engineering repairs and continuity architecture are retained. No accepted controller transfer.
+**Reason:** Active delivery cycle continues after scheduled resumption. P0deadlineguard/correctionproposal is now reviewable in PR896; productionauthorityremainsunaccepted. No repeatedcompletedrepairs or newcontinuityframework.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Pilot main4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067 unchanged. Fresh12:14Z HTTP200 serves frontendv2.15.489/package0.1.416 and recorded asset SHA256. DB confirms1791migrations/head20261106400000 and coverage-sweep-worker-v0.59.8status200; lastreleasecheck27v2.15.489. Exact Cloudflaredeploymentcommit/authenticated UI remain unverified. No migration/release from this recovery.
 
 <!-- controller-handover:completed -->
-**Completed:** Original63alerts classified:47historical recovered-episode events,16events on3activeconditions,0exactduplicates,63unattempted. New3coursewrongdeadlineconsumerSQLexposure confirmed and immediately escalatedAdmin382; known5date/13feecontainment remains. Previous894/893/892functional suites retained. PilotPRsmerged0;productionreleasesverified0.
+**Completed:** Original63alerts reconciled47historical/16active/0exactduplicates,allundelivered. New3coursewrongdeadlineP0confirmed/escalated;known5date/13feecontainmentverified. PR896publishedwith73genuinePGassertions+16targetedchecks;895/#892integrationpublishedwith29targetedpass. PilotPRsmerged0;productionreleasesverified0;productioncorrections0.
 
 <!-- controller-handover:priorities -->
 **Priorities:** P0deadlinecontainment/forwardguard; real ownership transition and external controls;895trusted-recoverycutover; packaged894→893→892releases;877/889andAER/scholarship/Layer4acceptance. Preserve890/875holds andbudget/humanrestrictions.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** RootcoordinatesexistingPRs andallproductionauthority. Existing895agentownsworkflow/verifierrecovery;894agentowns491metadata;893agentowns492metadataandaccuratesame-familyconfirmationcopy;rootowns892493integration. NewWS-P0-DEADLINE owns onlydeadlinehelper/review-onlycontainment in dedicateddelivery-p0-deadline-382worktree. Noagentindependentlyreleases.
+**Workstreams:** Rootintegrates895/#892 and492/493packages. Existing895agentrecoveryworkcomplete,publisheda65efe30. P0agentSQLhandoffcomplete,published89615018708;rootownsremainingmetadata/CI andallproductionauthority.894/893sourcecorrectionsretained;localpackaging/integrationcontinuesindisjointworktrees.
 
 <!-- controller-handover:pending_prs_migrations -->
-**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched. Release-specific UI manifest/package/change-control preparation remains required before merge; existing branch UI manifests stillv2.15.489, so ready-for-review is not release-ready.
+**Pending PRs/migrations:** 895a65efe30 includes8924823f68fsource;candidate490/.417. Draft89615018708 candidate491/.418/migration450000 follows895.894e15536e8→candidate492/.419/Worker.9 and893eb0caf2e→candidate493/.420/Worker.10 integrationinprogress;allunmerged.450000/500000/550000unapplied.890/875held.
 
 <!-- controller-handover:decisions -->
 **Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them. Oneconsolidatedexternalcutoverdecisionisbeingprepared; actualrevocationmustnotbecalledClaudeacknowledgement. Exact3recorddestructivecorrectionneedsreviewedpasteapproval.
 
 <!-- controller-handover:in_flight -->
-**In flight:** Development packaging/targetedvalidation andP0guard/pastepreparationonly. No production operation belongs to this execution. Historicalqueued34749286102has0jobs;noactivePilotworkflowobserved. Canonicalowner/leaseabsent; predecessor termination remains unverified.
+**In flight:** DevelopmentTestevidenceCI895a65efe30 and89615018708;remainingbranchpackaging. No productionoperationbythisexecution. Atomicref23a16104reconciliation/noowner/lease/adoptionpending;historicalqueued34749286102zerojobsstillneedsdisposition.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Finish reviewable895recovery+packages anddeadlineguard/correctionproposal, validateactualCI, thenconsolidateexactexternalaccount/authority/correctionactions inAdmin382. Continueindependentpermittedengineering; no productionwriteuntilgatespass.
+**Next safe action:** Completeactual895/896full/PGchecksandremainingdependentpackages. OneconsolidatedPlatformAdmindecisionmustrecordpredecessorstop/revocation,queuedrun/accountfencing,protectedpilot+Cloudflare/directSQLcutover andexact3recordcorrectionapproval. Thenindependentlyverifyownership,release895→896guard/correction→894→893withpre/postcheckpoints.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Confirmed3coursewrongdeadlineSQLconsumerexposure remains uncorrected. Original63classification is not delivery;68pending/64overdue at12:32. Firecrawlreserve is enforced, not spendingpermission. Actualpilotenvunprotected; no predecessor stop/releaseproof or externalCloudflare/directSQLfencing. Existingwatchdogstaysred. No issueclosureorproductiongainclaimed.
+**Risks/recovery:** Currentproductionstillolddeadlineguardf01e9...and3wrongdeadlines;SQLfixiscandidateonly.70alertsremainpending/64overdue;classificationisnotdelivery. FourroutineprovidersearchleasesandoneNULLsourcefindleaseareobservations,notClaudetransferproof. Externalaccountcontrolsremainunadopted; noactivecontrollerclaimed. Correctivepastefalseandrequiresactualactor/decision/digest.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json). [final-head checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857), [watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902). [confirmeddeadlineP0](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695), [exactreadproof](validation/2026-11-06-deadline-semantic-p0.json).
+**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json). [final-head checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857), [watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902). [confirmeddeadlineP0](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695), [exactreadproof](validation/2026-11-06-deadline-semantic-p0.json). [P0candidate896](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896), [integrated895](https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/a65efe3048146f2ef2b2b8477d033978c0de8674).
 
 
 ## Progress dashboard

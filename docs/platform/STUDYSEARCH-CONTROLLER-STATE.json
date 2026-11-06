@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T124635Z",
-  "created_at": "2026-11-06T12:46:35Z",
+  "checkpoint_id": "CP-382-20261106T132432Z",
+  "created_at": "2026-11-06T13:24:32Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-delivery-20261106T122559Z",
-  "trigger": "integration_issue_material_change",
+  "trigger": "workstream_completion",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -44,7 +44,7 @@
     "worker": {
       "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": "2026-11-06T12:14:01.449237Z",
+      "verified_at": "2026-11-06T13:23:37.553355Z",
       "evidence_ids": [
         "EV-FRONTEND-LIVE"
       ]
@@ -1845,7 +1845,7 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T12:14:08.464194Z",
+      "verified_at": "2026-11-06T13:19:47.338410Z",
       "evidence_ids": [
         "EV-MIGRATIONS"
       ]
@@ -1922,6 +1922,14 @@
           "EV-GUARDS",
           "EV-RECOVERY-LIVE"
         ]
+      },
+      {
+        "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
+        "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
+        "verified_at": "2026-11-06T13:19:47.338410Z",
+        "evidence_ids": [
+          "EV-DEADLINE-REPAIR"
+        ]
       }
     ],
     "scheduled_jobs": {
@@ -1952,7 +1960,7 @@
       "No consumer API/destructive action/spend override/trust-policy or human Layer4 decision without authority",
       "Frontend v2.15.489 verified by served asset; Cloudflare deployment commit and authenticated UI unverified"
     ],
-    "checkpoint_at": "2026-11-06T12:14:08.464194Z"
+    "checkpoint_at": "2026-11-06T13:19:47.338410Z"
   },
   "workstreams": [
     {
@@ -2098,7 +2106,7 @@
       "branch": "cf247-test-evidence",
       "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "worktree": "/workspace/repair-892",
-      "state": "implementing",
+      "state": "verifying",
       "owned_paths": [
         "scripts/test-evidence",
         "TEST-REGISTER.md"
@@ -2110,8 +2118,7 @@
         "Trust actual fixture results"
       ],
       "dependencies": [
-        "WS-894",
-        "WS-893"
+        "WS-382-ADOPTION"
       ],
       "blockers": [
         "Production ownership/adoption pending"
@@ -2120,7 +2127,7 @@
         "EV-892",
         "EV-892-FIX"
       ],
-      "completion_summary": "Phone/skipped-check fixes;1950/0/0/0 authoritative bundle verified, metadata safely reused with final gates. Ready for review, unmerged. Release packaging/integration active under new mandate; previous functional evidence retained."
+      "completion_summary": "Completed892source preservedasexplicitparentof895;singleexistingauthoritativebundle producer,reuseandreadiness integrated. No standalone494release;acceptancefollowstested895cutover."
     },
     {
       "id": "WS-877",
@@ -2288,9 +2295,9 @@
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex recovery",
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "0c9cbaeaf1f8493bf5ebd210967b033aab9a0876",
+      "commit": "a65efe3048146f2ef2b2b8477d033978c0de8674",
       "worktree": "/workspace/delivery-pilot",
-      "state": "implementing",
+      "state": "verifying",
       "owned_paths": [
         "scripts/ci/controller-guard.py",
         ".github/workflows/deploy-on-merge.yml",
@@ -2319,26 +2326,27 @@
       "test_evidence_ids": [
         "EV-GATE-PREP"
       ],
-      "completion_summary": "Five adapter cases and1939/0/0/0 full suite pass; same existing phone fix reused. Same-run register published. Predecessor and external adoption blocked. Release packaging/integration active under new mandate; previous functional evidence retained."
+      "completion_summary": "Concrete trusted-recovery/source/resource/19consumerenvironmentcode +892 integration published;29targetedpass;fullCIrunning. Externaladoption/ownershipnotacquired."
     },
     {
       "id": "WS-P0-DEADLINE",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695",
       "owner": "Codex deadline remediation agent (development only)",
       "branch": "delivery-p0-deadline-382",
-      "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "commit": "1501870807c8529705ddf2f47184e0a0f0a2b052",
       "worktree": "/workspace/delivery-p0-deadline",
-      "state": "implementing",
+      "state": "verifying",
       "owned_paths": [
-        "supabase/migrations/20261107000000_cf247_deadline_semantics.sql",
-        "existing deadline regression specs",
-        "review-only exact-ID containment paste"
+        "supabase/migrations/20261106450000_cf247_deadline_closing_semantics.sql",
+        "tests/fixtures/course-text",
+        "tests/uat/cf-247-s233-course-description-deadline-contract.spec.mjs",
+        "docs/paste/REVIEW-20261106-p0-deadline-three-values.sql"
       ],
       "owned_functions": [
         "security.course_deadline_in_quote_v1(date,text)"
       ],
       "owned_migrations": [
-        "20261107000000"
+        "20261106450000"
       ],
       "acceptance_criteria": [
         "Reject commencement/intake quote as application closing date",
@@ -2354,9 +2362,10 @@
       ],
       "test_evidence_ids": [
         "EV-DEADLINE-P0",
-        "EV-DEADLINE-PROOF"
+        "EV-DEADLINE-PROOF",
+        "EV-DEADLINE-REPAIR"
       ],
-      "completion_summary": "Live root cause is date-component-only quote guard; preparing minimal helper repair and bounded paste. No production change."
+      "completion_summary": "Guard+review-onlycorrectionpublishedPR896;genuinePG73andtargeted16pass,fullCIpending;corrected0productionrows."
     }
   ],
   "prs": [
@@ -2439,9 +2448,10 @@
         "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Production ownership/adoption pending",
+        "Integrated895finalfullsuiteinprogress"
       ],
-      "next_action": "Preserve actual passing evidence. After verified authority/adoption, refresh live compatibility and execute permitted sequential release and acceptance. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
+      "next_action": "Sourceintegratedasparentof895a65efe30;verifybundleandphoneafteractual895release. No separateUI494packagingallocated."
     },
     {
       "id": "PR-877",
@@ -2673,15 +2683,17 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 895,
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "0c9cbaeaf1f8493bf5ebd210967b033aab9a0876",
+      "commit": "a65efe3048146f2ef2b2b8477d033978c0de8674",
       "state": "open",
       "draft": true,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-382-ADOPTION",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42213117490,
-        42214313013
+        42224237322,
+        42224237336,
+        42224237355,
+        42224237308
       ],
       "release_gates": [
         "All controller entry points adopt canonical reservation",
@@ -2693,7 +2705,33 @@
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Authorised controlled cutover: verify predecessor disposition and protected secret/ref, Cloudflare and direct-SQL controls; code alone is not enforcement. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
+      "next_action": "FinishTestevidencefullrunandregister,retainactualdenial/accountproof;controlledcutoverrequiresrealAdminrevocationandphysicalcontrols."
+    },
+    {
+      "id": "PR-896",
+      "repository": "msinghbs-ai/Coursefinder-Pilot",
+      "number": 896,
+      "branch": "delivery-p0-deadline-382",
+      "commit": "1501870807c8529705ddf2f47184e0a0f0a2b052",
+      "state": "open",
+      "draft": true,
+      "owner": "Codex (development only)",
+      "workstream_id": "WS-P0-DEADLINE",
+      "ci_status": "pending",
+      "run_ids": [],
+      "release_gates": [
+        "895cutoverandverifiedexclusiveauthority",
+        "FullactualTestevidenceandPG73",
+        "Freshbefore/afterhashandordered450000migration",
+        "Separateexact3rowcorrectionapproval+reservedactualSQLdigest",
+        "LiveSQL/HTTP/cacheacceptance"
+      ],
+      "blockers": [
+        "FullCIrunning",
+        "Externalownership/accountcutover",
+        "Exactcorrectionapprovalpending"
+      ],
+      "next_action": "CompletefinalCI;preserveexplicitdisabledpaste. Afterauthorityandapproval,deployguardbeforeexactcorrectionwithauditedreadback."
     }
   ],
   "releases": [
@@ -3630,17 +3668,16 @@
       "workstream_id": "WS-PROVIDER",
       "name": "Watchdog: alerts exceeding collection deadline",
       "value": {
-        "waiting": 63,
+        "pending": 70,
+        "waiting_beyond_deadline": 64,
         "threshold_minutes": 120,
-        "delivery_enabled": true,
-        "health_job": "succeeded",
-        "alerts_job": "succeeded"
+        "delivery_enabled": true
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T12:13:21.045194Z",
+      "measured_at": "2026-11-06T13:19:47.338410Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-ALERT-COLLECTOR"
+        "EV-DELIVERY-PRODUCTION"
       ]
     },
     {
@@ -4142,7 +4179,7 @@
     {
       "id": "NA-DEADLINE-P0",
       "workstream_id": "WS-P0-DEADLINE",
-      "action": "Prepare/test minimal forward semantic guard and exact3recordreview-onlycorrection; preservecriticalAdmin382escalation. Obtain real ownership and correction approval before execution.",
+      "action": "PR896guard/correctionproposalpublishedwith73PG+16targetedpass;completefullCI,thenobtainactualownership/exactcorrectionapprovalbefore450000and3rowwrite.",
       "owner": "Codex remediation agent/controller",
       "depends_on": [],
       "verification_required": [
@@ -4460,12 +4497,33 @@
       "kind": "authorised_development_allocation",
       "observed_at": "2026-11-06T12:46:35Z",
       "summary": "Reserved895UI490/pkg417;894491/418Worker.9;893492/419Worker.10;892493/420. 895trustedworkflowverifier/recoveryselector+pilot19consumerjobs+source/resourcechecksimplementedlocally,6casespass/build490pass. FinalCIpending;notproductionauthority."
+    },
+    {
+      "id": "EV-DEADLINE-REPAIR",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896",
+      "kind": "reviewable_guard_and_correction_with_actual_pg",
+      "observed_at": "2026-11-06T13:24:32Z",
+      "summary": "Source15018708 /treec4835703;CLI2.120generated450000,helperbeforef01e9...after2357306ca969fb7b299021bac3b6f3fa. GenuinePG17.6:73assertions(59admission+14enabledreviewrollback/audit/idempotency),0ERROR,migrationstwice. Actualproductionstillbeforehash;reviewpastefalse/unexecuted. Targeted16pass. FullTestevidence+PGCIpending."
+    },
+    {
+      "id": "EV-DELIVERY-INTEGRATED",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/a65efe3048146f2ef2b2b8477d033978c0de8674",
+      "kind": "controller_recovery_and_evidence_integration",
+      "observed_at": "2026-11-06T13:24:32Z",
+      "summary": "895a65efe30 includes8924823f68f asparent;29targetedcontracts andSOPbrowserpass;singleexistingTestevidenceworkflowreplacesduplicatefullwrapper. Actualpilotenvstillunprotected;nofabricatedadoption. FullCIrunning."
+    },
+    {
+      "id": "EV-DELIVERY-PRODUCTION",
+      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#delivery-checkpoint",
+      "kind": "fresh_read_only_checkpoint",
+      "observed_at": "2026-11-06T13:24:32Z",
+      "summary": "13:19DB1791/head400000/worker0.59.8status200/deadlinebeforef01e;70pending64overduealerts.13:23HTTPUI489/pkg416asset2099cae...unchanged. Atomicref23a16104unchanged. Fourroutineprovidersearchleases+oneleasedNULLsourcefindobserved13:02;notproofClaudeliveness."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Classified original63alerts, independently confirmed/escalated new deadline P0, verified no activePilotworkflow and unprotectedpilotenv; allocated release packaging.",
-    "current_action": "Prepare895recovery/enforcement and491/492/493packages; developboundeddeadlineguard/correctionproposal. Production remains blocked.",
-    "next_safe_action": "Finish targeted/static and actualCI of integratedpackages; publishoneexactaccountcutover/correctiondecision. Do not manufacturepredecessorackorclearalerts.",
+    "last_completed_atomic_action": "Published895/#892 integrationa65efe30 andP0PR89615018708;verified73realPGandtargeted29/16;freshproduction/ownerreadbackunchanged.",
+    "current_action": "Finishremaining894/893dependentpackages andactualfullCI;prepareoneconsolidatedexternalaccount+exactcorrectiondecision.",
+    "next_safe_action": "Inspect895/896TestevidenceandPGresults;publishdependent492/493packages;thenPlatformAdminmustrecordrealrevocation/controls andexact3rowcorrectionauthority beforeproduction.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4485,22 +4543,22 @@
       "Live hashes immediately before authorised release",
       "Final unique UI release manifest/package/change-control and applicable checks before production merge; current source UI manifests stillv2.15.489."
     ],
-    "predecessor_checkpoint": "CP-382-20261106T121611Z",
+    "predecessor_checkpoint": "CP-382-20261106T124635Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Complete Integration and Production Delivery mandate is executing. A new confirmed deadline-integrity P0 takes priority; prior engineering repairs and continuity architecture are retained. No accepted controller transfer.",
+    "reason": "**Reason:** Active delivery cycle continues after scheduled resumption. P0deadlineguard/correctionproposal is now reviewable in PR896; productionauthorityremainsunaccepted. No repeatedcompletedrepairs or newcontinuityframework.",
     "baseline": "**Baseline:** Pilot main4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067 unchanged. Fresh12:14Z HTTP200 serves frontendv2.15.489/package0.1.416 and recorded asset SHA256. DB confirms1791migrations/head20261106400000 and coverage-sweep-worker-v0.59.8status200; lastreleasecheck27v2.15.489. Exact Cloudflaredeploymentcommit/authenticated UI remain unverified. No migration/release from this recovery.",
-    "completed": "**Completed:** Original63alerts classified:47historical recovered-episode events,16events on3activeconditions,0exactduplicates,63unattempted. New3coursewrongdeadlineconsumerSQLexposure confirmed and immediately escalatedAdmin382; known5date/13feecontainment remains. Previous894/893/892functional suites retained. PilotPRsmerged0;productionreleasesverified0.",
+    "completed": "**Completed:** Original63alerts reconciled47historical/16active/0exactduplicates,allundelivered. New3coursewrongdeadlineP0confirmed/escalated;known5date/13feecontainmentverified. PR896publishedwith73genuinePGassertions+16targetedchecks;895/#892integrationpublishedwith29targetedpass. PilotPRsmerged0;productionreleasesverified0;productioncorrections0.",
     "priorities": "**Priorities:** P0deadlinecontainment/forwardguard; real ownership transition and external controls;895trusted-recoverycutover; packaged894→893→892releases;877/889andAER/scholarship/Layer4acceptance. Preserve890/875holds andbudget/humanrestrictions.",
-    "workstreams": "**Workstreams:** RootcoordinatesexistingPRs andallproductionauthority. Existing895agentownsworkflow/verifierrecovery;894agentowns491metadata;893agentowns492metadataandaccuratesame-familyconfirmationcopy;rootowns892493integration. NewWS-P0-DEADLINE owns onlydeadlinehelper/review-onlycontainment in dedicateddelivery-p0-deadline-382worktree. Noagentindependentlyreleases.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched. Release-specific UI manifest/package/change-control preparation remains required before merge; existing branch UI manifests stillv2.15.489, so ready-for-review is not release-ready.",
+    "workstreams": "**Workstreams:** Rootintegrates895/#892 and492/493packages. Existing895agentrecoveryworkcomplete,publisheda65efe30. P0agentSQLhandoffcomplete,published89615018708;rootownsremainingmetadata/CI andallproductionauthority.894/893sourcecorrectionsretained;localpackaging/integrationcontinuesindisjointworktrees.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** 895a65efe30 includes8924823f68fsource;candidate490/.417. Draft89615018708 candidate491/.418/migration450000 follows895.894e15536e8→candidate492/.419/Worker.9 and893eb0caf2e→candidate493/.420/Worker.10 integrationinprogress;allunmerged.450000/500000/550000unapplied.890/875held.",
     "decisions": "**Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them. Oneconsolidatedexternalcutoverdecisionisbeingprepared; actualrevocationmustnotbecalledClaudeacknowledgement. Exact3recorddestructivecorrectionneedsreviewedpasteapproval.",
-    "in_flight": "**In flight:** Development packaging/targetedvalidation andP0guard/pastepreparationonly. No production operation belongs to this execution. Historicalqueued34749286102has0jobs;noactivePilotworkflowobserved. Canonicalowner/leaseabsent; predecessor termination remains unverified.",
-    "next_safe_action": "**Next safe action:** Finish reviewable895recovery+packages anddeadlineguard/correctionproposal, validateactualCI, thenconsolidateexactexternalaccount/authority/correctionactions inAdmin382. Continueindependentpermittedengineering; no productionwriteuntilgatespass.",
-    "risks_recovery": "**Risks/recovery:** Confirmed3coursewrongdeadlineSQLconsumerexposure remains uncorrected. Original63classification is not delivery;68pending/64overdue at12:32. Firecrawlreserve is enforced, not spendingpermission. Actualpilotenvunprotected; no predecessor stop/releaseproof or externalCloudflare/directSQLfencing. Existingwatchdogstaysred. No issueclosureorproductiongainclaimed.",
-    "evidence": "**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json). [final-head checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857), [watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902). [confirmeddeadlineP0](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695), [exactreadproof](validation/2026-11-06-deadline-semantic-p0.json)."
+    "in_flight": "**In flight:** DevelopmentTestevidenceCI895a65efe30 and89615018708;remainingbranchpackaging. No productionoperationbythisexecution. Atomicref23a16104reconciliation/noowner/lease/adoptionpending;historicalqueued34749286102zerojobsstillneedsdisposition.",
+    "next_safe_action": "**Next safe action:** Completeactual895/896full/PGchecksandremainingdependentpackages. OneconsolidatedPlatformAdmindecisionmustrecordpredecessorstop/revocation,queuedrun/accountfencing,protectedpilot+Cloudflare/directSQLcutover andexact3recordcorrectionapproval. Thenindependentlyverifyownership,release895→896guard/correction→894→893withpre/postcheckpoints.",
+    "risks_recovery": "**Risks/recovery:** Currentproductionstillolddeadlineguardf01e9...and3wrongdeadlines;SQLfixiscandidateonly.70alertsremainpending/64overdue;classificationisnotdelivery. FourroutineprovidersearchleasesandoneNULLsourcefindleaseareobservations,notClaudetransferproof. Externalaccountcontrolsremainunadopted; noactivecontrollerclaimed. Correctivepastefalseandrequiresactualactor/decision/digest.",
+    "evidence": "**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json). [final-head checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857), [watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902). [confirmeddeadlineP0](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695), [exactreadproof](validation/2026-11-06-deadline-semantic-p0.json). [P0candidate896](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896), [integrated895](https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/a65efe3048146f2ef2b2b8477d033978c0de8674)."
   }
 }
