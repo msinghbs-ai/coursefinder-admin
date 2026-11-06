@@ -142,3 +142,12 @@ Development ownership for this recovery execution: Codex coordinates existing-PR
 Production controller remains unaccepted; Claude release is still unacknowledged. This does not block isolated development. Local Git clone fails because the configured proxy is unreachable, and the local Docker socket denies access; use connected GitHub source operations and actual GitHub Actions Postgres/browser execution, without bypassing the environment network policy. Do not treat that local execution limit as a reason to stop repository repairs.
 
 Each following checkpoint separates issues fixed, PRs merged, production releases verified, operational outcomes, unresolved blockers and next executable action. This section extends the existing record; no new handover mechanism is introduced.
+
+### Recovery execution checkpoint — 2026-11-06T11:40:09Z
+
+- Issues fixed (development): #894 four defects, #893 false-green fixture, #892 phone dependency/readiness correction.
+- PRs merged: **0** in this recovery; no production merge is inferred.
+- Production releases verified: **0**. Production migration/Worker baseline is unchanged in the 11:32Z readback.
+- Operational outcomes: development #894 **1954/0/0/0**, #892 **1950/0/0/0** and digest-verified bundle; #893 real PG **71+17** scenarios; description/proposal counts are not counted as admissions/publications.
+- Blockers: combined #893/#895 CI in progress; previous Claude release unacknowledged; external Cloudflare/protected-secret/direct-SQL controls still need authorised adoption. Concrete adapter is PR #895, not another continuity framework.
+- Next executable action: complete combined CI, validate artifacts/registers and repair failures; keep production writes stopped until ownership and execution gates actually pass.

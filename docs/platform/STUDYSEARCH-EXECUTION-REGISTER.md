@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Current execution is publishing a recovery checkpoint for the 7–8 November controller mandate. Codex is nominated; previous Claude ownership has not been released or accepted through the new protocol. Transfer remains pending.
+**Reason:** Immediate execution recovery is active under the existing weekend mandate. This is a progress checkpoint, not programme completion or an accepted controller transfer.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.
 
 <!-- controller-handover:completed -->
-**Completed:** Admin PR #383 merged as `fdaac3bc72f7eabac57c308a36dfd913f8a15db9` after all three checks passed at code head `9674e59b`: 17 checkpoint/handover tests, 11 ownership tests, actual checkpoint validation and build checks. Canonical continuity and atomic coordination are published; independent #894/#893/#892 reviews and bounded P0 readbacks are recorded. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated.
+**Completed:** Issues fixed in code: all four #894 defects; #893 false-green SQL path; #892 phone dependency and skipped-check false pass. #894 actual PG and full suite passed1954/0/0/0; #892 passed1950/0/0/0 with validated bundle and safe metadata reuse. #893 actual PG passed71+17 scenarios; combined suite is running. PRs merged in this recovery:0. Production releases verified:0.
 
 <!-- controller-handover:priorities -->
-**Priorities:** Verify ownership and production-entry-point adoption; correct the confirmed #894 and #893 defects in their existing PRs; integrate #894's phone fix before justified #892 full-suite evidence; preserve #890/#875 holds; finish bounded #877 acceptance, #889 and Course Catalogue operator checks; continue Layer 4, AER, scholarship and provider lifecycle remediation.
+**Priorities:** Complete combined #893/#895 CI and same-run registers; preserve passing #894/#892 evidence. Resolve predecessor disposition and adopt existing ownership checks at every relevant production entry point. Only then perform permitted sequential releases, bounded production acceptance and operational remediation. Keep #890/#875 held.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-382 governance integrated through [Admin PR #383](https://github.com/msinghbs-ai/coursefinder-admin/pull/383); operational adoption remains blocked in Admin #382. WS-382-SCHEMA integrated from `a9292c7e`. Feature code remains on the five recorded draft PR branches; prior Claude implementation ownership is unverified and must be reconciled before overlapping edits. Independent read-only reviews are complete. All intended local source changes are published; the local materialised subset and generated caches are not needed to resume. Implementation branches are retained with explicit disposition, not deleted.
+**Workstreams:** Codex owns development integration on existing #894/#893/#892 branches. #893 explicitly incorporates repaired #894 with both Worker paths retained and unique v0.59.10 after v0.59.9. Draft #895 on `cf247-controller-entrypoint-gates` adopts the existing protocol at production workflow entry points; it grants no authority. Isolated agent implementation and review work is recorded; no agent independently deploys.
 
 <!-- controller-handover:pending_prs_migrations -->
-**Pending PRs/migrations:** Pilot #894 `162e9fc7` / `20261106500000` blocked by four defects; #893 `2513a909` / `20261106550000` blocked by false-green fixture execution and overlap; #892 `7a2f3dd3` blocked by the s288 phone failure; #890 `b42a529d` G3-held; #875 `9205087d` held and stale. Admin #380, #240 and #29 remain open and unchanged. #877, #889, #891 and #887 are merged; merged status is not operational acceptance. No pending migration was applied.
+**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched.
 
 <!-- controller-handover:decisions -->
 **Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No in-progress Pilot Actions or other active database transaction observed at 09:09 UTC; no critical operation started by this execution. Historical queued CF-093 run `34749286102` from 13 September is unresolved and must not be replayed or cancelled blindly. Predecessor future writes cannot be excluded without ownership adoption. The new ownership ref has no owner, lease or in-flight reservation; this does not account for non-participating writers.
+**In flight:** Combined #893 full-suite CI and #895 gate validation are development-only operations. No production mutation is in flight from this recovery. Historical queued run34749286102 remains unresolved; previous Claude release remains unacknowledged. Canonical coordination ref is still23a16104 in reconciliation with no owner/lease.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Read the current checkpoint and Admin #382, then independently verify the live ownership ref, predecessor disposition, workflows, migrations and production entry-point participation. Resume exclusively assigned #894/#893 fixes while authority is reconciled. Keep #890/#875 held. Do not repeat withdrawals, paid reads, migrations or unchanged failing suites from a predecessor command.
+**Next safe action:** Finish combined #893 and #895 CI, inspect actual assertions/artifacts, regenerate the existing registers, and repair any failed gate. Reconcile predecessor release and external execution controls through GitHub before any production mutation. Keep unrelated engineering moving.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** The atomic protocol is implemented but is not yet enforced by Pilot deployment workflows, direct SQL or Cloudflare builds; adoption is pending and production authority is denied. Lease expiry never clears an in-flight operation. Reconcile immutable operation IDs, live migration history, workflow outcomes and consumer state before retry. IQ-00313 and IQ-00111 show no re-exposure in the bounded SQL readback, but HTTP/cache and full fee-admission acceptance remain unverified. Weekend hourly resumptions and Monday-morning handover are configured; neither has run, and no uninterrupted monitoring is claimed.
+**Risks/recovery:** Genuine production authority blocker remains: unacknowledged Claude ownership and unadopted Cloudflare/direct-SQL/protected-secret execution controls. PR895 is concrete code, not proof those external controls are installed. Local proxy/Docker limitations are handled through connected GitHub and actual Actions execution. Live11:32Z remains migrationhead20261106400000/worker0.59.8, descriptions1030pending and pdesc4proposed+1held; no new admitted/published gain is claimed.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [Mandate and findings](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json), [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [coordination ref](https://github.com/msinghbs-ai/coursefinder-admin/tree/studysearch-controller), [#894 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6681397730), [#893 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6681399784), [P0 readbacks](validation/2026-11-06-p0-reconciliation.json).
+**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
 
 
 ## Progress dashboard

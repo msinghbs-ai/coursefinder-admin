@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T094419Z",
-  "created_at": "2026-11-06T09:44:19Z",
+  "checkpoint_id": "CP-382-20261106T114009Z",
+  "created_at": "2026-11-06T11:40:09Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-weekend-20261106-0903Z",
-  "trigger": "pre_session_pause",
+  "execution_id": "codex-recovery-20261106T1104Z",
+  "trigger": "integration_progress",
   "controller": {
     "candidate": "Codex",
     "owner": null,
     "previous_owner": "Claude (prior recorded)",
     "status": "reconciliation",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-weekend-20261106-0903Z",
+    "session_id": "codex-recovery-20261106T1104Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "23a161046c4cf2c331c7bab13b4c21dcd904630e",
-    "mode": "read_only_reconciliation_and_isolated_development",
+    "mode": "isolated_engineering_and_read_only_production_reconciliation",
     "successor": null,
     "transfer": {
       "status": "pending",
@@ -1954,7 +1954,7 @@
       "branch": "cf247-controller-continuity",
       "commit": "9674e59bd01cfafe07c847224e92cf6f7f3fcd64",
       "worktree": null,
-      "state": "blocked",
+      "state": "implementing",
       "owned_paths": [
         "docs/platform/AGENT-OPERATING-MODEL.md",
         "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
@@ -1978,7 +1978,7 @@
       "test_evidence_ids": [
         "EV-SCHEMA"
       ],
-      "completion_summary": "Governance implementation merged and verified through #383; 28 targeted tests and all three checks passed. Operational authority remains blocked by predecessor disposition, production adoption and fresh frontend verification."
+      "completion_summary": "Existing continuity is retained. Concrete entry-point adapter prepared in Pilot#895; production ownership is not acquired."
     },
     {
       "id": "WS-382-SCHEMA",
@@ -2011,11 +2011,11 @@
     {
       "id": "WS-894",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894",
-      "owner": "Claude agent G (prior recorded; current activity unverified)",
+      "owner": "Codex recovery (development only)",
       "branch": "cf247-course-descriptions-complete",
-      "commit": "162e9fc78a6b760c6f0db94df340773903518c92",
+      "commit": "e15536e88691b167c53ec902215fe2a63e506c7f",
       "worktree": null,
-      "state": "blocked",
+      "state": "verifying",
       "owned_paths": [
         "src/CourseDescriptionPanel.jsx",
         "supabase/functions/coverage-sweep/course-text.ts",
@@ -2038,22 +2038,23 @@
         "WS-877"
       ],
       "blockers": [
-        "Four confirmed defects",
-        "Release gates and live acceptance"
+        "Preproduction functional suite passed at12216778; metadata checks pending",
+        "Production ownership/adoption pending"
       ],
       "test_evidence_ids": [
-        "EV-894"
+        "EV-894",
+        "EV-894-FIX"
       ],
-      "completion_summary": "Read-only independent review completed; feature remains blocked."
+      "completion_summary": "All four code defects repaired; genuine PG gate and1954-test full suite pass; no production acceptance."
     },
     {
       "id": "WS-893",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893",
-      "owner": "Claude agent H (prior recorded; current activity unverified)",
+      "owner": "Codex recovery (development only)",
       "branch": "cf247-english-requirements-complete",
-      "commit": "2513a90927699b61ad187fd838828302a1981e00",
+      "commit": "155ef20215fb189482f1586c5399a7f382131a08",
       "worktree": null,
-      "state": "blocked",
+      "state": "verifying",
       "owned_paths": [
         ".github/workflows/english-requirements-test.yml",
         "tests/fixtures/english-requirements",
@@ -2073,22 +2074,23 @@
         "WS-894"
       ],
       "blockers": [
-        "CI masks SQL failure",
-        "Worker/register overlap; same candidate worker version"
+        "Combined full governed suite in progress",
+        "Production ownership/adoption pending"
       ],
       "test_evidence_ids": [
-        "EV-893"
+        "EV-893",
+        "EV-893-FIX"
       ],
-      "completion_summary": "Read-only review completed; all six source pages now present; stale missing-source wording identified."
+      "completion_summary": "False-green repaired;71/71+17/17 genuine PG assertions pass; #894 overlap merged with unique worker0.59.10; combined suite running."
     },
     {
       "id": "WS-892",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892",
-      "owner": "Claude test-evidence agent (prior recorded)",
+      "owner": "Codex recovery (development only)",
       "branch": "cf247-test-evidence",
-      "commit": "7a2f3dd3317eb081724cb28412c70afa337a5dc0",
+      "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "worktree": null,
-      "state": "blocked",
+      "state": "verifying",
       "owned_paths": [
         "scripts/test-evidence",
         "TEST-REGISTER.md"
@@ -2104,13 +2106,13 @@
         "WS-893"
       ],
       "blockers": [
-        "s288 phone failure",
-        "False-green sibling parity cannot be treated as proof"
+        "Production ownership/adoption pending"
       ],
       "test_evidence_ids": [
-        "EV-892"
+        "EV-892",
+        "EV-892-FIX"
       ],
-      "completion_summary": "1949/1/0/0 recorded truthfully; no unchanged rerun."
+      "completion_summary": "Phone dependency repaired;1950/0/0/0 authoritative suite and verified bundle pass; metadata evidence reused with final gates."
     },
     {
       "id": "WS-877",
@@ -2272,6 +2274,43 @@
         "EV-P0"
       ],
       "completion_summary": "No re-exposure in named five dates/thirteen fees; operational issues remain open pending remaining acceptance."
+    },
+    {
+      "id": "WS-382-ADOPTION",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "owner": "Codex recovery",
+      "branch": "cf247-controller-entrypoint-gates",
+      "commit": "dd84cadc007941c28d8b6f0ae2ac9afe14ffd6a3",
+      "worktree": null,
+      "state": "verifying",
+      "owned_paths": [
+        "scripts/ci/controller-guard.py",
+        ".github/workflows/deploy-on-merge.yml",
+        ".github/workflows/db-apply-migration.yml",
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/deployed-uat.yml",
+        ".github/workflows/deployed-weekly.yml",
+        "tests/uat/cf-247-s69-phase3-ci-deploys.spec.mjs",
+        ".github/workflows/pim-build.yml",
+        ".github/workflows/controller-entrypoint-test.yml"
+      ],
+      "owned_functions": [],
+      "owned_migrations": [],
+      "acceptance_criteria": [
+        "Actual adapter refuses stale/unreserved/changed-code writes",
+        "Existing workflows consume it without granting authority",
+        "External execution controls verified before adoption"
+      ],
+      "dependencies": [
+        "WS-382"
+      ],
+      "blockers": [
+        "External execution controls and predecessor release unavailable"
+      ],
+      "test_evidence_ids": [
+        "EV-GATE-PREP"
+      ],
+      "completion_summary": "Five adapter cases and YAML/Bash syntax pass locally; draft895 and full CI underway. No production enforcement claimed."
     }
   ],
   "prs": [
@@ -2280,16 +2319,15 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 893,
       "branch": "cf247-english-requirements-complete",
-      "commit": "2513a90927699b61ad187fd838828302a1981e00",
+      "commit": "155ef20215fb189482f1586c5399a7f382131a08",
       "state": "open",
       "draft": true,
-      "owner": "Claude agent H (prior recorded; current activity unverified)",
+      "owner": "Codex recovery (development only)",
       "workstream_id": "WS-893",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42158981797,
-        42158981828,
-        42158981691
+        42210727286,
+        42210727268
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2298,26 +2336,24 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "Green status masks SQL failure"
+        "Combined full governed suite in progress",
+        "Production ownership/adoption pending"
       ],
-      "next_action": "Repair fixture connection and failure propagation; update stale source wording; rerun targeted integration."
+      "next_action": "Complete combined fixture/full suite, regenerate actual register; release after #894 only under verified controller authority."
     },
     {
       "id": "PR-894",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 894,
       "branch": "cf247-course-descriptions-complete",
-      "commit": "162e9fc78a6b760c6f0db94df340773903518c92",
+      "commit": "e15536e88691b167c53ec902215fe2a63e506c7f",
       "state": "open",
       "draft": true,
-      "owner": "Claude agent G (prior recorded; current activity unverified)",
+      "owner": "Codex recovery (development only)",
       "workstream_id": "WS-894",
-      "ci_status": "success",
+      "ci_status": "pending",
       "run_ids": [
-        42159245773,
-        42159245779,
-        42159245781,
-        42159245783
+        42209655949
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2326,24 +2362,25 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "Four confirmed defects; see review",
-        "No governed full-suite proof"
+        "Preproduction functional suite passed at12216778; metadata checks pending",
+        "Production ownership/adoption pending"
       ],
-      "next_action": "Fix in the existing PR, preserve D1\u2013D5, then targeted and full gates."
+      "next_action": "Preserve passing functional evidence, finish final metadata gates; production remains blocked by ownership."
     },
     {
       "id": "PR-892",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 892,
       "branch": "cf247-test-evidence",
-      "commit": "7a2f3dd3317eb081724cb28412c70afa337a5dc0",
+      "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "state": "open",
       "draft": true,
-      "owner": "Claude test-evidence agent (prior recorded)",
+      "owner": "Codex recovery (development only)",
       "workstream_id": "WS-892",
-      "ci_status": "failure",
+      "ci_status": "success",
       "run_ids": [
-        42152577211
+        42208692348,
+        42210297605
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2352,9 +2389,9 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "s288 phone failure; fix owned by #894"
+        "Production ownership/adoption pending"
       ],
-      "next_action": "Reconcile actual code change, then one justified full run."
+      "next_action": "Preserve passing functional evidence, finish final metadata gates; production remains blocked by ownership."
     },
     {
       "id": "PR-877",
@@ -2580,6 +2617,31 @@
       ],
       "blockers": [],
       "next_action": "Governance integrated as fdaac3bc; verify this checkpoint and resolve operational ownership/adoption under Admin #382. No production release implied."
+    },
+    {
+      "id": "PR-895",
+      "repository": "msinghbs-ai/Coursefinder-Pilot",
+      "number": 895,
+      "branch": "cf247-controller-entrypoint-gates",
+      "commit": "dd84cadc007941c28d8b6f0ae2ac9afe14ffd6a3",
+      "state": "open",
+      "draft": true,
+      "owner": "Codex recovery (development only)",
+      "workstream_id": "WS-382-ADOPTION",
+      "ci_status": "pending",
+      "run_ids": [],
+      "release_gates": [
+        "All controller entry points adopt canonical reservation",
+        "Verified predecessor disposition and owner acceptance",
+        "External Cloudflare/direct-SQL/protected-secret controls",
+        "Full governed tests"
+      ],
+      "blockers": [
+        "Claude release unacknowledged",
+        "External account controls not adopted",
+        "CI running"
+      ],
+      "next_action": "Complete CI, then perform authorised controlled gate cutover; never self-activate ownership."
     }
   ],
   "releases": [
@@ -3493,6 +3555,39 @@
       "evidence_ids": [
         "EV-SCHEDULE"
       ]
+    },
+    {
+      "id": "M-RECOVERY-TESTS",
+      "workstream_id": null,
+      "name": "Verified recovery development gates, not production gains",
+      "value": {
+        "course": {
+          "passed": 1954,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        },
+        "evidence": {
+          "passed": 1950,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        },
+        "english_pg": {
+          "groups": 71,
+          "exceptions": 17
+        },
+        "merged_prs": 0,
+        "verified_production_releases": 0
+      },
+      "unit": "actual assertions and runs",
+      "measured_at": "2026-11-06T11:40:09Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-894-FIX",
+        "EV-893-FIX",
+        "EV-892-FIX"
+      ]
     }
   ],
   "integration_issues": [
@@ -3657,7 +3752,7 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Scholarship coverage: Te W\u0101nanga o Aotearoa (NZ) zero: zero_scholarships",
+      "summary": "Scholarship coverage: Te Wānanga o Aotearoa (NZ) zero: zero_scholarships",
       "next_action": "Read current canonical queue row, controls and latest evidence; assign within confirmed controller authority.",
       "evidence_ids": [
         "EV-JOBS"
@@ -3756,7 +3851,7 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Scholarship coverage: Te Whare W\u0101nanga o Awanui\u0101rangi (NZ) zero: zero_scholarships",
+      "summary": "Scholarship coverage: Te Whare Wānanga o Awanuiārangi (NZ) zero: zero_scholarships",
       "next_action": "Read current canonical queue row, controls and latest evidence; assign within confirmed controller authority.",
       "evidence_ids": [
         "EV-JOBS"
@@ -3906,39 +4001,16 @@
       ]
     },
     {
-      "id": "B-894",
-      "summary": "Four confirmed feature/fixture defects",
-      "owner": "Existing #894 owner",
+      "id": "B-EXTERNAL-GATES",
+      "summary": "Production adoption also needs Cloudflare deployment command/account controls, protected production-secret refs, and direct SQL/Management credential control.",
+      "owner": "Authorised account/configuration controller",
       "workstream_ids": [
-        "WS-894"
+        "WS-382",
+        "WS-382-ADOPTION"
       ],
-      "next_action": "Fix within #894 with exclusive file ownership; targeted regressions.",
+      "next_action": "Review concrete PR895 and configure/verify external controls under current authority before marking adoption verified.",
       "evidence_ids": [
-        "EV-894"
-      ]
-    },
-    {
-      "id": "B-893",
-      "summary": "Integration CI reports green while SQL fixture fails",
-      "owner": "Existing #893 owner",
-      "workstream_ids": [
-        "WS-893"
-      ],
-      "next_action": "Preserve local-only guard; fix isolated connection and pipeline error propagation.",
-      "evidence_ids": [
-        "EV-893"
-      ]
-    },
-    {
-      "id": "B-892",
-      "summary": "Authoritative full suite has s288 phone failure",
-      "owner": "Existing #894/#892 owners",
-      "workstream_ids": [
-        "WS-892"
-      ],
-      "next_action": "Reconcile corrected #894 code before a justified full run.",
-      "evidence_ids": [
-        "EV-892"
+        "EV-GATE-PREP"
       ]
     }
   ],
@@ -3959,7 +4031,7 @@
     {
       "id": "NA-894",
       "workstream_id": "WS-894",
-      "action": "Correct one-reask bound, final-page navigation, publication predicate and fail-closed fixture execution within existing PR.",
+      "action": "Finish final metadata checks; retain1954-test/realPG proof and existing register. Production acceptance follows only after verified controller authority.",
       "owner": "Exclusively assigned #894 developer",
       "depends_on": [],
       "verification_required": [
@@ -3972,7 +4044,7 @@
     {
       "id": "NA-893",
       "workstream_id": "WS-893",
-      "action": "Correct false-green fixture and stale source wording; reconcile worker ownership after #894.",
+      "action": "Complete combined155ef202 fixture/full-suite validation, regenerate the same-run register, then release after #894 when ownership gates pass.",
       "owner": "Exclusively assigned #893 developer",
       "depends_on": [],
       "verification_required": [
@@ -3984,7 +4056,7 @@
     {
       "id": "NA-892",
       "workstream_id": "WS-892",
-      "action": "Reconcile valid #894 phone correction and real parity evidence, then run one authoritative full suite.",
+      "action": "Retain validated1950-test bundle and metadata reuse at4823f68f; merge only through confirmed controller authority. Do not repeat unchanged tests.",
       "owner": "Test-evidence developer",
       "depends_on": [
         "NA-894",
@@ -4011,6 +4083,19 @@
         "Consumer publication"
       ],
       "safe_without_production_write": false
+    },
+    {
+      "id": "NA-GATE-895",
+      "workstream_id": "WS-382-ADOPTION",
+      "action": "Finish adapter CI/fullsuite and register, then verify protected-secret refs, Cloudflare deployment guard and direct-SQL credential control before adoption.",
+      "owner": "Authorised Integration Controller/account owner",
+      "depends_on": [],
+      "verification_required": [
+        "Actual CI behavior",
+        "External execution controls",
+        "Unacknowledged predecessor disposition"
+      ],
+      "safe_without_production_write": true
     }
   ],
   "evidence": [
@@ -4117,7 +4202,7 @@
       "reference": "https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#scheduled-resumption",
       "kind": "configured_automation",
       "observed_at": "2026-11-06T09:23:25.989Z",
-      "summary": "Tool confirmed enabled hourly weekend schedule (48 attempts, 7Nov00\u20138Nov23 Melbourne) and Monday9Nov morning handover. next_run_time/last_run_time null, environment inherited metadata null; execution and environment attachment unverified."
+      "summary": "Tool confirmed enabled hourly weekend schedule (48 attempts, 7Nov00–8Nov23 Melbourne) and Monday9Nov morning handover. next_run_time/last_run_time null, environment inherited metadata null; execution and environment attachment unverified."
     },
     {
       "id": "EV-GOV-CI",
@@ -4132,12 +4217,47 @@
       "kind": "final_read_only_reconciliation",
       "observed_at": "2026-11-06T09:44:19Z",
       "summary": "Pilot main and five draft PR heads unchanged; ownership ref unchanged in reconciliation; no predecessor acceptance in #382. DB 09:41:06Z: migration count1791/head20261106400000, worker v0.59.8 status200. Three transient concurrent DB transactions then; subsequent bounded active-session query returned no rows. No ownership inference from session counts."
+    },
+    {
+      "id": "EV-894-FIX",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949",
+      "kind": "actual_postgres_and_full_suite",
+      "observed_at": "2026-11-06T11:40:09Z",
+      "summary": "Exact functionalhead12216778: real PG17.6 Unixsocket,6hashes,migrationtwice,publication/admission scenarios;1954passed,0failed/skipped/flaky; downloaded ZIP13498980581 SHA2561bd4a4e1bcf49e952e127020dc29f3044024958ea8a963207b16bef2b97ad747 and structured identity/stats verified."
+    },
+    {
+      "id": "EV-893-FIX",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333/job/127864084411",
+      "kind": "actual_postgres_scenarios",
+      "observed_at": "2026-11-06T11:40:09Z",
+      "summary": "Englishhead9b54c741 genuine PG17.6 Unixsocket,zero parity differences,guarded migration;71/71 groups+17/17exceptions. Combined155ef202 incorporates repaired894 and uniqueWorker0.59.10; fullsuite running."
+    },
+    {
+      "id": "EV-892-FIX",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348",
+      "kind": "authoritative_full_suite",
+      "observed_at": "2026-11-06T11:40:09Z",
+      "summary": "Exactd4c3e375 executed1950passed,0failed/skipped/flaky; complete/pass/READY bundle downloaded,digests verified. Metadata4823f68f reused valid evidence in42210297605 with final gates; no redundant fullsuite."
+    },
+    {
+      "id": "EV-GATE-PREP",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895",
+      "kind": "entrypoint_adoption_patch",
+      "observed_at": "2026-11-06T11:40:09Z",
+      "summary": "Existing canonical protocol adapter; five behavioral cases pass, five production workflows patched; draft held for external controls and predecessor disposition. No authority acquired."
+    },
+    {
+      "id": "EV-RECOVERY-LIVE",
+      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#immediate-execution-recovery",
+      "kind": "read_only_live_production",
+      "observed_at": "2026-11-06T11:40:09Z",
+      "summary": "11:32:16Z DB:1791migrations/head20261106400000,worker0.59.8status200,lastreleasecheckv2.15.489;1030descriptionpending;pdesc4proposed+1held,0activeleases. No production write/spend by recovery."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Merged governance PR #383 as fdaac3bc72f7eabac57c308a36dfd913f8a15db9 after all three exact-head checks passed.",
-    "current_action": "Publish this final validated pre-pause checkpoint; no production operation is in flight from this execution.",
-    "next_safe_action": "A successor or scheduled resumption must read this checkpoint, verify current live state and Admin #382, and resolve controller ownership/adoption before any production mutation. Continue isolated #894/#893 corrections meanwhile.",
+    "last_completed_atomic_action": "Published repaired894/893/892 heads and concrete gate PR895; verified actual PG/full-suite artifacts.",
+    "current_action": "Complete combined893 and gate895 CI; regenerate registers from those executions. Production remains blocked.",
+    "next_safe_action": "Inspect actual combined893 full-suite output; repair any failure, validate artifacts, finish895 tests and external cutover reconciliation.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4145,9 +4265,10 @@
     ],
     "must_not_repeat": [
       "Do not re-admit five withdrawn UNSW dates or thirteen inactive bad fee rows.",
-      "Do not rerun unchanged #892/#893 failed fixtures as progress.",
       "Do not apply unmerged migrations or enable paid pilots/trust settings.",
-      "Do not treat a scheduled resumption or published handover as accepted control."
+      "Do not treat a scheduled resumption or published handover as accepted control.",
+      "Do not repeat passing1954/1950full suites for documentation-only changes; use governed evidence reuse/final checks.",
+      "Do not repeat failed SQL fixtures from old heads; fixed runners now require genuine scenario execution."
     ],
     "verification_required": [
       "Fresh frontend Worker/UI version",
@@ -4155,22 +4276,22 @@
       "Historical queued run disposition",
       "Live hashes immediately before authorised release"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T093806Z",
+    "predecessor_checkpoint": "CP-382-20261106T094419Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Current execution is publishing a recovery checkpoint for the 7\u20138 November controller mandate. Codex is nominated; previous Claude ownership has not been released or accepted through the new protocol. Transfer remains pending.",
+    "reason": "**Reason:** Immediate execution recovery is active under the existing weekend mandate. This is a progress checkpoint, not programme completion or an accepted controller transfer.",
     "baseline": "**Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.",
-    "completed": "**Completed:** Admin PR #383 merged as `fdaac3bc72f7eabac57c308a36dfd913f8a15db9` after all three checks passed at code head `9674e59b`: 17 checkpoint/handover tests, 11 ownership tests, actual checkpoint validation and build checks. Canonical continuity and atomic coordination are published; independent #894/#893/#892 reviews and bounded P0 readbacks are recorded. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated.",
-    "priorities": "**Priorities:** Verify ownership and production-entry-point adoption; correct the confirmed #894 and #893 defects in their existing PRs; integrate #894's phone fix before justified #892 full-suite evidence; preserve #890/#875 holds; finish bounded #877 acceptance, #889 and Course Catalogue operator checks; continue Layer 4, AER, scholarship and provider lifecycle remediation.",
-    "workstreams": "**Workstreams:** WS-382 governance integrated through [Admin PR #383](https://github.com/msinghbs-ai/coursefinder-admin/pull/383); operational adoption remains blocked in Admin #382. WS-382-SCHEMA integrated from `a9292c7e`. Feature code remains on the five recorded draft PR branches; prior Claude implementation ownership is unverified and must be reconciled before overlapping edits. Independent read-only reviews are complete. All intended local source changes are published; the local materialised subset and generated caches are not needed to resume. Implementation branches are retained with explicit disposition, not deleted.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** Pilot #894 `162e9fc7` / `20261106500000` blocked by four defects; #893 `2513a909` / `20261106550000` blocked by false-green fixture execution and overlap; #892 `7a2f3dd3` blocked by the s288 phone failure; #890 `b42a529d` G3-held; #875 `9205087d` held and stale. Admin #380, #240 and #29 remain open and unchanged. #877, #889, #891 and #887 are merged; merged status is not operational acceptance. No pending migration was applied.",
+    "completed": "**Completed:** Issues fixed in code: all four #894 defects; #893 false-green SQL path; #892 phone dependency and skipped-check false pass. #894 actual PG and full suite passed1954/0/0/0; #892 passed1950/0/0/0 with validated bundle and safe metadata reuse. #893 actual PG passed71+17 scenarios; combined suite is running. PRs merged in this recovery:0. Production releases verified:0.",
+    "priorities": "**Priorities:** Complete combined #893/#895 CI and same-run registers; preserve passing #894/#892 evidence. Resolve predecessor disposition and adopt existing ownership checks at every relevant production entry point. Only then perform permitted sequential releases, bounded production acceptance and operational remediation. Keep #890/#875 held.",
+    "workstreams": "**Workstreams:** Codex owns development integration on existing #894/#893/#892 branches. #893 explicitly incorporates repaired #894 with both Worker paths retained and unique v0.59.10 after v0.59.9. Draft #895 on `cf247-controller-entrypoint-gates` adopts the existing protocol at production workflow entry points; it grants no authority. Isolated agent implementation and review work is recorded; no agent independently deploys.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched.",
     "decisions": "**Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them.",
-    "in_flight": "**In flight:** No in-progress Pilot Actions or other active database transaction observed at 09:09 UTC; no critical operation started by this execution. Historical queued CF-093 run `34749286102` from 13 September is unresolved and must not be replayed or cancelled blindly. Predecessor future writes cannot be excluded without ownership adoption. The new ownership ref has no owner, lease or in-flight reservation; this does not account for non-participating writers.",
-    "next_safe_action": "**Next safe action:** Read the current checkpoint and Admin #382, then independently verify the live ownership ref, predecessor disposition, workflows, migrations and production entry-point participation. Resume exclusively assigned #894/#893 fixes while authority is reconciled. Keep #890/#875 held. Do not repeat withdrawals, paid reads, migrations or unchanged failing suites from a predecessor command.",
-    "risks_recovery": "**Risks/recovery:** The atomic protocol is implemented but is not yet enforced by Pilot deployment workflows, direct SQL or Cloudflare builds; adoption is pending and production authority is denied. Lease expiry never clears an in-flight operation. Reconcile immutable operation IDs, live migration history, workflow outcomes and consumer state before retry. IQ-00313 and IQ-00111 show no re-exposure in the bounded SQL readback, but HTTP/cache and full fee-admission acceptance remain unverified. Weekend hourly resumptions and Monday-morning handover are configured; neither has run, and no uninterrupted monitoring is claimed.",
-    "evidence": "**Evidence:** [Mandate and findings](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json), [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [coordination ref](https://github.com/msinghbs-ai/coursefinder-admin/tree/studysearch-controller), [#894 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6681397730), [#893 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6681399784), [P0 readbacks](validation/2026-11-06-p0-reconciliation.json)."
+    "in_flight": "**In flight:** Combined #893 full-suite CI and #895 gate validation are development-only operations. No production mutation is in flight from this recovery. Historical queued run34749286102 remains unresolved; previous Claude release remains unacknowledged. Canonical coordination ref is still23a16104 in reconciliation with no owner/lease.",
+    "next_safe_action": "**Next safe action:** Finish combined #893 and #895 CI, inspect actual assertions/artifacts, regenerate the existing registers, and repair any failed gate. Reconcile predecessor release and external execution controls through GitHub before any production mutation. Keep unrelated engineering moving.",
+    "risks_recovery": "**Risks/recovery:** Genuine production authority blocker remains: unacknowledged Claude ownership and unadopted Cloudflare/direct-SQL/protected-secret execution controls. PR895 is concrete code, not proof those external controls are installed. Local proxy/Docker limitations are handled through connected GitHub and actual Actions execution. Live11:32Z remains migrationhead20261106400000/worker0.59.8, descriptions1030pending and pdesc4proposed+1held; no new admitted/published gain is claimed.",
+    "evidence": "**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
   }
 }
