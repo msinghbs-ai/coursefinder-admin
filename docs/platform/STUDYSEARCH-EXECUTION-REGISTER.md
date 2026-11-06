@@ -667,3 +667,11 @@ if [ "$(git rev-parse --is-shallow-repository)" = true ]; then git fetch --no-ta
 python3 "$controller_guard_file" --entry-point cloudflare-frontend --commit "${WORKERS_CI_COMMIT_SHA:?}"
 npx wrangler deploy
 ```
+
+### Cutover verification attempt (2026-11-07 10:55 Sydney, Claude)
+
+Platform Admin reported GitHub, Supabase and Cloudflare reviewed and asked for independent verification. Result: NOT VERIFIED, no adoption, no merge.
+- GitHub: environment, secret, variable and Actions-permission paths return 403 from the session proxy; branch protection 403; rulesets empty. Main unchanged at 4ba94e3f; #895 open at bcceb856.
+- Cloudflare: no console access. Latest Workers Builds check run on main is 2026-11-06T11:12:14Z (success), so no Retry build has been recorded since the deploy command could have changed.
+- Supabase: 70 edge functions listed ACTIVE; the MCP exposes no credential or access-control settings, so D4 dependencies cannot be shown here.
+Owner evidence requested (no secret values): deploy command text, `pilot` branch rule and secret/variable names, and the Retry build log line.
