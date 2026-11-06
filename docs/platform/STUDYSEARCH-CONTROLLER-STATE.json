@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T214504Z",
-  "created_at": "2026-11-06T21:45:04Z",
+  "checkpoint_id": "CP-382-20261106T214536Z",
+  "created_at": "2026-11-06T21:45:36Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-alert-recovery-20261106T213611Z",
   "trigger": "recovery_alert_mandate_and_engineering_decision",
@@ -2679,7 +2679,7 @@
       "owned_paths": [
         "tests/fixtures/integration-queue/run.sh",
         "tests/fixtures/integration-queue/fixtures.sql",
-        "tests/uat/cf-247-s223-integration-queue-fixtures.spec.mjs",
+        "tests/uat/cf-247-s223-integration-queue-contract.spec.mjs",
         ".github/workflows/prod-parity.yml",
         "/workspace/alerts-2136/alert-protocol-review.json"
       ],
@@ -5484,7 +5484,7 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T212120Z",
+    "predecessor_checkpoint": "CP-382-20261106T214504Z",
     "successor_checkpoint": null
   },
   "handover": {
