@@ -520,3 +520,9 @@ The six replaced md5s are unchanged (21:30). |
 **Before the parser can be accepted:** verbatim stored pages are needed through the read-only `provider_facts_inspect` worker mode (6 sources); a worker dispatch needs Platform Admin approval.
 
 **Decisions D1–D6 are in the plan.** Waits for #877 (coverage-sweep). |
+
+### 6 Nov 2026 11:00 — Mandate queued: authoritative test evidence and faster PR release gates
+- Recorded verbatim: `docs/platform/2026-11-06-authoritative-test-evidence-release-gates-1100.md`.
+- Status: QUEUED. Not started. It must not interrupt the #889 release and starts only after #889 reaches a safe state (merged, deployed and accepted, or held).
+- Scope when started: one bounded CI/release-engineering PR owned by a single agent; no new framework, no competing test register or release ledger; the existing branch protection and required checks are unchanged.
+- Observed during the #889 release (baseline input for §6): after one rebase the full suite ran three times (one interim list-reporter run, one JSON-reporter run to generate the register, plus CI), about 15 minutes each locally, because the register needs results.json and the list-reporter run did not produce it.
