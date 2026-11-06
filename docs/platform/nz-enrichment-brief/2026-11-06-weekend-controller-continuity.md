@@ -262,3 +262,17 @@ Re-readactualGHA/deployment/DBleases/writeoutcomes; preparea beforecutovercheckp
 UntilthePlatformAdminprovidesactualaccountactionevidenceandtheexactcorrectiondecision, productionremainshold. Independentengineering/testscontinue; thisdecisionrecordisnotexecution,ownershiporadoptionproof.
 
 Bootstrapclarification: thePlatformAdmin's controlledaccountactionmust explicitlyincludeinstallingthe reviewed#895workflowrevision onprotectedmain whileautomaticCloudflarepublishingisheldandafter itsrequiredCIpasses. ThisPRaddsnoSupabasemigration/edgefunctionchange, soitscode-fencingmergeisnotpermission toexecuteadmission/SQLordeployUIunchecked. Codexdoesnotself-merge thisbootstrapwhileauthorityisinreconciliation. Preserveapprovedread-onlyjobsusingthestagedpilotenvironmentcredentials,thenverifyold-refdenialandrevokebypasscopies. Aftertheincomingcontrolleraccepts/verifies/completesactualownership, itmayprepareanunchanged-tested-tree, reservation-boundreleasecontextcommit withthedefinedController-*trailers totriggerguardedUI490publication. Neverblindlyrerunanoldmergewithoutcurrentcontext. This is therecoverypath through theinitialadoptiondependency; iftheaccountowner cannotperform thecontrolledinstallation, remainheldanduseverifiedsourcebeforestate, notanunguardedworkflow.
+
+
+## CP-382-20261106T135929Z — actual predecessor release and ordered candidates
+
+At 2026-11-06T13:59:29Z; execution codex-delivery-20261106T122559Z.
+
+- Issues fixed: shared generic parity runner now fails on SQL/producer errors, uses genuine local PostgreSQL17.6 and authenticates role baseline; existing six tests include real failure injection. Deadline guard/disabled exact correction proposal retain73 real SQL assertions. Four894 defects and893/892 corrections preserved.
+- PRs merged: zero. Published894 cd8b81c9 and893 fda1e581 with dependency ancestry, UI492/493 and unique Workers.9/.10.
+- Production releases verified: zero; current production baseline unchanged.
+- Operational outcomes: original63 alert classification remains47 historical/16 active/0 duplicates. #87713:54 readback all five identities in Website/Zoho, empty matching descriptions, four human proposals/one hold; ledger8 historical calls/$0.0065848, zero since release. #88913:32 three transitions no stall/error;24h selected4800/admitted284/published284, a different window rather than claimed feature gain.
+- Unresolved blockers: account fencing and actual cutover proof; explicit release and exact destructive correction authority; authenticated role/UI/re-login/HTTP-cache acceptance. Actual Claude release now independently recorded by CAS45bda42a, without owner/lease acceptance; orphan queued34749286102 independently has0jobs/deleted workflow, remains unresolved. No credentials revoked or changed.
+- Next executable action: inspect running final894/893 full suites and895 metadata reuse, verify immutable artifacts and update same-run register. Continue safe branch/read-only work until external controls and authority truly pass.
+
+Production read13:55:14Z:1791 migrations/head400000, olddeadlinehashf01e9be83e58c9c48c33e5fde4de05d9. Followup pg activity no nonself activeclient transactions. #896 run42228204487 bundle13506264094 ZIP SHA2569bc26a4de04ea74015c92b10a0dc127ba570b8e5576ce43a5b6306d7f8c12554 downloaded, digestchecked and verifier valid1951/0/0/0; bothPGjobs42228204813 passed. #895 sourcea65 full1951/0/0/0 verified earlier; bcc metadata check stillrunning.
