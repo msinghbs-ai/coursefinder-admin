@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T212120Z",
-  "created_at": "2026-11-06T21:21:20Z",
+  "checkpoint_id": "CP-382-20261106T214504Z",
+  "created_at": "2026-11-06T21:45:04Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-reader-causes-20261106T210452Z",
-  "trigger": "workstream_blocker_and_intentional_session_termination",
+  "execution_id": "codex-alert-recovery-20261106T213611Z",
+  "trigger": "recovery_alert_mandate_and_engineering_decision",
   "controller": {
     "candidate": "Codex",
     "owner": null,
     "previous_owner": "Claude; explicit release Admin382 comment6686299314, independently reconciled",
     "status": "reconciliation",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-reader-causes-20261106T210452Z",
+    "session_id": "codex-alert-recovery-20261106T213611Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_cycle_complete_evidence_and_authority_blocked",
+    "mode": "read_only_alert_recovery_and_isolated_fixture_engineering",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -2667,6 +2667,41 @@
         "EV-READER-2104-OPS"
       ],
       "completion_summary": "Bounded diagnostic acceptance completed, operational remediation remains blocked/open. Independent exact-config/source/log review confirms no proved defect or justified patch. Do not repeat unchanged probes; continue an independent safe lane. No tests/source/functions/migrations/production/vendor changes; reviewer complete and worktree clean."
+    },
+    {
+      "id": "WS-ALERTS-2136",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "owner": "Codex root live/scheduler/account/canonical evidence; alerts_protocol_review isolated fixture engineering",
+      "branch": "codex/iq00112-alert-collector-acceptance",
+      "commit": "bcceb856411a927f233f94695d7073830a0f2264",
+      "worktree": "/workspace/alerts-2136/fixture-worktree",
+      "state": "implementing",
+      "owned_paths": [
+        "tests/fixtures/integration-queue/run.sh",
+        "tests/fixtures/integration-queue/fixtures.sql",
+        "tests/uat/cf-247-s223-integration-queue-fixtures.spec.mjs",
+        ".github/workflows/prod-parity.yml",
+        "/workspace/alerts-2136/alert-protocol-review.json"
+      ],
+      "owned_functions": [],
+      "owned_migrations": [],
+      "acceptance_criteria": [
+        "Preserve actual alertIDs; independently distinguish generation/collection/delivery/confirmation/operatorack",
+        "Prove original watchdog healthfailure and inspect currentnoattempt/lease/retry history",
+        "Extend existingPG fixture/CI with real stable-ID/dedupe/lease/retry/confirm/recovery assertions, no newframework/scheduler",
+        "No productionresolution until realconfigured-destination delivery evidence, backlogreduction and independentwatchdogPASS",
+        "Preserve exactthree-rowP0correction, holds/G3/admission/budget and ownershipfencing gates"
+      ],
+      "dependencies": [
+        "WS-382-ADOPTION"
+      ],
+      "blockers": [
+        "Actual accountfencing and currentexecution atomicacceptance remain blocked; existing externalcollector absent from accessiblecurrentaccount inventory, broaderowneraccount state unverified"
+      ],
+      "test_evidence_ids": [
+        "EV-ALERTS-2136-START"
+      ],
+      "completion_summary": null
     }
   ],
   "prs": [
@@ -5406,12 +5441,19 @@
       "kind": "live_github_and_production_read_only_operational_reconciliation",
       "observed_at": "2026-11-06T21:16:41.852865Z",
       "summary": "21:16UTC full1791versionsmatch/head400000, relevant hashes/controls unchanged;162active/176jobs. Last2000cronrows cover20:02–21:16,0failures/3running; admission durations below2xprior sample. Alerts80pending/allunattempted/78overdue,64historical+16activeevents/4conditions/0duplicates. Three baddeadlinesactive. Readerwatchcleared20:21butIQstilltriaged/2091exhausted. PublicGET403/1010;frontendnotfreshlyverified. Atomic6d95unowned/adoptionpending, envunprotected/secretAPI403; norunningGitHubworkflow."
+    },
+    {
+      "id": "EV-ALERTS-2136-START",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796",
+      "kind": "verified_github_health_failure_and_scheduler_source_review",
+      "observed_at": "2026-11-06T21:45:04Z",
+      "summary": "Exactjoblog17:35:16Z: alerts notcollected75waiting since03Nov18:20/>120min. Notauthfailure. D12requires externalWorkqueuealerts hourly:59, push/e-mail/recipientunchanged, webhookoff intentionally. Accessiblecurrentautomation13hasnocollector; Claudehandoverlistsnoenabledtasks. Sourcecron onlygenerates; realtake/confirm areproductionwrites. Test-onlyexistingfixture decisionrecorded beforecode."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Completed isolated source/live diagnosis for three same-provider/same-URL direct200/fetch_failed rows. Current adapter and codes do not support malformed config; empty body vs caught processing/fallback exception cannot be distinguished from inspected retainedmetadata. Bounded historical logs add no per-item discriminant. Refreshed full1791migrationledger/hashes/jobs/queues/alerts; three original baddeadlines stillactive. No production fix.",
-    "current_action": "Bounded execution ending after canonical publication. Independent reviewer completed;11trackedworktrees clean, previous untracked logs/node_modules retained. No agent/SQL/test/reservation/deployment/workflow initiated here remains active. Platform jobs continue independently; no ownership accepted.",
-    "next_safe_action": "Continue independent existing P0 source/year/audience reconciliation or bounded single-course probes for48remaining cohortcourses, using recorded IDs and load windows; do not repeat unchanged three-row reader diagnosis. New reader cause evidence or controlled instrumented acquisition needs applicable account/ownership/resource/release gates. Account owners complete existing D-382-CUTOVER before actual-execution atomic acceptance and ordered releases.",
+    "last_completed_atomic_action": "Recovered current GitHub83f85e95/checkpoint212120 and validated schema/handover; canonicalgovernance/PilotCLAUDE/D12/Claudeexplicitrelease read. Independently fetched watchdog42262985796/job128047478348 exact75waiting healthfailure; authentication succeeded. Current productionheads/atomic6d95/account403 unchanged. Accessible13automations contain no named Workqueuealerts or platformtake/confirm prompt; scope limited to current account.",
+    "current_action": "WS-ALERTS-2136 root owns livequeue/log/lease/scheduler/ownership evidence. Independent source review complete. Authorised test-only engineering decision: extend existing genuinePG integrationqueue fixture/CI to qualify take/confirm/retry/dedupe/recovery using synthetic IDs; realdelivery/receipt and independentwatchdogPASS remain separate releaseacceptance. Productionwrites stopped.",
+    "next_safe_action": "In permitted loadwindow capture current immutable alertIDs/attempts/leases/history and exact3baddeadlines; never take/confirm/ack as diagnosis. Implement isolated test-only branch from895bcceb without moving releaseheads. Resolve accountowner controlledbootstrap/restore existing recipient-preserving collector before anyproductionwrite.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5442,21 +5484,21 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T210901Z",
+    "predecessor_checkpoint": "CP-382-20261106T212120Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** One bounded source/config/log investigation completed from GitHub; reader remediation is blocked by missing discriminating historical evidence and existing authority/resource gates. No source repair or production recovery claimed.",
+    "reason": "**Reason:** Platform Admin alert collector recovery mandate starts. Exact watchdog failure independently verified as legitimate collection healthfailure; P0 deadline exposure remains separate.",
     "baseline": "**Baseline:** Pilotmain4ba94e3f; edge239/hash995d5111 and consumeredges unchanged. At21:16UTC all1791migrationversions match/head20261106400000; deadlinef01e9/courseff3d6/flag668 and readerhashes unchanged. Jobs162active/176total under automatic controls. Lastverified frontend20:12UI489/.416/hash2099cae6; fresh21:13GET403/error1010 and independent web unavailable. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.",
     "completed": "**Completed:** WS-IQ00046-2104 diagnostic exhausted inspected metadata. Three unchangeddirect200/fetch_failed rows share one provider/URL, valid current adapter/code shapes; empty body versus caught processing/fallback exception unresolved. Bounded logs21HTTP200requestevents/3executions plus3lifecycleevents do not prove item success/cause. No defect or patch justified. Prior #892–#894 engineering preserved. PilotPRsmerged0; productionreleases0; corrections0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** Root completed read-only SQL/config/log/baseline evidence; reader_causes_2104 completed independent source review in detached4ba94e3f /workspace/resume-2104/reader-source, owning only local reviewJSON. No source/function/migration edits or tests. All11trackedworktrees clean; previousuntrackedlogs/node_modules retained/inventoried. IQ00046 remediation remains blocked/open; continue independent safe lanes.",
+    "workstreams": "**Workstreams:** WS-ALERTS-2136 root owns read-only production/scheduler/account evidence and canonical records. Independent source review complete; isolated test-only fixture branch codex/iq00112-alert-collector-acceptance at895bcceb owns existing integrationqueue runner/fixtures/s223 and prod-parity CI. No owned function/migration changes.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** No agent, SQL, test, reservation, deployment or newworkflow initiated here remains active. OtheractiveDBclients0 at21:16baseline; boundedcron sample3running jobs continues independently. GitHub21:20snapshot has norunningworkflow; historical34749286102 remainsqueued0jobs/reconciled. Atomic6d95 remains released/noowner/nolease/adoptionpending; no currentacceptance or transfercompletion.",
-    "next_safe_action": "**Next safe action:** Continue existing P0 source/year/audience reconciliation or bounded probes for48remainingcohortcourses in loadwindows. Do not repeat unchanged three-row readerdiagnosis; seek genuinely new body/error evidence. Accountowners complete D-382-CUTOVER and real denial/recovery before current-execution acceptance and895→896→894→893 releases with892integrated. Exactthree-rowcorrection remains separately gated.",
+    "in_flight": "**In flight:** Read-only recovery and isolated fixture development only. No production take/confirm/ack, reservation, deployment, vendorcall or new scheduler. CurrentGitHub has no runningworkflow; atomic6d95owner/lease null/adoptionpending. Existing releaseacknowledgement preserved, no activeauthority accepted.",
+    "next_safe_action": "**Next safe action:** Capture immutable currentalertIDs/history/leases and P0three-row state in permittedloadwindow; implement and execute existingPG collectorprotocol fixture qualification. Actual collector restoration needs existingaccountownerfencing/guardedSQL route and originalrecipient; no wholesale sent/ack/reset actions.",
     "risks_recovery": "**Risks/recovery:** Historical bodylength/caught-error detail unavailable in inspected evidence; rawlogmessages unqueried, no blanket no-errors claim. End-callreserve0 does not establish per-item timing/cause. Watchconditioncleared20:21 is not remediation: IQ00046 remainstriaged/2091pagesexhausted. Three original baddeadlines stillactive21:16UTC. Alerts80pending/allunattempted/78overdue:64historical+16activeevents/4conditions/0duplicates. Environmentunprotected/secretAPI403 and frontend403/1010 restrictverification; ownership, G3/holds, humanadmission, destructive and budgetgates remain.",
     "evidence": "**Evidence:** [reader source/config/log diagnosis and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline cohort and fresh exactthree recheck](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner cutover action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, owneracceptance or successfultransfer claimed."
   }
