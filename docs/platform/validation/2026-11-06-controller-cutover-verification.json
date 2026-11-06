@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "execution_id": "codex-takeover-20261106T142259Z",
+  "created_at": "2026-11-06T14:36:23Z",
+  "account_control": {
+    "verified_at": "2026-11-06T14:30:08.865064+00:00",
+    "responsible_account_owner": "msinghbs-ai, GitHub repository owner/installed-app administrator",
+    "action": "Restrict existing pilot environment to a custom main branch policy",
+    "endpoint": "PUT /repos/msinghbs-ai/Coursefinder-Pilot/environments/pilot",
+    "exit_code": 1,
+    "response": {
+      "message": "Resource not accessible by integration",
+      "documentation_url": "https://docs.github.com/rest/deployments/environments#create-or-update-an-environment",
+      "status": "403"
+    },
+    "cli_error": "gh: Resource not accessible by integration (HTTP 403)",
+    "configuration_changed": false
+  },
+  "live_verifier_denials": {
+    "execution_id": "codex-takeover-20261106T142259Z",
+    "verified_at": "2026-11-06T14:32:16.920599+00:00",
+    "verifier_source_commit": "a65efe3048146f2ef2b2b8477d033978c0de8674",
+    "canonical_controller_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+    "checks": [
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deploy-on-merge",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "db-apply-migration",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deploy-edge-functions",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deployed-uat",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deployed-weekly",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "cloudflare-frontend",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "governed-sql",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deploy-on-merge",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "db-apply-migration",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deploy-edge-functions",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deployed-uat",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deployed-weekly",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "cloudflare-frontend",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "governed-sql",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      }
+    ],
+    "all_denied": true,
+    "scope": "Read-only verifier invocations against live atomic authority; no SQL/deploy command was executed. Candidate is not installed at production entry points; this is not proof external bypass credentials are fenced."
+  },
+  "historical_run": {
+    "id": 34749286102,
+    "status": "queued",
+    "jobs": 0,
+    "created_at": "2026-09-13T09:18:14Z",
+    "updated_at": "2026-09-13T09:19:23Z",
+    "workflow_id": 357007531,
+    "workflow_state": "deleted",
+    "workflow_updated_at": "2026-10-09T02:18:22Z",
+    "disposition": "Independently non-executable historical record; not cancelled, deletion not required for takeover."
+  },
+  "new_adoption_gaps": [
+    {
+      "workflow": "component-register.yml",
+      "writes": [
+        "security.component_register_ingest_v1",
+        "security.component_register_sync_v1"
+      ],
+      "state": "assigned branch repair"
+    },
+    {
+      "workflow": "db-archive-export.yml",
+      "writes": [
+        "private Storage bucket creation",
+        "object and manifest uploads"
+      ],
+      "state": "assigned branch repair",
+      "additional_finding": "SHOW_RUN enters exporter bucket-creation path; will become GET-only in workflow"
+    }
+  ],
+  "production_released": false,
+  "configuration_changed": false,
+  "limitations": [
+    "No active owner/lease accepted and adoption remains pending.",
+    "Candidate verifier denial is not proof current uninstalled production mutators reject bypass credentials.",
+    "Claude cessation is acknowledged; no credential revocation claimed.",
+    "No exact correction executed;3wrongdeadlinevalues independently still returned14:33 byWebsiteSQL/ZohoV1/V2."
+  ]
+}

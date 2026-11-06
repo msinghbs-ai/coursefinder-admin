@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** New user-directed takeover cycle. Claude’s recorded release is independently verified. Atomic ref retargets this actual execution; no active authority is claimed before fencing.
+**Reason:** Takeover cycle continues after a real account-control refusal and discovery of two additional #895 production writers. Claude release is verified; no further acknowledgement or historical-run deletion is required.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Fresh14:26 UTC database read confirms1,791 migrations/head20261106400000, olddeadlinehelperf01e9 and courseguardff3d6 unchanged. Alerts73pending/allunattempted. Last14:11 HTTP/asset baseline remains UI2.15.489/package0.1.416; coverageWorker0.59.8/edge239. Followup activeclienttransaction inventory empty; exactCloudflarecommit/authenticatedUI stillunverified.
 
 <!-- controller-handover:completed -->
-**Completed:** Shared parity now executes real local PostgreSQL and fails on SQL errors. The four #894 defects and #893/#892 repairs are preserved. Verified final evidence: #894 1,967 passed; #893 1,992 passed; #896 1,951 passed; each has zero failures, skips or flakes and passing final metadata/build/parity/release checks. #895 source has 1,951 passing tests; its metadata gate remains pending. Original 63 alerts: 47 historical, 16 active, zero exact duplicates. This execution merged zero Pilot PRs, verified zero production releases and corrected zero production rows.
+**Completed:** Current atomic target reconciled at6d95b3e1. Actual pilot environment PUT returned403 and changed nothing.14live candidate verifier probes denied both current and competing actors across7entrypoints. Earlier passing894/893/896 bundles remain preserved. Exact3deadline exposures reverified14:33. No Pilot merge, deployment, migration or data correction.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 → #896 → #894 → #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** All agents have stopped and engineering is published. Canonical remote heads: #895 bcc3d57a, #896 dc5c343d, #894 8035c350, #893 0edc65d6. Local preservation references and untracked test evidence are recorded in the dated response; there is no unique uncommitted engineering. The isolated test database was removed.
+**Workstreams:** Ownership-entry agent owns component-register.yml, db-archive-export.yml, controller-guard.py and the existing s69 contract in /workspace/repair-ownership-followup, branch ws382-uncovered-mutators, basebcc3d57a. Acceptance requires guard-before-write, valid approved recovery and genuinely GET-only SHOW_RUN. Root owns integration/checkpoints/releases; no agent production authority.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcc3d57a: UI 2.15.490/package 0.1.417, includes #892. #896 dc5c343d: UI 2.15.491/package 0.1.418, migration 450000. #894 8035c350: UI 2.15.492/package 0.1.419, migration 500000, Worker 0.59.9. #893 0edc65d6: UI 2.15.493/package 0.1.420, migration 550000, Worker 0.59.10. All remain unmerged and unapplied; #890/#875 holds remain.
 
 <!-- controller-handover:decisions -->
-**Decisions:** Claude’s actual acknowledgement resolves the missing predecessor response. Remaining D-382-CUTOVER actions are real protected pilot/main credentials and branch controls, the reviewed Cloudflare/direct-SQL cutover with recovery preserved, applicable explicit release authority, and approval for the exact three-deadline correction. Consumer API, destructive-data, human Layer 4/trust and vendor reserve restrictions remain.
+**Decisions:** msinghbs-ai GitHub repository/installed-app administrator must grant required environment/secret/protection access or perform scoped controls directly; actual environment PUT403 is evidence. Cloudflare account owner must install the pinned deploy command and control alternate tokens. Supabase owner must restrict direct write access. Claude cessation is acknowledged, not credential revocation. Exact three-row correction authority, human Layer4/trust, consumer API, reserves and existing holds remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No production operation or active agent work. #895 metadata CI42226902408 remains installing Chromium. Historical34749286102 has zero jobs and a deleted definition; it is a non-executable historical record, not a running deployment or deletion prerequisite. Atomic6d95b3e1 has no owner/lease, transfer published, adoption pending.
+**In flight:** One isolated development agent repairs two newly found writer gaps in #895. Old metadata CI42226902408 still installsChromium. No production write/deploy is running from this execution. Atomic6d95b3e1 remains released/published with no owner/lease/adoption. Historical34749286102 is independently non-executable and is not a blocker merely because its record remains.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Attempt the authorised pilot main-only environment security control using normal authenticated CLI, with main recovery preserved. Verify actual permissions and all credential/Cloudflare/direct-SQL controls before active controller acceptance. Production releases and data corrections remain held.
+**Next safe action:** Finish and test the two actual writer repairs, then integrate their source into release candidates with dependencies preserved. Verify real account controls and authorised recovery before accepting active controller authority. Continue safe engineering while GitHub/Cloudflare/Supabase owners supply unavailable controls.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Three incorrect deadlines remain exposed in production. The guard and disabled review paste are candidates only. At 14:08 UTC, 71 alerts were pending and unattempted; the last overdue count of 64 was measured at 13:19 UTC. #877 has zero new calls/spend since release, four human proposals and one hold. #889’s observer is healthy; authenticated UI, re-login and consumer HTTP/cache checks remain pending. The pilot environment was still unprotected at 14:09 UTC. No unattended monitoring, heartbeat or successor acceptance is claimed.
+**Risks/recovery:** Candidate verifier denial does not fence uninstalled workflows or direct credentials. Component-register/archive writes were omitted from prior adoption inventory; fix before cutover. No account configuration changed after403. Three incorrect deadlines still reach all3SQLconsumers;73alerts pending/unattempted14:26. Do not enable review paste, fabricate credential revocation or mark ownership complete.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [actual Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [current atomic reconciliation](https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e), [historical run](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102), [895 pending](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42226902408), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
+**Evidence:** [control attempt and live denial evidence](validation/2026-11-06-controller-cutover-verification.json), [two writer gaps](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496), [actual Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [atomic reconciliation](https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
 
 
 ## Progress dashboard
