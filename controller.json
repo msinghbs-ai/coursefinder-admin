@@ -17,18 +17,17 @@
   },
   "in_flight": null,
   "last_event": {
-    "id": "claude-20261107-predecessor-release-1",
-    "kind": "record_predecessor_release",
+    "id": "claude-20261107-reconcile-2",
+    "kind": "reconcile",
     "execution_id": "claude-controller-20261107T0000Z",
-    "at": "2026-11-06T23:36:00Z",
+    "at": "2026-11-06T23:36:11Z",
     "evidence_refs": [
       "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
+      "https://github.com/msinghbs-ai/coursefinder-admin/blob/21d7d491/docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
+      "production read-only 2026-11-06T23:34Z: migration head 20261106400000, 1791, 0 failed jobs",
       "transport: non-forced git fast-forward push of the tool single-parent commit (session proxy blocks Git Data API writes)"
     ],
-    "payload": {
-      "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
-      "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/5056dbdc6f6abc621075082e9609b2c9395dfbae/docs/platform/STUDYSEARCH-CONTROLLER-STATE.json"
-    }
+    "payload": {}
   },
   "event_ids": [
     "EV-382-20261106T135633Z-request_transfer",
@@ -39,9 +38,10 @@
     "EV-382-20261106T142728Z-record_predecessor_release",
     "claude-20261107-reconcile-1",
     "claude-20261107-request-1",
-    "claude-20261107-predecessor-release-1"
+    "claude-20261107-predecessor-release-1",
+    "claude-20261107-reconcile-2"
   ],
-  "updated_at": "2026-11-06T23:36:00Z",
+  "updated_at": "2026-11-06T23:36:11Z",
   "adoption": {
     "status": "pending",
     "evidence_refs": []
@@ -51,9 +51,10 @@
     "evidence_refs": [
       "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
       "https://github.com/msinghbs-ai/coursefinder-admin/blob/21d7d491/docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
-      "https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/4ba94e3f"
+      "production read-only 2026-11-06T23:34Z: migration head 20261106400000, 1791, 0 failed jobs",
+      "transport: non-forced git fast-forward push of the tool single-parent commit (session proxy blocks Git Data API writes)"
     ],
-    "verified_at": "2026-11-06T23:35:48Z",
+    "verified_at": "2026-11-06T23:36:11Z",
     "verified_by": "claude-controller-20261107T0000Z"
   }
 }
