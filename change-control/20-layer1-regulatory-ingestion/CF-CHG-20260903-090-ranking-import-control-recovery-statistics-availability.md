@@ -66,3 +66,99 @@ The test uses the already-uploaded `THE_year2026.txt` Evidence, runs Parse & val
 - uploaded Evidence is reused in place;
 - no Search/Website/Zoho ranking publication authority changes;
 - QS direct publisher JSON APPLY remains governed separately; a QS card being actionable does not imply accepted QS observations.
+
+## Corrective follow-up — 9 September 2026
+
+User UAT on the recovered v2.15.74 baseline identified two QS-specific issues in Administration → Sources & Imports:
+
+1. valid source revisions for the same QS edition were rendered as separate workflow rows, causing editions such as 2024 to appear more than once;
+2. QS 2026 and 2027 remained in `needs_review` after historical parse attempts.
+
+### Runtime diagnosis
+
+The duplicate-year symptom was a read/presentation issue, not duplicate canonical ranking observations. `ranking.manual_imports` correctly retained multiple Evidence revisions for some editions, while `security.admin_ranking_imports_read` exposed every revision directly to the edition workflow.
+
+The 2026/2027 failures were traced to legacy inline Evidence retention rather than ranking-semantic parsing:
+- the retained 2026 inline payload is truncated and fails gzip checksum validation;
+- the retained 2027 import has no recoverable inline XLSX payload.
+
+Those source bytes are not reconstructed or manufactured.
+
+A second acquisition defect was also identified: `ranking-qs-url-import` had direct-static completeness contracts only through edition 2025. Even when the governed QS static-indicator endpoint was available, editions 2026 and 2027 could not satisfy `completeStatic` and were forced to the Parse.bot fallback path.
+
+### Corrective implementation
+
+- `security.admin_ranking_imports_read` now returns one visible revision per `(ranking system, edition year)` for the Administration workflow while retaining all underlying `ranking.manual_imports` rows for audit/provenance.
+- QS official static-indicator qualification now includes 2026 and 2027 using the governed current indicator set.
+- `ranking-qs-url-import` runtime worker advanced to internal version `v1.1.0`; JWT verification remains enabled.
+- No historical Evidence, import revisions, ranking observations, Search projection or consumer publication state was deleted or overwritten.
+
+## Recovery reconciliation — 10 September 2026
+
+Repository/runtime review identified that Pilot PR #59 merged before its Codex review completed. The later review found three material defects in the one-row-per-edition read contract: source selection used mutable processing `updated_at`; detected country scope was taken only from the selected revision; and `logical_revision_count` omitted lifecycle-rejected/superseded revisions.
+
+The Pilot runtime has been corrected with `cf_ranking_import_history_codex_followup` plus `cf_ranking_import_history_file_scope_followup`. The function now:
+- selects the visible source revision by immutable `uploaded_at` capture order with ID tie-breaker;
+- aggregates detected scope across every retained source revision for the same system and edition;
+- includes both `ranking_import_acquire` URL acquisition jobs and governed `layer1_ranking_etl` manual-file acquisition jobs when aggregating source scope;
+- counts every retained source revision, including lifecycle-rejected rows;
+- preserves the existing authentication, Pipeline Operator rank >= 4 and execute-grant boundaries.
+
+Pilot PR #64 was reviewed by Codex. Its initial review found a P1 omission of manual-file acquisition jobs from scope aggregation; that defect was corrected in commit `297309654cc9ef3a9039c40ff27b010088e2d85e`, the Pilot Frontend Build run `34435716416` passed, and the corrected SQL was already active in Pilot runtime. PR #64 then merged to main as `faca58121fc67829d0993b694d85fc90e6fd1d23`. RLS task #60 remains separate and unchanged.
+
+### QS 2026 recovery
+
+The authorised `2026 QS World University Rankings 1.3 (For qs.com).xlsx` was independently hash-verified against the governed Evidence record and exact publisher workbook before recovery. SHA-256: `be3499826108e7c43faca9c426f2e911083574b4ff58aaebc7a401b663157c5d`.
+
+The exact workbook was restored to private Evidence Storage and applied through `ranking-qs-official-etl`:
+- 1,504 ranking observations parsed/applied;
+- 15,040 indicator observations parsed/applied;
+- 195 provider mappings resolved;
+- 1,309 institutions remain unmapped;
+- low-confidence mappings: 0;
+- import status: `needs_review` / `awaiting_mapping` only because provider mapping review is still required.
+
+This is an applied data recovery, not a parsing failure. No publisher value was manufactured.
+
+### QS 2027 recovery
+
+The authorised `2027 QS World University Rankings 1.3 (For qs.com).xlsx` supplied for recovery is valid and exactly matches the governed Evidence hash `f4d09f8099d676f270afa4f83aa23a073e99f31c0cc4d61da4884a20d554d706` at 311,633 bytes. It contains 1,504 ranking rows and the expected 15,040 indicator cells.
+
+QS's currently discoverable public 2027 workbook is a different v1.1 revision, so it is not substituted for the governed v1.3 Evidence. The exact v1.3 binary still requires completion of the private Evidence transfer before ETL APPLY. No 2027 canonical ranking observations are claimed until that exact-byte gate passes.
+
+A purpose-built JWT-protected `ranking-qs-upload-recovery` helper verifies the fixed import ID, exact byte count and SHA-256 before Storage restore and invokes the existing official ETL. Temporary recovery helpers must be retired after recovery closure.
+
+A large inline-Evidence fallback transfer was tested but abandoned after chunk-integrity verification detected corruption risk. The incomplete fallback payload was cleared; no corrupt partial XLSX payload is retained. Recovery remains blocked specifically on transporting the exact local v1.3 binary into the private Evidence bucket through an available authenticated binary-upload path.
+
+### Remaining gate
+
+1. Complete exact-byte private Evidence transfer for QS 2027 and run official ETL APPLY.
+2. Verify 1,504 ranking observations and 15,040 indicator observations, with any remaining `needs_review` state attributable only to provider mapping.
+3. Retire temporary recovery Edge functions.
+4. Reconcile M2.4.5 RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT with the final recovery result.
+5. Keep the separate stale QS 2027 operator-warning UI correction coordinated with the current application release candidate rather than colliding with parallel release/version work.
+
+## Bounded Layer 2 acquisition feasibility acceptance — 10 September 2026
+
+A bounded feasibility acceptance was run for using the existing Layer 2 browser-capable acquisition transport to acquire QS publisher ranking pages while preserving Layer 1 ranking authority.
+
+Acceptance evidence:
+- the current QS World University Rankings 2027 page is crawl/render accessible through an independent rendered web crawler and exposes the published date, ranking table shell, `More Indicators` control and `Download Excel Table` control;
+- the accessible QS ranking result surface exposes more than 1,500 universities and a structured Rank / University / Overall Score sequence;
+- a 27-row top-of-table control sample was compared against the authorised 2027 v1.3 workbook and matched institution, rank and overall score values for the sampled rows;
+- Pilot runtime has the `firecrawl` Layer 2 provider enabled as a `browser_api` route with JavaScript, anti-bot, HTML, JSON, markdown and screenshot capabilities, using the governed private bearer secret boundary;
+- Firecrawl's configured request template requests markdown, HTML and screenshot Evidence; `layer2-acquire-v2` retains source Evidence and explicitly marks `canonical_mutation_authorised:false`;
+- Layer 2 source profiles are evidence-first and governed by host allow-listing, robots policy, bounded concurrency/rate controls and service-authority RPCs.
+
+Acceptance result: **PASS — feasibility only**.
+
+This acceptance authorises a bounded implementation proof, not automatic canonical publication. QS ranking truth remains Layer 1 authoritative data. Layer 2 may be used only as acquisition transport to overcome direct-fetch/Cloudflare gating, with resulting Evidence handed into the existing Layer 1 QS parse/reconciliation boundary.
+
+Implementation acceptance gate:
+1. create a dedicated QS 2027 evidence-only acquisition profile for `topuniversities.com` with Firecrawl forced/first route, bounded to a small control sample;
+2. acquire the publisher ranking page and retain HTML/JSON/markdown plus screenshot Evidence;
+3. identify the rendered/structured response carrying rank and indicator values, including paginated/horizontally exposed indicators;
+4. compare the acquired control sample against the authorised v1.3 workbook; no mismatch, missing indicator or fabricated value is permitted;
+5. only after control-sample PASS, extend acquisition to the full edition and feed retained Evidence into Layer 1 ranking ETL rather than mutating canonical ranking data directly.
+
+The direct Layer 1 fetch route remains known Cloudflare-gated for this source; this feasibility PASS does not weaken the Evidence, identity, mapping or publication boundaries.
