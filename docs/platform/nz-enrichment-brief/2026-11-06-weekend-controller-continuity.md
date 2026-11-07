@@ -673,3 +673,15 @@ Only the existing authorised exact-three-row guarded correction/verification pat
 Branch protection: record only; do not add rules that stop REST squash merges.
 
 **Release verification after each authorised release.** Main commit and tree equal to the tested head; deploy-on-merge result; live migration and function hashes; Workers Builds check run on that main commit (success, new version); live Worker version/UI marker; consumer API baseline; jobs; data integrity.
+
+### Cloudflare Deploy command: field rejected the long expression; guarded wrapper adopted (2026-11-07 11:18 Sydney, Claude)
+
+Platform Admin: replacing `npx wrangler deploy` with the pinned multi-line expression returned "Invalid request body"; nothing saved, no build run. Cloudflare's published documentation states no length or character limit for the Deploy command and gives only short single-line examples, so the cause is unconfirmed; the replacement is therefore a short plain command, not another variant of the long one.
+
+**Deploy command to enter (exactly):** `bash scripts/ci/cloudflare-deploy.sh`
+**Repository change:** Pilot PR #898 (draft, branch `cf247-cloudflare-deploy-wrapper`): the wrapper, test s401, register row. No version, migration or consumer API change. The wrapper requires `WORKERS_CI_COMMIT_SHA`, fetches the guard by pinned commit 1e7eaabe and verifies SHA-256 cfa06ba9…09cc9, requires HEAD equal to the build commit, runs the guard (`cloudflare-frontend`), and only then `exec npx wrangler deploy`.
+**Before the wrapper exists on main:** the file is absent, so `bash` exits 127 and no build publishes. That is the fail-closed bootstrap; there is no unguarded window once the field is set.
+**Safe denial test:** Retry build on the latest main deployment (4ba94e3f). Expected: `bash: scripts/ci/cloudflare-deploy.sh: No such file or directory`, build failed, no new Worker version. After #898 merges, its own main build must show `BLOCKED: controller authority could not be verified: one Controller-Execution trailer…`.
+**Residual risk (stated, not hidden):** the wrapper lives in the repository, so a merge to main that edits it could remove the guard. Mitigations: s401 and the PR review show any change; every main merge is by the controller or Platform Admin; recommended owner setting is a CODEOWNERS or branch rule requiring Platform Admin review of `scripts/ci/cloudflare-deploy.sh` and `scripts/ci/controller-guard.py` (branch protection currently UNKNOWN, so not assumed).
+**Rollback:** set the Deploy command back to `npx wrangler deploy` and Retry build. No data or Worker version is changed by the set or the rollback.
+**Order:** owner sets command → Retry build (missing-file denial) → merge #898 under the controller protocol (its build must be denied by the guard) → #895 and the stack.
