@@ -727,3 +727,30 @@ Fencing removal: a removal commit on #896's branch (74ab7673) restored every pro
 - #892 and #895 closed (integrated once / retired); #898 closed; #890 and #875 held.
 Each release: Deploy on merge, Release Currentness Deployed, Deployed UAT, Pilot Frontend Build and Workers Builds all success. Consumer API edge functions unchanged (website-api-v2 v3, zoho-api-v2 v5, wix/website/zoho course api unchanged); the daily consumer-api-guard has not run since 2026-11-06 18:23Z.
 **P1:** the original task "Work queue alerts" (trig_01Eo7QrJXR24e774gNzLUvTi) was fired once, unchanged except a run-specific instruction to write one grouped digest, with its schedule left DISABLED. Before: platform pending 83, work-queue unsent (notify) 42. After: platform sent 103 total (0 pending), work-queue unsent 0. Independent Platform watchdog dispatched on main: success (run 42326935598; the previous scheduled run 42311080562 failed). Receipt of the push and email NOT yet confirmed by the Platform Admin. If not received, the affected alerts are restorable: platform alerts by status/sent_via, work-queue alerts by sent_at in the run window (about 13:00 Sydney).
+
+## 2026-11-07 P1 incident OPEN: Work queue alerts supervised run NOT received (Platform Admin 13:17 Sydney)
+Status: root cause UNPROVEN. Task trig_01Eo7QrJXR24e774gNzLUvTi stays DISABLED. No recovery is declared; the passing watchdog, the SUCCEEDED run and the "sent" database rows are not evidence of receipt.
+
+Supervised run: session cse_01A4GjyCZ5osQJsGU6JRF7Hg, fired 2026-11-07 01:57:49Z, finished 01:58:27Z (38 s), status SUCCEEDED, task notification config push=true email=true.
+
+Three levels of evidence (only the first exists):
+1. DB acknowledgement: YES. Work-queue take set sent_at 01:58:05Z on 42 notify alerts; platform take then confirm set sent_at 01:58:22Z on 84 platform alerts (ids 21..104; 32 raised/critical, 32 recovered/info, 20 reminder/critical). net_request_id is null on all (no webhook path used).
+2. Transport acceptance: NO EVIDENCE. Transport responses (push, email) are not visible from the database or from this session. The run transcript could not be read (built-in browser pane is signed out).
+3. Recipient receipt: NO. Platform Admin reports neither push nor email arrived.
+
+Design finding (proven from the live function definitions):
+- security.queue_watch_alerts_take_v1 stamps sent_at/sent_via at take time. Taking = "sent". There is no lease, no confirm step, no failure path. Any failure after the take silently loses the alert.
+- security.platform_alerts_take_v1 leases (status sending, 15 min) and platform_alerts_confirm_v1 marks sent. But the task prompt runs confirm in the same run, immediately after composing the message, with no signal that the platform actually delivered it. So "sent" means "the run reached its last step".
+- Notification delivery is a property of the scheduled-task platform ("noteworthy" run output). Nothing in the repo can observe it.
+- The task prompt asks for a message under 150 words; the batch was 126 alerts. A digest that large either gets truncated or is not judged noteworthy. Unverified.
+
+Candidate causes, none proven: (a) the platform filtered or suppressed the run as not noteworthy; (b) push/email destination not registered or misrouted for this account; (c) channel never worked since D12 (31 Oct); (d) oversized digest. Earlier history cannot confirm receipt either: 19 platform alerts (31 Oct to 3 Nov) and 110 work-queue alerts (22 Oct to 3 Nov) were also marked sent by the same mechanism, so their receipt is also UNKNOWN.
+
+Classification (by original event ids, nothing mutated):
+- Confirmed delivered: 0 platform, 0 work-queue.
+- Unknown (marked sent, receipt unproven): 84 platform (ids 21..104) and 42 work-queue (raised 3 Nov 09:19Z to 6 Nov 22:19Z) from the supervised run; plus 19 platform and 110 work-queue sent before it.
+- Retryable now: platform ids 105 and 106 (pending, never taken) and 1 new work-queue alert (raised 02:04Z 7 Nov, unsent). Retrying these is safe.
+- The 84 + 42 from the supervised run are retryable in principle because the Platform Admin reports non-receipt of that batch, but they are NOT reset yet: resetting before the transport cause is fixed would only burn them again. Duplicate-delivery risk exists only if the run's notification arrives late; it is held to that single batch. History is not edited: restoration will be a new append-only event, not an overwrite.
+
+Next safe test (not yet run): one uniquely identifiable [TEST] platform alert, fired through the existing task once the cause is narrowed; hourly schedule stays off until the Platform Admin confirms actual push and email receipt. Needed from the Platform Admin: where the run's notification should have appeared (device or app, email address) and whether the claude.ai task page for cse_01A4GjyCZ5osQJsGU6JRF7Hg shows the run output, since that is the one transport fact I cannot read from here.
+Watchdog: keep the existing DB-health check unchanged. Proposal: add a separate "last receipt acknowledged" signal (Platform Admin acknowledgement of a [TEST] or real alert) so green means received, not just recorded.
