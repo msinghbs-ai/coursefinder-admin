@@ -704,3 +704,7 @@ Platform Admin: replacing `npx wrangler deploy` with the pinned multi-line expre
 **Residual risk (stated, not hidden):** the wrapper lives in the repository, so a merge to main that edits it could remove the guard. Mitigations: s401 and the PR review show any change; every main merge is by the controller or Platform Admin; recommended owner setting is a CODEOWNERS or branch rule requiring Platform Admin review of `scripts/ci/cloudflare-deploy.sh` and `scripts/ci/controller-guard.py` (branch protection currently UNKNOWN, so not assumed).
 **Rollback:** set the Deploy command back to `npx wrangler deploy` and Retry build. No data or Worker version is changed by the set or the rollback.
 **Order:** owner sets command → Retry build (missing-file denial) → merge #898 under the controller protocol (its build must be denied by the guard) → #895 and the stack.
+
+### Platform Admin decision 11:29: restore standard deployment (Claude)
+
+Recorded verbatim in `docs/platform/2026-11-07-platform-admin-decision-restore-standard-deployment-1129.md`. Supersedes the Cloudflare fencing checklist and the wrapper entries above. Actions so far: Pilot PR #898 (Cloudflare wrapper) closed unmerged; the Cloudflare Deploy command was never changed (the long expression was rejected and nothing saved, so `npx wrangler deploy` stands, to be re-confirmed by the first release's Workers Builds check and live Worker version); #895 is retired from the release path; fence-free release stack being derived (see next entry).
