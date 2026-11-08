@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**CURRENT TOP PRIORITY — 9 Nov 2026, DATA NOT SCAFFOLDING:** [Provider descriptions + intake dates autonomous data-delivery mandate](2026-11-09-data-population-first-delivery-mandate.md). Live baseline: providers.description 0/3103, pdesc scope five AU universities / four Layer4 proposed + one evidence-held; active exact dates 1534, undated month/date rows 30302; 151 filled intake events (142 currently retained active dated), not proof of consumer publication. Require first positive *correct* production data gain, then sustained provider/campus/source coverage. All previous draft/UI work remains secondary until integrated and data outcomes demonstrated.
+
+
 **Overnight controller ownership disposition (8 Nov 2026):** [Scheduled Claude controller lease decision](2026-11-08-scheduled-controller-lease-disposition.md): docs-only Admin scheduler proof verified; conditional designation for development, **no merge or production write while atomic lease and real adoption remain pending**. Preserve previous disabled Codex schedules and all existing approval gates.
 
 
