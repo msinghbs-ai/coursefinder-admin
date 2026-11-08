@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**Current cross-domain delivery mandate (8 Nov 2026):** [Autonomous delivery and closure: intakes, fees, English, descriptions, AER, scholarships, UI and P0 integrity](2026-11-08-cross-domain-autonomous-delivery-closure.md). This is the target/acceptance contract; the sole live SS/IQ status remains in [the execution register](../STUDYSEARCH-EXECUTION-REGISTER.md). Current production state must be verified; older controller baseline below is historical.
+
+
 **Current controller directive — 2026-11-06T23:24:11Z: CODEX CONTROLLER RELEASED.** Codex appointment revoked; engineering stopped `2026-11-06T23:18:14Z`. Claude Sonnet5.5 (High reasoning effort) is the nominated successor, acceptance pending. Canonical checkpoint `CP-382-20261106T232411Z`; [final handover](2026-11-06-weekend-controller-continuity.md#codex-controller-released--final-handover-to-claude). Both Codex-owned future tasks are disabled: weekend `Automation_0a2ea05fa5e08191b96d4341b0c2cf90`, Monday `Automation_af49e809a9f081918404af049e370634`. Atomic6d95 remains generation0/no owner/no lease/adoption pending; Codex never acquired ownership. The old transfer target is stale; no Codex reacquisition/resumption is authorised. Claude must independently verify/accept authority and installed account fences. At23:20UTC83 pending/80 overdue, original3 incorrect deadlines active, latest watchdog42311080562failed. No Codex in-flight operation; direct Cloudflare account inventory unavailable. Existing PR892–897 and holds890/875 preserved.
 
 ## Current controller checkpoint — 6 November 2026
