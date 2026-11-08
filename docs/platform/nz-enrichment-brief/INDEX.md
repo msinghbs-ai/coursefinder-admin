@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**Overnight controller ownership disposition (8 Nov 2026):** [Scheduled Claude controller lease decision](2026-11-08-scheduled-controller-lease-disposition.md): docs-only Admin scheduler proof verified; conditional designation for development, **no merge or production write while atomic lease and real adoption remain pending**. Preserve previous disabled Codex schedules and all existing approval gates.
+
+
 **Live architecture and complete production inventories (8 Nov 2026):** [Capability and Data-Population Inventory](../inventory/STUDYSEARCH-CAPABILITY-AND-DATA-POPULATION-INVENTORY.md) and its linked CSVs: 2,317 SQL function signatures, 184 automation definitions, 1,236 setting definitions and 1,792 enrichment plan instances. Read-only snapshot, not live acceptance.
 
 
