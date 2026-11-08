@@ -1,5 +1,8 @@
 # StudySearch execution register
 
+**Feature-level traceability (8 Nov 2026):** [Feature Acceptance Contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md) F-INT/F-FEE/F-ENG/F-CDESC/F-PDESC/F-AER/F-SCH/F-DISC/F-OPS defines tasks and substeps; [Executive Delivery Status](STUDYSEARCH-PROGRAMME-STATUS.md) is a dated read-only summary derived from THIS register. The register and existing IQ issue queue remain authoritative. Every implementation/independent-validation finding must be reconciled to an existing issue and feature substep, with expected vs actual operational acceptance. Neither document creates a duplicate issue queue.
+
+
 **Canonical, single list of StudySearch transformation work** (Platform Admin, 31 Oct 2026 11:32: "one permanent StudySearch task ID for every work item and one consolidated execution register").
 - Evidence and detail: `nz-enrichment-brief/2026-10-31-studysearch-transformation.md` (the record), cited by section.
 - Original F/TD identifiers are kept as references only.
