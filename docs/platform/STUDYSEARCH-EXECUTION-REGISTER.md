@@ -1,5 +1,8 @@
 # StudySearch execution register
 
+**8 Nov latest scheduled-controller decision:** [Conditional overnight controller ownership and lease disposition](nz-enrichment-brief/2026-11-08-scheduled-controller-lease-disposition.md). Independently checked Admin draft PR #384 closed/unmerged, branch commit 96791741 present, atomic controller ref at 547c3ca with older execution/expired lease/adoption pending. Scheduled fresh Claude Code work may prove Pilot branch, draft PR and CI; **no autonomous merge, migration or governed data write before valid per-execution ownership and enforced adoption**. No new Code or Supabase mutation was made by this governance note. Source of evidence is the scheduled-run Admin record and GitHub, not direct Claude scheduler API. Continue other unblocked F-substeps without pausing programme.
+
+
 **Feature-level traceability (8 Nov 2026):** [Feature Acceptance Contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md) F-INT/F-FEE/F-ENG/F-CDESC/F-PDESC/F-AER/F-SCH/F-DISC/F-OPS defines tasks and substeps; [Executive Delivery Status](STUDYSEARCH-PROGRAMME-STATUS.md) is a dated read-only summary derived from THIS register. The register and existing IQ issue queue remain authoritative. Every implementation/independent-validation finding must be reconciled to an existing issue and feature substep, with expected vs actual operational acceptance. Neither document creates a duplicate issue queue.
 
 
