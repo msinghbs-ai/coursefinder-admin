@@ -1,0 +1,36 @@
+# StudySearch — Scheduled Claude Controller: Ownership, Lease and Overnight Release Disposition
+**Dated:** 8 November 2026, Australia/Melbourne. **Decision category:** conditional technical direction for the Platform Admin's requested choice, not an assertion that an atomic lease has been granted. **Status:** scheduled development proof reported; production ownership **NOT ACQUIRED**.
+
+## Decision
+**Designate the scheduled Claude Code runner as the intended next Integration Controller, conditional on a valid, independently reconciled acquisition/transfer of ownership.** A scheduled run must not automatically inherit an earlier session's identity or lease.
+
+Until the controller's ownership/prod-adoption gate is demonstrably satisfied, the scheduled runner has **development-only authority**: read GitHub/production boundedly, inspect proof/evidence, create feature-owned Pilot branches, commit bounded source/fixture changes, open PRs, run CI and document findings. **NO automated merge, migration apply, Edge/Cloudflare deployment, toolset/feature-flag write or governed SQL data correction** based on a mere nomination, expired lease or green check. Where production corrections require explicit authority (La Cité, Layer 4, UQ lifecycle, G3), retain those gates regardless of controller ownership.
+
+**Fallback:** Releases stay with the currently separately authorised human/manual release route until the complete gate is verified. This is not an open-ended veto on engineering. The scheduled run must proceed through unblocked F-feature substeps and deliver reviewable tested Pilot PRs.
+
+## Evidence and discrepancy reconciliation
+- Platform Admin relayed a new Claude schedule, `StudySearch Integration Controller overnight resumption`, reported task `trig_01Y4yZJc1dr8R2mDgpqwopwF`, fresh `claude-sonnet-5-5` Code Remote session hourly at **:23, 23:23–05:23 Melbourne**. Claude scheduler reasoning effort not configurable.
+- Reported scheduler proof fired 2026-11-08 10:46:34 UTC and completed 10:50:04 UTC. The proof's first written end time and “T1050Z” branch/run label were inaccurate. These defects were subsequently corrected in its task prompt, according to the dated Admin handover.
+- **Independently verified in GitHub:** Admin draft PR [#384](https://github.com/msinghbs-ai/coursefinder-admin/pull/384) was closed unmerged; its head commit `96791741a80fc098bf3927b03540dca4ad14c71f` survives on branch `controller-proof-20261108T1050Z`. This validates GitHub write capability to **Admin only**, not to Pilot. GitHub evidence and the register describe a real executed docs-only test; this check did **not** directly access the external Claude scheduler's API.
+- **Independently read from atomic ref:** `refs/heads/studysearch-controller` = `547c3ca46791caa372eeba1ddb9b41f25064060e`; `controller.json`: `status=reconciliation`, generation 1, owner is an **older interactive Claude execution** `claude-controller-20261107T0000Z`, `lease_expires_at` 2026-11-07 05:36 UTC per current register, `adoption.status=pending`, no in-flight token. A lease expired long ago; expiry does **not** give future scheduled sessions ownership.
+- Existing canonical operating model requires a current per-execution owner, verifiable predecessor-stop evidence, atomic fast-forward transition, fresh actual UTC timestamps, validated checkpoint, and **adoption by all production mutation entry points**. Git document-only fencing is not sufficient. Do not silently bypass rejected permissions or invent production ownership.
+- Pilot main at previous inventory `d1a2b575`; in the first real scheduled run, re-read latest, PRs #890/#875 held and all current CI, independent validation and current in-flight operations before selecting a new slice.
+
+## First real overnight run: exact acceptance
+1. Verify the scheduler has triggered a **fresh execution** at its actual UTC start and that it has checked repository and production reality, including Codex schedules still disabled. Record authoritative scheduler run ID, start/finish, environment and actual tool results (never forecast timestamps).
+2. Prove that the scheduled runner can **write to the Pilot repository** by a bounded non-release feature/fixture/documentation change on a correctly owned branch, open a **draft Pilot PR**, and obtain actual **CI results at its exact head**. Avoid changing live source/controls solely to prove a point; no false green tests.
+3. Check atomic controller ref, state schema, register and latest issue/owner transfer against actual operations. Demonstrate a valid transition **only if current protocol allows it without a bypass**, and independently establish real enforcement/adoption of every production write path. If not, record the exact missing gate and continue development-only work; do not merge.
+4. Use existing Admin F-feature keys (F-INT through F-OPS) and corresponding IQ/SS issue. Pick the highest-priority **unblocked** engineering substep; don't spend every run re-diagnosing IQ-00053 or an already merged PR. No duplicate tracker or top-level dashboard. Preserve frozen consumer APIs and human approval.
+5. At end, update `STUDYSEARCH-EXECUTION-REGISTER.md` with real scope, PR/CI, provenance, current lease result and next run's safe action; update `STUDYSEARCH-PROGRAMME-STATUS.md` from verified evidence. A closed/failed session cannot assert it is still working.
+
+## Formal gate for independent future releases (not met at this recording)
+- The Platform Admin has nominated a **role**, not pre-authorised all future individual sessions.
+- Owner state **active**, accurate current execution ID, lease not expired, complete reconcile and immutable-operation reservation.
+- Every production entry point participates in enforceable ownership checks under the existing release architecture. Pilot GitHub-to-Cloudflare deploy-on-merge stays as the deployment path; do not install replacement deployment machinery or override the user's rejection of custom release gating without a **new explicit design decision**. If the current model's all-entrypoint adoption cannot be met under that design, document the incompatibility instead of weakening the guard.
+- For the actual PR/operation, full green exact-head CI, live md5s, version migration/rollback evidence, no in-flight conflicting release, permitted budget, appropriate authorisation and preserved G3/Layer 4/manual-lock controls.
+- At the start of **each** new scheduled session, independently acquire/transfer ownership to its own real execution and guard every operation; there is no blanket “night schedule lease”.
+
+## Escalation and status
+**The next real run is allowed to build and prove a Pilot PR even if lease remains unacquired.** If the account's scheduler or Pilot GitHub permission refuses, do not look for an alternate bypass; leave exact logs in the canonical register and continue permissible read-only/design work. If a production-level transfer requires human verification, isolate that to one consolidated request while developing all safe independent work.
+
+This note does not change any deployed code, controller ref, lease, user permission, task or vendor spend. It records an explicit fail-closed sequencing recommendation.
