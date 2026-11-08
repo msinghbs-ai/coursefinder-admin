@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**Current feature design and completion audit (8 Nov 2026):** [Feature Acceptance Contract](../STUDYSEARCH-FEATURE-ACCEPTANCE.md) (F-INT through F-OPS substeps and UI acceptance), [Executive Delivery Status](../STUDYSEARCH-PROGRAMME-STATUS.md) (dated derived snapshot), and [canonical Execution Register](../STUDYSEARCH-EXECUTION-REGISTER.md) (authoritative issue/PR/production evidence). Earlier 6 Nov snapshots in this index are retained as history, NOT current production state.
+
+
 **Current cross-domain delivery mandate (8 Nov 2026):** [Autonomous delivery and closure: intakes, fees, English, descriptions, AER, scholarships, UI and P0 integrity](2026-11-08-cross-domain-autonomous-delivery-closure.md). This is the target/acceptance contract; the sole live SS/IQ status remains in [the execution register](../STUDYSEARCH-EXECUTION-REGISTER.md). Current production state must be verified; older controller baseline below is historical.
 
 
