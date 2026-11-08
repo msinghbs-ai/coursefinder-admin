@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**OVERRIDING PROVIDER DESCRIPTION DECISION — 9 NOV 2026:** [All 3,103 AU/NZ/CA providers, source-backed autonomous descriptions and controlled machine admission](2026-11-09-all-providers-autonomous-description-delivery-decision.md). Platform Admin requests all providers attempted and every eligible description populated today, with no per-provider human approval. This is a policy **change to be implemented and legitimately released**, not authorisation for an existing service session to bypass Layer 4, budgets, controller lease or consumer G3. Use stored/official/free sources, Firecrawl as a metered fallback, verified register facts if no About page; no invented generic claims. Current production has 0 descriptions, five-key AU-only reader and historic 4 human review holds. Prior “20 university wave” is superseded as the target, but remains a harmless diagnostic batch if used to validate first-run outputs.
+
+
 **CURRENT TOP PRIORITY — 9 Nov 2026, DATA NOT SCAFFOLDING:** [Provider descriptions + intake dates autonomous data-delivery mandate](2026-11-09-data-population-first-delivery-mandate.md). Live baseline: providers.description 0/3103, pdesc scope five AU universities / four Layer4 proposed + one evidence-held; active exact dates 1534, undated month/date rows 30302; 151 filled intake events (142 currently retained active dated), not proof of consumer publication. Require first positive *correct* production data gain, then sustained provider/campus/source coverage. All previous draft/UI work remains secondary until integrated and data outcomes demonstrated.
 
 
