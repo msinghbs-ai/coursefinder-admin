@@ -34,6 +34,8 @@
 ## 3. Operational stop lights and immediate next work
 
 _Scheduled run update (see register entry "Scheduled controller working run (first)", 8 Nov 2026): Pilot draft PR [#922](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/922) (F-INT.04 agreement view, IQ-00313) opened; implemented in part, not released, no data gain. Ownership not acquired; P1 triaged count 75._
+
+_Scheduled run update, 8 Nov 2026 12:33:55 UTC (register entry "Scheduled controller working run (second)"): Pilot draft PR [#923](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/923) (F-INT.05, IQ-00313: the intake screen flags a job that says done but admitted nothing or had failures) opened; four required checks green at its head, isolated-postgres still running at last read; #922's isolated-postgres finished success. Implemented in part, not released, no data gain. Ownership not acquired (controller ref unchanged). IQ-00347 (P1, auto-raised) appears misclassified as a worker timeout: its sample is a provider-site 403; recorded, not changed._
 1. **P0 fees:** explicit approval for the existing La Cité exact 65-row guarded paste; do not let unapproved direct SQL writes run or allow a false amount to be re-admitted.
 2. **P0 intakes:** course-specific qualification of 2027 Deakin dates and UQ lifecycle, ensure correct original 12 withdrawal persists. No blanket withdrawal or false publication.
 3. **P1 worker:** two clean unattended IQ-00053 cycles, measure real worker answers and downstream field output; inspect remaining `read` mode 546.
