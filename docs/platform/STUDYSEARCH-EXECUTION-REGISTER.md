@@ -1694,3 +1694,24 @@ Pilot draft PRs #922 to #928 (F-INT.03 to F-INT.06, UI only) were integrated int
 | F-OPS | F-OPS.01 IQ-00053 passive count | IQ-00053 | Scheduled runner | n/a | Count only | n/a | n/a | n/a | None | enrich_ai silent since 18:26Z (cause not examined) | Count next run; report output if a queue exists |
 
 **Handover:** execution ID `cse_01A4GjyDf6FkJxNQtHidBBU7` (scheduler task fired 22:23:35Z); state: development-only, draft #933 open at `de0c8bc6`, controller ref unchanged `547c3ca4`. Verify next run: #933 stays green; whether #930/#931/#932 merged or changed (re-read main before any slice); enrich_ai calls resume after 18:26Z; P1 triaged 70. No-repeat: do not touch #930, #931, #932, #933's branch, #890 or #875 in parallel; no ownership attempt without predecessor-stop evidence; do not re-diagnose IQ-00053 or the scholarship_ai hold. Next safe action: F-AER.05 university drill-down phone acceptance (same pattern as #933) or F-OPS.04 phone acceptance of another operated screen, on a new branch from main; F-INT.02 scope controls need a server bridge design (design only).
+
+### 2026-11-09 #930 released under the Platform Admin's PR-specific authorisation; settings applied; reader on
+- **Authority:** Platform Admin, 9 Nov 2026, "Approve Option 1": manual production release of #930 only, conditional on independent QA finding no blocking defects. QA pass 1 found B1 (withdraw duplicate key) and B2 (performance); both fixed on head `7834e697`; QA pass 2 verdict SAFE. No controller ownership claimed; the adoption gap stays open as an engineering defect (Admin issue #385), not accepted as permanent.
+- **Release:** #930 marked ready and squash-merged 09:49:54 AEDT, Pilot main `533793cf`. `deploy-on-merge` applied `20261109010000`, `20261109020000` and `20261109030000` in order with md5 guards; coverage-sweep deployed (v244, WORKER v0.59.12). Checked live after deploy: migrations present, settings seeded, all machine switches 0, 0 descriptions.
+- **Settings applied through the signed-in Admin UI, each with an audit reason (`pipeline.admin_control_events`, read back from `pipeline.platform_toolset_settings`):**
+
+| Time (AEDT) | Setting | From | To |
+|---|---|---|---|
+| 09:57 | `pdesc.enabled` | 1 | 0 (pause while scope widened) |
+| 09:57 | `pdesc.countries` | AU | AU, NZ, CA |
+| 09:57 | `pdesc.provider_types` | university | empty (every type, including unclassified) |
+| 09:57 | `pdesc.provider_keys` | 5 pilot keys | empty (no whitelist) |
+| 10:01 | `pdesc.queue_floor_runs` | 2 | 1 (first fill about 11 providers, not 20) |
+| 10:02 | `pdesc.enabled` | 0 | 1 |
+| 10:02 | `pdesc.machine_admit_on` | 0 | 1 |
+
+  `pdesc.registry_factual_on` stays 0 until the first fire has been read; `pdesc.machine_numbers_allowed` stays 0; `pdesc.ai_usd_max` (1) and `pdesc.firecrawl_reads_max` (20) unchanged.
+- **Scope:** 2,821 active published providers without a description (AU 1,274; CA 1,130; NZ 417). Empty UI list accepted, which confirms the #930 correction works.
+- **Timing before switch-on (live, one session, load varies):** selection per country AU 5.3 s (first run 13.5 s, cold), CA 4.8 s, NZ 3.0 s; throughput call 1.2 s; machine report 1.5 s; each selection has a fixed cost of about 2 s. Full enqueue at the default (20 providers) about 13 s; at `queue_floor_runs` 1 (11 providers) 10.7 s. QA's target was under 10 s; this is 7% over a design target, not a limit: the job runs as `postgres` with a 2-minute statement timeout, and the 8 s limit applies only to authenticated REST calls. Recorded as a known margin. Steady-state top-ups are smaller. The funnel RPC has no screen calling it, and a rank-6 session was not used to time it; not measured.
+- **Pace (honest):** with the current settings the reader fires hourly and reads at most 9 providers per fire (batch 3 x dispatch 3), so about 216 a day against 2,821 remaining. Raising `pdesc.every_minutes` (floor 10), `batch.provider_description` (to 10) and `pdesc.dispatch_max` are settings changes; the US$1 AI ceiling stops Tier 1-3 reads at roughly 330 to 900 reads whatever the pace, so the ceiling decision is the real limit and is still the Platform Admin's.
+- **Next:** read the first fires (10:06 and 10:16 AEDT, :06 and :16 UTC), then confirm the first machine-admitted description in `catalogue.providers.description`, the `website_v2_provider` read-back, Zoho, and `security.provider_description_machine_report_v1()`.
