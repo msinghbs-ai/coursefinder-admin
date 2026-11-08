@@ -32,6 +32,8 @@
 **Data counts and status are *observations*, not automatic current truth.** The feature contract and live register determine whether a subtask is actually completed. For user-visible net gains use an observation window with start/end and exact admission event IDs. UNKNOWN is distinct from ZERO.
 
 ## 3. Operational stop lights and immediate next work
+
+_Scheduled run update (see register entry "Scheduled controller working run (first)", 8 Nov 2026): Pilot draft PR [#922](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/922) (F-INT.04 agreement view, IQ-00313) opened; implemented in part, not released, no data gain. Ownership not acquired; P1 triaged count 75._
 1. **P0 fees:** explicit approval for the existing La Cité exact 65-row guarded paste; do not let unapproved direct SQL writes run or allow a false amount to be re-admitted.
 2. **P0 intakes:** course-specific qualification of 2027 Deakin dates and UQ lifecycle, ensure correct original 12 withdrawal persists. No blanket withdrawal or false publication.
 3. **P1 worker:** two clean unattended IQ-00053 cycles, measure real worker answers and downstream field output; inspect remaining `read` mode 546.
