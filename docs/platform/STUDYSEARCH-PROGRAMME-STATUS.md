@@ -1,5 +1,8 @@
 # StudySearch — Executive Delivery Status (derived snapshot)
 
+**NEW highest-priority, production-evidenced data delivery mandate (9 Nov):** [Provider descriptions and valid intake date population](nz-enrichment-brief/2026-11-09-data-population-first-delivery-mandate.md). Base: provider descriptions 0 (four Layer4 proposed, one held) and 1534 active dated / 30302 active undated intake rows. Last 24h 151 new-date filled events but only 142 retained as currently active and dated; neither count establishes correct course-specific consumer publication. Success requires positive source-backed canonical **and where eligible published** outcomes under existing authority; #922–#928 UI-only draft work is not accepted data filling. This heading supersedes historical engineering-first priorities elsewhere in this dated status until the Controller refreshes exact live evidence. 
+
+
 **Production functions, field lineage, settings and plans (8 Nov snapshot):** [Capability and Data-Population Inventory](inventory/STUDYSEARCH-CAPABILITY-AND-DATA-POPULATION-INVENTORY.md); dated metadata, not a second issue queue.
 
 **Snapshot compiled:** 8 November 2026 (AEDT), from the latest supplied 20:19 AEDT independent validation, Claude's subsequent IQ-00053 release account and independent GitHub/status checks. **NOT a live dashboard.** A newer observation supersedes it; do not merge figures from different windows as a single reading.
