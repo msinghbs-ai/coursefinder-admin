@@ -965,3 +965,102 @@ Rollback for each: set back to its previous value (0, 0, empty). `layer4.reader_
 | FIRECRAWL | IQ-00045 / IQ-00047 | Vendor billing reports 100k plan, mirror lag; #910 pending | Reconciliation/priority-floor pending | Controller: verify balance and PR #910 G2 controls with last main state | Credited usage reconciles, priority held/resumes automatically without wasted credits |
 
 **Controller check-in schema:** At each material status transition append or link `Issue | Lane/substep | Agent | PR/release | expected vs actual first scheduled run | before/after at same snapshot | blocked reason | UI setting/action | next autonomous step | verified evidence`. Do not stop when only the engineering stage completes. The Platform Admin should be able to answer: what was requested, what shipped, what runs itself, what gained, what requires human review, and what remains.
+
+
+## 2026-11-08 12:45 Melbourne (01:45 UTC) Controller reconciliation of the cross-domain mandate — production-reconciled workstream matrix
+**Mandate:** [cross-domain autonomous delivery closure](nz-enrichment-brief/2026-11-08-cross-domain-autonomous-delivery-closure.md). **Mode:** Active Remediation. **Controller:** Claude (sole Integration Controller; sole merger and deployer).
+**This entry corrects two earlier statements.** (1) The 12:15 entry said the Firecrawl balance was "about 0 after a top-up of about 1,000". The vendor reading lags the platform log by one 15-minute reading (956 at 01:00 UTC, 359 at 01:15 UTC); the account-owner upgrade to the Standard 100,000-credit plan appeared at the 01:30 UTC reading (100,251 remaining of 100,000, period 8 Nov to 8 Dec 2026) and agrees with the billing page the account owner supplied. (2) The mandate and the 12:15 entry count ten Deakin intakes; the live count at 01:40 UTC is **twelve** (ten written by 23:26 UTC on 7 Nov, two more at 01:26 UTC on 8 Nov, because the writer was still running).
+
+### Releases verified live since the last entry
+| PR | Main | What | Live verification (8 Nov) |
+|---|---|---|---|
+| #907 | a9cfb23b | AER shared-page rule (refused binding) and QUT matrix route (inactive) | `course_entry_shared_page_v1` md5 7b43d0c6…; 23 route rows `held`; 23 inactive QUT matrix sources |
+| #908 | 7a581561 | Reader quality, coverage-sweep v0.59.11, six settings (all OFF) | six settings read back at the stated values; `layer4.reader_revision` still 1 |
+| #909 | 5c9f46a1 | One definition of "review ready" | counter: ready 245, approve except 38, stale 26, technical 334, duplicates 0, raw waiting 605 |
+| #910 | 8eccd575 | Firecrawl priority floor and 100,000-credit plan | `fc_budget_left_v1` a337da7a…, `svc_fc_spend` a0f43e73…, `lane_paid_hold_v1` 96e7edde… (all equal to the migration targets); setting `firecrawl/priority_floor_course_search` = 1,500 credits; plan limit 100,000, tier `standard_100k`; daily shares total 4,000 (central 1,000, reads 1,200, scholarships 800, course search 800, other 200); `fc_vendor_estimate_v1()` 100,240; `fc_priority_room_v1()` 98,740; spend since deploy 2 credits (scrape). Course-link search now stops when the estimated balance is under the floor plus a search; the old 13,000-a-day course-search share is gone. |
+
+### Firecrawl reconciliation (mandate acceptance)
+| Item | Reading |
+|---|---|
+| Vendor plan and balance | Standard, 100,000 a month ($99, renews 8 Dec 2026); 100,251 remaining (vendor reading id 3612, 01:30 UTC). Credits are shown as credits; the dollar cost is not a platform figure. |
+| Allocation rule today | Estimated vendor balance (fresh reading less platform use since) is the ceiling; daily shares per group are a pacing limit, now sized for the plan (4,000 a day, about 120,000 a month at the top, so the balance, not the shares, is the real limit). Course-link search additionally keeps 1,500 credits in reserve for higher-priority work. |
+| Not yet met | Percentage-based shares from the live plan; floors for `reads` and `other` groups; UI showing allowance, live remaining, last sync, usage by lane, floor and daily distribution (assigned to the operator UI lane, read-only first). Hold wording in four functions still says "tomorrow's share". |
+| Spend control | No extra purchase; no credit spent by this change. Park and recover for zero-yield crawls is a scholarship and discovery lane item (IQ-00129, IQ-00072). |
+
+### Production baseline (read-only, 01:35–01:50 UTC; "unknown" means not measured this entry, never zero)
+| Domain | Measure | Value | Mandate baseline | Note |
+|---|---|---|---|---|
+| Catalogue | lifecycle-active courses | 35,689 (all `unpublished` in `publication_status`: the Published switch is on the provider, not the course) | 35,690 | |
+| INT | active intakes, courses with any | 13,364 courses; 31,833 active rows (5,606 withdrawn) | unknown | |
+| INT | active rows with an exact start date | 1,500 rows in 909 courses | 1,498 | +2 are the two new Deakin rows |
+| INT | active rows with an application deadline | 70 | 79 | **−9 unexplained**: open, under IQ-00313 follow-up |
+| INT | active rows dated 2028-11-01 | 12 (all Deakin, source b524f892, key `<cricos>:current:november`) | 10 | see P0 |
+| FEE | courses holding an active fee | 27,600 of 35,689 (8,089 without); fee rows active 92,061 | unknown | audience: all 27,600 hold an international fee |
+| ENG | courses holding an active English requirement | 20,749 of 35,689 (14,940 without); rows active 30,591, withdrawn 1,830 | about 20,749 | agrees with the older figure |
+| C-DESC | courses with a description | 163; Layer 4 `course_description_first_read` 1,190 pending (oldest 3 Nov 02:46 UTC) | 163 / 1,190 | |
+| P-DESC | providers with a description | 0 of 3,087 active; Layer 4 `provider_description` 4 pending (oldest 2 Nov) | 0 / 4 | |
+| AER | Layer 4 `course_entry_first_read` | 564 pending, 497 approved | unknown | approved but not yet traced to active AER rows: lane F |
+| AER | `entry_matrix_first_run` / `no_page_first_run` / `conjoint_rule_first_run` | 41/31, 55/26, 5/8 (pending/approved) | unknown | |
+| SCH | scholarships | active+published 1,144; active unpublished 370; inactive unpublished 614; active withdrawn 48; inactive withdrawn 9 | 1,144 | coverage cases 20,506 not re-measured |
+| DISC | Layer 4 `official_course_url` | 2,107 pending, 224 approved | unknown | course links 33,554 and rankings 0 not re-measured |
+| Layer 4 | total | 4,108 pending, 1,188 approved | 4,108 / 1,188 | agrees |
+| Jobs | cron failures in the last 24 hours | none recorded | unknown | a job that does not fail is not a stage transfer: each lane must still show its gain |
+
+### Jobs per lane (live schedule; active unless marked OFF)
+| Lane | Jobs |
+|---|---|
+| INT | `intake-dates-apply` (:26), `coverage-admit-intakes` (every 10 min from :05), `calendar-reread` (:13); `provider-calendar-defaults`, `provider-calendar-intakes` OFF |
+| FEE | `fee-reader` (every minute), `fee-period-settle` (every 10 min from :05), `fee-wording-rules` (:37), `provider-fee-profiles-apply` (:26), `provider-fee-ranges-refresh` (:57), `l4-rule-fee-year-align` (03:27), `scholarship-fee-alignment` (:47) |
+| ENG | `provider-english-defaults` (every 10 min from :03), `enrich-plan-auto` (:41), `enrich-plan-run` (every 5 min), `enrich-focus-refresh` (Sunday 17:41), `enrich-coverage-snapshot` (:07) |
+| C-DESC | `course-field-source-build` (:55), `layer4-readiness` (:22, :52), `layer4-groups`, `layer4-interventions` |
+| P-DESC | `provider-description-read` (:06, :16, :26, :56) |
+| AER | `aer-scheduled-read` (:13), `aer-reconcile` (:27), `aer-replay` (:33), `aer-outcome-register` (every 5 min), `entry-matrix-read` (every 5 min from :04); `aer-source-stored-find` (:37) **OFF** |
+| SCH | 19 `scholarship-*` jobs, all active (discover every 10 min, read every 5 min, recheck every 2 min, ai-extract every minute, auto-publish :29, coverage-classify :29, coverage-recover :31) |
+| DISC | `course-link-search` and `course-link-search-worker` (every minute), `course-relink` (every 10 min from :04), `link-refresh` (every 10 min), `course-url-fill` (02:23), `programme-discover` (every 30 min from :12), `central-find` (every 5 min from :02), `central-attach` (:48), `central-ai` (every 5 min); `course-link-reverse`, `coverage-discover`, `coverage-discover-2` OFF |
+| OPS | `platform-resource-observe` (hourly), `firecrawl-credit` (every 15 min), `website-sync-check` and `zoho-sync-check` (every minute) |
+
+### Agent assignment and the spend-limit stop
+Eight lane agents were assigned on the common brief `/home/claude/agent-briefs/COMMON.md` (ownership blocks: migrations 20261108100000 to 179999 by lane; specs s420 to s499; branch per lane). **At about 12:38 Melbourne every agent stopped on the account's monthly spend limit** (HTTP 429, "monthly spend limit"; the weekly limit resets 9 Nov 09:30 Asia/Kolkata). **The seven new lane agents (fees, English, course descriptions, provider descriptions, AER follow-ups, scholarships and discovery, operator UI) had saved no work** (worktrees created, no commits or reports). The Deakin agent saved one commit (root cause, migration, fixture, spec, correction file). **No spend limit is bypassed.** Raising the limit is an account-owner action, recorded once here; the Controller continues all work that needs no agent by itself and resumes the lane agents (SendMessage to the same agents) once requests are accepted again.
+
+| Agent | Lane | Branch | State |
+|---|---|---|---|
+| A | P0 intake and date integrity | cf247-deakin-p0 | work saved; taken over by the Controller; PR #911 |
+| B | FEE | cf247-fees | stopped before any output (spend limit) |
+| C | ENG | cf247-english | stopped before any output (spend limit) |
+| D | C-DESC | cf247-cdesc | stopped before any output (spend limit) |
+| E | P-DESC | cf247-pdesc | stopped before any output (spend limit) |
+| F | AER follow-ups | cf247-aer2 | stopped before any output (spend limit) |
+| G | SCH and DISC | cf247-sch-disc | stopped before any output (spend limit) |
+| H | Operator UI and QA | cf247-ops-ui | stopped before any output (spend limit) |
+
+### P0 IQ-00313 Deakin (cause established)
+`security.calendar_proposal_dates_v1` took the first year printed anywhere in a quote as the year of the START date. The approved Deakin calendar quote "Trimester 3: 1 Nov - 28 Jan 2028" starts on 1 November 2027 (the reader's own years are 2026 and 2027), so the year after the END date (2028) became the start year, and `intake-dates-apply` (rule calendar-v3) wrote 1 November 2028 to Deakin November intakes at each hourly run (7 Nov 14:26 to 8 Nov 01:26 UTC). The same resolver serves 72 universities (891 quotes): of 1,246 resolved starts, 32 change under the fix (2 corrected, 30 held month-only because the year is not proved by the quote); none of the 30 is written to any intake today. PR #911 carries the fix (cross-year resolution, a next-cycle horizon as setting `intake_dates.max_months_ahead` = 18 months, rejected and withdrawn values never re-admitted, stored Website and Zoho items follow a withdrawal at once), a scratch PostgreSQL fixture, the spec `s414`, and a count-guarded, audited correction file (not run). The correction withdraws the twelve values to month-only "November" and holds those courses for a person; it writes no date.
+UQ 092452K / 098328K: both hold two active 2027 intakes (22 Feb, 26 Jul; source d5e70aa2) and 098328K has three withdrawn month-only rows from an earlier source. **Open:** the discontinued status of 092452K versus its two active intakes is not yet reconciled against the course lifecycle and is the next P0 step after the Deakin correction. Not changed.
+
+### Workstream matrix (mandate row format)
+`Issue | Domain | Substep | Owner | Dependency | State | Code/PR/migration | Test result | Deployed version | First scheduled run and expected/actual output | 24h gains | Last checked UTC | UI location/control | Human decision if truly needed | Next executable step | Evidence`
+
+| Issue | Domain | Substep | Owner | Dependency | State | Code/PR/migration | Test result | Deployed version | First scheduled run: expected / actual | 24h gains | Last checked UTC | UI location/control | Human decision | Next executable step | Evidence |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| IQ-00313 | P0 intake integrity | source/reader: year resolution | Controller (took over from A) | PR #911 merge | testing | PR #911; migration 20261108050000 | fixture PASS (scratch PG16, 14 checks); s414, s32, s42, s57, s120 PASS locally; CI running | not deployed | expected after deploy: the 02:26 and later runs write no 2028 date; actual: unknown | 0 (12 wrong values still live) | 01:50 | Pipeline settings: `intake_dates.max_months_ahead`; Scheduled jobs: `intake-dates-apply` | Platform Admin to approve running the correction file (the mandate directs containment first) | merge #911 before the 02:26 UTC run; then run the correction file; verify Website and Zoho | PR #911; fixture output; live read: 12 active rows with start 2028-11-01 |
+| IQ-00313 | P0 intake integrity | publish: Website and Zoho projection | Controller | correction run | blocked: waits for the correction | correction file `docs/paste/PASTE-20261108-iq00313-deakin-intake-withdrawal.sql` | fixture PASS (withdrawal, no re-admission, reconcile, replay refusal) | not run | expected: 0 stored items with a November 2028 date; actual: unknown | 0 | 01:50 | n/a | as above | verify `pipeline.website_sync_items` and `zoho_sync_items` plus the three consumer endpoints | live read; correction verification queries |
+| IQ-00313 | P0 intake integrity | UQ 092452K / 098328K | Controller | lifecycle read | investigating | none | n/a | n/a | n/a | 0 | 01:50 | Catalogue › Courses drawer | possible | read UQ course lifecycle and source for 092452K; withdraw only with per-record evidence | live read (4 active UQ rows) |
+| IQ-00111 | P0 fee consumer integrity | verify no wrong active fee remains | unassigned (B stopped) | spend limit | investigating | none new | n/a | deployed earlier | unknown | unknown | 01:50 | Catalogue › Courses | none | agent B resumes; Controller does a read-only credit-point/unit-load check | live read pending |
+| (INT, no new IQ) | INT | deadline count 79 to 70 | Controller | none | investigating | none | n/a | n/a | n/a | −9 | 01:50 | Catalogue | none | find which writer withdrew nine deadlines; link under IQ-00313 | live read (70 vs mandate 79) |
+| IQ-00020 and fee family | FEE | source/reader/review/admit/publish | unassigned (B stopped) | spend limit | not started | none | n/a | n/a | unknown | unknown | 01:50 | Layer 2/3 › Operations; Pipeline settings | Layer 4 tuition review: 136 validation pending (oldest 18 Sep) | resume agent B: stage funnel, 8,089 courses without a fee, tuition review | baseline above |
+| #893 / IQ-00030, IQ-00072 | ENG | source to publish | unassigned (C stopped) | spend limit | not started | none | n/a | n/a | unknown | unknown | 01:50 | Layer 2/3 › Operations | English requeue (Platform Admin, open) | resume agent C: classify the 14,940 by cause; four zero-yield plans (52 credits) | baseline above |
+| #894/#900, IQ-00345 | C-DESC | review/admit | unassigned (D stopped) | human review capacity | blocked: 1,190 awaiting human review | none | n/a | n/a | unknown | 0 | 01:50 | Layer 4 Inbox | Platform Admin review of 1,190 | resume agent D: quality of the 1,190, approved-not-applied, review pack | baseline above |
+| #877 / IQ-00022 | P-DESC | read/review/admit | unassigned (E stopped) | spend limit | investigating | none | n/a | n/a | job `provider-description-read` active; output unknown | 0 | 01:50 | Layer 4 Inbox; Scheduled jobs | review of 4 pending | resume agent E: why only 4 reached review since 2 Nov | baseline above |
+| #902–#910, IQ-00128, IQ-00060 | AER | review/admit | Controller (F stopped) | human decisions; account-owner switches (recorded earlier) | verifying downstream: #907–#910 released and verified | PRs #907 #908 #909 #910 | PASS in CI and local; live verified (see above) | main 8eccd575 | unknown | 0 admitted (1,304 rows) | 01:50 | Layer 4 Inbox; AER workspace | 245 ready items, 10 ANU matrix runs, 26 stale reads, scope rules | resume agent F: replay readiness call, trace 497 approved to active rows, switch evidence | register entries above |
+| IQ-00082…IQ-00309, IQ-00241, IQ-00129 | SCH | discover/read/admit/publish | unassigned (G stopped) | spend limit; scholarship switches (Platform Admin, open) | not started | none | n/a | n/a | unknown | unknown | 01:50 | Layer 2/3 › Operations | scholarship switches | resume agent G: funnel, 370 active-unpublished, park and recover | baseline above |
+| IQ-00047, IQ-00049, IQ-00061, IQ-00065, IQ-00068/69 | DISC/REL | list pages, course links, rankings | unassigned (G stopped) | spend limit | not started | #910 floor protects the final 1,500 credits | PASS (fixture 68 checks) | main 8eccd575 | expected: course-link search waits below the floor; actual: floor not reached (98,740 room), spend 2 credits since deploy | unknown | 01:50 | Settings › Toolsets & limits | none | resume agent G after scholarships | live read |
+| IQ-00045 | FIRECRAWL | allocation and UI | Controller (allocation); H (UI) | spend limit for H | implementing | #910 (released) | PASS | main 8eccd575 | see Firecrawl table above | n/a | 01:50 | Settings › Toolsets & limits; Platform health | none | percentage shares, floors for `reads` and `other`, panel (H) | live read |
+| SS-016 / SS-020 | OPS/UI/QA | per-lane funnel, controls, phone | unassigned (H stopped) | other lanes' funnel specs | not started | none | n/a | n/a | n/a | n/a | 01:50 | Layer 2/3 › Operations; Process results | none | resume agent H; first audit what the Operations screen already shows | mandate list |
+
+### Governance and records
+- The test register in this repository has not been regenerated for s410, s411, s412, s414 and s415. The Controller regenerates it from the Pilot checkout (`node scripts/test-register.mjs`) with the next merge; CI is the authority.
+- **Account-owner action (recorded once):** raise the monthly spend limit (claude.ai Settings › Usage) so the seven lane agents can continue. No work in this entry depends on it; the Controller proceeds alone meanwhile.
+- Earlier recorded actions are unchanged: switches `aer.source_stored_find_on` and job `aer-source-stored-find`, the RMIT override, `wc.aer_fair_on`; QUT route activation and all Layer 4 decisions stay human.
+
+### Checkpoint
+Released and verified: #907, #908, #909, #910. In flight: #911 (Deakin P0). Next: merge #911 before the 02:26 UTC run, run the guarded correction, verify Website and Zoho, then the UQ check. No lane is claimed complete.
