@@ -1325,3 +1325,17 @@ Responds to the 18:27 independent validation and the 18:40 directive. Existing I
 - **Load-window note:** one small count query ran at 10:47 UTC, inside the :47-:48 window to avoid; all later reads waited until :49.
 - **Not proven:** CI on a Pilot PR; Pilot branch push or PR creation; merge through the GitHub-to-Cloudflare gates; lease acquisition; whether `git push` (as opposed to the GitHub MCP) is authorised from this container; whether `add_repo` exists in other scheduler configurations.
 - **Next safe action (next hourly run is a WORKING RUN):** acquire or recover the controller lease per AGENT-OPERATING-MODEL, then take the highest-priority unblocked slice (IQ-00053 two unattended enrich cycles and the 546 on mode read, per register 19:10 entry); hold releases if the lease cannot be validly taken.
+
+
+## 2026-11-08 21:55 Melbourne (10:55 UTC) Controller: overnight resumption configured; proof run verified independently
+Responds to the Platform Admin directive "Continuous Autonomous Engineering and Feature Completion", section 6 (F-OPS.06). Existing register and status files only; no second schedule, tracker or controller.
+
+| Item | Verified |
+|---|---|
+| Scheduled task | `StudySearch Integration Controller overnight resumption`, id `trig_01Y4yZJc1dr8R2mDgpqwopwF`, created 10:46:22 UTC. Fresh Claude Code session each firing, `claude-sonnet-5-5`, auto-approve, connectors Supabase / Claude Docs / Claude Code Remote / Google Drive. The scheduler offers no reasoning-effort setting, so "High" is not configurable here. Cron `CRON_TZ=Australia/Melbourne 23 23,0-5 * * *` (hourly at :23, 23:23 to 05:23 Melbourne, clear of the :35-:42 and :47-:48 read windows). Next run 12:23 UTC. |
+| Proof run | Fired on demand 10:46:34 UTC, session `cse_01A4GjyFyBVQKYjyBraQeE2e`. Scheduler: SUCCEEDED, finished 10:50:04 UTC. Independent checks by the Controller: Admin branch `controller-proof-20261108T1050Z` on the remote (commit `96791741`, one docs file); draft PR #384 closed unmerged (closed 10:48:22 UTC); commit `95182e5c` carries the register section "Overnight resumption proof" (PASS) with that session's trailer. |
+| Corrections to the run's own record | It wrote its end time as 10:52Z; the scheduler finished it at 10:50:04Z, and the commit was made at 10:49:44Z. Its run ID and branch carry "T1050Z", a forecast, not the real start (the branch existed by 10:48). It reported that `add_repo` / `register_repo_root` do not exist in a scheduled session and used the GitHub MCP and the pre-cloned workspace instead. The task prompt was updated (10:50:46 UTC) to take times from `date -u`, to use `add_repo` only if present, and to treat the proof as recorded. |
+| Not proven | A Pilot branch push or PR, CI on a Pilot PR, merge through the gates, and the controller lease (head `547c3ca4`: lease expired 7 Nov 05:36 UTC, adoption pending, so a scheduled run holds no release authority). The first working run (23:23 Melbourne) must prove Pilot push, PR and CI, and must not merge without a validly held lease. |
+| Leftover | The proof branch stays on the Admin remote (remote branch deletion is refused by the proxy); the repository owner can delete it. |
+
+**F-OPS.06:** implemented (schedule), tested (one proof run), released n/a, first working run pending 23:23 Melbourne, UI n/a, net gain none claimed. **Blocker:** controller lease and adoption (Platform Admin). **Next action:** read the 23:23 run's register entry and verify its claims independently before accepting them.
