@@ -1554,3 +1554,15 @@ Pilot draft PRs #922 to #928 (F-INT.03 to F-INT.06, UI only) were integrated int
 2. **Decide four Layer 4 items:** Monash and CDU pass the live validator (recommend approve; confirm the stored Monash 1961 passage; CDU has one promotional phrase); UQ and UOW fail it at apply (recommend reject). Then the session verifies `catalogue.providers.description` and Website/Zoho.
 3. **Calendar policy:** `central.auto_approve_calendar_dates` 0 to 1 only after checking `central.calendar_excluded_words` against the Adelaide and WSU pages; decide whether a page-exact-date admission rule may exist (default off).
 4. **Release route** for #930 (worker v0.59.12 deploy plus migration `20261109010000`) and the Workstream B PR when ready; the ownership/adoption decision, the La Cité paste (65 rows), source-gone, UQ lifecycle and Layer 4 decisions are unchanged.
+
+### 2026-11-09 08:35 AEDT (21:35Z 8 Nov): all-provider description delivery, checkpoint 2
+- **Applied through the governed Admin UI (Platform Admin session, audit reason recorded):** `pdesc.refused_path_words` now also refuses `dates`, `calendar`, `timetable` (read back in `pipeline.platform_toolset_settings`, updated 20:27Z).
+- **Blocked action (recorded once):** `pdesc.provider_keys` cannot be set to `[]` in Settings: the UI refuses an empty value ("At least one value."). Not worked around; fix is in the build brief (allow empty for list settings where help says empty is valid). Countries and types stay `['AU']`/`['university']` because the whitelist overrides them.
+- **Census (read-only):** AU 1,556 (private VET 934, school 302, HEI 137, other 98, university 45, TAFE 16, university college 8, no type 16); NZ 417; CA 1,130 with no provider type (471 websites). 0 descriptions. A type filter would exclude all CA, so scope must handle unclassified providers.
+- **Release route:** ownership still reconciliation/adoption pending; no canonical acquisition possible without predecessor-stop evidence (AGENT-OPERATING-MODEL, "Expiry alone is insufficient"). Nothing bypassed.
+- **Build:** P-DESC agent briefed to extend #930 into the Tier 1-4 machine-admission policy as one draft PR; ceilings unchanged.
+
+| Domain | Before | Newly validated | Awaiting human decision | Newly admitted | Newly published | Net gain | Next automatic run |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Provider descriptions | 0 | 0 | 4 (+1 held) | 0 | 0 | 0 | provider-description-read :06/:16/:26/:56, blocked by pending_max while 4 await Layer 4 |
+| Intake dates | 1,534 | 0 | 0 | 0 | 0 | 0 | intake-dates-apply :26 hourly |
