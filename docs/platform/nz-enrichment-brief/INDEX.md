@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**Live architecture and complete production inventories (8 Nov 2026):** [Capability and Data-Population Inventory](../inventory/STUDYSEARCH-CAPABILITY-AND-DATA-POPULATION-INVENTORY.md) and its linked CSVs: 2,317 SQL function signatures, 184 automation definitions, 1,236 setting definitions and 1,792 enrichment plan instances. Read-only snapshot, not live acceptance.
+
+
 **Current feature design and completion audit (8 Nov 2026):** [Feature Acceptance Contract](../STUDYSEARCH-FEATURE-ACCEPTANCE.md) (F-INT through F-OPS substeps and UI acceptance), [Executive Delivery Status](../STUDYSEARCH-PROGRAMME-STATUS.md) (dated derived snapshot), and [canonical Execution Register](../STUDYSEARCH-EXECUTION-REGISTER.md) (authoritative issue/PR/production evidence). Earlier 6 Nov snapshots in this index are retained as history, NOT current production state.
 
 
