@@ -285,3 +285,22 @@ The Radiation Therapy course's application deadline 2027-02-22 was held before t
 The acceptance result is visible in the existing Admin view.
 
 **Milestone accepted (Platform Admin, 5 Nov 2026 20:03).** The Newcastle intake admission and unattended operation are accepted as the first bounded autonomy milestone. Intake stays under normal platform monitoring: the hourly `intake-dates-apply` job, `process-results` measurements and the integration queue. Discretionary intake development is not restarted.
+
+
+## Feature acceptance addendum — 8 November 2026 (F-INT)
+**Authority:** [F-INT acceptance contract](../STUDYSEARCH-FEATURE-ACCEPTANCE.md#f-int--intake-dates-deadlines-and-providercourse-specific-verification-p0-iq-00313-related-iq-00111). This is an incremental design/completion specification, not a second intake process or an assertion that every step is implemented.
+
+**Existing product to reuse (Pilot `main` verified at review):**
+- `src/IntakeRunValidate.jsx`: selected scope, bounded cohort size, Preview eligible courses, Fix previewed cohort, governed Run Now, Verify catalogue & publication, saved cohort restore and past run output. It currently consumes `caps.scopes` and `caps.universities`; confirm exact scope capability from the live server rather than assuming it accepts any course ID.
+- `src/AutomationProgress.jsx` and `docs/intake-automation-progress.md`: persisted job state, university breakdown, stage counts, 24h/7d/30d history, holds, publication checks, net gain and generic progress observer. Its presence alone does not prove all stages have live measures; the 8 Nov Controller reported selected/admitted/published missing in the broader lane funnel.
+- Existing `intake-dates-apply` / `coverage-admit-intakes`, user-scoped controls and approved pipeline settings. Reuse them; do not build another job processor or top-level screen.
+
+**Operator journeys required for verified F-INT completion (substeps F-INT.01–.06):**
+1. **One course (explicit):** search by exact course ID or CRICOS, select live intake(s), show official source, country/campus/audience/year and current hold/lock, choose `Preview only`, `Run Now` or `Verify only` according to role. No new value on unsupported dates. The platform refuses ambiguous identity, stale preview and invalid role with a plain reason.
+2. **One university (explicit):** select provider ID from authorised university list, show all eligible records and their per-stage counts, choose bounded pages/batches within existing batch/time budget; include a coverage stamp so an apparently successful first page cannot be presented as full-university completion. Users may inspect what was excluded and why.
+3. **Existing approved cohort:** preserve current top-Australian-university pilot and bounded preview. Avoid regressing versioned cohort acceptance.
+4. **Track one run:** immutable run/cohort ID, actor/reason, snapshot, scheduled/manual type, progress by stage, attempts/leases, selected/examined/admitted/withdrawn/published, timestamps, error cause, next retry and link to actual consumer verification. On reload, the run is discoverable, including queued, running, failed, evidence-held, review-held and complete states.
+5. **Verify after action:** prove canonical row, relevant manual hold, prior evidence, Website stored item, Zoho stored item, and authenticated consumer HTTP where available. Label those proofs separately and show `unknown` on unavailable checks.
+6. **First-run and quality:** two scheduled unattended cycles with bounded output/progress logs, no partial-success masking, correct 2027/2028 range, per-course eligibility, Deakin/UQ regressions, 0-work explanation, exact source/campus/year, no duplicate re-entry; true desktop and mobile UAT for operator and Admin, view-only denial for unauthorised roles.
+
+**Task ownership:** F-INT references the existing IQ-00313 and intake workstream; new code gaps become numbered substeps under those IDs in `STUDYSEARCH-EXECUTION-REGISTER.md`, with a single assigned code owner. New UI controls must also update `UI-CATALOGUE.md` in the same PR, and preserve G2 settings, G3 frozen consumers and G4 tests. Do not claim the new one-course or all-university journeys currently work without authenticated acceptance evidence.
