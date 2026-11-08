@@ -11,6 +11,8 @@
 
 **Production functions, field lineage, settings and plans (8 Nov snapshot):** [Capability and Data-Population Inventory](inventory/STUDYSEARCH-CAPABILITY-AND-DATA-POPULATION-INVENTORY.md); dated metadata, not a second issue queue.
 
+**Scheduled runner note, observed 2026-11-08 21:34Z (source: [register entry](STUDYSEARCH-EXECUTION-REGISTER.md)):** draft Pilot PR [#932](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/932) (F-INT.05, Run Now refusal/timeout words) at head `40c9cb74`; Workers Builds, test-evidence, provider-description and build-and-smoke success, isolated-postgres in progress when read. Not merged, not released; no data gain. Controller ref unchanged `547c3ca4`; migration head `20261108190000`; integration issues P0 2, P1 74 open (70 triaged), no regression.
+
 **Snapshot compiled:** 8 November 2026 (AEDT), from the latest supplied 20:19 AEDT independent validation, Claude's subsequent IQ-00053 release account and independent GitHub/status checks. **NOT a live dashboard.** A newer observation supersedes it; do not merge figures from different windows as a single reading.
 **Status:** MODE 1 — ACTIVE REMEDIATION. **Self-sustaining programme: NOT ACCEPTED.**
 **Source of truth:** [Execution register](STUDYSEARCH-EXECUTION-REGISTER.md) and live `pipeline.integration_issues`. **Requirement specification:** [Feature Acceptance Contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md). **Current scope/mandate:** [Cross-domain delivery](nz-enrichment-brief/2026-11-08-cross-domain-autonomous-delivery-closure.md). This file is an automatically maintainable executive *projection* of that evidence, never a second task tracker.
