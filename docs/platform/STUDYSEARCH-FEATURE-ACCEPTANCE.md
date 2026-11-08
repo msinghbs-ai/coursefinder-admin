@@ -1,5 +1,8 @@
 # StudySearch — Feature Completion and Autonomous Operation Acceptance Contract
 
+**Implementation and live metadata reference:** [Capability and Data-Population Inventory](inventory/STUDYSEARCH-CAPABILITY-AND-DATA-POPULATION-INVENTORY.md); linked source snapshots of all function signatures, automation catalogue, G2 settings and recorded plans. Validate against current production before marking F-substeps done.
+
+
 **Mandate:** Platform Admin, 8 November 2026. **Status:** Governance specification recorded; delivery acceptance **NOT** established.
 **Authority:** `docs/platform/AGENT-OPERATING-MODEL.md`, Pilot `CLAUDE.md`, cross-domain mandate `docs/platform/nz-enrichment-brief/2026-11-08-cross-domain-autonomous-delivery-closure.md`.
 **Source of truth for operational issues/status:** `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` and `pipeline.integration_issues`. This file defines WHAT MUST WORK and HOW TO PROVE IT; it is **not another task queue**. The linked `STUDYSEARCH-PROGRAMME-STATUS.md` is a dated, derived one-page summary, never the authority for an issue's live state.
