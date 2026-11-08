@@ -1098,3 +1098,20 @@ No date was written: the Deakin course pages state no start date or year, and a 
 **Agent resource change — Platform Admin reported:** Claude usage limit now **USD 500**, approximately **USD 200 available** (not independently verifiable through the repo). Earlier seven lane agents (FEE, ENG, C-DESC, P-DESC, AER, SCH/DISC and OPS/UI) were stopped at a monthly usage limit with no saved development. Controller must check current usage/access, restart up to supported non-overlapping agents and record actual ownership/branches/outputs. This does **not** increase Firecrawl/OpenRouter spend permissions. If still constrained, perform sequential safe work; do not suspend the whole programme.
 
 **Next action:** Controller confirms fresh production baseline/ownership, closes Deakin only after sustained no-recurrence, resumes seven domain agents and performs end-to-end first-run acceptance, while one integrator owns sequential merges and all production writes. Append exact issue/substep/PR/UI/outcome per existing cross-domain launch board. **Mode 1, Active Remediation.**
+
+
+## 2026-11-08 14:15 Melbourne (03:15 UTC) Controller: seven lane agents resumed; IQ-00313 consumer parity and issue record
+**Agent capacity:** the Platform Admin directive of 8 Nov 14:06 Melbourne (usage limit raised to USD 500) was acted on at once: the seven stopped lane agents were resumed on their saved transcripts (same branch and worktree ownership as the 12:45 entry). No separate weekly limit has been reported by the platform; if one appears the specific restriction is recorded once here and work continues sequentially. The raised allowance covers engineering only; no Firecrawl, OpenRouter or vendor budget changed.
+| Agent | Lane | Issue family | Branch | State at 14:15 |
+|---|---|---|---|---|
+| B | FEE | IQ-00111 (verify, separate), IQ-00020, IQ-00040 | cf247-fees | resumed, baseline and diagnosis in progress |
+| C | ENG | #893, IQ-00030, IQ-00072 | cf247-english | resumed; gap by provider: UNSW 658, Conestoga 270, Canterbury 267, Massey 241, Auckland 237, NZIST WBL 231, Melbourne 159, SFU 134, Calgary 119, Flinders 118 |
+| D | C-DESC | #894/#900, IQ-00345 | cf247-cdesc | resumed |
+| E | P-DESC | #877, IQ-00022 | cf247-pdesc (new worktree; the older codex/provider-description-autonomy-local worktree is not reused) | resumed |
+| F | AER follow-ups | IQ-00128, IQ-00060 | cf247-aer2 | resumed |
+| G | SCH + DISC + IQ-00046 | IQ-00082…00309, IQ-00241, IQ-00129, IQ-00046, IQ-00072, IQ-00047 | cf247-sch-disc | resumed; IQ-00046 (90 of 123 course-page attempts failed, queue 0) assigned as a classification task, repair only demonstrated causes |
+| H | OPS/UI/QA | SS-016 / SS-020, IQ-00045 (panel) | cf247-ops-ui | resumed |
+Merges stay sequential and with the Controller. Agents write no live data and merge nothing.
+
+**IQ-00313 consumer parity (read at 03:08 UTC, SQL on the consumer functions, not authenticated HTTP):** `api.website_v2_course_item` for the 12 Deakin courses shows November with no start date and no year (12 of 12); `public.zoho_v2_course` the same (12 of 12); stored Website and Zoho items 0 with a November 2028 date. Authenticated HTTP parity is not established from this environment (no consumer key); recorded as open. No `intake-dates-apply` run has occurred since the release at 03:08 UTC; the 03:26 and 04:26 UTC runs are the acceptance cycles (one-off check scheduled for 14:32 Melbourne).
+**Issue record:** IQ-00313 title corrected (UNSW 5 on 5 Nov; Deakin 12 on 7–8 Nov), status `triaged` to `production_verification`, fix commit and migration recorded, the previous title and status kept inside `verification_evidence`. IQ-00111 untouched and open separately.
