@@ -1064,3 +1064,23 @@ UQ 092452K / 098328K: both hold two active 2027 intakes (22 Feb, 26 Jul; source 
 
 ### Checkpoint
 Released and verified: #907, #908, #909, #910. In flight: #911 (Deakin P0). Next: merge #911 before the 02:26 UTC run, run the guarded correction, verify Website and Zoho, then the UQ check. No lane is claimed complete.
+
+
+## 2026-11-08 13:40 Melbourne (02:40 UTC) P0 IQ-00313 Deakin — released, corrected, verified on production
+**Substeps and state (mandate row format, condensed):** `IQ-00313 | P0 intake integrity | reader fix + admit guard | Controller | none | production verified (code) | PR #911, main ad168f1a, migration 20261108050000 | CI: 2064 passed, 0 failed (test-evidence on head 591841ed); scratch PostgreSQL fixture PASS | deployed 8 Nov 02:28 UTC | first scheduled run after deploy: intake-dates-apply 03:26 UTC, expected 0 new 2028 values, actual: pending | 24h gains: 0 | UI: Settings › Pipeline settings `intake_dates.max_months_ahead` = 18 | no human decision | verify the 03:26 UTC run`.
+`IQ-00313 | P0 intake integrity | publish: correct the 12 rows and both stored projections | Controller | PR #911 deployed | production verified | count-guarded audited DO block (docs/paste/PASTE-20261108-iq00313-deakin-intake-withdrawal.sql, run by the Controller under the 8 Nov Platform Admin P0 directive) | 4 guards matched before any change | run 8 Nov ~02:35 UTC | gains: 12 wrong values removed`.
+**Live verification after the run (read back, not the tool response):**
+| Check | Result |
+|---|---|
+| Active intakes with start 2028-11-01 | 0 (was 12) |
+| The 12 Deakin intakes | all active, label November, start date and year empty |
+| Withdrawn events carrying the rejected value | 12 |
+| Course-level intake holds | 12 (no automated lane writes these courses; release only by a person) |
+| Rejected calendar reading recorded | 1 row, case IQ-00313 |
+| Audit event | 1 (`IQ-00313-DEAKIN-20261108-WITHDRAW`) |
+| Stored Website items with a November 2028 date | 0 |
+| Stored Zoho items with a November 2028 date | 0 |
+| Website v2 item of each course | November shown without date or year (checked inside the transaction) |
+No date was written: the Deakin course pages state no start date or year, and a calendar date alone does not prove a course is offered in a study period. A person decides each value. IQ-00313 stays open until two unattended cycles (03:26 and 04:26 UTC) write nothing wrong and the other 30 held-month-only readings (Swinburne VE 23, Cass Training 3, Western Sydney 2, Torrens 2) are confirmed unchanged. Consumer API unchanged (G3, md5 identical before and after).
+**Still open under IQ-00313:** UQ 092452K (discontinued) / 098328K; the application-deadline count 79 to 70 (five `deadline_semantic_withdraw` events on 7 Nov explain part of it; remainder to reconcile); IQ-00313 title still says 5 UNSW dates (to be corrected in the issue record).
+**Test register regenerated** from the Pilot checkout at main ad168f1a (473 specs, 2,156 tests, 2,064 in the local suite; s410, s411, s412, s414, s415 added; none retired).
