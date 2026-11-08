@@ -1,4 +1,7 @@
 # StudySearch — Cross-domain autonomous delivery and closure mandate
+
+**Feature/subtask completion contract:** [Feature Acceptance](../STUDYSEARCH-FEATURE-ACCEPTANCE.md); **dated executive progress view:** [Programme Status](../STUDYSEARCH-PROGRAMME-STATUS.md). The canonical execution register continues to own all issue/PR/live production states; these linked files are design criteria and derived status only, not additional controllers or task queues.
+
 **Platform Admin direction:** 8 November 2026. **Status:** Mandate and baseline recorded; operational acceptance NOT established. **Mode:** Active Remediation.
 **Controller:** Current authorised Claude Integration Controller; parallel development agents only within non-overlapping ownership. **This is a scoped mandate, NOT a second issue queue or execution register.** Canonical status and history remain in `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md`; operational issues remain in `pipeline.integration_issues`; source/role/controls in the operating model, Pilot `CLAUDE.md`, UI catalogue and individual process records.
 
