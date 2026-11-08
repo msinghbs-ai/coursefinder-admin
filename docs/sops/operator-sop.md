@@ -1,7 +1,7 @@
-<!-- sop-export: id=operator-sop; version=2.13; reviewed-release=2.15.457; source-commit=725fc7f69e61; content-sha256=e3e05f53237d4470f9a093fe5e52e8b02c8fafc00ce5d955581de7b503eaeb68 -->
+<!-- sop-export: id=operator-sop; version=2.19; reviewed-release=2.15.494; source-commit=a4865a55c9a0; content-sha256=d5cd2d9e8bebd44395df3289612accf6c9f63d64ef920609306fe85a0d68418a -->
 # StudySearch – Operator SOP
 
-**Version:** 2.13 (reviewed for platform release v2.15.457)  
+**Version:** 2.19 (reviewed for platform release v2.15.494)  
 **Audience:** Curator (rank 3), Pipeline Operator (rank 4), PIM Admin (rank 5)  
 **Change control:** CF-247  
 **Rule:** this SOP is reviewed with every release; a change to a screen, an automation or where a person decides changes it, raises its version and is recorded below. The in-app copy is Guides › Operator SOP.
@@ -92,6 +92,10 @@ How operators keep the data flowing and decide what automation cannot: the revie
 
 ## 8. What to pay attention to
 
+- Operations lane funnels: read each lane stage by stage. A green job, a stage transfer and published data are different things; a lane with items waiting for a person needs a decision from a person. Firecrawl allowance and remaining credits are read only; check the room above the reserved floor before asking for more course-link work.
+- English faculty and course-group scores wait for Platform Admin approval and explicit binding; No rule yet and held course-specific cases remain visible without invented coverage.
+- Course descriptions: distinguish proposed, human-admitted and actually published counts. Review held evidence and use Previous on the final reviewer page.
+- An application deadline must quote an actual closing date; commencement and intake dates are not closing dates. Escalate incorrect records without removing human locks.
 - Task manager › Background jobs: a job Failing, or a worker repeating the same error.
 - Layer 4 waiting counts rising two days running: find out why before working harder (reviewers behind, a burst of new arrivals, evidence that cannot be opened, the same defect repeating, or work waiting on another step).
 - A coverage count flat for a day.
@@ -108,6 +112,10 @@ How operators keep the data flowing and decide what automation cannot: the revie
 
 | Version | Date | Release | Change |
 |---|---|---|---|
+| 2.19 | 8 Nov 2026 | v2.15.494 | Operations shows each automated lane stage by stage; the Firecrawl card shows allowance, remaining credits and floor; Course description review shows capacity and a university-ordered pack. New spend paths ship switched off; no data gain, admission or publication is claimed. |
+| 2.18 | 6 Nov 2026 | v2.15.493 | English course-group approval and binding, same-family supersession and coverage holds; no automatic group admission or paid discovery activation. |
+| 2.17 | 6 Nov 2026 | v2.15.492 | Course description reviewer navigation, held-source evidence and separate proposal/admission/publication measures; human admission authority remains. |
+| 2.16 | 6 Nov 2026 | v2.15.491 | Deadline review distinguishes application closing evidence from commencement dates; corrections retain audit and human-lock authority. |
 | 1.0 | 12 Oct 2026 | v2.15.257 | First issue: daily routine by role, review queues, follow-up, weekly checks, interventions and escalation. |
 | 1.1 | 12 Oct 2026 | v2.15.258 | Onboarding moved to Layer 2 › Onboarding with seven journey stages; scholarships are found only after a university is admitted and its courses enriched. |
 | 1.2 | 12 Oct 2026 | v2.15.259 | Admit is automatic for the fields that pass; universities move on to enriching and scholarships by themselves. Tell the Platform Admin about any admitted value that looks wrong. |
@@ -216,6 +224,8 @@ How operators keep the data flowing and decide what automation cannot: the revie
 | 2.05 | 29 Oct 2026 | v2.15.364 | Reviewed: Catalogue › Entry requirements shows the course-level reading programme by provider and marks a rendered page with no requirements table (read only for operators). |
 | 2.06 | 1 Nov 2026 | v2.15.395 | Who controls automations: the Pipeline Operator diagnoses, records and escalates; the PIM Admin paces, pauses, resumes and runs again (the Platform Admin for automations marked Platform Admin). Entry requirement (AER) items are decided by the Platform Admin only. Alerts arrive by push and e-mail. Version raised to follow this history (it had stayed at 1.53). |
 | 2.07 | 1 Nov 2026 | v2.15.396 | The PIM Admin no longer owns the priority queue (retired in v2.15.300). A rising Layer 4 count is investigated for its cause (new arrivals, evidence that will not open, a repeated defect, work waiting on another step) before it is called a backlog (SS-016 UR-08, UR-11). |
+| 2.15 | 4 Nov 2026 | v2.15.471 | Layer 4 Progress on every card (decision 4 Nov 2026 12:24; observation 13:00): after any choice the card shows the server's answer in plain words (for example Recovery queued — 12:17 AEDT, Already queued — existing request retained, Recovery refused — unchanged evidence and reader, Recovery completed — still held under E13) with its audit number and time; below it the first entry, status, last reviewer action, last recovery and its result, next step and time waiting, and Event history lists every request, read, supersession and decision. A queued or running recovery updates the card by itself. Do not click again: a second click returns the existing operation. Re-read from stored evidence is not offered after the reader refused the same unchanged copy; use Open human input, or (Platform Admin) decide a row limit for the university. |
+| 2.14 | 4 Nov 2026 | v2.15.468 | Scheduled jobs › Automations no longer shows Refresh schedules and one-off runs (Decision 269 amendment, Option A): Pipeline Operators and PIM Admins change how often CRICOS or NZQA runs, or run it once, on Layer 1 › Sources (Schedule, Run now; a reason of 5 or more characters), as before; Manual and other sources are the Platform Admin's. Link refresh stays on Coverage › Courses, where you change it as before. No step changed. |
 | 2.13 | 4 Nov 2026 | v2.15.457 | Rankings: QILT and PRISMS data open from Datasets › View data (the Overview cards link there). No step changed. |
 | 2.12 | 4 Nov 2026 | v2.15.456 | Layer 2/3 (Decision 269): Progress is on Operations; Fill now for a stalled field is on Enrich fields (Attributes links there); Build adapter is the Build link on a Universities row; the Inbox shows a review readiness line. |
 | 2.11 | 4 Nov 2026 | v2.15.455 | Admin menu (Decision 269): Platform health › Work queues is Queues & yield (with Pipeline yield for PIM Admins); Models & services › Services, Toolsets & limits and Fetchers are one tab, Services & limits. Old addresses open the new tabs. |
