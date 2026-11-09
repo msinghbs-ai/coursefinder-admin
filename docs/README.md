@@ -13,9 +13,7 @@ Do not infer the current document from the highest filename version or from chat
 
 ## Current core documents
 
-Controller continuity current entry: [Agent operating model](platform/AGENT-OPERATING-MODEL.md),
-[execution register handover](platform/STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover)
-and [validated structured checkpoint](platform/STUDYSEARCH-CONTROLLER-STATE.json).
+Engineering ownership current entry (9 Nov 2026): Claude is the sole accountable engineering and Integration Controller; see the [Agent operating model](platform/AGENT-OPERATING-MODEL.md) and the [decision](platform/nz-enrichment-brief/2026-11-09-claude-sole-engineering-controller-decision.md). The 6 Nov lease/adoption records ([register handover](platform/STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover), [structured checkpoint](platform/STUDYSEARCH-CONTROLLER-STATE.json)) are retained as historical audit evidence only and are not a release prerequisite.
 The November StudySearch register supersedes September milestone snapshots for
 current operations; historical acceptance gates are not silently reopened.
 

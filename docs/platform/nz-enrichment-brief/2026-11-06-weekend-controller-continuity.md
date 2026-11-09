@@ -1,5 +1,8 @@
 # Weekend Integration Controller and AI continuity — execution record
 
+> **HISTORICAL RECORD, SUPERSEDED 9 Nov 2026** by the Platform Admin's sole-controller decision ([decision](2026-11-09-claude-sole-engineering-controller-decision.md)). Retained as audit evidence. Its lease, ownership, adoption and development-only conditions are not current instructions and must not be applied to any scheduled or manual run.
+
+
 Authority: Platform Admin mandate received 6 November 2026 in the current authorised Codex execution. Scope: 7–8 November engineering and a Monday 9 November handover, with permanent vendor-independent continuity. Tracking: [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). Execution: `codex-weekend-20261106-0903Z`. All stored times UTC; display timezone Australia/Melbourne.
 
 ## Decision before implementation

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate StudySearch's governed checkpoint and existing register handover.
+"""RETIRED 9 Nov 2026 (Platform Admin sole-controller decision): historical audit tooling only; no workflow runs it and nothing may rely on it as a release prerequisite. Original guard follows. Validate StudySearch's governed checkpoint and existing register handover.
 
 Guards: Admin issue #382, Weekend Autonomous Integration Controller and AI
 Continuity Mandate §§5–10. This validates evidence; it grants no release authority.
