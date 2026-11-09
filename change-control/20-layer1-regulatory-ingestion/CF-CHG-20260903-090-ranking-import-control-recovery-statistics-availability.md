@@ -162,3 +162,16 @@ Implementation acceptance gate:
 5. only after control-sample PASS, extend acquisition to the full edition and feed retained Evidence into Layer 1 ranking ETL rather than mutating canonical ranking data directly.
 
 The direct Layer 1 fetch route remains known Cloudflare-gated for this source; this feasibility PASS does not weaken the Evidence, identity, mapping or publication boundaries.
+
+## Closure note for the recovery gate — verified 9 November 2026
+
+This section was added when the record was prepared for merge. The sections above are the record as at 10 September 2026 and are not rewritten. The "Remaining gate" list above was overtaken by later work. Checked against the live database (project `fxcwkweaxjtknorudmwp`, read-only queries) on 9 November 2026:
+
+1. **QS 2027 recovery is complete.** The 2027 import (SHA-256 `f4d09f80...a554d706`, 311,633 bytes) has status `applied`, finalised 10 September 2026 by `ranking-qs-official-etl-v1.3.0`. The 2027 edition is `accepted` with 1,504 ranking observations.
+2. **The expected indicator count for 2027 was wrong.** The gate above expected 15,040 indicator observations (1,504 rows x 10 indicators). Live, the 2027 edition holds 13,536 (1,504 rows x 9 indicators): the 2027 workbook has no `international_student_diversity` indicator, which the 2026 workbook does have. The 2026 edition holds 1,504 ranking observations and 15,040 indicator observations, as recorded above. The 2027 figure is a property of the publisher file, not a loss of data.
+3. **Temporary recovery helpers are retired.** `ranking-qs-upload-recovery` is not deployed. `ranking-qs-url-import` is also no longer a deployed edge function.
+4. **Provider mapping review is a separate, continuing task.** Both editions were applied with most institutions outside the supported provider scope. That is expected and is not a recovery defect.
+5. **M2.4.5 runsheet reconciliation (gate item 4) and the QS 2027 operator-warning correction (gate item 5)** were not re-verified for this note. M2.4.5 is closed and frozen, so any further record belongs to the current CF-247 execution register and not to M2.4.5 files.
+6. **Layer 2 acquisition feasibility (previous section) remains feasibility only.** No `topuniversities.com` source profile exists in `pipeline.layer2_source_profiles`, so the implementation gate has not started. QS 2026 and 2027 are held from the authorised workbooks, so this is not blocking.
+
+The change status in the header and in `change-control/REGISTER.md` is unchanged. Closing CF-CHG-20260903-090 is a Platform Admin decision.
