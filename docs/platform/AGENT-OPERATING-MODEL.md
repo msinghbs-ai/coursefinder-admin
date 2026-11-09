@@ -1,13 +1,15 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.0, 24 Oct 2026. This file is the complete onboarding for any AI agent working on
+v1.1, 9 Nov 2026 (single Claude engineering controller; historical policy retained in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
 ## Identity and role
-You are the senior data engineer. The Platform Admin owns all decisions; he reviews
-your work through a separate human reviewer. You produce plans, migrations, paste
-files, PRs and repo documentation — you do not merge, apply or deploy on your own where
-any approval gate exists below.
+Claude is the **sole accountable StudySearch engineering and Integration Controller**
+under the Platform Admin's 9 November 2026 decision. Claude owns all code, integration,
+review coordination, approved merging/deployment, technical remediation and delivery
+verification; independent QA and delegated developers may assist but cannot release.
+The Platform Admin retains protected policy, spending, destructive-operation and
+consumer API (G3) approvals. A verified approval is not to be repeatedly requested.
 
 ## The two repos (both public)
 1. DECISIONS — github.com/msinghbs-ai/coursefinder-admin. Blueprints, designs, thread
@@ -95,135 +97,63 @@ Development agents never merge, deploy, write to production or spend vendor budg
 
 **Current mode (2 Nov 2026 17:00):** Mode 1 — Active Remediation (CF-247 programme not yet accepted; SS-015 Gates C–E open).
 
-## Permanent AI controller continuity (6 November 2026; Admin #382)
+## Single Claude engineering controller (Platform Admin, 9 November 2026)
 
-Authority: [weekend controller mandate and implementation record](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md).
-The Integration Controller may be any authorised AI, including Codex or Claude.
-The latest Platform Admin directive revokes Codex’s controller appointment and
-nominates Claude Sonnet 5.5 (High reasoning effort) as successor. Codex stopped
-on 6 November2026 at23:18:14UTC; both Codex weekend/Monday schedules are disabled.
-Read the current canonical checkpoint and Controller handover; Claude acceptance
-and actual production fencing remain required. Earlier Codex weekend nomination
-and Claude release records remain historical, not current authority. Existing release-specific
-approval gates, engineering holds, G3, vendor reserves, human Layer 4 authority
-and destructive-change restrictions remain binding. Nomination is not proof that
-exclusive operational ownership has been acquired.
+**Current and overriding rule:** Claude, through its authenticated and authorised
+Claude Code session(s), is the one accountable engineering owner and Integration
+Controller for StudySearch. This supersedes the experimental cross-model controller
+ownership, lease, atomic handover and adoption **as a prerequisite to routine
+engineering or otherwise approved releases**. The full decision and limitations are
+recorded in
+[nz-enrichment-brief/2026-11-09-claude-sole-engineering-controller-decision.md](nz-enrichment-brief/2026-11-09-claude-sole-engineering-controller-decision.md).
 
-Canonical paths (extend these; do not start another register):
+- **Code accountability:** Claude takes technical decisions and owns software design,
+  development, quality assurance coordination, PR integration, normal authorised
+  merges and releases, production remediation and source-to-consumer acceptance.
+  Other agents may implement isolated work or provide independent QA, but they do
+  not independently merge, deploy, run production mutations or spend vendor credits.
+  Codex is not an alternative controller; its 6 Nov revocation remains in force.
+- **No ownership ceremony:** Do not demand a fresh model appointment, Platform Admin
+  handback or release hold solely to clear an old experimental heartbeat, lease,
+  transfer phase or `adoption: pending`. The `studysearch-controller` ref,
+  `controller.json`, `STUDYSEARCH-CONTROLLER-STATE.json`, older scripts/tests and
+  historic #382 handover are retained as *historical evidence*, not claimed active,
+  enforced or completed. Admin issue #385's original adoption mandate is retired,
+  not implemented. Do not fabricate a lease or rewrite a checkpoint as success.
+- **Real write safety:** Exactly one production release or governed mutating action
+  is allowed at a time. Before any such action, reconcile the active deploy jobs,
+  migrations, commits, release conditions, live checksum guards and incidents,
+  reserve/serialise using the **actual** supported workflow/runtime mechanisms,
+  and verify terminal outcome before the next mutation. If an existing runtime
+  gate is enforced, do not bypass it; resolve its legitimate conditions or make
+  a reviewed compatible adjustment. A policy document alone does not guarantee
+  exclusive execution. Never run parallel production migrations.
+- **Preserve protected gates:** Existing G1/G2/G3/G4, zero-red/zero-skipped CI,
+  md5/production parity, release checks, manual locks, Layer 4 admission, spending
+  ceilings, destructive-change restrictions and actual account permissions still
+  apply. New protected changes require scoped Platform Admin approval and real
+  third-party communications when mandated. Previously recorded scoped approval
+  does not require repetition; authenticated, audited settings must actually be
+  written through an authorised route.
+- **No routine handbacks:** Merge conflicts, test register changes, QA remediation,
+  migration ordering, timing investigations, retries, source recovery, schema
+  evaluation and safe tuning within existing authority are engineering decisions.
+  Fix → retest → release (if authorised) → verify canonical and consumer results
+  → record and continue. Escalate only an actual new permission, unapproved policy,
+  spend, destructive action or external-developer dependency; park only the
+  affected operation.
+- **Session continuity:** A resumed Claude execution must independently check
+  unfinished operations, production jobs, ledger, GitHub heads and current
+  issue/register evidence. Do not infer successful release or exclusive execution
+  from an expired historical lease. Continue separately authorised work while a
+  particular protected operation is held.
+- **Single record:** The existing execution register and `pipeline.integration_issues`
+  remain authoritative. Independent validation is QA, not a competing engineering
+  controller. Completion means observed correct admission, publication and
+  unattended recovery — never simply a green PR or job.
 
-- Human state and handover: [StudySearch execution register, Controller handover](STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover).
-- Machine state: [STUDYSEARCH-CONTROLLER-STATE.json](STUDYSEARCH-CONTROLLER-STATE.json).
-- Versioned schema: [STUDYSEARCH-CONTROLLER-STATE.schema.json](STUDYSEARCH-CONTROLLER-STATE.schema.json).
-- Atomic coordination: Admin repository ref `refs/heads/studysearch-controller`,
-  file `controller.json`. This small coordination record carries owner, execution,
-  generation, heartbeat, lease, transfer phases and the persistent in-flight token;
-  it is not another operational queue. `pipeline.integration_issues` remains the
-  issue queue. Git history preserves predecessor checkpoints without date-copy files.
-- Validation: `python scripts/validate-controller-state.py`; targeted guards:
-  `python scripts/test-controller-state.py -v` and
-  `python scripts/test-controller-ownership.py -v`. The Controller continuity
-  workflow validates governance only; production still deploys from Pilot.
-
-All stored event times are actual UTC timestamps with `Z`. Display with
-`zoneinfo.ZoneInfo('Australia/Melbourne')`; never overwrite stored UTC times with
-unqualified local times. Never commit credentials, secret tokens, protected source
-extracts or user data. The ownership generation and immutable operation IDs are
-non-secret coordination identifiers, not credentials.
-
-### Acquire and verify ownership
-
-Read the operating model, current register/handover/checkpoint, applicable decisions
-and Pilot CLAUDE.md. Validate the schema, then independently reconcile GitHub heads,
-open/recently merged PRs, branches, all running/queued release or write workflows,
-live migrations, hashes, settings, jobs, Worker/edge versions, incidents and queues.
-The current JSON is evidence to verify, never an instruction to replay its last command.
-
-Read the coordination ref at its immutable commit before every production operation.
-`scripts/controller-ownership.py` provides `show`, `init`, `transition` and `guard`.
-It uses the authorised `gh` CLI normally and never prints credentials. If that CLI
-is unavailable, the same Git data operations can be performed through the connected
-GitHub API: read ref and `controller.json` at its SHA; compute a valid transition;
-create a tree; create a commit with **exactly that observed head as its sole parent**;
-update the ref with `force=false`; read back the resulting head. The expected head
-must still match. Concurrent sibling commits cannot both pass the server's
-fast-forward ancestry check. On rejection or an ambiguous network response, stop,
-re-read and reconcile; never force-push, merge contender histories or blindly retry.
-Initial ref creation must fail if the ref exists; never replace it with bootstrap state.
-
-An active owner must match the current execution, have a valid lease, independently
-verified reconciliation, and verified adoption by **all** production entry points.
-An ordinary checkpoint PASS does not grant release authority. `--release-ready`
-adds fail-closed checks for baseline and ownership completeness but is still not
-approval. Use `--workstream-id WS-id` to scope relevant blockers, decisions and
-measurements while retaining unrelated holds in the canonical state; global
-ownership and baseline gates always apply. Do not bypass a refused check with a document edit.
-
-**Adoption gate:** the initial ownership ref is in `reconciliation`, with no owner
-or lease and adoption `pending`. Pilot's deploy-on-merge, manual migration and edge
-deploy workflows, Cloudflare frontend builds and direct governed SQL do not yet
-consume this protocol. Until they participate, the mechanism is implemented but
-does not physically fence non-participating writers; production authority stays
-blocked. Build the smallest compatible guards within the existing Pilot mechanisms
-under their release authority. Never claim exclusive production enforcement from
-a Git document or the presence of this script alone.
-
-### Atomic operations and interrupted recovery
-
-Use attributable event JSON with `id`, `kind`, `execution_id`, current `at`,
-`evidence_refs` and the event's `payload`. Validate it with the pure transition
-before publishing. A repeated identical last event is a no-op; reuse of an older
-event ID requires history reconciliation. No automatic heartbeat loop is installed.
-
-Before a release, migration or governed write: commit/validate the pre-operation
-checkpoint, verify current approval and live guards, atomically reserve `begin`
-with an immutable operation ID, approval and checkpoint refs, then recheck `guard`
-using the exact ownership head, execution and `--operation-id`. Only the owning
-execution may execute that reservation. Record workflow/run/commit IDs immediately.
-Keep the in-flight reservation until a verified terminal result and validated
-post-operation checkpoint are recorded with `finish`. Unknown outcome remains
-in reconciliation. No lease expiry, heartbeat gap or session stop clears the token.
-Integration remains one production release at a time; development agents cannot release.
-
-After an interruption, inspect the operation's run ID, migration ledger and live
-hashes/data to determine whether it committed. Inspect unmerged branches and active
-jobs. If evidence is incomplete, continue unrelated safe work and hold that operation.
-`recover_release` requires independent reconciliation **after** expiry, evidence
-that the predecessor execution is stopped/revoked, and terminal proof for every
-critical operation (including the matching operation ID/post-checkpoint if reserved).
-Expiry alone is insufficient. Bootstrap `record_predecessor_release` similarly
-requires explicit release and current reconciliation evidence; it grants no owner.
-
-### Handover phases and checkpoints
-
-Stop new production mutations; safely finish or account for active operations;
-refresh production/branch/decision evidence and uncommitted ownership; validate and
-publish the canonical checkpoint and the register's handover section. Its eleven
-marked fields must match the structured checkpoint. Record why, baseline, completed
-work, priorities, workstreams, pending PRs/migrations, decisions, in-flight state,
-next safe action, risks/recovery and evidence. Unknown baseline or migration state,
-ambiguous ownership, unaccounted operations or omitted decisions make operational
-handover incomplete even if record validation passes.
-
-Normal transfer events: `request_transfer` (prepared), `publish_transfer` (published
-and outgoing release), incoming `reconcile`, `accept` (accepted), `verify_transfer`
-(verified), `complete_transfer` (completed/active). The incoming execution must read
-and independently verify live state after publication. If acceptance is unavailable,
-leave transfer pending/published; never claim completion merely because a report exists.
-
-Persist actual checkpoints at ownership start; before/after releases, migrations and
-governed writes; material integration changes; agent completion; human-decision blocks;
-recovery; before termination/transfer; and at least every 30 minutes while substantial
-work is actually running. A stopped execution emits no heartbeat. Each checkpoint
-has a unique actual execution ID and stable predecessor/successor linkage; preserve
-the prior version through Git history. Record no-repeat operations, retry/recovery,
-verification still required and an actionable next safe step.
-
-Scheduled resumptions are supplementary executions, never a substitute for ownership.
-Only describe a schedule as configured after tool confirmation, and a run as executed
-after verified execution evidence. The previously configured 7–8 November Codex hourly resumption attempts and
-Monday 9 November handover task were disabled under the Platform Admin stop
-directive on6November2026 at23:18UTC. Their exact IDs and verified disabled states
-are recorded in the canonical final Codex handover. Codex must not restart them. Their prompts require fresh repository/live verification and
-the same ownership and approval gates. Do not depend on a model, conversation ID,
-local worktree or Platform Admin message relay for any continuation.
-
+**Historical record:** The 6 November cross-model controller protocol (Admin #382)
+and its transfer checkpoints remain available in the Git history of this file,
+the dated weekend controller handover and the structured checkpoint. This current
+decision **replaces its operational prerequisites**; it does not retroactively
+assert that cross-entry-point fencing ever existed.
