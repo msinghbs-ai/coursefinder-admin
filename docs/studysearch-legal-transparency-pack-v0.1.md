@@ -1,8 +1,8 @@
-# CourseFinder — Legal and Transparency Pack
+# StudySearch (formerly CourseFinder) — Legal and Transparency Pack
 
-**Version:** 0.1 · **Status:** DRAFT FOR REVIEW · **Date:** 8 October 2026
-**Classification:** Internal working draft. Not reviewed by legal counsel. Not a legal opinion.
-**Change control:** proposed new item (next free ID is `CF-CHG-20261008-248`); recorded under `CF-CHG-20260915-247` until the Platform Admin assigns one.
+**Version:** 0.1 · **Status:** DRAFT FOR REVIEW · **Date:** 8 October 2026 (currency note added 9 November 2026)
+**Classification:** Internal working draft. Not reviewed by legal counsel. Not a legal opinion. Where this pack names a law, it records a question for counsel, not a conclusion about how the law applies.
+**Change control:** proposed new item (`CF-CHG-20261008-248`, still unassigned on 9 November 2026); recorded under `CF-CHG-20260915-247` until the Platform Admin assigns one. Naming: StudySearch is the product and CourseFinder is its former name (`docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md`); the draft public wording below uses StudySearch. Repository, host and storage-key names that still say "coursefinder" are kept for compatibility and appear in code font.
 **Evidence base:** Pilot `main` at `af302735` (UI v2.15.221 candidate, package 0.1.148, 8 Oct 2026); admin `main` at `1b52964c`; live Supabase project `fxcwkweaxjtknorudmwp` read on 8 Oct 2026 at about 15:40 AEDT.
 **Reference model:** DegreeAtlas "Legal and policies" set (degreeatlas.org/legal), reviewed in full on 8 Oct 2026, with every linked policy and methodology page.
 
@@ -15,11 +15,29 @@
 >
 > Repository paths, commit hashes and repo URLs in this pack are for internal use only. Remove them from anything customer-facing.
 
+> **Currency note (9 November 2026).** The body of this pack describes the platform as read on 8 October 2026. A month of releases has passed. Where the body and this note disagree, this note is correct for 9 November 2026. It was checked against the live database (read-only), the Website API v2 developer guide, the Website developer requirements register and the execution register. The body has not been rewritten, so the draft still reads as the 8 October review.
+>
+> | # | Body says (8 Oct) | Position on 9 Nov 2026 | Check made |
+> |---|---|---|---|
+> | C1 | Rankings are not shown to any consumer (section 1, section 7, section 10). Provider logos are held back (section 10) | Rankings and logos are returned to the website by Website API v2 and were approved for display by the Platform Admin on 14 Oct 2026. Each item carries `attribution` and `terms_status`. The pack's gap on licence and attribution (LG8) is therefore partly answered for these two datasets in the API, but this pack has not recorded the licence terms for QS, THE or the logos | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` R6; developer guide (rankings and logos sections) |
+> | C2 | Course APIs do not yet enforce published-only (section 1, section 16) | Website API v2 states that only published data is returned, decided by the provider Published switch. The older course APIs were not re-checked. Course records in `catalogue.courses` are all still marked `unpublished` | Developer guide; live count |
+> | C3 | 34,959 active courses; 360 scholarships published; 8 staff accounts | 35,689 active courses (none marked published); 1,144 scholarships published; 9 sign-in accounts | Live counts, 9 Nov |
+> | C4 | `security.zz_probe_v1()` still exists (section 12, LG10) | The function no longer exists in the live database. LG10 stays open for the other items in it | Live catalogue query |
+> | C5 | Three private storage buckets (section 12) | Four buckets, all private (`provider-assets`, `evidence`, `adapter-captures`, `archive`) | Live query |
+> | C6 | Both repositories public (LG2) | Both repositories are still public on 9 Nov 2026. LG2 is open | GitHub REST |
+> | C7 | No staff has multi-factor sign-in (LG3) | Still true: no factors enrolled for 9 accounts | Live query |
+> | C8 | 39 tables have row-level security off (section 12) | A count by the same method was not repeated. A fresh query of base tables in the `pipeline`, `public`, `security`, `ref`, `ranking` and `private` schemas found 69 without row-level security, so the 39 figure should not be quoted until the review in LG10 recounts it | Live query; method not matched to the original |
+> | C9 | Counsellor reports, provider contacts | Unchanged: 0 counsellor reports carrying a reporter, 31 provider contacts | Live query |
+> | C10 | Sections 8 and 9 cover course facts only | Not covered: provider descriptions (Directive 3, released 9 Nov 2026 as Pilot #940). Descriptions are now admitted by a machine decision under named tiers, including a tier that builds wording from register facts. This changes the AI and model statement (section 8) and the "provider's own text" statement (section 9) and needs its own review before any public wording is used | Execution register, 9 Nov entries |
+> | C11 | CRICOS licence is CC BY 2.5 AU (section 10) | Confirmed on the data.gov.au dataset page on 9 Nov 2026 ("Creative Commons Attribution 2.5 Australia"). The dataset page gives no separate attribution wording, so the draft attribution in section 10 is still a proposal for counsel | data.gov.au CRICOS dataset page |
+>
+> Gap numbers were renamed from G1 to G17 to LG1 to LG17 in this note and in section 15, because `CLAUDE.md` already uses G1 to G4 for the platform rules. Nothing else in the gap register was changed.
+
 ---
 
 ## 1. Summary
 
-CourseFinder is an international-student course discovery and comparison platform. It collects, checks and holds course facts (official page, intakes, English requirements, fees, duration, campus, delivery) for providers in Australia, New Zealand and Canada, and serves them to a website (Wix), Zoho (used by counsellors) and other consumers through governed, token-protected APIs. It does **not** process applications, admissions decisions, offers or visas (Design Reference §1, Decision 1).
+StudySearch is an international-student course discovery and comparison platform. It collects, checks and holds course facts (official page, intakes, English requirements, fees, duration, campus, delivery) for providers in Australia, New Zealand and Canada, and serves them to a website (Wix), Zoho (used by counsellors) and other consumers through governed, token-protected APIs. It does **not** process applications, admissions decisions, offers or visas (Design Reference §1, Decision 1).
 
 **What is published today (live, 8 Oct 2026)**
 
@@ -35,7 +53,7 @@ CourseFinder is an international-student course discovery and comparison platfor
 
 **Where the legal set stands overall**
 
-| Policy | DegreeAtlas has | CourseFinder today | Readiness |
+| Policy | DegreeAtlas has | StudySearch today | Readiness |
 |---|---|---|---|
 | Legal hub / status of documentation | Yes | Nothing published | [[GAP]] |
 | Privacy policy | Yes, very detailed | None. Personal data is held (staff, provider contacts) | [[GAP]] |
@@ -67,22 +85,22 @@ CourseFinder is an international-student course discovery and comparison platfor
 
 > **Legal and policies**
 >
-> Privacy, terms of use, cookies, accessibility, commercial disclosure, AI use and data sources for CourseFinder.
+> Privacy, terms of use, cookies, accessibility, commercial disclosure, AI use and data sources for StudySearch.
 >
-> **What CourseFinder publishes.** CourseFinder holds facts about courses for international students in Australia, New Zealand and Canada: the official course page, start months, English requirements, international tuition fees, duration, campus and how the course is delivered. Each fact is taken from the provider's own pages or an official government register, checked, and kept with the page it came from. A fact that has not been checked is shown as unknown rather than estimated. CourseFinder does not process applications, make admissions decisions, issue offers or advise on visas. Always confirm details with the provider before you apply.
+> **What StudySearch publishes.** StudySearch holds facts about courses for international students in Australia, New Zealand and Canada: the official course page, start months, English requirements, international tuition fees, duration, campus and how the course is delivered. Each fact is taken from the provider's own pages or an official government register, checked, and kept with the page it came from. A fact that has not been checked is shown as unknown rather than estimated. StudySearch does not process applications, make admissions decisions, issue offers or advise on visas. Always confirm details with the provider before you apply.
 >
 > Policies: Privacy · Terms of use · Cookies · Accessibility · Commercial disclosure · AI and model use · Data sources and methodology · Corrections · Contact
 >
-> **Status of these pages.** These pages describe CourseFinder as it is built at release [release]. They are written by [Operator legal name] and [have / have not] been reviewed by external legal counsel. They are not a warranty or legal advice.
+> **Status of these pages.** These pages describe StudySearch as it is built at release [release]. They are written by [Operator legal name] and [have / have not] been reviewed by external legal counsel. They are not a warranty or legal advice.
 
 ### Where we stand
 - No legal, privacy, terms, cookie, accessibility or disclaimer text exists in either repository (Pilot `src/`, `public/`, `index.html`; admin `docs/`). [[GAP]]
 - The only browser-facing site is the staff-only PIM Admin at `coursefinder-pilot.techm.workers.dev`. Its sign-in screen says "Authorised staff access only" (`src/mature-main.jsx:205`). [[IN PLACE]]
-- The student-facing website is built in Wix, outside these repositories. It reads CourseFinder through `website-course-api` / `wix-course-api` with a token kept in Wix Secrets Manager (`docs/integrations/coursefinder-wix-api-handover-v1.1.md`). The legal hub belongs on that website. [[DECISION]]
+- The student-facing website is built in Wix, outside these repositories. It reads StudySearch through `website-course-api` / `wix-course-api` with a token kept in Wix Secrets Manager (`docs/integrations/coursefinder-wix-api-handover-v1.1.md`). The legal hub belongs on that website. [[DECISION]]
 - A release identifier exists and could be cited, as DegreeAtlas does: `src/release-manifest.js` (UI `2.15.221`, state `candidate`). [[IN PLACE]]
 
 ### Gaps and decisions
-- Decide where the legal hub lives (Wix website, a CourseFinder-hosted page, or both) and who owns the wording. [[DECISION]]
+- Decide where the legal hub lives (Wix website, a StudySearch-hosted page, or both) and who owns the wording. [[DECISION]]
 - Adopt DegreeAtlas's discipline: each statement is tied to a release and states plainly what is not done. [[DECISION]]
 
 ---
@@ -93,23 +111,23 @@ CourseFinder is an international-student course discovery and comparison platfor
 
 > **Privacy policy**
 >
-> **The short version.** You can search and compare courses on CourseFinder without an account, and CourseFinder does not ask you for personal information to do so. CourseFinder holds a small amount of personal information about the people who run it, and the work contact details that universities and colleges publish for their own staff. This policy explains each kind, where it is kept, who can see it and how long it is kept.
+> **The short version.** You can search and compare courses on StudySearch without an account, and StudySearch does not ask you for personal information to do so. StudySearch holds a small amount of personal information about the people who run it, and the work contact details that universities and colleges publish for their own staff. This policy explains each kind, where it is kept, who can see it and how long it is kept.
 >
-> **1. Students and website visitors.** CourseFinder has no student accounts and keeps no record of what you search for. [The website at [domain] is run on Wix; Wix's own privacy notice applies to the website itself, including any forms and cookies it uses: see the cookie statement.] If you contact us, we use your message only to answer you.
+> **1. Students and website visitors.** StudySearch has no student accounts and keeps no record of what you search for. [The website at [domain] is run on Wix; Wix's own privacy notice applies to the website itself, including any forms and cookies it uses: see the cookie statement.] If you contact us, we use your message only to answer you.
 >
-> **2. Counsellors reporting a problem.** When a counsellor reports a wrong course fact from Zoho, CourseFinder receives the report with the counsellor's name and work email so that we can follow up. It is used only for that report.
+> **2. Counsellors reporting a problem.** When a counsellor reports a wrong course fact from Zoho, StudySearch receives the report with the counsellor's name and work email so that we can follow up. It is used only for that report.
 >
-> **3. University and college staff.** CourseFinder keeps the work contact details that a provider publishes for its international, admissions and partnership staff: name, job title, team, work email, work phone and the page it came from. Some job titles are confirmed through a licensed business-contact service. Personal email addresses (such as Gmail or Outlook) are refused. We use these details only to contact a provider about its own course information. If you are listed and want your details corrected or removed, write to [privacy contact].
+> **3. University and college staff.** StudySearch keeps the work contact details that a provider publishes for its international, admissions and partnership staff: name, job title, team, work email, work phone and the page it came from. Some job titles are confirmed through a licensed business-contact service. Personal email addresses (such as Gmail or Outlook) are refused. We use these details only to contact a provider about its own course information. If you are listed and want your details corrected or removed, write to [privacy contact].
 >
-> **4. CourseFinder staff.** Staff accounts hold an email address, a role and a sign-in history. Changes staff make are recorded with their account so that every change can be traced.
+> **4. StudySearch staff.** Staff accounts hold an email address, a role and a sign-in history. Changes staff make are recorded with their account so that every change can be traced.
 >
-> **Where information is kept.** CourseFinder's database and file storage are hosted by Supabase in [region]. The admin website is served by Cloudflare. [Other service providers.] Some of these providers store or process information outside Australia; see "Overseas disclosure".
+> **Where information is kept.** StudySearch's database and file storage are hosted by Supabase in [region]. The admin website is served by Cloudflare. [Other service providers.] Some of these providers store or process information outside Australia; see "Overseas disclosure".
 >
 > **How long we keep it.** [Retention periods per category — to be decided.]
 >
 > **Your rights.** You can ask to see, correct or remove personal information we hold about you by writing to [privacy contact]. We answer within [30] days. If you are not satisfied, you can complain to the Office of the Australian Information Commissioner (oaic.gov.au) [or the New Zealand Privacy Commissioner, or the Office of the Privacy Commissioner of Canada].
 >
-> **What CourseFinder does not do.** No advertising or tracking scripts. No sale of personal information. No profiling of students. No automated decisions about individuals.
+> **What StudySearch does not do.** No advertising or tracking scripts. No sale of personal information. No profiling of students. No automated decisions about individuals.
 
 ### Where we stand
 
@@ -157,7 +175,7 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 | APP 8 (cross-border disclosure) | Database in Mumbai; OpenRouter and model providers overseas | [[GAP]] |
 | APP 11 (security, destruction when no longer needed) | No personal-data retention rule | [[GAP]] |
 | Notifiable Data Breaches scheme (Privacy Act Part IIIC) | Requires assessment within 30 days and notice to the OAIC and individuals for eligible breaches | [[GAP]] No procedure |
-| Privacy and Other Legislation Amendment Act 2024 | Statutory tort for serious invasions of privacy (in force since 10 June 2025); privacy-policy transparency for automated decisions that significantly affect individuals (from 10 December 2026) | [[DECISION]] CourseFinder makes no decisions about individuals today; confirm and say so |
+| Privacy and Other Legislation Amendment Act 2024 | Statutory tort for serious invasions of privacy (in force since 10 June 2025); privacy-policy transparency for automated decisions that significantly affect individuals (from 10 December 2026) | [[DECISION]] StudySearch makes no decisions about individuals today; confirm and say so |
 | Spam Act 2003 (Cth) | Any commercial email to provider staff needs consent (inferred consent from conspicuous publication is narrow) and an unsubscribe | [[DECISION]] |
 | Privacy Act 2020 (NZ), and Unsolicited Electronic Messages Act 2007 | NZ provider staff contacts | [[DECISION]] |
 | PIPEDA and CASL (Canada) | Canadian provider staff contacts (CA work is paused) | [[DECISION]] |
@@ -178,22 +196,22 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 
 > **Terms of use**
 >
-> **What CourseFinder is.** CourseFinder helps international students find and compare courses. The information comes from providers' own websites and official government registers.
+> **What StudySearch is.** StudySearch helps international students find and compare courses. The information comes from providers' own websites and official government registers.
 >
 > **What you may rely on, and what you may not.**
 > - Each course fact shows where it came from. Use it as a starting point.
-> - CourseFinder is not an education agent, a provider, or an immigration adviser. It does not decide whether you are eligible, whether a course is open to you, or whether you will get a visa.
+> - StudySearch is not an education agent, a provider, or an immigration adviser. It does not decide whether you are eligible, whether a course is open to you, or whether you will get a visa.
 > - Fees, start dates and English requirements change. Always confirm them on the provider's official page before you apply or pay.
 > - A provider being listed is not an endorsement, a ranking or a sign that it is admitting students. Registration information comes from the government register named on each record (for example CRICOS).
-> - Where a fact is unknown, CourseFinder shows it as unknown. An empty field is never an estimate of zero.
+> - Where a fact is unknown, StudySearch shows it as unknown. An empty field is never an estimate of zero.
 >
 > **Rankings and statistics.** [If and when shown:] Rankings are those of the named publisher, for the institution as a whole, not for a course.
 >
-> **Acceptable use.** Do not scrape CourseFinder in bulk, misrepresent a provider, or present CourseFinder information as an offer or as official advice.
+> **Acceptable use.** Do not scrape StudySearch in bulk, misrepresent a provider, or present StudySearch information as an offer or as official advice.
 >
-> **API access (for partners).** Access to CourseFinder data through its APIs needs an issued token and a written agreement. Tokens are rate-limited and can be revoked. [Licence, attribution and service-level terms.]
+> **API access (for partners).** Access to StudySearch data through its APIs needs an issued token and a written agreement. Tokens are rate-limited and can be revoked. [Licence, attribution and service-level terms.]
 >
-> **No warranty.** CourseFinder is provided as is. Nothing in it is legal, financial, migration or admissions advice. Rights you have under the Australian Consumer Law are not excluded.
+> **No warranty.** StudySearch is provided as is. Nothing in it is legal, financial, migration or admissions advice. Rights you have under the Australian Consumer Law are not excluded.
 >
 > **Governing law.** [State or territory], Australia.
 
@@ -204,8 +222,8 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 - Regional category from Home Affairs LIN 19/217: "Academic entry is not held and is never implied" (Decision 165). [[IN PLACE]]
 - Consumer API controls: hashed tokens (`private.*_integration_credentials.token_sha256`), per-integration rate windows, token rotation in the admin (`src/EnvironmentMigrationWorkspace.jsx:118-122`). [[IN PLACE]]
 - No written API terms, licence or attribution requirement for Wix, Zoho or future integrators. [[GAP]]
-- Australian Consumer Law s18 (misleading or deceptive conduct) is the main exposure for a consumer-facing comparison site. The "confirm with the provider" wording and per-fact sources are the controls. [[PARTIAL]]
-- ESOS Act 2000 and the National Code 2018 regulate registered providers and their education agents. CourseFinder is neither, but if counsellors using Zoho recruit students for providers, they carry education-agent obligations. Say clearly what CourseFinder is not. [[DECISION]]
+- Australian Consumer Law s18 (misleading or deceptive conduct) may be the main legal exposure for a consumer-facing comparison site; counsel to confirm. The "confirm with the provider" wording and per-fact sources are the controls. [[PARTIAL]]
+- The ESOS Act 2000 and the National Code 2018 are understood to regulate registered providers and their education agents. StudySearch is understood to be neither, and counsellors using Zoho who recruit students for providers may carry education-agent obligations; counsel to confirm both points. Say clearly what StudySearch is not. [[DECISION]]
 
 ### Gaps and decisions
 - Write website terms and API terms; decide governing law and the customer entity that offers them. [[GAP]]
@@ -219,9 +237,9 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 
 > **Cookies**
 >
-> [The CourseFinder data service sets no cookies. The website at [domain] is built on Wix, which sets its own cookies: [list from a scan of the live site, with purpose and consent].]
+> [The StudySearch data service sets no cookies. The website at [domain] is built on Wix, which sets its own cookies: [list from a scan of the live site, with purpose and consent].]
 >
-> **Staff admin site.** The CourseFinder admin site sets no cookies. It keeps the signed-in session and a few screen preferences in the browser's local storage, on the staff member's own device.
+> **Staff admin site.** The StudySearch admin site sets no cookies. It keeps the signed-in session and a few screen preferences in the browser's local storage, on the staff member's own device.
 
 ### Where we stand
 - The admin app writes **no cookies** and uses no IndexedDB (no `document.cookie` anywhere in `src/`). [[IN PLACE]]
@@ -255,14 +273,14 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 
 > **Accessibility**
 >
-> CourseFinder aims to meet the Web Content Accessibility Guidelines (WCAG) 2.2 Level AA. [How it is checked.] [Known limitations.] Report a barrier to [contact], marked "accessibility", with the page, browser and any assistive technology you use.
+> StudySearch aims to meet the Web Content Accessibility Guidelines (WCAG) 2.2 Level AA. [How it is checked.] [Known limitations.] Report a barrier to [contact], marked "accessibility", with the page, browser and any assistive technology you use.
 
 ### Where we stand
 - No WCAG target is stated in code or design. [[GAP]]
 - No automated accessibility testing (no axe, no contrast check). The only related test checks a release-notes dialog closes accessibly (`tests/uat/release-notes-deployed.spec.mjs:7`). [[GAP]]
 - Some good practice is in place in the admin app: `lang="en-AU"`, 289 `aria-label`, 92 `role=` attributes, `role="switch"` with `aria-checked`, visible focus styles in 10 places, one reduced-motion rule. Colours come from a single tokens file (`scripts/verify-ui-tokens.mjs`) but contrast is not verified. [[PARTIAL]]
 - Design rules: labels unique for assistive technology (Design Reference §7 rule 4); "accessibility and readable contrast are part of acceptance" (`docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`). [[PARTIAL]]
-- The student website is built in Wix; its accessibility is outside these repositories. The Disability Discrimination Act 1992 applies to it. [[DECISION]]
+- The student website is built in Wix; its accessibility is outside these repositories. The Disability Discrimination Act 1992 (Cth) may apply to it; counsel to confirm. [[DECISION]]
 
 ### Gaps and decisions
 - Adopt WCAG 2.2 AA as the target for any consumer surface; add an automated contrast and axe check to the release gate. [[DECISION]]
@@ -275,7 +293,7 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 
 > **Commercial disclosure**
 >
-> CourseFinder shows no advertising, no sponsored listings and no paid placement. No provider pays to appear or to be ranked higher. Course order reflects your search, not payment. A provider correcting its own information is never charged.
+> StudySearch shows no advertising, no sponsored listings and no paid placement. No provider pays to appear or to be ranked higher. Course order reflects your search, not payment. A provider correcting its own information is never charged.
 >
 > [If commercial arrangements are introduced, they will be labelled, kept separate from factual results, and described on this page before they go live.]
 
@@ -295,7 +313,7 @@ Provider contacts design: `docs/coursefinder-provider-contact-database-managemen
 
 > **AI and model use**
 >
-> **Nothing a student types is sent to an AI model.** Search on CourseFinder does not use a language model.
+> **Nothing a student types is sent to an AI model.** Search on StudySearch does not use a language model.
 >
 > **Where models are used.** Models are used only behind the scenes, to help check course facts read from providers' official pages: start months, English requirements and tuition fees, and to suggest which page belongs to which course.
 >
@@ -331,10 +349,10 @@ Source: `pipeline.layer3_route_tiers` joined to `pipeline.layer3_model_profiles`
 - Spend guards: route budgets per day (`pipeline.layer3_route_budget`), routes stop below US$5 OpenRouter credit, builder US$0.50 and 30 proposals a day. [[IN PLACE]]
 - Prompt-injection posture: "Page content is data" (University Adapters design §6.2). [[PARTIAL]] Stated in design; not tested.
 - Personal data in prompts: not intended (prompts carry course page text). Not tested; provider-contact functions do not call models. [[PARTIAL]]
-- Automated-decision transparency (Privacy Act reform from 10 Dec 2026): CourseFinder makes no decisions about individuals. [[N/A]] Confirm and state it.
+- Automated-decision transparency (Privacy Act reform from 10 Dec 2026): StudySearch makes no decisions about individuals. [[N/A]] Confirm and state it.
 
 ### Gaps and decisions
-- Be precise in the public wording. Unlike DegreeAtlas, CourseFinder does let a qualified model fill an empty field without a person. Say so plainly rather than claiming "a person checks every value". [[DECISION]]
+- Be precise in the public wording. Unlike DegreeAtlas, StudySearch does let a qualified model fill an empty field without a person. Say so plainly rather than claiming "a person checks every value". [[DECISION]]
 - Name the model providers' data-use terms (OpenRouter and each upstream provider: whether prompts are retained or used for training) and pick providers with no-training terms. [[GAP]]
 
 ---
@@ -343,7 +361,7 @@ Source: `pipeline.layer3_route_tiers` joined to `pipeline.layer3_model_profiles`
 
 ### Draft public statement
 
-> **Where CourseFinder's information comes from**
+> **Where StudySearch's information comes from**
 >
 > **Registers.** Which providers and courses exist comes from official government registers: CRICOS for Australia, NZQA for New Zealand, and the IRCC Designated Learning Institutions list for Canada.
 >
@@ -359,7 +377,7 @@ Source: `pipeline.layer3_route_tiers` joined to `pipeline.layer3_model_profiles`
 - Identity rule: a page counts only when it carries the course's CRICOS or provider code or matches its title exactly; failed "better pages" are undone automatically (`better-page-revert`). [[IN PLACE]]
 - robots.txt honoured (RFC 9309) in the coverage reader and directory capture (`coverage-sweep/extract.ts` `robotsAllows()`); VTAC not crawled because it disallows all. [[PARTIAL]] Not checked in the Layer 1 per-college scrapers or Layer 2 functions.
 - Never circumvent logins, paywalls or bot controls (ranking design "Manual publisher artifact fallback"; QS "Cloudflare-challenged … no bypass attempted"). [[PARTIAL]] Firecrawl's `stealth` / `enhanced` proxy settings and ZenRows "anti_bot" are available in settings; confirm they are not used against sites that refuse readers.
-- User agents: most readers identify as CourseFinder with a contact URL. Three functions (`ranking-layer1-etl`, `ranking-qs-source-recovery`, `coursefacts-au-qut`) send a plain browser user agent. [[PARTIAL]]
+- User agents: most readers identify as StudySearch with a contact URL. Three functions (`ranking-layer1-etl`, `ranking-qs-source-recovery`, `coursefacts-au-qut`) send a plain browser user agent. [[PARTIAL]]
 - Refused hosts (archive, staging, test) and aggregator exclusion (`pipeline.important_links.uses`; Adapter Lessons §1). [[IN PLACE]]
 - Course descriptions are the provider's own text, 200–1,000 characters, no AI rewriting, shown with attribution and a link (Decision 140). [[IN PLACE]] in design.
 - Site terms that forbid automated access are followed (Decisions 167, 232, 233). Hotcourses needs legal review before wider use; XuanXiao is reference only. [[IN PLACE]]
@@ -368,9 +386,9 @@ Source: `pipeline.layer3_route_tiers` joined to `pipeline.layer3_model_profiles`
 
 ## 10. Source licence and attribution register
 
-DegreeAtlas publishes a register listing every dataset with publisher, licence, vintage and retrieval date, plus the attribution wording each licence requires. CourseFinder has no such register. This is the draft.
+DegreeAtlas publishes a register listing every dataset with publisher, licence, vintage and retrieval date, plus the attribution wording each licence requires. StudySearch has no such register. This is the draft.
 
-| Source | Publisher | Used for | Licence (as published by the source; confirm) | Recorded in CourseFinder? | Shown to consumers? |
+| Source | Publisher | Used for | Licence (as published by the source; confirm) | Recorded in StudySearch? | Shown to consumers? |
 |---|---|---|---|---|---|
 | CRICOS (data.gov.au) | Australian Government Department of Education | AU providers, courses, codes, register fees | CC BY 2.5 AU, attribution required | [[GAP]] No licence or attribution recorded | Yes, when courses publish |
 | NZQA provider and qualification pages | New Zealand Qualifications Authority | NZ providers and qualifications | To confirm (NZ Government copyright terms) | [[GAP]] | Yes |
@@ -395,7 +413,7 @@ Country source matrix gate 8 ("licensing, redistribution and product-use terms a
 
 ### Gaps and decisions
 - Add `licence`, `licence_url`, `attribution_text` and `retrieved_at` to the source registry (`pipeline.sources`) and show attribution beside published values, as DegreeAtlas does. [[GAP]]
-- Draft CRICOS attribution: "Contains CRICOS register data © Commonwealth of Australia (Department of Education), licensed under CC BY 2.5 AU. Modified: fields selected and restructured by CourseFinder." [[DECISION]]
+- Draft CRICOS attribution: "Contains CRICOS register data © Commonwealth of Australia (Department of Education), licensed under CC BY 2.5 AU. Modified: fields selected and restructured by StudySearch." [[DECISION]]
 - Confirm terms for the four scholarship sources before more scholarships publish. [[GAP]]
 
 ---
@@ -406,7 +424,7 @@ Country source matrix gate 8 ("licensing, redistribution and product-use terms a
 
 > **Report a problem**
 >
-> If a course fact is wrong, tell us: the course, what is wrong, and a link to the provider page showing the right value. A correction never changes CourseFinder because it was requested; it is checked against the provider's own page first. Providers correcting their own information are never charged. [Form or email.]
+> If a course fact is wrong, tell us: the course, what is wrong, and a link to the provider page showing the right value. A correction never changes StudySearch because it was requested; it is checked against the provider's own page first. Providers correcting their own information are never charged. [Form or email.]
 
 ### Where we stand
 - Counsellors can report a wrong fact from Zoho (`zoho-course-api` `report` action → `public.zoho_edge_report_v1` → `pipeline.data_flags`; D238a). 0 reports stored so far. [[PARTIAL]]
@@ -441,7 +459,7 @@ Country source matrix gate 8 ("licensing, redistribution and product-use terms a
 
 ### Draft public statement
 
-> CourseFinder is operated by **[Operator legal name]**, ABN [ABN], [registered address].
+> StudySearch is operated by **[Operator legal name]**, ABN [ABN], [registered address].
 > - General: [email]
 > - Privacy requests: [email], marked "privacy"
 > - Corrections: [form or email]
@@ -460,7 +478,7 @@ Country source matrix gate 8 ("licensing, redistribution and product-use terms a
 |---|---|---|
 | Refund policy (paid API) | No paid product | A paid API or subscription is introduced |
 | Institution claim / partnership intake forms | No provider self-service | Providers can edit their own records |
-| Eligibility engine statement | CourseFinder does not compute eligibility | Eligibility features are proposed |
+| Eligibility engine statement | StudySearch does not compute eligibility | Eligibility features are proposed |
 
 ---
 
@@ -468,25 +486,25 @@ Country source matrix gate 8 ("licensing, redistribution and product-use terms a
 
 | # | Item | Owner | Priority | Before |
 |---|---|---|---|---|
-| G1 | Name the operator; decide APP-entity status | Customer | Critical | Any publication |
-| G2 | Make repositories private or scrub personal details | Platform Admin | Critical | Now |
-| G3 | Enrol MFA for all staff accounts | Platform Admin | Critical | Now |
-| G4 | Breach response procedure (NDB scheme, NZ and Canada equivalents) | Customer and MSP | Critical | Any publication |
-| G5 | Privacy policy (sections 3.1–3.4) and collection notice for provider staff | Customer, counsel | High | Course publication |
-| G6 | Personal-data retention rules (contacts, `actor_email`, reports) and a removal process | Platform Admin | High | Course publication |
-| G7 | Website terms and API terms | Customer, counsel | High | Course publication |
-| G8 | Source licence and attribution register; CRICOS attribution on published courses | Platform Admin | High | Course publication |
-| G9 | Confirm scholarship source terms (360 already published) | Platform Admin | High | Now |
-| G10 | Security headers on admin site; drop `security.zz_probe_v1()`; RLS review of 39 tables | MSP | High | M2.4.9 |
-| G11 | Cookie scan of the Wix website | Customer | Medium | Course publication |
-| G12 | WCAG 2.2 AA target and automated checks | MSP | Medium | Course publication |
-| G13 | AI providers' data-use terms; confirm no personal data in prompts | Platform Admin | Medium | M2.4.9 |
-| G14 | Public corrections route | Customer | Medium | Course publication |
-| G15 | Commercial disclosure decision (Zoho re-ranking, any commission) | Customer | Medium | Course publication |
-| G16 | robots.txt in Layer 1 per-college and Layer 2 readers; CourseFinder user agent everywhere; no stealth proxy against refusing sites | MSP | Medium | M2.4.9 |
-| G17 | External legal review of this pack | Customer | High | Publishing any of it |
+| LG1 | Name the operator; decide APP-entity status | Customer | Critical | Any publication |
+| LG2 | Make repositories private or scrub personal details | Platform Admin | Critical | Now |
+| LG3 | Enrol MFA for all staff accounts | Platform Admin | Critical | Now |
+| LG4 | Breach response procedure (NDB scheme, NZ and Canada equivalents) | Customer and MSP | Critical | Any publication |
+| LG5 | Privacy policy (sections 3.1–3.4) and collection notice for provider staff | Customer, counsel | High | Course publication |
+| LG6 | Personal-data retention rules (contacts, `actor_email`, reports) and a removal process | Platform Admin | High | Course publication |
+| LG7 | Website terms and API terms | Customer, counsel | High | Course publication |
+| LG8 | Source licence and attribution register; CRICOS attribution on published courses | Platform Admin | High | Course publication |
+| LG9 | Confirm scholarship source terms (360 already published) | Platform Admin | High | Now |
+| LG10 | Security headers on admin site; drop `security.zz_probe_v1()`; RLS review of 39 tables | MSP | High | M2.4.9 |
+| LG11 | Cookie scan of the Wix website | Customer | Medium | Course publication |
+| LG12 | WCAG 2.2 AA target and automated checks | MSP | Medium | Course publication |
+| LG13 | AI providers' data-use terms; confirm no personal data in prompts | Platform Admin | Medium | M2.4.9 |
+| LG14 | Public corrections route | Customer | Medium | Course publication |
+| LG15 | Commercial disclosure decision (Zoho re-ranking, any commission) | Customer | Medium | Course publication |
+| LG16 | robots.txt in Layer 1 per-college and Layer 2 readers; StudySearch user agent everywhere; no stealth proxy against refusing sites | MSP | Medium | M2.4.9 |
+| LG17 | External legal review of this pack | Customer | High | Publishing any of it |
 
-Recommendation: add G1–G10 to the CF-049 production readiness gate, which today lists security items only and no privacy or legal items, and treat G17 as a GO/NO-GO condition at M2.4.9.
+Recommendation: add LG1–LG10 to the CF-049 production readiness gate, which today lists security items only and no privacy or legal items, and treat LG17 as a GO/NO-GO condition at M2.4.9.
 
 ---
 
