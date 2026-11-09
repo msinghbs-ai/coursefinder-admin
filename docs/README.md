@@ -65,6 +65,7 @@ current operations; historical acceptance gates are not silently reopened.
 | Troubleshooting / Bug-Fix / Recovery Protocol | `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` | CURRENT |
 | Release / Version Control & Recovery | `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md` | CURRENT |
 | University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
+| Legal and Transparency Pack (draft policies and a gap register; not published, not reviewed by legal counsel; not a current rule for any other document) | `docs/studysearch-legal-transparency-pack-v0.1.md` | DRAFT FOR REVIEW — not reviewed by legal counsel |
 
 ## Active milestone router
 
