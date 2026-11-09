@@ -2,15 +2,20 @@
 
 **QUICK START — EXECUTION FIRST (10 NOV 2026; binding model v1.2):** This is the **small context pointer**, not a second status or task tracker. Weekly usage limits require selective reads and testing. Do not reread the full 500k-character [Execution Register](../STUDYSEARCH-EXECUTION-REGISTER.md), rescan Supabase or launch a broad/full test suite for orientation. Read the [Operating Model](../AGENT-OPERATING-MODEL.md) once, then only the specific [F-subtask](../STUDYSEARCH-FEATURE-ACCEPTANCE.md), most recent matching register entry, current PR and directly affected code. Reuse latest recorded evidence; fresh, narrowly scoped live queries only where material truth changed or a release gate requires it. Targeted tests in development; full governed CI at release. Resolve the next known blocker and verify output, rather than starting another discovery/pilot. Use one integration owner (Claude), and record only material changes and verified admissions.
 
-**Next executable priority pointers (not duplicated task state):**
+**Quick Start amendment, 10 Nov 2026 (v1.3):** No Claude development schedules exist or may be created without Platform Admin approval (see the operating model v1.3 section). The only plan is the **Reconciled execution plan** table in [STUDYSEARCH-FEATURE-ACCEPTANCE.md](../STUDYSEARCH-FEATURE-ACCEPTANCE.md): resume at its first row with no genuine Dependency. Settings: minimum human controls ([audit §13](../SETTINGS-CONTROL-AUDIT.md)).
 
-| Existing subtask / issue | Carry-forward next work (verify only the affected delta) | Acceptance |
-|---|---|---|
-| **F-CDESC.02/.03/.05** | Implement [approved 10 Nov safe AI machine admission](2026-11-10-course-descriptions-autonomous-ai-admission-decision.md) from already stored official course pages; existing reader and 1,441 Layer 4 waiting are known, no pilot. | Correct new canonical descriptions above 163, consumers checked, unattended runs |
-| **F-PDESC.02/.04 / F-OPS.05** | Run/Verify provider-description cohorts from the existing UI; resolve genuine expiry/queue starvation. The provider job was added to the Run Now allowlist in an audited setting change observed 10 Nov 05:22 AEDT; **do not reactivate or report it missing from the 9 Nov snapshot**. | Actual saved on-demand run, admitted and consumer-verified values; expired leases recover automatically |
-| **F-OPS.03A** | Complete live desktop/phone acceptance of already released Data Delivery panel and relevant performance fixes (#961/#968/#969); show current source→admit→Website/Zoho status in Operations. | User can see measured net gains without asking Claude |
-| **F-INT.02/.03/.05 / IQ-00313** | Continue date-page and D3 revisit live verification with course/year/campus/audience checks; avoid another intake pilot. D3 setting was observed ON 10 Nov 05:22 AEDT. | Source-backed retained exact dates, two unattended cycles, consumer parity |
-| **G3 R23/R24** | Complete #945 and Admin #386 only after the remaining already documented release communications and checks; preserve #954 held. | Approved release verified with consumers |
+**Next executable priority pointers (Platform Admin order, 10 Nov; state lives in the plan table, not here):**
+
+| # | Plan row | Immediate next action | Acceptance |
+|---|---|---|---|
+| 1 | **F-PDESC.04 / .01** Provider Fill fields + verified Run Now | Release identity fix (Agent E) and Provider Catalogue Fill fields/quality columns (Agent B), then re-run the Sydney cohort from Run & Validate and verify admission and Website/Zoho. Run Now is already active (10 Nov 05:16); do not re-activate. | An on-demand provider description admitted and consumer-verified |
+| 2 | **F-PDESC.02** Upgrade basic profiles | Release Agent C's eligibility fix; basic registry profiles must not block About Us enrichment; the seven universities are examples, not a pilot | Basic → Enriched, published |
+| 3 | **F-CDESC.02/.03/.05/.06** Course-description machine admission + Fill description | Release D1 (ships OFF), turn on via audited Settings with reason, settle safe-class Layer 4 items, verify gain above 163 with Website/Zoho read-back, then raise `enrich.course_text_items_per_day` within the budget; release D2 on-demand UI | New canonical descriptions >163, two unattended cycles |
+| 4 | **F-INT.02/.03/.05** (IQ-00313) | Intake automation and D3 recovery: course/university scope and two unattended cycles | Retained exact dates with consumer parity |
+| 5 | **F-OPS.03A / .05** | Add machine-admission and provider-quality stage counts to Data Delivery; release the control classification (Agent F) | Operator reads progress without asking Claude |
+| 6 | Other F-workstreams | Per the plan table; Platform Admin gates listed there | — |
+
+**Platform Admin gates open (do not work around):** disable the Claude development schedule (`trig_01Y4yZJc1dr8R2mDgpqwopwF`) in Scheduled tasks; G3 R23/R24 (#945) held for the Wix/Zoho emails and go-ahead; La Cité paste; machine word-list decision (UNSW/Flinders/Monash) and UQ text; any Firecrawl or AI ceiling increase (Firecrawl reads 20 used up; AI US$1 provider lane).
 
 **Working rule:** If a priority has moved since this pointer was written, reconcile only its most recent GitHub/DB evidence and replace this small pointer when materially changed. Counts in historical entries are not current status. No new tracker, report suite or rediscovery programme.
 
