@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guards: Admin #382, exclusive controller ownership and interrupted recovery.
+"""RETIRED 9 Nov 2026 (Platform Admin sole-controller decision): historical audit tooling only; no workflow runs it and nothing may rely on it as a release prerequisite. Original guard follows. Guards: Admin #382, exclusive controller ownership and interrupted recovery.
 
 GitHub is the durable store. CAS is a one-parent commit followed by a non-forced
 fast-forward ref update. Concurrent sibling commits cannot both win. This tool

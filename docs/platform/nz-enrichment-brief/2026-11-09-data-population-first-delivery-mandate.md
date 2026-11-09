@@ -1,4 +1,7 @@
 # StudySearch — Data Population First: Provider Descriptions and Valid Intake Dates
+
+> **Update 9 Nov 2026 (Platform Admin sole-controller decision):** any wording below that makes the controller lease, adoption, ownership or fencing a precondition for merge or release is retired. Claude is the sole accountable engineering controller and releases through the standard reviewed route (one release at a time, exact-head CI, checksums, G1-G4, protected approvals). Wording kept for the record. See [decision](2026-11-09-claude-sole-engineering-controller-decision.md).
+
 **Platform Admin mandate, 9 November 2026.** **Mode 1 Active Remediation.** This is a PRIORITY OVERRIDE within the existing [F-PDESC](../STUDYSEARCH-FEATURE-ACCEPTANCE.md), [F-INT](../STUDYSEARCH-FEATURE-ACCEPTANCE.md), [cross-domain delivery mandate](2026-11-08-cross-domain-autonomous-delivery-closure.md) and [sole execution register](../STUDYSEARCH-EXECUTION-REGISTER.md). It does not create a new tracker, new approval rule or new controller.
 
 ## 0. Outcome demanded and non-acceptance of scaffold-only work

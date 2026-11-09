@@ -1,5 +1,8 @@
 # StudySearch — 9 Nov 2026: exact execution plan for autonomous intake production delivery
 
+> **Update 9 Nov 2026 (Platform Admin sole-controller decision):** any wording below that makes the controller lease, adoption, ownership or fencing a precondition for merge or release is retired. Claude is the sole accountable engineering controller and releases through the standard reviewed route (one release at a time, exact-head CI, checksums, G1-G4, protected approvals). Wording kept for the record. See [decision](2026-11-09-claude-sole-engineering-controller-decision.md).
+
+
 **Platform Admin direction:** Do not restart a 10/20-university pilot or produce UI-only PRs. Implement and release an evidence-backed, continuously running **source → exact-date validation → canonical admission → Website/Zoho verification → repeat/recover** loop across every eligible provider and course. No fake start dates. **Status at 08:21 AEDT:** NOT DELIVERED; no credible fixed full-coverage ETA before source feasibility and throughput are measured. **Execution owner:** the one authorised Integration Controller; other agents own separate source, date-policy and operational portions. **Task identity:** existing IQ-00313, F-INT.01–.06 in `STUDYSEARCH-EXECUTION-REGISTER.md`; no second queue.
 
 ## 1. What is true, measured and NOT an estimate

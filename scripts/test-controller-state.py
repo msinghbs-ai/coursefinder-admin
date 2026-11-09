@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guards: Admin #382 continuity schema, recovery and truthful handover gates.
+"""RETIRED 9 Nov 2026 (Platform Admin sole-controller decision): historical audit tooling only; no workflow runs it and nothing may rely on it as a release prerequisite. Original guard follows. Guards: Admin #382 continuity schema, recovery and truthful handover gates.
 
 These tests exercise only the governance validator, not Pilot product coverage.
 """

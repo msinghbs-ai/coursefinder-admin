@@ -1,4 +1,7 @@
 # StudySearch — Scheduled Claude Controller: Ownership, Lease and Overnight Release Disposition
+
+> **HISTORICAL RECORD, SUPERSEDED 9 Nov 2026** by the Platform Admin's sole-controller decision ([decision](2026-11-09-claude-sole-engineering-controller-decision.md)). Retained as audit evidence. Its lease, ownership, adoption and development-only conditions are not current instructions and must not be applied to any scheduled or manual run.
+
 **Dated:** 8 November 2026, Australia/Melbourne. **Decision category:** conditional technical direction for the Platform Admin's requested choice, not an assertion that an atomic lease has been granted. **Status:** scheduled development proof reported; production ownership **NOT ACQUIRED**.
 
 ## Decision

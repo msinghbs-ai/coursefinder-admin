@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guards: Admin #382 §§7–9, CAS, exclusive ownership and expiry-safe recovery."""
+"""RETIRED 9 Nov 2026 (Platform Admin sole-controller decision): historical audit tooling only; no workflow runs it and nothing may rely on it as a release prerequisite. Original guard follows. Guards: Admin #382 §§7–9, CAS, exclusive ownership and expiry-safe recovery."""
 import copy
 import importlib.util
 import json
