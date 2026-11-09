@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.5, 10 Nov 2026 (sole Claude engineering controller; data-delivery priority, root-cause releases, no development schedules, minimum human controls; history in Git). This file is the complete onboarding for any AI agent working on
+v1.6, 10 Nov 2026 (sole Claude engineering controller; delivery first, actionable verified approvals, root-cause releases, no development schedules; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -26,6 +26,20 @@ consumer API (G3) approvals. A verified approval is not to be repeatedly request
 **Usage discipline:** default to one focused repository/context pass, one limited live evidence pass only where necessary, targeted development tests, and one release acceptance pass. Additional calls must be justified by a concrete discrepancy, a changed code head, safety-critical release condition or an independent-validation finding. There is no fixed query/test ceiling that overrides mandatory release controls.
 
 **Completion proof:** preserve a clear evidence chain of `F-domain.substep → IQ/SS issue → PR/commit → deployed function/job/settings → actual source-backed admission → consumer publication/verification`. If the last stages have no gain or a valid hold, leave the substep open with exact cause and next retry; **do not restart discovery**.
+
+## Approval requests must be actionable and UI-verified (Platform Admin, 10 November 2026)
+
+**Never ask the Platform Admin to “approve”, “switch on”, “open Settings” or “run the UI control” without verifying the actual route and whether a NEW human decision is required.** A database approval row, migration gate, technical permission and business/policy authorisation are different things. The presence of `approval_status` or a service-only function does not by itself constitute an unmade Platform Admin decision.
+
+Before escalating:
+1. **Reuse previous authority:** search only the relevant current decision/PR/approval package. Determine whether the exact scope is already approved. Do not request the same authorisation a second time. Separate an approved decision not yet implemented from a new decision outside scope.
+2. **Validate the actual control:** inspect the current deployed Admin route, rendered component, role rank, underlying RPC/write function, settings row and required audit reason; when appropriate, verify in the actual signed-in UI, not just a design document or stale screenshot. Never invent menu labels, buttons, a route or a control.
+3. **Provide a complete actionable request** only for a genuinely required human action, containing: (a) why the action requires a human and why no recorded approval covers it; (b) exact object(s), IDs, counts, audience/consumer scope, old → new value and operational effect; (c) an actual clickable UI path and step-by-step instructions with verified access/role, or an explicit **“No Admin UI control exists”** statement and a prepared reviewed migration/authorised workflow, with code/PR path and required approver; (d) precise audit reason/text; (e) preconditions, safety and financial impact, rollback/forward recovery; (f) how the system will confirm the result. Ask one precise decision, not a vague "approval?".
+4. **If the UI does not exist:** Do not redirect the Platform Admin to a fictional screen, ask them to manufacture an approval row, or propose raw production SQL as an ordinary substitute. Claude must own the technical implementation and supply the reviewed, authorised release workflow. A service-only write route is **not a UI action**. Where the mechanism embodies an explicit human approval policy, preserve it; propose a separately approved policy/profile change with exact scope rather than silently inserting approvals.
+5. **No avoidable handback:** technical gates and the mechanics of implementing a scoped decision already approved belong to Claude through the existing CI/QA/migration/release process. Do not escalate a database row or old `pilot` label as a fresh human-policy decision without checking the actual controlling rule and recorded scope. Park only the protected action if a genuine new authorisation is needed; progress other critical-path work.
+6. **Keep records brief:** write the approval evidence and exact instructions under the existing F-subtask and register; do not create a new approvals dashboard or a long repeat audit. If an actual control is missing, record it as an operator-UI acceptance gap under F-OPS.04.
+
+**Example boundary (10 Nov R23/R24/course publication):** the earlier 10-course publication verification authorisation is scoped, not a blanket all-course go-live. The technical `publishing.publication_approvals` rows are a prerequisite enforced by a service-only function and historical controlled UAT profile; they are **not themselves a request for the Platform Admin to click a non-existent button**. The engineer must explain whether its proposed migration fits the existing bounded authorisation and the profile's true human approval semantics; any genuinely new publication-policy authority must be presented explicitly with actionable instructions. Never infer that a "pilot" profile is authorised to publish the full catalogue.
 
 ## Immediate data-delivery priority over discretionary PRs (Platform Admin, 10 November 2026)
 
