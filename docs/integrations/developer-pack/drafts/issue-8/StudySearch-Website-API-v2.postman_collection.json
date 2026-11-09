@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "StudySearch Website API v2 (website-api-v2) - Issue 8 DRAFT, PROPOSED - not live",
-    "description": "Requests marked proposed use fields not returned yet. Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.",
+    "name": "StudySearch Website API v2 (website-api-v2) - Issue 8",
+    "description": "Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -254,7 +254,7 @@
       }
     },
     {
-      "name": "provider – campuses, University of Auckland (9, proposed fields)",
+      "name": "provider – campuses, University of Auckland (9)",
       "request": {
         "method": "POST",
         "header": [
@@ -364,7 +364,7 @@
       }
     },
     {
-      "name": "scholarships – international (1,151)",
+      "name": "scholarships – international (1,144)",
       "request": {
         "method": "POST",
         "header": [

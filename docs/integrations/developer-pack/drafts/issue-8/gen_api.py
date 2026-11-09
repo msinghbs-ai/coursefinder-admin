@@ -73,8 +73,8 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 8 DRAFT, PROPOSED - not live; prepared 3 November 2026, revised 5 November 2026)",
-   "description":"PROPOSED - not live: fields marked (proposed) are not returned yet. One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
+ "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 8, release date set at release)",
+   "description":"One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot (Production uses the same address with its own key)"}],
  "security":[{"bearerKey":[]}],
  "paths":{"/website-api-v2":{"post":{"operationId":"websiteApiV2","summary":"Call an action of Website API v2",
@@ -89,14 +89,14 @@ oas={"openapi":"3.1.0",
      "ProviderCampus":{"type":"object","description":"One item of a provider's campuses[] (providers, provider, sync provider items). One item per campus.","properties":{
        "city":{"type":["string","null"]},"postcode":{"type":["string","null"]},"subdivision_code":{"type":["string","null"]},"metro_area":{"type":["string","null"]},
        "regional_category":{"type":["integer","null"]},"regional_category_name":{"type":["string","null"]},
-       "campus_id":{"type":"string","description":"(proposed) Permanent campus identifier; the key to store"},
-       "campus_name":{"type":["string","null"],"description":"(proposed) Campus name as published; null where not held"},
-       "course_count":{"type":"integer","minimum":0,"description":"(proposed) Courses the API returns at this campus"}}},
+       "campus_id":{"type":"string","description":"Permanent campus identifier; the key to store"},
+       "campus_name":{"type":["string","null"],"description":"Campus name as published; null where not held"},
+       "course_count":{"type":"integer","minimum":0,"description":"Courses the API returns at this campus"}}},
      "NationalityEligibilityStatus":{"type":"string","enum":["restricted","unrestricted","unknown","under_review"],
-       "description":"(proposed) On scholarships. restricted: limited by nationality or citizenship, or domestic only (citizenship_eligibility lists codes where held; may be empty). unrestricted: stated open to any nationality. unknown: nothing held - not open to all. under_review: being checked. Region codes (R-ASEAN, R-SASIA, ...) are never expanded into countries."}}}}
+       "description":"On scholarships. restricted: limited by nationality or citizenship, or domestic only (citizenship_eligibility lists codes where held; may be empty). unrestricted: stated open to any nationality. unknown: nothing held - not open to all. under_review: being checked. Region codes (R-ASEAN, R-SASIA, ...) are never expanded into countries."}}}}
 json.dump(oas,open("StudySearch-Website-API-v2.openapi.json","w"),indent=2,ensure_ascii=False)
 items=[]
-names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (107)","search_canada":"search – Canada (3,814)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (1,463)","provider":"provider – UQ detail","course_entry":"course – entry requirements, India (0100714)","provider_entry":"provider – entry table, India (RMIT)","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,151)","provider_campuses_nz":"provider – campuses, University of Auckland (9, proposed fields)","provider_ranking_history":"provider – ranking history, Adelaide University","scholarships_nationality":"scholarships – nationality VN or South-East Asia","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
+names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (107)","search_canada":"search – Canada (3,814)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (1,463)","provider":"provider – UQ detail","course_entry":"course – entry requirements, India (0100714)","provider_entry":"provider – entry table, India (RMIT)","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,144)","provider_campuses_nz":"provider – campuses, University of Auckland (9)","provider_ranking_history":"provider – ranking history, Adelaide University","scholarships_nationality":"scholarships – nationality VN or South-East Asia","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
 for k,v in ex.items():
     it={"name":names[k],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],
       "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/website-api-v2"}}
@@ -105,7 +105,7 @@ for k,v in ex.items():
     if k=="scholarships":
         it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"]}}]
     items.append(it)
-pm={"info":{"name":"StudySearch Website API v2 (website-api-v2) - Issue 8 DRAFT, PROPOSED - not live","description":"Requests marked proposed use fields not returned yet. Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+pm={"info":{"name":"StudySearch Website API v2 (website-api-v2) - Issue 8","description":"Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
  "auth":{"type":"bearer","bearer":[{"key":"token","value":"{{apiKey}}","type":"string"}]},
  "variable":[{"key":"baseUrl","value":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"},{"key":"apiKey","value":""},{"key":"syncCursor","value":""},{"key":"scholarshipId","value":""}],
  "item":items}

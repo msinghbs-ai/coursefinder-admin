@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Website API",
-    "version": "website-api-v2 (Version 2, issue 8 DRAFT, PROPOSED - not live; prepared 3 November 2026, revised 5 November 2026)",
-    "description": "PROPOSED - not live: fields marked (proposed) are not returned yet. One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
+    "version": "website-api-v2 (Version 2, issue 8, release date set at release)",
+    "description": "One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
   },
   "servers": [
     {
@@ -876,19 +876,19 @@
           },
           "campus_id": {
             "type": "string",
-            "description": "(proposed) Permanent campus identifier; the key to store"
+            "description": "Permanent campus identifier; the key to store"
           },
           "campus_name": {
             "type": [
               "string",
               "null"
             ],
-            "description": "(proposed) Campus name as published; null where not held"
+            "description": "Campus name as published; null where not held"
           },
           "course_count": {
             "type": "integer",
             "minimum": 0,
-            "description": "(proposed) Courses the API returns at this campus"
+            "description": "Courses the API returns at this campus"
           }
         }
       },
@@ -900,7 +900,7 @@
           "unknown",
           "under_review"
         ],
-        "description": "(proposed) On scholarships. restricted: limited by nationality or citizenship, or domestic only (citizenship_eligibility lists codes where held; may be empty). unrestricted: stated open to any nationality. unknown: nothing held - not open to all. under_review: being checked. Region codes (R-ASEAN, R-SASIA, ...) are never expanded into countries."
+        "description": "On scholarships. restricted: limited by nationality or citizenship, or domestic only (citizenship_eligibility lists codes where held; may be empty). unrestricted: stated open to any nationality. unknown: nothing held - not open to all. under_review: being checked. Region codes (R-ASEAN, R-SASIA, ...) are never expanded into countries."
       }
     }
   }

@@ -15,3 +15,11 @@
 - The guide example for `0100714` and the acceptance test 24 counts match live responses.
 - The manifest matches the 177 open remediation holds.
 - Consumer API drift: none.
+
+## Prepared, not yet current (9 Nov 2026)
+
+Nothing below has been sent. The table above stays the current pack until the release.
+
+| # | Item | For | Type | Files | What the developer must validate |
+|---|---|---|---|---|---|
+| 7 | Website API v2 developer guide, **issue 8** (release candidate) | Website | API change (additive) | `../developer-pack/drafts/issue-8/` (guide, OpenAPI, Postman, examples, `HANDOVER-NOTE.md`) and `2026-11-09-R23-R24-campuses-nationality-HANDOVER.md` | Acceptance tests 25 to 27. Provider `campuses[]`: one item per campus with `campus_id`, `campus_name`, `course_count`. Scholarships: `nationality_eligibility_status`. Waits for the Platform Admin's release authorisation (G3 approved 9 Nov 2026 on conditions) |

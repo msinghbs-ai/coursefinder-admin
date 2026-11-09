@@ -1,6 +1,8 @@
 # G3 approval package — Website API v2 R23 (campus names and course counts) and R24 (scholarship nationality status)
 
-**Status: AWAITING PLATFORM ADMIN G3 APPROVAL. Nothing is approved, merged or deployed.**
+**Status (9 Nov 2026): G3 APPROVED by the Platform Admin, on conditions (section 11). Not merged, not applied, not deployed. Do not release until the conditions in section 11 are met and the release steps in section 11.4 are followed.**
+
+The first version of this package (5 Nov 2026) is kept below as written, with the migration number updated (`20261106100000` became `20261109150000`). Sections 9 and 10 are overtaken by the approval record in section 11.
 
 | | |
 |---|---|
@@ -9,7 +11,7 @@
 | Request | Website developer feedback of 5 Nov 2026, as recorded in Platform Admin decision 5 Nov 2026 19:14 §5 (`docs/platform/2026-11-05-centralise-development-claude-parallel-agents-1914.md`) |
 | Design | Proposal of 3 Nov 2026 (`docs/platform/nz-enrichment-brief/2026-11-03-website-api-v2-change-proposal.md` §2 and §3), under mandate 3 Nov 2026 11:46 |
 | Prepared by | Agent A (Developer API), 5 Nov 2026, for the Integration Controller |
-| Pilot | Draft PR on branch `cf247-devapi-r23-r24`. Migration `supabase/migrations/20261106100000_cf247_website_api_v2_r23_r24.sql`. Spec `tests/uat/cf-247-website-api-v2-r23-r24-contract.spec.mjs`. Fixture `tests/fixtures/website-api-v2-r23-r24/`. CI workflow `website-api-v2-r23-r24-fixture.yml` |
+| Pilot | Draft PR #890 on branch `cf247-devapi-r23-r24` (the first version), superseded by the release candidate: draft PR #945 on branch `cf247-devapi-r23-r24-release` (9 Nov 2026). First version: Migration `supabase/migrations/20261109150000_cf247_website_api_v2_r23_r24.sql`. Spec `tests/uat/cf-247-website-api-v2-r23-r24-contract.spec.mjs`. Fixture `tests/fixtures/website-api-v2-r23-r24/`. CI workflow `website-api-v2-r23-r24-fixture.yml` |
 | Supersedes | The prepared, unmerged branch `cf247-website-api-v2-campus-nationality` (migration `20261103180000`, never opened as a PR and never applied). It carries the same design, re-based on main `cf77ef78` and checked again against live |
 | Evidence | Live project `fxcwkweaxjtknorudmwp`, read-only SELECT and EXPLAIN ANALYZE only, 5 Nov 2026 19:18–20:08 AEDT. Heavy reads ran only in the allowed minutes. MCP session search_path: `"$user", public, extensions` (not changed) |
 
@@ -166,7 +168,7 @@ No edge function file changes, so the five hashes in `tests/uat/consumer-api-bas
 | R24 cases (13): country, region (kept as `R-SASIA`), domestic only, criteria only with an empty list, explicit any, pending Layer 4 on audience and on nationalities (precedence over restricted), pending AI "who it is for" review, unrelated or closed reviews ignored, withdrawn criterion, hidden provider, unpublished (null). Every other field byte-identical (`jsonb::text`) | PASS |
 | End to end as `service_role`, the edge function's role. `website_v2_providers` (2 requests): every key except `campuses` byte-identical, and campuses as above. `website_v2_scholarships` (2 requests, including `nationality_codes`) and `website_v2_scholarship` (14 ids, including not found): byte-identical apart from `nationality_eligibility_status`. A provider with Published off is not returned. `service_role` cannot call either builder directly | PASS |
 | Specs run locally (new R23/R24 contract 6 tests, s32, s42, s57, s120, website-api-v2 contract, institution-type contract) | 39 passed, 1 failed (the s57 test below) |
-| s57 (G3) | **FAILS, as intended:** "20261106100000_cf247_website_api_v2_r23_r24.sql touches a consumer API function". s57 now treats a `PENDING` approval line as no approval (new test). It will pass only when the Platform Admin's approval line replaces the placeholder |
+| s57 (G3) | **FAILS, as intended:** "20261109150000_cf247_website_api_v2_r23_r24.sql touches a consumer API function". s57 now treats a `PENDING` approval line as no approval (new test). It will pass only when the Platform Admin's approval line replaces the placeholder |
 | Live (read-only) whole-population checks and benchmarks | §3 and §6 |
 | CI | Workflow `website-api-v2-r23-r24-fixture.yml` runs the fixture on PostgreSQL 17.6 (the live version). The full suite runs in PR CI, where s57 fails until approval |
 
@@ -194,7 +196,7 @@ On approval, the Controller also:
 ```sql
 insert into pipeline.platform_toolset_settings(toolset_key, key, label, kind, value, min_value, max_value, unit, section, used_by, help, reason)
 values ('pipeline', 'api.v2_r23_r24_approved', 'Website API v2 R23/R24 consumer change: approved', 'number', '1', 0, 1, 'flag', 'Website API',
-        'migration 20261106100000 (G3 approval gate)', '1 = the Platform Admin approved R23/R24 (approval package §9). The migration refuses to apply otherwise.',
+        'migration 20261109150000 (G3 approval gate)', '1 = the Platform Admin approved R23/R24 (approval package §9). The migration refuses to apply otherwise.',
         '<Platform Admin approval, date time>');
 ```
 
@@ -215,3 +217,135 @@ values ('pipeline', 'api.v2_r23_r24_approved', 'Website API v2 R23/R24 consumer 
 3. **Behaviour within R23.** One item per campus (258 providers return more items) and the order by campus name were proposed on 3 Nov but are not yet approved. P1 covers both. Please confirm them explicitly.
 4. **The count rule.** `course_count` uses the course-search exclusion (`layer4_search_blocked_courses`). The provider's own `course_count` does not exclude course-level Layer 4 blocks. Today both count the same courses (0 search documents differ), but the two rules could diverge if a course-level search block is ever held on a course that still has a search document. Please confirm that the course-search rule is the intended one.
 5. **Campus data quality (not an API matter).** Some New Zealand campuses look like the same campus held twice ("City" / "City Campus" / "Auckland / City"; "Grafton" / "Grafton Campus"). They have different stable keys and are returned as held. The fix belongs to the governed campus identity process, not to the API.
+
+---
+
+# 11. Approval record, compatibility evidence and release steps (9 Nov 2026)
+
+Added 9 Nov 2026 by the author of Pilot draft PR #945 (release candidate), for the QA agent and the Integration Controller. Sections 1 to 10 above are the 5 Nov version, kept as the record of what was asked and measured then.
+
+## 11.1 Approval record
+
+| Field | Value |
+|---|---|
+| Approved by | Platform Admin (Mandeep Singh) |
+| Date and time | 9 Nov 2026, in chat (the time of day was not part of the instruction given to the author) |
+| Words | "G3 change is approved in principle. Complete the required API compatibility tests, developer guide, versioned handover and record the formal G3 approval before merging. Do not release an unvalidated consumer contract change." |
+| Decisions | P1 (R23) approved as written in §2.1. P2 (R24) approved as written in §2.2. P3 (course `campuses[]`) not decided: unchanged. P4 (nationality reader improvement) not decided: separate platform work |
+| Conditions | 1. API compatibility tests. 2. Developer guide (Issue 8). 3. Versioned handover. 4. The formal G3 approval recorded before merging. 5. No release of an unvalidated consumer contract change |
+| Release version | Set at release |
+
+The approval line, as recorded on the first line of migration `20261109150000_cf247_website_api_v2_r23_r24.sql` (Pilot draft PR #945):
+
+```
+-- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026, in chat: G3 change approved for R23 and R24 on condition of API compatibility tests, developer guide and versioned handover
+```
+
+Points the Platform Admin did not answer separately, and how the candidate treats them. The approval is "in principle", so the Integration Controller should confirm them when asking for the release authorisation:
+
+- §10 question 1 (the developer's original 5 Nov message is not in the repository): still open. The field names come from the 3 Nov design.
+- §10 questions 2 to 4 (key name `nationality_eligibility_status`; one item per campus and the order by campus name; the `course_count` rule): built as written in §2. They are the behaviour that was approved in principle.
+- §10 question 5 (possible duplicate New Zealand campuses): a data matter, not an API one. Returned as held.
+
+## 11.2 What the release candidate changes from the 5 Nov version
+
+| Change | Why |
+|---|---|
+| Migration renumbered `20261106100000` to `20261109150000` | Newest on main and on live is `20261109140000` |
+| First line is the approval above (was PENDING) | Condition 4. `s57` reads this line |
+| The gate message no longer says "PENDING". The gate itself is unchanged: setting `api.v2_r23_r24_approved` must be 1 | The setting is a Platform Admin write (`tests/fixtures/website-api-v2-r23-r24/approval-setting.sql`); a migration must not approve itself. A missing setting reads as 0 and the migration refuses |
+| The approval paste uses unit `on (1) / off (0)` (the package said `flag`) | That is how other on/off settings are shown on Settings › Pipeline settings |
+| The migration re-takes the consumer baseline (`security.consumer_api_rebaseline_v1`) as its last step, after refusing if any consumer API function other than the two approved ones differs from the baseline | The guard function can only be called by a migration. Re-taking over an unrelated difference would hide it. Same pattern as the D4, D5 and D6 migrations |
+| `consumer-api-baseline.on-approval.json` removed; `tests/uat/consumer-api-baseline.json` not changed | No edge function file changes, so none of the five edge hashes changes |
+| Fixture re-checked against live on 9 Nov 2026 | See 11.3 |
+| Compatibility tests extended | See 11.3 |
+
+## 11.3 Compatibility evidence
+
+### A. Fixture re-check against live (9 Nov 2026, read-only catalogue lookups, 17:11 to 17:20 AEDT)
+
+| Check | Result |
+|---|---|
+| Live md5 of the two functions to change and the seven pinned objects | All nine equal the guards in the migration (campuses `57115d3b…`, scholarship item `d1792cc7…`, `place_presentable` `a7b720fc…`, the three wrappers, the three views) |
+| 18 functions of the fixture (md5 and privileges) | All equal `functions-live.tsv` |
+| 45 relations (fingerprint) | 44 equal. **One drift: `catalogue.providers` has a new index `providers_site_host_active_idx` (an expression index on `security.site_host_v1(website)`)**, added after 5 Nov. It does not touch anything the two builders read. The fixture now carries the index and the live function (`live/site_host_v1.sql`, md5 `04938c20…`), and the reference file is `parity-live-2026-11-09.txt`. The fixture holds 45 relations and 19 functions equal to live |
+| Newest migration on live / on main | `20261109140000` / `20261109140000` |
+| Setting `api.v2_r23_r24_approved` on live | Does not exist (as expected) |
+
+### B. Isolated PostgreSQL fixture (PostgreSQL 16 locally; CI repeats on 17.6)
+
+`bash tests/fixtures/website-api-v2-r23-r24/run.sh` passes. It proves, in order:
+
+1. Parity with live (A above).
+2. The migration refuses without the approval setting and changes nothing.
+3. With the approval paste as written (`approval-setting.sql`), an unrelated consumer function that differs from the baseline makes the migration refuse, and nothing changes. After that difference is undone, the migration applies both guarded changes; the after md5s are `698afad0…` (campuses) and `04532402…` (scholarship item); privileges are unchanged.
+4. The baseline is re-taken: the two functions hold the new md5s, no other consumer function differs from it, and the guard method finds no difference.
+5. A second run reports already applied and changes nothing.
+6. Every R23 case and every R24 case (13), the end-to-end wrapper calls as `service_role` (every key byte-identical apart from the new ones), and the benchmark.
+
+### C. Live comparison in rolled-back transactions (9 Nov 2026)
+
+The migration text (header comments removed) and the approval paste were run as one multi-statement request on the live project, after capturing the current output of the builders and the wrappers for a bounded sample into temporary tables, and ended by an unconditional error that carries the report, so nothing could commit. After the runs, live still showed the current md5s, no `api.v2_r23_r24_approved` row, and the baseline unchanged (last taken 31 Oct 2026, no R23/R24 rows).
+
+Run 2 (successful report, about 17:25 AEDT; run 1 about 17:24 stopped at a report-formatting error after the migration steps had passed, and was also rolled back):
+
+| Check | Result |
+|---|---|
+| md5 before / after (inside the transaction) | campuses `57115d3b…` to `698afad0…`; scholarship item `d1792cc7…` to `04532402…`. Both guards passed on live |
+| R23, 57 providers (the 40 with most campuses, the 3 named examples, 16 spread by hash) | Items 980 before, 1,190 after. For every provider the new items with the three new keys removed are exactly (as text) the distinct items returned before: 0 providers differ. Every item has the 9 keys; `campus_id` text, `campus_name` text or null, `course_count` number. `campus_name` null 0 of 1,190; `course_count` 0 on 31 items |
+| R24, 112 scholarships (40 with codes, 30 criteria-only, review queues, 60 hashed) | 21 are not built (not published): the same as before. For the 91 built: the item minus `nationality_eligibility_status` is byte-identical (`jsonb::text`) to the current output for every one; statuses `unknown` 57, `restricted` 34 (none in the sample is `under_review` or `unrestricted`: live has none today). No `unknown` or `unrestricted` item has a non-empty list |
+| Wrappers, live | `website_v2_provider`: 3 providers (Auckland, RMIT, Adelaide University) identical outside `campuses`; Auckland 1 to 9 items, RMIT 5 to 6, Adelaide University 9 to 9. `website_v2_scholarship`: 6 scholarships identical apart from the new key. 0 differences |
+| The approval paste on live | Accepted by the table constraints and the trigger; `security.pipeline_num_v1('api.v2_r23_r24_approved', 0)` reads 1 afterwards |
+| The baseline step on live | No consumer function other than the two differs from the baseline (the check passed), and after the re-take there are 0 differences |
+
+Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns): the figures behind the developer guide, measured with the new builders inside the rolled-back transaction. The approval paste, both guards and the other-drift check passed again before the report.
+
+| Measure (9 Nov 2026) | Australia | New Zealand | Canada | Total |
+|---|---|---|---|---|
+| Providers the API returns (active, published, with courses) | 1,279 | 289 | 52 | 1,620 |
+| of which with at least one campus | 1,278 | 95 | 29 | 1,402 |
+| `campuses[]` items before (merged by city) | 3,074 | 170 | 52 | 3,296 |
+| `campuses[]` items after (one per campus) | 3,525 | 221 | 67 | 3,813 |
+| Providers that return more items | 230 | 20 | 8 | 258 |
+| Items with `course_count` 0 | 2 | 46 | 13 | 61 |
+| Items with `campus_name` null | 0 | 0 | 0 | 0 |
+| Sum of `course_count` (a course at several campuses counts at each) | 43,336 | 2,906 | 1,688 | 47,930 |
+| Scholarships returned | 911 | 162 | 71 | 1,144 |
+| `nationality_eligibility_status` `restricted` | 80 | 10 | 2 | 92 |
+| `unknown` | 831 | 152 | 69 | 1,052 |
+| `unrestricted`, `under_review` | 0 | 0 | 0 | 0 |
+
+- Search documents: 34,041; none held back by Layer 4 or a hidden provider today.
+- `restricted` with an empty list: 16 (all Australia). `restricted` naming a region: 13 (Australia 12, New Zealand 1). No scholarship is `domestic` only. Every `unknown` item has an empty list.
+- The scholarships returned fell from 1,151 (5 Nov) to 1,144: the change adds one key and does not choose which scholarships are returned (in the sample, the built and not built scholarships were the same before and after).
+- Named examples (current output compared with new output in the same transaction): `provider:nzqa:7001` 1 to 9 items; `provider:cricos:00122a` 5 to 6; `provider:ca:ircc_dli:o19283850612` 1 to 4. Scholarship examples: South Asia research scholarship `restricted` (list `R-SASIA`), China High Achievers `restricted` (`CN`), UTS Southeast Asia `restricted` (list empty), MBChB graduate entry `unknown`. For all four, the item minus the new key is identical to the current item.
+- After the run, live again showed the current md5s and no approval row: nothing was committed.
+
+### D. Tests in the Pilot candidate (all run with `npx playwright test --project=chromium-desktop`)
+
+| Spec | What it proves |
+|---|---|
+| `cf-247-website-api-v2-r23-r24-contract.spec.mjs` (7 tests) | Approval line exact and not PENDING; gate before any change; baseline re-taken once, last, after the other-drift check; md5 guards; R23 and R24 definitions; the fixture's proofs are present; no edge change; the approval paste carries label, range, unit and `used_by` |
+| `cf-247-website-api-v2-contract.spec.mjs` (+3 tests) | Additive only: every existing key and its value expression kept, exactly three new campus keys; the scholarship change is a pure insertion of one key; the migration replaces or edits two builders and no wrapper, edge function, table or view |
+| `cf-247-institution-type-contract.spec.mjs` (+1 test) | Institution type is untouched |
+| `cf-247-s57-consumer-api-frozen.spec.mjs` | G3: the approval line is accepted; a PENDING placeholder is not |
+| `s32` (G2), `s42` (housekeeping), `s120` (G4) | Pass |
+
+### E. What has not been validated
+
+- **Nothing has run against a deployed system.** The migration has not been applied to any database. The compatibility evidence is the isolated fixture and the rolled-back live runs.
+- **The edge functions were not re-hashed against live in this session.** No file changes (the five hashes in `tests/uat/consumer-api-baseline.json` are untouched, `s57` passes); the `website-api-v2` source read from live passes the database answer through unchanged apart from signing logos. The nightly `consumer-api-guard` and `edge-drift-check` are the live checks.
+- **Wix read-back and the website developer's acceptance tests 25 to 27** can only run after the release.
+- **The live sample is bounded** (57 providers, 112 scholarships, 3 provider details, 6 scholarship details). The whole-population figures in 11.3 C use set-based reads and the builder under the load policy, not a comparison of every provider.
+- **The course coverage table in guide section 8 (courses holding a value, 31 Oct 2026) was not refreshed.** Its queries are not held in the repository and were not reproduced.
+- **Load policy.** The two rolled-back runs above started at about 17:24 and 17:25, outside the `:x6` to `:x8` window for heavy reads (each ran for a few seconds and called the builders about 220 times). `cron.job_run_details` showed no failed job in the previous nine minutes.
+
+## 11.4 Release steps (for the Integration Controller; none has been done)
+
+1. QA agent verification of Pilot draft PR #945 and the admin draft PR; Integration Controller decision to merge. The author does not merge.
+2. **Before the release applies migrations**, the Platform Admin runs the approval paste `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` (one insert; reason quotes the 9 Nov approval). Without it the migration stops at step 0 and, because migrations apply in order, blocks every later migration until the setting exists.
+3. Immediately before applying, re-read the live md5s listed in §4 (they must still be the "before" values) and the newest migration number; if main has gained a later migration, keep this one in order.
+4. Apply through the release. The migration re-takes the consumer baseline itself as its last step (`security.consumer_api_rebaseline_v1`, only a migration can call it). **Do not re-take the baseline by hand before or after.** Verify afterwards that `select security.consumer_api_check_v1()` returns no drift and that the `consumer-api-guard` hard flag is not raised on its next daily run.
+5. Verify representative payloads against §2 and the guide examples: `provider:nzqa:7001` returns 9 campuses, RMIT 6, a scholarship with `R-SASIA` returns `restricted`, `unknown` where nothing is held; existing keys byte-identical; check one `sync` delta carries the provider and scholarship items.
+6. Issue the developer guide: follow `docs/integrations/developer-pack/drafts/issue-8/README.md` (set the release date, remove the release-candidate banner, copy over the master, rebuild with `build.sh`, send with the handover note). Update this register (R23 and R24 to Done) and System reference §4b in the same entry.
+7. Forward recovery as §7, with the migration number `20261109150000`.

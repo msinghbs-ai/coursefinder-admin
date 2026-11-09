@@ -1,16 +1,22 @@
-# StudySearch Website API v2 — Issue 8 handover note (DRAFT)
+# StudySearch Website API v2 — Issue 8 handover note
 
-**Status: PROPOSED — not live.** Prepared 3 November 2026; revised 5 November 2026 (figures and examples re-measured). Not to be sent to the website developer until StudySearch confirms the release; the released note will carry the release date.
+**Version:** Issue 8, note 1.0 · **Release date:** [set at release] · **Status:** release candidate, to be sent with the Issue 8 guide on the release date.
 
 **For:** the StudySearch website developer (Wix).
 **Address and key:** unchanged (`website-api-v2`, your existing key).
 
-## What changes in Issue 8 (when released)
+## What changes in Issue 8
 
-1. **Provider campuses.** In `providers`, `provider` and `sync` provider items, `campuses[]` has one item per campus. Campuses that share a city are no longer merged. Each item keeps its fields and gains `campus_id`, `campus_name` and `course_count` (guide 7.4).
+1. **Provider campuses.** In `providers`, `provider` and `sync` provider items, `campuses[]` has one item per campus. Campuses that share a city are no longer merged into one item. Each item keeps its six existing fields with the same values and gains `campus_id`, `campus_name` and `course_count` (guide 7.4).
 2. **Scholarship nationality.** Each scholarship gains `nationality_eligibility_status`: `restricted`, `unrestricted`, `unknown` or `under_review` (guide 7.5). An empty `citizenship_eligibility` list means "not held", never "open to all".
 
-Nothing is renamed or removed. Course `campuses[]` are unchanged.
+Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that ignores unknown fields keeps working.
+
+## What to check on your side
+
+- If you grouped a provider's campuses by city, group by `campus_id` instead. A city filter still works on `city`.
+- After the release, providers and scholarships come again in the next `sync` deltas with the new fields (about 1,600 providers and 1,150 scholarships). No full load is needed and your cursor stays valid.
+- `unrestricted` is not returned yet: it needs an explicit "any nationality" statement on the scholarship, and none is held today. Do not show "Open to all nationalities" unless you receive it.
 
 ## Your answers to the other requests
 
@@ -22,12 +28,11 @@ Nothing is renamed or removed. Course `campuses[]` are unchanged.
 
 1. Read sections 7.4, 7.5, 7.6, 7.8, 7.9 and 9 of the guide.
 2. Plan the Wix mapping in section 9 (optional CF_Campuses collection; `nationalityStatus` on CF_Scholarships).
-3. When we confirm the release: keep your sync running. Providers and scholarships come again in the following deltas with the new fields; no full load is needed.
-4. Run acceptance tests 25 to 27 and send any failure with its `request_id`.
+3. When we confirm the release, run acceptance tests 25 to 27 and send any failure with its `request_id`.
 
 ## Files
 
-- `StudySearch-Website-API-v2-Developer-Guide-Issue-8-DRAFT.md` (guide)
+- The Issue 8 guide (Word and PDF)
 - `StudySearch-Website-API-v2.openapi.json` (OpenAPI 3.1; schemas `ProviderCampus` and `NationalityEligibilityStatus`)
-- `StudySearch-Website-API-v2.postman_collection.json` (set `apiKey`; three new requests)
+- `StudySearch-Website-API-v2.postman_collection.json` (set `apiKey`)
 - `examples/campuses-before-after.json`, `examples/scholarship-nationality-before-after.json`

@@ -1,5 +1,5 @@
 {
- "_note": "PROPOSED - not live. Provider campuses[] measured 5 November 2026 (Pilot): Issue 7 (live today) and Issue 8 (proposed). Existing fields are unchanged; campuses sharing a city are no longer merged; items are ordered by campus_name, then campus_id.",
+ "_note": "PROPOSED - not live. Provider campuses[] measured 9 November 2026 (Pilot): Issue 7 (live today) and Issue 8 (proposed). Existing fields are unchanged; campuses sharing a city are no longer merged; items are ordered by campus_name, then campus_id.",
  "provider:nzqa:7001 University of Auckland (NZ)": {
   "issue_7": [
    {
@@ -11,7 +11,7 @@
     "regional_category_name": null
    }
   ],
-  "issue_8_proposed": [
+  "issue_8": [
    {
     "city": "Auckland",
     "postcode": null,
@@ -124,7 +124,7 @@
     "regional_category_name": null
    }
   ],
-  "issue_8_proposed": [
+  "issue_8": [
    {
     "city": "Toronto",
     "postcode": null,
@@ -214,7 +214,7 @@
     "regional_category_name": "Major city"
    }
   ],
-  "issue_8_proposed": [
+  "issue_8": [
    {
     "city": "Brunswick",
     "postcode": "3056",
