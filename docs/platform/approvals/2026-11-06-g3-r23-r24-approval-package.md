@@ -1,8 +1,8 @@
 # G3 approval package — Website API v2 R23 (campus names and course counts) and R24 (scholarship nationality status)
 
-**Status (9 Nov 2026): G3 APPROVED by the Platform Admin, on conditions (section 11). Not merged, not applied, not deployed. Do not release until the conditions in section 11 are met and the release steps in section 11.4 are followed.**
+**Status (9 Nov 2026 19:18 AEDT): G3 FORMALLY AUTHORISED by the Platform Admin (section 9 and 11.1). Release in progress: not yet merged, applied or deployed. The release steps in section 11.4 are followed by the Integration Controller.**
 
-The first version of this package (5 Nov 2026) is kept below as written, with the migration number updated (`20261106100000` became `20261109150000`, then `20261109160000` on 9 Nov 2026 17:50 because the AER selector fix took `20261109160000` and is applied live). Sections 9 and 10 are overtaken by the approval record in section 11.
+The first version of this package (5 Nov 2026) is kept below as written, with the migration number updated (`20261106100000` became `20261109150000`, then `20261109160000` on 9 Nov 2026 17:50 because the AER selector fix took `20261109160000` and is applied live). Section 9 is completed with the formal authorisation of 9 Nov 2026 19:18 AEDT; section 10 is overtaken by the approval record in section 11.
 
 | | |
 |---|---|
@@ -183,17 +183,17 @@ Decisions:
 - **P3:** course search and detail `campuses[]`. Recommended: decide later. Unchanged here.
 - **P4:** the nationality reader improvement, as separate platform work. It is what makes `unrestricted` and `under_review` meaningful.
 
-Approval line. The Integration Controller replaces the migration's first line with this text, completed and signed:
+Approval line, as recorded on the first line of migration `20261109160000_cf247_website_api_v2_r23_r24.sql` (done 9 Nov 2026; the template in the 5 Nov version of this section is replaced):
 
 ```
--- Consumer API change approved: Platform Admin, <date time> (decision 5 Nov 2026 19:14 §5, developer requests R23/R24; G3 approval package admin docs/platform/approvals/2026-11-06-g3-r23-r24-approval-package.md, P1 and P2): additive campus_id, campus_name, course_count on provider campuses[] (one item per campus) and nationality_eligibility_status on scholarships; no removal, rename or retype
+-- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026 19:18 AEDT, in chat: formal G3 authorisation of Website API v2 R23 and R24 including the documented campus-array content and ordering changes for 489 providers
 ```
 
 On approval, the Controller also:
 
 1. Replaces the migration's closing comment with `select security.consumer_api_rebaseline_v1('R23/R24 (decision 5 Nov 2026 19:14 §5): additive provider campus fields and nationality_eligibility_status; approved Platform Admin <date time>');`.
 2. Copies `consumer-api-baseline.on-approval.json` over `tests/uat/consumer-api-baseline.json`, filling in the date and time.
-3. Has the approval paste create the gate setting (a Platform Admin write, not the migration):
+3. (Replaced 9 Nov 2026: two steps.) The gate setting is **defined at 0** by migration `20261109155000_cf247_r23_r24_approval_setting.sql` (Pilot PR #948; it appears on Settings › Pipeline settings, section Website API), and the Platform Admin route then **changes it to 1 with a reason** (below). The 5 Nov paste, kept for the record only, inserted the row at 1:
 
 ```sql
 insert into pipeline.platform_toolset_settings(toolset_key, key, label, kind, value, min_value, max_value, unit, section, used_by, help, reason)
@@ -206,31 +206,33 @@ values ('pipeline', 'api.v2_r23_r24_approved', 'Website API v2 R23/R24 consumer 
 
 | Field | Value |
 |---|---|
-| Approved by | |
-| Date and time | |
-| Decisions | P1 ☐ P2 ☐ P3 ☐ P4 ☐ |
-| Conditions | |
-| Release version | (set at release) |
+| Approved by | Platform Admin (Mandeep Singh) |
+| Date and time | 9 Nov 2026 19:18 AEDT, in chat (formal G3 authorisation) |
+| Decisions | P1 ☒ P2 ☒ P3 ☐ (not decided: unchanged) P4 ☐ (not decided: separate platform work). P1 includes the documented `campuses[]` content and ordering changes for 489 providers |
+| Conditions | None further. Instruction: complete Wix Issue 8, the versioned developer handover, Zoho notification, final QA and live checks; apply the approval setting through the authorised, audited mechanism; then merge and deploy if all release gates pass |
+| Words | "I approve the Website API R23/R24 consumer contract change in #945, including the documented campus-array content and ordering changes for 489 providers. Record this as formal G3 authorisation. Complete Wix Issue 8, the versioned developer handover, Zoho notification, final QA and live checks. Apply the required approval setting through the authorised, audited mechanism, then merge and deploy if all release gates pass." |
+| Release version | The release number is set at integration (no release number before integration) |
 
 ### 9.1 Dated record lines (templates; each is completed when the event happens, with the time of day)
 
 ```
-- <dd Mon yyyy hh:mm AEDT>: Platform Admin approval (G3, P1 and P2) recorded: <who>, <where>, conditions: <list>
-- <dd Mon yyyy hh:mm AEDT>: Issue 8 release candidate sent to the Wix developer with release date <dd Mon yyyy>; acknowledgement received <dd Mon yyyy hh:mm AEDT> from <name>, <channel>
-- <dd Mon yyyy hh:mm AEDT>: Zoho developer note sent to <name>, <channel>
-- <dd Mon yyyy hh:mm AEDT>: Platform Admin wrote api.v2_r23_r24_approved = 1 with approval-setting.sql (reason quotes the 9 Nov 2026 approval)
+- 9 Nov 2026 19:18 AEDT: Platform Admin formal G3 authorisation (P1 and P2) recorded: Mandeep Singh, in chat, no further conditions; approval line on migration `20261109160000`; recorded in section 11.1 and the handover section 8
+- <dd Mon yyyy hh:mm AEDT>: Issue 8 and cover email (`docs/integrations/handover/2026-11-09-R23-R24-cover-email-wix-developer.md`) sent to the Wix developer with the release day <dd Mon yyyy>; acknowledgement received <dd Mon yyyy hh:mm AEDT> from <name>, <channel>
+- <dd Mon yyyy hh:mm AEDT>: Zoho developer note (`docs/integrations/handover/2026-11-09-R23-R24-cover-email-zoho-developer.md`) sent to <name>, <channel>
+- <dd Mon yyyy hh:mm AEDT>: migration `20261109155000` applied (setting defined at 0) by <release>
+- <dd Mon yyyy hh:mm AEDT>: Platform Admin changed api.v2_r23_r24_approved from 0 to 1 on Settings › Pipeline settings (Website API), by <who>; reason quotes the 9 Nov 2026 19:18 AEDT authorisation; the event is in `pipeline.admin_control_events` (target `pipeline.api.v2_r23_r24_approved`)
 - <dd Mon yyyy hh:mm AEDT>: release PR merged by <who>; md5 re-check <result>; newest migration <number>; migration applied <hh:mm AEDT>
 - <dd Mon yyyy hh:mm AEDT>: consumer_api_check_v1 = no drift; payloads checked (section 11.4 step 5); guide Issue 8 issued
 ```
 
-The approval of 9 Nov 2026 is recorded in §11.1. Record the other lines in this section (or in the handover's release record) as they happen; the time of day is part of the record.
+The approval of 9 Nov 2026 is recorded in §11.1 (in principle, earlier on 9 Nov) and in the table above (formal authorisation, 19:18 AEDT). Record the other lines in this section (or in the handover's release record) as they happen; the time of day is part of the record.
 
 ### 9.2 Release preconditions
 
 The release PR must not be merged until all four hold:
 
 - **A. The developer has the release candidate.** Issue 8 RC (guide, OpenAPI, Postman, examples, handover note) has been sent to the Wix developer with a release date, and the developer's acknowledgement is recorded (dated line above).
-- **B. The approval setting is written first.** The Platform Admin writes `api.v2_r23_r24_approved` with `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` **before** the release PR merges. Otherwise the deploy halts at step 0 of the migration and, because migrations apply in order, blocks every later migration. The author does not write it.
+- **B. The approval setting is 1 before the migration applies, in two steps.** (1) Pilot PR #948 (migration `20261109155000`) defines `api.v2_r23_r24_approved` at 0 and is merged and applied first. (2) The Platform Admin route changes it to 1 on Settings › Pipeline settings (Website API) with a reason that quotes the 19:18 AEDT authorisation; that write is audited in `pipeline.admin_control_events`. Only then does the release PR (#945) merge. If #945 applies while the value is 0 (or the row is missing), the migration stops at step 0 and, because migrations apply in order, blocks every later migration. The author does not write the value.
 - **C. The Zoho note has been sent.** The Zoho developer note (handover §7) has been sent to the Zoho developer.
 - **D. At merge:** re-check the md5 guards of the nine objects in §4 against live (they must still be the "before" values), re-check that the newest migration on main and live is still before `20261109160000` and that `20261109160000` is free (renumber if not), then follow §11.4.
 
@@ -250,6 +252,10 @@ Added 9 Nov 2026 by the author of Pilot draft PR #945 (release candidate), for t
 
 ## 11.1 Approval record
 
+**Formal authorisation (9 Nov 2026 19:18 AEDT, in chat), recorded by the author of the release PRs:** Platform Admin (Mandeep Singh): "I approve the Website API R23/R24 consumer contract change in #945, including the documented campus-array content and ordering changes for 489 providers. Record this as formal G3 authorisation. Complete Wix Issue 8, the versioned developer handover, Zoho notification, final QA and live checks. Apply the required approval setting through the authorised, audited mechanism, then merge and deploy if all release gates pass." This supersedes the "in principle" wording below for the approval line and the migration's first line; the earlier record is kept as written.
+
+Earlier record (9 Nov 2026, before 19:18):
+
 | Field | Value |
 |---|---|
 | Approved by | Platform Admin (Mandeep Singh) |
@@ -259,13 +265,13 @@ Added 9 Nov 2026 by the author of Pilot draft PR #945 (release candidate), for t
 | Conditions | 1. API compatibility tests. 2. Developer guide (Issue 8). 3. Versioned handover. 4. The formal G3 approval recorded before merging. 5. No release of an unvalidated consumer contract change |
 | Release version | Set at release |
 
-The approval line, as recorded on the first line of migration `20261109160000_cf247_website_api_v2_r23_r24.sql` (Pilot draft PR #945):
+The approval line now recorded on the first line of migration `20261109160000_cf247_website_api_v2_r23_r24.sql` (Pilot PR #945; it replaced the conditional line `...9 Nov 2026, in chat: G3 change approved for R23 and R24 on condition of API compatibility tests, developer guide and versioned handover`):
 
 ```
--- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026, in chat: G3 change approved for R23 and R24 on condition of API compatibility tests, developer guide and versioned handover
+-- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026 19:18 AEDT, in chat: formal G3 authorisation of Website API v2 R23 and R24 including the documented campus-array content and ordering changes for 489 providers
 ```
 
-Points the Platform Admin did not answer separately, and how the candidate treats them. The approval is "in principle", so the Integration Controller should confirm them when asking for the release authorisation:
+Points the Platform Admin did not answer separately, and how the release treats them. The formal authorisation of 19:18 AEDT approves the change as documented (this includes the `campuses[]` content and ordering changes for 489 providers), so §10 questions 2 to 4 are treated as confirmed by it; question 1 stays open:
 
 - §10 question 1 (the developer's original 5 Nov message is not in the repository): still open. The field names come from the 3 Nov design.
 - §10 questions 2 to 4 (key name `nationality_eligibility_status`; one item per campus and the order by campus name; the `course_count` rule): built as written in §2. They are the behaviour that was approved in principle.
@@ -276,9 +282,10 @@ Points the Platform Admin did not answer separately, and how the candidate treat
 | Change | Why |
 |---|---|
 | Migration renumbered `20261106100000` to `20261109160000` | Newest on live is `20261109150000` (the AER selector fix, applied 9 Nov 2026; it took the number first, and the first renumbering to `20261109160000` was superseded) |
-| First line is the approval above (was PENDING) | Condition 4. `s57` reads this line |
-| The gate message no longer says "PENDING". The gate itself is unchanged: setting `api.v2_r23_r24_approved` must be 1 | The setting is a Platform Admin write (`tests/fixtures/website-api-v2-r23-r24/approval-setting.sql`); a migration must not approve itself. A missing setting reads as 0 and the migration refuses |
-| The approval paste uses unit `on (1) / off (0)` (the package said `flag`) | That is how other on/off settings are shown on Settings › Pipeline settings |
+| First line is the formal authorisation above (was PENDING, then the conditional line) | `s57` reads this line |
+| The approval setting is defined at 0 by its own migration `20261109155000` (Pilot PR #948), and the Platform Admin route changes it to 1 | A migration must not approve itself, and the Platform Admin approves through the audited Settings route. Release steps in 11.4 |
+| The gate message no longer says "PENDING". The gate itself is unchanged: setting `api.v2_r23_r24_approved` must be 1 | The value 1 is a Platform Admin write on Settings (the fixture's `approval-setting.sql` stands in for it); a migration must not approve itself. A missing setting, or 0, makes the migration refuse |
+| The setting uses unit `on (1) / off (0)` (the package said `flag`), range 0 to 1, section Website API, sort 307 | That is how other on/off settings are shown on Settings › Pipeline settings |
 | The migration re-takes the consumer baseline (`security.consumer_api_rebaseline_v1`) as its last step, after refusing if any consumer API function other than the two approved ones differs from the baseline | The guard function can only be called by a migration. Re-taking over an unrelated difference would hide it. Same pattern as the D4, D5 and D6 migrations |
 | `consumer-api-baseline.on-approval.json` removed; `tests/uat/consumer-api-baseline.json` not changed | No edge function file changes, so none of the five edge hashes changes |
 | Fixture re-checked against live on 9 Nov 2026 | See 11.3 |
@@ -378,8 +385,8 @@ Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns):
 ## 11.4 Release steps (for the Integration Controller; none has been done)
 
 1. QA agent verification of Pilot draft PR #945 and the admin draft PR; Integration Controller decision to merge. The author does not merge.
-2. **Release preconditions A to D in §9.2 hold.** **Before the release PR merges and applies migrations**, the Platform Admin runs the approval paste `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` (one insert; reason quotes the 9 Nov approval). Without it the migration stops at step 0 and, because migrations apply in order, blocks every later migration until the setting exists.
-3. Immediately before applying, re-read the live md5s listed in §4 (they must still be the "before" values) and the newest migration number; if main has gained a later migration, keep this one in order.
+2. **Release preconditions A to D in §9.2 hold, and the approval is given in two steps.** (a) Merge Pilot PR #948 (migration `20261109155000`, the setting defined at 0) and let the release apply it. (b) Verify the row exists at 0: Settings › Pipeline settings › Website API › "Website API v2 R23/R24 consumer change: approved" (0 to 1, "on (1) / off (0)"). (c) The Platform Admin route changes the value to 1 on that page, with a reason that quotes the 9 Nov 2026 19:18 AEDT authorisation (Save is enabled once a reason of four or more characters is typed; the change is kept in `pipeline.admin_control_events`). (d) Verify the page shows 1. Only then merge Pilot PR #945. Without (c) the migration stops at step 0 and, because migrations apply in order, blocks every later migration.
+3. Immediately before applying, re-read the live md5s listed in §4 (they must still be the "before" values) and the newest migration number; if main has gained a later migration, keep this one in order. `20261109155000` and `20261109160000` were free on main and in live `schema_migrations` on 9 Nov 2026 (newest live `20261109150000`).
 4. Apply through the release. The migration re-takes the consumer baseline itself as its last step (`security.consumer_api_rebaseline_v1`, only a migration can call it). **Do not re-take the baseline by hand before or after.** Verify afterwards that `select security.consumer_api_check_v1()` returns no drift and that the `consumer-api-guard` hard flag is not raised on its next daily run.
 5. Verify representative payloads against §2 and the guide examples: `provider:nzqa:7001` returns 9 campuses, RMIT 6, a scholarship with `R-SASIA` returns `restricted`, `unknown` where nothing is held; existing keys byte-identical; check one `sync` delta carries the provider and scholarship items.
 6. Issue the developer guide: follow `docs/integrations/developer-pack/drafts/issue-8/README.md` (set the release date, remove the release-candidate banner, copy over the master, rebuild with `build.sh`, send with the handover note). Update this register (R23 and R24 to Done) and System reference §4b in the same entry.

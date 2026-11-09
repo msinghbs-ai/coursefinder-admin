@@ -76,7 +76,7 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 8, release date set at release)",
+ "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 8, release day announced in the cover note)",
    "description":"One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot (Production uses the same address with its own key)"}],
  "security":[{"bearerKey":[]}],

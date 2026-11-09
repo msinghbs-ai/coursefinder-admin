@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Website API",
-    "version": "website-api-v2 (Version 2, issue 8, release date set at release)",
+    "version": "website-api-v2 (Version 2, issue 8, release day announced in the cover note)",
     "description": "One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
   },
   "servers": [

@@ -1,6 +1,6 @@
 # StudySearch Website API v2 — Issue 8 handover note
 
-**Version:** Issue 8, note 1.0 · **Release date:** [set at release] · **Status:** release candidate, to be sent with the Issue 8 guide on the release date.
+**Version:** Issue 8, note 1.1 · **Release day:** the day the Platform Admin releases it, announced in the cover note · **Status:** final, sent with the Issue 8 guide.
 
 **For:** the StudySearch website developer (Wix).
 **Address and key:** unchanged (`website-api-v2`, your existing key).
@@ -28,7 +28,7 @@ Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that 
 
 1. Read sections 7.4, 7.5, 7.6, 7.8, 7.9 and 9 of the guide.
 2. Plan the Wix mapping in section 9 (optional CF_Campuses collection; `nationalityStatus` on CF_Scholarships).
-3. When we confirm the release, run acceptance tests 25 to 27 and send any failure with its `request_id`.
+3. When the cover note says the release is live, run acceptance tests 25 to 27 and send any failure with its `request_id`.
 
 ## Files
 

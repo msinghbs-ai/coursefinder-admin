@@ -1,9 +1,9 @@
 # Handover note: provider campus names and course counts (R23), scholarship nationality status (R24)
 
-**Version:** handover note 1.0 for developer guide **issue 8**.
-**Status (9 Nov 2026): prepared, not released, not sent.** G3 approved by the Platform Admin on 9 Nov 2026 on conditions (approval package `../../platform/approvals/2026-11-06-g3-r23-r24-approval-package.md` §11). Pilot release candidate: draft PR #945. The release date and the verification at release are added when the change is live.
+**Version:** handover note 1.1 for developer guide **issue 8** (1.0: 9 Nov 2026 release candidate; 1.1: formal authorisation recorded, Issue 8 final).
+**Status (9 Nov 2026 19:18 AEDT): G3 formally authorised by the Platform Admin; release in progress; not yet released, not yet sent.** Record: approval package `../../platform/approvals/2026-11-06-g3-r23-r24-approval-package.md` §9 and §11.1. Pilot release PR: #945 (with the approval-setting step in PR #948). The release day and the verification at release are added when the change is live.
 **Audience:** the website developer. Zoho's provider list and scholarship passthrough return the changed items: see section 7, the Zoho developer note.
-**Guide:** `../developer-pack/drafts/issue-8/StudySearch-Website-API-v2-Developer-Guide-Issue-8-RC.md`: §7.4, §7.5, §9, acceptance tests 25 and 26, and the §13 line. The developer-facing summary is `../developer-pack/drafts/issue-8/HANDOVER-NOTE.md`.
+**Guide:** `../developer-pack/drafts/issue-8/StudySearch-Website-API-v2-Developer-Guide-Issue-8.md` (final; Word and PDF beside it): §7.4, §7.5, §9, acceptance tests 25 and 26, and the §13 line. Cover emails (ready to send): `2026-11-09-R23-R24-cover-email-wix-developer.md` and `2026-11-09-R23-R24-cover-email-zoho-developer.md`. The developer-facing summary is `../developer-pack/drafts/issue-8/HANDOVER-NOTE.md`.
 
 ## 1. What is new
 
@@ -62,7 +62,7 @@ At release (to be recorded here by the Integration Controller): migration applie
 
 ## 6. Not validated yet
 
-The migration has not been applied to any database. The developer's side (Wix read-back, display) has not been seen. The course coverage table in guide §8 is as at 31 Oct 2026.
+The migration has not been applied to any live database. The developer's side (Wix read-back, display) has not been seen. The course coverage table in guide §8 is as at 31 Oct 2026.
 
 ## 7. Zoho developer note (to send to the Zoho developer before the release)
 
@@ -72,4 +72,16 @@ What changes for Zoho when R23 and R24 are released. In plain terms:
 2. **Scholarships** (`scholarships` and `scholarship` through the Zoho v2 passthrough). Each item gains one key, `nationality_eligibility_status`: `restricted`, `unrestricted`, `unknown` or `under_review`. `unknown` means nothing is held; it does not mean open to all nationalities. The existing keys (including `citizenship_eligibility`) are unchanged.
 3. **Not changed:** provider detail (it already returns its own campus list), the Zoho sync items, the Zoho course search and detail, and the `zoho_edge_*` functions.
 
-Nothing needs to change for Zoho to keep working if it ignores keys it does not know. The release date will be sent with this note. Status: **not yet sent** (release precondition C, approval package section 9.2).
+Nothing needs to change for Zoho to keep working if it ignores keys it does not know. The release day is in the cover email (`2026-11-09-R23-R24-cover-email-zoho-developer.md`). Status: **drafted, not yet sent** (release precondition C, approval package section 9.2).
+
+## 8. Formal G3 authorisation (recorded 9 Nov 2026 19:18 AEDT)
+
+| Field | Value |
+|---|---|
+| Authorised by | Platform Admin (Mandeep Singh) |
+| Date and time | 9 Nov 2026 19:18 AEDT, in chat |
+| Words | "I approve the Website API R23/R24 consumer contract change in #945, including the documented campus-array content and ordering changes for 489 providers. Record this as formal G3 authorisation. Complete Wix Issue 8, the versioned developer handover, Zoho notification, final QA and live checks. Apply the required approval setting through the authorised, audited mechanism, then merge and deploy if all release gates pass."  |
+| Scope | The R23/R24 consumer contract change in Pilot PR #945, including the documented `campuses[]` content and ordering changes for 489 providers (258 return more items, 231 the same campuses in a new order). Course `campuses[]` (P3) and the nationality reader improvement (P4) are not part of it |
+| Approval line (first line of migration `20261109160000`) | `-- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026 19:18 AEDT, in chat: formal G3 authorisation of Website API v2 R23 and R24 including the documented campus-array content and ordering changes for 489 providers` |
+| Approval setting | Defined at 0 by migration `20261109155000` (PR #948); changed to 1 on Settings > Pipeline settings with a reason by the Platform Admin route (audited in `pipeline.admin_control_events`); migration `20261109160000` then applies |
+| Developer communication | Wix cover email and Zoho cover email drafted, to be sent by the Integration Controller or Mandeep; not sent by the author |
