@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.2, 10 Nov 2026 (single Claude engineering controller and context-budgeted execution; history retained in Git). This file is the complete onboarding for any AI agent working on
+v1.3, 10 Nov 2026 (single Claude engineering controller, context-budgeted execution, no development schedules, minimum human controls; history retained in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -173,3 +173,29 @@ and its transfer checkpoints remain available in the Git history of this file,
 the dated weekend controller handover and the structured checkpoint. This current
 decision **replaces its operational prerequisites**; it does not retroactively
 assert that cross-entry-point fencing ever existed.
+
+
+## Operating model consolidation (Platform Admin, 10 November 2026, v1.3)
+
+Source: Platform Admin directive "Operating Model Consolidation and Execution Control", 10 Nov 2026 05:40 AEDT. It overrides any earlier text in this file.
+
+**1. No Claude development schedules.** All overnight Claude development, coding and controller-resumption schedules are cancelled and no replacement is created until the Platform Admin has reviewed this model and approved a scheduling arrangement. Anything in section 6 of `STUDYSEARCH-FEATURE-ACCEPTANCE.md` or in F-OPS.06 that proposed one is retired. Kept and unaffected: production data-processing jobs, Supabase scheduled automation, Cloudflare services, the independent read-only validation, and monitoring, alerting and recovery. Each cancelled schedule is recorded, with its disabled state verified, in the execution register.
+
+**2. The resume loop (every session, no ceremony).**
+1. Read the INDEX Quick Start, then only the register entries for the task in hand. Resume from the last completed task in the plan table (`STUDYSEARCH-FEATURE-ACCEPTANCE.md`, "Reconciled execution plan").
+2. Pick the next executable subtask: the highest row whose Dependency column is empty or genuine. Do not rediscover what the row, the register or the decision documents already state.
+3. Reuse recorded research, decisions and evidence. Extend an existing component (Data Delivery, Catalogue, Enrich Fields, Operations, Settings, Run & Validate); never a new pilot, reader, queue, dashboard or register.
+4. Develop on a branch. Run targeted tests only (the spec for the change, the central contract specs s32/s42/s57/s120, build).
+5. Independent QA by an agent that did not author the change; reuse QA that is valid for the exact head SHA.
+6. Run full CI once, at the release boundary. Merge and deploy one release at a time (authorised PRs only).
+7. Verify the actual production result: live function checksums, canonical counts, Website/Zoho read-back, a real run where the change is a job.
+8. Update the plan row (Status, Completed, Remaining, PR/release, Next action), the register entry and the Admin UI in the same change.
+9. Continue to the next authorised row. Stop only for a genuine gate: new policy, spend, destructive action, material consumer contract change, external communication or permission.
+
+**3. One plan, ten fields.** The plan lives in one place: the "Reconciled execution plan" table in `STUDYSEARCH-FEATURE-ACCEPTANCE.md`, using the existing F-INT, F-PDESC, F-CDESC, F-AER, F-FEE, F-ENG, F-SCH, F-DISC and F-OPS identifiers. Each outstanding row carries Task/subtask ID, Scope, Status, Completed, Remaining, Dependency, Owner, PR/release, Acceptance and Next action. The register remains the evidence log; there is no second plan. Obsolete blockers and pilot tasks are struck out of the table with a one-line reason.
+
+**4. Controls: minimum human settings.** Every setting has a `control_class`: **human** (an operational decision: enable/pause, spending and resource ceilings, admission and publication policy, approved source acquisition, manual exception policy, capacity where adjustment is necessary), **automatic** (retry and backoff, queue balancing, concurrency within approved limits, recovery, selection, technical thresholds: software-managed inside the existing range columns) or **retiring** (pilot, debugging, superseded or compatibility controls: registered `retiring` in `pipeline.component_register`, dropped only by a paste file after the dependency check). A new feature adds a human control only for a real operational decision; everything else is automatic and bounded. The inventory and decisions are in `SETTINGS-CONTROL-AUDIT.md` section 13.
+
+**5. The Admin UI is the control plane.** Production progress must be readable without asking Claude: status by field, canonical coverage, admitted and published gains, last and next processing, evidence and quality, held reasons, recovery, Website/Zoho verification, Run Now / Fill fields. Every change that adds a data stage adds its counts to the existing Data Delivery panel in the same change.
+
+**6. Usage budget.** Weekly Claude usage is limited. Read the Quick Start first; retrieve only the relevant task history; no repeated full Supabase inventories; no thousands of tests during discovery; no agents to investigate what is already recorded. Safety, security and release tests are not reduced.
