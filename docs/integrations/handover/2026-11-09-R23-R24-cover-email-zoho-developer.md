@@ -7,11 +7,11 @@
 ---
 
 **To:** Divya (Zoho developer)
-**Subject:** StudySearch Zoho API v2: two additive changes from [RELEASE DAY] (provider list and scholarships)
+**Subject:** StudySearch Zoho API v2: additive changes from [RELEASE DAY] (provider list, provider sync feed and scholarships)
 
 Hi Divya,
 
-A short heads-up. On **[RELEASE DAY]** we are adding some fields to the website API, and two Zoho API v2 calls return them because they pass the same items through. Nothing is renamed or removed, so Zoho keeps working if it ignores keys it does not know. The number and order of campuses in the provider list do change, so please check one thing on your side.
+A short heads-up. On **[RELEASE DAY]** we are adding some fields to the website API, and Zoho API v2 returns them in the provider list, the provider sync feed and the scholarship calls because they pass the same items through. Nothing is renamed or removed, so Zoho keeps working if it ignores keys it does not know. The number and order of campuses in the provider list and the sync feed do change, so please check one thing on your side.
 
 **What changes**
 
