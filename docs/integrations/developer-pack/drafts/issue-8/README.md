@@ -8,7 +8,7 @@ Issue 8 adds `campus_id`, `campus_name` and `course_count` to provider `campuses
 
 | File | What it is |
 |---|---|
-| `StudySearch-Website-API-v2-Developer-Guide-Issue-8.md` | The guide, Issue 8 (final). Section 13 lists the API change only; the measured figures are refreshed. The release day is worded as "the day the Platform Admin releases it, announced in the cover note" |
+| `StudySearch-Website-API-v2-Developer-Guide-Issue-8.md` | The guide, Issue 8 (final). Section 13 lists the API change only; the measured figures are refreshed. The release day is worded as "the day it is released, announced in the cover note" |
 | `StudySearch-Website-API-v2-Developer-Guide-Issue-8.docx`, `.pdf` | The guide built for sending (built with the `build.sh` steps and the Issue 8 footer; the footer reads "release day announced in the cover note") |
 | `gen_api.py` | Writes the OpenAPI and Postman files into this folder (run it from here) |
 | `StudySearch-Website-API-v2.openapi.json`, `StudySearch-Website-API-v2.postman_collection.json` | Generated (schemas `ProviderCampus` and `NationalityEligibilityStatus`) |
@@ -20,7 +20,7 @@ Issue 8 adds `campus_id`, `campus_name` and `course_count` to provider `campuses
 ## On release (Integration Controller; after the migration has applied and been verified, approval package §11.4)
 
 1. Re-measure the figures in guide section 8 and 7.4/7.5, and check the examples against the live API (they are measured from the new builders in rolled-back transactions, not from the API). If a figure moved, correct it in the guide and rebuild.
-2. The release day is already worded as "the day the Platform Admin releases it, announced in the cover note". Only if the Platform Admin asks for a dated line: set it in the subtitle, the section 13 first column, `HANDOVER-NOTE.md`, `gen_api.py` (`info.version`) and the footer in `../../polish.py`.
+2. The release day is already worded as "the day it is released, announced in the cover note". Only if the Platform Admin asks for a dated line: set it in the subtitle, the section 13 first column, `HANDOVER-NOTE.md`, `gen_api.py` (`info.version`) and the footer in `../../polish.py`.
 3. Copy the guide over `../../StudySearch-Website-API-v2-Developer-Guide.md`, `gen_api.py` over `../../gen_api.py`, update the footer text in `../../polish.py` (issue number and release line), run `../../build.sh` (Word, PDF, OpenAPI, Postman). The Word and PDF files in this folder are the same build and may be sent as they are.
 4. Send the guide (Word and PDF), the OpenAPI file, the Postman collection, the examples and `HANDOVER-NOTE.md` with the cover email. Keys go by a secure channel only. Nothing in the pack names repositories, hashes or internal tools.
 5. Update `../../../WEBSITE-DEVELOPER-REQUIREMENTS.md` (R23 and R24 to Done) and `docs/integrations/handover/README.md`.

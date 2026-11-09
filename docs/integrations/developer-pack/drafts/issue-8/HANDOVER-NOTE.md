@@ -1,6 +1,6 @@
 # StudySearch Website API v2 — Issue 8 handover note
 
-**Version:** Issue 8, note 1.1 · **Release day:** the day the Platform Admin releases it, announced in the cover note · **Status:** final, sent with the Issue 8 guide.
+**Version:** Issue 8, note 1.1 · **Release day:** the day it is released, announced in the cover note · **Status:** final, sent with the Issue 8 guide.
 
 **For:** the StudySearch website developer (Wix).
 **Address and key:** unchanged (`website-api-v2`, your existing key).
@@ -15,6 +15,7 @@ Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that 
 ## What to check on your side
 
 - If you grouped a provider's campuses by city, group by `campus_id` instead. A city filter still works on `city`.
+- Direct calls return the new fields from the release day. `sync` deltas pick the changes up over roughly 1.5 hours of rolling passes after the release, so a copy built from `sync` fills in during that time.
 - After the release, providers and scholarships come again in the next `sync` deltas with the new fields (about 1,402 providers and 1,144 scholarships, about 22 MB uncompressed in all). No full load is needed and your cursor stays valid.
 - `unrestricted` is not returned yet: it needs an explicit "any nationality" statement on the scholarship, and none is held today. Do not show "Open to all nationalities" unless you receive it.
 
@@ -28,7 +29,7 @@ Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that 
 
 1. Read sections 7.4, 7.5, 7.6, 7.8, 7.9 and 9 of the guide.
 2. Plan the Wix mapping in section 9 (optional CF_Campuses collection; `nationalityStatus` on CF_Scholarships).
-3. When the cover note says the release is live, run acceptance tests 25 to 27 and send any failure with its `request_id`.
+3. When the cover note says the release is live, run acceptance tests 25 and 26 (the new fields; test 27 checks ranking history, which already works) and send any failure with its `request_id`.
 
 ## Files
 

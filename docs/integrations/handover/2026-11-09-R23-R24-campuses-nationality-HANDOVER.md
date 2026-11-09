@@ -35,7 +35,7 @@ One behaviour changes with the keys: **campuses that share a city, postcode, sta
 | Endpoints, actions, filters, identifiers, errors | Unchanged. No edge function file changes |
 | Search, rankings, logos, tuition, entry | Unchanged |
 | Breaking change | None for a client that ignores unknown keys (acceptance test 18). The item count change above is the one behaviour to read |
-| Zoho | **Partly affected** (corrected 9 Nov 2026 after independent QA). `zoho_v2_providers` (the provider list) passes the website `campuses[]` items through, so the item count, the order and the three new keys change there (about 30 of 50 providers sampled by QA). `zoho_v2_passthrough` `scholarships` and `scholarship` return the new `nationality_eligibility_status` key. Not affected: `zoho_v2_provider` (provider detail; it replaces `campuses` with its own list), Zoho sync items, `zoho_edge_*`, the Zoho course functions and the edge functions. See the Zoho developer note (section 7) |
+| Zoho | **Affected** (corrected 9 Nov 2026 after independent QA, twice). `zoho_v2_providers` (the provider list) passes the website `campuses[]` items through, so the item count, the order and the three new keys change there (489 of 1,620 providers, about 3 in 10). **The Zoho provider sync items change too:** `security.zoho_v2_provider_item_v1` builds each from `pipeline.website_sync_items`, which includes `campuses[]` (live 9 Nov 2026: 1,279 Zoho provider sync items, 1,278 with a non-empty `campuses[]`); after the release the website pass re-hashes them and `zoho_sync_check_v1` emits about 1,278 Zoho provider sync items once more (about 5.1 MB plus about 0.6 MB), with `campuses[]` changed in count, order and the three keys. `zoho_v2_passthrough` `scholarships` and `scholarship` return the new `nationality_eligibility_status` key. Not affected: `zoho_v2_provider` (provider detail; it replaces `campuses` with its own list; 10 samples byte-identical), `zoho_edge_*`, the Zoho course functions and the edge functions. See the Zoho developer note (section 7) |
 | Sync | The next `sync` deltas carry the changed providers (about 1,402, those that hold a campus) and every scholarship (about 1,144) once more: about 22 MB uncompressed in all (about 6 MB providers, 16 MB scholarships, measured as stored item text on 9 Nov 2026; gzip cuts it to roughly a seventh). No cursor reset, no full load |
 | Size | Provider campus JSON grows by about 0.6 MB across all providers (measured 5 Nov 2026) |
 | Null handling | A name not held is null; nothing is invented. A count of 0 is a count |
@@ -58,7 +58,7 @@ One behaviour changes with the keys: **campuses that share a city, postcode, sta
 
 Before release (done, 9 Nov 2026): approval package §11.3 (fixture on PostgreSQL 16 and 17.6; rolled-back live comparison of 57 providers and 112 scholarships, 3 provider and 6 scholarship details).
 
-At release (to be recorded here by the Integration Controller): migration applied and md5s; `consumer_api_check_v1` shows no drift; `provider:nzqa:7001` returns 9 campuses and `provider:cricos:00122a` 6; representative scholarship statuses; one `sync` delta; the developer's acceptance tests 25 to 27.
+At release (to be recorded here by the Integration Controller): migration applied and md5s; `consumer_api_check_v1` shows no drift; `provider:nzqa:7001` returns 9 campuses and `provider:cricos:00122a` 6; representative scholarship statuses; one `sync` delta; the developer's acceptance tests 25 and 26 (test 27, ranking history, already works).
 
 ## 6. Not validated yet
 
@@ -68,11 +68,12 @@ The migration has not been applied to any live database. The developer's side (W
 
 What changes for Zoho when R23 and R24 are released. In plain terms:
 
-1. **Provider list** (`providers`, the Zoho v2 provider list). Each provider's `campuses[]` now has one item per campus. Before, campuses in the same city were joined into one item with no name. Each item also gains three keys: `campus_id`, `campus_name` and `course_count`. The existing keys keep their values. The number of items and their order change for many providers (about 30 of 50 in the QA sample). If a Zoho mapping reads the first campus or counts campuses, please check it, and key campuses by `campus_id`.
+1. **Provider list** (`providers`, the Zoho v2 provider list). Each provider's `campuses[]` now has one item per campus. Before, campuses in the same city were joined into one item with no name. Each item also gains three keys: `campus_id`, `campus_name` and `course_count`. The existing keys keep their values. The number of items and their order change for 489 of 1,620 providers (about 3 in 10). If a Zoho mapping reads the first campus or counts campuses, please check it, and key campuses by `campus_id`.
 2. **Scholarships** (`scholarships` and `scholarship` through the Zoho v2 passthrough). Each item gains one key, `nationality_eligibility_status`: `restricted`, `unrestricted`, `unknown` or `under_review`. `unknown` means nothing is held; it does not mean open to all nationalities. The existing keys (including `citizenship_eligibility`) are unchanged.
-3. **Not changed:** provider detail (it already returns its own campus list), the Zoho sync items, the Zoho course search and detail, and the `zoho_edge_*` functions.
+3. **Provider sync items** (the Zoho sync feed). Each provider sync item carries the same `campuses[]`, so the provider items change in count, order and the three new keys. After the release the feed sends about 1,278 provider items once more (about 5.7 MB). Direct calls change on the release day; the sync feed picks the changes up over roughly 1.5 hours of rolling passes.
+4. **Not changed:** provider detail (it already returns its own campus list), the Zoho course search and detail, and the `zoho_edge_*` functions.
 
-Nothing needs to change for Zoho to keep working if it ignores keys it does not know. The release day is in the cover email (`2026-11-09-R23-R24-cover-email-zoho-developer.md`). Status: **drafted, not yet sent** (release precondition C, approval package section 9.2).
+Nothing needs to change for Zoho to keep working if it ignores keys it does not know, but a mapping that reads the first campus or counts campuses, in the list or in the sync feed, must be checked. The release day is in the cover email (`2026-11-09-R23-R24-cover-email-zoho-developer.md`). Status: **drafted, not yet sent** (release precondition C, approval package section 9.2).
 
 ## 8. Formal G3 authorisation (recorded 9 Nov 2026 19:18 AEDT)
 
