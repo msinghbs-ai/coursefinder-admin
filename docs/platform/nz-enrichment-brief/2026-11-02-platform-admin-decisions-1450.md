@@ -14,3 +14,24 @@ Also recorded: production writes through the database tool need the Platform Adm
 - 2 → run `ui-audit/e16plan3/f3-quarantine.sql` (Part U for the 2 unclear fees stays commented out).
 - 3 → the fill job's date rule is changed to named-period-only before it is switched on; month-only rows keep month only; years only where printed.
 - 4 → release the provider description reader (migration renamed to sort after 20261102080000), then the pilot: `pdesc.provider_keys` = the five keys, `pdesc.ai_usd_max` = 1, `pdesc.firecrawl_reads_max` = 20, acquisition switches and `pdesc.enabled` = 1, job activated — each a separate recorded step.
+
+# AER decisions, 2 Nov 2026 ~15:25 AEDT (in-session answers, verbatim)
+
+| # | Question (as asked) | Answer (verbatim) |
+|---|---|---|
+| D-A1 | Replace the 28 Oct ~40-provider AER limit with the 1,476-provider scope (AU 1,279, NZ 197), for inventory and source discovery only (no paid reads, no admission)? | "Yes, inventory and discovery (Recommended)" |
+| D-A2 | Bounded RMIT re-read of its 7 held sources (IB, GAC, UK, Nigeria, Vietnam, Norway, Foundation) from copies already stored, no new page reads, once the reader fixes are released? | "Yes, stored copies only (Recommended)" |
+| D-A3 | Lift the 30 Oct AER ingestion hold for re-reading stored copies only, under a daily AI ceiling? | "Lift for stored copies, US$2/day" |
+| D-A5 | Approve new additive tables for qualification identity and provider recognition (no synthetic GLOBAL country)? | "Approve the tables (Recommended)" |
+
+Still open: D-A4 (record the E11/E12 cost ceilings), D-A6 (G3 approval for any consumer qualification filter or new response field), D-A7 (Monday 08:00 report destination).
+Every recovered minimum still goes through Layer 4; no automatic admission; the D-A3 ceiling sits inside the US$14/day platform total enforced since v2.15.404.
+
+# Decisions, 2 Nov 2026 ~16:40 AEDT (in-session answers, verbatim)
+
+| # | Question (as asked) | Answer (verbatim) |
+|---|---|---|
+| D-A4 | E11/E12 cost ceilings for the RMIT and QUT pilots (estimates: RMIT 298 stored-copy re-reads ~US$2.45; QUT 5-course pilot ~US$0.05), inside the US$2/day AER ceiling and US$14/day platform total | "E11 US$5, E12 US$1 (Recommended)" |
+| D-A7 | Where should the Monday 08:00 AER executive report be delivered? | "Email,copy to be stored in admin repo, and admin dashboard" |
+
+Consequences: E11 (RMIT) and E12 (QUT) pilots may proceed from stored copies within US$5 and US$1 respectively, each also inside the US$2/day AER ceiling (D-A3); every recovered minimum still goes through individual Layer 4 decisions. The weekly report goes by the existing alert e-mail route (no new recipient), a copy is committed to the Admin repo each Monday, and it shows on the Admin dashboard.

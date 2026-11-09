@@ -1,7 +1,7 @@
 # AER qualification and coverage design assessment — 2 November 2026
 
 **Date:** 2 November 2026, AEDT.
-**Status:** assessment delivered in this branch; semantic extension PROPOSED; implementation not started.
+**Status:** assessment dated 2 November 2026 (kept as written). Status update 9 November 2026: the proposal was taken up the same day by the Platform Admin's AER decisions (`2026-11-02-platform-admin-decisions-1450.md`: D-A1 scope, D-A3 stored-copy reads, D-A5 additive tables approved; D-A6 consumer-filter approval under G3 last recorded as open on 3 Nov 2026) and the work is tracked as SS-017 in the execution register (Implementing). Where this page says "proposed", "implementation not started" or that the 30 October hold remains, that was true on 2 November and is no longer current. The qualification-identity and provider-recognition tables approved under D-A5 were not found in the live `catalogue`, `pipeline`, `ref` or `public` schemas on 9 November 2026, so that part is approved, not built.
 **Supersedes:** no accepted execution decision; revises the consolidated design from v1.0 to v1.1 at its stable path.
 **Change control:** CF-CHG-20260915-247 (CF-247), SS-017.
 **Owner:** Platform Admin (semantic/scope decisions); main integrator (subsequent implementation).

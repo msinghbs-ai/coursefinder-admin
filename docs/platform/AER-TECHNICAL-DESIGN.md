@@ -3,7 +3,7 @@
 **Version:** 1.1 (2 Nov 2026; dated assessment and proposed extension, section 13)
 **Historical baseline:** v1.0, 29 Oct 2026, platform release v2.15.368
 **Change control:** CF-247
-**Status:** current consolidated design; section 13 is PROPOSED, not deployed. Sections 1–12 describe the 29 Oct historical baseline.
+**Status:** current consolidated design. Section 13 is the design rationale for the qualification-first extension: adopted in part by the Platform Admin's decisions of 2 Nov 2026 (D-A1, D-A3, D-A5; D-A6 last recorded as open on 3 Nov 2026) and tracked as SS-017 in the execution register. Treat what section 13 says is "proposed" as a design intent, not as a description of what is deployed. Sections 1–12 describe the 29 Oct historical baseline and have not been refreshed.
 **Companion deck:** `StudySearch_Academic_Entry_Requirements_2026-10-29.pptx` (5 slides)
 
 This page brings the AER decision records into one design: how requirements are stored, how they are cross-referenced for a student, what is built, what the live numbers are, and what comes next. Where it differs from a decision record, the decision record wins and this page is corrected.
@@ -282,7 +282,7 @@ AI spend is held by the OpenRouter credit floor (US$5). Reading stops before it 
 
 | Version | Date | Change |
 |---|---|---|
-| 1.1 | 2 Nov 2026 | Dated qualification/applicability, country/provider coverage, postgraduate, UI and Provider source design assessment; section 13 proposed; linked gap register. No production changes. |
+| 1.1 | 2 Nov 2026 | Dated qualification/applicability, country/provider coverage, postgraduate, UI and Provider source design assessment; section 13 proposed; linked gap register. No production changes. Status wording updated 9 Nov 2026 to record the decisions of 2 Nov (see Status); no design content changed. |
 | 1.0 | 29 Oct 2026 | First issue: design, cross-reference, live status, plan; with the 5-slide deck. |
 
 
@@ -293,7 +293,7 @@ AI spend is held by the OpenRouter credit floor (US$5). Reading stops before it 
 **Supersedes:** v1.0 as the current consolidated design document; sections 1–12 remain the explicitly dated 29 October baseline, not current live measurements.
 **Canonical gap register:** [AER-GAP-01–10](nz-enrichment-brief/2026-11-02-aer-qualification-coverage-gap-assessment.md), aligned to ENTRY-REQUIREMENTS.md Draft 1.2 §F.
 **Mandate and full assessment:** [dated response and gap register](nz-enrichment-brief/2026-11-02-aer-qualification-coverage-design-review.md).
-**Authority:** existing decision records continue to govern accepted behaviour. This section proposes extensions; it does not supersede the 28 October P1 execution limit or the 30 October ingestion hold.
+**Authority:** existing decision records continue to govern accepted behaviour. This section was written on 2 November before the Platform Admin's AER decisions of the same day (`nz-enrichment-brief/2026-11-02-platform-admin-decisions-1450.md`). As written it does not supersede the 28 October P1 execution limit or the 30 October ingestion hold; those decisions now do: D-A1 replaces the limit with the 1,476-provider scope (inventory and discovery only), and D-A3 lifts the hold for stored copies only, under a US$2 a day ceiling. Every recovered requirement still goes through individual Layer 4 decisions.
 
 ### 13.1 Assessment and boundaries
 

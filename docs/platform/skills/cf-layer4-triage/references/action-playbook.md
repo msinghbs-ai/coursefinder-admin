@@ -1,4 +1,4 @@
-# Layer 4 action playbook — v5
+# Layer 4 action playbook — v6
 
 Use the existing UI choice and item-level evidence. Cover the 17 kinds current on 30 October 2026. If a kind is not listed, the evidence does not satisfy its rule, or the connected role cannot make the choice, leave it pending with an owner and reason.
 
@@ -174,7 +174,21 @@ Then use the existing choice:
 
 Record admitted, excluded, superseded and retained row counts separately. A complete read is not evidence of correctness, and no consumer-visible row is counted as admitted until the decision succeeds.
 
+## 6a. University and course descriptions
+
+### University description — `provider_description`
+
+This pill holds two kinds of item. On 3 November 2026 it held 4 university descriptions and 381 course descriptions (`course_description_first_read`, labelled Course description on the card).
+
+- **Approve as read** only when the description is about the right university or course, the source is its official page, and every sentence has a quote from that page. The text cannot be edited.
+- **Reject** when a sentence has no supporting quote, or the text is about another course or provider, is out of date, or is only marketing with no factual description. Nothing is published and it is read again after the set wait.
+- Do not approve a description because it reads well. Do not edit it elsewhere to close the item.
+
 ## 7. Exceptions and stop conditions
+
+### Claude-submitted decisions
+
+A Claude session may submit a decision only for a named item and choice the Platform Admin has approved in chat. The reason must state "submitted by Claude, approved by Platform Admin" with the batch ID (Platform Admin, 3 November 2026, 19:22).
 
 ### Exception labels
 
@@ -200,4 +214,6 @@ Stop and preserve completed checkpoints when any of these occurs:
 - the same defect makes multiple providers' evidence or decisions unreliable;
 - an action appears to cause an unexpected consumer-visible change;
 - queue refs/counts cannot be reconciled after refresh;
-- a new pill is absent from this playbook or an existing choice no longer matches the live UI contract.
+- an existing choice no longer matches the live UI contract.
+
+A new pill absent from this playbook stops that pill only. Other kinds continue under their own rules (Platform Admin, 3 November 2026, 19:22).

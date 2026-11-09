@@ -13,6 +13,12 @@ Do not infer the current document from the highest filename version or from chat
 
 ## Current core documents
 
+Controller continuity current entry: [Agent operating model](platform/AGENT-OPERATING-MODEL.md),
+[execution register handover](platform/STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover)
+and [validated structured checkpoint](platform/STUDYSEARCH-CONTROLLER-STATE.json).
+The November StudySearch register supersedes September milestone snapshots for
+current operations; historical acceptance gates are not silently reopened.
+
 | Family | Current document | State |
 |---|---|---|
 | **StudySearch execution register and identity** | `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (every StudySearch task, status and evidence); `docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md` (what is renamed, what is kept and why) | CURRENT |
@@ -21,9 +27,9 @@ Do not infer the current document from the highest filename version or from chat
 | **Website developer requirements — what the website asked for, what the API returns, open work (read before changing anything the website reads)** | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.5, 15 Oct 2026); developer pack `docs/integrations/developer-pack/` (guide, OpenAPI, Postman) | CURRENT |
 | English policies in force — one per university and level; report of 17 Oct 2026 (Decision 262) | `docs/platform/ENGLISH-POLICY-IN-FORCE-REPORT.md` | CURRENT |
 | **Pending data-enrichment tasks — empty values to be attended (PE-1 to PE-7), with what unblocks each** | `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` section 10 (v1.4, 14 Oct 2026; PE-4 done); lessons `docs/platform/ENRICHMENT-LESSONS.md` | PENDING — TO BE ATTENDED |
-| **Academic entry requirements (AER) — technical design and status: model, cross-reference (five rules), readers, screens, live figures, plan** | `docs/platform/AER-TECHNICAL-DESIGN.md` (v1.1, 2 Nov 2026; section 13 proposed extension, dated gap register `docs/platform/nz-enrichment-brief/2026-11-02-aer-qualification-coverage-design-review.md`; sections 1–12 historical 29 Oct baseline); decision records `docs/platform/ENTRY-REQUIREMENTS-*.md`, `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` | CURRENT |
+| **Academic entry requirements (AER) — technical design and status: model, cross-reference (five rules), readers, screens, live figures, plan** | `docs/platform/AER-TECHNICAL-DESIGN.md` (v1.1, 2 Nov 2026; section 13 qualification-first extension, adopted in part and tracked as SS-017, dated gap register `docs/platform/nz-enrichment-brief/2026-11-02-aer-qualification-coverage-design-review.md`; sections 1–12 historical 29 Oct baseline); decision records `docs/platform/ENTRY-REQUIREMENTS-*.md`, `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` | CURRENT |
 | AER role guides — what each role does with academic entry requirements (Viewer, Curator, Platform Admin, Layer 4 reviewer, website and Zoho owner, incident response), with a quick-reference matrix | `docs/platform/AER-ROLE-GUIDES.md` (v1.0, 29 Oct 2026, v2.15.368) | CURRENT |
-| UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.7, 13 Oct 2026, v2.15.269) | CURRENT |
+| UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.17, 4 Nov 2026, v2.15.457) | CURRENT |
 | Platform operational limits — every budget and limit with its usage, and every scheduled job with its schedule (Melbourne time) | `docs/platform/OPERATIONAL-LIMITS.md` (v1.0, 13 Oct 2026, figures as at 6:17 pm); Google Doc copy: https://docs.google.com/document/d/1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw/edit | CURRENT |
 | Settings control audit — what can be run from screens, what is fixed in code, and where each value should live | `docs/platform/SETTINGS-CONTROL-AUDIT.md` (v1.1, 13 Oct 2026, v2.15.269: done) | CURRENT |
 | UI simplification review and proposed menu (Platform Admin decisions pending) | `docs/platform/UI-SIMPLIFICATION-REVIEW.md` (v1.0) | PROPOSED |
@@ -121,3 +127,4 @@ Physical relocation of the existing historical corpus is intentionally gated bec
 - rollback commit.
 
 Until a batch passes validation, the old paths remain authoritative historical references.
+

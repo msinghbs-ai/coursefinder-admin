@@ -3,7 +3,9 @@ name: cf-layer4-triage
 description: Reconcile all 17 current CourseFinder Layer 4 Review decision kinds through the Kimi Browser Extension and existing Platform Admin UI, using item-level evidence, verified actions and audit checkpoints. Use to clear, triage, review or drain one pill, one provider or the queue; complete bounded By kind qualification; resume a batch; or run layer4-by-kind-qualify, layer4-clear-kind, layer4-clear-all and layer4-university-triage. Covers AER, counsellor reports and website outages without bulk-approving uncertain evidence, bypassing roles, requesting SQL or looping over re-raised items.
 ---
 
-# CourseFinder Layer 4 triage — v5
+# CourseFinder Layer 4 triage — v6
+
+A Claude session using the signed-in built-in browser follows the same rules, under the named-approval rule in playbook section 7.
 
 Reconcile pending Layer 4 items through the existing UI. Interpret **clear** as review, decide and reconcile, never delete or force the queue to zero. Snapshot collection, navigation, planning and proposed actions are not decisions or queue progress.
 

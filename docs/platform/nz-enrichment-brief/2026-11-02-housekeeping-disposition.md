@@ -19,7 +19,8 @@
 | `H11-component-register-drift.sql` | H11 | `0bcd29139193f1fe8b33522c56939217` |
 | `H24-layer2-batch-closure.sql` | H24 | `2b3f8d5d61d4ce999e593067d582b77c` |
 | `H01-H03-H04-H09-duplicate-link-tranche.sql` | H01, H03, H04, H09 | `f8f2b3082e039043e250a57ba8d68dd2` |
-| `H05-H13-H20-layer4-route.sql` | H05, H13, H20, H23 | `402ff248f9c9873a35b78820cf7150af` |
+| `H05-H13-H20-layer4-route.sql` | H05, H13, H20, H23 (v1: **superseded**, refused at 16:06) | `402ff248f9c9873a35b78820cf7150af` |
+| `H05-H13-H20-layer4-route-v2.sql` | H05, H13, H20, H23 (drift-tolerant, §6) | `697d0e9b4b5c3f0e0a717e98b33133a4` |
 | `H10-H27-retirement-evidence-DRAFT.sql` | H10, H27 (marked **NOT APPROVED: needs separate explicit approval**) | `5986fb849eba708d8cafd44722706e0a` |
 
 **How the prepared files are protected:**
@@ -266,3 +267,94 @@ Plus one 24-hour log query. No query ran during :00–:05 or :35–:42.
   | `exit-awards-apply` | 2 | 0 | — | 49.1 s |
 
   No failure and no run above twice its median coincided with this stream. The longer durations followed the stagger, not the query windows. The other window minutes were not admission slots after the stagger. If any later investigation links a slowdown to these windows, it is recorded as "suspected validation-induced interference, pending root-cause verification".
+
+## 6. Addendum, 2 Nov 16:07–16:47: route file v1 refused; v2 prepared
+
+**What the integrator applied** (as reported at 16:07):
+- H11 (#28614), H24 (#28615) and the tranche (#28622: 101 courses, 112 inactive, 83 primary, consumer values unchanged).
+- E16 group (a) (#28616, #28617), E16 unclear (#28620) and F1/F3 (#28618, #28619).
+
+The route file v1 refused at its first guard ("H05 A: 42 / c2a43377…"). Nothing was written.
+
+### Why H05 grew
+
+**Measurement windows:** read-only, at 16:07, 16:16–16:17, 16:26 and 16:46, all in the :x6–:x8 minutes. The admission jobs now run at :x3, :x5 and :x9.
+
+**H05 now:** half A 42 (md5 `c2a433775d22ec3595e21a543ae5a19b`) and half B 39 (md5 `382e8222666a3423b060f7c8e3b1e86b`), 81 in all. That is **25 more** than at 12:15 (14 in A, 11 in B).
+
+**Writer:**
+- **Job:** `course-url-fill` (`security.course_url_fill_v1`, cron `23 2 * * *` UTC, 13:23 AEDT).
+- **Run:** 2 Nov 13:23, succeeded in 2.4 s.
+- **Event:** **#28612** `course_url_filled` (filled 45, emptied 20, refilled 22, retracted 20; NZ 40, CA 4, AU 1).
+
+**What the fill did:**
+- It wrote `course_url` from the proven coverage binding on 25 courses whose single active official link is a different (sweep) page.
+- Half A: AU5502, AU4090, AU4055, AU5658, AU0092, AU0371, AU0408, AU0047, AU0087, AU0059, AU4105, AU0354, AU0025, AU5752. Identity basis: adapter_title 12, degree_name 2. None is retracted.
+- Half B: 11 more from the same run.
+
+**Ruled out:** E16 group (a), the tranche, the :37 exit-award lane and the admission jobs.
+
+**Ongoing drift:**
+- All 81 H05 courses carry a live `course_url_fills` row, so H05 is produced by this job and grows on most days.
+- Fill counts by day: 24 Oct 19,089; 27 Oct 131; 28 Oct 146; 30 Oct 1,280; 1 Nov 306; 2 Nov 45.
+
+**No extra work today:** all 25 joiners already had a pending `official_course_url` item, so pending rose 11 to 25 in half A and 12 to 23 in half B:
+- **17 items:** raised 2 Nov 11:00–12:11 by the E16 binding check (lane `cricos_search`, rule `shared_page`).
+- **8 items:** raised 31 Oct 17:20 by the coverage sweep. Each proposes **the very page the fill then wrote**, so `course-url-fill` wrote a page that is still under Layer 4 review.
+
+**Engineering proposal:** `course-url-fill` should skip, or report, a course whose page has a pending `official_course_url` item. This needs a G2 setting and its own spec; no code was written.
+
+### Re-measure at 16:16–16:27
+
+| Group | Courses or fees | md5 | Pending (reused) | Decided before | New |
+|---|---|---|---|---|---|
+| H05 | 81 | as above | 48 | 32 | **1** (unchanged: OO0524) |
+| H13 | 193 (unchanged since 12:15) | A `342286d1…`, B `9e9502ce…` | 1 | 4 | **188** |
+| H20 | 38 fees (unchanged) | A `b9bb906f…`, B `162d2de1…` | 0 | 0 | **38** |
+
+### Route file v2 (`H05-H13-H20-layer4-route-v2.sql`)
+
+**What it routes:** only the measured id lists, which are embedded in the file.
+
+| List | Ids | md5 |
+|---|---:|---|
+| H05 | 1 | `67224396c18f6449037d3237ee3dad43` |
+| H13 | 188 | `caa6dcbaf608efb9fd0c7c34a5c3865d` |
+| H20 (fees) | 38 | `327a8c2e060ca7fe540cf1ee3f5e2df8` |
+
+**Transcription check:** the lists were copied from the query output and checked against the live md5s per half. They are re-checked first at run time.
+
+**Per-row handling:**
+- Each row is re-checked live for eligibility.
+- Then the route's own dedupe runs: lock, reuse a pending item, Decision 263.
+- A row that is no longer eligible is counted and skipped.
+
+**Refusal rule:** the run refuses if more than 10% of the links or fees listed have moved.
+
+**Extras:** courses that qualify now but are not on the lists are counted in the audit event (`h05_extras_unrouted`, `h13_extras_unrouted`). They are not routed.
+
+**What it writes:** only new pending items, with no withdrawal. The rollback sets them to `superseded`.
+
+**Expected on production (16:27 state):** 189 link items (1 + 188), 38 fee checks, 0 reused, 0 extras, 0 duplicates.
+
+**Local PostgreSQL 16 run** (fixture with the real measured ids, 1 listed course pre-pending, 1 extra each for H05 and H13):
+
+| Test | Result |
+|---|---|
+| First run | 188 link items created, 1 reused, 38 fee checks, extras 1/1 reported and not routed, 0 duplicates |
+| Second run | Refused: 189 of 189 now pending |
+| 5 listed courses no longer eligible | Refused at the fee tolerance (5 of 38 fees, 13%) |
+
+The fee list is small, so a few changed courses refuse the whole run. That is deliberate: re-measure instead.
+
+## 7. Execution record (integrator, 2 Nov 2026, each with Platform Admin approval of the database prompt)
+
+| File | Run (AEDT) | Result | Event |
+|---|---|---|---|
+| H11 component-register drift | 14:46 | 6 rows (2 retired, 2 dated 5 Nov, 2 paused jobs retiring) | #28614 |
+| H24 Layer 2 batch closure | 14:47 | dc4fabeb running → partial, completed_at = last heartbeat; 0 open on the profile | #28615 |
+| H01/H03/H04/H09 duplicate-link tranche | pre-flight 15:26–15:27 (both halves matched md5s; 83/83 page checks pass); write 15:56 | 101 courses; 112 superseded links inactive; 83 kept links primary; 101 courses with exactly one active primary link equal to the shown URL; consumer values changed 0 | #28622 |
+| H05/H13/H20 route v1 | 16:06 | refused at guard "H05 A: 42" (course-url-fill drift, §6); nothing written | — |
+| H05/H13/H20 route v2 (md5 697d0e9b…) | 17:06 | 189 link items (H05 1 + H13 188) and 38 fee checks created; 0 reused, 0 decided before, 0 no longer eligible; 0 duplicates; 0 withdrawals | #28640 |
+
+Not run: H10/H27 retirement evidence (draft, needs separate approval). Open finding for engineering: `course-url-fill` writes `course_url` while a pending `official_course_url` Layer 4 item exists (§6) — logged for the integration queue.
