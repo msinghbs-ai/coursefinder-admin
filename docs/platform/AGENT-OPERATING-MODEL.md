@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.1, 9 Nov 2026 (single Claude engineering controller; historical policy retained in Git). This file is the complete onboarding for any AI agent working on
+v1.2, 10 Nov 2026 (single Claude engineering controller and context-budgeted execution; history retained in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -10,6 +10,22 @@ review coordination, approved merging/deployment, technical remediation and deli
 verification; independent QA and delegated developers may assist but cannot release.
 The Platform Admin retains protected policy, spending, destructive-operation and
 consumer API (G3) approvals. A verified approval is not to be repeatedly requested.
+
+## Context and execution budget (Platform Admin, 10 November 2026)
+
+**Reason:** Claude/ChatGPT use is subject to weekly usage limits. Repeating discovery, loading full historical registers, re-querying the whole database or repeatedly running a full test suite wastes limited agent time and delays production data delivery. **The Admin repo is the durable memory, not the chat.** This section is a binding work method, not a new task queue.
+
+**At the beginning of any session or scheduled development run:**
+1. Read this operating model (once for the session), the **top Quick Start block** of `docs/platform/nz-enrichment-brief/INDEX.md`, and the *specific* F-domain/substep in `STUDYSEARCH-FEATURE-ACCEPTANCE.md`. Obtain current task status from the **most recent matching entry** of the existing Execution Register or its current derived Programme Status; use GitHub search / file ranges rather than loading the complete register. Read only the affected implementation files and PR. Historical dated narratives are evidence, not instructions to repeat obsolete discovery.
+2. Identify the **one next executable subtask**: ID, known completed work, exact unresolved blocker, relevant existing code path, expected data gain, acceptance proof and smallest needed change. If a user has supplied a current observation, use it as a dated baseline without immediately checking every production table again. New work starts by reconciling *material deltas*, not resurveying the platform.
+3. **Evidence reuse first:** rely on already recorded schema inventories, last successful test evidence, latest PR CI, function checksums and prior read-only query results until a particular decision or release depends on fresh truth. For each additional tool call, be able to state which *specific unresolved question* it answers. Do not perform full-schema inventories, whole-platform status polls or generic multi-domain SQL queries for a single bounded slice.
+4. **Targeted testing while developing:** use the smallest affected tests/fixtures to prove a change; do not run the entire suite during discovery, for every exploratory change or independently in every agent. At the integration/release boundary perform the mandatory full green, zero-skipped governed CI suite, production-parity checks, before/after md5 guards, independent QA where applicable and live outcome validation. Reuse exact-head CI evidence; rerun the suite only when the head changes or its prior evidence is invalidated. Never sacrifice a genuine G1–G4 or production safety gate to save usage.
+5. **Bounded parallelism:** delegate independent code areas only when that creates a measurable speed gain. One owner per file/function/migration, one integrator, no duplicate agents exploring the same question. Discovery is a *short gap check* with an explicit stop condition; when the architecture or path is already known, implement the next action immediately. A pilot, new report, framework, controller, dashboard or task plan is never a prerequisite unless it fills a demonstrated capability gap.
+6. **No chatter as a work product:** short progress reports only at material milestones (actual data gain, code qualified and released, verified new blocker). Put the detailed technical evidence and next executable substep in the **existing** Execution Register, update the INDEX Quick Start pointer and derived Programme Status when materially changed. On resumption, consume those small pointers instead of rereading chat transcripts. A green job with zero new admission is reported accurately, not counted as completion.
+
+**Usage discipline:** default to one focused repository/context pass, one limited live evidence pass only where necessary, targeted development tests, and one release acceptance pass. Additional calls must be justified by a concrete discrepancy, a changed code head, safety-critical release condition or an independent-validation finding. There is no fixed query/test ceiling that overrides mandatory release controls.
+
+**Completion proof:** preserve a clear evidence chain of `F-domain.substep → IQ/SS issue → PR/commit → deployed function/job/settings → actual source-backed admission → consumer publication/verification`. If the last stages have no gain or a valid hold, leave the substep open with exact cause and next retry; **do not restart discovery**.
 
 ## The two repos (both public)
 1. DECISIONS — github.com/msinghbs-ai/coursefinder-admin. Blueprints, designs, thread
