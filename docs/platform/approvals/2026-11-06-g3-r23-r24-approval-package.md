@@ -2,7 +2,7 @@
 
 **Status (9 Nov 2026): G3 APPROVED by the Platform Admin, on conditions (section 11). Not merged, not applied, not deployed. Do not release until the conditions in section 11 are met and the release steps in section 11.4 are followed.**
 
-The first version of this package (5 Nov 2026) is kept below as written, with the migration number updated (`20261106100000` became `20261109150000`). Sections 9 and 10 are overtaken by the approval record in section 11.
+The first version of this package (5 Nov 2026) is kept below as written, with the migration number updated (`20261106100000` became `20261109150000`, then `20261109160000` on 9 Nov 2026 17:50 because the AER selector fix took `20261109160000` and is applied live). Sections 9 and 10 are overtaken by the approval record in section 11.
 
 | | |
 |---|---|
@@ -11,7 +11,7 @@ The first version of this package (5 Nov 2026) is kept below as written, with th
 | Request | Website developer feedback of 5 Nov 2026, as recorded in Platform Admin decision 5 Nov 2026 19:14 §5 (`docs/platform/2026-11-05-centralise-development-claude-parallel-agents-1914.md`) |
 | Design | Proposal of 3 Nov 2026 (`docs/platform/nz-enrichment-brief/2026-11-03-website-api-v2-change-proposal.md` §2 and §3), under mandate 3 Nov 2026 11:46 |
 | Prepared by | Agent A (Developer API), 5 Nov 2026, for the Integration Controller |
-| Pilot | Draft PR #890 on branch `cf247-devapi-r23-r24` (the first version), superseded by the release candidate: draft PR #945 on branch `cf247-devapi-r23-r24-release` (9 Nov 2026). First version: Migration `supabase/migrations/20261109150000_cf247_website_api_v2_r23_r24.sql`. Spec `tests/uat/cf-247-website-api-v2-r23-r24-contract.spec.mjs`. Fixture `tests/fixtures/website-api-v2-r23-r24/`. CI workflow `website-api-v2-r23-r24-fixture.yml` |
+| Pilot | Draft PR #890 on branch `cf247-devapi-r23-r24` (the first version), superseded by the release candidate: draft PR #945 on branch `cf247-devapi-r23-r24-release` (9 Nov 2026). First version: Migration `supabase/migrations/20261109160000_cf247_website_api_v2_r23_r24.sql`. Spec `tests/uat/cf-247-website-api-v2-r23-r24-contract.spec.mjs`. Fixture `tests/fixtures/website-api-v2-r23-r24/`. CI workflow `website-api-v2-r23-r24-fixture.yml` |
 | Supersedes | The prepared, unmerged branch `cf247-website-api-v2-campus-nationality` (migration `20261103180000`, never opened as a PR and never applied). It carries the same design, re-based on main `cf77ef78` and checked again against live |
 | Evidence | Live project `fxcwkweaxjtknorudmwp`, read-only SELECT and EXPLAIN ANALYZE only, 5 Nov 2026 19:18–20:08 AEDT. Heavy reads ran only in the allowed minutes. MCP session search_path: `"$user", public, extensions` (not changed) |
 
@@ -168,7 +168,7 @@ No edge function file changes, so the five hashes in `tests/uat/consumer-api-bas
 | R24 cases (13): country, region (kept as `R-SASIA`), domestic only, criteria only with an empty list, explicit any, pending Layer 4 on audience and on nationalities (precedence over restricted), pending AI "who it is for" review, unrelated or closed reviews ignored, withdrawn criterion, hidden provider, unpublished (null). Every other field byte-identical (`jsonb::text`) | PASS |
 | End to end as `service_role`, the edge function's role. `website_v2_providers` (2 requests): every key except `campuses` byte-identical, and campuses as above. `website_v2_scholarships` (2 requests, including `nationality_codes`) and `website_v2_scholarship` (14 ids, including not found): byte-identical apart from `nationality_eligibility_status`. A provider with Published off is not returned. `service_role` cannot call either builder directly | PASS |
 | Specs run locally (new R23/R24 contract 6 tests, s32, s42, s57, s120, website-api-v2 contract, institution-type contract) | 39 passed, 1 failed (the s57 test below) |
-| s57 (G3) | **FAILS, as intended:** "20261109150000_cf247_website_api_v2_r23_r24.sql touches a consumer API function". s57 now treats a `PENDING` approval line as no approval (new test). It will pass only when the Platform Admin's approval line replaces the placeholder |
+| s57 (G3) | **FAILS, as intended:** "20261109160000_cf247_website_api_v2_r23_r24.sql touches a consumer API function". s57 now treats a `PENDING` approval line as no approval (new test). It will pass only when the Platform Admin's approval line replaces the placeholder |
 | Live (read-only) whole-population checks and benchmarks | §3 and §6 |
 | CI | Workflow `website-api-v2-r23-r24-fixture.yml` runs the fixture on PostgreSQL 17.6 (the live version). The full suite runs in PR CI, where s57 fails until approval |
 
@@ -196,7 +196,7 @@ On approval, the Controller also:
 ```sql
 insert into pipeline.platform_toolset_settings(toolset_key, key, label, kind, value, min_value, max_value, unit, section, used_by, help, reason)
 values ('pipeline', 'api.v2_r23_r24_approved', 'Website API v2 R23/R24 consumer change: approved', 'number', '1', 0, 1, 'flag', 'Website API',
-        'migration 20261109150000 (G3 approval gate)', '1 = the Platform Admin approved R23/R24 (approval package §9). The migration refuses to apply otherwise.',
+        'migration 20261109160000 (G3 approval gate)', '1 = the Platform Admin approved R23/R24 (approval package §9). The migration refuses to apply otherwise.',
         '<Platform Admin approval, date time>');
 ```
 
@@ -235,7 +235,7 @@ Added 9 Nov 2026 by the author of Pilot draft PR #945 (release candidate), for t
 | Conditions | 1. API compatibility tests. 2. Developer guide (Issue 8). 3. Versioned handover. 4. The formal G3 approval recorded before merging. 5. No release of an unvalidated consumer contract change |
 | Release version | Set at release |
 
-The approval line, as recorded on the first line of migration `20261109150000_cf247_website_api_v2_r23_r24.sql` (Pilot draft PR #945):
+The approval line, as recorded on the first line of migration `20261109160000_cf247_website_api_v2_r23_r24.sql` (Pilot draft PR #945):
 
 ```
 -- Consumer API change approved: Platform Admin (Mandeep Singh), 9 Nov 2026, in chat: G3 change approved for R23 and R24 on condition of API compatibility tests, developer guide and versioned handover
@@ -251,7 +251,7 @@ Points the Platform Admin did not answer separately, and how the candidate treat
 
 | Change | Why |
 |---|---|
-| Migration renumbered `20261106100000` to `20261109150000` | Newest on main and on live is `20261109140000` |
+| Migration renumbered `20261106100000` to `20261109160000` | Newest on live is `20261109150000` (the AER selector fix, applied 9 Nov 2026; it took the number first, and the first renumbering to `20261109160000` was superseded) |
 | First line is the approval above (was PENDING) | Condition 4. `s57` reads this line |
 | The gate message no longer says "PENDING". The gate itself is unchanged: setting `api.v2_r23_r24_approved` must be 1 | The setting is a Platform Admin write (`tests/fixtures/website-api-v2-r23-r24/approval-setting.sql`); a migration must not approve itself. A missing setting reads as 0 and the migration refuses |
 | The approval paste uses unit `on (1) / off (0)` (the package said `flag`) | That is how other on/off settings are shown on Settings › Pipeline settings |
@@ -348,4 +348,4 @@ Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns):
 4. Apply through the release. The migration re-takes the consumer baseline itself as its last step (`security.consumer_api_rebaseline_v1`, only a migration can call it). **Do not re-take the baseline by hand before or after.** Verify afterwards that `select security.consumer_api_check_v1()` returns no drift and that the `consumer-api-guard` hard flag is not raised on its next daily run.
 5. Verify representative payloads against §2 and the guide examples: `provider:nzqa:7001` returns 9 campuses, RMIT 6, a scholarship with `R-SASIA` returns `restricted`, `unknown` where nothing is held; existing keys byte-identical; check one `sync` delta carries the provider and scholarship items.
 6. Issue the developer guide: follow `docs/integrations/developer-pack/drafts/issue-8/README.md` (set the release date, remove the release-candidate banner, copy over the master, rebuild with `build.sh`, send with the handover note). Update this register (R23 and R24 to Done) and System reference §4b in the same entry.
-7. Forward recovery as §7, with the migration number `20261109150000`.
+7. Forward recovery as §7, with the migration number `20261109160000`.
