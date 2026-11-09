@@ -40,17 +40,21 @@ The canonical lifecycle is **Discover → Identity/evidence → Extract → Vali
 - [ ] **F-ENG.05 First-run and consumer parity acceptance on real eligible courses**, not only an added function or report.
 
 ### F-CDESC — Course descriptions (existing #894/#900, Layer 4 issue family)
+
+**Current Platform Admin policy, 10 Nov 2026 — [source-verified AI admission of all eligible course descriptions](nz-enrichment-brief/2026-11-10-course-descriptions-autonomous-ai-admission-decision.md):** The platform MUST use AI to generate distinct, useful descriptions from official, identity-proven *course pages* already stored. Implement a narrow independently tested, audited **machine admission** route for the evidence-safe class; do not fake Layer 4 human decisions or silently lower the legacy `enrich.course_description_review_first=100000` trust threshold as a shortcut. Exceptions, previous rejections, manual locks and unverifiable claims remain held. The 3 Nov D5 all-first-descriptions-human-review policy is superseded **for this new safe class after its authorised technical release**. No university pilot as a gating phase. Production baseline at 10 Nov ~05:07 AEDT: 35,689 active courses, only 163 described, 35,526 missing, 1,441 course description items awaiting Layer 4. The source reader and Enrich fields pipeline are existing infrastructure; preserve G1–G4 and spending controls.
+
 - [ ] **F-CDESC.01 Distinguish unread/never queued, no source, invalid evidence, re-ask held, technically recoverable, ready for review, admitted, consumer-visible.**
-- [ ] **F-CDESC.02 Reuse stored evidence; bounded review-first scheduling; no unsupported sentences/claims; never auto-admit where reviewer is required.**
-- [ ] **F-CDESC.03 Layer 4 university/provider review packets and controlled per-item decision with audit, immediate admission/publication verification.**
+- [ ] **F-CDESC.02 Reuse stored verified course pages, extract course-specific AI descriptions, source-prove every claim and independently test the new narrow machine admission route.** No generic provider profile or unsupported course claim, no per-provider pilot, no bypass of manual locks, consumer gates or budgets.
+- [ ] **F-CDESC.03 Machine-admit source-verified safe-class descriptions with distinct actor/provenance and audited settlement of existing Layer 4 items; retain Layer 4 for genuine exceptions.** Recheck current evidence and identity at write time and verify catalogue and consumer publication. No simulated human review or batch SQL direct update.
 - [ ] **F-CDESC.04 UI capacity, 24h throughput, ageing, settings, zero-yield/blocked reasons, processed vs net published; mobile acceptance.**
-- [ ] **F-CDESC.05 Acceptance:** measured net gain beyond prior 163 active, or true reviewer/evidence hold with actionable next step.
+- [ ] **F-CDESC.05 Acceptance:** >163 active descriptions from real source-backed automatic admission, retained net increase across multiple providers, Website/Zoho and HTTP parity where available, plus two unattended production cycles. Real evidence-backed exceptions may be held with recorded revisit; green jobs or reviewer proposals alone are not delivery.
+- [ ] **F-CDESC.06 On-demand operation:** existing Course Catalogue/Detail offers bounded Fill description/Refresh description for individual and selected courses and selected provider; reuses governed Enrich fields jobs, saved task, role/audit, Run Now and Verify; displays queue, evidence source, machine decision, failure reason, last/next run and publisher parity. Include course descriptions in the always-visible F-OPS.03A Data Delivery scorecard.
 
 ### F-PDESC — Provider descriptions (existing #877/#912 and IQ-00022)
 - [ ] **F-PDESC.01 Correct official provider identity/site/description source, manual locks and re-read validity.**
 - [ ] **F-PDESC.02 Autonomous bounded provider reader with independent first-run output, retries/hold; no repeated failed no-work calls.**
 - [ ] **F-PDESC.03 Reviewer-owned decisions then canonical and Website/Zoho publication; investigate persistent 0 published / earlier 4 awaiting human decision.**
-- [ ] **F-PDESC.04 UI: Run & Validate, provider-specific pipeline status and actual net published output.**
+- [ ] **F-PDESC.04 UI: Run & Validate, provider-specific pipeline status and actual net published output.** The existing `provider-description-read` job is catalogued but `run_now.jobs` was still intake-only at the 10 Nov check. Activate the already authorised provider Run Now through the audited signed-in Admin settings route, preserving the existing list and verifying an actual saved cohort → scheduled worker → admission → publication read-back; add the Provider Catalogue Fill fields entry point through that same route, not a parallel job.
 - [ ] **F-PDESC.05 QA: reliable isolated acceptance including #916/#920 fixture failure case and live result.**
 
 ### F-AER — Academic entry requirements (IQ-00060 / IQ-00293 / current AER families)
