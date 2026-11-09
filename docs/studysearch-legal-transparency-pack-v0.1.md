@@ -15,7 +15,7 @@
 >
 > Repository paths, commit hashes and repo URLs in this pack are for internal use only. Remove them from anything customer-facing.
 
-> **Currency note (9 November 2026).** The body of this pack describes the platform as read on 8 October 2026. A month of releases has passed. Where the body and this note disagree, this note is correct for 9 November 2026. It was checked against the live database (read-only), the Website API v2 developer guide, the Website developer requirements register and the execution register. The body has not been rewritten, so the draft still reads as the 8 October review.
+> **Currency note (9 November 2026).** The body of this pack describes the platform as read on 8 October 2026. A month of releases has passed. Where the body and this note disagree, this note is correct for 9 November 2026. It was checked against the live database (read-only), the Website API v2 developer guide, the Website developer requirements register and the execution register. The facts in the body have not been updated, so the draft still reads as the 8 October review (only the product name, the gap numbers and three statements of law were changed).
 >
 > | # | Body says (8 Oct) | Position on 9 Nov 2026 | Check made |
 > |---|---|---|---|
