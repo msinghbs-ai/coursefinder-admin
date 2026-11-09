@@ -1,5 +1,8 @@
 # Platform data programme — INDEX and standing state
 
+**CURRENT ENGINEERING OWNERSHIP — PLATFORM ADMIN DECISION, 9 NOV 2026:** [Claude is sole responsible engineering controller; experimental atomic lease/adoption gate retired](2026-11-09-claude-sole-engineering-controller-decision.md). Claude owns code, integration, approved releases and remediation; delegates only implementation/independent QA. Historical 6 Nov cross-model handover and #385 adoption mandate no longer block routine development or otherwise approved releases. Real serial release execution, G1–G4, audited actions, protected approvals and validation remain. Earlier controller directions below are historical and do not override this decision.
+
+
 **CURRENT INTAKE AUTONOMY EXECUTION PLAN — 9 NOV 2026:** [Exact 09:00–23:00 production cutover gates and F-INT execution tasks](2026-11-09-intake-autonomous-production-cutover-plan.md). Live: 1,534 active exact dates, 30,302 without exact date (many genuinely month-only), last filled 8 Nov 08:26 UTC; only 78 providers have approved calendars (67 proposals/51 pending), 8,793 no revisit, 2,413 page-exact-date candidates without an admit route; #931 draft adds no dates and spreads rechecks over 14 days. **P0 integration collision:** PR #930 and #931 both use migration numeric version 20261109020000. Full system autonomy and actual correct published net gain are today’s acceptance; 30,302 fictional exact dates today is not a permissible goal. Gate times are checkpoints, not delivery promises.
 
 
