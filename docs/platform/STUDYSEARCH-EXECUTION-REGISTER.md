@@ -1931,3 +1931,38 @@ Authority: Platform Admin decision 9 Nov 2026 ([decision](nz-enrichment-brief/20
 | F-INT / F-PDESC / API v2 / catalogue columns | #945, #951, #953, #954–#959 | IQ-00313 family; R23/R24 | Interactive controller session | Per their entries | Per their entries | No | No | No | Not measured here | Not touched this run | Not this run |
 
 **Handover:** execution ID `cse_01A4GjyEKX3KL5jFJW4LA3HT` (scheduler task fired 10:24:06Z); state: development-only, draft #960 open at `20f9d2424a9ec0674a45171451b3dda84d558415`, #949 still open at `52c4dcde`. Verify next run: #949 and #960 stay green and whether either merged (re-read main before any slice); whether F-OPS.03A has a branch or PR from the interactive session; enrich_ai output (filled/review/skipped) now that calls resumed; P1 triaged 69. No-repeat: do not touch #945, #951, #953–#959, #890, #875; do not re-diagnose IQ-00053; run the register generator only on an unshallowed clone. Next safe action: if no one holds F-OPS.03A, design-check its scorecard against the existing Layer 2/3 › Operations screen (read-only, no new screen) and take the first bounded piece; otherwise phone acceptance of Layer 2 › Adapters.
+
+## 2026-11-09 Interactive controller checkpoint, 11:16Z / 22:16 AEDT (Claude, sole engineering controller)
+
+Measured outcomes only. Times are from `date -u` and the database at the moment read.
+
+**Released and verified in production (one release at a time, deploy-on-merge, then live checks)**
+- **#952** (provider-description registry labels): deploy green 09:5xZ; migration `20261109180000` applied; `security.pdesc_text_rule_fingerprint_v1()` present; 0 providers still carry the "Whang?rei" character loss.
+- **#955** (quote-fragment worker, inert, switch off): merged `6602fea1` after its Cloudflare check was retriggered (an empty commit; the suite had stayed queued for 35 minutes); deploy green 10:36Z; `coverage-sweep` version 246 deployed 10:36:28Z.
+- **#951** (intake revisit backfill): merged `6eb27916` at 10:52:59Z, deploy green 10:53Z. `pipeline.intake_revisit_backfill_batches`: one batch, status `applied`, 9,030 candidates, 9,030 rows changed, expected and after checksums equal, 19,024 ms. `security.controls_check_v1()` returned no rows.
+- **#956** (Provider Catalogue customisable columns): merged `7c100eb2` at 11:10Z, deploy green 11:11Z. Migration `20261109200000` applied; `admin_catalogue_page` body md5 `109237d7…` as asserted; `admin_providers_page_v3` and `provider_catalogue_facts_v1(uuid[], boolean)` present. v2 vs v3 comparison on live, signed in as the Platform Admin's own user: 64 requests, 0 mismatches. In the Admin UI: Columns control shows 13 of 32, six new filters present, default list 137 ms. **Not accepted (defect, see below).**
+
+**Settings changed through the audited Settings route (Platform Admin session)**
+- `intake_dates.page_date_admit` 0 to 1 at 09:30:23Z (decision of 9 Nov 19:18 AEDT, documented order).
+- `intake_dates.revisit_stored_inputs` 0 to 1 at 10:39:44Z with a reason. `central.auto_approve_calendar_dates` and `intake_dates.month_unique_match` remain 0.
+
+**Intake, first run with D1 on (10:26Z):** 200 rows, 0 dates admitted. 182 pages name a month only (abstention is correct); 8 page-not-proved; 10 page-printed dates with no approved calendar start that day and no audience on the page; 2 past dates. No net gain; the D3 backfill makes 9,030 held rows revisit over 14 days. Watch the next runs for fills.
+
+**Defect found on live (P1, new work, not yet fixed):** #956's whole-set filters are too slow. As the Platform Admin the UI showed "The database took too long to answer" for Description: Filled. `admin_providers_page_v3` timings (SELECT-only, same claims): description filled 3.2 to 3.3 s quiet and 10.5 s under load; missing 4.7 s under load; admission held 3.5 to 5.3 s; default list 137 ms. The authenticator limit is 8 s. The author is fixing with a forward migration (description as a direct predicate, per-filter facts); independent QA and a live UI re-check follow. Canonical counts to match: description filled 812 and missing 2,275 of 3,087 active (3,103 in all).
+
+**QA verdicts recorded**
+- #956 second review: NOT-RELEASE for a merge conflict only; fixed (main merged, register regenerated, feed states show Unknown when not fetched) before merge.
+- #957 RELEASE with a one-line performance fix; #958 RELEASE; #953 NOT-RELEASE (inert on live: the picker's unchanged-failure branch is not bypassed); #959 RELEASE once its catalogue description is updated. All four are with the author.
+
+**Open draft PRs (not released):** #945 (R23/R24, waits for the developer emails, the Wix acknowledgement and the announced release time, Tuesday 10 November from about 10:00 AEDT), #953, #957, #958, #959 (rework), #949 and #960 (scheduled-runner drafts, no independent QA yet), F-OPS.03A Data Delivery summary (author working, P0).
+
+**Held / needs the Platform Admin:** the scheduled task `trig_01Y4yZJc1dr8R2mDgpqwopwF` still carries the old development-only and ownership text. An update to its stored prompt was refused by the permission classifier at 09:50Z and was not retried or worked around; the Platform Admin can update the prompt or confirm the change. Nothing else in this entry needs a new decision.
+
+| Feature | Substep | IQ/SS | Owner | Implemented | Tested | Released | First run | UI accepted | Net admitted/published gain | Blocker | Next action |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| F-INT | D1 page-date admission | IQ-00313 family | Claude | Yes | Yes | Yes (switch on 09:30Z) | 10:26Z: 200 rows, 0 admitted | n/a | 0 | Pages state a month only | Watch next hourly runs |
+| F-INT | D3 revisit backfill | IQ-00313 family | Claude | Yes | Yes | Yes (10:53Z; switch on 10:39Z) | Not yet (first revisits spread over 14 days) | n/a | Not yet | None | Spot-check fills and repeats from the next runs |
+| F-PDESC | #952, #955 | IQ-00313 family | Claude | Yes | Yes | Yes | Holds re-evaluated | n/a | See programme status | AU and NZ not complete today; 472 insufficient-facts holds | Release #957, #953, #958, #959 after fixes and QA |
+| F-OPS | Provider Catalogue columns | F-OPS/UI | Claude | Yes | Yes (64/64 equivalence) | Yes (11:11Z) | Live UI opened | No: whole-set filters time out | n/a | Slow filters | Forward fix, QA, re-check |
+| F-OPS | F-OPS.03A Data Delivery summary | P0 | Claude (author agent) | In progress | No | No | No | No | n/a | None | Draft PR, QA, release, live UI verification |
+| G3 | R23/R24 (#945) | R23/R24 | Claude | Yes | Yes | No | No | No | n/a | Developer emails and acknowledgement; release time | Release Tuesday 10 November from about 10:00 AEDT after the gates |
