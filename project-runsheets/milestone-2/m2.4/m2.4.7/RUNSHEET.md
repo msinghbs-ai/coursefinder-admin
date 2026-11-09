@@ -4901,3 +4901,5247 @@ The brief now forbids direct table changes.
 - Platform Admin ran Purge on Unreferenced evidence from Storage & retention (run a0cb7002, started 15:26, finished 15:40 Melbourne). Verified live: 2,280 evidence records and 1,664 files removed (541 MB), 0 skipped as referenced again, no foreign-key skips, every queued file confirmed removed. Evidence records 131,295 to 129,015; evidence files 19.13 GB to 18.59 GB. The 4 evidence records without a file in Storage are older entries (two inline ranking files and two Ontario management-plane pages, August and September), not from this purge. Database size unchanged (3.45 GB): the space freed in the evidence table is reused by Postgres rather than returned.
 - The screen had estimated 1,686 MB: the estimate added each record's file size, so files shared between records were counted more than once and files still used by kept records were included (mainly the August register snapshots). Migration 20261008001400 (applied live through the connector, md5 guarded, migration history md5 matches the file; PR #389 on the code repo) now counts each file once and only files no kept record uses. Estimate only; the purge rule is unchanged. Eligible now: 0. The Layer 2 page snapshots from 29 Sep to 6 Oct (about 7,855 records) become eligible as they pass 7 days, but only up to the 8 Oct audit; a new audit is needed for anything captured later.
 - Not yet run: job log, retired Layer 2 tables, course-directory sitemap copies.
+
+### 8 Oct 2026 (Thu, Melbourne) – Rule 4: low-agreement adapter fields admitted (page wins)
+
+- Platform Admin decisions (multiple choice): Rule 4 (a field read on at least half the pages that agrees with held values on under 90%) is settled as "Page wins, admit anyway", with no Layer 4 items; fields already admitting that fall below 90% are flagged only, not switched off.
+- Measured: the 6 Oct Qualify showed 38 such fields; a fresh Qualify (`security.adapter_qualify_one_v1`, read-only, 0.5 read share, 0.9 agreement) showed 36 (ANU fee and Bond intakes now agree). Admitted through `admin_uni_adapter_control('admit')` as the Platform Admin, all 36 calls returned ok, each logged as `uni_adapter_admit` with the Rule 4 reason: intakes 22 (including Newcastle 147 of 172 pages differing, USQ, RMIT, Auckland, Griffith, UTS College, Te Wananga o Raukawa, Vancouver Community College), fee 9 (Swinburne, AUT, Melbourne College of Business and Technology, Stanley, Box Hill, Royal Brisbane, WAIFS, AITE, NIET), English 5 (TEDI, Charlton Brown, Eureka, Infinity). For the 10 adapters that were switched on but not admitting, only the Rule 4 field was admitted; their other fields stay off. Existing per-course exclusions stay in force.
+- Stored pages re-applied for the 36 adapters through `admin_uni_adapter_write('apply')` (no Firecrawl credits); application in progress at 16:28 Melbourne (52 readings from 7 adapters so far), to be checked with the purge check-in.
+- Risks noted: Royal Brisbane and NIET page fees read at about half the held fee (5 courses, likely per-semester figures); Swinburne pages print no fee year, so admitted fees take the year from the adapter's setting (the open Swinburne fee-year item). Not changed: Rule 4 runs as a one-off here; it does not admit future low-agreement fields automatically.
+- Purges started by the Platform Admin at 15:53 Melbourne: retired Layer 2 tables (running, 40,557 of 149,930 rows at 16:15), job log and course-directory copies queued behind it (runs are processed one at a time). Baseline for the check: Layer 3 work items 51,636, Layer 2 run items 57,450, course pages 31,603.
+
+### 8 Oct 2026 (Thu, Melbourne) – Rule 4 daily, Rule 5 (patterns win), job layers; purge progress
+
+- Rule 4 daily (Platform Admin: "Yes, admit automatically daily"): migration 20261008001500 (applied live, migration history md5 matches the file; PR #390 on the code repo). `security.l4_rule_low_agreement_v1`, daily at 03:37 UTC (`l4-rule-low-agreement`): every switched-on adapter is qualified again (read-only, 0.5 read share, 0.9 agreement); a low-agreement field not yet admitted is admitted (for an adapter not admitting, only the Rule 4 fields) and stored pages are applied; never switches a field off. Excepted: Canadian fees (Decision 220) and any provider and field listed in `pipeline.l4_rule4_holds` (empty). First run: 936 adapters checked, 0 new (the 36 were admitted earlier today). The adapter-overwrite job is replacing held values with the newly admitted readings (35 changes in the first hour after the 36 admissions).
+- Job layers: migration 20261008001600 (applied live, md5 verified) lists l4-rule-unofficial-source, l4-rule-fee-year-align and l4-rule-low-agreement under Layer 4 and retention-worker under Platform in `pipeline.platform_job_layers` (they were missing).
+- Rule 5, model and patterns disagree (Platform Admin: "Patterns win, no review"). Measured: on courses read by both, the Layer 3 model and the adapter's patterns differ on intakes for 952 of 7,099 (120 providers), English 16 of 3,907, fee 27 of 698; the model reading is the older in almost all. Migration 20261008001700 (applied live, migration history md5 matches the file; tested first in a rolled-back transaction, 5 of 5 replaced, 0 errors; PR #391) patches `security.adapter_overwrite_v1` behind an md5 guard and exact anchors: where the held value equals the latest validated Layer 3 reading and the adapter read a different value, the adapter's reading replaces it even when that field is not admitted; delivery mode stays admit-only; hand locks, per-course exclusions and identity checks unchanged; changes logged in `pipeline.adapter_overwrite_changes`. First run after release: 14 replacements on fields not admitted (intakes 10, fee 3, English 1), in 10-minute batches.
+- Purges (started by the Platform Admin at 15:53 Melbourne, processed one at a time): retired Layer 2 tables done, 149,930 rows removed, the five tables now empty; job log running (41,735 rows so far); course-directory copies queued. Checked live after the retired Layer 2 purge: Layer 3 work items 51,636, Layer 2 run items 57,450 and course pages 31,603, all unchanged.
+
+### 8 Oct 2026 (Thu, Melbourne) – Rule 6: unclear page identity settled; all six standing rules now live
+
+- Measured: 519 read pages are bound to several courses of different titles (1,405 courses, 223 providers); for 140 courses the page address names another course (for example Master of Engineering bound to the Master of Engineering Management page at the University of Melbourne), the other 1,114 sit on 389 shared pages naming none of them (school P-12 pages, Graduate Certificate / Diploma / Master on one page, Diploma and Advanced Diploma packages, Burman's department pages).
+- Platform Admin decisions (multiple choice): shared pages naming none of the courses, "Keep everything"; pages named for another course, "Do nothing if cricos code matches up on providers course page", and for the rest "Unbind and re-find, no review".
+- Code check (migration 20261008001800, applied live, md5 verified; worker coverage-sweep v0.17.18 mode page_codes, deployed from the merged commit, run 37739502079, version confirmed in its response; PR #392): the 140 stored pages were read, no Firecrawl credits. 54 show the course's own CRICOS code and stay as they are; 86 do not (56 show the named course's code, 21 show no code, 3 courses have no code on record).
+- Applied (migration 20261008001900, applied live, migration history md5 matches the file, dry-run in a rolled-back transaction first; PR #393): 15 of the 86 have their page chosen by hand (official or course URL locked) and are kept. The other 71 were unbound (binding marked mismatch), the pair of course and page blocked in `pipeline.course_page_blocks` (`security.course_link_bind_v1` now refuses a blocked pair, behind an md5 guard), values read from that page withdrawn (intakes 79, English 65 withdrawn, page fees 23 superseded, course links 70 inactive; rows entered by hand untouched) and the course re-queued for the link search (CRICOS code first, then title). Verified live: 71 blocks, 71 searches queued, run logged in `pipeline.layer4_rule_runs`. No Layer 4 item raised, nothing deleted.
+- With Rules 1 to 6 in place, Phase 1 of the Layers 1 to 4 adapter design (review rules) is complete; Phase 2 (CRICOS as the first register adapter) is the next gate.
+
+### 8 Oct 2026 (Thu, Melbourne) – Phase 2: CRICOS register adapter built and replayed side by side (all three archives pass); purge fixes
+
+- Platform Admin decision (multiple choice): "Start building Phase 2". Built, nothing switched: Layer 1 (layer1-au-depth, layer1-au-cricos-facts, run plans, schedules) keeps running unchanged.
+- Register adapter: `pipeline.register_adapters` holds the CRICOS adapter (code au_cricos, switched_on false) as data: the four files in the archive, the record file and key (Courses, CRICOS Course Code), the active rule (Expired empty or no/false/n/0), the joins (Institutions by provider code; Course Locations by course code, then Locations by provider code and location name), the fingerprint parts and 24 field mappings. The coverage-sweep worker (v0.17.20, `register.ts`) reads an archive using only that spec; a verbatim copy of today's Layer 1 code is kept beside it as the reference. Migrations 20261008002000, 20261008002200 (4,000 records a call after the first call hit the edge resource limit), 20261008002300 (schedule `register-replay`, stopped itself when done), 20261008002600 (comparison converts durations and fees only when they are numbers, after the first comparison of the newest archive failed on an empty value); all applied live with migration history md5 matching the files; PRs #394, #395, #396, #399; worker deployed from the merged commits (runs 37743163559 and 37744174439, version confirmed in its responses).
+- Side-by-side replay of the last three register archives, verified live: 11 Aug 2026, 26,648 courses; 26 Sep 2026, 25,978; 30 Sep 2026, 25,540. For each, keys, fingerprints and all 24 fields are identical under the adapter and the reference (0 differences, 0 duplicate keys). The newest archive also matches the fingerprints Layer 1 recorded for all 25,540 courses (0 differ, 0 missing either side) and the catalogue (duration 25,540 the same; registered tuition 25,360 the same, 0 different, 180 with no fee). Gate pass criteria met. Switching CRICOS to the register adapter is a separate Platform Admin decision.
+- Register files kept: the first evidence purge had removed one of two CRICOS archives captured on 11 Aug 2026 and three extracted Institutions files (no record pointed to them). Migration 20261008002100 (applied live, md5 guarded) keeps every file under regulatory/ out of the Unreferenced evidence purge.
+- Purge fixes: the job-log purge could not finish (records keep turning 7 days old, so each batch found new ones); it was stopped as the Platform Admin after 42,740 records, and migration 20261008002400 now cuts off at 7 days before the run started (PR #397). The course-directory purge failed on its first batch ("column u.id does not exist", nothing removed): migration 20261008002500 selects by (provider_id, url) (PR #398), and the purge the Platform Admin started was queued again as the Platform Admin; 320,000 of 582,643 rows removed at 19:28 Melbourne, course pages unchanged (31,603). Both patches: md5 guard and exact anchors on `security.retention_tick_v1`.
+- Test note: the Rule 3 contract assertion matched "on commit drop" and had been failing locally since PR #386; corrected in PR #394. Full local desktop suite 455 passed at PR #399.
+- Replay data: `pipeline.register_replay_keys` is 73 MB; it can be emptied once the Phase 2 gate is decided.
+
+### 8 Oct 2026 (Thu, Melbourne) – Layer 1 schedule choice and ranking years (v2.15.222); NZQA, PRISMS and QILT register adapters replayed; purges finished
+
+- Platform Admin request: "Do nzqa then prism and qilt but with configurable schedule, maybe monthly for regulators and manual for uploading for different rankings, also let me upload upcoming new year's of ranking ... Then move to canada and then to central or country wise scholarship compatible with layer 1".
+- Release v2.15.222 / 0.1.149 (PR #400): each Layer 1 source has a Schedule choice (daily, weekly, monthly, quarterly, yearly, manual; manual means no automatic ingestion and a check every 30 days), Platform Admin only, reason required, logged as layer1_schedule_set (migration 20261008002700, `public.admin_layer1_schedule`, applied live, md5 verified). No source's schedule was changed: CRICOS and NZQA stay weekly and automatic, PRISMS and QILT stay manual, rankings stay manual. Ranking edition years in the upload lists now run from two years ahead back to 2010 (QS defaults to next year, others to this year); the database already accepted 2000 to 2100.
+- NZQA register adapter (PR #401; migrations 20261008002800 and 20261008002900, applied live, migration history md5 matches the files; worker coverage-sweep v0.17.21 deployed from the merged commit, run 37758357245, all deployed files identical to main): code nz_nzqa, switched off; the spec reads the provider number, name and website from the stored details page and each current qualification from the qualifications table. The reference is the layer1-nz-live v1.2.1 code (a contract test checks it is the same code). Replay of the stored batch files of three complete runs (21 files each, 415 providers): 6 Oct 13:34, 8 Oct 01:35 and 8 Oct 07:34, each 6,602 records, keys and all fields identical (0 differences, 0 duplicate keys). Against the catalogue: 3,902 distinct qualification codes on the register, all held as NZQA registrations; 21 more held are already inactive (no longer current). One slice save timed out once (database statement limit) and passed on retry.
+- PRISMS and QILT register adapters (PR #402; migration 20261008003000, applied live after the worker deploy, md5 verified; worker coverage-sweep v0.17.22, run 37760212530, all deployed files identical to main): five adapters (au_prisms_sa4, au_qilt_gos, au_qilt_ses, au_qilt_gosl, au_qilt_ess), switched off, format xlsx_tables (sheet, rows, columns, cell reading, record key). References are verbatim copies of prisms-au-etl v0.2.0 and qilt-au-etl v0.3.0 readers (contract tests check the copied lines). Replay of the six stored workbooks: PRISMS SA4 December 2025, 2,270 records identical (pass). QILT GOS 2025 (710), SES 2024 (1,250), SES 2025 (1,309), GOS-L 2025 (247), ESS 2025 (240): same records and keys under both, but every value published with a confidence interval differs in its upper bound only.
+- Finding (Layer 1 defect, not changed): qilt-au-etl v0.3.0 stores the confidence interval upper bound as empty (`high:cell.h`, the parsed field is `hi`). Live: 3,164 QILT outcome rows, 3,139 have the lower bound, 36 the upper bound, 3,103 have an interval in the published cell. The adapter reads both bounds. Fixing the Layer 1 reader or switching QILT to the adapter is a Platform Admin decision.
+- Purges finished: course-directory copies done (582,643 rows removed, 19:58 Melbourne); retired Layer 2 done (149,930); job log stopped at 42,740 (cut-off fixed). Course pages unchanged.
+- Noted for decision: Canadian sources have no Layer 1 schedule (none of the 35 Canadian sources has a Layer 1 operations row; evidence last captured 13 to 18 Aug 2026); NZQA batch evidence is about 25 MB a run, several runs a day (1.69 GB held); replay data `pipeline.register_replay_keys` is 82 MB and can be emptied once the gates are decided. No adapter is switched on.
+
+### 8 Oct 2026 (Thu, Melbourne) – Regulators monthly; QILT upper bound fixed; NZQA, PRISMS and CRICOS read with their register adapters; Canadian register adapters replayed
+
+- Platform Admin decisions (multiple choice): QILT "Fix Layer 1 reader, refill"; regulators "Monthly for both"; "Switch on CRICOS, NZQA, PRISMS"; Canada "Build adapters on August copies"; CRICOS "Extend CRICOS, then switch"; Canada scope "Build 21, add raw capture to 11".
+- Schedules: CRICOS (b5680d74) and NZQA (e410b159) set to monthly (30 days, automatic) with `admin_layer1_schedule`, logged as layer1_schedule_set (events 11251, 11252). PRISMS, QILT and rankings stay manual. The next ingestion date was not recalculated by the change; the next due run follows the existing date.
+- QILT fix (PR #403; migration 20261008003100): qilt-au-etl v0.3.1 stores the confidence interval upper bound (`high:cell.hi`). 3,103 existing rows refilled from the stored published cell; live now 3,139 lower and 3,139 upper bounds. All five QILT workbook replays pass after the fix (migration 20261008003200).
+- Switch mechanism (PR #404; migration 20261008003300): `public.admin_register_adapter_switch(code, on, reason)`, Platform Admin only, reason required; switches on only when the latest finished replay for that source passed and the adapter has not changed since; logged as register_adapter_on / register_adapter_off. `public.svc_register_adapter_reader(code)` gives workers the spec when switched on. Shared engines moved to `supabase/functions/_shared/`. layer1-nz-live v1.3.0 and prisms-au-etl v0.3.0 read with the adapter when it is switched on, with the old reader kept for when it is off.
+- Replay reliability (PRs #405, #408, #412, #413; migrations 20261008003500, 20261008004300): each replay run is leased to one call at a time (150 s) and released when the call ends; a run stops after three calls without progress; repeated keys within one save are numbered; the CRICOS adapter reads only its own slice and each location set in its own call. Worker coverage-sweep v0.17.24 to v0.17.31.
+- Switched on (events 11253, 11254, 11255): nz_nzqa (pre-switch replay 6,602 records, 0 differences), au_prisms_sa4 (2,270, 0 differences) and au_cricos version 2 (below). PRISMS live apply with the adapter: 2,270 rows, data unchanged (content md5 71f7129d… before and after), every row now records `reader = register adapter au_prisms_sa4`. NZQA's first run after the switch found the register unchanged (no_change), so the first NZQA read with the adapter is still to come; likewise CRICOS waits for the next register change.
+- CRICOS adapter version 2 (PR #406; migrations 20261008003700, 20261008003800, 20261008004000, 20261008004400): adds provider address, campus locations and course locations so the adapter covers everything layer1-au-depth v1.8.0 and layer1-au-cricos-facts v1.3.0 read (both now read with the adapter when switched on). Replays of the three stored archives pass with 0 differences: 11 Aug 78,252 records, 26 Sep 76,738, 30 Sep 74,999 (including location sets).
+- Canadian register adapters (PRs #407, #410, #411; migrations 20261008003900, 20261008004000, 20261008004100, 20261008004200): 19 adapters (17 college catalogues and IRCC DLI on the generic text_items engine; ALIS and EducationPlannerBC from stored page bundles), all switched off. References are generated verbatim copies of the Canadian readers (contract test checks the copied pieces). Replays on the August evidence: algonquin 88, boreal 63, cambrian 85, conestoga 315, confederation 59, durham 150, fanshawe_pgwp 80, fleming 77, georgian 209, lambton 71, loyalist 74, mohawk 108, niagara 135, seneca 192, sheridan 167, stclair 132 records, all 0 differences; IRCC DLI 1,130 on all three copies, 0 differences; ALIS 11 school bundles, 52 records, all 0 differences; EducationPlannerBC 24 institution bundles, 403 records, all 0 differences (one bundle holds no programmes under either reader). Two engine defects found by the replays and fixed before passing: database storage loses field order (fields now read in dependency order, v0.17.28) and repeated keys in one save (v0.17.27).
+- Raw capture (PR #409): the 11 Canadian readers that kept only parsed output now also store the raw pages as a `-raw.json` bundle beside it (centennial, cna, fanshawe-programs, firstparty-catalogues, mb, sault, stlawrence v0.2.0; northern, ns-sk v0.3.0; on-college, sk v0.4.0); deployed files identical to main.
+- Verification: migration history md5 matches all 14 files 20261008003100 to 20261008004400; deployed edge files identical to main after each deploy; local suite 467 passed, build and UI token check pass.
+- Open for decision: switch on the passing Canadian adapters (needs the Layer 1 workers to read with them, as for NZQA and PRISMS); Quebec MES PDF stays on its Layer 1 reader; IRCC provider geography is a second reader of the same source (one adapter per source today); next, scholarships (central or by country, compatible with Layer 1).
+
+### 9 Oct 2026 (Fri, Melbourne) – Scholarships: central register, country tagged, on Layer 1; Australia read in full
+
+- Platform Admin decisions (multiple choice): Canada adapters "Leave off, move to scholarships"; scholarships "Central register, country tagged"; register role "Record for govt, index for provider"; order "AU, then NZ, then CA, monthly".
+- Found before building: Study Australia lists 1,172 scholarships from 238 providers (all provider or funder scholarships, no government awards); the old feed read only pages 1 to 5 (50 a week), which is why 204 were held. Study with New Zealand's list is script-rendered (numbered scholarship pages). EduCanada's robots.txt blocks automated readers.
+- Release (PR #414; migration 20261008004500, applied live, history md5 2a008c9e… matches the file): `scholarship.registers` (AU Study Australia as index, AU DFAT Australia Awards as record, NZ Manaaki and CA Study in Canada planned) and `scholarship.register_listings` (every listing, country tagged, with its match or hand-off). Study Australia and DFAT are Layer 1 sources (source_system SCHOLARSHIP_REGISTER) with Layer 1 verification, variance gate and runs; the old hourly feeds for them are switched off (rows kept). `admin_scholarship_registers` (rank 5 and above). Workers deployed from main (run 37826055172, all three files identical to main): scholarships-au-etl v0.2.0 (every listing page read, raw pages kept, count and hash stable; detail pages read in batches for the provider page link and CRICOS), layer1-operations-control v1.7.0, layer1-operations-scheduled v1.3.0.
+- Fixes found on the first run (both md5-guarded, applied live, history md5 matches the files): 20261008004600 (PR #415; page candidates accept the source `register`) and 20261008004700 (PR #416; a provider page that several listings point at is handed over once). Each failed batch rolled back; nothing partial was saved.
+- First verification: Study Australia 1,172 listings (1,172 shown on the site), DFAT 1 award scheme; both passed. First runs: DFAT completed (Australia Awards record refreshed); Study Australia completed, 1,172 of 1,172 listings read, 0 failures.
+- Study Australia index result: 350 matched to held scholarships (110 by the register id, 205 by the provider page address, 35 by provider and name); 690 handed to the provider page reader (526 distinct pages, 423 new to it; 457 on its reading list, 69 belong to providers it does not read yet); 50 point off the provider's own site; 82 listings from 46 providers not in the catalogue (mostly schools). Provider pages stay the source of record; nothing is published by this step.
+- Schedule: both Australian registers set to monthly and automatic by the Platform Admin decision (admin_layer1_schedule, logged).
+- Verification: local suite passed (471 incl. 6 new register tests with real card markup), build and UI token check pass.
+- Next: New Zealand (Study with New Zealand scholarship pages, Manaaki), then Canada (needs EduCanada permission or another official route).
+
+### 9 Oct 2026 (Fri, Melbourne) – Scholarships: New Zealand register (Manaaki) on Layer 1; Canada held; non-university hand-offs noted
+
+- Platform Admin (06:36): "Take recommended decisions and move on next step" — New Zealand next; add the providers of the 69 unread hand-offs to the page reader; Canada held until there is an approved route.
+- Hand-offs checked before acting: of the 526 provider pages handed over from Study Australia, 387 belong to 35 universities and go through the page reader as normal. 139 belong to 111 non-university providers (colleges, schools, VET: 69 at queue priority 2, which the reader skips, and 70 at priority 4, which it reads). Admission from a provider page accepts university providers only (`scholarship_admit_from_provider_page_v1`), so none of the 139 can be admitted. The priority-2 providers were not moved (reads would be refused at admission). Extending admission beyond universities is a Platform Admin decision.
+- New Zealand source chosen: Study with New Zealand is not used (its scholarship pages sit behind a browser check that refused the reader with HTTP 429, and its sitemap lists no scholarship pages; not worked around). The Manaaki New Zealand Scholarships site (MFAT, run by Education New Zealand) is open (robots.txt allows) and is read as a government record.
+- Release (PR #417; migration 20261008004800, applied live, history md5 63c1fbee… matches the file; deploy run 37834559170, all three files identical to main): register `nz_mfat_manaaki` live as a Layer 1 source (SCHOLARSHIP_REGISTER, authority nzscholarships.govt.nz). scholarships-au-etl v0.3.0 feed nz_manaaki reads eligible countries by region and destination, levels of study, approved institutions with their official sites (from the page's link lists), application rounds and criteria (age, postgraduate work experience) from six pages; it stops rather than storing an empty record if countries or institutions are not found. Institutions are kept as a quoted criterion list, not provider links (no identity by name). layer1-operations-control v1.7.1 and layer1-operations-scheduled v1.3.1 dispatch it.
+- First verification passed (1 award scheme); first run completed: Pacific (study in New Zealand) 16 countries, Pacific (study at a Pacific university) 7, Asia 9 (25 distinct), 5 levels each, 10 approved New Zealand institutions (8 universities, 2 institutes of technology) and 2 Pacific universities, 1 round (Samoa Foundation, 4 August to 4 September 2026), applications shown as closed. Record "Manaaki New Zealand Scholarships (tertiary)", government, international, cycle 2027, unpublished. Schedule set to monthly and automatic (admin_layer1_schedule, logged).
+- Found: the Manaaki dates page still shows the 2024 round as closed; current round dates are read from the how-to-apply page.
+- Verification: local suite 474 passed (incl. the New Zealand parser contract on page text read 9 Oct), build and UI token check pass.
+- Canada: held (EduCanada robots.txt blocks automated readers; needs permission or another official route).
+
+### 9 Oct 2026 (Fri, Melbourne) – Government awards linked to institutions and published (Australia Awards, Manaaki); 59 scholarships published
+
+- Platform Admin decisions (multiple choice): non-university provider pages "Keep universities only"; next "Publish the government records"; government awards "Link to approved institutions"; Australia Awards "All Australian universities"; publishing "Publish all 59" (the ready list had grown from 35 to 59 in about half an hour through the regular hourly course-link jobs; asked again before publishing).
+- Held before publishing: both records failed provider-scholarship rules ("no linked course"; Australia Awards "provider page does not mention international students"; Manaaki "no stated award value"). Wording jobs had set Australia Awards to international and domestic ("must not be an Australian citizen") and Manaaki to 3 nationalities from its description, against 25 on the register.
+- Release (PR #418; migration 20261008004900, applied live, history md5 85e94c27… matches the file; worker scholarships-au-etl v0.3.1 deployed from main, run 37838231430, deployed file identical to main): 11 nationality terms added and 2 extended (Federated States of Micronesia, Naoero for Nauru; "Guinea" guarded against Papua New Guinea); register record profile sets nationalities from the register's own country lists (stops if any country has no code), audience international, and course links at the approved institutions for bachelor, master's, doctorate and postgraduate diploma/certificate courses (course scopes, insert only); institutions matched by official website or the site it redirects to (never by name); `admin_scholarship_register_institutions` (Platform Admin, logged); the audience and nationality wording jobs no longer overwrite a register record; a register record with full tuition coverage counts as having a stated value and the two provider-page wording checks do not apply to it. Live functions patched only if exactly the expected version (md5 guards); reversing each patch reproduces the original md5. Rolled-back dry run first; publishing results for every other scholarship unchanged by the patch.
+- Manaaki: re-verified and re-read through Layer 1 (reader records each institution's landing site); all 10 institutions matched (Victoria University of Wellington through its redirect to wgtn.ac.nz); 25 nationalities; 1,921 course links.
+- Australia Awards: linked by the Platform Admin decision to the 40 active Australian universities with active courses (event register_institutions_set); 54 nationalities (main list and Palau); 4,121 course links.
+- Published (batch, approval note quoting the decision): 59 scholarships (Australia Awards, Manaaki and 57 provider scholarships), published total 360 to 419. Course pages after the 15-minute job: Australia Awards on 4,121 courses (40 providers), Manaaki on 1,921 (10 providers), no saving claimed for either.
+- Verification: local suite 475 passed; build and UI token check pass.
+- Open: Canada held (EduCanada robots.txt); the 139 non-university provider pages stay in the index only (universities-only admission kept).
+
+### 9 Oct 2026 (Fri, Melbourne) – Scholarships: AU, NZ and CA only; country onboarding trigger in place
+
+- Platform Admin (08:31): "Let only target au, nz, can at the moment for scholarships, more countries will be joining in later make sure plan are in place to trigger as more countries come along." UK and US government awards were not built: the catalogue has no UK or US courses (AU 26,103, NZ 6,474, CA 2,382), so they could not reach any course.
+- Release (PR #419; migration 20261008005000, applied live, history md5 8d6bc03d… matches the file):
+  - Country switch off for DE, GB, IE and US (no courses; logged); on for AU, NZ and CA only.
+  - `scholarship.country_onboarding` (status, domestic-student wording prefilled for GB, US, IE, DE, government registers).
+  - Planned registers: Chevening, Commonwealth Scholarships, Fulbright.
+  - `security.scholarship_country_readiness_v1`.
+  - Daily job scholarship-country-watch (06:13 Melbourne): raises and resolves platform issue `scholarship_country:<code>`.
+  - `admin_scholarship_country` (Platform Admin; refused until ready; queues the country's universities for discovery) and `admin_scholarship_countries`.
+  - The university test and the audience reader no longer hard-wire NZ and CA (md5-guarded patches).
+- Checks: rolled-back dry run first (145 scholarship universities before and after, same list); live after apply: AU, CA, NZ on; same university list; job scheduled; no issue raised (no other country has courses). Rolled-back simulation of a UK university: issue "United Kingdom has 199 courses but scholarships are not switched on" raised with next steps; switching the UK on succeeded and resolved the issue; everything rolled back.
+- Runbook: `docs/scholarships/scholarship-countries-v1.md` (countries in scope, trigger, readiness checks, steps when a country joins).
+- Local suite 476 passed; build passes.
+
+### 9 Oct 2026 (Fri, Melbourne) – Canada Layer 1 phase A: 26 catalogue and register sources on Layer 1; 16 on a monthly schedule
+
+- Platform Admin: "Canada Layer 1 schedule (Recommended)". Before this, none of the 31 Canadian catalogue and register sources had a Layer 1 operations row; their evidence was last captured 13 to 18 August 2026.
+- Release (Pilot PR #420, squash 30fd5928):
+  - layer1-operations-control v1.8.0 and layer1-operations-scheduled v1.4.0 verify and run Canadian readers (source_system CA_READER, reader named in `metadata.layer1_reader`; only `layer1-ca-*` functions; IRCC applied in slices of 200).
+  - layer1-ca-live v1.2.0 accepts the Layer 1 service key; added to the deploy list (verify_jwt true).
+  - Governance gap closed: layer1-ca-seneca-catalogue deployed v0.3.1 was not in git (git held v0.1.0); live code now checked in.
+  - Deployed copies of all four functions identical to main (sha256 and cmp).
+- Migration 20261008005100 (applied live; history md5 b754c933… matches the file): 26 sources mapped to readers (23 college and provincial catalogues, Aurora and Yukon, IRCC DLI); 26 Layer 1 operations rows, verification due, no schedule switched on; 15 readers added to the run-token allow-list. Nothing deleted.
+- First verification (all 26): 16 passed, 10 failed. The failures are the readers' own exact-count checks tripping because the sites changed since August: Boreal 63→65, Centennial 195→200, Fanshawe 204→200, Lambton 71→72, Sault 76→77, Seneca 158→157, St Clair 132→130, Northern (7 intake suspensions expected, 0 found), St Lawrence (detail check failed on 0263), Fleming (response wait exceeded). Nothing was applied for these 10; they stay held with no schedule.
+- First apply runs (Platform Admin, 16 sources, all completed): 0 rejected, 0 failed, 0 updated. New courses: Georgian 12, Durham 8, Mohawk 7, Ontario public-college workbook 5, Loyalist 3, CNA 1, Niagara 1, Sheridan 1. IRCC DLI: 1,108 providers reconciled, none created. The Ontario workbook (769 rows) timed out once in the database and passed on the automatic retry. Mohawk reads only currently open programmes (7 of 15 rows; 6 closed), so its 7 are new keys.
+- Schedule: `admin_layer1_schedule` monthly for the 16 sources whose first run completed (auto ingest on, 30-day verification and ingestion). 10 held.
+- Finding: the Seneca register adapter (`ca_seneca`, switched off, replay passed on the 13 Aug copy) copies reader v0.1.0, which reads a different page from the deployed v0.3.1. The contract test now checks that copy against a fixture of v0.1.0. The adapter must be re-derived from v0.3.1 before any switch-on (FOLLOW-UPS).
+- Verification: local suite 476 passed; contract specs 24/24 after the Seneca fixture change; build, UI token check and syntax check pass.
+- Open: the 10 held readers need their expected counts re-based against the current sites (each a reader change, then re-verify); phase B (ALIS, EducationPlannerBC, NSCC, Saskatchewan Polytechnic, Quebec MES paged readers); Canada government scholarship register held (EduCanada robots.txt).
+
+### 9 Oct 2026 (Fri, Melbourne) – Old-system clean-up batch 1; Phase 3 (merged adapter step) running side by side with Layer 3
+
+- Platform Admin: "park anything Canada related and move to next step, make sure we are doing the cleanup from old system as we go along". The Canada reader re-base is parked with its approach decided (variance gate; FOLLOW-UPS). Next gate per the approved design "Layers 1 to 4 on the Adapter Model": Phase 3, with Phase 4 clean-up done as each piece is replaced.
+- Clean-up batch 1 (Pilot PR #421, squash ad8f50c7):
+  - 24 unused edge functions retired: one-off QS ranking probes and recoveries (cf212, cf213, cf231, ranking-qs-*-once/recovery/backfill), Layer 1 UAT gates and inspectors, layer2-course-discover, layer2-trial-control, layer3-benchmark-go5, layer4-course-resolve, scholarship-course-fill-control, search-vector-gate. Each checked first: not on the deploy list, no repository, database (`pg_proc`) or cron reference, not on the run-token allow-list. Source removed, added to the deploy workflow's retired list, deleted from the live project (workflow run 37858305844). Live and git now hold the same 115 functions.
+  - Migration 20261008005200 (history md5 50571b66… matches): eight cron jobs switched off since 2 Oct removed (seven of the old Layer 2 pipeline and layer3-tuition-enqueue); refused if any were on; their functions and all history kept; definitions recorded in the file. 94 jobs remain, all on.
+  - The 12 Canadian probes stay while Canada is parked.
+- Phase 3 decisions (Platform Admin, multiple choice): shadow size "US$15/day, ~1,000 courses/day"; retire rule "Match 95%+ and find as much".
+- Phase 3 release (Pilot PR #422, squash cd61f492):
+  - layer3-model-routing shadow mode (`cf247-adapter-shadow-v1.0.0`). The adapter's own pinned model (chosen per adapter, else the builder default, Qwen3 30B) reads courses Layer 3 has finished, on the adapter's input for the field (JSON path, heading section, else the whole page), with the same task contract and checks as Layer 3. Nothing admitted. `ROUTING_VERSION` and every qualified binding hash unchanged; no binding drift events after the deploy. Deployed files (12) identical to main.
+  - Migration 20261008005300 (history md5 b5790779… matches): `pipeline.adapter_shadow_settings`, `pipeline.adapter_shadow_reads`, `svc_adapter_shadow_claim` / `svc_adapter_shadow_complete` (service role), `security.adapter_shadow_summary_v1` with the retire test (reported only, never automatic), `admin_adapter_shadow` (summary, providers, settings; Platform Admin; settings logged), jobs adapter-shadow-intake and adapter-shadow-english every 2 minutes. Limits US$15 and 1,000 reads a day (500 per field). Retire test: at least 300 compared, 95%+ agreement where both found a value, and the merged step finds a value at least as often as Layer 3.
+  - Dry run caught and fixed one defect before release: English scores 6.5 and 6.50 compared as different.
+- First 10 minutes: 27 shadow reads, 0 errors, US$0.0053. Intake 15 compared, 12 both found, 12 agree; Layer 3 found 15, merged step 12. English 12 compared, 3 both found, 3 agree; both found 3. Early figures only.
+- Finding: only 2 to 3 of 936 adapters name a place on the page for intakes or English (they use patterns), so the merged step reads the whole page for almost all courses. In practice the comparison is the adapter's one pinned model against the Layer 3 ladder on the same page.
+- Note: Layer 3 has had no new work for 8+ hours before this release (claims return 0 with no reason); OpenRouter credit US$19.08 remaining (floor US$5).
+- Verification: local suite 483 passed; build and UI token check pass.
+- Next: let the shadow run reach 300+ compared per field (about a day at 500 a field), then report against the retire rule; tuition joins the shadow run in a later step.
+
+### 9 Oct 2026 (Fri, Melbourne) – Phase 3 shadow run: tuition added, capacity raised, results against the retire rule
+
+- Platform Admin: "Add tuition to the shadow run or any other attribute as required, increase the capacity to finish it 4 hours." Then (12:36): "can we expedite the current running task?" Layer 3 reads only intakes, English and tuition, so all three were compared.
+- Release (Pilot PR #423, squash 6f06890e): layer3-model-routing shadow v1.1.0 (tuition under the tuition task's own prompt, checks and input length, with the adapter's pinned model); deployed files (12) identical to main; routing version and binding hashes unchanged.
+- Migration 20261008005400 (md5-guarded): task tuition; 1,500 reads a day (500 a field); 30-day window; 6 reads a field every 2 minutes; job adapter-shadow-tuition (job 145). The connector cancelled it at the approval prompt (one `drop constraint` line to widen the task check; no data removed); the Platform Admin pasted it in the SQL editor at 11:20. The pasted history row carried Windows line endings (md5 14e5087a…); normalised to the file, history md5 now 56220e26… matches. The live function bodies keep the line endings outside every literal; behaviour unaffected.
+- Expedited at 12:36: 14 extra worker rounds; every field passed the 300-compared minimum by about 12:45, inside the 4-hour target. The 13:28 scheduled check was cancelled.
+- Results (933 reads, 0 errors, US$0.36; nothing admitted):
+
+| Field | Compared | Agree where both found | Merged step found | Layer 3 found | Retire rule |
+|---|---|---|---|---|---|
+| Intakes | 323 | 97.2% (141 of 145) | 44.9% | 52.0% | Not met: finds less often (22 only Layer 3, 0 only merged) |
+| English | 330 | 100% (60 of 60) | 18.5% | 20.3% | Not met: finds less often (7 only Layer 3, 1 only merged) |
+| Tuition | 322 | 80.0% (132 of 165); amount 100% (165 of 165) | 55.6% | 74.8% | Not met: agreement and finds less often (76 only Layer 3, 14 only merged) |
+
+- Reading: where both find a value they agree (intakes and English pass the 95% test; tuition amounts always match, the 33 disagreements are a fee year the merged step added). The gap is how often a value is found: the merged step is one pinned model (Qwen3 30B, the builder default; no adapter has a chosen model), while Layer 3 escalates a "not stated" answer with a clear page signal to stronger models (MiMo, Kimi). Cost: intakes US$0.06 merged vs US$0.22 Layer 3; tuition about equal. All reads used the whole page (no adapter names a section for these fields).
+- No field is eligible to retire. Layer 3 stays as it is. The shadow run keeps running within its daily limits. Workbook of the results sent to the Platform Admin (CourseFinder-Phase3-Shadow-Results-9Oct2026-final.xlsx).
+- Next: Platform Admin decision on the merged step's model (stronger adapter model, one escalation step, or keep Layer 3 for these fields); clean-up batch 2 (old-system screens, scripts, workflows and tests) inventoried, decisions pending on four items.
+
+### 9 Oct 2026 (Fri, Melbourne) – Old-system clean-up batch 2 (screens, functions, workflows); Phase 3 round 2 started with a stronger model
+
+- Platform Admin (12:36): "can you include the clean-up of UI and scripts that belongs to old system." Decisions (multiple choice): Source profiles "Remove with layer2-acquire"; Onboarding queue "Point it to Adapter builder"; batch runner and scholarship scope runtime "Retire both"; Phase 3 next step "Stronger adapter model".
+- Clean-up batch 2 (Pilot PR #424, squash 0f5fc3c6; 67 files, about 2,500 lines removed):
+  - Screens removed: Scrapers › Source profiles (with "Test fetch one page"), the one-off run builder (could still start old Layer 2 batch runs; last run 29 Sep), Layer 2 workload defaults, Layer 2 automation, Dispatcher tuning, the "Current Layer 2 wave" panel, the Layer 3 course-page pattern-request panel, the Scholarship runtime settings panel (old scope jobs; it also held the only reconcile control for that old pipeline's verified detail records, unused since August), and dead launcher code.
+  - Providers › Onboarding now explains that new providers are onboarded through the guided Adapter builder, with a button to open it (PIM Admin and above).
+  - Kept: Refresh schedules (Layer 1 still raises refresh requests: 32 in the last 7 days), the provider registry and keys.
+  - 11 edge functions retired (source removed, on the RETIRED list, deleted from the live project by workflow run 37874088072): layer2-extract, layer2-course-fact-extract, layer3-interpret, layer2-v2-diagnostic, layer2-sync-control, layer2-config-control, layer2-acquire, layer2-batch-runner, layer2-scholarship-extract-v2, scholarship-scope-job-execute, scholarship-runtime-control. Checked live first: no active cron or function chain reaches them; the last queued call to any old Layer 2 function was 24 Aug 2026. Live and git now hold the same 104 functions.
+  - Dead CI workflows removed (cf-245-deployed, cf093-uq-corrective-acceptance, cf093-uq-acceptance-dispatcher, cf-093-targeted, cf093-fresh-reconstruction); pim-build, deployed-uat and scheduled-runtime-health-contract trimmed; stray root copy of a migration removed; 11 tests that covered only removed screens retired, others trimmed; batch 2 contract tests added.
+  - Platform guide updated: the old pipeline's jobs, screens and workers were removed on 9 Oct (not paused); Layer 2 actions now describe Adapters and the guided builder.
+  - Verification: local suite 475 passed; build, UI token check and CI (build-and-smoke, release-history-contract, scheduled-runtime-health-contract, Workers build) pass.
+  - Left for a later batch (SQL editor, as they drop or delete): the old database functions behind the removed screens and the batch-runner dispatch chain; run-token rows for the 4 deleted functions that had them; 8 dormant v2 Layer 2 functions reachable only from that old chain.
+- Phase 3 round 2 (Pilot PR #425, squash 1910fbd4; migration 20261008005500, md5-guarded, no deletes): the connector cancelled it at the approval prompt; the Platform Admin pasted it in the SQL editor at 14:02. History row normalised from Windows line endings; history md5 c8cd189c… matches the file. Round 2 uses Xiaomi MiMo v2.6 Pro as the single pinned adapter model for intakes, English and tuition, for the shadow run only (no adapter's own model changed); same contracts, checks and retire rule; round 1 kept and reported beside it; nothing admitted. Extra rounds fired to expedite.
+- First round 2 reads (14:10): 119 done, 0 errors; about 15 seconds a read. Early: English 18 of 18 agree, found as often as Layer 3; tuition amounts 18 of 18 agree, but MiMo found a value less often than Layer 3 (45% vs 76%); intake courses in this first slice had no Layer 3 value. Early figures only.
+
+### 9 Oct 2026 (Fri, Melbourne) – Scholarships list columns and pills (v2.15.223, v2.15.224); clean-up batch 3 screens; Phase 3 round 2 results
+
+- Platform Admin (14:12) asked why only 29 scholarships showed as published. Checked live: 419 published (AU 404, NZ 11, CA 2, 2 without a country) in the database, Layer 4 › Publishing, the Scholarships list and the website scholarship feed; nothing was unpublished. The 29 came from a filter on the list; cleared by the Platform Admin.
+- Scholarships list (Platform Admin: "fluid columns, order on each column heading"; then "modern and more readable and appealing UI with coloured pills"):
+  - v2.15.223 (Pilot PR #426, squash 5dad347a): one column per fact (Scholarship, Provider, Type, Who it is for, Value, Courses, Closes), every heading sorts (server sort keys already supported); stays published-only with no status column (v2.15.172 decision). DataTable gains an opt-in fit mode for this list: proportional widths inside the screen, no sideways scroll from 1,100 to 1,920 px (checked in a browser); other lists unchanged. The release also carried the clean-up batch 2 screen removals.
+  - v2.15.224 (Pilot PR #427, squash 8a79e788): shared StatusChip pills for the type of scholarship, who it is for, linked courses (green linked, amber none) and the closing date (green open, amber within 30 days, red closed, grey none); names and values wrap to two lines. Follows the Design Reference grid rules (sortable headers, consistent status pills, neutral first column, fluid widths).
+  - Both deployed; deployed checks passed (Workers build, deployed-release-currentness, targeted deployed UAT).
+- Clean-up batch 3 (screens, in v2.15.224): the old country and source onboarding cases panel removed from Providers › Onboarding (no case was ever opened; the onboarding_cases_* RPCs now have no screen); orphaned layer2-operations.css and enrichment-operations.css removed; Live activity wording updated. Kept after a live check: Search pass (used by adapters, last updated 8 Oct), Sample runs (service test tool), Refresh schedules (Layer 1 raises refresh requests). All package.json scripts point at files that exist.
+- Phase 3 round 2 (MiMo v2.6 Pro as the single adapter model; expedited with extra rounds; 0 errors). Round 2 read older Layer 3 courses than round 1, so the rounds are different sets of courses:
+
+| Field | Compared | Agree where both found (R1 → R2) | Merged found vs Layer 3 found (R2) | Cost a read (R1 → R2) | Retire rule |
+|---|---|---|---|---|---|
+| Intakes | 318 | 97.2% → 86.8% (33 of 38) | 12.3% vs 12.3% | US$0.00016 → US$0.00084 | Not met (agreement) |
+| English | 334 | 100% → 100% (52 of 52) | 15.6% vs 16.5% (3 only Layer 3) | US$0.00014 → US$0.00086 | Not met (finds slightly less) |
+| Tuition | 336 | 80% → 100% (124 of 124) | 42% vs 65% (95 only Layer 3) | US$0.00081 → US$0.0032 | Not met (finds less) |
+
+- Reading: the stronger single model removed the tuition fee-year disagreements but did not close the gap in how often a value is found, at four to six times the cost of round 1 and more than Layer 3. No field is eligible to retire; Layer 3 stays as it is. Workbook with a Round 2 tab sent to the Platform Admin (CourseFinder-Phase3-Shadow-Results-9Oct2026-round2.xlsx).
+
+### 9 Oct 2026 (Fri, Melbourne) – Old-system clean-up batch 4 (database); Phase 3 round 3 (one escalation step) results
+
+- Platform Admin decisions (multiple choice): Phase 3 "Try one escalation step"; database clean-up "Prepare it now".
+- Release (Pilot PR #428, squash 177c8839; PR #429, squash 95d8e70f): layer3-model-routing shadow v1.2.0 (the adapter's own model first; MiMo v2.6 Pro asked once only when nothing was found and the page clearly shows the field: the Layer 3 cascade signal for intakes and English, supplied fee candidates for tuition; never after a safety rule). Deployed files (12) identical to main; routing version and binding hashes unchanged. Four dormant edge functions retired and deleted from the live project (workflow run 37883849399): layer2-extract-v2, layer2-course-fact-extract-v2, layer2-scholarship-extract, layer2-scholarship-catalogue-enumerate. Live and git now hold the same 100 functions.
+- Migrations 20261008005600 (clean-up batch 4) and 20261008005700 (round 3), pasted together in one transaction by the Platform Admin at 16:24; the batch 4 trigger post-check was first changed to ignore Windows line endings (PR #429). Verified live: history rows normalised, md5 17423506… and 3bddbb51… match the files; the 15 functions are gone; pipeline.trg_submit_pilot_edge_execution md5 6e6f2d16… (Layer 2 branch removed); run-token rows for retired functions removed; round 3 settings in place.
+  - Batch 4 dropped 15 functions (all 16 md5 guards checked read-only first; no caller, cron, trigger, view, policy or default; no CASCADE): the old Layer 2 operator, scope-batch, refresh, fan-out, qualification, auto-discovery, wave scheduler and stale-wave functions, layer3_enqueue_eligible_layer2_service, the public scholarship_runtime_settings_write wrapper and the four onboarding-case RPCs. No table, data or history dropped.
+  - Kept for a later decision: 11 old functions still reached from admin_read ('scholarship_runtime_uat') or the scheduler workflow bridges (and layer2_background_scope_service, which nothing calls); the provider-asset edge functions (layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse; CF-101/CF-102 logos and assets); layer2-acquire-v2 and layer2-scope-discover-scheduled.
+- Round 3 expedited (claims in bursts timed out on the claim lock; switched to one call per field a minute). Results (0 worker errors; 4 claim timeouts during the burst, retried):
+
+| Field | Compared | Agree where both found | Merged found vs Layer 3 found | Escalated (found after) | Cost a read |
+|---|---|---|---|---|---|
+| Intakes | 300 | 93.8% (15 of 16) | 5.7% vs 6.0% | 87 (6) | US$0.00037 |
+| English | 316 | none to compare | 0% vs 0.3% | 2 (0) | US$0.00016 |
+| Tuition | 308 | 100% (33 of 33) | 14.9% vs 12.7% | 263 (1) | US$0.0059 |
+
+- Caveat: round 3 read the next-oldest Layer 3 courses (newest first, as in rounds 1 and 2), and this slice is mostly pages where Layer 3 itself found little (Layer 3 found 0.3% to 12.7%, against 16% to 78% in rounds 1 and 2), so few values were compared. The summary marks tuition as meeting the rule, but on 33 found courses in an unrepresentative slice, with 263 of 308 reads escalated and a cost about five times Layer 3's. Not treated as a basis to retire anything. 3,936 shadow reads today, US$4.96.
+
+### 9 Oct 2026 (Fri, Melbourne) – Phase 3 closed: Layer 3 keeps intakes, English and tuition
+
+- Platform Admin decision (multiple choice): "Keep Layer 3, stop shadow".
+- Finding across three shadow rounds (5,070 reads on courses Layer 3 had finished; nothing admitted): a single adapter model (Qwen3 30B), a stronger single model (MiMo v2.6 Pro) and the adapter model with one escalation step each agreed with Layer 3 where both found a value, but none found values as often as the Layer 3 cascade at a lower cost. Layer 3 routing, work items and admission stay as they are for these three fields; the Phase 4 retirement of Layer 3 routing does not proceed for them.
+- Shadow run switched off through admin_adapter_shadow (Platform Admin, logged, 16:59). Migration 20261008005800 (Pilot PR #430; applied live through the connector, history md5 14fe6a45… matches the file): the three shadow jobs removed (refused while the run is on); 94 scheduled jobs remain; no open claims. The shadow tables, functions and every read are kept as the record of the comparison.
+- Possible later work, not scheduled: a fair re-run on a random sample if the merged step is revisited (the claim takes the newest finished courses, which cluster by provider).
+
+### 9 Oct 2026 (Fri, Melbourne) – Clean-up batch 5: old scheduler-workflow, scope and scholarship-runtime database chains removed
+
+- Platform Admin decision: "procced with next step" (batch 5, prepared on "Prepare it now").
+- Migration 20261008005900 (Pilot PR #431) pasted by the Platform Admin in the SQL editor (17:31, "Success. No rows returned"); history row normalised for editor line endings, md5 a6d5ce78… matches the file.
+- 31 functions dropped, each md5-checked against live first: the scheduler_workflow preview, run-now, scope-option and gap-count chain; the layer2 operator, profile-batch, background, wave scope and batch-dispatch services; the scholarship runtime UAT, scope acquisition, international detail batch, verified-detail reconcile and scope scheduler tick; pipeline.svc_pilot_invoke_layer2. Live check: none of the 31 remain.
+- admin_read replaced (live md5 4949564e… as expected): operations scholarship_runtime, scholarship_runtime_uat, layer2_profiles, layer2_profile_detail and layer2_provider_routes removed (all five now rejected); scholarships_page, platform_health, jobs_runtime and layer3_queue_status checked as the Platform Admin and still return.
+- Kept because still called: scheduler_workflow_profile_binding_snapshot_v1, scheduler_workflow_queueable_url_allowed_v1, scheduler_workflow_https_host_v1.
+- Still to decide: provider-asset functions (layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse); layer2-acquire-v2 and layer2-scope-discover-scheduled; admin_read helpers no longer called (security.admin_scholarship_runtime_read, admin_layer2_profiles_page, admin_layer2_config_read).
+
+### 9 Oct 2026 (Fri, Melbourne) – v2.15.225: lists fill the page; course and provider panels as pills and cards
+
+- Platform Admin report (17:37, screenshot): the Scholarships list did not fill the page, Value, Courses and Closes were off screen, and columns could not be resized; course and provider panels carried too much evidence and regulatory text. Asked for a consolidated card view with coloured pills, standard across the app.
+- Cause: one scholarship with a long nationality list rendered as a single pill that could not wrap, stretching "Who it is for" and pushing the other columns off screen.
+- Pilot PR #432 (squash 3b9724d), UI v2.15.225 / package 0.1.152:
+  - every list: fixed layout at full width; drag a heading's edge to resize (double-click resets; widths kept in that browser); long nationality lists show two names and a count;
+  - course, provider and other record panels: coloured pills (level, field, delivery, duration, CRICOS code, publication) and fact cards (tuition used, registered cost, intakes, English, campuses, courses, scholarships, contacts, last checked) that reflow from one to four columns; editable values shown as cards with short Automated / Entered by hand pills;
+  - removed from the panels: regulatory facts, evidence list, operational state, arrange sections, raw facts and identifier/evidence/registration dumps, the logo hint line; related insights and corrections moved to a closed "More" section. Evidence still opens from the panel header.
+- Checks: new contract cf-247-ui-standard-contract (5); full chromium-desktop suite 485 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed (probes the live assets for v2.15.225) all passed.
+- No database change.
+
+### 9 Oct 2026 (Fri, Melbourne) – v2.15.226 slim provider read; clean-up batch 6
+
+- Platform Admin decisions (multiple choice, 17:55): "Slim the provider read"; batch 6 "Check usage, then retire"; UI rollout "Every page, in stages".
+- Slim provider read: migration 20261009006000 (Pilot PR #433, squash 1d2a72c; applied live through the connector, history md5 ea90ee52… matches the file; admin_read guard 4949564e…, post-check c4e339a7…). provider_detail no longer returns course, evidence, source and history lists or the scholarship, ranking and logo context; new provider_insights operation, loaded only when "More about this provider" is opened. RMIT: about 385 KB to 4.4 KB. UI v2.15.226 / package 0.1.153; full suite 486 passed; Workers build, Deployed UAT and Release Currentness Deployed passed.
+- Batch 6 usage check (read-only, live): no cron job, no src or other edge-function caller, every database caller inside the set, no call in the last 24 h of edge logs or in the request logs; last queued call layer2-acquire-v2 on 24 Aug 2026.
+- Batch 6: migration 20261009006100 (Pilot PR #434, squash 2b432ef) pasted by the Platform Admin (19:17, "Success. No rows returned"); history row normalised, md5 1601c229… matches the file. 19 functions dropped behind md5 guards (no CASCADE): provider page fan-out and logo promote apply, old acquisition invoke and shared-fetch register, the discovery and scope dispatch chain, the profile binding snapshot, and the scholarship runtime / Layer 2 profiles / Layer 2 config admin read helpers. 5 run-token rows removed. Live check: none remain; 94 cron jobs unchanged.
+- Edge functions retired (source removed, on the retired list, deleted from the live project by the deploy workflow 08:18 UTC; live list confirmed): layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse, layer2-acquire-v2, layer2-scope-discover-scheduled. Logo upload and display (provider-asset-upload, provider-asset-access) unchanged.
+- Kept for a later decision: layer2_provider_attempt_start and the two URL helpers (still referenced by layer2-scale-qualify-scheduled, which also looks unused).
+
+### 9 Oct 2026 (Fri, Melbourne) – v2.15.227: same look on every page, stage 1
+
+- Platform Admin decision (multiple choice, 17:55): "Every page, in stages". Stage 1: Dashboard, Layer 3, Layer 4 review, Scheduled jobs, Evidence. Stage 2 (Layer 1 register, Layer 2, Coverage, Sources, Platform health) and stage 3 (Rankings, Reference data, Settings, Models and services, remaining admin pages) to follow.
+- Pilot PR #435 (squash 342da4b), UI v2.15.227 / package 0.1.154:
+  - every table on every page resizes like the catalogue lists (one shared helper started by the app shell; widths remembered per page and table in that browser; double-click resets);
+  - plain dropdowns and input boxes share one style app-wide;
+  - Evidence: the repeated heading block replaced by one slim line with the count and Refresh; Scheduled jobs › Jobs: plain wording;
+  - Layer 4 review: More button matches the others; Dashboard: the four tiles line up.
+- Checks: new contract cf-247-ui-standard-stage1 (3); full chromium-desktop suite 478 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed passed. No database change.
+
+### 9 Oct 2026 (Fri, Melbourne) – Clean-up batch 7 prepared; Reset database removed; v2.15.228 and v2.15.229 (UI stage 2)
+
+- Platform Admin decisions (multiple choice): UI stage 2 "Yes, start stage 2"; background functions "Check usage, retire unused" (Canada left alone while parked); capability group "None of these" (keep contact discovery and the model benchmarks); Reset database "Remove button and function".
+- Usage check (live, read-only): every live edge function has its source in the repository. Edge logs read day by day from 30 Sep to 9 Oct 2026, plus cron, src, other functions, database callers and the request logs.
+- Correction to e65: layer2-scope-discover-scheduled was last called on 30 Sep and 1 Oct 2026 (22 calls each day, from a job removed in batch 1), not 24 Aug; e65 relied on 24 hours of logs. It stays retired.
+- Batch 7 (Pilot PR #436, squash 71cc9d6; UI v2.15.228 / package 0.1.155): 8 edge functions retired (source removed, on the retired list): coursefacts-au-qut, coursefacts-au-rmit, coursefacts-au-uq, layer2-scale-qualify-scheduled, layer2-screenshot-backfill-scheduled, layer3-source-pattern-benchmark, layer1-au-completeness, pilot-reset. The Go-live checklist no longer offers Reset database. Migration 20261009006200 (6 functions of the scale-qualification chain, md5-guarded, no CASCADE; 8 run-token rows; guard dry-run passed live) sent to the Platform Admin as a paste file; database apply and the live deletion of the 8 functions are pending the paste.
+- Kept: provider-contact-discover-scheduled, provider-contact-enrich-apollo, layer3-intake-benchmark, layer3-cf245-tuition-benchmark, layer3-contact-benchmark (capabilities); zoho-course-api, website-course-api, wix-course-api (external callers); every Canada function.
+- UI stage 2 (Pilot PR #437, squash 0ffd079; UI v2.15.229 / package 0.1.156): Layer 1 register, Layer 2, Coverage, Sources, Platform health use the shared look; boxed filter selects keep their box (fixes the Sources and Jobs overflow from v2.15.227); Sources and Jobs headers slimmed; plain wording on Layer 1 manual batch runs and alerts. Full suite 481 passed.
+- Deployed UAT after #437 failed on the Layer 1 NZ test: it chose the first NZ source and card, which since 8 Oct (#417) is the NZ scholarship register. Test-only fixes PR #438 and #439 skip the scholarship registers; Deployed UAT then passed (NZQA 415 providers).
+
+### 10 Oct 2026 (Sat, Melbourne) – Clean-up batch 7 applied live
+
+- Migration 20261009006200 pasted by the Platform Admin (10:54, "Success. No rows returned"); history row normalised for editor line endings, md5 048fc6bb… matches the file.
+- Live check: the 6 functions of the old scale-qualification chain are gone (layer2_qualification_continue_service, layer2_qualification_continue_impl, layer2_scale_qualification_dispatch, layer2_provider_attempt_start, scheduler_workflow_queueable_url_allowed_v1, scheduler_workflow_https_host_v1); the 8 run-token rows removed; 94 cron jobs unchanged.
+- Edge functions deleted from the live project by the deploy workflow (23:55 UTC 9 Oct; live list confirmed): coursefacts-au-qut, coursefacts-au-rmit, coursefacts-au-uq, layer2-scale-qualify-scheduled, layer2-screenshot-backfill-scheduled, layer3-source-pattern-benchmark, layer1-au-completeness, pilot-reset.
+- Old-system clean-up of the data-admission programme is complete apart from the Canada functions, which stay while Canada is parked.
+
+### 10 Oct 2026 (Sat, Melbourne) – v2.15.230: same look on every page, stage 3 (rollout complete)
+
+- Stage 3 of the Platform Admin decision "Every page, in stages": Rankings, Reference data, Settings, Models and services, Data model, Scrapers, Go-live checklist, Storage, Users, Provider contacts, Live activity and the provider tabs reviewed by screenshot.
+- Pilot PR #440 (squash 99785c7), UI v2.15.230 / package 0.1.157: Settings rows, the Go-live and Capacity section headers and the environment panels use the standard text sizes; the other stage 3 pages already followed the shared look (tables resize everywhere since v2.15.227).
+- Checks: new contract cf-247-ui-standard-stage3 (3); full chromium-desktop suite 484 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed passed. No database change.
+- The app-wide look-and-feel rollout (v2.15.225 to v2.15.230) is complete.
+
+### 10 Oct 2026 (Sat, Melbourne) – v2.15.231: slim course read; simple logo list
+
+- Platform Admin decisions (multiple choice): course panel "Yes, load insights on More"; Logos tab "Simple logo list"; next "Production readiness review".
+- Migration 20261010006300 (Pilot PR #441, squash 57234ed; applied live through the connector, history md5 7adf4785… matches the file; admin_read guard c4e339a7…, post-check f910ab61…): course_detail no longer returns related insights, ranking context, taxonomy or state summaries; new course_insights operation loaded only when "More about this course" is opened. Live: course_detail about 85 KB to 21.5 KB (insights 54.8 KB on demand). Compare reads rankings through contextual_compare and is unaffected.
+- Providers › Logos & assets is a has-logo / no-logo list with the share that has a logo; the retired logo-finding counts are removed. Logos are added or replaced by clicking the logo in the provider's panel.
+- UI v2.15.231 / package 0.1.158. Checks: cf-247-ui-standard contract (8); full chromium-desktop suite 486 passed; after merge Workers build, Deployed UAT and Release Currentness Deployed passed.
+
+### 10 Oct 2026 (Sat, Melbourne) – Production readiness review (no change made)
+
+- Platform Admin decision (multiple choice): next "Production readiness review". Read-only review of the live project fxcwkweaxjtknorudmwp against git; nothing was changed. Write-up: Claude Doc "CourseFinder Production Readiness Review".
+- Finding: the Pilot is not ready to be copied to Production. No Production project exists; the website deploys from main; database changes are applied by hand, not by CI.
+- Database history: 1,347 live rows against 1,053 repo files (5 duplicated versions). 644 match by name and content; 345 share a name but differ (24 whitespace only); 63 repo files never applied; 356 live rows have no repo file (44 from 15 Sep onwards, including 9 cf247_website_* rows of 8 Oct and zz_probe_function / zz_probe_function2).
+- Live-only code (governance gaps): 22 website_v2_* / website_edge_course_search_v3_1 database functions; edge functions website-course-api (live v3.1) and wix-course-api (live website-search-v2).
+- Edge functions: 87 live, 65 identical to git, 22 differ, 6 in behaviour (the two above; ranking-publisher-import fix never deployed; layer1-au-depth and layer1-au-cricos-facts on an older cf247-register-zip.ts; layer3-intake-benchmark on an older extract.ts). 39 not in the CI map (15 outside Canada, 24 Canada, parked). verify_jwt has no mismatches.
+- Security advisors: 358 INFO RLS without policy (by design, RPC access); 34 WARN mutable search_path; 103 WARN SECURITY DEFINER executable by authenticated, all with role checks. Performance: 106 unindexed foreign keys, 133 unused indexes, 3 tables without a primary key, Auth pool fixed at 10.
+- Size and runtime: database 3.5 GB (1.7 GB on 29 Sep); 94 cron jobs, all pointing at live functions; Postgres 17, ap-south-1.
+- Proposed plan (38–60 hours): 1 capture live-only code; 2 fix behaviour drift; 3 bring deploys under CI; 4 baseline database history; 5 hardening and tidy-up; 6 Production project with a manual promotion gate. Awaiting Platform Admin decisions.
+
+### 10 Oct 2026 (Sat, Melbourne) – Production readiness phases 1 and 2: live-only website code in git; edge drift closed
+
+- Platform Admin decisions (multiple choice): live-only website code "Commit live as-is"; database history "Baseline from live"; Production region "Decide later"; start "Phases 1–2".
+- New read-only workflows (Pilot PRs #442, #443, #444): "Edge drift check" downloads live edge function source and pushes it to a never-merged branch edge-live-snapshot/<run id>; "Database function snapshot" reads live function definitions (SELECT only, Management API) to db-function-snapshot/<run id> with an md5 manifest. Both reuse the project-ref check. Nothing is deployed or changed by either.
+- Phase 1 (Pilot PR #445, squash; no version bump): live website-course-api (v3.1) and wix-course-api (website-search-v2) source committed byte-for-byte (drift check run 38014044472; git blob equals the snapshot). The 22 live-only website database functions are recorded under supabase/live-capture/functions (snapshot run 38014304853); every md5 re-checked live through the connector and matched. They are a record, not migrations; grants and ownership will come with the baseline. ranking-publisher-import added to the CI allow-list (verify_jwt false, as live). New contract cf-247-live-capture-contract (3); full chromium-desktop suite 489 passed; build and release contract pass.
+- Phase 2 diff review: git was the correct side for all four. ranking-publisher-import: manual uploads now recorded as layer1_ranking_etl (as the other 59 ranking jobs), not ranking_import_acquire. layer1-au-depth and layer1-au-cricos-facts: older shared cf247-register-zip.ts differed only in adapterRecords and referenceRecords, which these two do not call. layer3-intake-benchmark: older coverage-sweep/extract.ts differed only in functions it does not use (htmlToText and intakes unchanged).
+- Deployed from main by the CI workflow (run 38014776914): ranking-publisher-import (now v9), layer1-au-depth, layer1-au-cricos-facts, layer3-intake-benchmark. Edge drift check run 38014900629 after deploy: live equals git for all six functions, including shared files (0 differences).
+- The behaviour-drift findings from the readiness review (e71) are closed. Snapshot branches edge-live-snapshot/38014044472, edge-live-snapshot/38014900629 and db-function-snapshot/38014304853 remain (this session cannot delete branches); safe to delete.
+- Next: phase 4 (database baseline from live), then phase 3 (CI map for the remaining 14 non-Canada functions; database changes through CI), 5 and 6.
+
+### 10 Oct 2026 (Sat, Melbourne) – Production readiness phase 4 started: live schema baseline captured
+
+- Platform Admin decisions (multiple choice): baseline "Dump + test project"; old migration files "Move to archive folder" (after the rebuild test passes). The test project create through the connector was cancelled; Platform Admin chose "You create it" (name coursefinder-baseline-test, techM org).
+- New read-only workflow "Database schema dump" (Pilot PR #446): supabase db dump of the confirmed project to a never-merged branch db-schema-dump/<run id>. Run 38015733264: schema.sql 4,455,889 bytes (md5 e267e6a0…), roles.sql 370 bytes (md5 9d2a94b6…); 400 tables and 1,257 functions, equal to live counts (17 application schemas; 5 policies, 104 triggers live).
+- Pilot PR #447 (squash; no version bump): baseline held at supabase/live-capture/baseline with MD5SUMS; new workflow "Database baseline rebuild test" builds an empty project named coursefinder-baseline-test from the baseline, dumps it and pushes dump and push log to db-baseline-rebuild/<run id>. It refuses the Pilot ref, any other project name, or a project with application tables. New contract cf-247-baseline-contract (2); full chromium-desktop suite 491 passed.
+- Not in the baseline, to be handled before Production: row data (including reference and configuration tables), the 94 cron.job schedules, storage buckets, edge function secrets, Auth settings.
+- Waiting on: Platform Admin to create coursefinder-baseline-test and share its ref. Then: run the rebuild test, compare dumps, move the 1,053 migration files to an archive folder, delete the test project.
+- Snapshot branch db-schema-dump/38015733264 remains (this session cannot delete branches).
+
+### 10 Oct 2026 (Sat, Melbourne) – Production readiness phase 4: baseline proven on a test project; old migrations archived
+
+- Test project coursefinder-baseline-test (lcndgqdgtnsfuyysooje, techM, ap-northeast-1, Postgres 17.11) created by Platform Admin, who also granted the CI token's account access to it.
+- Rebuild test fixes (Pilot PRs #448, #449, #450): guard quoting and readable refusals; roles-apply.sql = roles.sql without GRANT SET ON PARAMETER log_min_messages (Supabase-managed; permission denied in run 38027911726).
+- Finding 1 (run 38028086660): every object matched the Pilot, but a new project's default privileges let anon run 640 functions and read 10 tables the Pilot does not expose, and opened service-only functions (for example coursefinder_runtime_automation_key) to authenticated. Fix (Pilot PR #451): apply-preamble.sql removes the postgres role's public-schema defaults while the schema is created; schema.sql's closing lines restore them.
+- The CLI's one-step database reset ran out of shared memory on the test instance (rolled back). Platform Admin pasted a guarded wipe script in the test project; the guard was shown to stop on the Pilot and pass on the test project. Wipe verified: 0 application schemas, only rls_auto_enable in public, 0 history rows.
+- Finding 2 (run 38028894493): the CLI dump omits grant lines for functions with pgvector arguments, so api.query_embedding_cache_put, api.vector_candidates and search.course_candidates_v1 kept EXECUTE for PUBLIC. Fix: apply-postscript.sql (service_role only), applied to the test project through the connector (grants only) and added to the rebuild workflow.
+- Proof (permission-fingerprint.sql, run in both projects): functions 1,257, relations 458 (structure, RLS flags, grants) and policies identical; schema grants identical in effect (private stored as default versus explicit owner-only). Normalised dump: no statement differs except Supabase's own rls_auto_enable, present on every new project.
+- Pilot PR #452 (squash; no version bump): baseline postscript and fingerprint; the 1,053 migration files moved to supabase/migrations-archive (history only); supabase/migrations keeps a README and takes new changes; 358 test references repointed. Full chromium-desktop suite 495 passed; after merge Workers build, Deployed UAT (targeted), build-and-smoke and scheduled-runtime-health-contract passed. Nothing applied to the Pilot.
+- Hardening note for phase 5: the Pilot has the same public-schema defaults, so every new public function is open to anon unless its migration revokes it.
+- Not yet in the baseline: row data (reference and configuration tables), the 94 cron.job schedules, storage buckets, edge function secrets, Auth settings.
+- The test project can now be deleted (Platform Admin). Snapshot branches db-schema-dump/38015733264 and db-baseline-rebuild/* remain (this session cannot delete branches).
+- Next: phase 3 (CI map for the remaining 14 non-Canada functions; database changes through CI, with the baseline recorded as applied on the Pilot), then 5 and 6.
+
+### 10 Oct 2026 (Sat, Melbourne) – Platform Admin bug list (Fixes 1–5, Features 1–7) logged; R1 released as v2.15.232
+
+- Platform Admin raised, with screenshots (Britts College Pty Ltd, CRICOS 04061K): no website found; Layer 1 did not capture phone and email; a course finder address changed by hand still showed Automated; Create adapter did nothing; the Firecrawl target asked for a reason; only the provider's own website or the regulator may be used, never third-party course finders; a Published toggle; Layer 1 handling of deregistered or discontinued providers and courses; review of archived records; a clean-up workflow for manual archive.
+- Logged items and plan (read-only investigation of the live project first):
+
+| ID | Finding (live) | Release |
+|---|---|---|
+| Fix 1 Website | The CRICOS register gave none. The site search accepted higherstudy.com because it shows the CRICOS code. Sites the search finds are never copied to providers.website (309 AU). | R2 |
+| Fix 2 Phone and email | The CRICOS download has no contact columns. The CRICOS website shows the Principal Executive Officer. 0 providers have phone or email. | R3 |
+| Fix 3 Course finder manual | The UI always showed Automated; no lock was written. | R1 |
+| Fix 4 Create adapter | The target only saved a setting. A provider with no website has no domain and was skipped silently (212 providers). | R1 |
+| Fix 5 Reason prompts | The builder asked at every step; Cancel or a short reason did nothing silently. | R1 |
+| Feature 1 Own-site validation | About 192 course finder rows are on aggregators (search.acir 64, higherstudy 46, oneuedu 38, studymelbourne 18 and others). | R2 |
+| Feature 2 Manual course page | A sample had to be a stored page. | R1 |
+| Feature 3 Remove third-party course finders | Hotcourses directory parsing and third_party_directory sources. | R2 |
+| Feature 4 Published toggle | Not enforced anywhere: all 3,101 providers are unpublished yet served. | R4 |
+| Feature 5 Layer 1 departures | Courses are retired to inactive (831). Providers go to needs_review (10). | R5 |
+| Feature 6 Archived review and cascade | No cascade; the search index ignores provider status. | R5 |
+| Feature 7 Manual archive workflow | The button changes one field only. | R5 |
+| Gap A | A course archived by hand stays in search until the next rebuild. | R5 |
+| Gap B | A CRICOS evidence row points at a missing zip record. | R2 |
+
+- Platform Admin decisions (multiple choice):
+  - Contacts: "Both, kept separate". Public phone and email come from the provider's own site; the CRICOS Principal Executive Officer is held as an internal regulatory contact and never published.
+  - Unpublish: "Hide and pause work".
+  - Archive: "New 'archived' status" with a reason.
+  - Hotcourses: "Keep for logos only".
+- R1 = v2.15.232 / 0.1.159 (Pilot PR #453, squash). Migration 20261010006400: the connector apply was cancelled; Platform Admin chose "I'll paste it" and pasted it in one transaction with its history row ("Success. No rows returned").
+  - Verified live: history md5 bac1fd50… equals the file.
+  - Function md5s match the post-check: admin_provider_edit 21b1ff38…, svc_coverage_site_record 153b3bd4…, admin_firecrawl_write d4a359d6…, admin_adapter_builder 08bcda47….
+  - Fix 3: a course finder address entered by hand is locked and marked manual; the site search keeps it; the row shows Entered by hand.
+  - Fix 4: builder step 1 asks for the provider's own website when none is recorded, and otherwise starts a find_page run for that provider only and reports it.
+  - Fix 5: no reason prompts in the builder; a standard log line is written instead.
+  - Feature 2: add_page saves a course page entered by hand (provider's own website only) as the official page and a sample.
+- Checks: new contract cf-247-r1-builder-contract (5); full chromium-desktop suite 500 passed. After merge: Workers build, Deployed UAT (targeted), deployed-release-currentness, build-and-smoke and release-history-contract all passed.
+- Next: R2 (own-site validation; remove third-party course finders; copy validated own sites to Website).
+
+### 10 Oct 2026 (Sat, Melbourne) – R2 released as v2.15.233: only the provider's own website, the regulator, or a value entered by hand
+
+- Scope: Fix 1, Feature 1 and Feature 3 from the 10 Oct bug list (Platform Admin decision: Hotcourses kept for logos only). Pilot PR #455, squash; package 0.1.160.
+- New read-only workflow "Database migration test" (Pilot PR #454). It applies migration files to the throwaway coursefinder-baseline-test project and refuses the Pilot or any other name. It was not used this time because Platform Admin had already deleted the test project. The R2 SQL was checked offline with pglast and against the Pilot with read-only queries instead.
+- Migration 20261010006500, applied by Platform Admin paste:
+  - The first paste ran over 2 minutes (a per-row function over every evidence row). It rolled back when the SQL editor connection dropped. Verified live: no history row, no new functions, data unchanged.
+  - The data steps were rewritten set-based (the third-party list is read once into a temporary table; only evidence behind active facts is checked). The second paste returned "Success. No rows returned".
+  - Verified live: history md5 10500cc7… equals the file. Function md5s match the post-check: refused_host 348b59aa…, svc_coverage_site_record db8dd065…, svc_site_hint_next a15edf55…, admin_provider_edit 88d604e0…, admin_course_edit a8acab9d…, admin_provider_edit_read fd6fec4d….
+- Effect (live counts before → after):
+  - Reference sources 47 → 59: 12 course directories added as third_party_directory with uses not_provider_site and not_course_page.
+  - Course finders on a third-party site cleared and sent back to the website search: no_website 26 → 217.
+  - Course pages on a third-party site refused: refused_host 113 → 285.
+  - Withdrawn (locked values kept): active intakes 29,760 → 29,651; active English requirements 23,510 → 23,488; active links 29,492 → 29,328.
+  - An own site found by the search became the provider Website: providers with a website 1,630 → 1,726.
+  - Search rebuild requested.
+- Britts College: the higherstudy.com course finder was cleared and the provider is back in the website search. Verdict check: higherstudy.com = third_party; brittscollege.edu.au = own.
+- New helpers: security.site_host_v1, security.third_party_host_v1, security.provider_site_verdict_v1.
+- Third-party sites are now refused as a website, course finder or official course page, whether found by automation or entered by hand.
+- Directory site hints (Hotcourses, univ.cc) are retired.
+- The provider panel shows whose the Website and Course finder address are.
+- coverage-sweep worker v0.17.32 deployed by CI (run 38040777085). An AU site needs the CRICOS code on its home page, or on a deeper page of an address that fits the name. An edge drift check after the deploy found live identical to git; the shared extract.ts is unchanged.
+- Checks: new contract cf-247-r2-own-sites-contract (3). Full chromium-desktop suite 502 passed (plus a re-run after a test-scope fix). After merge, Workers build, deploy, Deployed UAT (targeted), deployed-release-currentness, release-history-contract and build-and-smoke all passed.
+- Open for review: 40 course finder addresses are "not confirmed" (own-looking abbreviations, plus technologycourses.com.au, educonnect.com.au and learn.bom.gov.au). They are kept but never copied to Website.
+- Next: R3 (phone and email from the provider's own site; CRICOS Principal Executive Officer as an internal regulatory contact).
+
+### 10 Oct 2026 (Sat, Melbourne) – R3 released as v2.15.234 and fixed in v2.15.235: provider phone and email; CRICOS contact held internally
+
+- Scope: Fix 2. Platform Admin decisions (multiple choice): "Both, kept separate"; public contact "Fill automatically"; CRICOS contacts "All at once".
+- R3, v2.15.234 / 0.1.161 (Pilot PR #456, squash).
+  - coverage-sweep v0.17.33 deployed by CI (run 38041938217).
+  - Migration 20261010006600 pasted by Platform Admin. The editor showed cron job 147, i.e. the schedule was created.
+  - Verified live: history md5 11695b59… equals the file; admin_provider_edit_read 3306e121… matches the post-check.
+  - New tables: pipeline.provider_contact_points and pipeline.provider_contact_checks (RLS on, no client access).
+  - New service-only functions svc_provider_contact_next / _record and svc_cricos_peo_next / _record.
+  - New schedules: provider-contact-page (job 146) and cricos-peo (job 147), both in the automation catalogue.
+  - Provider panel: shows where the public contact came from, and the CRICOS contact to PIM Operators and above, marked "Internal only · never published". No consumer API reads these tables.
+- Live check after 5 minutes found two problems:
+  - Public contacts: 13 found, but several were not enquiry mailboxes (security@rmit, media@adelaide, feedback@auckland, campus.assist@sydney).
+  - CRICOS: 4 found with correct names; 8 not found because the Firecrawl search returned no CRICOS page, at 2 credits each.
+  - Both jobs were paused (cron.alter_job 146 and 147 set inactive).
+- v2.15.235 / 0.1.162 (Pilot PR #457, squash).
+  - coverage-sweep v0.17.34 deployed by CI (run 38043088712).
+  - Public contacts: media, security, feedback, careers, IT and similar mailboxes are skipped; the main contact page is read first; mobile numbers rank lower.
+  - CRICOS: the page is read directly by provider code (InstitutionDetails.aspx?ProviderCode=…), with a Firecrawl scrape only as fallback and no search.
+  - Migration 20261010006700 pasted by Platform Admin. Verified: history md5 abb78982…; svc_provider_contact_record f6dba8fb…; both schedules active.
+  - The record function now replaces or clears a value the job wrote earlier; values entered by hand stay locked. Checks re-queued.
+- Result over the 6 minutes after the fix:
+  - CRICOS: 14 of 14 found with correct names and titles (for example Griffith: Liz Burd, Deputy Vice Chancellor (Education)).
+  - Public contacts: 13 found, 11 not found; mostly enquiry addresses and main lines.
+  - Two weaker picks remain (Victoria University: a library-service address on another domain; Murdoch: a vet hospital mailbox). Next worker fix: compare registrable domains, and skip library, vet and similar mailboxes. Those providers will be re-read.
+- Checks: contract cf-247-r3-contacts-contract (4); full chromium-desktop suite 506, then 507, passed. After each merge: build, release-history and Workers build passed.
+- Next: R4 (Published toggle as a real gate; unpublished providers hidden and their work paused).
+
+### 10 Oct 2026 (Sat, Melbourne) – R4 part 1 released as v2.15.236: Published switch; publication becomes a real gate
+
+- Scope: Feature 4 (Platform Admin decision: "Hide and pause work"). This is part 1, the gate and the switch; pausing related work follows in part 2. Pilot PR #458, squash; package 0.1.163.
+- Before: publication was not enforced. All 3,101 providers were marked unpublished, yet all were served to Wix, Zoho and the website.
+- Migration 20261010006800, pasted by Platform Admin before the UI merged ("Success. No rows returned").
+  - Verified live: history md5 d98b4dde… equals the file.
+  - Post-check md5s: refresh_course_base_v3 bbb65ede…, website_v2_scholarships f0a9139a…, website_v2_scholarship 4168bdab…, zoho_edge_scholarships_v1 c1ba4d2d…, website_v2_rankings 9a9e9598…, website_v2_course_item 6f354729…, website_v2_providers 9e6674ed….
+  - New view security.provider_hidden_v1: providers not published or not active.
+  - The Layer 4 search-block views (providers, courses, campuses, scholarships), which every consumer API reads, now include hidden providers with their courses, campuses and scholarships.
+  - Consumer paths that did not read the block views now do: the course index build, the website/Wix provider list, single course, scholarships (list and one), rankings, Zoho scholarships.
+  - Every active provider is published (3,101 published / active). New providers start published (column default and an insert trigger).
+  - New admin_provider_publish: PIM Operator and above, no reason asked, logged in manual_edit_log, triggers a search rebuild; refuses to publish an archived provider.
+  - Effect at apply: 0 providers hidden; 37,300 search documents unchanged.
+- UI: Published switch in the provider list. Unpublished rows are greyed. The switch does not open the provider.
+- Checks: new contract cf-247-r4-published-contract (3, including mocked switch tests); full chromium-desktop suite 510 passed. After merge: Workers build, build-and-smoke, Deployed UAT (targeted), deployed-release-currentness and release-history-contract all passed.
+- Next: R4 part 2, pausing an unpublished or archived provider's background work: page finding, adapters, Firecrawl, contact jobs and the site search.
+
+### 10 Oct 2026 (Sat, Melbourne) – R4 part 2 released as v2.15.237: background work paused for unpublished providers; contact email fix
+
+- Scope: Feature 4, part 2 (Platform Admin decision: "Hide and pause work"). Pilot PR #459, squash 3a231789; package 0.1.164.
+- Design choice (stated to the Platform Admin): automatic background work pauses for a hidden provider. Work a Platform Admin starts by hand still runs (adapter builder, Firecrawl runs, adapter apply, edits), so a record can be fixed before it is published again.
+- Migration 20261010006900, pasted by the Platform Admin ("Success. No rows returned").
+  - Verified live: history md5 184c978d… equals the file.
+  - The 20 functions it replaced were checked first against the live snapshot (db-function-snapshot run 38051743191).
+  - Each of the 20 automatic pickers now skips providers in security.provider_hidden_v1 (not published or not active). Post-check md5s, all as intended:
+    - svc_coverage_discovery_next 7d6ae2fa…, svc_coverage_site_next 3858a8ab…, svc_coverage_read_next 57d2b087…, svc_coverage_ai_match_next 101f769a…
+    - svc_course_link_search_next 1359e0d8…, svc_site_hint_next 48424915…, svc_provider_contact_next a3ba9860…, svc_cricos_peo_next 448741d9…
+    - svc_provider_facts_read_next bcc11812…, svc_provider_facts_search_next ad0e0802…
+    - svc_scholarship_candidate_next 2f3ccd5c…, svc_scholarship_discover_next cf7cd3c0…, svc_scholarship_read_next e2d5ab79…, svc_scholarship_search_next 3e5ae07b…
+    - svc_coverage_tuition_handoff_next e93adb48…, svc_coverage_reextract_next 0ddd2a75…, svc_coverage_reidentify_next 3e8689f9…
+    - coverage_bind_tick_v1 ea26c91e…, course_link_search_tick_v1 9d53e299… (send and re-queue steps), adapter_overwrite_v1 eeeae4a7…
+  - Work already in flight finishes; everything resumes when the provider is published again. Not gated (hand-started): svc_fc_run_next, svc_adapter_apply_next/continue, svc_adapter_preview_next, firecrawl_backlog_v1, firecrawl_targets_v1.
+  - Effect at apply: 0 providers hidden, so nothing paused yet.
+  - Data fix: public contact emails set by the contact job that the new rules reject were cleared, unless locked by hand, and those providers were re-queued: 9 providers (VU ×2, Murdoch, RMIT, Adelaide, Auckland, Newcastle, Sunshine Coast, NZIE). One search refresh was requested.
+- Worker coverage-sweep v0.17.35 deployed (Deploy edge functions run 38056200161):
+  - A contact email must be on the provider's own domain. The domain's name, after its public suffix, must match the site's name, so vu.libanswers.com is refused for vu.edu.au.
+  - Library, vet hospital, clinic, ethics, philanthropy, partnership, helpdesk, facilities and research mailboxes are skipped.
+  - First re-reads (v0.17.35): Murdoch studentcentre@murdoch.edu.au; Newcastle international-enquiries@newcastle.edu.au; VU, Adelaide and Auckland phone only, no email (better than a wrong one); Sunshine Coast information@unisc.edu.au (printed on its own site).
+  - Open quality item: RMIT now gives safercommunity@rmit.edu.au, which is not an enquiry mailbox. To fix with R5 or by hand.
+- UI: the Published switch tooltip and the Platform guide (Providers) say switching off also pauses background work.
+- Checks:
+  - New contract cf-247-r4b-pause-contract (3). Version pins in the r3 contacts and toolsets contracts updated. Full chromium-desktop suite passed (511 plus the 2 updated pins).
+  - After merge: Workers build, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Next: R5. A new 'archived' lifecycle status with a reason; Layer 1 departures auto-archive a provider when all its courses have gone; cascade to related work; an Archived review screen with restore; a manual archive clean-up checklist with preview; search refresh when a course is archived.
+
+### 11 Oct 2026 (Sun, Melbourne) – R5 released as v2.15.238: archived status, clean-up workflow and Archived review screen
+
+- Scope: Features 5, 6 and 7 (Platform Admin decision: "New 'archived' status"). Pilot PR #460, squash 7f064b59; package 0.1.165.
+- Found before building:
+  - A provider departure review already existed (Layer 1 retires courses that leave the register and queues the provider). Providers stayed published until reviewed; 10 were waiting, all published with no active courses, including UniSA and the University of Adelaide (merged into Adelaide University).
+  - The old Archive button only set the status to inactive.
+  - Of 6,502 non-active courses, 5,615 are Canadian courses outside the import scope (Canada parked).
+- Design choices, stated to the Platform Admin:
+  - Courses keep their existing statuses and are shown on the Archived screen with why; the new 'archived' status applies to providers only.
+  - Archive and restore stay at PIM Operator and above.
+  - Hand-started work is unaffected (as in v2.15.237).
+- Migration 20261010007000, pasted by the Platform Admin ("Success. No rows returned").
+  - Verified live: history md5 7db541ac… equals the file.
+  - Post-check md5s: admin_provider_edit bc9e961a…, admin_provider_edit_read c09d51ed…, layer4_provider_departure_decide_v1 92051857…, admin_course_edit 3fdf8862….
+  - pipeline.provider_archives: one row per archive (source, reason, earlier status and publication, what was switched off), closed at restore.
+  - Archive clean-up (security.provider_archive_apply_v1): status 'archived' and unpublished; adapter and course link search switched off; waiting Layer 4 reviews superseded; logged; search rebuilt. A status locked by hand is kept when the archive comes from Layer 1.
+  - Restore (security.provider_restore_v1) switches back on exactly what was switched off and reopens those reviews.
+  - Checklist (preview) through admin_provider_archive(p_preview); admin_provider_restore.
+  - Layer 1 triggers: a new provider departure archives the provider when it has no active courses. A course coming back restores a provider archived by Layer 1. A failure never stops the Layer 1 run.
+  - The departure review's closure or merger now archives through the same workflow.
+  - admin_archive_read: archived providers and non-active courses with why (left the register, archived by hand, outside the import scope (Layer 1), suspended), plus departures waiting.
+  - A course archived or restored by hand requests a search rebuild (gap A).
+  - security.layer4_search_blocked_courses now includes every non-active course (partial index courses_not_active_idx), so no consumer API serves one by id.
+  - Effect at apply: the 10 waiting providers archived (source layer1_departure, unpublished); 10 providers hidden; 6,502 courses blocked; 10 search refresh requests. The 10 departures still wait in Layer 4 to record a closure or merger.
+- UI:
+  - Archive checklist in the provider panel, with a reason chosen from a short list.
+  - New tab Providers › Archived, with Restore.
+  - The Providers and Courses lists show active records unless another Status is chosen ("Any status" shows all).
+  - Platform guide (Providers) updated.
+- Checks:
+  - New contract cf-247-r5-archived-contract (4, including mocked screen tests). Full chromium-desktop suite 517 passed.
+  - After merge: Workers build, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- The Platform Admin bug list of 10 Oct 2026 is now complete (R1 to R5).
+- Open items:
+  - RMIT's public email is a reporting mailbox (safercommunity@); set it by hand or add it to the skip list.
+  - Record the UniSA and University of Adelaide departures as merged into Adelaide University in Layer 4.
+
+### 11 Oct 2026 (Sun, Melbourne) – Scholarship completeness pass (v2.15.239 to v2.15.241), StudySearch rename, overnight follow-ups
+- Platform Admin request (11 Oct 2026): show how scholarships are found and checked (Curtin's page listed 7 but only 1 was published), keep the 27-provider watch list, bulk restore for archived records, and rename CourseFinder to StudySearch (repository names stay until production).
+- Platform Admin decisions:
+
+| Question | Decision |
+|---|---|
+| Order | Scholarship fixes first, rename last |
+| Pages naming no level or course | Link all international courses, marked as such |
+| Consumer API default | Published only, always |
+| Publishing | Auto-publish, list for morning review |
+| Applying migrations | Applied overnight through the new Database apply migration workflow; anything that drops or deletes is pasted by the Platform Admin |
+
+- New workflow Database apply migration (PR #461): applies one migration file and its history row in one transaction, refuses a version already recorded or any top-level drop, delete or truncate, then checks that the history md5 equals the file.
+- Releases and migrations (each applied through the workflow; the history md5 matched the file each time):
+
+| Release / PR | Migration | What |
+|---|---|---|
+| v2.15.239 (#462) | 20261011007100 | Published only in every website, Wix and Zoho scholarship read |
+| v2.15.239 (#462) | 20261011007200 | An unmatched faculty no longer blocks course links. A page naming no level or field links to all courses open to international students (basis sweep_level_field_scope). Edition check added to publishability. Auto-publish setting and job scholarship-auto-publish ('29 * * * *'). Re-read queued; read_limit raised to 40 |
+| v2.15.240 (#463) | 20261011007300 | Listing pages, coverage checks and the 27-provider watch list; job scholarship-listing ('7-59/15 * * * *'); bulk restore (admin_archive_restore_bulk) |
+| #464 | 20261011007400–7600 | Auto-publish publishes directly (no consumer snapshot); edition ranking uses the leading term or year, and past years rank last |
+| #465, #467 | 20261011007800 | Listing parser filters (worker v0.17.38); headings take the first provider link (v0.17.39); "similar name" match |
+| v2.15.241 (#466) | 20261011007700 | CourseFinder renamed StudySearch in the UI, guide and 82 function bodies (none left; verified) |
+| #468 | 20261011007900 | Publishability edition check precomputed (50 s to 3.6 s) |
+| #469 | 20261011008000, 8100 | Platform notices read the job history once and rank only failed jobs (12.6 s to 0.86 s); live md5 a3f2cace… |
+
+- UI:
+  - New tab Scholarships › Coverage: how scholarships are found and checked, the listing pages per provider, the watch list and every setting, with full control and nothing else added to the screen.
+  - Providers › Archived: tick several and Restore.
+- Live results (11 Oct 2026, 04:10 Melbourne):
+  - 451 scholarships published (was 419); 1,032 unpublished; 47 withdrawn.
+  - Curtin: 7 published. Its listing page now reads 9 items (5 before the similar-name match).
+  - Listing pages: 14 read, 4 failed, 43 suggested.
+  - Pages: 1,407 read; 4 gone, 3 blocked, 2 too thin, 5 name mismatch.
+- Checks:
+  - New contracts cf-247-s1-scholarships, cf-247-s3-coverage and cf-247-s6-studysearch; full chromium-desktop suite 527 passed.
+  - Deployed UAT (targeted) failed on 5xx from admin_platform_notices_read and admin_waiting_read (8-second limit). Fixed by #468 and #469, then passed (run 38070470245).
+- Open items:
+  - Morning review of what auto-publish published.
+  - Curtin Global Scholars needs "International" confirmed.
+  - UTas, Lincoln and Otago listing pages return 403; Le Cordon Bleu fetch fails. A Firecrawl fallback is possible later.
+  - read_limit is 40 and can be set back.
+  - Deferred to production: reader user agents, cron job names, web address, Wix and Zoho contract names (still CourseFinder).
+  - svc_provider_contact_next timed out once. layer3-fact-admit still fails on the consumer snapshot timeout (existing issue).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.242: scholarships read through the scraper first
+- Platform Admin request (11 Oct 2026, 09:05): "Always use scrapper for Scholarships ... use the evidence read like courses to read scholarship asap. This can be controlled via ui."
+- What changed:
+  - Scholarship pages and provider listing pages are read through Firecrawl first, as the rendered page (rawHtml, as course pages with a view are read). This applies to every provider, within the scholarship credit cap.
+  - robots.txt is still respected. A direct read is the fallback when the scraper cannot be used or returns nothing.
+  - Evidence is kept as before (gzipped page, evidence_artifacts, capture versions).
+  - New Layer 2 setting "Read scholarship pages through the scraper" (read_via_scraper, on by default), shown as an on/off switch on Scholarships › Coverage › Settings and jobs. On/off scholarship settings now show as switches.
+  - Discovery's candidate screening still reads directly, with Firecrawl only for pages that refuse, to keep credit use bounded.
+- Migration 20261011008200, applied through Database apply migration (history md5 75af1cfc… equals the file):
+  - adds the setting;
+  - public.svc_scholarship_fc_budget passes it to the worker (live md5 2faa5eac… → 5a58bfd5…, verified);
+  - scholarship credit cap 6,000 → 12,000 (about 2,000 were left; one full pass is about 1,600; the Firecrawl plan had about 448,000 left);
+  - every active scholarship page (1,404) and active listing page (18) queued to be read again now.
+- Worker coverage-sweep:
+  - v0.17.40: reads through the scraper first.
+  - v0.17.41: a record that hits the 8-second limit is retried once and no longer fails the whole run.
+  - v0.17.42: pages are read six at a time but recorded at most two at a time. Each record rebuilds course links (1–2 s), and six at once pushed some past the limit: 13 of 40 failed before the change, 40 of 40 read after.
+- Live after deploy (first 30 minutes): 157 pages read through the scraper, 11 by the direct fallback, 1 blocked, 1 name mismatch. Listing pages read through the scraper (6 in the first run). 1,249 still to read, at about 480 an hour. 458 scholarships published.
+- Checks:
+  - New contract cf-247-s7-scholarship-scraper (3); the toolsets contract was updated for the any-provider scraper use. Full chromium-desktop suite: 528 passed (one UI sweep test was flaky and passed on re-run).
+  - PR #470 merged. Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness all passed.
+- Open items:
+  - The record step's course-link rebuild (security.scholarship_sweep_apply_v1, 1–2 s per scholarship) is worth speeding up later.
+  - Credit use will be about one credit per page read; the cap and the switch are on the Coverage screen.
+
+### 11 Oct 2026 (Sun, Melbourne) – Scholarships list timeout fixed; v2.15.243: scholarship evidence journey, scraper only, Study Australia retired
+- Platform Admin request (11 Oct 2026, 11:03, with a screenshot of the timeout):
+  - scholarships must always be read through the scraper, with no direct read or fallback, because university pages sit behind gatekeepers;
+  - course association must be read from the evidence; a scholarship without a course is fine;
+  - start date and application dates must be covered;
+  - the whole extraction and evidence journey must be visible in the UI;
+  - old scholarship screens and scripts must be cleaned up;
+  - there must be no Study Australia comparison or fields (the platform is global);
+  - the Scholarships screen times out when returning to it.
+- Platform Admin decisions:
+
+| Question | Decision |
+|---|---|
+| Scraper cannot read a page | Wait and retry; robots.txt not consulted for scholarship pages |
+| Page names no course, level or field | No course links (link-to-all rule removed); still publishable |
+| Dates | Applications open, applications close (with rounds), study start, each with the page's words |
+| Study Australia | Removed as comparison and as source |
+| Discovery candidates | Through the scraper, no daily cap (scholarship credit cap 60,000) |
+| Existing Study Australia records | Keep those with their own provider page read and name-checked; set the rest inactive |
+
+- Bug fix (PR #471, migration 20261011008300): the Scholarships list worked out publishability for every scholarship before choosing the page's rows (5.5–5.8 s). It now takes 0.69 s live; Curtin search returns the same 8 published.
+- v2.15.243 (PR #472). Migrations, all applied through Database apply migration with history md5 matching each file:
+
+| Migration | What |
+|---|---|
+| 20261011008400 | Scraper-only statuses (waiting_scraper, retried within the hour); dates and study start columns; course_mappings.proof; course links from evidence with proof, search refreshed only when links change (about 50 ms instead of 1–2 s); publishing checks shared and runnable for one scholarship; "no linked course" no longer holds; Study Australia exemptions removed; public API reference_code null; 5 legacy jobs unscheduled; register records: 91 kept as provider-page records (identifiers inactive), 115 with no provider page set inactive (not deleted); register candidates rejected; cap 60,000; everything queued to be read again |
+| 20261011008500 | Courses the page excludes are never linked |
+| 20261011008600 | Pages read by reader v0.7.0 read again |
+| 20261011008700 | Scholarship register sources taken off Layer 1 |
+| 20261011008800 | Long course titles matched by containment (Adelaide Defence & Space MBA); v0.7.0/v0.7.1 pages read again |
+
+- Worker coverage-sweep v0.18.2, reader v0.7.2:
+  - scholarship pages, listing pages, discovery candidates and site maps are read through Firecrawl only;
+  - the register search phase is retired;
+  - dates and study start are read with their words, with numeric dates in the provider country's day/month order;
+  - named and excluded courses are read, and course titles end at bullets.
+- Retired: edge functions scholarships-au-etl and scholarship-ai-control (removed from the repository and deleted through the deploy workflow's retired list; confirmed absent live). Layer 1 register runs have no reader.
+- UI:
+  - Scholarship record: Applications open, Applications close (rounds) and Study start rows with quotes; course links with proof and exclusions; an Evidence & extraction journey (provider page, scraper read and credits, saved copy, name check, facts with words, what changed, publishing checks).
+  - Removed: Study Australia comparison, Coverage Study Australia counts, Layer 1 scholarship sources, Layer 3 › Scholarships (AI runs on the retired candidate table), the scope-rules overlay and the source comparison component.
+  - Retired jobs and the always-on scraper setting are no longer listed.
+- Live results (11 Oct 2026, about 14:30 Melbourne):
+  - 316 pages read through the scraper in the first 40 minutes.
+  - Of 239 pages on reader v0.7.1: 202 linked by levels and fields, 28 by courses named, 9 with no course link, 102 with a closing date.
+  - 482 scholarships published.
+  - About 1,390 pages queued to be read again, at about 480 an hour.
+- Checks:
+  - New contract cf-247-s9 (6) and cf-247-s8 (1). Older contracts updated for the new worker and reader versions and the retired screens.
+  - Full chromium-desktop suite: 526 passed.
+  - After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Paste file for the Platform Admin (optional clean-up): removes the five retired job rows and the read_via_scraper setting row. Nothing else is deleted.
+- Open items:
+  - Website and Zoho APIs do not yet carry applications open or study start.
+  - Course titles named on a page but not found among the provider's courses are shown on the record for a person to check.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.244: on-demand scholarship tasks, Task manager › Running now, scholarship mechanism document
+- Platform Admin request (11 Oct 2026, 12:44):
+  - fire scholarship gathering by hand, from a provider or a course, with the scholarships found attached on demand;
+  - every run registered as a job and visible in Task manager;
+  - everything using resources at any time visible in Task manager, with controls;
+  - a document on how the platform handles scholarships, kept up to date in this repository, as a Docs artifact and in Google Drive;
+  - every future feature follows the same rules.
+- Platform Admin decisions: attach by evidence rules; buttons on the provider record, course record and scholarship record, plus bulk from Scholarships › Coverage; safe controls (tasks: pause, resume or cancel at a safe point; scheduled jobs: pause, resume, run now; worker calls shown, never stopped); Word file in Drive.
+- Standing rule G1 (Platform Admin, 11 Oct 2026): every future feature that runs work in the background is registered as a task type (pipeline.admin_job_kinds) or a scheduled job (with a pipeline.automation_catalogue label) and appears in Task manager with its controls.
+- Points delivered:
+
+| Point | What |
+|---|---|
+| F1 | Find scholarships now (provider record; Coverage, one provider or up to 50 ticked), Check scholarships for this course (course record; lists scholarships added or removed), Read again now (scholarship record). Each starts a task: its pages go first in the scraper queue, the worker gets the next step each minute (map, screen, read), courses attach by the evidence rules. Cancel only. |
+| F2 | Task manager › Running now: tasks, scheduled jobs running this minute (pause, resume, run now), worker calls on their way (shown only), scraper credits in the last hour. |
+| G1 | Task kinds became a registry table linked to admin_jobs; new kinds are rows, with no further drops. |
+| B1 | An empty Read again now or course check (inactive scholarship, provider without active pages) is refused with its reason. Found in the live check. |
+| B2 | The task note says the credits figure is all scholarship scraper use for the provider while the task ran. |
+| B3 | 22 scheduled jobs had no label, so Running now showed internal names; every scheduled job now has a label, area and control rank. |
+| D1 | Scholarship mechanism document v1.0. |
+
+- Database:
+  - Platform Admin paste `paste-cf247-task-kinds.sql`: dropped only the admin_jobs_kind_check constraint (confirmed gone live).
+  - Applied by the Database apply migration workflow, each verified live:
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009000 | Task kind registry (9 kinds) and link; requested_at on scholarship pages and candidates; scholarship task prepare and fire; running now; six functions replaced | md5: admin_job_slice_v1 577823ad, admin_job_watch_v1 f166a3fb, admin_jobs b259a26f, svc_scholarship_read_next bd0b48fc, svc_scholarship_read_record 8bd3588a, svc_scholarship_candidate_next 0080ad82 |
+| 20261011009100 | B1 and B2 | md5: scholarship_task_prepare_v1 747d4df8, admin_job_watch_v1 10dd1edb |
+| 20261011009200 | B3: 22 catalogue labels | 0 scheduled jobs without a label; 105 catalogue rows |
+
+- Live tasks (11 Oct 2026, about 13:10 Melbourne):
+  - Read again now (LPDP-Australia Awards Scholarship): 1 page read through the scraper; course links changed; done.
+  - Check scholarships for Bachelor of Nursing (080229E): 2 pages read; 0 added, 0 removed; done.
+  - Find scholarships now (Australian Catholic University): site mapped, 1 new scholarship found while screening candidate pages.
+  - Read again now on an inactive scholarship: refused with "this scholarship is not active, so there is no page to read; restore it first".
+- App: PR #473 (squash 3ece284), v2.15.244 / package 0.1.171. New contract cf-247-s10 (6 tests). Full chromium-desktop suite: 531 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Scholarship mechanism document v1.0:
+  - repository: docs/scholarships/SCHOLARSHIP-MECHANISM.md (PR #283), linked from docs/README.md;
+  - Docs artifact: https://claude.ai/artifact/21BcQNe8bdjGYM9Rg9TwMQ;
+  - Word copy in Google Drive: https://drive.google.com/file/d/1L5kRJFx41TKSiE3mQPoFtlrlgnJhbkH0/view (16,370 bytes, md5 1a6af3833e2dca5411afc41cc545a0ac locally; Drive size and content checked).
+  - Updated with every change to how scholarships are found, read, linked, published or controlled; each change-control entry names the version it produced. This entry: v1.0.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.245: bugs 11/10-2 – consumer search speed, provider websites, central pages, Adapter builder
+- Platform Admin request (11 Oct 2026, 13:26, with two screenshots): the Layer 2 Adapters list shows nothing; builder result text too small; "23 of 26 stored" and "6 of 6 captured" should list the courses that need pages, from the register or a Firecrawl search; a provider entered by hand (or from a country with no regulator) should be filled in by Firecrawl search (website, contacts and locations, course links, central pages; R3 Principal Executive Officer, public phone and email); the builder numbered 1.1, 1.2 and so on; the step 3 failure "model answer was too long" fixed with a suggestion and a way to raise the limit, wasting no tokens; the website and the central pages searched automatically. Added during the work (Platform Admin, 13:4x): the Adapters list still blank on v2.15.244; coverage-admit and coverage-admit-intakes hitting the time limit 75 times in 24 hours.
+- Platform Admin decisions: layout Provider 1.x, Course pages 2.x, Adapter 3.x; a cut-off proposal retried once automatically; every provider without a website searched, all 1,096 Canadian ones included; a verified website goes on the record straight away.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 7 | Zoho, website and search course queries took ~60 s and every coverage-admit run had been rolled back since 10 Oct 14:10 UTC (nothing admitted for ~12 hours). Cause: the blocked-course check, which R5 (20261010007000) grew to 6,502 courses, was rebuilt once per candidate course. Now built once per query in 16 consumer functions (22 checks). | Search 60.9 s → 0.5 s, same 5,479 courses; 13 consumer-API checks in 2.4 s in all; both admit jobs succeeded at 13:50 (51–53 s). |
+| Fix 1 | Adapters list hidden by ad blockers: its styles were named ad-list, ad-row, ad-note. Renamed adp-. | Live site, Platform Admin filters (Australia, any provider): 830 shown, 50 rows drawn, no console errors. |
+| Fix 3 | Websites found and verified by search were held only in the discovery table. They now go on the provider record, never over one entered by hand. | 41 adopted (Britts College: brittscollege.edu.au, verified by CRICOS 04061K). |
+| Features 2–3 | Every provider without a website is searched (all countries, by name where there is no register code; Firecrawl targets no longer required; 189 Australian providers skipped as "budget" searched again; new providers queued as added). A website starts its course page search, contact read and central page search. Task type Fill in a provider from its website (builder 1.1, provider record). An address carrying another distinctive name is refused. | 1,302 queued; first five Canadian colleges: four sites verified and adopted. Humber College had been matched to guelphhumber.ca (the University of Guelph-Humber): refused by the new rule, website, recipe and its 276 queued course searches switched off, searched again. |
+| Feature 4 | Central pages (key dates, international fees, English requirements) suggested from a Firecrawl map of the site, plus a targeted map for each kind not found; residence, insurance, refund and English-course pages left out. Scheduled job central-find (labelled in Task manager). | 1,644 providers queued; first eight: e.g. Silverline keydates, fees, english-requirements; AIBT academic calendar, fee schedule, English equivalencies. |
+| Feature 1 | Builder 2.1 lists every course with its page state; Find course pages with Firecrawl as a task. | Britts College: 4 of 4 missing course pages found, 8 credits. |
+| Fixes 2, 5, 6 | Builder numbered 1.1–1.3, 2.1–2.2, 3.1–3.4 and 4 (adjust by hand, collapsed); readable text; capture status on its own. | Build and 538 local tests. |
+| Fix 4 | A proposal cut off at 4,000 tokens is asked again once at 8,000; the tokens and cost of every attempt are recorded and shown at 3.1. | Worker v0.19.0 deployed. |
+
+- Database (Database apply migration workflow, each verified live):
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009300 | Fix 7 (16 functions; vector_candidates fingerprinted as the live session shows its type) | First apply refused by the md5 guard (snapshot showed extensions.vector); corrected and applied. Fingerprints match. |
+| 20261011009400 | Websites, central page search, two task types, trigger for new providers, central-find job | 7 replaced functions match intended md5s; Britts College website on record. |
+| 20261011009500 | Humber correction; a later website replaces a switched-off recipe; course page task scoped by provider | md5s match; Humber website null, recipe off. |
+| 20261011009600 | Central page results could not be saved ("found" is also a PL/pgSQL variable) | md5 b94f89ea; results saved from the next run. |
+| 20261011009700 | Providers searched before the targeted maps re-queued | 8 re-queued. |
+
+- Worker coverage-sweep v0.19.0, then v0.19.1 (PR #475): a home page that refuses a direct read (George Brown, georgebrown.ca answered 403) is checked through the scraper. Live: georgebrown.ca read through the scraper, verified (name on the site and in the address) and adopted by a Fill in from website task.
+- App: PR #474 (squash 359385d), v2.15.245 / package 0.1.172. New contract cf-247-s11. Full chromium-desktop suite: 538 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Diagnostics: the UI review screenshot workflow now records console errors and, on Layer 2 › Adapters, what the list drew (optional Platform Admin filters).
+- Standing rule G1 applied: both new task types and the central-find job are in Task manager with labels and controls.
+- Open items: large university sites may still need a central page attached by hand; a provider that has renamed itself may not verify by name and then needs its website entered once (step 1.1).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.246: bugs 11/10-3 – one Sources list, Task manager live board, register runs in Jobs
+- Platform Admin request (11 Oct 2026, 15:15, four screenshots): NZQA jobs have many entries with no meaningful detail or evidence links; the Task manager shows nothing although it should show every job, worker or API call using resources; every job must be kept in Automations or Jobs and controlled from the UI; what is Layer 1 Manual batch runs for; Layer 1 Runs is tool-bloated and Source settings does not belong in it (wanted: a simple list with expandable rows, pills, editing on expand and + Add source, as on Reference sources); Reference sources' fields, explanation and columns do not match.
+- Platform Admin decisions: Manual batch runs retired (each source has Run now, one job); Layer 1 is one Sources list (tabs Sources and Scholarships); Task manager shows live plus the last 15 minutes; a register is rerun when it is due and its file has changed.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 1 | NZQA showed 21 job rows per register run (1,712 rows). Jobs now shows one Register run row per run with what it found against the last applied register; opening it shows why it ran, its counts, every batch and links to the stored source files (security.layer1_run_for_job_v1). | 1,867 batch rows fold to 318 run rows; NZQA run 08e3b11c opens with 21 batches and its evidence. |
+| Fix 2 | NZQA reran about 5 times a day because its listing hash changes on every read while nothing changed. A source whose last two change-started runs found nothing new, changed or departed, with a completed run inside its cadence, waits for its due date. | layer1_auto_ingest_tick_v1 md5 21f32515 live. |
+| Fix 3 | Task manager blank: its read took up to 34 s (scheduler history of 289,228 runs scanned three times per job) and the error was hidden behind Loading. The read is 0.3–0.4 s; the page never hides an error; the board shows running now and the last 15 minutes (scheduled jobs with Pause, Resume and Run now, worker and API calls by kind, AI model calls and cost, scraper credits, queues with the job that works each) and flags any scheduled job not in the catalogue. | Live capture: 54 scheduled jobs in 15 minutes, 194 calls, 53 credits, queues shown, none uncatalogued; drawn in 2.8 s. |
+| Fix 4 | Automations read 34 s to 0.46 s (last runs computed once). | Timed live. |
+| Fix 5 | Study Australia, DFAT and Manaaki scholarship registers retired (inactive, paused, no automatic ingest). | Rows retired live. |
+| Fix 6 | An unhealthy Layer 1 source says why (for example "Centennial expected 195 unique source codes got 200"); 10 Canadian sources show their reasons. | Live list. |
+| Fix 7 | Reference sources rebuilt on the shared list: filters in column order, rows open to the same fields as Add site; a name-only change no longer asks for a reason (found by the new test). "Check all" run: 46 reachable, 13 not reachable, none unchecked. | Live read. |
+| Feature 1 | Batch size editable for the 32 automations that work in batches (28 report a batch now); uncatalogued jobs flagged in Automations. | Live read: 94 jobs, 0 uncatalogued. |
+| Feature 2 | Layer 1 › Sources: one list (source, country, type, health, last run, schedule) with expandable rows, pills, in-place settings (Platform Admin, with a reason), Run now, Check source, Pause or Resume and + Add source (public.admin_layer1_add_source, Platform Admin, new source paused until a reader is assigned). Runs, Source settings and Manual batch runs retired; old addresses open Sources. | Live capture: 35 sources, 10 needing attention sorted first. |
+
+- Database (Database apply migration workflow, each verified live):
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009800 | Task board, Automations read, noisy-register rule, jobs folded per run, run detail, retired registers, batch_editable | First apply refused by its own post-check (a trailing newline stripped from a body); corrected and applied. md5s: admin_running_now_v1 420627ee, layer1_auto_ingest_tick_v1 21f32515, admin_pipeline_ops_read b5d89ce1. |
+| 20261011009900 | Automations read computes last runs once | admin_automations_read_v1 md5 81d5e16a; 0.46 s. |
+| 20261011010000 | public.admin_layer1_add_source | Present, Platform Admin only. |
+
+- App: PR #476 (squash c74c86e), v2.15.246 / package 0.1.173; PR #477 (a source's second line shows its authority or address, not its name again); PR #478 (deployed Layer 1 specs follow the Sources list); capture tool waits for a clicked tab's read. New contract cf-247-s12. Full chromium-desktop suite: 544 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed. Layer 1 deployed specs run live from the branch: 6 passed (real NZQA, CRICOS, QILT and PRISMS validations); A21 navigation 5 passed.
+- Paste file offered (not applied; it deletes): trim scheduler run history to 3 days and add a daily catalogued job cron-history-trim (Platform upkeep).
+- Standing rule G1 applied: every scheduled job is catalogued (94 of 94) and visible with its controls in Task manager.
+- Open items: 13 reference sites are not reachable from the checker (likely bot protection); 10 Canadian sources fail their count checks by 1–5 records and need their expected counts reviewed.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.247: bugs 11/10-4 – tasks start without a reason; Find scholarships now works
+- Platform Admin request (11 Oct 2026, 19:28, one screenshot of Scholarships › Coverage with Australian Catholic University ticked): "on demand run for scholarship never runs, it ask for reason which is not required and nothing happened afterwards".
+- Cause: no task reached the database (none since the 13:17 live check). The screen asked for a reason and returned silently when it was empty or under 4 characters, with no message.
+- Platform Admin decisions: no reason for any task Start (Admit the passing fields, pause and cancel still need one); two providers of one name show their CRICOS codes.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 1 | Starting any task asks only to confirm; the log records "Started from <screen>". | Find scholarships now for Australian Catholic University started with no reason ("Started from Scholarships › Coverage"); done: 9 pages read through the scraper, 10 credits, 0 new. |
+| Fix 2 | Every outcome is shown next to the button (started, already running, or the error); providers in a running Find scholarships task show Finding… until it finishes. | Mocked browser test; live page drawn with no console errors. |
+| Fix 3 | Coverage shows each provider's CRICOS code: Victoria University is two CRICOS providers (00124K, 280 courses; 02475D, 35 courses). | Live capture: every row shows its code. |
+
+- Database: 20261011010100 (Database apply migration workflow). Guard md5s admin_jobs 43e1caad and admin_scholarship_coverage_read 20be9198 matched; live after apply e5aa7642 and 1c27d819 as intended.
+- App: PR #480 (squash 766ac46), v2.15.247 / package 0.1.174. New contract cf-247-s13. Full chromium-desktop suite: 547 passed. After merge the targeted deployed UAT failed one Layer 1 test: its navigation helper still clicked a tab named Runs (renamed Sources in v2.15.246). Fixed in PR #481 (6 passed live from the branch and after merge).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.248: bugs 11/10-5 – the journey of a scholarship task, evidence for every page, skip rules
+- Platform Admin request (11 Oct 2026, 20:42, screenshot of Jobs): a Find scholarships now run for four universities finished with no new scholarship; nothing showed what happened, how long it would take to reach a published scholarship, or which universities the Layer 2 job covered: "this is not complete auditing".
+- What the run (8:32–8:36 pm) actually did: Engineering Institute of Technology had no new pages; Charles Darwin University had 16 new pages, all refused (13 short-course pages, an alumni-awards page, a help page and its Scholarship Finder); Bond had 3 (its Grants and scholarships hub too thin, two research papers); ACU's 9 known pages were re-read unchanged. No stored copy was kept for any refused page.
+- Platform Admin decisions: keep a copy of every page read; hold an automatically published scholarship that now fails a check; show the journey on the task and on each university's Coverage panel; skip non-scholarship pages by address rules.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Feature 2 | Every site map, listing page, new page and known page a scholarship task finds or reads is recorded with the task (pipeline.admin_job_items), while it runs and once at the end. | 74 items recorded for today's tasks; the 8:31 pm run reads back per university. |
+| Feature 1 | Journey per university on the task (Task manager, Jobs) and on the university's Coverage panel: Found, Read (pages, credits), Decided (plain-English reasons), Records, Published (live, next automatic publish time, or what blocks each scholarship), time left while running; links to each page's stored copy and each scholarship. | public.admin_scholarship_job_journey read in 0.9 s. |
+| Fix 1 | Jobs rows show the task title, its outcome and the universities. | Live capture: "Find scholarships now: 4 providers" with Australian Catholic University, … (4 universities). |
+| Fix 2 | Every candidate page read keeps a stored copy, registered as evidence (worker coverage-sweep v0.19.2). | Worker v0.19.2 live; 30 copies registered in its first run. |
+| Fix 3 | 9 address skip rules (course pages, research papers and portals, help, news, alumni, handbook, staff); never an address naming a scholarship, bursary, stipend or grant. Editable under Coverage › Settings and jobs. | No rule matches a page held or admitted; 120 earlier refusals would have been skipped; 4 waiting pages skipped. |
+| Fix 4 | A page that lists scholarships is suggested as the university's listing page. | From the next read. |
+| Fix 5 | The hourly publish holds a scholarship it published that now fails a check (reason kept; released in Layer 4); one a person published is shown as failing only. | ACU Flourishing Lives International and ACU Tuition Fee qualify (audience became "not stated" after a re-read). |
+
+- Database: 20261011010200 (Database apply migration workflow). First apply refused (a missing FROM in the journey function); corrected and applied in one transaction; history md5 matches the file. Guard md5s matched for svc_scholarship_candidate_next 0080ad82, svc_scholarship_candidate_record 70ae63d8, scholarship_auto_publish_v1 e6f87354, admin_job_watch_v1 90a14cb3, admin_job_close_v1 54edd7ac, admin_pipeline_ops_read b5d89ce1.
+- App: PR #482 (squash 377bb41), v2.15.248 / package 0.1.175. New contract cf-247-s14. Full chromium-desktop suite: 551 passed (one flaky R5 browser test passed on its own; one worker-version expectation updated). After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Open items: about 600 too-thin candidate pages are read again every 6 hours (up to 3 tries), including the same third-party ACIR directory pages listed under 50 providers and 230 Sydney Catholic Schools pages; a rule for third-party directories needs an exception setting (their addresses name scholarships). Jobs rows for single-provider tasks that are not scholarship tasks (Fill in from website) do not yet carry the provider name.
+
+### 11 Oct 2026 (Sun, Melbourne) – Find scholarships now for 27 universities; 7 James Cook prizes held
+- Platform Admin request (11 Oct 2026, 21:25): run scholarships for 26 listed universities and report metrics against the Platform Admin's remarks (counted from Scholarships › Coverage). Run as one task (2353269b, 27 providers including both Victoria University and both Melbourne Institute of Technology registrations), 21:26–21:45.
+- Result: 300 new pages checked (22 became scholarships, 258 refused, 17 too thin, 0 skipped); 232 known pages read again (2 updated, course links changed on 23); 544 scraper credits. 156 records blocked from publishing (not for international students 122, no stated value 80, domestic only 35, citizens and residents only 30). 2 ACU scholarships held automatically at the 9:29 pm publish (Fix 5 of v2.15.248).
+- 15 of 26 universities matched the remarks; for the rest the Coverage screen shows more published (UTS 8, Newcastle 15, Tasmania 8, Curtin 8, Bond 5, La Trobe 5, UNE 3, Western Sydney 3, QUT 3, ACU 1, VU 00124K 1).
+- Quality findings: 7 James Cook "scholarships" were prizes or staff awards (2 were due to publish at 10:29 pm); Macquarie had 3 records named just "Scholarships" (listing pages admitted as single scholarships, blocked); the VU Block Model scholarship counts under both Victoria University registrations; 18 of 27 universities have no listing page, and 5 with one have 20 listed scholarships with no record (ACAP 3, Torrens 4, Victoria University 9, Curtin 3, Tasmania 1).
+- Platform Admin decision: hold the James Cook prizes now. Held through Scholarships › Coverage › Hold (admin_scholarship_coverage_write), reason "Prize or award, not a scholarship (Platform Admin, 11 Oct 2026 22:00)": 7 records; checked live: all 7 held and not publishable. The Australia Awards records were left as they were.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.249: bugs 11/10-6 – AI reads every scholarship page (Scholarships › Extraction)
+- Platform Admin request (11 Oct 2026, 22:10): "Just like courses adapter I need scholarship to be read by code using Firecrawl but then use AI to extract attributes. Simple code extraction fields are making too many mistakes and rejecting the values. I can't validate and check every page." Decisions: AI reads every page; qualify two models and keep the better; AI-admitted scholarships pass the same hourly publish checks; the 27 watch-list universities first, then the rest in nightly batches.
+- Why: the fixed rules refused 20,021 of 21,286 candidate pages; VU STEM Accommodation was refused as not offered ("while places last"), a $1,300 deposit was read as a value, named course lists were missed, and the rule audience reader overrode audiences (the ACU auto-holds).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Extractor v0.7.3 (worker v0.19.3) | "while places last" is not "not offered"; deposits, bonds and fees are never the value; "valued at" counts; course lists after "one of the following courses" are read | Deployed; unit checks |
+| Worker v0.20.1, mode scholarship_ai | Reads each queued page (stored copy, or through the scraper and kept as evidence), sends it to a pinned model (OpenRouter, require_parameters, strict JSON schema), rejects a reply from any other model, and checks every quote against the page; only the numbers of the value's own kind are checked | Deployed (runs 38135302205, then v0.20.1); 164 qualification pages read |
+| Migration 20261011010300 | Models (Qwen3 30B, GPT-4.1 mini; candidate/active/retired), versioned instructions, settings (AI admission off), 41-page sample, queue, answers; admin_scholarship_ai (read, set_prompt, label, qualify, activate, set_admission, backfill, test); task types scholarship_ai_qualify and scholarship_ai_backfill; catalogued jobs scholarship-ai-extract (every minute) and scholarship-ai-backfill (02:13 Melbourne). While AI admission is on, candidate and known-page reads are decided by the AI answer instead of the rules, and the rule audience reader skips AI-read scholarships. Activation needs a finished qualification on the current instructions; admission needs an active model; new instructions switch admission off. A listing link needs a name match (Fix 5) | Applied through the workflow (third attempt: the input takes the bare file name; an unused earlier table pipeline.scholarship_ai_settings, keyed by country, already existed, so the new one is scholarship_ai_extract_settings and the old one is left alone). History md5 a7a92858 matches the file. Live md5s match: admin_job_slice_v1 07273bfd, admin_job_watch_v1 33f0a68b, svc_scholarship_read_record a3a99cb0, svc_scholarship_candidate_record 4f685ff5, scholarship_audience_read_v1 0251fe1a, scholarship_task_prepare_v1 2eef56d2, scholarship_listing_match_v1 2725ab7c, admin_jobs e5c8f844 |
+| Scholarships › Extraction (new tab) | AI admission switch, models with scores, Qualify and Make active (each with a reason), the sample with labels to correct, instructions with versions, Try a page, recent answers with each quote and the stored copy | Live screenshot (run 19) |
+| Instructions v2 | A closed round is still offered (only ended, discontinued or suspended is "no"); prizes and awards for results are not scholarships | Set live after reviewing v1 answers |
+
+- Qualification on instructions v2 (41 pages: 30 hand-checked published scholarships, VU STEM, 7 James Cook prizes, 4 Charles Darwin short courses):
+
+| Model | Scholarship or not right | International right | Offered right | Failed replies | Seconds a page | Cost a page |
+|---|---|---|---|---|---|---|
+| GPT-4.1 mini | 41 / 41 | 30 / 30 | 29 / 30 | 0 | 2.8 | US$0.0014 |
+| Qwen3 30B A3B 2507 | 40 / 41 | 29 / 29 | 27 / 29 | 1 (empty or cut-off replies recur) | 17 | US$0.0003 |
+
+- The one GPT "offered" difference is Otago Callis Trust ("Suspended until further notice"), where the page supports the model and the sample label is out of date. On v1 instructions both models marked closed rounds as not offered and called two James Cook awards scholarships; v2 fixed both.
+- Nothing is switched on: no model is active and AI admission is off. Activation, AI admission and the watch-list re-check are the Platform Admin's deliberate steps on Scholarships › Extraction.
+- App: PR #483 (squash 5a09ce5), v2.15.249 / package 0.1.176. New contract cf-247-s15; version expectations in 12 older contracts widened to accept later workers; Scholarships tabs now Scholarships, Coverage, Extraction. Full chromium-desktop suite: 557 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness (re-run after deploy) passed.
+- Scholarship mechanism document: version 2.0 (admin repo, Docs artifact).
+- Open items: VU's two registrations (link scholarship courses by course and provider CRICOS code) not yet built; about 600 too-thin pages retried every 6 hours; single-provider non-scholarship Jobs rows lack the provider name.
+
+### 11–12 Oct 2026 (Sun–Mon, Melbourne) – v2.15.250 and v2.15.251: Qwen3 then GPT-4.1 mini then Layer 4; parked Layer 4 items rerouted; AI admission paused and resumed
+- Platform Admin answer (11 Oct 2026, after the qualification report): "Qwen 3 then GPT-4.1 mini then to Layer 4. Layer 4 review the current parked items, reroute to adapters or new scholarship mechanism." Decisions (all recommended): GPT reads again when Qwen's reply fails or a stated fact is not proven; parked course items go to the adapter where it admits the field; person holds stay; AI admission on only after the cascade ships.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261011010400 (v2.15.250, PR #484) | Model chain (settings.chain); cascade in svc_scholarship_ai_record (next model on the same stored copy; after the last, a Layer 4 review while AI admission is on); pipeline.scholarship_ai_reviews with person decisions kept as exceptions for the same page copy; Re-read parked scholarships (reroute_parked); Layer 4 course items for intakes, English and fees at universities whose adapter admits the field closed as superseded with the course page read again, and a trigger for new ones; pipeline.layer4_reroutes | History md5 87b6e508. Live md5s: active_v1 74a1d599, svc_scholarship_ai_next 14f9d6ee, svc_scholarship_ai_record 1eb90e4f, apply_v1 b62c7711, admin_scholarship_ai 11df1635. 698 course items rerouted (intakes 620, English 64, fees 14), 684 course pages due; 884 course items stay with a person (442 course addresses and items whose adapter does not admit the field) |
+| Layer 4 › AI could not decide (new tab) and Extraction › Set the order | Every model's answer with quotes and the stored copy; Admit the chosen answer or Refuse with a reason | Deployed UAT passed |
+| Switch-on (23:01) | Chain Qwen3 30B then GPT-4.1 mini; AI admission on; watch list (2,757 pages) and parked scholarships (784) queued | — |
+| Migration 20261011010500 (hotfix) | Refusal reasons failed to record while AI admission was on ("malformed array literal"); 22 pages affected and sent back to Qwen3 | History md5 cfcd0feb; facts_v1 a327bec7 |
+| Pause (23:31) | Qwen3 admitted 6 scholarships on audience quotes that were on the page but did not say who they are for ("open to both full-time and part-time students"; a permanent humanitarian visa read as international). AI admission switched off; the 6 held through Scholarships › Coverage (Joan Reid Scholarship for Refugee Women and Helen Maslen withdrawn after the 11:29 pm publish); AI calls set to 0 | Holds and withdrawals checked live |
+| Worker v0.20.2 | The audience quote must itself name international (or domestic) students | Deployed; the Joan Reid page now fails the audience proof |
+| Migration 20261011010600 | Pages read while paused queued again; the 6 held scholarships read again (holds made by a person stay) | History md5 f9071043 |
+| Migration 20261011010700 and v2.15.251 (PR #485) | Second model confirms each admission by the first (setting confirm_admissions, on by default; switch on Scholarships › Extraction) | History md5 61d9b702; record 50169fac, admin 96603a24 |
+| Migration 20261011010800 (PR #486) | Pages waiting for the second model are read before new first-model pages | History md5 d7eae60b; next() a1672720 |
+| Resumed (23:50) | AI admission on, 3 then 5 calls at once | First GPT confirmations reviewed: an RTP scholarship admitted ("domestic and international applicants"), Boeing Indigenous refused (Australian citizen), pages without audience wording refused |
+
+- Qualification on instructions v2 (41 pages): GPT-4.1 mini 41/41 scholarship, 30/30 international, 29/30 offered, 0 failed; Qwen3 30B 40/41, 29/29, 27/29, 1 failed reply.
+- App: v2.15.250 / 0.1.177 and v2.15.251 / 0.1.178. New contract cf-247-s16; Layer 4 tab lists in two older contracts updated. Full chromium-desktop suite: 563 passed. After merge: build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed.
+- Scholarship mechanism document: version 2.1.
+- Open items: an Indigenous-only scholarship quoted without "citizen" or "domestic" goes to Layer 4 (add Indigenous wording to the domestic proof); the 6 held scholarships need a person's decision; ~3,400 pages queued overnight; VU two registrations (CRICOS-code course matching) not yet built.
+
+- Correction to the entry above (12 Oct 2026): AI admission was switched on at about 23:24 (first page decided 23:25:22), not 23:01; it ran about 6 minutes before the pause at 23:31, and resumed at about 23:45.
+
+### 12 Oct 2026 (Mon, Melbourne, 02:41–03:10) – Overnight AI run check (run early on request); OpenRouter credit limit reached and raised
+- Platform Admin asked to run the morning check now (02:41).
+- OpenRouter credit: the key reached its US$75 limit at 02:18 (Layer 3 course workers used most of it; the scholarship AI US$1.67 in total). From 02:18 every AI call failed with HTTP 402 (773 scholarship page reads). The Platform Admin raised the key limit to US$125 at about 02:50; calls succeed again (US$49.55 left at 02:53). Two attempts to set scholarship AI calls to 0 at 02:45 were cancelled and not retried.
+- Migration 20261012010000 (applied through the workflow; history md5 ca3a1132; facts_v1 now 452f9b5f): 86 Layer 4 › AI could not decide items opened only by credit failures (or two record faults) closed as superseded and the pages read again from Qwen3 30B; waiting items that failed for credit restarted from the first model; rule facts that are a bare JSON value are treated as empty (fixes "cannot delete from scalar").
+- Migration 20261011010500 was applied on 11 Oct but its file was only on a branch; merged to main (PR #487) so checked-in source matches the live database.
+- Results since AI admission resumed (23:45 to 02:41): 3,463 of 3,535 watch-list pages read; 56 scholarships admitted, all confirmed by GPT-4.1 mini, 40 of them now published (575 published in total); refusals: international not stated 1,469, listing page 1,375, not a scholarship 1,294, no named title 1,105, domestic only 607, not offered 92; 354 known scholarships re-read and updated; 2 automatic holds released. Spot check of the admitted list found no wrong audience; one is uncertain (Bond, The Abedian Foundation Master of Architecture Award: the audience quote is the site-wide scholarship wording).
+- Layer 4 › AI could not decide: 234 waiting (who it is for not proven 149, value not proven 59, page could not be read 23, name not on the page 2, "no longer offered" not proven 1).
+- Rerouted course items: 681 of 701 course pages read again by the adapter; the value is now held for 402 of 622 intake items and 44 of 65 English items; none of the 14 fee items yet.
+- The nightly backfill (02:13) queued 25 more universities (8,164 pages); 9,229 pages are queued.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.252: Layer 3 retired (intakes, English and fees); screens and code removed
+- Platform Admin request (12 Oct 2026, 08:15): "Stop Layer 3 from working on intakes, English and fees and clean up UI and scripts. That was requested when the adapter was designed: stop any redundant UI and scripts when the adapter merged Layers 2 and 3." Decisions: stop everywhere (universities without an adapter keep the university-wide calendar and English defaults); pause now, delete by a paste file; close the pending Layer 4 items.
+- Why: in the 24 hours before, 93% of Layer 3 intake and English work (5,579 of 5,984 intake and 3,329 of 3,675 English items) was for universities whose adapter already admits that field; 5,533 resulting Layer 4 items were closed on arrival overnight, and Layer 3 used most of the US$75 OpenRouter limit reached at 02:18.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010100 | Pauses 10 jobs (layer3-intake-route, layer3-english-route, layer3-fact-admit, layer3-tuition-dispatch, layer3-tuition-admission, layer3-tuition-assumed-annual, coverage-tuition-handoff, layer4-tuition-settle, layer3-route-guard, layer3-operations-housekeeping); marks them retired in the automation catalogue; closes pending Layer 4 items for intakes, English and fees | History md5 390e90ee; all 10 jobs inactive; 442 items closed (intakes 357, English 79, fees 6); 445 course items remain pending (course addresses) |
+| App v2.15.252 / 0.1.179 (PR #489) | Layer 3 menu (Control, Work queue), Layer 4 › Send back to AI, the send-back decision, Dashboard Layer 3 tile and Layer 3 settings removed; old Layer 3 addresses open Layer 2 › Adapters; edge functions layer3-model-routing, layer3-work-dispatch, layer3-work-interpret, layer3-cf245-tuition-benchmark, layer3-contact-benchmark, layer3-intake-benchmark and nine unused shared helpers removed from the repo; layer3-provider-control kept (OpenRouter key for the scholarship AI) | Full suite 532 passed; every remaining edge function bundles; Workers Builds (first run failed on a node_modules link committed by mistake, removed), build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed |
+| Paste file paste-cf247-layer3-retire.sql | Unschedules the 10 paused jobs and removes their catalogue rows; lists the 6 deployed edge functions to delete | Sent to the Platform Admin |
+
+- Left as they are: Layer 3 tables and history, the Layer 3 database functions (no caller once the jobs are removed), read-only "Layer 3" labels on course coverage and evidence history.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.253: universities without an adapter onboarded automatically; Layer 4 tabs retired; credit banner
+- Platform Admin request (12 Oct 2026, 09:35): "Build adapters for universities without an adapter. Once the provider is in, the workflow should onboard it, which creates the adapter automatically and then runs the scholarship adapter. Layer 4 tabs need review as well; retire what is not being used, like Fee Rules, Attributes, Blocks, Scholarship publishing, Flagged values." Decisions: stop for a person at admitting; as fast as possible, with a notice on the platform when toolset credit runs out or nears its limit; central page approvals (Attributes) move into onboarding; close the open flags and keep the fee rule results.
+- How it runs (G1): one catalogued scheduled job, provider-onboarding, every minute, moves each university a step at a time (website, course pages, 6 sample pages, AI proposal, save in testing and apply, qualify, central pages, scholarship search) and stops at Ready to admit. A passing qualification never admits; admitting stays a person's step on Layer 2 › Adapters. New universities start by themselves (setting); 30 at once.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010200 | pipeline.provider_onboarding and settings, step and tick functions, admin_provider_onboarding (read, start, stop, retry, settings), admin_credit_notices, new-provider trigger, catalogued job; adapter builder allowance raised to 400 proposals and US$5 a day; 33 open flagged fees closed (fees kept); all 1,153 universities without an admitting adapter queued, largest first | History md5 e533292b; 1,153 queued; 33 flags closed |
+| Migration 20261012010300 | Tick fix: the job failed every minute ("record o is not assigned yet") | History md5 419f9e2d; tick runs clean |
+| Migration 20261012010400 | Step fixes: at most 300 courses per course-page task; generic course-page search added for websites recorded before generic searches existed; a failed AI proposal asked again twice; the model named in the note | History md5 5932950d |
+| App v2.15.253 / 0.1.180 (PR #490) | Providers › Onboarding board (tiles, steps, notes, why stopped and what to do, Retry, Stop, Onboard all, settings, Approvals waiting); Adapter builder 1.3 approvals for one university; Layer 4 Flagged values, Fee rules, Attributes, Scholarship publishing and Blocks retired with old addresses redirected; credit and limit banner on every page (Curator and above) | All checks, Deployed UAT and deployed-release-currentness passed |
+
+- At about 10:30: 1,100 queued, 29 in progress, 7 stopped, 17 ready to admit.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.254: onboarding follow-ups (switched-off course-page search, stalled AI proposals) and Dashboard waiting rows
+- Found while checking v2.15.253 live: Humber College stopped with a misleading "no website" error because its only course-page search had been switched off on 11 Oct (built from guelphhumber.ca, not Humber's site); University of Calgary and University of Manitoba stopped because their AI proposals never answered (the worker was shut down; 2 of 11 proposals that hour). The Dashboard still listed the retired Flagged values and Fee rules.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010500 | A switched-off search for a different domain from the recorded website is replaced by the generic search for that website; one switched off for the same website stops onboarding with the plain reason recipe_off. Dashboard "Waiting for you": Flagged values and Fee rules rows removed, Universities ready to admit and Onboarding stopped for a person added, Scholarships ready to publish opens Scholarships › Coverage. Humber put back | History md5 fc1fdd3a; functions md5 33530dae (step) and 8eae4aa1 (waiting), as intended; Humber now reading course pages; Dashboard rows checked as Platform Admin |
+| Migration 20261012010600 | A proposal with no answer after 30 minutes is asked again, twice at most, before onboarding stops; Calgary and Manitoba put back | History md5 d238bb7b; step md5 333443c3 as intended; both asked again |
+| App v2.15.254 / 0.1.181 (PR #491) | Providers › Onboarding explains "Course-page search switched off"; Platform guide updated | Full suite 535 passed; Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed |
+
+- Onboarding after the fixes: 1,086 queued, 30 in progress, 30 ready to admit, 7 stopped (all no verified website: Canadore, La Cité, Niagara, Algonquin, Cambrian and Loyalist colleges in Canada, and Brisbane College of Australia). Their websites can be entered in Layer 4 › Websites to find; onboarding then carries on by itself.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.255: onboarding asks the AI again, "Needs a person", journey per university; course-page search unblocked
+- Platform Admin question (12 Oct 2026, 11:15, with a screenshot of Providers › Onboarding): "Will this create the adapter automatically? And start the scholarships as well? Will I be able to monitor this journey from the UI?" Checked live first: 35 of 38 universities at Ready to admit had nothing to admit. 27 of them already had an old adapter, which onboarding applied again without asking the AI; only 1 of 11 AI-built adapters had a field ready. New scholarships showed 0 because 547 of their pages were still waiting for the AI (20 scholarships found so far, 5 published).
+- Decisions (Platform Admin): the AI proposes over an old adapter that passes no field; nothing ready means one more AI attempt with more sample pages, then "Needs a person"; an expandable timeline per university.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010700 | When no field passes, the AI proposes again and is told which fields failed and why. An old adapter gets up to 2 attempts (6, then 10 sample pages); a new one gets a second attempt with 10. Each proposal is saved in testing, applied and qualified; nothing is admitted. Nothing ready after that stops as nothing_ready ("Needs a person"). The scholarship search runs once per onboarding. New table pipeline.provider_onboarding_events with a trigger; admin_provider_onboarding('journey'); live scholarship counts per row; Adapter builder 'start' takes an optional number of sample pages; the 35 were sent back to qualifying | Five functions match the intended md5 (step d5cf2004, tick 9ea953d2, builder 23c611e7, onboarding 9f609f60, waiting 7e1ed8ba); 180 journey events backfilled; 39 AI proposals in the first 20 minutes; journey read checked as Platform Admin |
+| Migration 20261012010800 | Course-page search starvation: 754 searches for universities that are not Firecrawl targets were picked first and refused by the worker every minute, so only 5 searches finished in 6 hours (3,764 waiting). The picker now takes only target universities while target-only is on. The 8 universities stopped with 0 course pages read were sent back | Picker md5 f0aa2519; 740 searches in the first 10 minutes, 2,370 in 30 minutes |
+| Migration 20261012010900 | Index on read course pages by provider (each count read the whole table) | Onboarding read went from 8.8 s to 0.1 s |
+| Migration 20261012011000 | Shorter "Needs a person" note, because the reasons already show in Fields | Step md5 edfcb429; 10 notes shortened |
+| App v2.15.255 / 0.1.182 (PRs #492, #493) | "Needs a person" tile and filter; a Journey toggle on each row (steps, tasks, AI drafts with sample pages, model and cost, qualification per field, scholarships with their state); New scholarships shows found, published and pages with the AI | Full suite 540 passed; Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed; live screenshot reviewed |
+
+- Note: while reading the course-link tick, I ran security.course_link_search_tick_v1(0) once as a check. It is the normal scheduled job; with send_via = worker it sends nothing itself.
+- Seen at the first finishes: some universities (for example The King's University, Canada) still read nothing after 2 AI attempts, because their course pages do not state fees or IELTS. They need central pages (Adapter builder 1.3) or values marked by a person.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.256: status review fixes – one targets refresh at a time, AI proof rules and a third model, central pages read by AI, onboarding waits for found pages
+- Platform Admin status review (12 Oct 2026, 13:06): "Does every background task and job appear in Task manager? Are all scheduled jobs running as intended? Is data being admitted with the current design?" Checked live: all 88 scheduled jobs are catalogued and every task type used in 14 days is registered; 12 catalogue rows are left from retired jobs; firecrawl-targets failed 14 times in 6 hours (deadlock); "AI could not decide" held 1,012 pages; 48 onboarding universities needed a person. Fixes 1 to 5 agreed; for fix 2 the Platform Admin chose "rules + third model" after the evidence below.
+- Fix 2 evidence: most held pages were not a model-strength problem. About 300 had a value the first model proved but the confirming model answered with a value it could not prove. Scholarships for one nationality failed because the quote did not say "international". Loose "international" claims (for example "open to all RRU students") were rightly held.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012011100 | security.firecrawl_targets_refresh_v1 runs one refresh at a time (transaction advisory lock), because the job and the workers refreshed at once and deadlocked. Onboarding waits up to 6 hours while course pages the search found are still to be read; 7 universities that stopped too early carry on | refresh md5 2d3661f1, step f97a0eed; firecrawl-targets: 0 failures in 40 minutes |
+| Migration 20261012011200 + worker v0.20.3 | A value an earlier model in the chain proved stands when a later model's value is not proven (recorded as value_from). An audience quote naming another country or region, or saying "not a domestic student", proves international; the university's own country (and Australia/New Zealand for each other) does not. The worker gets the university's country. GPT-4.1 (openai/gpt-4.1) added as a candidate and qualified: it is not in the order (a person adds it on Scholarships › Extraction). New action reviews_reread; the 1,085 waiting pages were read again from the first model on their stored copy | next e8154195, record 46ed31a1, admin fba8a1f3; coverage-sweep deployed; GPT-4.1 on the 41-page sample: 41/41 scholarship, 30/30 international, 29/30 offered, 5 proofs failed, US$0.0072 a page; 8 values carried in the first 30 minutes; 46 pages waiting for a person so far (re-read still running) |
+| Migration 20261012011300 + worker v0.21.0 | Central pages: when nothing passes on a university's course pages, its stored English language policy and academic calendar pages are queued (pipeline.central_ai_queue). A pinned model (GPT-4.1 mini) reads them in worker mode central_ai; every score and month must be in a quote that is on the page. The result is recorded through svc_provider_policy_record as a proposal (parser ai:gpt-4.1-mini) for a person to approve; nothing is applied by the AI. Onboarding shows "Approve central pages" (stop reason approve_central) and is done once its proposals are decided with one approved. New scheduled job central-ai (every 5 minutes, catalogued). Fee schedules stay with the rule parser | step 120ef69e, tick ddcaa4f4; first 12 read: 4 proposals, 8 no values; 52 queued; US$0.01 spent |
+| App v2.15.256 / 0.1.183 (PR #494) | "Approve central pages" status and help; the Needs a person tile counts both; Layer 4 › AI could not decide has "Read the waiting pages again" (Platform Admin, with a reason) | Full suite passed; Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed |
+| Paste file paste-cf247-catalogue-cleanup.sql | Removes 12 automation catalogue rows of retired jobs (only rows with no matching job) | Sent to the Platform Admin |
+
+- Seen while checking: Qwen3 30B calls failed 121 times in 30 minutes with HTTP 504 from its provider (Nebius); each failure goes to the next model in the order, so pages are still read. Humber College's recorded website, humberetc.ca, is the student newspaper Humber Et Cetera; the official site needs entering by a person. NZIST's course pages are on its subsidiaries' sites. Six retired Layer 3 edge functions are still deployed and wait for deletion by the Platform Admin.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.257: Guides with a Platform Admin SOP and an Operator SOP, versioned
+- Platform Admin request (12 Oct 2026, 15:36): "Create SOPs for Platform Admin and operators to manage the platform, as separate platform guides: their daily tasks, how the platform automates and what to pay attention to; keep them up to date with each iteration of the UI and the data admission mechanism, and where a person needs to intervene. Keep them under Guides in the UI and as versioned docs."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| App v2.15.257 / 0.1.184 (PR #495) | The Help menu becomes Guides, with tabs Platform guide (Viewer and above), Platform Admin SOP and Operator SOP (Curator and above). Each SOP covers: purpose and what the role owns; the seven-stage automation table (what runs by itself, its scheduled jobs, where a person decides); rules that never change; the daily routine (start of day, morning, afternoon), each step with who, why, done when and a button to its screen; weekly checks; where a person intervenes; what to watch; escalation; version history; download as Markdown | Full suite passed (554); Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed; live screenshot of Guides › Operator SOP reviewed |
+| Versioned documents | `docs/sops/admin-sop.md` and `docs/sops/operator-sop.md` (v1.0), generated from the same source as the app (`src/guide/sops.js`, `node scripts/export-sops.mjs`) and copied here; docs/README.md lists them (and the scholarship mechanism is now listed at v2.4 with its Google Doc copy) | Copies match the Pilot repo byte for byte |
+| Keeping them current | Contract tests in the Pilot repo fail a release unless SOP_REVIEWED_FOR equals the release, every step opens a real screen and tab, and docs/sops/*.md equal what the source generates | Tests in place (cf-247-s22-sops-contract) |
+
+- Standing rule from this entry: every release that changes a screen, an automation or where a person decides also updates `src/guide/sops.js`, raises the affected SOP's version with a line in its version history, regenerates docs/sops/*.md, and copies them to this repository in the same change-control entry.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.258: OpenRouter limits for the AI uses that run now; Onboarding on Layer 2 with seven journey stages (bug 12/10-01)
+- Platform Admin bug 12/10-01 (12 Oct 2026): "Model and Services are missing Layer 3 Limits functionality. Provider onboarding should be in Layer 2/3 as a tab, and mass automatic adapter creation is still not there — if I press Onboard all without an adapter, what will happen? Prepare the journey milestones." Agreed answers: the journey is redefined in seven stages; scholarships only after the courses are enriched; AI limits observed with notices only; 100 universities at once.
+- What the button did: all 1,153 active universities with courses and no admitting adapter were already in onboarding, so "Onboard all without an adapter (1,153)" would have added none (it skips universities already in onboarding). The count was misleading; it now shows only universities not yet queued.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012011400 (ai limits, onboarding pace) | OpenRouter toolset moved to Layer 2 help; settings credit_floor_usd (US$5) and daily guards (scholarship AI US$20, adapter builder US$5, central pages AI US$5, course matching US$5, section Daily guards); security.ai_spend_today_v1 and security.ai_use_allowed_v1 (refuses only in stop mode, below the floor or past the guard; scholarship_ai_fire_v1 and central_ai_fire_v1 check it); svc_openrouter_balance_record; catalogued cron openrouter-balance (*/15); OpenRouter notices rebuilt from the AI uses that run now (Layer 3 work items and route guard no longer read); admin_toolsets_read returns credit floor, uses and spend by day; admin_provider_onboarding returns not_queued and pace; max_active 30 → 100. First attempt failed in its single transaction ("day" used as a column alias without AS); nothing was applied; fixed and re-run | Applied through db-apply-migration (history md5 87f08883 matches the file). Live md5s: platform_notices_v1 e2d636a2, scholarship_ai_fire_v1 0a432552, central_ai_fire_v1 0a6dba98, admin_toolsets_read 75ed6d4d, as generated. max_active 100. Cron openrouter-balance active; first run 06:30 UTC succeeded; balance read US$29.50 at 06:31 UTC. The stale "579 work items out of credit" and "balance not read" notices are gone; "OpenRouter refused calls: out of credit" remains for 1,184 refusals on 11 Oct (last 15:49 UTC) and ages out of its 24-hour window |
+| Worker coverage-sweep v0.21.1 | New mode openrouter_balance reads https://openrouter.ai/api/v1/credits and records it | Deployed from the branch before the migration (deploy-edge-functions run 38211357831, success); proven by the 06:31 UTC reading |
+| Migration 20261012011500 (journey stages) | Qualifying ends at Admit (Ready to admit, or Needs a person with the central pages AI); once admitted (or central pages approved) the row moves to status scholarships with phase enrich: the adapter is applied, stage 5 ends when no value has changed for 10 minutes (at least 20) and records what was written; phase scholarship_search starts the scholarship task; phase scholarship_admit is Done when no page of that university waits for the AI or a person (or after 7 days). Rows already searched skip to Admit scholarships. security.provider_onboarding_stage_v1; only working stages count towards "at once"; waiting stages are checked every 10 minutes after the working ones; tick limit 250; the events trigger records the phase. No status added, no constraint dropped | Applied through db-apply-migration (history md5 76eab032 matches the file). Live md5s: provider_onboarding_step_v1 2b150881, provider_onboarding_tick_v1 03edc0d8, provider_onboarding_event_v1 a3e685cd, admin_provider_onboarding a0d88373, as generated. Ticks since: 0 errors; 100 working; first universities reaching Admit. Read as Platform Admin: stages provider_in 882, prepare 157, create_adapter 16, admit 98; not_queued 0; pace 18 in the last hour, 168 in 6 hours |
+| App v2.15.258 / 0.1.185 (PR #496, squash 13dc3f74) | Onboarding moved to Layer 2 › Onboarding (old Providers, Layer 1 and Layer 4 addresses redirect); stage strip with counts that filters the list; a seven-dot stepper on each row; origin (Layer 1 register or added outside it); journey shows stage, admitted time, courses enriched and the scholarship result; button "Onboard universities not yet queued (n)", disabled at 0; pace and an estimate. Models & services › OpenRouter shows the balance, the credit floor, each AI use with calls, spend today, guard and state, and spend by day | Local suite 560 passed (7 older tests updated for the move); build, ui-tokens and release contract passed; Workers Builds, build-and-smoke, release-history-contract, then Release History Contract, Pilot Frontend Build, Release Currentness Deployed and Deployed UAT passed. Live screenshot of Layer 2 › Onboarding (run 23) reviewed: stage strip, pace ("about 30 hours for the 872 queued"), steppers and origins render |
+| Guides and SOPs | Platform guide (Onboarding and OpenRouter), Platform Admin SOP 1.1 and Operator SOP 1.1: the automation table follows the seven journey stages then delivery; steps point to Layer 2 › Onboarding; OpenRouter guard and floor checks; docs/sops/*.md regenerated and copied here | Copies equal the Pilot repo (md5 ffe9532f admin-sop, ae15103b operator-sop) |
+| Scholarship mechanism v2.5 | Section 7 (onboarding searches scholarships only after admitting and enriching; Done rule), section 10 (OpenRouter balance, guard and floor), version history | Admin repo docs/scholarships/SCHOLARSHIP-MECHANISM.md; Docs artifact updated (rev 32); Google Doc v2.5 1nEcUaV5v5JbcK0vUpiw0zJ8Q1njbjUMnDrMs60yeTM4 (v2.4 renamed "superseded by v2.5", kept) |
+
+- Follow-ups: svc_central_ai_record still writes "Providers › Onboarding" in its note (to change when next touched). A register provider is named "N/A" (seen in the onboarding list). Earlier items still open: Humber website, six retired Layer 3 edge functions, catalogue clean-up paste file not yet confirmed as run, GPT-4.1 as third reader (Platform Admin's choice), Health indicator red.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.259: Admit automatically for the fields that pass; onboarding pilot of 100 universities, measured hourly
+- Platform Admin request (12 Oct 2026, 17:43): "With the new mechanism, will the universities now be admitted automatically, enriched and launch the scholarship adapter? Automate step 4 and onwards, or at least pick 100 universities across AU, NZ and CA to prove the mechanism, with hourly updates and a summary table of data completeness." Answers: "Auto-admit everything that passes" (platform-wide); pilot "60 AU / 25 NZ / 15 CA, 48 hours".
+- Governance change, decided by the Platform Admin: admitting an adapter's passing fields is no longer only a person's step. It is automatic while a Platform Admin has the setting switched on, recorded with who and why; only fields that pass the existing admit rule are admitted; each admit is logged; a field that did not pass is never admitted; undo for one university on Layer 2 › Adapters. Approving central pages, activating AI models and AI admission of scholarships stay separate reasoned steps.
+- Before the switch: 21 universities were Ready to admit and 83 were "Needs a person" (nothing passed). Auto-admit moves the first group only.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012011600 (auto-admit, pilot) | Settings columns auto_admit, auto_admit_reason, auto_admit_by, auto_admit_at; step: at Ready to admit with auto_admit on, admin_uni_adapter_control('admit') with exactly result.ready, run as the Platform Admin the step runs under, then the row records auto_admitted and moves to Enrich courses; RPC: settings take auto_admit with the reason, actions pilot (live report and snapshots) and pilot_pick, rows carry auto_admitted and pilot, filter pilot; tables pipeline.onboarding_pilot (baseline per university) and pipeline.onboarding_pilot_snapshots (RLS on); functions provider_fill_counts_v1, onboarding_pilot_pick_v1, onboarding_pilot_report_v1, onboarding_pilot_snapshot_v1; catalogued cron onboarding-pilot-snapshot (hourly at :07). Data: pilot pilot-2026-10-12 picked (60 AU, 25 NZ, 15 CA; furthest along first; queued members moved to the front), first snapshot, auto_admit switched on with the Platform Admin's words as the reason, logged in admin_control_events | Applied through db-apply-migration (history md5 db2ad19a matches the file). plpgsql bodies syntax-checked first on a local PostgreSQL 16 (the check also catches the 11400 alias error); SQL bodies checked read-only on the live schema. Live md5s: provider_onboarding_step_v1 a5644dae, admin_provider_onboarding dcec0b55, as generated. Pilot AU 60, NZ 25, CA 15; first snapshot recorded; auto_admit on 07:02 UTC. Within 5 minutes 4 universities were admitted automatically, each with only its passing field (English), each logged once, each moved to Enrich courses; 0 errors |
+| App v2.15.259 / 0.1.186 (PR #497, squash 0955937b) | Layer 2 › Onboarding: note that Admit is automatic (since when, why); "4. Admit (automatic)"; "Admitted automatically: fields" on each row and in its journey; setting in Onboarding settings; Pilot panel by country (stages, needs a person/stopped, auto-admitted, intakes/English/fee/delivery share of courses picked → now, scholarships published picked → now, AI cost; Refresh now; Show pilot only) | Full local suite 564 passed; build, ui-tokens, release contract; Workers Builds, build-and-smoke, release-history-contract passed |
+| Guides and SOPs v1.2 | Rule on admitting updated; stage 4 in the automation table; the Platform Admin's daily step becomes a spot-check of automatic admits; an operator intervention for a wrong admitted value | docs/sops copied here, equal to the Pilot repo (admin-sop 9bacb7cb, operator-sop 86dbf9fa) |
+| Scholarship mechanism v2.6 | Section 7: scholarships follow automatically once passing fields are admitted; version history | Admin repo; Docs artifact (rev 35); Google Doc v2.6 1OCBUmDw01hd4xsaOSHoMn8aW6A1Spmojewgp-ElrDfg (v2.5 renamed "superseded by v2.6", kept) |
+| Hourly updates | A one-hour reminder chain in this session posts the pilot table every hour until 14 Oct 2026 07:10 UTC, then a final summary | First reminder scheduled for 08:10 UTC (trig_01DoatXnHVE7fBoPMYL69M8b) |
+
+- Watch: every university admitted now also starts a scholarship search (Firecrawl credits). The pilot's AU group is mostly small CRICOS colleges, because those were furthest along.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.260: found course pages read through Firecrawl; more reading; onboarding keeps moving
+- Platform Admin request (12 Oct 2026, 20:00): "Increase the limit to read course pages if found. Keep moving to the next wave if a course page is not found. I hope the same mechanism is used which has been successful using Firecrawl in finding course pages, and not burned by direct HTTP."
+- Found before the change: course pages are found by Firecrawl search, but a page the search found was read by a direct request only (worker rule v0.13.4, to save credits on wrong pages). In the 24 hours before: 1,295 direct reads succeeded, about 1,700 were blocked, failed or needed a browser and were never tried through Firecrawl; 449 found pages needing a browser simply waited. Reading allowed 8 pages per university per call. Universities waited up to 6 hours for found pages; a used-up adapter AI allowance and a missing website stopped as "Unexpected error" (4 in the pilot's first hour).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Worker coverage-sweep v0.21.2 | A page found by a search (title_search, cricos_search, firecrawl_search, serper_search) is read through Firecrawl (rendered rawHtml), the scraper that found it; a direct read only when Firecrawl cannot be used (not a target, or no credit). robots.txt still respected for course pages | Deployed from the branch before the migration (run 38229966260). In the first 5 minutes: 180 found pages read through Firecrawl and identified as the course's own page, 118 found to be the wrong page (the search moves on to its next candidate), 1 failure, 0 direct reads of found pages |
+| Migration 20261012011700 | svc_coverage_read_next up to 20 pages per university per call (was 8); second reader coverage-read-2 every 30 seconds (catalogued, Course pages); 1,237 found pages that were blocked (403), failed (385) or needed a browser (449) at Firecrawl target universities set to be read again; onboarding: a university whose search is finished and has had no page read for an hour stops as Too few course pages (the next starts) and carries on by itself once enough pages are read; a used-up adapter AI allowance stops as "AI allowance used" and carries on when it renews; "no website is recorded" stops as No website; existing error rows for these two reasons relabelled | Applied through db-apply-migration (history md5 c3e0b387 matches the file). plpgsql bodies syntax-checked first on local PostgreSQL 16. Live md5s: svc_coverage_read_next 2e177089, provider_onboarding_step_v1 1ce3f7b6, provider_onboarding_tick_v1 5196a85f, as generated; coverage-read and coverage-read-2 active. Stops now: ai_allowance 46, too_few_pages 127, no_website 42 (no new unexpected errors) |
+| App v2.15.260 / 0.1.187 (PR #498, squash e8def97a) | Stop reasons "AI allowance used" and the new Too few course pages help text on Layer 2 › Onboarding; Platform guide (Course pages); SOPs v1.3 | Full local suite 567 passed; build, ui-tokens, release contract; Workers Builds, build-and-smoke, release-history-contract passed |
+| SOPs v1.3 | Prepare stage reads found pages through Firecrawl and moves aside after an hour without a page read; Retry needed only for other stops | docs/sops copied here, equal to the Pilot repo |
+
+- Cost: about one Firecrawl credit per found page read; 412,941 of 500,000 credits left this month at 20:30.
+- The adapter AI allowance (400 proposals a day) was used up today; 46 universities wait for it and carry on after midnight Melbourne time. Raising it is a setting under Adapter builder (Platform Admin's choice).
+
+### 12 Oct 2026 (Mon, Melbourne) – System reference in the repository; questions answered from the repository
+- Platform Admin (12 Oct 2026, 20:38): "All design and doc updates are regularly done on the repo… make sure all queries are answered from repo read. Maintain whatever is necessary at the repo." 
+- Added `docs/platform/SYSTEM-REFERENCE.md` v1.0 (listed first in docs/README.md): the onboarding journey and its statuses and phases, stop reasons and which carry on by themselves, the admit rule, onboarding settings, the pilot, how course pages are found and read (Firecrawl), AI models and limits, the scheduled jobs that drive admission, live function checksums, and how a change is made.
+- Standing rule from this entry: questions about how the platform works are answered from this repository (System reference first, then the change-control record, the scholarship mechanism and the SOPs). Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates the System reference in the same entry. The live database is read only for live numbers (counts, balances, progress) and to verify a deploy.
+
+### 12 Oct 2026 (Mon, Melbourne) – UI catalogue and simplification review (documentation; nothing changed in the platform)
+- Platform Admin (12 Oct 2026, 20:47): "Document all UI design, functionality and features in the repo and give your opinion on how to properly organise it in the nav menu and categories. I want to simplify and question every line of data that is overcomplicated and not required for operations and maintenance of the platform and external toolset."
+- Added `docs/platform/UI-CATALOGUE.md` v1.0: every screen and tab (30 screens in 7 sections) with its panels, columns, actions, roles and outside services, read from the Pilot code at v2.15.260, including the six scripts in index.html that patch screens after they render. Standing rule: every UI change updates it in the same entry.
+- Added `docs/platform/UI-SIMPLIFICATION-REVIEW.md` v1.0 (PROPOSED): principles (one home per task, operations language, nothing from retired features, inline reasons, no screens a role cannot use); a proposed menu of 6 sections and about 20 screens (Today, Catalogue, Data admission, Operations, Platform settings, Guides); line-by-line questions (Layer 3 and retired-tab leftovers, code that never runs, tasks done in 2–4 places, developer-level data on screen, rarely needed panels, inconsistencies); three delivery waves; six decisions for the Platform Admin.
+- Both are listed in docs/README.md; the System reference points to them.
+
+### 12 Oct 2026 (Mon, Melbourne) – Usage audit started (measurement only; nothing changed)
+- Platform Admin (12 Oct 2026): review the UI simplification document first; "find which is not being used first, and scripts and data whose details are not changed for a few days".
+- Added `docs/platform/usage-audit/USAGE-AUDIT.md` with day-1 findings, and the table baseline `table-baseline-2026-10-12T1012Z.txt` (reads and writes per table, pg_stat_user_tables at 10:12 UTC). Day 1:
+  - 10 of 89 edge functions called in 24 hours.
+  - 91 scheduled jobs all running. Failing often: coverage-admit and coverage-admit-intakes (76 of 467), platform-health (75 of 467).
+  - Layer 3 working tables stopped 11 Oct 21:56 (layer3_interpretations 203 MB, layer3_work_items 75 MB). The OpenRouter key and profile are still fetched through two layer3_* functions by coverage-sweep, so they are needed.
+  - 42 empty tables, some still read or still taking space.
+  - About 100 tables unchanged for more than 7 days.
+  - Screens: one day of signed-in calls recorded.
+- Daily captures 13–15 Oct, then a final report with keep, retire, delete or purge per item for the Platform Admin to decide. Nothing is retired until then.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.261: found course pages read directly first, Firecrawl only as fallback, basic proxy, second reader paused
+- Found at the 21:12 hourly pilot update: in the hour after v2.15.260, Firecrawl billed about 23,500 credits (412,941 left at 20:30, 389,542 at 21:15). That is about 7 credits per page read with the auto proxy, and 76% of found pages read through Firecrawl were the wrong page. At that rate the credits would have lasted about 16 hours; the plan renews on 2 Nov.
+- The Platform Admin first chose "Keep as is", then decided (21:21): "Read found pages directly first, and use Firecrawl only when the direct read is blocked or needs a browser. Also switch Firecrawl to its basic proxy, and turn the second reader off."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Worker coverage-sweep v0.21.3 | The Firecrawl-first read of found pages (v0.21.2) is removed. A found page is read directly; Firecrawl (rendered rawHtml) reads it only when the direct read is blocked, fails or is too thin (needs a browser). Every Firecrawl scrape in the worker sends proxy basic. | Deployed from the branch (run 38235956028) before the migration. From 21:22 to 21:39: 36 pages read directly and 15 through Firecrawl. Firecrawl balance 389,542 at 21:15, 389,030 at 21:30 (512 credits in 15 minutes, against 19,724 in 20:45–21:00). |
+| Migration 20261012011800 | `firecrawl.read_proxy` set to basic (used by Firecrawl runs); `coverage-read-2` paused with `cron.alter_job` (not removed; it stays catalogued and can be resumed); logged in admin_control_events | Applied through db-apply-migration (history md5 9cb6eb09 matches the file); post-checks passed; coverage-read-2 active = false |
+| App v2.15.261 / 0.1.188 (PR #499, squash bc9b3635) | Platform guide and both SOPs (v1.4) describe direct-first reading; release bump | Full local suite 568 passed (one older assertion updated); Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.1 | Read row, jobs list and worker/app line updated | Admin repo |
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.262: Firecrawl daily budget of 15,000 by purpose, per-university caps, credits by university; top 50 Australian providers by CRICOS courses onboarded first
+- Asked by the Platform Admin (21:47): "Report Firecrawl credit used per uni and pages produced, that will give us how much waste is happening, and tweak it along. Do you have any idea to budget the number of unis and courses we have to read through, including central and scholarship pages?"
+- Findings, last 24 hours:
+  - The platform counted 37,695 credits; Firecrawl billed 52,887.
+    - Course-link search used 12,318 and scholarships 12,159.
+    - Course-page reads used 4,832 for 558 correct and 1,079 wrong or failed pages (66% waste). Direct reads gave 1,232 correct pages at no credit cost.
+  - Humber (552) and NZIST (462) spent their credits on searches with no page found.
+  - 388,706 credits were left for 21 days, which allows about 18,500 a day. After v2.15.261 the rate was about 31,000 a day.
+  - The remaining scope (415 target universities, 24,054 courses, about 9,100 without a correct page, 151 universities without a scholarship scan) needs an estimated 35,000–85,000 billed credits. The repeat work is what breaks the budget.
+- Decisions (AskUserQuestion): all five tweaks; a daily budget of 15,000.
+- Asked by the Platform Admin (22:22): "Maintain the uni names and data enrichment based on it… they might be small ones or without even websites and we are burning resources… From CRICOS we know the number of courses. Give me the top 50 unis with maximum courses in Australia and try our mechanism over them; prioritise them for the run."
+  - Found: none of the 37 Australian universities with 100 or more CRICOS courses had been through onboarding; only Notre Dame had a row. The pilot's AU members were picked by stage, not size. 60–95% of the big universities' course pages are already read.
+  - Decisions: "Top 50 AU providers by courses"; "Universities first; hold small ones".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012011900 | Settings in section Daily budget (total 15,000; shares: course search 6,000, reads 3,000, scholarships 3,500, central 1,500, other 1,000; search stop 30; scholarship cap 150 a university in 30 days; central pages refresh 30 days). `svc_fc_spend` checks and records every worker spend; `svc_fc_budget_left`; refusals in `firecrawl_budget_refusals`; `fc_search_stopped_v1` with Search again in `firecrawl_search_resumes`; `svc_course_link_search_next` keeps to the share and skips stopped universities; `firecrawl_credits_report_v1`, `admin_firecrawl_credits`, `admin_firecrawl_search_resume`; notices at 80% and for stopped searches; indexes on coverage_vendor_usage(at), (provider_id, at) and coverage_course_pages(provider_id, read_at) | Applied through db-apply-migration (run 38243684622); guard md5 f0aa2519 / e2d636a2 matched; post-checks passed; live md5 svc_course_link_search_next 6867d7ed, platform_notices_v1 67bb25da. Budget status at 22:45: billed today 53,119 (mostly the 20:30–21:15 spike), so every share is used until midnight Melbourne; 26 universities search-stopped. |
+| Worker coverage-sweep v0.21.4 | useFc and the CRICOS PEO reader spend through `svc_fc_spend`; a refused spend is not made; Firecrawl runs stop with reason daily_budget | Deployed from the branch (run 38243826764) after the migration; live source equals the repo file byte-for-byte (md5 15bee40c, version 146). No Firecrawl use recorded after 22:40; refusals logged (reads, central, other: day_total). |
+| Migration 20261012012000 | Cohort au-top-2026-10-12: the 50 active AU providers with the most active CRICOS-coded courses (UNSW 667 … AIBT 58), baseline per provider; queued first at priority 400000 + courses; a provider with no row gets one; error stops queued again; queued pilot members under 30 courses held at -1 | Applied (run 38243951760); post-checks passed; 50 members: 46 queued, 2 at website, 2 stopped approve_central (Notre Dame, TAFE NSW; need a person); 0 pilot rows needed holding (none was still queued) |
+| App v2.15.262 / 0.1.189 | Models & services › Firecrawl credits by university (today's budget by purpose, window, Flagged only, per-university table, Search again); Daily budget settings section; guide and SOPs v1.5 (new Platform Admin start-of-day step) | Full local suite 572 passed; PR #500, squash dc3a1a91; Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.2, UI catalogue v1.1 | Budget rules, cohort, checksums; the new card | Admin repo |
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.263: Firecrawl reads only course pages found by CRICOS code, listed by the university or entered by a person
+- Found (hourly pilot update 4): in the hour before the daily budget, Firecrawl fallback reads were about 88% wrong pages. Page records by how each page was found, Firecrawl reads correct of all:
+
+  | How the page was found | Firecrawl reads correct |
+  |---|---|
+  | CRICOS-code search (cricos_search) | 1,436 of 1,440 (99.7%) |
+  | CRICOS code (cricos_code, cricos_code_on_page) | 149 of 149 (100%) |
+  | Listed on the university's own site (title_match) | 1,286 of 1,475 (87%) |
+  | Entered by a person (manual) | 718 of 767 (94%) |
+  | Title search (title_search) | 989 of 2,053 (48%) |
+  | AI match (ai_match) | 142 of 333 (43%) |
+  | Firecrawl search (firecrawl_search) | 469 of 1,941 (24%) |
+  | Web search (serper_search) | 43 of 283 (15%) |
+
+- Decided by the Platform Admin (23:54): "Yes, use Firecrawl for pages found by CRICOS code or listed by the uni."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Worker coverage-sweep v0.21.5 | `FC_TRUSTED_BASIS` = cricos_search, cricos_code, cricos_code_on_page, title_match, cms_path_public, manual, firecrawl_upgrade. All three Firecrawl reads in the read path (international view, blocked or browser fallback, priority re-render) need it, or a page entered by a person. Other pages are read directly only; a page that needs a browser waits for its next candidate or a page entered by hand. | Deployed from the branch (run 38253879266); live source equals the repo file byte-for-byte (md5 20dbca0b, version 147) |
+| App v2.15.263 / 0.1.190 | Guide and SOPs v1.6 describe the rule; contract spec s27; release bump; no database change | Full local suite 573 passed; PR #501, squash 9443a88e; Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.3 | Read row updated; worker line | Admin repo |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.264: Models & services in three tabs; AI & OpenRouter restores the AI configuration Layer 3 held
+- Asked by the Platform Admin (00:09, with a screenshot of Models & services): "Layer 3 has removed the configuration of OpenAI and access to toolsets and limits; restore them as a tab in Models & services."
+- Found: when Layer 3 was retired (v2.15.252), its Control tab (cascade, daily limit and pause per task) and the Settings section "5 · Extract values (Layer 3)" (requests a day, daily guards, credit floor, prompts and models) were removed.
+  - The AI that runs now was left spread out: guards in Toolsets, the OpenRouter key on Settings › Keys, scholarship models on Scholarships › Extraction, and the central pages model only in the database.
+  - Toolsets and limits sat below the services cards as one long page.
+- Decisions (AskUserQuestion): "3 tabs"; scholarship AI model order and qualification "shown and editable in the AI tab".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012100 | `admin_ai_config_read()` (rank 3+): OpenRouter balance, mode, floor and warning, the one key (OPENROUTER_API_KEY, shared by 55 profiles), each AI use (scholarship pages, adapter proposals, central pages, course-page matching) with model, guard, spend and calls today and running state, central pages choices, profiles not retired (prompt version and hash), recent AI changes. `admin_ai_config(action, args)` (Platform Admin, reason): central_model (a scholarship AI model not retired), central_on. | Applied through db-apply-migration (run 38254868019); post-check passed; live md5 read 6d3579b0, write 26e51760; read returns 4 uses and balance US$29.17 |
+| App v2.15.264 / 0.1.191 | Models & services tabs: Services · AI & OpenRouter (`AiConfig.jsx`) · Toolsets & limits. The AI tab shows: OpenRouter account (balance, mode switch, credit floor, key set and verify through layer3-provider-control); AI uses with editable daily guards; central pages model and switch; adapter proposal model; scholarship AI models (the same section as Scholarships › Extraction, exported as `ModelsSection` / `ScholarshipAiModels`); model profiles; recent changes. Credit banner and Firecrawl links open Toolsets & limits. Guide and SOPs 1.7. Contract spec s28. | Full local suite 575 passed, 2 failed (a colour literal in the new CSS, and one link expectation), both fixed and re-run; PR #502, squash f6582736; Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.4, UI catalogue v1.2 | AI section and the tabs | Admin repo |
+
+### 13 Oct 2026 (Tue, Melbourne) – Scholarship mechanism v2.7 (changes from v2.15.262 to v2.15.264)
+- Asked by the Platform Admin (08:17): "Prepare and append changes from v2.15.263 and merge on current."
+- What the releases since the last mechanism update (v2.6, v2.15.259) change for scholarships:
+  - **v2.15.262:** every scholarship scraper call passes the Firecrawl daily budget (`svc_fc_spend`). The scholarship share is 3,500 credits a Melbourne day, and one university may use at most 150 scholarship credits in any 30 days. Cohort au-top-2026-10-12 is onboarded first.
+  - **v2.15.263:** course pages only; no change for scholarships.
+  - **v2.15.264:** the scholarship AI models (order, Qualify, Make active) are also on Models & services › AI & OpenRouter.
+- Observed on 13 Oct (Melbourne): the per-university cap refused 13,142 scholarship calls by 08:14 for top-50 universities that had used their 150 in the last 30 days. A proposal (count the cap from when a university joins onboarding) is with the Platform Admin; nothing changed.
+- No platform change in this entry.
+
+| Item | What it does | Verified |
+|---|---|---|
+| docs/scholarships/SCHOLARSHIP-MECHANISM.md v2.7 | Section 7: the top-50 cohort. Section 9: the daily share and the per-university cap. Section 10: how the budget and cap work, and what a refusal does. Section 11: where to see models and credits. Version history row. | Admin repo |
+| Docs artifact (node 850ccf76-2c03) and Drive doc v2.7 | Same text; the earlier Drive copy renamed "(superseded by v2.7)", not deleted; README row points to v2.7 | Docs artifact updated to rev 40 (version line, two settings rows, the budget bullet, the AI & OpenRouter wording, two "where to look" rows, version 2.7 note, the cohort sentence); Drive doc v2.7 id 1YAio_xt47TjowSZG0dxhKMYiHFGHQT9dpWXCO4IW7S0 read back in full; v2.6 copy renamed "(superseded by v2.7)" |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.265: Firecrawl credit waste fixes; official websites from training.gov.au and TEQSA; refusals by university
+- Asked by the Platform Admin (09:38): "Scholarship cap: I need more details of which unis it's refusing or wasting on ... small uni that don't have web pages or not well defined scholarship pages, or denied access", then the same report for course-page search.
+- Found (30 days to 13 Oct, read from the live database; CSVs sent in the session):
+  - Scholarships: 24,393 credits, 63% produced nothing. By cause: overseas 19%, small providers 16%, big universities whose pages were mostly not scholarships 11%, directory sites used as the provider's site 9%, pathway colleges re-reading their university's pages 6%. Access denied: 16 pages only.
+  - The cap was holding 31 top-50 universities, mostly because of spend before they joined onboarding. 15,193 refusals by 09:40.
+  - Course search: 80,004 credits, 59% produced nothing. In the last 24 hours, 94% went on small and overseas providers. Searches limited to directory sites (ACIR, oneuedu, Study Melbourne, higherstudy) never found a page.
+- Decisions (AskUserQuestion):
+  - Scholarships: "Block directory sites", "Universities only", "Refusals per university", "Reset cap for top-50"; overseas "Keep going".
+  - Course search: "Australia and 30+ courses first", "Flag Victoria Uni and Adelaide Uni", "Never search directory sites", "CRICOS code before title", plus "learn and establish how best to find the uni official website ... use training.gov.au or ASQA ... CRICOS/RTO code, flag the exceptions".
+  - Order: "Credit fixes first" (the Progress tab follows).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012200 | **Directory guard:** `svc_fc_spend` refuses any spend on a directory site (page host or a search's `site:`), whatever the purpose.<br>**Refusals by university:** counted in `pipeline.firecrawl_refusals_by_provider`.<br>**Search order:** top-50, Australian 30+ CRICOS courses, overseas, small (`fc_provider_tier_v1`); CRICOS before title within each.<br>**Scholarship discovery:** Australian providers with 30+ courses (setting `scholarship_min_courses`) and overseas universities. The cap counts from joining onboarding (`fc_sch_cap_since_v1`). Held universities are not picked; scholarships on record are still read again.<br>**Switched off, not deleted:** 183 directory recipes and 190 scholarship rows.<br>**Held:** course search for Victoria University and Adelaide University (`pipeline.firecrawl_search_holds`).<br>**Notices:** held searches, providers with no official website, shared websites. | Applied (run 38321562487); post-check passed. Nine live md5s equal the file (svc_fc_spend b49dd1f2, svc_course_link_search_next 2c4d4055, fc_search_stopped_v1 52f4f34e, scholarship_discovery_refill_v1 ef694f93, svc_scholarship_discover_next e95b75ee, svc_scholarship_candidate_next 5034833c, svc_scholarship_listing_next f8184295, svc_scholarship_read_next 89879c6d, platform_notices_v1 d1869f4f). 49 of the top-50 now have scholarship headroom. Scholarship cap refusals went from 15,193 in the morning to 26 in the next hour. Course search over the next 40 minutes: 94 credits. |
+| Migration 20261013012300 | The 124 Australian providers with no website are searched again with the register lookup. | Applied (run 38321920704) |
+| Migration 20261013012400 | `admin_firecrawl_credits` returns `refused_by_uni`: today, up to 100, with tier and held. | Applied (run 38322015697); md5 21ae40b4 |
+| Worker coverage-sweep v0.21.6 | find_site checks training.gov.au, then the TEQSA National Register, then the CRICOS-code search. A register page counts only if it shows the provider's code or name. The website it lists is accepted with the CRICOS code on the home page, a name-fitting address, or when it is the only website listed. The basis and RTO code are kept. | Deployed version 149. All 14 files byte-equal to the repo (index.ts 4b0e5924). First 25 providers: 2 found on training.gov.au (code 1, listed 1), 23 not yet; the rest continue every 3 minutes. |
+| App v2.15.265 / 0.1.192 | Toolsets & limits › Firecrawl credits by university: **Refused today, by university** (search order, refused count, why, Search held with Search again). SOPs 1.8; contract S29. | Full local suite 583 passed. PR #503, squash 9d6f4be0. Workers Builds, build-and-smoke and release-history-contract passed. |
+| System reference v1.5, UI catalogue v1.3, SOPs 1.8 | Directory guard, tiers, eligibility, cap window, holds, refusals by university; website finder order and bases; checksums | Admin repo |
+
+- Still open:
+  - Course search is now limited to small providers (tier 3), because nothing is queued in the higher tiers. A floor on small providers is a possible next lever; not changed.
+  - Scholarship mechanism v2.8 follows in its own entry.
+
+### 13 Oct 2026 (Tue, Melbourne) – Scholarship mechanism v2.8 (v2.15.265)
+- Kept current under the standing rule: the scholarship mechanism document is updated with every change to how scholarships are found, read, linked, published or controlled.
+- What v2.15.265 changes for scholarships:
+  - No Firecrawl credit is spent on a directory site, whatever the purpose. 190 scholarship discovery rows that pointed at directory sites were switched off, not deleted.
+  - Scholarship discovery runs for Australian providers with 30 or more active CRICOS courses, and for overseas universities. Discovery order: top 50, then Australian 30+, then overseas. Scholarships already on record are still read again.
+  - The 150-credit cap counts from when a university joined onboarding. 49 of the top 50 started afresh.
+  - Held universities are not picked, so refused reads no longer repeat every minute.
+  - Refusals are counted per university and shown in Refused today, by university.
+- No platform change in this entry.
+
+| Item | What it does | Verified |
+|---|---|---|
+| docs/scholarships/SCHOLARSHIP-MECHANISM.md v2.8 | Section 7: discovery order. Section 9: cap window; which providers are searched. Section 10: directory guard, held universities, refusals by university. Section 11: where refusals show. Version history row. | Admin repo |
+| Docs artifact (node 850ccf76-2c03) and Drive doc v2.8 | Same text. The v2.7 Drive copy is renamed "(superseded by v2.8)", not deleted. The README row points to v2.8. | Docs artifact updated to rev 44 (version line, cap cell, cap bullet, new directory-guard bullet, 2.8 history). Drive doc v2.8 (id 1HUQ3OOPATqUhibXVkVSnB-JG14V3Be_f3guXtL1A5iA) read back in full: 12 sections and the 2.8 row. The v2.7 copy is renamed. |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.266: Coverage & completeness › Progress; Live activity and duplicates retired; scholarship mechanism v2.9
+- Asked by the Platform Admin (13 Oct): "Show the adapter and scholarship journey and progress I can follow on the UI. Whatever you are providing per hour, what do we need to implement at the UI to have this on demand? Collect the crux of how the platform is progressing, what is running, and where we can tweak or run on demand ... make sure redundant UI screens and controls are retired. Plan first, ask questions and mock it up first."
+- Decisions (AskUserQuestion):
+  - "have the Tab in Coverage and completeness";
+  - snapshots "hourly, kept 90 days";
+  - chat updates "Replace with a 3-a-day summary";
+  - retire "Those plus Wave 1 clean-up".
+- Mock-up: Design artifact SHbqmw49edNQXLhjRDUGph. An artifact comment asked that a job row expands to the universities it runs for, each linking to its journey; that was added. Then "Mock-up is good to go" and (12:04) "proceed with Progress tab, as v2.15.266".
+- Wave 1 clean-up (UI simplification review 4.1, 4.2, 4.6) follows as v2.15.267. Its Live activity items are already gone with the page.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012500 | `pipeline.progress_provider_facts` holds each onboarding or cohort university's courses, fields and scholarships, refreshed hourly. `pipeline.progress_snapshots` holds the Overview per group (all, pilot, top) hourly, kept 90 days. Job progress-snapshot runs at :09 and is in the automation catalogue. `admin_progress_read(view, args)`, rank 3+, serves overview, journeys, running, running_unis and levers. onboarding-pilot-snapshot is paused, not removed. | Applied (run 38330710549); post-check passed; 1,201 facts. Live md5s: progress_overview_v1 c2d80cb0, progress_snapshot_v1 d2b01fca, progress_job_stage_v1 5c919602, progress_cohort_v1 089db028. All five views read correctly as the Platform Admin. Hourly snapshots recorded. |
+| Migration 20261013012600 | Levers count universities that moved a stage, not events | Applied (run 38332263831); admin_progress_read live md5 16ff4919 |
+| App v2.15.266 / 0.1.193 (`Progress.jsx`) | **Overview:** needs attention, the seven stages (each opening Journeys), fields when picked → now, scholarships, pages in the last hour, Firecrawl and AI today, hourly trend.<br>**Journeys:** a row per university with what holds it up and the next step. A row opens its journey with Retry, Search again and Find scholarships now.<br>**Running now:** jobs by journey stage, each opening to the universities it works on with Open journey; Pause, Resume and Run now; worker errors with Mark as seen.<br>**Levers:** each pace setting with what it did today and a link to where it is changed; run on demand.<br>**Retired:** Live activity (old addresses redirect to Running now), the Pilot panel, the Dashboard health strip, Layers and Recent activity, and Task manager's Running now.<br>Guide and SOPs 1.9; contract S30; 9 tests of the retired screens updated. | Full local suite 589 passed. PRs #504 (squash 370534a2) and #505 (polish after the screenshot review: stacked tables, plain needs titles, On/Off levers). Workers Builds, build-and-smoke and release-history-contract passed. Live screenshots (ui-review-snapshots runs 25 and 26): Overview, Journeys, Running now, Levers, Dashboard. |
+| Chat updates | Hourly pilot updates ended at 17 of 48 (12:50 pm). Summaries now come at 8 am, 1 pm and 6 pm Melbourne until 14 Oct 6 pm, with a final before → after summary. | Next scheduled 6 pm today |
+| Scholarship mechanism v2.9 | Section 8: Task manager, Progress and controls. Section 11: where to see what is running and how far each university has got. Version row. | Admin repo; Docs artifact rev 49; Drive doc v2.9 (id 1BlEleAiNuh3Xtn__Gu95BkQH5k8lkzLEa8-1WrkjAuA); v2.8 copy renamed "(superseded by v2.9)", not deleted; README row |
+| System reference v1.6, UI catalogue v1.4, SOPs 1.9 | Section 2a Progress, job list, checksums; Progress and the retired screens | Admin repo |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.267: Progress › Journeys as the approved mock-up; Running now universities for every job
+- Raised by the Platform Admin (14:23, with two screenshots): "progress mock-up and actual implementation for Journey is very different. Even Running now is all tasks are empty."
+- Found:
+  - The Journeys table used the onboarding stepper. Its styles exist only inside Layer 2 › Onboarding, so it rendered as a numbered list from 1 to 7.
+  - The columns, filters and selected-journey panel did not follow the mock-up.
+  - Running now listed universities for only a few jobs. Every other job said "not working on a particular university".
+  - Schedules showed as raw cron, and the last result showed as "1 row".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012700 | `admin_progress_read`:<br>- **journeys:** sorted by courses; held-up filters and Only held up; total count; scholarships searched or not.<br>- **journey (new):** steps by stage from the onboarding events.<br>- **running_unis:** more jobs report the universities they touched; when a job touched none, it lists the universities now at its stage. | Applied (run 38341705265); live md5 e526fbba. Top-50 journeys return 50 rows. Journey steps read for UNSW. provider-facts falls back to the universities at Prepare. scholarship-read lists RMIT, Sydney and others. |
+| App v2.15.267 / 0.1.194 | **Journeys:** filter panel; seven stage pills; fields filled; scholarship journey; held up by; Next step.<br>**Selected journey:** steps, plus Find scholarships now, Read course pages again, Qualify adapter, scholarship pages with AI again, Search again, Retry and links.<br>**Running now:** schedules in words, last result text, the universities under every job.<br>SOPs and guide 1.10; S30 updated. | Full local suite 590 passed. PR #506 (squash 8ee75286); checks passed. Live screenshots (run 27): Journeys for the top 50 and Running now. |
+| System reference v1.7, UI catalogue v1.5, SOPs 1.10 | Journeys, journey and running_unis; checksum | Admin repo |
+- Scholarship mechanism unchanged (v2.9). The per-university AI re-read already existed on Scholarships › Extraction (`admin_scholarship_ai` backfill); it now has a button on the selected journey too.
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.268: notices say what to do, open the exact card and can be acted on in place
+- Raised by the Platform Admin (14:56, with a screenshot of Layer 2 › Onboarding): "these notification are asking for cant be fixed and if followed the link its doesnt open the specific card to adjust the values if required."
+- Chose all four:
+  1. Open the exact card or setting.
+  2. Say plainly whether action is needed.
+  3. Act inside the notice.
+  4. Keep information-only notices on Toolsets and limits.
+- Found:
+  - Every notice linked to the whole Models & services page, not the card or setting it was about.
+  - Expected states (a daily share used up, which carries on after midnight) looked like faults.
+  - "Search stopped for 29" also counted the 2 universities held for an adapter check, which have their own notice.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012800 | `platform_notices_v1`:<br>- Search held, search stopped and no official website now list their universities (`items`).<br>- Search stopped counts only universities stopped after searching.<br>- Hints say what to do. | Applied (run 38349657128); live md5 08076626. Returns stopped 27 (was 29), held 2 and no website 108, each with its universities. |
+| App v2.15.268 / 0.1.195 | Each notice shows Action needed, Action outside StudySearch, Optional or Nothing to do, with the one thing to do.<br>**Go to** opens and scrolls to the exact card or setting: Daily budget settings, Credits by university, Websites to find, scholarship credits, course-page search budget, Daily guards, Jobs.<br>Search again and Save website work inside the notice.<br>Information-only notices are on Toolsets and limits; the layer page links to them.<br>SOPs 1.11; S31 added. | Full local suite 594 passed. PR #507 merged; checks passed. Live screenshots (run 28): Layer 2 › Onboarding shows 3 action notices and "3 information-only notices"; the Toolsets and limits deep link opened its card, showing all 6 with Nothing to do on the daily budgets and shared website. |
+| System reference v1.8, UI catalogue v1.6, SOPs 1.11 | Notice items; checksum; Layer notices row | Admin repo |
+- Scholarship mechanism unchanged (v2.9).
+
+### 13 Oct 2026 (Tue, Melbourne) – Setting: adapter AI allowance raised from 400 to 1,000 proposals a day
+- Raised by the Platform Admin (18:04): "Increase adapter daily limits from 400 to 1000 and fire or run it now."
+- The 6 pm progress summary showed onboarding paused after 403 of 400 proposals (US$0.15 of the US$5 daily limit).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Setting `firecrawl.builder_proposals_per_day` | 400 → 1,000, set through `admin_toolsets_write` with the request as the reason (logged). Its upper bound (`max_value`) was raised from 500 to 2,000 so the value could be accepted. The US$5 daily spend limit is unchanged (1,000 proposals is about US$0.37 at today's rate). | `adapter_builder_budget()` shows limit 1,000. Within 6 minutes no university waited on the allowance; proposals rose from 403 to 412 with 20 in flight. No separate run was needed: `provider-onboarding` runs every minute. |
+- No code or migration change. Scholarship mechanism unchanged (v2.9).
+
+### 13 Oct 2026 (Tue, Melbourne) – Document: platform operational limits v1.0
+- Raised by the Platform Admin (18:17): "Give me all budgets and their correspondence usage and jobs and their schedules"; 18:20: "Save the above as platform operational limits in google docs and in admin docs as well."
+
+| Item | What it holds | Verified |
+|---|---|---|
+| `docs/platform/OPERATIONAL-LIMITS.md` v1.0 | Every budget and limit with its usage at 6:17 pm: the Firecrawl daily budget and its five shares, other Firecrawl limits, OpenRouter guards, Serper and ScrapingBee. Also all 91 scheduled jobs with Melbourne-time schedules (89 running, 2 paused), and watch points. Read from the live database. | Admin repo; README row added (and the System reference and UI catalogue rows brought up to v1.8 and v1.6) |
+| Google Doc copy | Same content, in the same Drive folder as the scholarship mechanism doc (id 1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw) | Read back from Drive; content matches |
+- No system change.
+
+### 13 Oct 2026 (Tue, Melbourne) – Audit: can the platform be run from its settings (no system change)
+- Raised by the Platform Admin (21:34): "Validate that mocked up UI can control the platform from settings and variable available and no hard coded or further settings are in the code that drives the platform."
+- Read from the live database and the deployed worker (`coverage-sweep` v0.21.6). Nothing was changed.
+
+| Finding | Detail |
+|---|---|
+| Controllable today | Firecrawl daily budget and shares, per-university and monthly caps, search stop rule, OpenRouter guards and floor, adapter allowance, scholarship and onboarding settings, AI models (11 settings stores with screens) |
+| Batch sizes fixed in job schedules | 26 jobs; only 4 can be changed on Pipeline settings |
+| Timing rules fixed in functions | About 30 values in 14 functions. Example: scholarship pages are read again after 90 days, while the setting says 30 |
+| Settings tables with no screen | 10 (2 of them unused) |
+| Worker | The Firecrawl proxy is fixed at "basic" in 13 reads; the Proxy setting only affects manual runs. AI models are pinned on purpose |
+| Settings that do nothing | Layer 3 items on Pipeline settings |
+| Report | `docs/platform/SETTINGS-CONTROL-AUDIT.md` v1.0, with a home in the mock-up for each value; README row added |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.269: every control in the UI; guards against fixed values
+- Raised by the Platform Admin (21:43): "Bring all controls to UI and make sure in future it's not getting hard coded. All controls need to be reflected and control in UI. Use current recommended settings and choices."
+- This follows the settings control audit v1.0 (e117). Every default is today's value, so nothing changed on the day. Scholarship pages keep 90 days, as recommended.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012900 | Settings register: toolset `pipeline` with 60 settings (33 job sizes, 19 re-read and retry, 8 onboarding), each with a range, a unit and `used_by`. `pipeline_num_v1` reads it.<br>31 jobs read their size from settings; 14 functions read their timing and onboarding rules.<br>10 Firecrawl worker settings.<br>Policy tables editable through `admin_policy_tables_read` / `_write`.<br>`controls_check_v1` plus a notice; the Layer 3 items removed from Pipeline settings.<br>Automations batch box and Pipeline settings write the register | Applied (run 38386355191) after the first try was refused cleanly (a help text was null).<br>All 20 replaced functions match by md5. Controls check 0. 311 job runs in 20 minutes, none failed |
+| Worker v0.21.7 | Reads the Firecrawl proxy (every read), site map sizes and search result counts from settings | Deployed version 151; index.ts md5 580078ff matches the repo |
+| App v2.15.269 / 0.1.196 | Settings › Pipeline settings: controls check, register cards, policy cards (Platform Admin); Toolsets › Firecrawl shows the new Find pages settings; notice plan for `pipeline:fixed_value`; repo `CLAUDE.md` rule G2; test S32 guard; SOPs 1.12 | Full suite 598 passed; the 2 outdated worker assertions were fixed and re-run. PR #508 merged; checks passed.<br>Live screenshots (run 29): v2.15.269 and the Firecrawl Find pages settings. Pipeline settings is Platform Admin only, so the UAT operator sees "Not authorised"; the register was checked through `admin_settings_register_read` as the Platform Admin and in the mocked browser test |
+| Paste file | Retires `publication_control_settings` and `scholarship_runtime_settings`, read by nothing; each is checked for references first | Sent to the Platform Admin |
+| Docs | System reference v1.9 (section 4a), UI catalogue v1.7, settings audit v1.1 (done; corrects the schedule claim), SOPs 1.12 | Admin repo |
+- Mock-up: added "6 · Settings › Pipeline settings (every control)".
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.270: filters for every catalogue country
+- Raised by the Platform Admin (07:13, two screenshots): "Bug/fix: Courses > state filter is not showing options for nz and Canada. Cross check all filters across all pages and report all relevant drop down options are visible."
+- Cause: the region and delivery filters read campuses only. No NZ or Canadian campuses are recorded, and every campus row says on campus. Several screens and functions also listed only AU and NZ.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013000 | Region: campus region, else the provider's region (options, filter, list column, Has state, `region_source`).<br>Delivery: the course's own mode first, readable labels.<br>Empty filters say why (university group, field, region, delivery).<br>Data Quality (Canada computed when opened), Enrichment operations and Provider assets accept every catalogue country (`security.catalogue_country_codes_v1`) | Applied (run 38463657248). Region options AU 8, NZ 15, CA 10; delivery 4 for each country; NZ Auckland 1,992 courses, CA Ontario 3,323; every call under 1 s |
+| Migration 20261014013100 | Provider assets read the country list once (the first version refused with `text = text[]` for about 10 minutes) | Applied (run 38464461030). Logo cohort AU 39, NZ 8, CA 32. All 6 replaced functions match by md5 |
+| App v2.15.270 / 0.1.197 | Data Quality scope from the server; Canada on Key dates, Regulatory sources and the Layer 4 currency (CAD); the contacts Provider picker follows the country; Websites to find keeps every country; scholarship amount not labelled A$; Priority queue "State or region"; test S33; SOPs 1.13 | Full suite 604 passed. PR #509 merged; checks passed. Live screenshot (run 30): v2.15.270, NZ and Canadian rows show their region |
+| Docs | UI catalogue 1.8, section 7: every drop-down by country (AU / NZ / CA) | Admin repo |
+- Not changed (data gaps): NZ and Canadian courses have no field classification; university groups are Australian only; no NZ or Canadian campuses are recorded; 5,250 of 10,394 Canadian courses hold a long source identifier as their course code. Data Quality "All" stays Australia and New Zealand, because the snapshot table's check allows only AU+NZ, AU and NZ.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.271: StudySearch course codes; scholarship search flag per provider
+- Raised by the Platform Admin (08:33). Course codes, chosen: "fill the real program code and if missing generate the studysearch code, create something not too long and meaningful with uni/campus/Degree based, it will be applicable to upcoming countries as well". Scholarship search: "skip scholarship search for any provider whose website is a directory site ... I need visible flag in provider for such rows. Which we can toggle to enable"; chosen: auto off, operator can enable; close the queued reads and stop the loop.
+- Cause of the loop: 1,391 AI reads of directory pages (australiancourses.com.au, oneuedu.com) for 17 small colleges were put back every 30 minutes without counting the try (about 13,500 refusals a day, no credits spent). The 30-course rule guards site mapping and search, not pages already queued.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013200 | `ref.course_code_schemes` (printed code or source ID); StudySearch codes `<university>-<level>-<number>` as typed identifiers, never in `course_code`; hourly job `studysearch-codes` (catalogued; setting `batch.studysearch_codes`); course list, record and search show the code.<br>Scholarship search flag (`pipeline.provider_scholarship_search` and log, `admin_provider_sch_search`); discovery, refill, page and AI readers skip Off providers; the AI reader closes directory reads; a refused read counts toward 3 tries | Applied (run 38473307168). 7,082 Canadian courses coded across 52 universities (e.g. UBC-MA-014, HUMB-CO-001); 85 providers Off automatically; 105 discovery rows pointed back to the provider's own website; 1,391 queued directory reads closed. All 8 replaced functions match by md5 |
+| Migration 20261014013300 | A printed code always wins; Ontario program codes (`on_aps`) are printed | Applied (run 38473582688). 6,313 courses show a StudySearch code; Humber shows 01149. 3 functions match by md5 |
+| App v2.15.271 / 0.1.198 | Course code column (marked SS) and course record label; Scholarship search column on Providers; flag panel in the provider record (rank 4 turns on with website and reason); test S34; SOPs 1.14 | Full suite 607 passed; the course summary label test was updated and re-run. PR #510 merged; checks passed. Live screenshots (run 31): v2.15.271, SS codes on Courses, Scholarship search column on Providers |
+| Docs | Design reference Decisions 255 (course codes) and 256 (scholarship search flag); UI catalogue 1.9; SOPs 1.14 | Admin repo |
+- Note: about 2,600 coded Canadian courses have no study level and no level word in the title, so their level part is CO (course). Their codes stay the same if a level is added later.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.272: unused automatic publication flag retired; replacement paste file
+- Raised by the Platform Admin (09:30): "Can I run this now PASTE-20261013-retire-unused-settings-tables.sql". Answer: no. `publication_control_settings` was still read by the Layer 4 publish preview, so the 13 Oct paste file is withdrawn (it would have stopped itself and dropped nothing). Settings control audit corrected to v1.2.
+- Platform Admin (10:14): "Proceed". The flag (off since 5 Sep 2026) switched nothing on; the preview only printed it in its confirmation. Rather than show a control that changes nothing, the preview stops reading it and the table is retired.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013400 | `l4_api.publication_control_preview` no longer reads the flag or returns it | Applied (run 38483335805); md5 40e7fe6c matches. Afterwards only `admin_api.scholarship_runtime_settings_write` names either table; no view, trigger, policy, foreign key or job does |
+| App v2.15.272 / 0.1.199 | The publish confirmation no longer prints "Automatic publication"; test S35 | Full suite 607 passed; the SOP export and one timing-sensitive archived test passed on re-run (twice). PR #511 merged |
+| Paste file `PASTE-20261014-retire-unused-settings-tables-v2.sql` | Drops the uncalled write function, then both tables, after copying their rows into `pipeline.admin_control_events`; stops and drops nothing if any reference has appeared | Tested on a local copy: rows saved (1 and 3), tables gone; with a reader added it stopped and nothing was dropped. Sent to the Platform Admin |
+
+### 14 Oct 2026 (Wed, Melbourne) – Field gaps by country and the field enrichment job: plan v1.0
+- Raised by the Platform Admin (10:41): cover provider and campus addresses, link campuses to courses, use pages already scraped, find how many can be filled, find the gaps in fields Layer 1 does not capture, and plan a simple job to enrich chosen fields across universities or countries with the scraper (Layer 2) and AI (Layer 3), controlled from the screen.
+- Plan: `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.0. Read live; nothing changed.
+
+| Finding | New Zealand | Canada |
+|---|---|---|
+| Fields at 0% (Australia gets them from CRICOS) | Campus, duration, field of study, international, street address | Same; level 50% |
+| Courses with a stored own page | 5,543 (86%) | 4,506 (95%) |
+| Campus named in adapter reads, never admitted | 1,286 courses, 50 universities | 522 courses, 13 universities |
+| Duration in adapter reads | 1,174 courses | 402 courses |
+| Stored pages never read by an adapter | 3,003 | 2,790 |
+| Addresses | Need one contact or campus page per university: about 290 universities, about 600 Firecrawl credits | |
+
+- Proposed order: release 1 uses stored data only (campus lists approved per university, then course links; duration, level, delivery); release 2 adds the `enrich_fields` job (stored pages and AI) and a Field sources card in Settings; release 3 adds address page reads. Three decisions are open (section 7).
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.273–274: Enrich fields job built and trialled
+- Platform Admin decisions (14 Oct 2026, after plan v1.0): "Build the full job first"; campus lists "Auto when sources agree"; international "Institution rule".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migrations 20261014013500–3700 | Field sources per country; job kind `enrich_fields` with one item per course and missing field; adapter values, institution rule, AI on stored pages and titles, one scraper read when allowed; campus lists admitted when course pages agree; only missing values, hand locks kept; AI spend under "Enrich fields with AI" | All applied; replaced functions match by md5. 013600 fixed a grouping error the trial found; 013700 puts a course's fields in one AI call |
+| Worker v0.22.0–0.22.2 | Mode `enrich_ai` (pinned gpt-4.1-mini); 0.22.1 reads plain or gzip stored copies; 0.22.2 needs a quote about the course's students or fees for "international" | Deployed versions 152–154; index.ts md5 5a1f71b9 matches the repo |
+| App v2.15.273–274 | Layer 2 › Enrich fields: start with preview and reason, tasks with results per field and value, Field sources (Platform Admin); test S36; SOPs 1.15 | Full suites 605 and 612 passed; updated version-pin, tab-list and S36 tests re-run. PRs #512 and #513 merged. Live screenshot (run 33): v2.15.273 and the task with results by field |
+
+**Live trial, University of Waikato (278 courses, AI US$0.44):**
+
+| Field | Filled | For review | Skipped (page does not say) |
+|---|---|---|---|
+| Campus | 162 courses linked to 2 campuses (Hamilton, Tauranga; 231 links) | 4 | 112 |
+| Duration | 153 | 0 | 125 |
+| Field of study | 264 | 0 | 14 |
+| Open to international | 144 (after 39 footer-based values were undone) | 0 | 134 |
+| Delivery | 48 | 0 | 130 |
+| Provider address | 0 (the stored contact page has no street address; scraper was off) | 0 | 1 |
+
+- Cost guide: about US$0.0016 a course for six fields, so all New Zealand and Canadian active courses (11,197) would be about US$18 of AI. The new daily guard is US$2, but OpenRouter is in observe mode, so the guard is shown, not enforced.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.275: limits on screen, stats and telemetry, NZ and Canada enrichment started
+- Platform Admin (14 Oct 2026, 12:04): "make sure all config and limits can be controller through UI. go for NZ and CA enrichment. record any lesson learnt and start with top tier 50 uni batch. maintain stats and telemetry. raise and use the scrapper and AI accordingly."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013800 | Settings `enrich.page_chars` and `enrich.title_batch` (moved from the worker); `svc_worker_settings_v1` returns `enrich.*`; hourly coverage snapshots (`enrich-coverage-snapshot`, catalogued under Reports); `admin_enrich_fields` 'stats' | Applied; replaced functions match by md5 |
+| Worker v0.23.0 | Reads page text size and titles per call from settings | Deployed version 155; index.ts md5 606a9e30 matches the repo |
+| App v2.15.275 | Enrich fields › Coverage and telemetry card with the limits in force and where each is changed; test S37; SOPs 1.16 | Full suite passed; PR #514 merged. Live screenshot (run 34): coverage by country and field, last hour 6,825 settled, 4,371 filled, 109 AI calls |
+
+| Setting raised (with reason, on Settings) | From | To |
+|---|---|---|
+| OpenRouter guard, Enrich fields with AI (observe mode: shown, not enforced) | US$2 | US$25 |
+| `enrich.ai_calls_at_once` | 2 | 6 |
+| `batch.enrich_fields` | 400 | 1,200 |
+
+- Batch 1 (job 3ff8d4f7): top 50 NZ and Canadian universities (17 by world ranking, then by course count), 8,901 courses, 44,539 items, AI and scraper on. At 7,581 settled: 5,284 filled (4,622 from adapter values or the IRCC rule, 662 by AI), 2,297 skipped, US$2.30.
+- Batch 2 (job 235adc3e): the other 289 providers, 12,202 items, queued.
+- Lessons recorded: `docs/platform/ENRICHMENT-LESSONS.md` v1.1 (16 lessons). Plan `FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.2 section 9.
+
+### 14 Oct 2026 (Wed, Melbourne) – Website API v2 readiness recheck; course display code; course status follows the provider switch; QILT admitted to the website API; developer handover Version 2 (Decision 257)
+
+- Raised by the Platform Admin: recheck the website developer's v2 API readiness and coverage, update the API and related documents, and regenerate the developer document.
+- Backfill of 8 Oct 2026 (not recorded before; the 8 Oct document package was not merged): website-search-v2 went live on Pilot. Platform Admin decisions of 8 Oct (multiple choice): approve the "Manual entry (platform operators)" source for the website projection on official link, intakes, English and provider fee, and open Canada for website search. Nine migrations applied live through the connector, each migration-history md5 matched to its file: 20261008032403 (source and Canada gates), 032806 (helpers), 032949 (course search and detail), 033043, 033254 and 033450 (tuition rules, fee-sort speed), 033739 (providers, rankings, reference), 034048 (scholarships), 034140 (scholarship study areas from linked courses). Edge function `wix-course-api` version 5 (v2 contract, signed logo links); its source is in the code repo and matches the deployed version.
+- History gap closed: the nine 8 Oct migration files were not in git, although their objects were captured in the 10 Oct live baseline (so a rebuild was never short of them). They are now in `supabase/migrations-archive/` on the code repo (archive 1,053 -> 1,062), each byte-identical to the live migration history (md5 checked). Code repo PR #515.
+- Recheck result (live, 14 Oct): v2 answers all eight actions; v1 unchanged in shape; no security advisor finding on any v2 object. Courses returned: Australia 26,103, New Zealand 6,474, Canada 4,723 (52 providers). Official course page: 18,385 / 3,000 / 2,678. Published scholarships 1,100 (Australia 901, New Zealand 141, Canada 58). 10 hidden providers left out with their courses and scholarships. Warm timings: filtered search 0.1–0.6 s, whole-country tuition sort about 2 s, first call after idle 2–4 s.
+- Readiness gap fixed: Canadian course codes reached the website as portal IDs (long GUIDs, slugs). Migration 20261014032122 (applied live through the connector, guarded by the md5 of both functions, migration-history md5 55dc0600 matches the file) adds `display_code`, `display_code_kind` and `display_code_label` to every course (Decision 255 code) and lets the course action find a course by its StudySearch code. Additive; `course_code` unchanged. Verified: CA items show codes such as SHER-BA-001; UNBC-BA-019 finds its course; AU shows the CRICOS code; no slowdown (50-item page 0.3–0.4 s). New checksum `public.website_v2_course` 9872c3ef.
+- Platform Admin decision (multiple choice, 14 Oct): the provider Published switch is the control for the consumer API; switched off, the provider and its courses are not returned to API queries. Verified live first: the 10 providers switched off (774 courses) appear in no v2 action and not in v1. Migration 20261014034927 (applied live through the connector, guarded by the md5 of the course item function, migration-history md5 aacbbefd matches the file): a returned course now reads `publication_status: published` (follows its provider) instead of `unpublished` for every course. New checksum `api.website_v2_course_item` c9fcc242.
+- Platform Admin decision (14 Oct): the developer document is "Version 2" only. `docs/integrations/coursefinder-wix-api-handover-v2.md` and its Word copy are issued under the StudySearch name with a change log (section 21); the 3 and 8 Oct drafts (v2.0, v2.1) are not filed. Integrations router updated; Decision 257 recorded in the design reference; System reference v1.10 adds §4b Website API v2 and its checksums.
+- Platform Admin decision (multiple choice, 14 Oct): admit QILT to the API. Gate `courses/provider_outcomes` approved (read only by the two v2 detail actions); the course-grain gate `courses/qilt` (Zoho, admin) stays blocked, so provider statistics are never shown as course facts. Migration 20261014040646 (applied live through the connector, guarded by the md5 of both functions, migration-history md5 31b20fbf matches the file): only QILT surveys are returned under the gate; course detail had filtered outcome rows on status active/accepted while every row is current, so it returned none (fixed); each row adds study_level_name, survey_name and national_benchmark. Verified: UQ provider detail and course 082960F return 48 QILT rows with state admitted; New Zealand courses return state admitted with no rows; 116 visible providers hold QILT. New checksums `public.website_v2_course` ad9ba388, `public.website_v2_provider` 2411c7e4.
+- Institution type (asked by the website developer on 1 Oct): chosen by the Platform Admin on 14 Oct, but not built: `catalogue.providers.provider_type_id` is empty for all 1,885 providers in search and the stored register records carry no type. It needs a Layer 1 mapping first (CRICOS institution type, NZQA organisation type, Canadian lists); the handover states it is not held.
+- Open item: `reference_code` is null now that national registers are not used.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.275 hotfix: Enrich fields items always settle; batch 1 finished
+- Found by the scheduled check of the NZ and Canada run (15:24 Melbourne): one AI reply held a null character the database rejects; its 30 items used their three tries while "leased" and were never settled, so batch 1 could not finish and batch 2 (queued behind it) could not start.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013900 | Each pass settles an item that has used its AI tries and is no longer being worked on, as failed, with the reason | Applied; `security.enrich_fields_slice_v1` md5 aa68e9a8 as intended. The 30 items settled on the next pass; the five waiting campus lists then ran |
+| Worker v0.23.1 | Removes null characters before an Enrich fields result is recorded | Deployed version 156; index.ts md5 8b6234b7 matches the repo |
+| Tests | S37 hotfix test | Full suite 616 passed (the r5-archived timing flake passes on re-run). PR #516 merged |
+
+**Batch 1 final (top 50 NZ and Canadian universities, 44,539 items, AI US$14.05):**
+
+| Field | Filled | For review | Skipped | Failed | AI US$ |
+|---|---|---|---|---|---|
+| Campus (course links) | 4,113 | 475 | 4,145 | 6 | 3.46 |
+| Campus lists | 45 | 1 | 4 | 0 | 0.06 |
+| Delivery | 3,520 | 0 | 3,667 | 5 | 3.13 |
+| Duration | 3,563 | 0 | 5,180 | 5 | 4.23 |
+| Field of study | 8,297 | 0 | 332 | 8 | 0.62 |
+| Open to international | 5,837 | 0 | 2,912 | 7 | 2.30 |
+| Study level | 314 | 0 | 2,052 | 1 | 0.16 |
+| Provider street address | 9 | 0 | 41 | 0 | 0.08 |
+| **Total** | **25,698** | **476** | **18,333** | **32** | **14.05** |
+
+- Courses now linked to a campus: New Zealand 2,174 (was 162), Canada 2,101 (was 0). Coverage (04:07 snapshot, before the campus links): Canada field of study 80%, international 88%, delivery 52%, duration 25%; New Zealand field of study 65%, delivery 42%, duration 37%, international 27%.
+- Batch 2 (other 289 providers, 12,202 items) started at about 15:40 Melbourne. Expected AI cost about US$4; OpenRouter balance US$11.06.
+- Lessons 17–20 added: `docs/platform/ENRICHMENT-LESSONS.md` v1.2.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276: institution type from the registers (Decision 258)
+- Raised by the website developer on 1 Oct; Platform Admin decisions of 14 Oct (multiple choice): map institution type; types mirror the registers (University, University College, Higher Education Institute, TAFE / Polytechnic, Private VET college, School, Wānanga, Other); Australian universities from the TEQSA National Register on data.gov.au; a CRICOS Government provider that offers VET is TAFE (school courses only is School); New Zealand from NZQA; Canada left empty; training.gov.au left for later (its web services need credentials).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014060746 | Types (tafe and college retired, kept); `catalogue.provider_register_facts`; ordered `pipeline.provider_type_rules`; classifier and daily job `provider-type-classify` (catalogued); two Layer 1 sources; NZQA applier keeps the organisation type; Providers type, basis and lock; `admin_provider_set_type`, `admin_provider_type_rules`; website API v2 `institution_type`, `institution_types` filter and reference list | Applied through the connector, every replaced function md5-guarded; migration-history md5 10058770 matches the file. First attempt stopped at a guard (anchors present, length check too strict) and rolled back; the guard was made per step |
+| Migration 20261014063911 | Facts writer in one statement | The first CRICOS Institutions apply passed the 8 s statement limit (per-code loop); md5 75600e65 matches |
+| Migrations 20261014064736, 20261014070622 | NZQA provider search source; the three sources resumed (weekly, applied when the file changes); NZQA number taken from the search number | md5 3fe216d2 and 0e4d932b match. The NZQA search number is the NZQA number plus a five-digit site number: 415 of 415 search numbers in the stored register evidence give a registered number |
+| Migrations 20261014065115, 20261014070026, 20261014070327 | Name match as a fallback only (a listed name used when every row with it has the same type) | md5 1d3c14d4, d5a3cbad, 3da37ccd match. 070026 passed the time limit on its first run (not materialised) and was replaced by 070327 (0.15 s on 415 rows, tested in a rolled-back transaction) |
+| Edge functions | `layer1-provider-facts` v1.3.0 (new; service key or one-time nonce; approved hosts; evidence by hash), `layer1-operations-control` v1.9.0, `layer1-operations-scheduled` v1.5.0 | Deployed by the deploy workflow from main; live version strings read back; unauthenticated calls refused (403) |
+| UI v2.15.276 | Providers › Type column (Needs type with the reason; PIM Admin sets by hand or back to Auto, no reason asked); Settings › Pipeline settings › Institution type rules; guide and SOPs 1.17 | New contract test passes (static and mocked browser); full suite with the installed Chromium 1,278 passed, the 146 failures are all `@deployed` specs that need a live sign-in; release:verify PASS; build OK. PRs #517–#520 merged |
+
+**First live read:** TEQSA providers file (9 Oct) 272 rows, 200 CRICOS codes, all matched; CRICOS Institutions 1,542 of 1,545 matched; NZQA 415 of 415 by number.
+
+| Institution type (providers with courses) | Australia | New Zealand | Canada |
+|---|---|---|---|
+| University | 45 | 8 | — |
+| University College | 8 | — | — |
+| Higher Education Institute | 137 | — | — |
+| TAFE / Polytechnic | 16 | 17 | — |
+| Private VET college | 935 | 258 | — |
+| School | 302 | — | — |
+| Wānanga | — | 3 | — |
+| Other | 98 | 1 | — |
+| Not held | 5 | — | 52 |
+
+- Website API v2 verified live: providers with country AU and type university returns 45; the wānanga filter returns items with `institution_type` {wananga, Wānanga, NZQA: wānanga}; course search accepts `institution_types` (filters_not_applied empty; 12,047 Australian university courses); provider detail and course provider carry the field. Filtered search took about 2.3 s cold.
+- Points for the Platform Admin: Aviation Australia and Canning College are typed TAFE / Polytechnic (CRICOS Government providers offering VET); five Australian providers show Needs type (no CRICOS type, no TEQSA category); a dual-sector university is a University because the TEQSA rule comes first. Change either by hand on Providers or on the rules card.
+- Documents: Decision 258 in the design reference (Decision 257 updated); System reference v1.11 (§4c and checksums); developer handover Version 2 reissued 14 Oct with `institution_type`, the filter, a coverage table, acceptance test 9b and a change-log line.
+
+### 14 Oct 2026 (Wed, Melbourne) – Handoff to the build chat: website developer requirements register
+- Raised by the Platform Admin: pass today's website API changes and the developer's requirements to the chat that does most of the coding.
+- New `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v1.0: the rules for any change the website reads (additive only; the provider Published switch is the control; nothing inferred; md5 guards and the two contract tests; reissue handover Version 2 with a change-log line), requests R1–R14 with status, and open work O1–O6. Listed in `docs/README.md` and `docs/integrations/README.md`.
+- Open work for the build chat, in order: O1 recheck New Zealand and Canadian campus coverage in the API after today's Enrich fields campus links and update handover section 14; O4 Platform Admin review of the five untyped Australian providers and the two TAFE edge cases; O2 Canada institution type and O3 training.gov.au wait for Platform Admin decisions; O5 rankings and logos wait for management.
+- Pilot repository `CLAUDE.md` gains a short "Website API v2" rule pointing to the register, so a coding chat sees it on start (code repo PR #521).
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276 website requirements O1: New Zealand and Canadian campuses in the API; Enrich fields values reach the website
+- Platform Admin (14 Oct 2026, 18:44): "O1 – recheck NZ and Canadian campus coverage in the website API after today's Enrich fields campus links, then update handover section 14 and the campus sentence if the numbers changed. Leave O2–O5 alone."
+- Found while measuring: (1) the 246 campuses made by Enrich fields (NZ 168, Canada 78) took the provider's head-office region, wrong for New Zealand campuses away from head office (for example Dunedin coded NZ-AUK, Tauranga and Rotorua NZ-MBH); (2) study area, study level and delivery written by Enrich fields were not reaching the API, because the search projection is refreshed only on request and the job never requested one (NZ study area 6,053 held, 0 returned). Platform Admin decisions (multiple choice): "Clear unproven NZ, keep CA" and "Refresh + delivery fix".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014090000 | New Zealand campus regions kept only where the campus is in the provider's own city (132 cleared, old values in `pipeline.campus_region_cleared`); new campuses follow the rule; Canada keeps the province. An Enrich fields task requests a projection refresh when it finishes; one refresh requested now. Delivery modes fall back to the course's own mode when no campus mode is held | Applied; md5 guards and post-checks passed: `security.enrich_campus_list_apply_v1` 2617420b, `security.enrich_fields_slice_v1` 03cc5526, `search.refresh_course_base_v3` a3737e58. Refresh ran at 19:26: 10,958 courses updated |
+| Tests | New S38; website API v2 and institution type contracts pass | Full suite 634 passed. PR #522 merged |
+| Developer document | Handover Version 2 reissued (14 Oct): section 14 gains study area, level, duration, delivery, campus, city and region rows; campus sentence rewritten; 13.1 delivery note; change-log line | Word file validated and rendered (section 14 on pages 17–18); Markdown regenerated from it |
+
+**What the website API returns now (courses of published providers):**
+
+| Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
+|---|---|---|---|
+| Study area | 26,103 | 6,053 (was 0) | 4,601 (was 0) |
+| Study level | 26,103 | 6,233 (was 6,182) | 2,671 (was 2,382) |
+| Duration (months) | 26,103 | 2,931 | 1,319 |
+| Delivery mode | 26,078 | 3,868 (was 0) | 3,204 (was 0) |
+| At least one campus | 26,069 | 2,603 | 2,332 |
+| Campus with a city | 26,068 | 1,928 | 1,807 |
+| Region held (state filter) | 26,068 | 1,111 | 2,332 |
+
+- Checked through the API functions: search NZ city Hamilton 272, Auckland 616; Canada Vancouver 445; region NZ-WKO 272, CA-ON 996; NZ delivery online 392; no filter left unapplied. A Dunedin course now returns its campus with region null (was NZ-AUK), with study area, delivery and level.
+- Open item O7 added to the register: two New Zealand durations read from fee lines; 294 durations in semesters return `duration_months` null. Lessons 21–23 added (`ENRICHMENT-LESSONS.md` v1.3).
+- Documents: register v1.1 (O1 done, O7), System reference v1.12 (§4b campuses and regions, projection refresh, checksums), handover Version 2 reissued. O2–O5 untouched.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276 O7 and Deployed UAT green again
+- Platform Admin (14 Oct 2026, 20:04): "Ask me questions with recommended choices, also the branch is not green." Decisions (multiple choice, recommended options): "Exact source names", "Undo and tighten rule", "Keep null".
+- **Deployed UAT** had been red on Pilot main since 5e5b81c6 (institution-type release, before O1). `layer1-operations-deployed.spec.mjs` chose the first Australian source whose label contains CRICOS (and NZ: NZQA); today's institution-type registers "CRICOS Institutions: institution type" and "NZQA provider search: organisation type" match too, so the CRICOS test validated the provider register, which reports providers, not active courses. The test now picks "CRICOS Providers, Courses and Locations" and "NZQA Education Organisations" by exact name. No platform change.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014100000 | Withdraws the two New Zealand durations read from a fee line (courses course:nzqa:6017:2212 and course:nzqa:6014:3072), only where the course still held the job's value and no hand lock; items marked skipped with the reason, value and quote kept | Applied; post-check (exactly 2) passed; both courses return `duration_months` null through the API |
+| Worker v0.23.2 | A duration quote about the fee basis is not admitted (reason "the quote is about the fee basis, not the course length"); the rule matches exactly the 2 of 4,544 filled durations | Deployed version 157; index.ts md5 5a7e6236 matches the repo |
+| Tests | S38 O7 test; S36 and S37 pins accept the new worker; deployed Layer 1 spec by exact source name | Related contracts 32 passed; full suite 634 passed (S36 pin, since fixed). PR #523 merged. On cb63a2f7: Deployed UAT (targeted), build-and-smoke and Workers Builds all success |
+| Developer document | Handover Version 2 reissued: section 14 NZ duration 2,929; known data-quality line; change-log line | Word file validated; Markdown regenerated from it |
+
+- Semester durations (294) stay null in `duration_months` (decision "Keep null"). Register v1.2 (O7 done); lessons v1.4 (lesson 24).
+
+### 14 Oct 2026 (Wed, Melbourne) – O2–O5 parked as pending data-enrichment tasks
+- Platform Admin (14 Oct 2026, 20:39): "Let it empty and flag it as Pending task for data enrichment and record it somewhere as to be attended."
+- No platform change: the values stay empty and the website API keeps returning null (not held).
+- New backlog: `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.3 section 10, listed in `docs/README.md` as "Pending data-enrichment tasks".
+
+| # | Task | Empty now | Unblocked by | Register |
+|---|---|---|---|---|
+| PE-1 | Institution type for Canada | 52 providers | Platform Admin choice of source | O2 |
+| PE-2 | training.gov.au confirmation for VET providers | RTO basis | Credentials, or a decision not to use it | O3 |
+| PE-3 | Five untyped Australian providers (Advance English, Girton Grammar School, Inspire College, Nova Institute of Technology, St Peters International College); Aviation Australia and Canning College typed TAFE by rule | 5 null, 2 to confirm | A person on Providers › Type, or the rules | O4 |
+| PE-4 | Rankings and logos usage terms | Display not allowed yet | Management decision | O5 |
+| PE-5 to PE-7 | Street addresses for NZ and Canada (about 600 credits); NZ code-of-practice list; campus names for review (476 + 1 from batch 1, 105 from batch 2) | — | Platform Admin decisions | — |
+
+- Website requirements register v1.3 (O2–O5 marked parked with their PE numbers). Next chat: treat section 10 as the to-do list for data enrichment; do not attend a PE item without the Platform Admin's go-ahead.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.277: website sync by cursor; rankings and logos approved for display; logo links a year (Decision 259)
+- Platform Admin (14 Oct 2026, 20:43): "For ranking, we can pass it on v2 api and for logos we can pass it on as file links to be stored in wix platform with maximun validity. And subsequent api requests only pass changed data unless queried for full load." Decisions (multiple choice, recommended options): "Yes, approved to display", "1 year, renewed in delta", "New sync action with cursor".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014110000 | Settings (Website API: two Yes/No display approvals, logo link 365 days, renew 30 days before, sync page 50; `batch.website_sync_check` 600); `terms_status` from the settings in five website functions; `pipeline.website_sync_items` and `website_sync_scan`; item builder, candidates, rolling check, `website_v2_sync`; job `website-sync-check` (catalogued, Search and API); first numbering of 40,391 items | Applied; the five replaced functions match by md5 (ed09e7d2, 889a4c7f, 173e3a9f, 9c5f725e, 28ea2093); rankings and logos read approved; job runs every minute in 10–13 s |
+| Migration 20261014111500 | `checked_through` null until every chosen entity has finished a pass (found verifying live) | Applied; md5 92414ce7; null overall, set for reference alone |
+| Edge function wix-course-api version 6 | Action `sync` added at the end (additive); logo link validity read from the setting | Deployed from the merged source (md5 5987792e); live source shows the new code. The live endpoint needs the Wix key, which this check does not hold: the database functions it calls were verified directly |
+| Before applying | The migration and a test script were run on the live database in a transaction that raised at the end (rolled back): full load paging to completion, empty delta after it, a changed item returned alone, a removal returned as change remove, first check records without counting, a stale hash counts, bad cursor and entity refused | All passed. The first timing showed course detail at 218 ms an item (identifier lookup); sync course items are the search items (7.6 ms); providers weighted 8 in the check |
+| App v2.15.277 | Pipeline settings show Yes/No settings; Website API card; SOPs 1.18 | Test S39 (static and mocked browser); website API v2 and institution type contracts pass; full suite 639 passed; release:verify PASS; build OK. PR #524 merged; on main 9218cd2e all checks green (Deployed UAT, build-and-smoke, Workers, release history and currentness). Live screenshot (run 35): v2.15.277 (the screenshot user is a Pipeline Operator, so Settings shows Not authorised) |
+
+- Items numbered: course 37,300, provider 1,885, scholarship 1,100, rankings 56, logo 49, reference 1. A full pass of the check takes about 90 minutes.
+- Developer document: handover Version 2 reissued (section 13.8 sync; 13.6, 13.7, Step B2, sections 1, 7, 8 and 15 for approval and 365-day links; acceptance tests 10b, 12a, 12b; change-log line). Register v1.4 (R15, R16; R6; O5 closed). Backlog PE-4 done. System reference v1.13. Design reference Decision 259 (Decision 257 rankings line updated). SOPs 1.18 copied.
+
+### 15 Oct 2026 (Thu, Melbourne) – Website API developer pack: guide, OpenAPI, Postman, developer key; v2 the one path
+- Platform Admin (15 Oct 2026, 07:43): "I need to send api to developers and need to do clean-up and make it streamline". Decisions (multiple choice, recommended options): "Streamlined pack", "API first, platform after", "New developer key".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261015000100 | `api.website_integration_identity_v1` and `public.website_edge_identity_v1` (service_role only): an enabled key's credential name | Applied; md5 a0c8147c, e26ead8c |
+| Edge function wix-course-api | Rate limit per key identity (Wix key keeps `coursefinder_wix_pilot_v1`); keys other than the Wix key use v2 only | Deployed, source md5 29864613 = main. Developer key: v2 200, v1 401; bad key 401; bad action 400 |
+| Migration 20261015000200 | `reference` answered from a copy rebuilt every 15 minutes (`pipeline.website_reference_cache`, job `website-reference-cache`, catalogued); it had returned 503 at the 8 s limit (build 5.5–6.6 s) | Applied; reference md5 28ea2093 → 4f3bc6db; live 200, 57.5 KB |
+| Migrations 20261015000300 and 000400 | `sync` pages filled by build cost; provider weight 16 (3 provider details a page); a page of 50 provider details had returned 503 | Applied; sync md5 92414ce7 → 70890025 → 42b7597b; burst of 6 provider pages, 4 course pages and reference all 200 (provider pages average 0.55 s, max 2.3 s) |
+| Developer key | `coursefinder_website_developer_pilot_v1` added directly (sha256 only, enabled); handed to the Platform Admin once in the chat, not stored anywhere else. Temporary key `coursefinder_website_verify_20261015` used for the checks, then disabled (`enabled` false, `rotated_at` set; not deleted) | Disabled key now returns 401 |
+| Developer pack (`docs/integrations/developer-pack/`) | Guide (master .md; Word, PDF; 11 pages): overview, quick start, key, requests and errors, recommended integration, sync, nine actions and fields, coverage, Wix collections, support, production, 19 acceptance tests, changes. OpenAPI 3.1 file and Postman collection (key as a variable, empty). `build.sh` rebuilds all four | Every example in the guide, OpenAPI and Postman run live through the endpoint: search 35, nursing Melbourne 109, Canada 4,723, course 082960F (own code) and UNBC-BA-019 (studysearch), Go8 8, AU universities 45, with logo 49, UQ 48 QILT rows and 18 rankings, QS 2027 AU 38, international scholarships 1,096, scholarship detail 200 linked courses, sync full then next page. OpenAPI lint valid; no key in any file |
+| Tests | Website API v2 and sync contract tests updated (identity call, v1 refusal, reference cache, page by cost, weight 16) | Full suite 640 passed, 1 timing flake (r5 archived browser test, passed 3 of 3 alone). PR #525 merged (616c3479) |
+
+- The Version 2 handover is now internal history (banner added with its two stale lines); the guide is what the developer receives. Register v1.5 (R17; rule 5 reissues the pack; "One path for the website": v1 `wix-cache-v1` and edge `website-course-api` marked for retirement once the developer is live on v2, nothing removed; O6 note; O8 provider detail slow). System reference v1.14. Router updated.
+- Next: Platform Admin sends the pack and the key (secure channel) to the developers. Day-4 usage audit (15 Oct 10:15Z) gives the platform clean-up list; drops go to the Platform Admin as paste files.
+
+### 15 Oct 2026 (Thu, Melbourne) – v2.15.278 and v2.15.279: waste rules for data enrichment; central pages for the top providers; fee cross-check
+- Platform Admin (15 Oct 2026, 09:18): "Check progress on current data enrichment ... If we are wasting resources on multiple tries then tighten rules around it, recording, flagging and moving on, rather getting stuck an wasting resources." Decisions (multiple choice, recommended options unless marked): "Auto-pause idle jobs", "Yield-based retry cap", "No repeat reads unchanged", "Run admit jobs on new input"; approach "Change approach" then "Top 50 by adapter, flag the tail"; after the finding below, "Central pages, per course group"; fees "Qualify first, then decide", then "Clear the >=90% ones"; English holds "Auto-approve checked AI proposals", "Double degrees take the shared default", "Research degrees need a research default" (not recommended), "Keep the other holds".
+- Found (7 days to 15 Oct): website-facing coverage flat (Australia: course page +344, English +257, intakes +31, tuition +34); course-page reading idle since 13 Oct; OpenRouter US$7.74 against a US$5 floor. Waste: course-link-reverse about 6.5 h of database time a day (last page 30 Sep, 2 courses ever); three admit jobs about 45 s every 10 minutes with nothing to write; exit-awards-apply and adapter-overwrite rewrote 106 courses' delivery about 33 times each in 4 days; the same review item raised 144 times a day for 9 courses; AI page-match attempt 3 found 9%; firecrawl-targets and panel figures deadlocked 95 times a day; stored scholarship pages read again. In the top 50, adapters exist and pages are read, but English and intakes are mostly not on course pages (ANU: 412 pages, English on none; 596 AI checks "none"); 21 AI readings of central pages waited for a person since 12 Oct; Decision 227 holds kept 2,590 top-50 courses back; 456 adapter fees not admitted.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261015010000 (v2.15.278) | 10 settings (Pipeline settings › Waste rules); `pipeline.enrichment_flags`, `job_input_marks`, `job_idle_watch`, `enrich_focus_providers`; waste-guard job (hourly), enrich-focus-refresh (weekly); admit jobs input-driven; retry cap by yield; exit awards yield to the course page; flip-flop freeze; superseded review items not raised again; stored scholarship pages reused; course-page search, site mapping and AI matching only for the top 50 Australian providers; Firecrawl panel takes the target lock; notices | Dry run rolled back, then applied; 8 replaced functions match by md5 (System reference §5); course-link-reverse paused and shown as a notice; admit runs 53 s then skipped in 0.9 s; retry cap 2; focus 50 (ANU, Sydney, UNSW first); flags: 11,505 outside focus, 8,185 page not found; controls check clean |
+| Migration 20261015020000 (v2.15.279) | 4 settings (Admission checks); fee admitted (fee only) for Wollongong, Tasmania, TAFE NSW, Notre Dame; fee cross-check against the CRICOS registered total before admission; Victoria University, Academies, Torrens flagged; 206 central pages queued for AI; policy-auto-approve job; English plan: same-level double degrees, stated research defaults | Two dry runs (the first found "Bachelor of Laws / Juris Doctor" treated as one level; fixed); applied; 3 functions match by md5; 4 adapters admit fee; 6 fees held back; 4 waiting readings approved, 0 refused; 513 top-50 courses to fill from approved policies; central AI reading (12 done at check) |
+| Worker coverage-sweep v0.24.0 | Central English reader also reports the research-degree requirement with its quote | Deployed (version 158), every file byte-identical to the branch |
+| App v2.15.278 / v2.15.279 | Settings sections Waste rules and Admission checks; notices for paused jobs and frozen values; SOPs 1.19, 1.20 | Tests S40, S41; r5 archived test made to wait (race); full suite 648 then 654 passed; release:verify PASS; build OK. PRs #526, #527 merged |
+
+- Measured fee cross-check (annual x years within 25% of the CRICOS total): Wollongong 96%, Tasmania 91%, TAFE NSW 90%, Notre Dame 100% (3), Torrens 57%, Victoria University 1%, Academies 0%.
+- Not changed by decision: Decision 241 (university calendars answer semester names only); Decision 227 holds for levels the policy does not cover and named courses (flagged).
+- Next: watch flags and the auto-approvals for a day; OpenRouter top-up still advised (central readings cost about US$0.001 each); adapter fixes for Victoria University, Academies, Torrens fees.
+
+### 15 Oct 2026 (Thu, Melbourne) – Decision 260: data pipeline operating model (gates between Layers 1–4, new countries, housekeeping); v2.15.280 component register and hygiene check
+- Platform Admin (15 Oct 2026, 11:06): "added credit to openrouter, there will be new counties on boarding ... We need to settle on approach between layer1-layer4 ... we need to stop, move on gates and steps defined ... housekeeping is very important so we are no increasing code liabilities, leaving scripts, jobs, ui and database base structure and index bloating and unrequired. always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. outcome is code/platform and database are always streamlined and secure." Decisions (multiple choice): next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; "Same change, data kept 14 days"; gates "Automatic everywhere" (including a country's first publish); "Live table + generated doc".
+
+| Item | What it does | Verified |
+|---|---|---|
+| `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` v1.0 | Principles; the four layers; source, provider, AI, admission and country publish gates (pass moves on, stop is flagged and moves on); onboarding stages C0–C7 with lessons from AU/NZ/CA; the seven countries' official registers (research 15 Oct; licences to confirm); weekly scorecard; housekeeping standard; starting point | Router and design reference (Decision 260) updated |
+| Migration 20261015030000 (v2.15.280) | `pipeline.component_register`, usage snapshots, hygiene reports; register sync and ingest; weekly hygiene-check job; generated document; notice "Housekeeping"; 2 settings (Housekeeping) | Three dry runs (the second check in one transaction clashed on the snapshot time; fixed); applied; notices md5 81bf986b as intended; first check: 102 jobs, 450 tables, 24 views registered; 39 tables without row-level security; 420 tables without a purpose; no definer function without a search path; none open to anonymous callers |
+| Workflow "Component register" (daily) | Edge functions and screens from the repository, edge function calls from the logs, generated document on `component-register-snapshot` | First run found the removed logs.all endpoint and the read-only role; fixed (PR); run green: 80 edge functions (11 called), 63 screens; `docs/platform/COMPONENT-REGISTER.md` copied here |
+| Build rule S42 | Migrations from 20261015030000 name what they replace and retire, give each new table a purpose, catalogue each new job, drop nothing | Full suite 657 passed; release:verify PASS; build OK. PRs #528, #529 merged |
+
+- Starting point (15 Oct): 81 edge functions in the repository (about 10 called a day), 101 jobs, 491 tables (94 empty), 180 indexes never scanned (13 MB), 306 MB of retired Layer 3 data still read by 8 jobs, 37–39 tables without row-level security, 1,397 database functions, 875 admin documents (81 versions of the master project plan).
+- Left as is by rule: "a passing qualification never switches anything on by itself" still holds for AI tasks; Decision 260's automatic gates apply to data moving between steps and to a country's first publish.
+- Next: usage audit day 4 (tonight) gives the first retire list, handled by the 6.2 rules; enable row-level security on the 39 tables; give the 420 tables a purpose (comments) as features are touched; move superseded admin document versions to `docs/archive/`; confirm the European register licences (HRK partnership for Germany) before building Layer 1 readers; additive EU/non-EU fee audience in the website API before the European countries publish.
+
+### 15 Oct 2026 (Thu, Melbourne) – Bug fix: duplicate intakes; Canadian provinces not listed
+
+**Asked by:** Platform Admin, 15 Oct 2026 12:31 (screenshot: Athabasca University, Bachelor of Arts Women's and Gender Studies): "Bug/Fix: intake are duplicated and state is not listed for CA courses."
+
+**Found:** 410 courses (Australia 60, New Zealand 182, Canada 168) held the same intake month twice. Four writers key a course's intakes differently (CRICOS code, course id, or the source code), so the same month from the same page was stored as two rows. Canada: 2,391 courses have no campus, so the search projection (website state filter and API) held no province, and the course detail header never showed one. Every one of their providers has its province (the 14 Oct decision "keep CA" accepts it). The admin course list already fell back to the provider's province.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015040000 | Guard trigger on `catalogue.course_intakes`: one active row per course, month, year, campus and start date, whichever writer sends it; 3,289 repeated rows withdrawn (status, kept); setting `search.region_from_provider_countries` (["CA"], Website API); `search.refresh_course_base_v3` and `security.admin_read_impl` replaced (md5-guarded); `search.refresh_course_documents_v2` marked retiring | Dry run then applied; duplicates 0; Athabasca 12 months (was 24 rows); Canadian courses with a province 4,723 of 4,723 (was 2,332); Australia 26,068 and New Zealand 1,111 unchanged; md5 d9b021b2 and 2c2da9ac as intended; trigger present; guard refused a test duplicate; projection refresh processed (2,391 rows changed) |
+| Build rule S43 | Guard, withdrawal, post-check, province fallback, course detail, nothing dropped | Full suite 660 passed. PR #530 merged |
+| Website API developer guide | `subdivision_codes`: Canadian courses with no campus take the provider's province; section 13 change line; Word and PDF rebuilt | Additive only: no field renamed or removed. Register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.6 |
+| System reference 1.17 | Checksums and the region and intake rules | — |
+
+- Paste file for the Platform Admin (drops a constraint, so not applied by migration): widen the `pipeline.component_register` kind check to include `function`, then record `search.refresh_course_documents_v2(boolean)` as retiring (retire after 29 Oct 2026).
+- Next: unchanged from the previous entry.
+
+### 15 Oct 2026 (Thu, Melbourne) – v2.15.281: logo upload fixed; logo finder job
+
+**Asked by:** Platform Admin, 15 Oct 2026 12:55: "Bug/fix: i'm unable to upload Uni Logos or request to find it". **Decisions (multiple choice):** upload by the Platform Admin; "make it background Job to find and attached + Plus admin to upload by clicking on logo from provider details blade or list editing".
+
+**Found:** no upload reached the server in 24 hours. The provider panel's logo was made clickable by a page watcher that only noticed new tables and panels; when the provider's details arrived after the panel opened (a direct link, a slow load) the logo never became clickable. Reproduced in a test browser. The upload path itself worked (database apply checked in a rolled-back run). The old logo finder was retired on 10 Oct; 49 of 3,091 providers had a logo (Canada none).
+
+| Change | What | Checked |
+|---|---|---|
+| Screens | Logo clickable in the provider panel, providers list and Logos list for the role in Pipeline settings › Logos (Platform Admin); editor: upload, image address, or "Find it on the provider's website"; server reasons shown; page watcher retired | S44 browser tests: late-loading panel, upload, find request, lower role read-only |
+| Migration 20261015050000 | Settings (Logos: role, run size, retry days, smallest logo); `pipeline.provider_logo_finds`; capability, request, next and record functions; `svc_logo_upload_allowed`; job logo-find (every 10 minutes) catalogued and registered; old logo-finder functions marked retiring | Dry run, then applied |
+| Worker coverage-sweep v0.25.0 → v0.25.2 (mode logo_find) | Logo from the provider's home page: header logo, declared logo, SVG icon, touch icon; type from the bytes; SVG only when a plain drawing; size by the longer side; white logos never used; attached only when the provider has no logo; not found flagged `logo_not_found` | Deployed byte-identical (15 files). First run took a campus photo (folder named "new-brand") and a white logo, and refused wide wordmarks; fixed in v0.25.1 and v0.25.2, those picks set aside (kept) and re-checked (migrations 20261015060000, 070000). After: 19 of 23 found, all the providers' own logos; 4 flagged (blocked site, no logo on the home page) |
+| Edge function provider-asset-upload | Role from the setting; on the deploy allow-list (was deployed by hand) | Deployed byte-identical |
+| Release | v2.15.281 / 0.1.208; SOPs 1.22; System reference 1.18 (§4f) | Full suite 665 passed; release:verify PASS; build OK. PRs #531, #532 merged (deployed logo checks updated for the new editor) |
+
+- Pace: 2,244 providers have a website and no logo; at 12 a run every 10 minutes the first pass takes about 31 hours. Providers with no website (about 850, mostly Canadian) are left for upload.
+- Next: unchanged from the previous entry.
+
+### 15 Oct 2026 (Thu, Melbourne) – Decision 261 / v2.15.282: the flag unit; enrichment jobs report; new-country provider lists
+
+**Asked by:** Platform Admin, 15 Oct 2026 14:51: "Report what jobs are running or suppose to for data enrichment." Then 15:20: options 1, 2 and 3 (Enrich fields, central-page finder, waste guard), and "we don't keep burning the toolset on repetitive waste and produce nothing ... have flag unit that can be removed or raised manually and automatically by tried burn ... the said entry or provider get re-entered in queue ... when comes online we re-join them for enrichment"; "find out from Firecrawl if we can search country for education institute and build our database". **Decisions (multiple choice):** flags on providers, course fields and jobs; hard at once, soft after 2 tries; change detected plus free recheck (3, 7, 14, 30 days); registers first, search fills gaps.
+
+**Found (report):** in 6 hours about 4,000 worker calls, only the logo finder, adapter re-reads and central-page AI produced anything; the central-page finder picked UNSW, Sydney, UTS and Monash every 5 minutes (716 refusals that day, no credit spent); the waste guard watched one job. Enrich fields had last run on 14 Oct; every Canadian and New Zealand gap (level, duration, delivery, campus, international) had been tried and skipped, mostly "the page does not state it", so a re-run would only repeat the cost.
+
+| Change | What | Checked |
+|---|---|---|
+| Enrich fields task (option 1) | Started for Australian delivery mode only (16,435 courses, never tried; 13,280 with a stored page); Canada and New Zealand not re-run | Task queued and running |
+| Migration 20261015080000 (Decision 261) | `pipeline.enrichment_flags` extended (state, kind, tries, checks, evidence, next check, release fields); `pipeline.enrichment_flag_events`; triggers keep every writer in step; raise, release and re-queue functions; Enrich fields gate (held items and items tried once on unchanged input not queued; a skip counts a try; a fill releases); logo finder holds providers whose website does not answer; central-page finder held until due (option 2); worker jobs whose last 30 runs found nothing paused with trial runs after 1, 2, 4, 6 hours (option 3); job flag-recheck every 10 minutes; 8 settings (Pipeline settings › Flags); screen API | Dry run twice, then applied; checksums as generated. Backfill: 488 course fields held (tried twice), 30,080 counting (tried once). First recheck (16:40): coverage-read, coverage-reidentify and coverage-ai-match paused, trial at 17:40; 8 universities' central pages held until 11 Nov; the four-university loop stopped at 16:37 |
+| Worker coverage-sweep v0.26.0 | Mode flag_check: held providers' home pages read directly (no Firecrawl, no AI); a site that answers is released and re-queued | Deployed byte-identical (15 files) |
+| Screen | Coverage & completeness › Flags: held items by reason, filters, history with evidence, release with a reason, hold a provider or job (Platform Admin) | S45 browser test |
+| Firecrawl research | Country-limited search (`country`, `location`, up to 100 results a query, 2 credits per 10 results) returns pages, not institution records; `/agent` (replaces `/extract`) about 150–200 rows a run, best-effort, rows may be missing; crawl of a register about 2,000–5,000 credits a country | Operating model 1.1 §4.0: registers first, search fills gaps |
+| Records | Operating model 1.1 (§3.0 Flags, §4.0 provider lists); design reference Decision 261; System reference 1.19 (§4g); router updated | Full suite 670 passed; release:verify PASS; build OK. PR #533 merged |
+
+- Next: watch the first trial runs and Enrich fields results; wire the flag check into more queues (provider phone and email, provider facts, scholarship discovery) as they are touched; Canadian and New Zealand gaps need new sources (adapters, central pages, registers), not repeat reads.
+
+### 15 Oct 2026 (Thu, Melbourne) – Website API developer pack refreshed and reissued; reference city metro areas corrected
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:02: "refresh and repost deliverables for Developer for Website v2 API with email".
+
+**Found while re-measuring the acceptance tests against the live API:** the `reference` reply listed the city Sydney (2,484 courses) under the metro area Brisbane. A city took the alphabetically first metro area of its campuses, and one campus registered with the wrong state (Berkeley Business Institute, "SYDNEY NSW 2000", registered as Queensland) decided it. Five campuses have a register state that disagrees with their postcode; in two the campus address names the postcode's state (that one, and International Institute of Australia, "Springvale VIC 3171", registered as NSW); in the other three the postcode is wrong and the state right.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015090000 | Reference: each city's metro area is the one most of its campuses have; campus classification: the postcode's state when the register state disagrees and the address names it; `security.au_state_from_postcode_v1`; reference cache and projection refreshed | Dry run, then applied; Sydney → Sydney, Springvale → Melbourne, no capital city under another metro; checksums `api.website_v2_reference_build` e33efde1 (replaces a3d1dfa9), `security.campus_regional_class_refresh_v1` 87893742 (replaces c0055549), `security.au_state_from_postcode_v1` fd162268. S46. PR #534 merged |
+| Acceptance figures re-measured (live functions) | Course example 78 (35 that morning; English and intake data admitted during the day, all 78 meet the filters); keyword nursing Melbourne 109; Canada 4,723; Go8 8; provider detail 48 QILT rows; AU universities 45; international scholarships 1,096; QS 2027 AU 38; providers with a logo 265 (49 that morning) | Unchanged tests confirmed |
+| Developer pack | Guide: full load about 40,600 items; tests 4 and 14 updated; change line "15 October 2026 (evening)"; Word and PDF rebuilt (12 pages); OpenAPI and Postman regenerated, byte-identical (contract unchanged) | No repository names, hashes or internal tools in the developer documents; register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.7 |
+
+- Known limit, unchanged: a city name used in two states (Kensington NSW and SA) is one entry in `reference`; it takes the metro area most of its campuses have (Sydney).
+- Next: unchanged.
+
+### 15 Oct 2026 (Thu, Melbourne) – Developer documents carry API changes only; guide reissued
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:24: "Wix consumer developer Dont need to know fixes on the platform. We should keep it simple for them and only demonstrate api to fullfill theor request. Platform data measure is good to include but other than the day of api release, we should keep only detials about api changes from last version."
+
+| Change | What | Checked |
+|---|---|---|
+| Developer guide | Section 13 holds the first-issue line only (changes from the 14 Oct handover: developer key, `reference` every 15 minutes, `sync` page sizes); the two data-fix lines of 15 Oct removed; section 8 coverage re-measured on 15 Oct (English AU 15,901, NZ 1,927, CA 1,688; tuition AU 25,922; duration NZ 3,073, CA 1,469; delivery AU 26,087, NZ 3,870; logos 265); examples and acceptance counts stated as measures on the date; Word and PDF rebuilt (11 pages); OpenAPI and Postman unchanged | No platform fixes, repository names or internal tools in the developer documents |
+| Rule | Register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.8 and Pilot CLAUDE.md: section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; measured figures refreshed with each issue | Pilot PR merged |
+| Email | Replaces the 17:02 draft: the pack and how to use it, no platform fixes | — |
+
+### 15 Oct 2026 (Thu, Melbourne) – Faster Wix full load (prepared items, bigger pages); developer guide issue 2 with expectations
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:44: "With api limit how many api calls wix developers have to make to fetch all data and seed it in wix"; 17:46: "How can we burst it for wix" (decision, multiple choice: "Prepared items + bigger pages"); 18:37: "Incorporate expectations in the handover document and email reply."
+
+**Found:** a full load was 1,426 `sync` calls, about 25 minutes. Each call needs the previous cursor, and every item was built again on each call (about 15 ms a course, 150 ms a provider) although the change check had already built it, so raising the rate limit alone would not have helped.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015100000 | `pipeline.website_sync_items.item`: the change check keeps the item it built (its hash is of that copy); `sync` serves it, fills pages by size, pages up to 200 (setting `website.sync_page_max` 50 → 200; new `website.sync_item_unit_bytes`) | Dry run: a 200-item page 54 ms (was about 3 s); stored copy identical to a fresh build. Applied; checksums `public.website_v2_sync` a30f1b45 (replaces 42b7597b), `security.website_sync_check_v1` 5c4ed59d (replaces 2a8d3e59). S47; full suite 672 passed. PR #536 |
+| Migration 20261015110000 | Page unit 3 KB (measured course item about 2.1 KB) | Simulated over all 40,617 items: 2 KB 412 calls (pages ≤ 380 KB), 3 KB 252 calls (≤ 540 KB), 4 KB 235 calls (≤ 723 KB). Applied |
+| Developer guide issue 2 | `page_size` for `sync` 1–200 (default 200); 6.1 Full load: what to expect (about 40,600 items, about 250 calls, about 100 MB, about 5 minutes at 60 calls a minute); 6.2 What we expect from your sync job (resumable job saving the cursor, one cursor at a time, 60 a minute and `Retry-After`, bulk upsert, delta every 5–15 minutes, logos to Wix Media); section 13 line for the API change; OpenAPI (`page_size` up to 200) and Postman (sync examples 200) regenerated; Word and PDF rebuilt (12 pages) | Developer documents carry API use and changes only; register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.9 |
+
+- Storage: about 100 MB more in `pipeline.website_sync_items` once every item is stored (about 90 minutes after the change, through the rolling check); until then an item not yet stored is built on the fly as before.
+- Next: confirm the stored count and a real full load once storage completes (scheduled follow-up).
+
+### 15 Oct 2026 (Thu, Melbourne) – Usage audit complete: final report and decision list (measurement only)
+
+**Asked by:** Platform Admin, 12 Oct 2026: "Find which is not being used first, and scripts and data whose details are not changed for a few days." Day 4 capture and final report run by the scheduled task "Usage audit capture day 4 (final)".
+
+**Done:** day 4 captured (edge function and signed-in calls, cron runs, table counters `table-day4-2026-10-15T1037Z.txt`); the readers of the retired tables pinned by reading counters before and after each scheduled run; final report written in `docs/platform/usage-audit/USAGE-AUDIT.md` (status COMPLETE). **Nothing in the platform was changed or removed.**
+
+| Finding | Detail |
+|---|---|
+| Website API | `wix-course-api` received its first calls: 44 in one burst, 15 Oct 08:00–08:16 Melbourne (37 succeeded, 3 key refused, 2 busy, 1 bad request, 1 not found). No regular sync yet. `website-course-api` (first API): no calls in 4 days |
+| Edge functions | 91 deployed; 14 called at least once in 4 days |
+| Tables | 106 of 433 had no reads or writes since the 12 Oct baseline (about 32 MB); 15 of them are named by no function, screen or edge function |
+| Retired tables still read | `layer3_fact_handoffs` and `layer3_work_items`: `provider-english-defaults` (about 36,000 and 18,000 reads a run) and `policy-auto-approve`. `layer3_interpretations`: `adapter-overwrite` in bursts (88 long runs, then quiet). Empty `layer2_course_discovery_candidates`: `course-coverage-build` (22,380 reads a run) and `retention-worker` |
+| Failing jobs | Only `firecrawl-targets` and `firecrawl-panel-figures` (deadlocks, about 60 a day) |
+
+**Decision list (for the Platform Admin; recommendations only):** D1 delete 12 one-off probe and audit edge functions; D2 delete 6 retired Layer 3 edge functions; D3 retire `layer3-provider-control`; D4 retire contacts import (4 edge functions, 9 tables); D5 retire `website-course-api` once the website owner confirms; D6–D8 change the jobs that still read retired tables, then purge `layer3_fact_handoffs`, `layer3_work_items`, `layer3_interpretations` and delete `layer2_course_discovery_candidates`; D9 delete `layer2_scope_wave_items` (37 MB, empty); D10 delete 15 unreferenced tables; D11 retire idle groups with their functions (workflow schema, Layer 2 trials, Layer 3 benchmarks, scholarship leftovers, onboarding cases, search embeddings); D12 unschedule 3 switched-off jobs; D13 retire the m2-3 refresh tick; D14 fix the Firecrawl deadlocks. About 335 MB freed by D6, D7, D9 and D10.
+
+- Drops and deletes, once decided, go to the Platform Admin as paste files (no applied migration drops anything).
+
+### 15 Oct 2026 (Thu, Melbourne) – Usage audit D6, D7, D9 and D10: live jobs moved off retired tables, rows exported, purge paste file
+
+**Asked by:** Platform Admin, 15 Oct 2026 22:12: "Proceed with D6, D7, D9 and D10."
+
+**Found while tracing the readers (scope changed):** not every Layer 3 row is dead. 1,119 tuition work items are still worked by the fee-rule jobs, the course field states screen shows a fee's Layer 3 source, and about 15,000 interpretations are linked to Layer 4 review history: these are kept. Adapter overwrite uses validated Layer 3 readings as corroboration: the rule is kept on a copy. `scholarship_coverage_benchmarks` is read by the scholarship operations screen through a view, so it was taken off D10 (14 tables).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015120000 | Copies `pipeline.layer3_validated_readings` (15,852) and `pipeline.layer3_call_costs_hourly` (150 hours). English plan no longer waits for retired Layer 3 (54 courses). Adapter overwrite, admit input mark and platform resources read the copies. Reads of the empty `layer2_scope_wave_items` replaced by an empty set. 7 retention and resource settings (G2). 15 tables marked retiring | Dry run: plans change only for 2 of the 54 courses ("waiting" to "write"); Layer 2 screens and month-to-date AI spend (US$43.41) unchanged. Applied; 10 function checksums and history md5 match. S48; full suite 675 passed. PR #538 |
+| Migration 20261015130000 | Index `layer4_review_items(layer3_interpretation_id)`: the purge dry run timed out without it | Applied; history md5 matches. PR #540 |
+| Workflow "Database archive export" (`scripts/archive_export.py`) | Exports row sets to the private Storage bucket `archive`, downloads each file again and checks sha256, lines and key hash; can show an earlier manifest. PR #539 | Run 38729659914: 18 sets (53,805 fact handoffs, 47,454 work items, 64,395 interpretations, 15 tables' rows), about 44 MB, all checked; counts and key hashes compared again with the live database: all match |
+| Paste file `PASTE-20261015-usage-audit-d6-d7-d9-d10.sql` (admin repo `docs/platform/usage-audit/`) | One transaction: checks the export and every set, checks nothing names the 15 tables, drops them, purges the Layer 3 rows, marks the tables retired, records the purge. Then three `vacuum full` lines, one at a time | Dry run on the live database (rolled back): rows and tables removed as expected, tuition items unchanged, about 30 seconds. Sent to the Platform Admin; not yet run |
+
+- Expected after the paste and vacuum: about 270 MB returned; 14,216 work items and 19,126 interpretations kept.
+
+### 16 Oct 2026 (Fri, Melbourne) – Zoho API v2 at its own URL with its own keys, usage statistics, CRM change feed and CSV; developer guide first issue
+
+**Asked by:** Platform Admin, 16 Oct 2026 09:43: "i want to create separate API URL and Key for Zoho V2 API and keep it separate from Website API URL, so i can keep the changes independent for each platform with summary and stat collection as well"; 09:55: "I want a separate URL for each API version going forward. Lets keep it simple not with contracts calling in the URL". Decisions: website v2 URL "Later"; keys "Creator + CRM sync"; CRM "CSV seed + sync feed"; contacts "Public + named contacts". Zoho emails: Divya (14 Oct, search details and provider name), Dhivya (16 Oct, CRM modules and an Australian CSV matched by CRICOS).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016010000 | Projection fee is the latest year's annual fee (was the lowest of any year: 441 courses at 11 universities showed 2026 over 2027); website sync hash ignores the freshness timestamps (was marking unchanged courses changed) | Applied, md5-guarded. Course 0100879 shows 64,640; course changes fell to 209 in 30 minutes. PR #541 |
+| Migration 20261016020000 and edge function `zoho-api-v2` | One URL for Zoho v2, no contract field; keys in `private.api_keys` (SHA-256 only): `zoho_creator_v2`, `zoho_crm_sync_v2`; fifteen actions (search with intakes, English bands and tuition in each result, provider name and CRICOS filters, course batch, providers, campuses, contacts, statistics QILT and PRISMS, rankings, scholarships, report, sync, export); every call logged (`pipeline.api_requests`, summed into `pipeline.api_usage_daily` every 15 minutes); Zoho change stream (`pipeline.zoho_sync_items`, job `zoho-sync-check`) for the countries in `zoho.sync_countries` (AU); nine settings in section "Zoho API"; screen Operations › API usage | Applied, md5-guarded; edge function byte-identical. Live: all actions answered as designed; first pass built 34,394 items (1,546 providers, 3,957 campuses, 2,788 contacts, 26,103 courses). PR #541 |
+| Migration 20261016030000 | CSV export returns the sync cursor to continue from (`sync_cursor`, `x-sync-cursor`) so a CRM seeded from CSV continues with sync | Applied, md5-guarded; live export returned the cursor; sync from it answered in delta mode. PR #542 |
+| Migration 20261016040000 | CSV export in pages: `public.zoho_v2_export_page(text, integer)`, up to `zoho.export_page_rows` (3,000) rows a page, each with the header; the whole-file `public.zoho_v2_export(text)` marked retiring | The whole course file (7.7 MB) answered 503 at the 8-second limit. Live after: course page 9 200 in 2.8 s; nine pages give 26,103 distinct courses. PR #543 |
+| Developer guide (admin repo `docs/integrations/zoho-pack/`) | StudySearch Zoho API v2 Developer Guide, first issue (md, docx, pdf), OpenAPI 3.1 and Postman collection; answers the questions in both Zoho emails; no key in any file | Twelve acceptance tests run live against the deployed API (search 107, provider name 1,068, QILT 48, provider CSV 1,546 rows, wrong key 401) |
+
+- Keys handed to the Platform Admin once, outside the repositories. Zoho v1 (`zoho-course-api`) and the website API are unchanged.
+- Full test suite 683 passed before each deploy.
+- Open: website v2 at its own URL and website call logging (decision "Later"); the D6–D10 paste file still waits to be run; `public.zoho_v2_export(text)` to be dropped by paste file once retiring ends.
+
+### 16 Oct 2026 (Fri, Melbourne) – Website API v2 at its own URL (website-api-v2), in parallel with the contract path; developer guide issue 3
+
+**Asked by:** Platform Admin, 16 Oct 2026 11:43: "Can we build the Website v2 URL as parallel without disturbing api v2 through v1 url with contract?"
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016050000 | Key `website_developer_v2` in `private.api_keys` (SHA-256 only); setting `website.rate_per_minute` (300 a minute per key, all actions); service functions `public.website_api_v2_auth`, `website_api_v2_rate`, `website_api_v2_log`; register row for the edge function | Dry run then applied: the website key authenticates, a Zoho key does not. PR #544 |
+| Edge function `website-api-v2` | One URL for website v2, no contract field: the same nine actions from the same `public.website_v2_*` functions as `wix-course-api` with `website-search-v2`; `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail`; every call logged (Operations › API usage) | Edge drift check: live `website-api-v2`, `zoho-api-v2` and `wix-course-api` identical to the branch. Live: search example 35 with the same course ids as the database function; nursing Melbourne 109; course, provider and sync answer; logos signed, no storage path; Zoho key 401; a v1 action 400. PR #544 |
+| `wix-course-api` | Not changed and not redeployed; the website keeps working on the old address and key until its developer moves | Drift check above |
+| Developer guide issue 3 (admin repo `docs/integrations/developer-pack/`) | New address and key, no contract field, `api_version`, 300 a minute per key, how to move (the stored sync cursor carries over); figures re-measured on 16 Oct; OpenAPI and Postman regenerated; requirements register 2.0 | No key in any file |
+
+- Full test suite 684 passed before the deploy.
+- Key handed to the Platform Admin once, outside the repositories.
+- Open: retire the contract path on `wix-course-api` once the developer has moved and a switch-off date is agreed (paste file); the edge drift snapshot branch from this check could not be deleted from here (no write access to branch refs through the proxy).
+
+### 16 Oct 2026 (Fri, Melbourne) – API usage console for Zoho API v2 and Website API v2 (release v2.15.283)
+
+**Asked by:** Platform Admin, 16 Oct 2026 14:31: "Create me a ui to check stats on Both APIs with relevant metrics/API calls or statistics, success & failure, last login, full sync, delta sync, bandwidth, load size etc. be able to rotate their keys. and on Demand fresh statistics by pressing a button, otherwise get refresh daily basis."
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016060000 | Statistics per key for 24 hours, 7 days and 30 days (`pipeline.api_usage_summary`, `security.api_key_stats_v1`): calls, success rate, failures (client, rate limited, server, last error), last call and last success, bandwidth, average and largest reply, times, last completed full load (start, finish, pages, items, size), deltas, CSV exports, searches, old-key use. Refresh daily (job `api-usage-rollup`, was every 15 minutes) and on demand (`admin_api_usage_refresh`, rank 4+), each recorded (`pipeline.api_usage_refreshes`). Key rotation with an overlap (setting `api.key_rotate_overlap_hours`, 24), end old key, switch off and on (`admin_api_key_*`, Platform Admin), recorded in `pipeline.api_key_events` (no key or hash kept). `zoho_v2_auth` and `website_api_v2_auth` accept the old key until its overlap ends | md5-guarded; dry run with a simulated rotation (new key accepted; old key accepted in overlap, refused after End old key; switched-off key refused; a non-admin refused); applied; post-check passed. PR #545 |
+| Edge functions `zoho-api-v2`, `website-api-v2` | Sync calls logged as `sync_full_start`, `sync_full`, `sync_full_end`, `sync_delta`; calls with an old key during an overlap logged as `<key>#previous`; rate limit stays on the key | Edge drift check: live identical to the branch. Live on the test key `zoho_live_check_v2` (real keys untouched): rotated, calls logged with the new labels and `#previous`, old key refused after End old key, refreshed on demand, switched off again. PR #545 |
+| Screen Operations › API usage (release v2.15.283) | Per API: calls, success rate, failures, bandwidth, last call. Keys: status, last call and last success, calls, failures, bandwidth, reply sizes, times, rotated; Rotate (new key shown once), End old key, Switch off and on. Full loads and deltas. By day and By key and action with bandwidth. Latest errors. Key changes. Statistics as of, with Refresh statistics now | S50 (6 tests, mocked browser); full suite 690 then 684 passed (after the release bump); release contract PASS; deployed release check passed. PRs #545, #546 |
+
+- Correction: the Zoho v2 keys message on 16 Oct said a key could be switched off on Operations › API usage; that screen was read-only until this change.
+- Real keys (`zoho_creator_v2`, `zoho_crm_sync_v2`, `website_developer_v2`) were not rotated or changed.
+
+### 16 Oct 2026 (Fri, Melbourne) – Platform health matches reality, scholarship reading restarted, dashboard icons, delete users (release v2.15.284)
+
+**Asked by:** Platform Admin, 16 Oct 2026 15:25: "Platform health: CRITICAL, with 5 critical issues and 1 warning. Most are stale or mis-labelled. The real one is scholarships: none published or read for two days." "Dashboard should display Icons ... missing icon for "Review items to decide" and so on" "Platform Users - can't be deleted, only disabled (only Platform admin should be able to delete the user from UI, Platform admins roles user can't be deleted form the UI".
+
+**Found:** no scholarship page read since 14 Oct. The only pages due belonged to The University of Sydney (83) and RMIT (27), held by the per-university Firecrawl cap (150 credits in 30 days, used during onboarding on 12 Oct; it frees on 11 Nov); 86 were re-reads asked for on 12 Oct. The reader then ran empty and the flag unit paused it. Discovery has been through every eligible provider; the 106 "waiting" are Australian providers under 30 courses, which scholarship searches skip by design. Nothing new was found, so nothing new was published. The other alerts were stale: the retired tuition hand-off, a job back from a trial-run pause counted as overdue, the scholarship allowance hard-coded as 3,000 (setting 60,000) with a wrong "direct reads" message, and the database judged against the old Micro profile (60 connections; levels 1/2/4 GB from 1 Sep).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016070000 | A scholarship read asked for is not held by the per-university cap (`svc_scholarship_read_next`); reader switched on again. Health: claimable work only (held work shown apart), tuition hand-off retired, trial-run restarts not overdue, scholarship allowance from its setting, live connection limit (120), compute profile Medium, size levels 4/6/7 GB | md5-guarded; dry run (health down to the one real issue); applied. PR #547 |
+| Migration 20261016090000 | `svc_fc_spend`: a requested scholarship page read may spend past the per-university cap (the day share and the scholarship allowance still apply) | First run after 070000 claimed 40 pages but the spend check refused them; after 090000 the next run read 21 pages (first reads since 14 Oct, 21 credits). PR #548 |
+| Migration 20261016080000 and edge function `admin-user-management` | Delete user (Platform Admin): database guard refuses Platform Admins (current or expired role), your own account and the system automation account; a user named on recorded work is soft-deleted by Supabase Auth so history stays linked; roles end; recorded in `security.user_deletions`. The function is now deployed from the repository (live copy differed only in line breaks; verify_jwt true as live) | Dry run: guard refuses a Platform Admin, self and the system account; allows a Curator test user (no references, removed fully). Edge drift check: live identical to main. PR #547 |
+| Release v2.15.284 | Dashboard: an icon for each queue in Waiting for you. Users & roles: Delete button (type the email to confirm), Deleted users list. Version pill notes, SOPs 1.25, Platform guide | S51; full suite 695 and 696 passed; release contract PASS; deployed release check passed. PRs #547, #548 |
+
+- Platform health after the changes: overall OK; 0 critical, 0 warning, 1 info (database 4,399 MB, over the 4 GB watch level; the D6–D10 paste file, not yet run, returns about 270 MB).
+- 80 more requested Sydney and RMIT pages are read on their next retry.
+- Governance gap closed: `admin-user-management` was deployed by hand and is now on the deploy allow-list.
+
+### 16 Oct 2026 (Fri, Melbourne) – Task manager shows background jobs again (release v2.15.285)
+
+**Asked by:** Platform Admin, 16 Oct 2026 22:51: "Task manager doesnt show any job running in the background."
+
+**Found:** since v2.15.266 (13 Oct) the background board (scheduled jobs running, failing, paused, Firecrawl credits) was only on Coverage & completeness › Progress › Running now, with a link from Task manager; Task manager listed only tasks people start, and none were running. At the time about 280 scheduled runs and 70 worker calls ran every 15 minutes. That broke the standing rule of 11 Oct 2026: "All background jobs using resources at any given time should be visible under task manager".
+
+| Change | What | Checked |
+|---|---|---|
+| Release v2.15.285 | Scheduled jobs › Task manager: Tasks started by people, then Background jobs (the same component and read as Progress › Running now: running this moment, failing in 24 h, paused, Firecrawl credits in the last hour, Pause, Resume, Run now, worker errors). Platform guide, SOPs 1.26 | S51 browser test; full suite 698 passed; release contract PASS; deployed release check passed. PR #549 |
+
+- Frontend only; no database or edge function change.
+
+### 16 Oct 2026 (Fri, Melbourne) – Storage sizes recorded daily (release v2.15.286)
+
+**Asked by:** Platform Admin, 16 Oct 2026 23:18: "Prepare and record all db and tables data and sizes also prepare total bucket usage. Keep the stat's simple and recoed on daily basis. Advise on housekeeping, how to bring the db size under 2gb."
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261016100000_cf247_storage_size_daily` | Table `pipeline.storage_size_daily` (one row a day for the database, each schema, each table with estimated rows and table, index and long-value bytes, and each bucket with files and bytes); `security.storage_size_snapshot_v1`; `admin_storage_sizes` (Pipeline Operator and above) and `admin_storage_sizes_measure` (Platform Admin); job `storage-size-daily` at 00:25 Melbourne (catalogued, registered); setting `storage.size_keep_days` 365 (table rows only; daily totals kept always). Nothing dropped or deleted | Dry run rolled back (508 tables, 4 buckets). Applied; live function bodies match the file (md5); job, catalogue and register rows present; first record taken |
+| Release v2.15.286 | Settings › Storage & retention starts with Storage sizes: Database, File storage and Tables tiles; By day, Buckets, Schemas, Tables (filter; largest 25 or All); Measure now. Platform guide, SOPs 1.27 | S52 (contract and browser); s32 and s42 guards pass; full suite 700 passed; release contract PASS; deployed release check passed. PR #550 |
+
+- First record (16 Oct 2026): database 4.62 GB (pipeline 2.78 GB, storage 0.57 GB, catalogue 0.39 GB, search 0.23 GB, scholarship 0.17 GB, ranking 0.13 GB); file storage 28.1 GB in 200,761 files (evidence 21.0 GB, adapter-captures 7.0 GB, provider-assets 0.11 GB, archive 0.04 GB).
+- Largest tables: `storage.objects` 566 MB, `coverage_provider_urls` 332 MB, `evidence_artifacts` 319 MB, `register_replay_keys` 237 MB, `search.course_documents` 231 MB, `layer3_interpretations` 203 MB, `website_sync_items` 162 MB.
+- Housekeeping advice to get the database under 2 GB was given to the Platform Admin; any purge goes by paste file or Settings › Storage & retention, not by migration.
+
+### 16 Oct 2026 (Fri, Melbourne) – Daily housekeeping job; developer requests R18–R22 planned
+
+**Asked by:** Platform Admin, 16 Oct 2026 23:44: "Keep the pending job and these housekeeping job in memory. Run 1,2,6,7. Remind me after starting following task with other pending tasks about 3,4,5. Start planning developer latest request & create feature number for each of them. Keep all pending tasks, housekeeping and production readiness in mind. All operation amd functions needs to be adhered while planning new features and bug fixes. Platform has to be self sustainable and improving."
+
+| Step | What happened | Checked |
+|---|---|---|
+| 1 D6–D10 paste file (about 270 MB) | Run directly against the database was cancelled at the approval step; nothing removed. Stays a paste file for the Platform Admin (`PASTE-20261015-usage-audit-d6-d7-d9-d10.sql`; it checks the archive copy and every row set first, then removes) | Not run |
+| 2 Expired one-time request codes | Migration `20261016110000_cf247_housekeeping_daily`: job `housekeeping-daily` (03:47 Melbourne, catalogued, in Task manager) runs `security.housekeeping_daily_v1`: request codes expired more than `retention.nonce_keep_days` (1) ago; up to `batch.housekeeping_rows` (400,000) a run; each run recorded in the admin events | Dry run rolled back: 274,186 codes and 11,680 run records in 13 s. Applied; live function body matches the file (md5); job on; settings 1 / 400,000 / 3. PR #551, full suite 701 passed |
+| 6 Sync item history | Nothing to remove: `pipeline.website_sync_items` (41,893) and `zoho_sync_items` (34,394) hold one current row per item, the live feeds; 1 removed row. The earlier estimate was wrong | Measured live |
+| 7 Job run log | Was already kept 3 days by two jobs made outside git with numbers in their commands (`cron-history-retention` 14 days, `cron-history-trim` 3 days). Both switched off and marked retiring (replaced_by `housekeeping-daily`, removed by paste file after 14 days); `retention.job_log_keep_days` 7 → 3, now used by the daily job | Live: both old jobs inactive, register rows retiring |
+
+- Space: deleted rows are reused by the table rather than returned; the tables stop growing. Shrinking them needs step 8 (`vacuum full` or repack) at a quiet time.
+- Steps 3 (register replay keys), 4 (discovery links) and 5 (Layer 3 history) wait for the Platform Admin.
+- Developer requests from Raghav's email numbered and planned in `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.1: **R18** Duolingo English Test, **R19** academic entry requirements by country of previous study (R12's academic part), **R20** scholarship eligibility by nationality, **R21** lighter logos, **R22** fewer, faster full-load calls (closes O8). Each with the self-sustaining standard (settings, catalogued jobs, flags, evidence, re-reads, retention, additive API, production-only admission) and the order: housekeeping headroom, R22, R21, R18, R20, R19. Not started.
+
+### 17 Oct 2026 (Sat, Melbourne) – R22 faster full load and R18 Duolingo English Test; developer guide issue 4
+
+**Asked by:** Platform Admin, 17 Oct 2026 00:29: "Proceed with next steps" (after R18–R22 were numbered on 16 Oct; recommended next step: R22 and R18, which wait on no one).
+
+| Change | What | Checked |
+|---|---|---|
+| R22, migration `20261017010000` | `website.sync_page_max` 200 → 600 (range to 1000). Measured: a page is built in 60–75 ms and one provider detail in about 0.13 s (items are stored), so the round trip decided the time. The gateway already compresses replies for `Accept-Encoding: gzip` (476 KB page → 69 KB). Full load now 86 pages, 113 MB of JSON, largest page 1.7 MB; first page 149 KB compressed. O8 closed | Dry run rolled back; applied; full load walked in the database: 86 pages, 41,892 items, 24.6 s of database time; one live call |
+| R18, migration `20261017020000`; coverage-sweep worker v0.27.0, policy parser v0.2.3 | DET (Duolingo English Test, 10–160 in steps of 5, overall only) in `ref.english_tests`; the parser reads it; job `policy-add-tests` (hourly, catalogued, setting `batch.policy_add_tests` 40) re-reads approved English policy pages from storage (no Firecrawl, no AI) and adds DET for a level only where the page's IELTS equals the approved IELTS, only to courses holding that policy's level default. 50 of 385 stored policy pages mention Duolingo (41 universities) | Dry run (361 courses in 3.8 s, rolled back); applied; worker deployed, edge drift check identical; PR #552 |
+| First run, then a fix: migration `20261017030000` (md5-guarded); worker v0.27.1, parser v0.2.4 | First run: 80 policies, DET for 14, 347 course rows. Found: Flinders "105 Overall ; 110 Speaking ; 110 Writing" read as 110 (a parser weakness for every test: a number after "Overall" that names a skill); one AI-approved policy (Canberra) took PTE, TOEFL and Cambridge into its stored defaults (no course rows). Job paused at 00:51 (Pause, logged). Fixed: parser reads 105; only tests learnt after approval are added (`ADDED_TESTS`, DET); rows this rule wrote are corrected or withdrawn (never deleted); a page whose IELTS no longer matches raises flag `policy_reading_differs`. Job resumed by the migration | Dry run: Flinders 250 rows → 105, Canberra defaults back to IELTS + DET. Applied; worker deployed, drift check identical; PR #553; full suite 705 passed |
+| Result | All 158 approved policies with a stored page checked: 531 courses hold DET (Australia 347, Canada 184) at 4 universities (105: 317, 120: 211, 115: 3); 3 policies flagged for a person; search returns them at once, sync items within the 90-minute change check | Measured live |
+| Developer guide issue 4 | Section 13 line (sync pages 600, gzip, DET); 4 (send `Accept-Encoding: gzip`); 6 `page_size`; 6.1 measures; 7.2 test codes; 8 Duolingo row; OpenAPI and Postman `page_size` 600; footer and OpenAPI version issue 4 | Rebuilt with `build.sh` (13 pages); PDF checked; no key in the pack |
+
+- Register `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.2: R18 and R22 done, O8 closed. Next: R20; R21 waits for the formats Wix accepts; R19 waits for Raghav's example and the country choice.
+- Not yet reading DET: course pages and adapters (most Canadian colleges state DET on course or policy pages not yet approved; 60 English policy proposals wait for a person).
+
+### 17 Oct 2026 (Sat, Melbourne) – First run of the daily housekeeping job
+
+**Check:** first scheduled run of `housekeeping-daily` (e147), 03:47 Melbourne.
+
+| Measure | Result |
+|---|---|
+| Run | Succeeded, 22 seconds (16:47:00–16:47:22 UTC) |
+| Removed | 275,704 expired one-time request codes; 17,187 job run records older than 3 days; recorded in the admin events (area retention, action housekeeping) |
+| After | `pipeline.pilot_edge_nonces` 7,130 rows (one day of codes); `cron.job_run_details` 92,069 rows, oldest 14 Oct 03:47 Melbourne (3 days) |
+
+- The tables stop growing; their disk space is reused rather than returned until step 8 (rebuild at a quiet time). Job `policy-add-tests` (R18) also ran on schedule at 01:17, 02:17 and 03:17, all succeeded.
+
+### 17 Oct 2026 (Sat, Melbourne) – English policies: waiting decisions cleared
+
+**Asked by:** Platform Admin, 17 Oct 2026 14:56: "Let figure out the English requirement and stuck english policies what is expected from me to sort?"; 15:01: "go with your recommendations".
+
+| Item | Decision (recorded as the Platform Admin through `admin_provider_policy_decide` and `admin_flags`, each with a note) |
+|---|---|
+| Approved (4) | Capilano University, Douglas College, Durham College (6.5 degrees, 6.0 graduate certificates), Mount Royal University: every value quoted on the page; about 96 courses filled by the 10-minute apply job |
+| Rejected (7) | UNSW main page (one faculty's row, 429 course pages differ) and UNSW Bengaluru page (India campus); Edith Cowan (Band 5 nursing rule); MacEwan and CIBT (duplicates of approved policies); Sunraysia TAFE (vocational courses); Cambrian (named courses only) |
+| Flags released (6) | Sydney and UNSW `policy_disagrees` (English set per course or faculty: course pages are the source). UTas `policy_reading_differs` x2: the stored page's minimums table gives postgraduate coursework 6.0 (no band below 6.0), so the approved 6.0 stands; the parser read 7.0 from the list of courses with alternative requirements. QUT: courses hold 6.5 (no band below 6) from the approved how-to-apply policy, correct; the 6.0 came from the English for Academic Purposes course page |
+| Left | 0 English policies waiting; 0 English flags raised; 8 course English items in Layer 4 |
+
+- Found: automatic approval of AI readings (15 Oct) does not close a university's earlier approved policies. 32 universities hold more than one approved English policy, 19 with differing IELTS defaults (QUT 6, UTas 3). Raised with the Platform Admin as a follow-up.
+- Found: the policy parser treats a bullet under "courses with alternative English language requirements" as a default (UTas); the add-tests guard caught it. Follow-up parser fix.
+- The largest English gaps sit with universities whose policy page gave no default (ANU 423 courses, Melbourne 285, UWA 155, Wollongong 117, James Cook 111, ACU 96, Torrens 75); they publish English by course or band.
+
+### 17 Oct 2026 (Sat, Melbourne) – Decision 262: one English policy in force per university and level
+
+**Asked by:** Platform Admin, 17 Oct 2026 15:01 (multiple choice): "One policy per uni and report it as well, also record it in admin repo." and, for universities that publish English by course or band, "Band reader".
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261017040000` (job command md5-guarded) | `security.english_policy_in_force_v1` / `_all_v1` and `security.english_level_group`: for each level held by more than one approved English policy, one is in force (real admission page, quoted values, most courses, latest); the others give up the level (kept in `superseded_defaults`); a policy with no level left is closed. Rows move to the policy in force when the value is the same; otherwise a Layer 4 item. Job `provider-english-defaults` runs it first every 10 minutes | Dry run rolled back; applied; live function bodies match the file (md5); post-check: no university has two approved policies for one level |
+| Result | 27 universities, 88 level overlaps, 630 course rows moved, 4 courses to Layer 4 (TAFE Queensland), 40 duplicate policies closed | Admin events (policies, in_force) |
+| Parser v0.2.5, worker v0.27.2 | A section for courses with alternative or higher English requirements gives no default (UTas) | Deployed; edge drift check identical; re-read of 129 approved policies; DET now 568 courses at 5 universities |
+| Records | Design Reference Decision 262; report `docs/platform/ENGLISH-POLICY-IN-FORCE-REPORT.md` | PR #554; full suite 706 passed |
+
+- For a person: TAFE Queensland 4 courses in Layer 4; RMIT undergraduate policy in force is the domestic page (same 6.5); Australian University College of Divinity has only course pages approved.
+- Next: band reader for universities that publish English by course or band (ANU, Melbourne, UWA, Wollongong, James Cook, ACU, Torrens), chosen by the Platform Admin.
+
+### 17 Oct 2026 (Sat, Melbourne) – Layer 4: 271 of 440 waiting items settled by rule; English and link approvals fixed
+
+**Asked by:** Platform Admin, 17 Oct 2026 16:19: "Bring everything from layer 4 and assess either for rule or ai extraction and proceed or give me recomemded choices".
+
+**Found:** approving an English item in Layer 4 always failed ("field is not enabled for scalar Layer 4 editing"; no English item had ever been approved), and approving a course link stored as `course_url` failed (all 244 "course page that shows the CRICOS code" items).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261017050000` (md5-guarded) | `security.layer4_course_english_apply_impl`: Approve or Edit and approve writes each decided test (key `l4:<item>:<test>`, the item's evidence, the reviewer's reason) and locks the course's English as a person's decision; `layer4_review_decide_impl` routes `course_english`; `layer4_course_link_apply_impl` reads `url` or `course_url` | Dry run with the full batch (271, 0 errors; approved link served to the website; English written); applied; PR #555; full suite 707 passed; S54 |
+| Rejected 160 | Course directory pages (oneuedu, findthecourses, australiancourses, ACIR, topaustraliauniversities, higherstudy): never used (10 Oct rule); 8 of these courses already hold their own page | Recorded as the Platform Admin through `layer4_review_decide`, rule named in each reason |
+| Rejected 24 | Firecrawl/ZenRows discovery route of 13 Sep, retired; courses stay with the current course page search | Same |
+| Rejected 63 | The provider's own course page stays official; the handbook page showing the CRICOS code is a reference page (CQUniversity 60, Western Sydney 2, UQ 1) | Same |
+| Approved 13 | Held page was the handbook, the provider's course page proposed (Flinders, Newcastle); held page was a course listing, the course's own page under it proposed (Torrens professional doctorates) | Approved links now served |
+| English (12) | Notre Dame Master of Primary and Secondary Teaching: IELTS 7.5 from the course page (2 approved, 2 duplicates rejected); TAFE Queensland per its equivalencies table: 2 bachelor degrees 6.5 (no score below 6.0) approved, 2 associate degrees keep 6.0; Massey Bachelor of Nursing IELTS 6.5 all bands and Thompson Rivers MSc Data Science IELTS 6.5 (6.0) and TOEFL iBT 88 (20) edited and approved (the AI was right; the page wrote "IETLS" and "iBT"); Vision College rejected (PTE 29 is for a work visa) | Values written and locked |
+
+- Left for the Platform Admin (169): ANU handbook pages by year and code (102); two pages on a provider's own site, which one is this course (64); held page is a fees or search page (2); University of Auckland Foundation Certificate in EAP English (1).
+
+### 17 Oct 2026 (Sat, Melbourne) – Layer 4 cleared to 15; Decision 263: course page rules automatic
+
+**Asked by:** Platform Admin, 17 Oct 2026 (multiple choice after e152): ANU rule; "Title match, then AI"; "Yes, automate"; "You check and decide".
+
+| Change | What | Checked |
+|---|---|---|
+| Found | `coverage_admission_apply_v1` re-raised items a person had rejected (only superseded items were remembered): 63 rejected at 16:2x came back at 16:40 | Live |
+| Migration `20261017060000` (md5-guarded) | `security.course_page_rule_v1` and the admission step: a decided proposal is never raised again; official course page differences are decided by rule (keep or take) under the system automation account with the rule as reason; anything else reaches Layer 4 | Dry run rolled back (rule tests and one admission batch, 0 errors); applied; PR #556; full suite 708 passed; S54 |
+| 3 singles | UQ Study Abroad: UQ's own Study Abroad page; USC: both pages are the fees list, rejected (no current page for this degree found); Auckland Foundation Certificate in EAP: no English score stated, rejected | Recorded as the Platform Admin (choice "You check and decide"); UQ and USC again after a re-raise at 16:50 |
+| Title match (non-ANU) | 116 decided: 98 keep the held page (CQUniversity course pages over handbook, honours over pass degree, listing or scholarship pages, title fits the held page), 18 take the proposed page (Fraser Valley current program site, SFU current calendar, UTS Master of Finance, JMC, Manukau course delivered by Unitec) | Recorded under the system automation account; reasons name the rule |
+| ANU rule | 2026 handbook page fetched for each of 112 program codes: 49 courses take the 2026 page that shows their CRICOS code; 49 have no 2026 page for either code (no longer offered): rejected and flagged `not_offered` for archive | 63 ANU 2026 pages now served; 49 flags raised |
+| Left for the Platform Admin | 15: Alphacrucis 3 (Korean-language "-k" pages or the main page), AICBT 1, ANU 4 (2026 page found but without the course's CRICOS code), Sydney 3 (Master of Science variants, Bachelor of Design), Auckland conjoint Design/Laws 1, Lethbridge 1, Western Sydney Bachelor of Laws 2 (held page is the inherent requirements page) | Layer 4 |
+
+- Design Reference: Decision 263.
+
+### 17 Oct 2026 (Sat, Melbourne) – Decision 264: English levels named on course pages (band reader); 567 courses gain English
+
+**Asked by:** Platform Admin, 17 Oct 2026 ("Band reader (Recommended)"; 18:56 "Proceed with band reader"; choices "Level map first", "One admin click", "Yes, by rule"; "Approve all three (Recommended)").
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | 7 universities, about 1,270 courses without English. Only JCU (Schedule II bands) and UWA (minimum or higher standard) name a level on the course page; ANU program pages only refer to the policy; Melbourne levels sit on a sub-page the reader does not store; Wollongong, ACU and Torrens are binding problems (old handbook, student hub pages) | Stored pages and policy copies |
+| Migration `20261017070000` (md5-guarded) | An English policy may carry levels; adapter field `english_level`; `security.english_level_apply_v1` writes a level's scores where the course page names it (own readings, locks and pending Layer 4 kept; other policy rows withdrawn, not deleted); job provider-english-defaults: in force, levels, refresh, defaults; policy-add-tests skips hand-written policies; three written-out policies inserted as proposed | Dry run rolled back (ANU 400 to write, UWA 81); applied; PR #557; full suite 711 passed; S55 |
+| Worker v0.28.0 | `english_level` read as an adapter pattern field | Deployed; drift check identical (10 files) |
+| Adapters | JCU and UWA `english_level` patterns saved; my first save left them switched off for about 2 minutes (the save treats a missing "enabled" as off); switched back on at once, no values changed | Live |
+| Approval | JCU, UWA and ANU written-out policies approved by the Platform Admin (Decision 227 and 264) | `admin_provider_policy_decide` |
+| Migration `20261017080000` (md5-guarded) | Found on the first run: 5 courses print their own score that differs from their level (UWA Juris Doctor and two Education degrees 7.5 vs higher 7.0; JCU Pharmacy (Honours) 7.5 vs Band 3a; JCU Exercise Science/Physiology 7.0 vs Band 2). Such a course keeps its own reading only; 14 level rows withdrawn | Dry run; applied; PR #558; full suite 712 passed |
+| Result | Courses with English: ANU 0 → 400, JCU 16 → 102 (93 by band), UWA 172 → 253 (17 by higher standard) | Live counts |
+| Still open | Melbourne (285, entry sub-page read needed), Wollongong (117, 94 bound to 2016 handbook), ACU (96), Torrens (75): next, through the adapter generator's binding rules and a companion page read | — |
+
+- Design Reference: Decision 264.
+
+### 18 Oct 2026 (Sun, Melbourne) – Decision 265: English for the last four universities; companion pages; 207 more courses with English
+
+**Asked by:** Platform Admin, 18 Oct 2026 09:27 ("Help resolve 'still to do for english'"); choices: Melbourne "Yes, build and read (Recommended)"; Wollongong and Torrens "Check CRICOS first"; ACU "Yes, UAC for ACU (Recommended)"; Melbourne policy "Approve (Recommended)"; ACU policy "Approve (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | Melbourne names each course's level on a handbook sub-page (Entry and participation requirements) that refuses quick direct reads. Wollongong and Torrens courses without English are mostly not on the university's current site: 6 of 111 and 7 of 75 codes appear on the 206 and 186 current course pages (76% and 92% for courses that have English). The CRICOS register (loaded 26 Sep 2026) still lists all of them. ACU course pages print no scores and refer to a schedule ACU has rescinded; UAC publishes ACU's requirements by course group | Direct reads of both sitemaps; stored pages |
+| Migration `20261018010000` (md5-guarded) | Companion pages (`pipeline.uni_adapter_companions`, `pipeline.course_companion_pages`, job companion-read, 4 settings); level from the companion page or by course group rules (title and study level, in order); `security.course_page_rebind_v1` (logged with the old page); 13 courses relinked or read again by CRICOS code; 32 Melbourne courses moved to the 2026 handbook; 179 soft `not_on_provider_site` flags; Melbourne level policy proposed; UAC ACU page added as a source | Dry run (45 rebinds, 207 companion pages, 179 flags, JCU unchanged); applied; PR #559; full suite 716 passed; S56 |
+| Worker v0.29.0 | Mode `companion_read` (scraper or direct per university; stored copy; patterns) | Deployed; drift check identical (10 files) |
+| Migration `20261018020000` | "band 7.0" read as band 7; "band 7+" read (overall scores of IELTS 7.0) | Dry run; applied; PR #560 |
+| Jobs | coverage-read and provider-facts had been paused by the idle-job check overnight; released with a reason (new work queued) | `admin_flags release` |
+| Migration `20261018030000` | A source a person added is read when found (not held by the 30-day central refresh; budget still applies); 34 Melbourne courses with no 2026 handbook page flagged soft | Rebuilt `svc_fc_spend` matches live line by line apart from the added clause; applied; PR #561 |
+| Migration `20261018040000` | ACU English by course group from the stored UAC page (10 groups, ordered title rules; Education groups give skill minimums only); null-safe overall compare in the level step | 29 of 29 ACU courses with their own IELTS match their group; dry run 107 written then 0; applied; PR #562; full suite 719 passed |
+| Approvals | Melbourne level policy (122 courses) and ACU course-group policy (107 courses, 77 newly with English) approved by the Platform Admin | `admin_provider_policy_decide` |
+| Result | Courses with English: Melbourne 156 → 280, ACU 53 → 130, Wollongong 250 → 255, Torrens 107 → 108 | Live counts |
+| Left | Wollongong 111, Torrens 68, Melbourne 34 still CRICOS-registered but not on the university's current site (soft flags for a person); Melbourne research degrees state no level; ACU diplomas and most postgraduate courses not listed by UAC; 6 Torrens professional doctorates read IELTS 7.0 but are not yet admitted; scratch table `public._tmp_cf265_fetch` to remove by paste file | — |
+
+- Design Reference: Decision 265.
+
+### 18 Oct 2026 (Sun, Melbourne) – Decision 266: the consumer API is frozen; daily guard and build check
+
+**Asked by:** Platform Admin, 18 Oct 2026 11:58 ("From here on, make sure the consumer api are not affected by any decision or design"); choice "Frozen-surface guard (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | The consumer API is what the website and Zoho read: 5 edge functions (website-api-v2, wix-course-api, website-course-api, zoho-api-v2, zoho-course-api), 30 database functions in `public` (`website_v2_*`, `website_edge_*`, `website_api_v2_*`, `zoho_edge_*`, `svc_website_settings_v1`) and 43 in schema `api`, and the tables and views they read. Three functions have no full definition in the current migrations (`website_v2_course` and `website_v2_provider` only in the archive and live capture, `website_edge_course_search_v3_1` only in live capture, `zoho_edge_course_search_v2` nowhere in git): the baseline is taken from live for that reason | Edge drift check: all 5 live functions identical to the repo |
+| Migration `20261018050000` | `pipeline.consumer_api_baseline` (73 function checksums, columns of 48 tables and views, taken from live); `security.consumer_api_check_v1` (function changed or missing, table missing, column missing or retyped, new consumer function: hard flag `consumer_api_drift` and an event; a clean check releases it); `security.consumer_api_rebaseline_v1` (a migration only); job consumer-api-guard daily 18:23 UTC, catalogued; 6 register rows. Nothing changed in the API itself; nothing dropped or deleted | Dry run clean (no drift); second dry run with a simulated change raised the hard flag; applied; live history md5 equals main; PR #563; full suite 722 passed |
+| Build check (S57) | Edge function sha256 baseline (`tests/uat/consumer-api-baseline.json`); any later migration that replaces or drops a consumer function, drops, renames or retypes what it reads, or re-takes the baseline fails the build unless it carries `-- Consumer API change approved: <who, when, why>` | 3 tests pass |
+| Rule | CLAUDE.md G3: no design or change alters, drops, renames or retypes the consumer API; new work reads from it or writes beside it | — |
+
+- Design Reference: Decision 266.
+
+### 18 Oct 2026 (Sun, Melbourne) – Clean-up ahead of Build adapter: unused tables, Layer 3 rows and adapter history
+
+**Asked by:** Platform Admin, 18 Oct 2026 11:58 ("retire what is not used and cleaup db along the way"); choices "Latest only, export rest (Recommended)" and "Paste file now (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Unused tables and Layer 3 rows | The usage-audit paste file of 15 Oct (D6, D7, D9, D10) still applies unchanged: it drops the 15 tables marked retiring that nothing uses and removes 53,805 Layer 3 handoffs, 47,454 work items and 64,395 interpretations nothing live reads (exported 15 Oct). The Layer 3 tables themselves stay: 34 live functions still read them (Layer 4 review evidence, tuition rules, health and status screens), and 7,111 work items back Layer 4 items | Dry run of the paste file today: every export, count, key hash and reference check passed; rolled back |
+| Adapter history, latest only | Export definition `supabase/archive/cf247-adapter-history-2026-10-18.json` (PR #564); export run 39086387140: 43,079 course results replaced by a later result, 820 test previews and 280 drafts replaced by a later one (drafts carrying AI cost kept so spend reports do not change). Paste file removes exactly those rows after checking the export | Export read back and checked by the workflow; dry run of the paste file removed 43,079, 820 and 280 and rolled back |
+| Not yet retired | Interface items (the unused regulatory settings screen, an unused script tag) and seven worker modes nothing runs are retired with the Build adapter release, so the interface version changes once. Five components marked retiring are not due until 29 and 30 Oct | — |
+| Consumer API | Nothing above is read by the website or Zoho (checked against the Decision 266 baseline) | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Clean-up paste files run by the Platform Admin
+
+| Change | What | Checked |
+|---|---|---|
+| Usage audit D6, D7, D9, D10 (paste file of 15 Oct) | 15 unused tables dropped and marked retired in the register; 53,805 Layer 3 handoffs, 47,454 work items and 64,395 interpretations removed (14,216 work items and 19,126 interpretations kept: tuition, open work and Layer 4 links) | Live: none of the 15 tables exists; 15 register rows retired; event 17241 |
+| Adapter history, latest only | 43,079 course results, 820 previews and 280 drafts removed (21,582 results, 849 previews and 1,181 drafts kept) | Live counts; event 17242 |
+| Scratch table | `public._tmp_cf265_fetch` dropped | Live: gone |
+| Space | Freed space is reused inside the tables (database 4.44 GB → 4.40 GB); handing it back to the disk would need a table rewrite with a lock, not done | — |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Logos & assets reviewed; Decision 267: Build adapter backend
+
+**Asked by:** Platform Admin, 18 Oct 2026 12:43 ("proceed with Phase 2, and see if UI Providers > Logo & asset provides any benefits otherwise retire and save DB space or functions/scripts"); earlier 17 Oct 18:56 and 18 Oct 11:58 (Build adapter choices).
+
+| Change | What | Checked |
+|---|---|---|
+| Logos & assets: kept | The screen is the only place a person sees which universities have no logo and adds one (upload, image address or the logo finder), and approved logos are what the website API sends. Its counts still looked at the retired logo-discovery candidates; now they read approved logos only (a university has a logo or not). The leftovers are about 1 MB, so the gain is fewer functions, not space | Migration `20261018060000` (md5-guarded), PR #565; dry run AU 39 of 39 universities with a logo, 75 of 79 overall; S58 |
+| Logos & assets: retiring | `pipeline.provider_asset_candidates` (582 rows) and `public.layer2_hotcourses_directory_apply` (no caller, no job) marked retiring, to drop by paste file after 1 Nov 2026 | Live: register rows retiring; no other function reads the candidates |
+| Build adapter: readiness | Eight fields per university: intakes, fee, English, delivery (existing qualification) and duration, campus, study level, majors (new, same read and agreement shares). Ready, Review or Not ready, and what each would add (active courses only). Kept current hourly by job adapter-build-readiness (catalogued; 100 universities a run, a setting) | Live: 1,154 universities measured; 2,333 fields Ready, 969 Review, 5,930 Not ready; Ready fields would add 2,143 values (fee 1,024, intakes 390, campus 347, delivery 190, English 130, duration 62) |
+| Build adapter: actions | `public.admin_adapter_build`: list and waves (stage per university: tested, admitted, building, needs pages, stopped, no adapter), read (measured now), build (starts or retries onboarding), set wave, admit (Platform Admin with a reason; Ready fields only: adapter fields through the adapter admit, duration, campus and study level through an Enrichment task, majors into the new `catalogue.course_specialisations`) | Dry run: one click on a college started an Enrichment task for 115 campus links and left Review fields alone |
+| Worker v0.30.0 | `majors` is an adapter pattern field (every match kept); the builder proposes it. No adapter reads majors yet: they appear as adapters are built or rebuilt | Deployed; drift check identical (10 files) |
+| Migration `20261018070000` | The above; `security.uni_adapter_pattern_fields` adds majors (md5-guarded). Nothing dropped; consumer API checked in the migration | Applied; live history md5 equals main; PR #566; full suite 729 passed; S59; consumer-api-guard: no drift |
+| Not in this change | Relinking pages by rule: 8,691 pages read as another course are counted on each university's page for now; the interface (Layer 2 › Adapters) follows with its version bump | — |
+
+- Design Reference: Decision 267.
+
+### 18 Oct 2026 (Sun, Melbourne) – v2.15.287: Layer 2 › Build adapter screens; unused pieces retired
+
+**Asked by:** Platform Admin, 18 Oct 2026 14:05 ("Proceed with next step"); earlier 11:58 (Build adapter beside Adapters, the Adapter builder kept; "retire what is not used").
+
+| Change | What | Checked |
+|---|---|---|
+| Screen | Layer 2 › Build adapter, between Adapters and Adapter builder. Universities: stage, a bar of Ready, Review and Not ready fields, what Ready fields would add, tick universities to build them into a named wave (PIM Operator and above). A university's page: the eight fields measured on opening, why each is where it is, how each would be admitted, and one Admit button for Ready fields only (Platform Admin, with a reason). Waves: universities grouped by wave | S60 (mocked browser: list, admit asks only for Ready fields, build into a wave, Curator reads only); screenshots reviewed |
+| Retired | `src/RegulatorySettings.jsx` (nothing imported it); the separate page script for Layer 4 mass operations (Layer 4 › Batches loads it); worker modes directory_capture, fc_extract_qualify, id_qualify, openrouter_key, page_codes, reference_capture and site_hint_verify (no call, job or function in 30 days), worker v0.30.1 | Live check: no function, job or call names the modes |
+| Release | UI v2.15.287, package 0.1.214; CHANGELOG; Platform guide; SOPs 1.28 (copied here) | release:verify PASS; build; full suite 734 passed; PR #567; Release Currentness Deployed passed on main |
+| Live | Worker v0.30.1 deployed | Drift check: 98 function files identical, including the five consumer edge functions (Decision 266 baseline unchanged) |
+
+### 18 Oct 2026 (Sun, Melbourne) – First Build adapter wave (12 universities); two readiness fixes and one admit fix
+
+**Asked by:** Platform Admin, 18 Oct 2026 16:34 ("Suggest and proceed with next step"). Suggested and done: admit the Ready fields of the 12 universities whose Ready fields added the most values, after a dry run, and measure what was written.
+
+| Change | What | Checked |
+|---|---|---|
+| Wave 1 admitted | One click (Platform Admin account, reason recorded) for Durham, Loyalist, La Cité, Camosun, Okanagan, North Island, College of the North Atlantic (Canada), Massey, NZIST, Te Wānanga o Raukawa, Te Whare Wānanga o Awanuiārangi (New Zealand), Reach Community College (Australia). Adapter fields admitted at 8; Enrichment tasks for campus or duration at 5. Review and Not ready fields left alone | Dry run first; event `build_admit` |
+| Written (active courses, before → after) | Durham intakes 0 → 134, delivery 144 → 147; Loyalist intakes 0 → 53; La Cité fee 0 → 65; Camosun fee 0 → 7; Reach fee 0 → 26 (8 held back by the fee cross-check and flagged); NZIST campus 24 → 78; Massey campus 105 → 107. 344 values in all | Live counts at 06:05 UTC; all admit runs since 05:50 succeeded |
+| Refused safely | College of the North Atlantic campus: all 115 skipped (its adapter reads page navigation; no campus list). Awanuiārangi campus: 37 skipped (campus list for review). Massey: 45 campus readings for review ("Distance and online") | Enrichment results; nothing wrong written |
+| Fix 1: active courses only | Readiness was partly measured on pages of inactive courses (Okanagan College 111 of 114), which are not admitted. All eight fields are now measured on active courses; the four adapter fields with the same rules as qualification (unchanged) | Migration `20261018080000` (md5-guarded), PR #568; would-add total 2,143 → 1,717 |
+| Fix 2: approvals and campus | coverage-admit and coverage-admit-intakes start in the same minute; both tried to create Loyalist's new intake approval and one failed once (05:40 UTC; next run fine). One click now creates the approvals its fields need first (on conflict do nothing). A campus reading agrees only when it names one of the university's own campuses; a university with no campus list is Review | Migration `20261018090000` (md5-guarded), PR #569; dry run: campus Ready would-add 347 → 1; the approval carries Decision 267 |
+| Checks | Readiness now: 1,154 universities, 2,293 Ready fields, about 1,075 values to add | Live history md5s equal main; full suite 736 passed; consumer-api-guard no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Second Build adapter wave (30 universities); readiness now matches admission; consolidated next steps
+
+**Asked by:** Platform Admin, 18 Oct 2026 17:20 ("Proceed and always consolidate next steps").
+
+| Change | What | Checked |
+|---|---|---|
+| Follow-up 3 | Enrichment took an adapter's value from the Apply history (`pipeline.uni_adapter_results`) only; the current page reading has more (Te Wānanga o Raukawa: "1 Year" on 23 pages, none in the history). The adapter source now reads the current page reading first, the history for what it lacks (one line of the live function replaced, md5-guarded, exactly once). One click also releases "no value" holds for courses whose page reading now gives a value, with the reason | Migration `20261018100000`, PR #570; dry run filled all 23 |
+| Wave 2 admitted | The next 30 universities by values to add (mostly Australian colleges, also Victoria University of Wellington, Yoobee, Canberra Institute of Technology, UTS College). Dry run first | Event `build_admit` |
+| Written (910 active courses) | International fees 77 → 300 (+223); duration 675 → 718 (+43, Raukawa 23 and Victoria University of Wellington 20); intakes 247 → 257 (+10). English unchanged: the courses already held English through their approved policies | Live counts at 06:52 UTC; every admit run succeeded |
+| Held back safely | 122 fees held by the admit cross-check (the fee read is more than 25% from the CRICOS registered course total, for example 8,000 a year over 24 months against 24,600); each is flagged for a person | `fee_crosscheck` flags |
+| Follow-up 4 | Readiness now uses the same rules as admission: a fee the cross-check would hold back counts as differing; a course holding any English requirement counts as held | Migration `20261018110000`, PR #571; full suite 738 passed; consumer API no drift |
+| Where it stands | Two waves wrote about 620 values (344 + 276). Readiness now: 2,229 Ready fields; about 330 values left to add (fees 212, English 84, duration 19, intakes 11, delivery 3, campus 1). 1,070 fields for Review, 5,933 Not ready | Live |
+
+**Consolidated next steps (as at 18 Oct 2026 18:10)**
+
+| # | Next step | Who | Why now |
+|---|---|---|---|
+| 1 | Wave 3: admit the remaining Ready fields (about 330 values) in one pass | Claude, after a dry run | Readiness now matches admission, so the remaining values are real |
+| 2 | Review the 136 fees held by the cross-check (Layer 4 or Flags), by university: most are colleges printing a per-term or per-year figure that does not match the registered total | Platform Admin | Largest block of values waiting on a person |
+| 3 | Rebuild adapters whose fields are Review or Not ready (1,070 and 5,933 fields), starting with the universities with most courses; rebuilds also add majors | Claude proposes a wave; Platform Admin approves | Biggest remaining gain; needs AI proposals (small cost) |
+| 4 | Relink by rule the 8,691 pages read as another course | Claude designs, Platform Admin chooses the rule | Pages read but unusable |
+| 5 | Housekeeping steps 3, 4, 5 (register replay keys about 237 MB, provider URL tables about 250–330 MB, Layer 3 history about 100–150 MB) and paste files after 29 Oct to 1 Nov (retiring components, `zoho_v2_export`, cron history) | Claude prepares; Platform Admin pastes | Database 4.40 GB against a 2 GB goal |
+| 6 | Website developer requests R20 (scholarship nationality), R21 (lighter logos, needs Wix formats), R19 (needs an example) | Claude after the developer's input; any API change needs approval (Decision 266) | Consumer API frozen; additions only with approval |
+| 7 | English: RMIT and AUCD policies; 6 Torrens professional doctorates; 15 Layer 4 items | Platform Admin decides; Claude prepares | Small, waiting on decisions |
+
+### 18 Oct 2026 (Sun, Melbourne) – Easier steps closed (1, 2, 5, 7); updated approach
+
+**Asked by:** Platform Admin, 18 Oct 2026 18:53 ("First close the easier steps 1, 2, 5, 7 and suggest updated approach and next steps"). Choices: held fees "Split by group (Recommended)"; Torrens "Yes, from their own pages (Recommended)"; calendars "Review and recommend (Recommended)", then "Apply as recommended (Recommended)"; Layer 4 "List with my picks (Recommended)", then "Apply as picked (Recommended)".
+
+| Step | What was done | Checked |
+|---|---|---|
+| 1 Wave 3 | Every university with Ready values left (70): one click under the Platform Admin account after a dry run. Written on their 1,729 active courses: fees 294 → 506 (+212), English 582 → 622 (+40), duration +20, intakes +11, delivery +4; no new fee held. The three waves together wrote about 900 values | Live counts; every admit run succeeded |
+| 2 Held fees (136) | 8 pages printing the whole-course fee: Layer 4 items (migration `20261018120000`, PR #572), approved under the Platform Admin account: annual fee = CRICOS registered total / course years (indicative annual). 92 per term, partial or above the total: hold settled, page fee stays out (exclusion kept), the course keeps its CRICOS registered total. 36 whose page shows no fee now: hold settled | Live: 0 fees held; 8 fees written |
+| 7 English | Torrens: the 6 professional doctorates get IELTS 7.0 from their own pages (CRICOS code match), as Layer 4 decisions, locked. RMIT already holds English on 498 of 507 courses (its approved policy). "AUCD" matches no provider in the catalogue (PSC Creative College has an approved policy); left as a question | Live: 6 requirements, 6 locks |
+| 7 Calendars (51 waiting since 3–12 Oct) | Approved 18 (start dates for 2026 or later quoted; 4 more superseded automatically by the approved page of the same university), rejected 27 (23 extra pages where an approved calendar is in force, 4 that are course, fee or short-course pages). None waiting. Effect on intakes small (+26 courses in the first runs): the calendar rules fill intakes only for colleges and for courses whose page names a term | Live |
+| 7 Layer 4 (20) | 16 approved (the proposed page shows the CRICOS code or is the current page: Alphacrucis 3, AICBT, ANU 3, Sydney Design, Lethbridge, Wollongong 5, Western Sydney 2); 3 rejected (keep the held page: Sydney Master of Science 2, Auckland conjoint); 1 left for the Platform Admin (ANU Flexible Double Degree) | Live: 1 pending |
+| 5 Housekeeping | Step 3: the register replay keys (one-off checks of 8 Oct; 790,000 rows, 237 MB) exported to Storage for a paste file that empties the table. Step 5 and step 8: the four tables emptied this week hold about 250 MB of free space; paste file `PASTE-20261018-compact-emptied-tables.sql` (VACUUM FULL, one line at a time). Step 4 (provider URL lists, about 435 MB) deferred: they are the candidate pages for relinking the 8,691 mismatched pages | Export run 39109625621; paste file prepared |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
+
+**Updated approach (as at 18 Oct 2026 20:00)**
+- The one-click admits have taken what the current adapters can give (about 900 values). From here the gain comes from reading more pages correctly, not from admitting.
+- The order changes to: relink first (pages read as another course), then rebuild weak adapters on the corrected links, then admit again. Rebuilding before relinking would build on wrong pages.
+- Intakes: calendars help only colleges and term-named courses. A university-level rule ("a course whose page names no intake takes the main intakes of its university's approved calendar") would fill far more, but it states something the course page does not; it is a Platform Admin decision.
+- Database: compaction and the replay keys bring it to about 3.9 GB; the 2 GB goal needs the provider URL lists slimmed after relinking.
+
+**Consolidated next steps**
+
+| # | Next step | Who |
+|---|---|---|
+| 1 | Run the two paste files (compaction now; replay keys when sent) | Platform Admin |
+| 2 | Relink by rule: the 8,691 pages read as another course, using the CRICOS code on the page and the university's URL list | Claude designs; Platform Admin chooses the rule |
+| 3 | Decide the university-calendar intake rule (yes, no, or only for undergraduate coursework) | Platform Admin |
+| 4 | Rebuild weak adapters on the corrected links, biggest universities first, then admit again | Claude proposes a wave; Platform Admin approves |
+| 5 | Slim the provider URL lists after relinking (step 4 of housekeeping) | Claude prepares; Platform Admin pastes |
+| 6 | ANU Flexible Double Degree (Layer 4); confirm what "AUCD" refers to | Platform Admin |
+| 7 | Website developer requests R20, R21, R19 | Claude after the developer's input; API changes need approval (Decision 266) |
+
+### 18 Oct 2026 (Sun, Melbourne) – Bug 18/10-01 logged: check or change a university's website in the Adapter builder
+
+**Raised by:** Platform Admin, 18 Oct 2026 20:35 (screenshot: Layer 2 › Adapter builder, step 1.1 Website, Sydney Film School): "add to bug/fix: Website - should have to feature to validate or change the website in the adapter builder."
+
+| Item | Detail |
+|---|---|
+| Found | Step 1.1 Website shows the address on record and "Fill in from website again", but a person cannot check whether the address is right or replace it there. Everything in the builder depends on that address. Sydney Film School holds two sites in one field ("https://www.sydneyfilmschool.com.au, www.sydneyactorsschool.edu.au"); 2 providers are like this. The notices above it point the same way: course-page search stopped for 28 universities and held for 2 (Adelaide University after the 2026 merger, Victoria University), usually because the website on record is wrong |
+| Already there | `public.admin_provider_website_set(provider, url)`: sets a website by hand (Curator and above, locked, logged); used today only on Layer 4 › Websites to find |
+| Fix to build | In step 1.1: **Check website** (reads the home page now: answers, not a third-party host, and for Australia shows the provider's CRICOS code or is the site the register lists; result and evidence shown) and **Change website** (enter one address with a reason; checked the same way before it is saved; saved through `admin_provider_website_set`, locked). After a change: course-page search, Fill in from website and the stopped or held searches for that university start again. Multi-site providers: keep one main website; the second site is kept as an extra source |
+| Status | Logged; to be built with the next interface release (version bump), with a test. Consumer API not affected |
+
+### 18 Oct 2026 (Sun, Melbourne) – Housekeeping: compaction and register replay keys done; database 4.40 GB → 3.92 GB
+
+| Change | What | Checked |
+|---|---|---|
+| Compaction (step 8) | VACUUM FULL on the four tables emptied this week, run one at a time from the session (the SQL editor runs a pasted file as one transaction, where VACUUM cannot run): Layer 3 interpretations 203 → 54 MB, Layer 3 work items 75 → 16 MB, adapter results 48 → 13 MB, adapter previews 10 → 4 MB. Rows unchanged | Live sizes and row counts |
+| Register replay keys (step 3) | The first export (whole table, 1,000 rows a page re-sorted each time) was too slow and was cancelled; re-run per replay run (14 sets, run 39113323288, PR #573), every set read back and checked. Paste file run by the Platform Admin at 21:23: 789,809 rows removed after the count and row-hash checks; the 85 replay runs and their results kept | Live: 0 keys, 85 runs, purge event |
+| Database | 4.40 GB → 3.92 GB | Live |
+| Still open | Step 4 (provider URL lists, about 435 MB) after relinking; the 2 GB goal needs it and a review of the largest remaining tables | — |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Bug 18/10-01 fixed: check or change a website in the Adapter builder (v2.15.288)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 20:35: "add to bug/fix: Website - should have to feature to validate or change the website in the adapter builder." |
+| Screen | Layer 2 › Adapter builder, step 1.1 Website. **Check website** (Curator and above) reads the home page now and shows whether it answers, whether it is a third-party site, whether the provider's CRICOS code or name is on it and whether it is the site the register lists, with a verdict: Verified (CRICOS code, register-listed site or DLI number), Likely (name on the home page or the address fits the name), Failed. **Change website** (Platform Admin, with a reason) is checked the same way and saved only when Verified or Likely. A record holding two addresses is pointed out; a second site can be kept as an extra source |
+| After a change | Saved through `admin_provider_website_set` (locked, logged) as the person who asked; the generic course-page recipe moves to the new address (or is created); course-page searches that found nothing are queued again; a stopped or held search is resumed (as Search again does); contacts and central pages are queued. Course pages on the old address are counted and left for the relink step |
+| Database | Migration `20261018130000_cf247_website_check_change.sql` (md5-guarded, PR #574): table `pipeline.provider_website_checks`, `public.admin_provider_website_check` (list, check, change), `svc_provider_website_check_next` and `_record`, `security.provider_website_change_apply_v1`, verdict and address-list helpers, job `provider-website-check` (every 5 minutes, starts the worker only when a check waits; the request also starts it at once), setting `batch.website_check` (5). Catalogue and component register rows. Nothing dropped or deleted. Applied history md5 = main (5de78733…) |
+| Worker | coverage-sweep v0.31.0, mode `site_check` (home page read directly; about 1 Firecrawl credit only when the site refuses a direct read). Live source = main (edge drift check run 39120711590) |
+| Tests | S62 new (server, worker, browser: verdict and evidence, change with other site and reason, PIM Admin can check but not change); S55 and S59 worker-version patterns widened; full suite 745 passed; dry run on `cf247-zoho-dryrun` (Sydney Film School change end to end, rolled back) |
+| Live use | The Platform Admin changed Sydney Film School at 21:47 from "https://www.sydneyfilmschool.com.au, www.sydneyactorsschool.edu.au" to https://sydneyfilmschool.edu.au: Verified (CRICOS code 03361F on the home page); recipe created, 4 course-page searches queued, search resumed, central pages queued, website locked. A follow-up Check at 21:47 also Verified. Sydney Actors School was not added as an extra source |
+| Still to do | 3 more providers hold two addresses in one field (Sarina Russo Institute, IH Brisbane - ALS, International Institute of Management & American College); each can be fixed the same way |
+| Consumer API | Unchanged (consumer-api-guard: no drift; 73 functions, 48 relations) |
+| SOPs | Platform Admin SOP and Operator SOP 1.29 |
+
+### 18 Oct 2026 (Sun, Melbourne) – Adapter builder guide: clear next step and what runs by itself (v2.15.289)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 22:03 (screenshot: Adapter builder, Sydney Film School after the website change): "flow was not clear ... Then i have to click Fill in from website again ... It also asked 1.3 to attach fees schedule. After this no movement or clear indication for next step ... find course pages are running 0-4 without me pressing anything. this has to be intutive ... fix and procced" |
+| Found | The website change already queued contacts, central pages and the course-page search, but the screen did not say so: the person pressed Fill in from website again (not needed), read 1.3 as a required step, and saw the course-page search start with no explanation and no next step |
+| Fixed | A guide at the top of the builder: every step with its state (Done, Running by itself, Your turn, Optional, Later), the one next thing for a person ("Now: nothing to press ..." or "Next for you: press ..."), Go to step, and a list of what runs by itself now. The page refreshes every 15 seconds while work runs, so the next step appears without pressing anything. Steps 1.2, 1.3 and 2.1 show a spinner and "nothing to press" while they run; contacts and central pages are marked optional for the adapter and done in parallel with step 2; the website-change result and step 1.1 say everything restarts by itself |
+| Release | v2.15.289 (package 0.1.216), PR #575. No database or worker change. Deployed: Pilot Frontend Build, Release Currentness Deployed and CourseFinder Deployed UAT passed on e9edbf3 |
+| Tests | S63 new (searching by itself → "Now: nothing to press"; 3 read pages → "Next for you: Capture samples" with Go to step; nothing found → "Find the missing course pages"; refresh by itself); full suite 749 passed; build OK |
+| Sydney Film School now | Website verified; contacts read (phone found); fee page attached and waiting to be read; course pages for its 4 courses being searched. Next for the Platform Admin: nothing until 3 pages are read, then Capture samples (2.2) |
+| Consumer API | Unchanged |
+| SOPs | Platform Admin SOP and Operator SOP 1.30 |
+
+### 18 Oct 2026 (Sun, Melbourne) – Asked-for course-page searches go first, for any university (v2.15.290)
+
+| Item | Detail |
+|---|---|
+| Decision | Platform Admin, 18 Oct 2026 22:25: "proceed with recommended choice" (course-page searches started from the Adapter builder jump the queue) |
+| Found | Since the focus rule of 15 Oct (`security.enrich_focus_v1`, the 50 Australian focus providers), the worker took no course-page search for any other Australian provider, even one a person asked for. No course-page search had been sent since 13 Oct; 905 searches were queued and none could run, including Sydney Film School's 4 from the website change at 21:47 |
+| Fixed | Migration `20261018140000_cf247_asked_searches_first.sql` (PR #576; guarded edits, each live definition md5-checked and each edit applied once): `svc_course_link_search_next` lets a search a person asked for (Find course pages, a website change) run for any provider and takes those first, oldest request first. All other checks stay: Firecrawl target universities, stopped or held searches, directory sites, the monthly cap and the day's share. Searches nobody asked for keep the focus rule. A website change marks the provider's queued searches as asked for. New `admin_course_search_queue(provider)` |
+| Screen | v2.15.290 (package 0.1.217): the Adapter builder guide shows course-page searches as running only when they will run; otherwise it says why (outside the focus providers, stopped or held, not a Firecrawl target, today's share used) and marks it Your turn |
+| Checked live | Applied history md5 = main (1207fce1…). Within 3 minutes: 20 searches sent; Sydney Film School 4 of 4 found (pages bound, now being read); 9 asked-for searches left in the queue. Deploy checks passed on 1ef025d |
+| Tests | S63 extended (searches waiting on a rule), S64 new; dry run passed; full suite 752 passed |
+| Note | The other 896 queued searches (outside the focus providers, nobody asked) still wait under the focus rule, as designed; Find course pages in the builder puts any university first |
+| Consumer API | Unchanged (no drift) |
+| SOPs | 1.31 |
+
+### 19 Oct 2026 (Mon, Melbourne) – Relink of refused course pages started (A+B, then D); paused worker jobs now wake when work waits
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 22:44: "Lets start on point 5"; choice "A+B, then D (Recommended)" |
+| Measured (read-only) | 8,691 courses with a refused page: 182 dead pages; 1,449 pages belong to another course of the same university, but only 12 of those courses lack a page; the rest are unrelated search hits. 7,890 were already searched with nothing correct found. Free sources: the university's address pattern about 943 courses at 53 universities; stored address lists about 135 (low, which supports shrinking those lists later) |
+| Built | Migration `20261018150000_cf247_course_relink.sql` (PR #577): table `pipeline.course_relink`; job `course-relink` (every 10 minutes, catalogued) with settings `batch.course_relink` (200), `relink.pattern_min_pages` (10), `relink.pattern_min_share` (0.5). Candidates (another course's refused page with exactly this title, the address pattern, the stored lists; at most 3) are bound through the existing course-page search flow and read directly with no Firecrawl; the reader's identity check decides; then the next candidate, then none. D: no candidate, or every candidate refused, is recorded as absent; its unasked queued search is closed; asked-for searches are untouched |
+| Found live, fixed | Migration `20261018160000_cf247_relink_levels_and_wake.sql` (PR #578, guarded edits). (1) Universities split addresses by level (Sydney courses/pc/ and courses/uc/; Swinburne course/undergraduate/ and course/postgraduate/), so the single-form rule recorded 199 Sydney and 158 Swinburne courses as absent: every form with enough verified pages now counts, the course's own study level first; first-rule absents are relinked again (rule 2). (2) The idle-job flag had paused the reader (coverage-read) and the course-page search worker (30 empty runs) shortly before the relink bound its pages, and only retried after 6 hours: `security.flag_jobs_v1` now switches a paused job on at the next flag check when `security.worker_mode_waiting_v1` finds work waiting (read, link_search) |
+| Checked live | Applied history md5 = main for both (f77bd6ab…, fee7b751…). The reader switched itself on at the next flag check and read 218 pages in 20 minutes. First results (Adelaide University, 207 candidates from the adelaide.edu.au pattern): 2 confirmed, about 100 did not answer (the merged university's courses are on adelaideuni.edu.au), the rest refused, so recorded as absent: the identity check works as the safeguard. The relink continues every 10 minutes, largest universities first |
+| Tests | S65 and S66 new; dry runs passed; full suite 757 passed |
+| Consumer API | Unchanged (no drift) |
+| Next | Report the yield per university when the relink finishes (about 8,700 courses at 200 a run); then rebuild weak adapters on the corrected links and shrink the provider address lists |
+
+### 19 Oct 2026 (Mon, Melbourne) – Relink progress; provider address lists compacted; database 3.92 GB → 3.59 GB
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 05:42: "Proceed with next steps" |
+| Relink (05:45) | 4,607 of 8,700 courses decided or in progress: 7 found, 3,896 absent, 704 trying; 4,093 not started (about 200 every 10 minutes). Only 1,068 courses had any candidate address, and most candidates answered 404: the courses the reader refused are mostly not on the university's site under their register name. The reader's identity check stopped every wrong page. The job continues; nothing to decide |
+| Adelaide University | Website on record is already https://adelaideuni.edu.au (course search uses it). Its 237 verified pages are on the pre-merger adelaide.edu.au site, which is where the address pattern came from; worth a review of whether those pages still describe current courses |
+| Unasked course searches | The 897 queued searches nobody asked for are all at universities that are not Firecrawl targets, so a daily share would run nothing; the gate is the Firecrawl target list (Toolsets & limits › Firecrawl). No change made |
+| Asked-for searches waiting | 9, all Strathfield College (asked 16 Oct): its course search is stopped; Search again on Firecrawl credits by university releases it |
+| Provider address lists | Still read by 8 functions and jobs (course matching, binding, onboarding, coverage build, catalogue candidates, Adapter builder suggestions, relink), all rows current (seen within 30 days), so no rows are removed. The tables held 3× their data in free space: VACUUM FULL (rows unchanged, checked): coverage_provider_urls 332 → 104 MB (279,012 rows), provider_discovery_links 103 → 72 MB (197,388 rows, row hash unchanged) |
+| Also compacted | pipeline.website_sync_items 163 → 88 MB (41,895 rows unchanged) |
+| Database | 3.92 GB → 3.59 GB |
+| 2 GB goal | Needs a decision: the largest remaining items are file metadata (storage.objects 567 MB), evidence records (pipeline.evidence_artifacts 320 MB, of which 200 MB indexes), the website search table (search.course_documents 234 MB; part of what the website reads, so not compacted while live) and course fees (135 MB). Evidence retention is the main lever |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Next steps together: websites, searches, Firecrawl targets, calendar intakes, Adelaide re-find, evidence removal prepared
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 06:34: "Proceed with next steps together to finish then sooner". Choices: evidence "Archive, then remove (Recommended)"; Adelaide "Re-find on new site (Recommended)"; targets "Add them all to firecrawl target"; calendar "Undergraduate only (Recommended)" |
+| Two-address providers | Changed through Change website (checked first, as the Platform Admin, with a reason): Sarina Russo Institute → www.sri.edu.au (Verified, CRICOS 00607B; srienglish.edu.au extra source); IH Brisbane - ALS → alscollege.com.au (Verified, CRICOS 02885G, where ihbrisbane.com.au now goes; alscertificates.com extra source); International Institute of Management & American College → americancollege.edu.au (Verified, CRICOS 03149K; americancollege.com.au extra source). No provider holds two addresses now |
+| Strathfield College | Search resumed (Search again, with a reason): 9 asked-for searches found pages |
+| Relink | All 8,700 courses started (batches run by hand to finish sooner): 52 found, 7,875 absent, 879 still being read |
+| Firecrawl targets | 176 universities with queued course searches added as targets (admin_firecrawl_write target, logged, reason given); their 840 queued searches marked as asked for so they run. First 3 hours: 267 verified, 31 found, 158 none, 642 queued |
+| Calendar intakes | Migration `20261019010000_cf247_calendar_undergrad_and_refind.sql` (PR #579, guarded edits): Decision 241 extended to universities' undergraduate courses (setting calendar.university_levels: bachelor, bachelor honours, associate degree, diploma, advanced diploma) with no intake, no lock and no pending Layer 4 item. First live run: 500 filled, 0 refused (job provider-calendar-defaults, 500 a run) |
+| Adelaide re-find | Same migration: pipeline.page_refind; the old page stays until a page on the current website passes the identity check, and goes back when none does. Started for Adelaide University: 237 pages on the pre-merger adelaide.edu.au, searched on adelaideuni.edu.au |
+| Evidence removal | Migration `20261019020000_cf247_evidence_purge_prepare.sql` (PR #580): prepares only, nothing removed. 70,611 replaced course-page snapshots listed; job evidence-purge-prepare checks them against every column that refers to evidence (except cascade-only index and statistics tables). Dry run of the first 3,000: 371 removable, 2,629 kept, because older snapshots still back live catalogue values (fees, links, intakes, campuses, Layer 4 items). The removable share is much smaller than the first estimate; the archive and paste file follow when the check finishes (about 2 hours) |
+| Checked | Applied history md5 = main for both migrations (9ea74ed7…, f599a944…); tests S67, S68 new; dry runs passed; full suite 761 passed |
+| Consumer API | Unchanged (no drift) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 08:13: two blockers found and cleared; searches and reading running again
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 08:13: "Updates" |
+| Found 1 | 642 asked-for course searches picked by nobody for an hour. 237 were Adelaide University's re-find, whose search was held since 13 Oct (credit waste after the merger); 405 belonged to 73 universities with no active course-page search: 39 had their own website on record but the search pointed at a directory site, switched off on 13 Oct; 33 had no website |
+| Cleared | Adelaide: Search again (as the Platform Admin, with a reason). The 39: Check website (free) gave 37 Verified and 1 Likely, then Change website with the same address (checked again) moved each search from the directory to the university's own site and switched it on. The 33 without a website: Fill in from website started for each (31 done within minutes) |
+| Found 2 | The page reader had paused itself at 20:30 (30 empty runs, correctly: nothing was due), and switched itself on again at the next flag check once retries came due (the wake rule of 18 Oct working) |
+| Live at 08:23 | Reader on (119 pages read in 10 minutes); 527 course searches sent in 10 minutes; asked-for searches today: 439 verified, 341 found, 203 none, 128 queued |
+| Calendar intakes | 876 courses now carry calendar intakes (colleges and, since this morning, universities' undergraduate courses) |
+| Relink | 52 found, 7,875 absent, 879 waiting for their second read |
+| Evidence check | 30,000 of 70,611 checked: 3,621 removable, 26,379 kept (they back live catalogue values). About 12% removable, so roughly 8,500 in all; archive and paste file when the check ends |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 09:29: Phase 3 (every change deploys through the workflow) and Phase 5 (hardening, leftovers retired); consumer API unchanged
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 09:29: "Lets proceed with : keep in mind the Consumer API wont get affected 1. Phase 3: every function and database change deploys through the workflow. 2. Phase 5: hardening, plus retiring the leftovers above." |
+| Phase 3 (PR #581) | `.github/edge-functions.json` lists every deployable function with its verify_jwt (70; consumer API functions keep false). New `deploy-on-merge.yml`: on merge to main, new migration files are applied (one transaction with the history row, md5 read back), then changed functions deployed. `scripts/ci/apply-migration.sh` and `deploy-function.sh` shared with the manual workflows (refuse drops/deletes and unlisted functions). `edge-drift-check.yml` runs daily and fails on drift or on a live function not in the list. ranking-evidence-export and ranking-the-official-etl brought to their live bytes (whitespace only) |
+| Retired functions | 18 deleted from live through the deploy workflow's retired list (run 39173751904): 12 layer1-ca probe and audit stubs (410 only) and 6 Layer 3 functions with no source in git and no call since 11 Oct (layer3-cf245-tuition-benchmark, -contact-benchmark, -intake-benchmark, -model-routing, -work-dispatch, -work-interpret; live source kept on branch edge-live-snapshot/39172698955). No cron job or database function called them. layer3-provider-control kept (holds the OpenRouter key). Live functions 88 → 70 |
+| Phase 5 database (PR #582, `20261019030000_cf247_phase5_hardening.sql`) | Applied by deploy-on-merge (run 39175008848), the first migration to go in that way. New objects in public no longer open to anon by default (functions, tables, sequences); the two scholarship-AI wrappers in public no longer executable by anon (no screen or consumer uses them); fixed search_path (public, extensions) on 32 helpers. Left out on purpose: security.provider_presentable_name and security.place_presentable, which consumer API functions call. 18 retired functions recorded in the component register; security.zz_probe_v1 marked retiring |
+| Phase 5 workflows (PR #583) | Supabase CLI pinned to 2.120.0 in five workflows; a delete run had failed when resolving "latest" hit a GitHub API rate limit |
+| Phase 5 UI (PR #584, v2.15.291) | The five scripts that patched the page after React drew it are retired; index.html loads only the React entry. Their visible parts moved into React: release notes pill and dialog (version from release-manifest only; the stale 2.15.78 file gone), Rankings & statistics cards from the dataset registry, the dataset page heading, the Evidence drawer's acquisition provenance. One deliberate difference: the QS and THE cards no longer show a second edition picker; figures follow the page's single picker |
+| Paste file | `docs/platform/phase5/PASTE-20261019-phase5-drop-zz-probe.sql`: drops security.zz_probe_v1 (a one-off probe, postgres-only, whose body would empty pipeline.course_field_source if run; no data, so no archive) after an md5 and no-reference check |
+| Not changed | pipeline.completeness_daily and pipeline.layer2_enrichment_hourly_admin_cache_v1 have no primary key but a unique index; a key would need a column change, not worth it |
+| Checked | Dry run passed; applied history md5 = main (8ecd9e24…); consumer_api_check_v1 drift [] before and after (73 functions, 48 relations), consumer function grants unchanged; anon default privileges gone; 2 functions without search_path left (the consumer helpers); drift check after deletion and after pinning: zero drift, nothing live outside the list (runs 39173807635, 39175257023); full suite 769 passed (Phase 5) and 774 passed (UI, run independently of the build agent); release:verify PASS; Release Currentness Deployed passed for v2.15.291 |
+| Consumer API | Unchanged (no drift; no consumer function, table, column, grant or edge function touched) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 12:55: zz_probe paste file run; checked live
+
+| Item | Detail |
+|---|---|
+| Done | Platform Admin, 19 Oct 2026 12:55: "Ran #1 - Success. No rows returned" (`docs/platform/phase5/PASTE-20261019-phase5-drop-zz-probe.sql`) |
+| Checked live | security.zz_probe_v1 gone; no function named zz* left; component register shows it retired; pipeline.course_field_source still holds 37,300 rows (untouched) |
+| Consumer API | Unchanged (consumer_api_check_v1 drift []) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 14:08: Zoho API v2 Developer Guide issue 2 (Creator search options, seed and delta)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 14:08: "explain if Zoho can ingest data like website- seed it first and get delta. how would the course search would work in Zoho Creator. also Refresh Zoho creator and CRM V2 API handover docs." |
+| Answer | Yes: Zoho API v2 already has the website's pattern. CSV `export` in pages (with the `sync_cursor` to continue from) or a `sync` full load seeds a copy; `sync` with the stored cursor then returns only what changed. About 800–950 items a day have changed since the first seed |
+| Guide issue 2 | `docs/integrations/zoho-pack/` (md, docx, pdf, OpenAPI, Postman) reissued 19 Oct 2026. Section 5 rewritten for Zoho Creator: 5.1 two ways to search (A live `search`, B a copy in Creator) and the recommendation (both, as the website does: live search on the search screen, a copy of Institutes and Courses for detail, proposals, lead links and reports); 5.2 live search and how the screen works; 5.3 the copy: forms, CSV seed, scheduled `sync`, field mapping, searching the copy, sizes and Creator limits (5,000 Deluge statements a run, 5 MB `invokeUrl` answer; plan allowances to check). Section 13 (API changes only): English test code `DET`. Counts measured 19 Oct: 1,546 / 26,103 / 3,957 / 2,794; intakes 9,977; English 16,788 (DET 427); tuition 25,720; official link 18,593; nursing example 118; "Queensland" 1,068 |
+| Not changed | The API itself (no code or database change); the CSV columns (IELTS overall and band, PTE overall only; other tests come through `sync`) |
+| Usage | No Zoho call to v2 yet other than StudySearch's own live checks (16 Oct) |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 14:51: counsellor reports from Zoho (v2.15.292; Zoho guide issue 3); deploy-script fault fixed
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 14:51: "Can I add some control for counsellor in zohoncreator or crm to flag or comment to pass on to studsearch platform admin for specific record. For example, missing field value, correct english requirement or fees or any fields reportable." Choice: "Approve all (Recommended)" |
+| Consumer API change approved | Platform Admin, 19 Oct 2026 14:51 (Decision 266): Zoho API v2 `report` extended and `report_status` added, additive only; no consumer API function altered (zoho_edge_report_v1, used by Zoho v1, unchanged); `tests/uat/consumer-api-baseline.json` updated for zoho-api-v2 |
+| Fault found | A Zoho report naming a course only by its CRICOS code (e.g. 082960F) was refused as not found, although the guide said it worked. Fixed |
+| Built (PR #585) | Migration `20261019040000_cf247_zoho_counsellor_reports.sql`: `zoho_v2_report` (course by id or CRICOS code, institute by id or CRICOS provider code, campus, contact; issue missing / wrong / out of date; suggested value; source link; the value held at the time kept with the report; the same report within a day returns the first), `zoho_v2_report_status` (open / fixed / not_changed with the reason), `admin_counsellor_reports`; settings `reports.resolve_min_rank` (4) and `reports.status_batch_max` (100). Reports are rows of pipeline.data_flags (flag_code reported). Screen v2.15.292: Coverage & completeness › Counsellor reports, close as Fixed or Not changed with a reason. SOPs 1.33 (Operator SOP morning step) |
+| Deploy-script fault (PR #586) | deploy-on-merge applied the migration but refused zoho-api-v2: `scripts/ci/deploy-function.sh` (Phase 3) read verify_jwt with jq `//`, which treats false as missing, so every function deployed with verify_jwt false was refused. Fixed with `has()`, with a test that runs jq on the real list; zoho-api-v2 then deployed through the deploy workflow (run 39202287956) |
+| Zoho guide issue 3 | `docs/integrations/zoho-pack/`: section 6.3 Counsellor reports (what Zoho builds, request, fields per record type, answers, report_status, calls); actions table (sixteen actions); acceptance tests 13–15 (none records a report); OpenAPI and Postman with report and report_status |
+| Checked | Dry run passed (rolled back); full suite 778 passed; release:verify PASS; applied history md5 = main (c59338a5…); drift check after deploy: zero drift (run 39202373548); consumer_api_check_v1 drift []; zoho_v2_report not executable by anon or authenticated; admin_counsellor_reports for signed-in staff only; no report recorded yet |
+| Consumer API | Changed as approved (additive); website API unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 17:05: Zoho guide issue 4 (Online / Local switch); evidence purge archived, paste file ready; Adelaide 20 checked
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 17:05: "Proced with task 4,5 and 6" (4 the Online / Local search switch in the Zoho guide; 5 archive the removable replaced snapshots and a paste file; 6 check the 20 Adelaide University courses that kept their old page) |
+| 4 Zoho guide issue 4 | `docs/integrations/zoho-pack/`: section 5.4, one switch on the Creator search screen: Online (live `search`) by default, Local (the copy in Creator) by choice or automatically when an Online search answers 503 or nothing (banner, 10 minutes on Local); no fall-back on 429; mode and freshness on every results page; what Local cannot do; Deluge outline; calls each way. No API change (section 13 unchanged) |
+| 5 Archive | Definition `supabase/archive/cf247-evidence-purge-2026-10-19.json` (PR #588). Export run 39208392871 to bucket archive, `cf247-evidence-purge-2026-10-19/39208392871/`: evidence_artifacts_replaced 8,531 rows (key hash d8cca369…), evidence_link_index_state_cascade 223 (536261af…), evidence_storage_objects 8,517 (9ef6d97e…); every object read back and checked |
+| 5 Found | Dry run of the removal did not finish in time: 20 foreign-key columns that refer to evidence had no index, so each removed row read whole tables (provider_discovery_links 198k rows, scholarship.course_mappings 122k, and others). Migration `20261019060000_cf247_evidence_fk_indexes.sql` indexes all 20 (PR #587; applied by deploy-on-merge; history md5 7ab28b66… = main). The dry run then passed in under a minute |
+| 5 Paste file | `docs/platform/evidence-purge/PASTE-20261019-evidence-purge-replaced-snapshots.sql`: checks the export in Storage, the three sets' counts and key hashes, and again that nothing refers to these snapshots; lists the 8,517 files for evidence-storage-dedupe (which skips any file another record still uses); removes the 8,531 rows (and 223 link-index rows by cascade); stops job evidence-purge-prepare (done); then asks evidence-storage-dedupe to remove the files. Space: about 8 MB database, about 240 MB Storage. Dry run passed (rolled back). Not yet run |
+| 6 Adelaide | Of the 20: the search had found the right new pages for 12, but the recipe accepted only /study/degrees/<name>/ and refused online degrees, international degree pages (/int/) and English courses. Migration `20261019050000_cf247_adelaide_refind_patterns.sql` (PR #587; history md5 ebb93513… = main) adds those three shapes and re-opens 13 re-finds from the stored search results (no new search); the reader decides as before. The 7 left found only unit pages: Bachelor of Biotechnology (Honours), Bachelor of Food and Nutrition Science (Honours), Graduate Certificate in Health Services Management, Graduate Certificate in Mathematical Sciences, Graduate Diploma in Health Services Management, Graduate Diploma in Project Management, Master of Health Services Management: likely not offered under that name by Adelaide University; they keep their old page. One, Graduate Certificate in Education (Catholic Education), gets the general Graduate Certificate in Education page as a candidate, which the reader checks |
+| Also fixed | Test s69 still asserted the old deploy-script line after the #586 fix (one failing test on main); corrected in PR #587 |
+| Checked | Full suite 777 passed (1 flaky, passes on rerun) + s69 fixed; dry runs passed; consumer_api_check_v1 drift []; re-finds now kept_old 7, open 13, replaced 217 |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 18:57: evidence purge paste file run; files removed; Adelaide re-finds settled
+
+| Item | Detail |
+|---|---|
+| Done | Platform Admin, 19 Oct 2026 18:57: "ran sucess - file_removal_request - 324945" (`docs/platform/evidence-purge/PASTE-20261019-evidence-purge-replaced-snapshots.sql`) |
+| Checked live | The 8,531 replaced snapshots are gone (0 left) with their 223 link-index rows; job evidence-purge-prepare unscheduled and retired in the component register; consumer_api_check_v1 drift [] |
+| Files | evidence-storage-dedupe removed 8,464 of the 8,517 files (the paste file's request, then one more run: 1,764 removed, 0 failed, nothing more to do). The other 53 are still used by a kept snapshot of another record (the files had been shared after the dedupe of Decision 155), so they stay; the removal skips them for as long as they are used |
+| Space | Storage: about 240 MB handed back. Database: about 8 MB; `vacuum (analyze) pipeline.evidence_artifacts` run (MCP, one statement); database 3.66 GB |
+| Adelaide re-finds | Of the 13 opened from stored results: 12 replaced, each accepted by the reader (exact title for the 8 online and English pages, CRICOS code on the 4 international pages); Graduate Certificate in Education (Catholic Education) refused (the general Graduate Certificate in Education page is not this course), old page kept. Adelaide University re-find overall: 229 replaced, 8 kept their old page |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 20:33: evidence plan carried out (shorter panel, unchanged pages kept once, orphan files, indexes)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 19:04 (with a capture of the Evidence panel): "explain why the evidence details panel is so bloated and hard to read ... how do we simplify evidence collection, readability and store them efficiently without bloating the DB"; 20:33: "refresh plan for evidence, plan and execute the next steps" |
+| Found | The capture repeated the panel because it stays fixed while the list scrolls (the export redrew it per screen). The panel itself was about three screens: built for the retired Layer 1–4 audit chain, mostly empty for course pages, and it read the old observation and link model, so course pages showed "0 observations · 0 linked" although the reader had accepted them and their values were live. Storage records are 569 MB of the 3.66 GB database; course pages had about 3 copies each (95,059 for 32,709 pages) because every load's HTML differs; about 1.56 GB of files no record names |
+| 1 Panel (PR #591, v2.15.293) | Migration `20261019070000_cf247_evidence_summary.sql`: `public.admin_evidence_summary(uuid)` (signed-in staff; reads the snapshot's details, the course-page record and the catalogue's evidence ids). The Evidence panel is one screen: page kind and date; course, provider, page address, read when and how; accepted how and in use now (or replaced, with the newest copy); what the page supplied; copies and open reviews; View page and Download; Technical details closed. Lineage strip, boundary text, provenance box, storage controls and empty sections removed. SOPs 1.34 (reviewed, no steps changed) |
+| 2 Unchanged pages (PR #589) | Coverage-sweep worker v0.32.0: a re-read whose page text (scripts and spacing left out) matches the copy in use keeps that copy: no file, no new evidence record. Migration `20261019080000_cf247_reuse_unchanged_pages.sql`: `svc_coverage_text_sha`, the text hash kept on each new copy (md5-guarded edit of `svc_coverage_read_record`), setting `evidence.reuse_unchanged_pages` (1 on). Existing copies have no text hash, so each page stores one more copy at its next read, then reuses it |
+| 3 Orphan files | Migration `20261019090000_cf247_orphan_files_list.sql` (PR #589): `pipeline.orphan_files` lists, once, 28,938 files (1.56 GB) no record names: 27,766 course-page files, 621 adapter captures whose draft is gone, 551 scholarship page files. Archive definition (PR #590), export run 39234401795 (key hashes 370ca11c…, 63672aa5…, a16af6bf…). Paste file `docs/platform/evidence-purge/PASTE-20261019-orphan-evidence-files.sql` checks the export, the lists and again that nothing names them, lists them for evidence-storage-dedupe and asks it to remove them. Dry run passed (rolled back). Not yet run |
+| 4 Indexes | Paste file `docs/platform/evidence-purge/PASTE-20261019-evidence-indexes.sql`: drops 6 indexes (about 14 MB) used a handful of times in 87 days or repeating another (evidence_job_idx, evidence_entity_links_provider_idx, layer2_evidence_review_idx, evidence_layer2_profile_version_idx, layer2_items_batch_status_idx, idx_l2_course_discovery_trial); nothing the consumer API's tables use. Its checks passed (definition md5, still barely used, backs no constraint). Not yet run. The evidence table's other indexes are in use and stay |
+| Checked | Full suites 781 and 784 passed; dry runs passed; applied history md5 = main (746a93ac…, 84dbeaa2…, cf5d31bb…); drift check zero drift after the worker deploy (run 39234399177); summary read live for an Adelaide page; anon cannot run the new functions; consumer_api_check_v1 drift [] |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 21:58: orphan evidence files removed, 6 indexes dropped
+
+| Item | Detail |
+|---|---|
+| Ran | Platform Admin, 19 Oct 2026 21:58: `PASTE-20261019-orphan-evidence-files.sql` "file_removal_request 326148"; `PASTE-20261019-evidence-indexes.sql` "Success. No rows returned" |
+| Found | Request 326148 answered 400: `svc_evidence_dedupe_next: canceling statement due to statement timeout`. The dedupe log had 28,938 new rows but old statistics, so the planner expected one row and chose nested loops. `analyze` of the dedupe log, `evidence_lineage_reconciliations` and `provider_contact_import_batches` (never analysed) took the lookup to 0.5 s. No code change |
+| Removed | evidence-storage-dedupe runs 326165, 326183, 326196, 326210, 326224, 326238: all 28,938 files (1,641,126,550 bytes) status deleted; none left in Storage by id or name; no evidence record names any of them. Evidence bucket now 158,895 files, 18 GB. `pipeline.orphan_files` is retiring (drop by paste file after 14 days) |
+| Indexes | The 6 indexes are gone; `pipeline.pipeline_evidence_job_idx` stays |
+| Space | `vacuum (analyze) storage.objects`: 0 dead rows. Its 569 MB on disk is reused, not handed back (plain vacuum); database 3.68 GB |
+| Lesson | A paste file that queues many rows for a worker runs `analyze` on the queue table after the insert |
+| Consumer API | Unchanged; consumer_api_check_v1 drift 0 |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 22:13: View page fixed; Evidence rows say which copy is which (v2.15.294)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 22:13 (captures of the Evidence list for course 477dac16, Vancouver Island University, and its panel): "evidence still duplicated"; "tried opening view page and error Preview_not_allowed" |
+| Found | The four rows were two copies of the course page (2 and 5 Oct, before worker v0.32.0), the provider's facts page (markdown) and the provincial catalogue file. The older copy still supplies the live fee, intakes and link, so it is kept, but the panel called it "Replaced". View page: `admin-evidence-access` previewed PDF, images, text and JSON only; course pages (text/html) and markdown are saved gzip-compressed (about 117,000 files), so preview was refused and Download gave a .gz. Across the platform 19,291 of 32,710 course pages have more than one copy (95,060 copies); 48,840 older copies are kept only because internal logs name them (evidence_audit_refs 17,966; coverage_reidentify_done 16,268; provider_discovery_links 9,722; layer3_work_items 4,884), about 2.2 GB of files |
+| Change (PR #592, v2.15.294 / 0.1.221) | Migration `20261019100000_cf247_evidence_copy_roles.sql`: `public.admin_evidence_copy_roles(uuid[])` (staff, read-only). Evidence rows say: Course page in use, Older copy · its values are in use, or Older copy, with copy n of m; Provider's facts page; Register or catalogue file. The panel says "Older copy · its values are in use" when that is so. `admin-evidence-access` v1.1 unpacks saved web pages, markdown and gzip files and returns their text; the panel shows HTML in a sandboxed frame (no scripts, forms or same-origin; content policy blocks scripts) and Download saves the unpacked file. SOPs 1.35 (reviewed, no steps changed) |
+| Checked | Full suite 787 passed; build, release:verify PASS; PR checks and deploy workflows passed (Deploy on merge 39245048037); migration applied; deployed function source matches main; copy roles read live for the four rows (in use 2 of 2, older with live values 1 of 2, provider facts, register file); anon cannot run it; consumer_api_check_v1 drift 0 |
+| Open | Removing the 48,840 older copies kept only by internal logs needs the Platform Admin's decision (archive, then a paste file) |
+| Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 22:47: re-find wave 1, scholarship re-check, pages kept once today, Adelaide flags (v2.15.295); CF-208/209/210 closed
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 22:47: "I'll choose c" (older evidence copies kept until a week of re-reads); "Ask questions with recommended choices for 4 and 5. Also finish unis without adapter in waves, following scholarship and data enrichment". Choices: measure "Daily figure on Live activity"; Adelaide "Check CRICOS, keep with soft flag"; repos "Keep public until production"; D11 "Retire all but embeddings"; database "Keep 2 GB; slim URL lists after relink"; CF-208–210 "Close as superseded by CF-247"; held scholarships "AI re-check, then finish"; waves "20+ and 5–19 re-find; 1–4 CRICOS-only" |
+| Found | 720 universities had stopped onboarding without an adapter (613 too few pages read, 107 no website). Of the 169 with 5 or more courses that enrol international students: 42 never had their site mapped (the map was skipped while the daily Firecrawl allowance was used up, each skip counted as a try, three tries then stop; since 15 Oct search and discovery run only for the top 50 Australian focus providers), 6 mapped with no match, 5 failed reads, 50 already decided by the 18 Oct relink (pages not on the site), 40 no website, 23 search switched off by a person. 49 universities (12,135 courses) had waited at Admit scholarships since 12–18 Oct on 512 held pages, all already answered by both chain models; most held because the quote did not show the scholarship is for international students |
+| Re-find (PR #593) | Migration `20261019110000_cf247_refind_wave.sql`: `security.enrich_focus_v1` (md5-guarded) also covers providers in a `refind-…` Build adapter wave; `security.refind_wave_discovery_v1(wave)` re-opens discovery for sites never mapped. Wave `refind-1` started under the Platform Admin account: 56 providers, 943 courses (AU international 5+ courses in the never-mapped, mapped-no-match and failed-read groups; 5 Canadian); discovery re-opened for 44; job coverage-ai-match resumed. 509 providers with 1–4 courses set to wave `cricos-only` (no adapter, no credits). Early result: many small sites return no links to the Firecrawl map |
+| Scholarship re-check (PRs #593, #594, #595) | Migration `20261019130000_cf247_scholarship_recheck.sql`: `pipeline.scholarship_ai_reviews.recheck`, `svc_scholarship_recheck_next/_record`, job `scholarship-recheck` (catalogued), setting `batch.scholarship_recheck`; `admin_scholarship_ai('reviews')` returns the re-check (md5-guarded). Worker v0.33.0/v0.33.1 mode `scholarship_recheck`: the first (cheap) model of the chain answers who may apply and the value, each sentence checked on the page; a recommendation only, nothing published or refused. Migration `20261019150000_cf247_recheck_then_finish.sql`: a university at Admit scholarships whose held pages all have a re-check is finished (held pages stay for a person). At 23:44: 133 of 512 done (76 international students not mentioned, 16 international and value stated, 4 international value unclear, 1 domestic only, 36 not settled), 9 universities finished, cost under US$0.02 |
+| Live activity (v2.15.295) | Migration `20261019140000`: `public.admin_evidence_reuse_today()`; tile Pages kept once, today on Live activity. First reading: 4 of 492 pages read today kept their copy (existing copies have no text hash, so each page stores one more copy at its next read, then reuses it) |
+| Adelaide | Migration `20261019120000`: the 8 courses (all CRICOS-active) keep their old page with a soft `not_on_provider_site` flag |
+| D11 | Inventory taken (33 tables, about 20 MB). Not yet retiring: live functions still read some of them (the Evidence list reads `workflow.review_queue`; `ca_course_scope_keys` is read about 930,000 times; `coverage_identity_cases` and `directory_pages` are named by the evidence path checks). Next: move those readers off, then mark retiring and drop by paste file after 14 days. Search embeddings kept |
+| CF-208, CF-209, CF-210 | Closure records appended (208 and 209 already closed; 210 closed as superseded: managed records, H5–H6, Decision 181 Add course/provider) |
+| Checked | Dry runs passed; full suites 792 and 793 passed; build and release:verify PASS (v2.15.295 / 0.1.222); deploy workflows passed; four migrations applied; worker v0.33.1 answering; consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 01:45: scholarship re-check finished; re-find wave 1 result
+
+| Item | Detail |
+|---|---|
+| Scholarship re-check | All 512 held pages re-checked (cost US$0.06): 299 international students not mentioned, 139 not settled, 50 international students named with the value (check and publish), 16 domestic only, 7 international with the value unclear, 1 with no result. 40 universities finished onboarding after the re-check; 2 still wait (held pages without a re-check). Every held page stays in Layer 4 › AI could not decide for a person; nothing was published or refused |
+| Re-find wave 1 (56 providers) | Site map: 42 failed again (the Firecrawl map returned almost nothing for these small college sites, 189 addresses in all), 14 mapped (3,168 addresses). AI page matching did not run for them: their courses were already settled by earlier searches and the 18 Oct relink (not on the site), which the matcher skips. Pages read: 21 for 3 providers. Onboarding: 54 stopped again on too few pages, 2 built an adapter with nothing ready. Finding: for this tail, more automated searching yields almost nothing; the remaining routes are a person's page list or the CRICOS-only tier |
+| Pages kept once | The Melbourne day restarted at 01:00; no course page read yet today. Yesterday's reading (4 kept of 492) was the first day; each page stores one more copy before reuse starts |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 06:33: re-find wave 1 failures held with a reason (v2.15.296)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 20 Oct 2026 06:33: "show me the list of success and failed unis - flag the failed one with reason so they dont get tried again, only operator and above can unflag them. is there scheduled tasks to probe the unflagged and newly added uni or provider to auto adapter and do data ingestion?" |
+| Result of wave 1 (56) | Adapter built, waiting for a person (nothing ready to admit): ACBT Education (15 pages read), Harvard International College (4). No usable course pages: 54 (12 sites mapped with no page matched, including Humber College with 2 of 276 pages and a website on record of humberetc.ca; 42 sites whose map returned no course pages, including 5 Holmes Institute records sharing one site) |
+| Change (PR #596, v2.15.296 / 0.1.223) | Migration `20261020010000_cf247_course_pages_not_found_flag.sql`: flag reason `course_pages_not_found` (hard). While raised: out of course-page search, site discovery and AI page matching (`security.enrich_focus_v1`, md5-guarded) and left out of Build adapter (`admin_adapter_build`, one line, md5-guarded). Released by a Pipeline Operator or above (setting `flag.course_pages_release_min_rank` 4; `admin_flags` one line, md5-guarded; other reasons keep `flag.manage_min_rank` 6); release restarts onboarding from the website step and maps the site again (`security.flag_requeue_v1`, md5-guarded). Flags screen shows Release for the reasons the role may release. Raised for the 54, each with its site, map count and pages read |
+| Scheduled work (answer) | New providers: trigger providers_onboarding_new starts onboarding when a provider is added (auto_start_new on); job provider-onboarding (every minute, 100 at once) runs website, course pages, adapter build, qualify, auto-admit (on since 12 Oct), enrichment and scholarships. Released flags: back in their queue at once (this change for course pages). Stopped universities carry on by themselves when enough pages are read or a website is entered. Other jobs: coverage-discover, course-link-search, coverage-ai-match(-prepare) every 1–2 minutes; adapter-build-readiness hourly; flag-recheck every 10 minutes (free checks of held sites); enrich-focus-refresh weekly. Not automatic: stopped universities without a flag are not retried on a schedule (by design, Waste rules) |
+| Checked | Dry run passed (54 flagged; release restarts onboarding); full suite 795 passed; build and release:verify PASS; deploy workflows passed; migration applied; live 54 raised, 2 wave providers (with adapters) still in focus; consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 07:02: Layer 4 Inbox, course-link Approve fix, daily admission running sheet (v2.15.297, v2.15.298)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 20 Oct 2026 07:02 (captures of Layer 4 › Review queue and the Adelaide Bachelor of Computer Science (Honours) page): "Keep an running sheet for data admission per uni in the admin repo and make it daily schedule"; "there is no Approve button"; "Reset filter button is misplaced"; "work out the logic and streamline the intended operation by layer 4, Flagged Unis should come here for unflag as well ... anything that needs attention or intervention should come to Layer 4, define its return path". Choices (07:40): "By university", "Yes, all of them", "Inbox, at the bottom", "After 30 days held" |
+| Found | Approve was hidden on all 24 course links: the review desk looked for the proposed page under `url`; these items store `course_url` (applying already read both). For the Adelaide example the page held (2027 international page, CRICOS 115686J shown) is right; the proposed adelaideuni.edu.au page is the AI and Machine Learning specialisation, so Keep. Work needing a person sat on five screens; three kinds (305 adapters with nothing ready, 54 universities held for course pages, about 140 with too few pages) had no queue |
+| v2.15.297 (PR #597) | Migration `20261020020000`: desk recognises `course_url` (md5-guarded, one line). Course links show Page we hold and New page with Keep the page we hold / Use the new page / Enter another address; Reset filters at the end of the task chips. Migration `20261020030000`: `security.admission_sheet_v1()` |
+| Running sheet | Admin repo `docs/data-admission/` (README, RUNNING-SHEET.md, daily/2026-10-20.csv) from `scripts/data-admission/build_sheet.py`: summary, change since the previous day, needs a person (largest first), every university. First sheet: 1,885 universities, 37,300 courses; official page 65.1%, intakes 34.8%, English 55.0%, page fee 25.8%, scholarship 30.3%; 713 need a person. Scheduled task "Daily data admission running sheet" every day 06:47 Melbourne (cloud, commits and checks the push) |
+| v2.15.298 (PR #598) | Design `docs/platform/LAYER4-INBOX-DESIGN.md`. Migration `20261020040000_cf247_layer4_inbox.sql`: `security.layer4_inbox_items_v1` (13 kinds from the existing sources, CRICOS-only group left out), `security.layer4_inbox_kinds_v1` (each kind's choices and return path), `public.admin_layer4_inbox` (summary, universities, items, decide; decide routes to the existing actions with their own checks and is logged in admin_control_events); settings `layer4.site_down_days` 30, `layer4.target_days` 7. Layer 4 › Inbox is the first tab (by university, or by kind); Review queue, AI could not decide and Websites to find stay 14 days, then retire. Live: 1,718 items for 644 universities (held scholarships 857, adapters with nothing ready 305, courses not on the site 221, too few pages 142, held for course pages 54, courses not offered 49, websites needed 41, course links 24, failed proposals 16, fees 6, central pages 3); 1,264 older than 7 days |
+| Checked | Dry runs passed (sheet 1,885 rows in 340 ms; inbox 303 ms, a Keep decision routed to the review decide); full suites 797 and 799 passed; build and release:verify PASS; deploy workflows passed; migrations applied; anon cannot run the inbox; consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 09:41: course links show the CRICOS code and course-name match; Adelaide links kept (v2.15.299)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 20 Oct 2026 09:41 (capture of Layer 4 › Inbox, Adelaide course links): "on right of the Course name display the Cricos code, otherwise what are we confirming and comparing, also the course name is align to course url, there should be no confusion. What we hold is correct." |
+| Found | The 5 Adelaide items proposed a major's page (bachelor-of-journalism-creative-writing for Bachelor of Journalism, bachelor-of-biomedical-and-health-sciences-medical-science, -politics, -applied-mathematics; for Commerce, business-analytics against the held property major). Major pages print the course's CRICOS code too, so the code alone could not tell them apart |
+| Change (PR #599, v2.15.299 / 0.1.226) | Inbox and Review queue: CRICOS code beside the course name; each address marked "matches the course name" or "a major or specialisation of the course". Migration `20261020050000_cf247_course_link_major_rule.sql`: `security.course_page_rule_v1` (md5-guarded) keeps the page held when the proposed address is the held address with words added; the sweep applies it, so these are no longer sent to a person. Two different majors (Commerce) still go to a person. SOPs 1.40 |
+| Decided | The 5 Adelaide items closed as Keep in Layer 4 › Inbox under the Platform Admin account with the decision quoted (status rejected = page held kept). 1 course link waits (ANU Flexible Double Degree) |
+| Checked | Full suite 801 passed; build and release:verify PASS; deploy workflows passed; migration applied; rule live (major page: keep; two majors: person); consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 10:35: Layer 2/3 Build & enrich; unused screens retired; NZ international flag from NZQA; D11 marked retiring (v2.15.300)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 20 Oct 2026 10:35: "Proceed with task 4, 5 and suggest not used navigation items. Rework layer 2 into layer 2/3 so its cleared it has combined operations. Suggest tabs and nav items that can retire as well. Only actionable and operation relative information and items should be retained." |
+| Found | Screen use from the API logs 14–20 Oct (signed-in people, test runs left out): Priority queue and Counsellor reports never opened; the old Layer 4 tabs opened on 3–5 days; `admin_read` screens cannot be told apart in the logs. 10 provider departures were waiting on the Review queue only. All 415 active NZ providers had `enrols_international` blank; the stored NZQA provider pages carry the Code of Practice signatory sentence. D11: 55 idle tables, but several are still named by live functions (health check, Evidence, data quality refresh, user deletion, onboarding step, scholarship screens) |
+| Decided | Platform Admin, 20 Oct 2026: "Operations first (Recommended)"; retire "Old Layer 4 tabs now", "Priority queue", "Counsellor reports tab", "Scrapers & fetchers page"; NZ flag "NZQA Code signatory (Recommended)" |
+| Change (PR #600, v2.15.300 / 0.1.227) | Layer 2 is Layer 2/3 Build & enrich: Operations (each stage working, waiting, stopped for a person with links to the Inbox kind, its jobs with Pause/Resume/Run now, onboarding pace, settings, not-yet-queued, approvals across universities) and Universities (Onboarding + Adapters: journey stage, stop help, Retry/Stop, journey, Inbox count; Builder link). Retired with redirects: Layer 4 Review queue, AI could not decide, Websites to find, Coverage › Counsellor reports, Scheduled jobs › Priority queue (search cap now on Models & services › Toolsets & limits), Scrapers & fetchers (now Models & services › Fetchers), the Onboarding and Adapters tabs and three read-only Adapters cards. Inbox: `?kind=`, `?provider=`, Decided, counsellor reports closed (Fixed, Not changed), provider departures as a kind (Closed, Merged with successor, Still operating). Screen use counted (`pipeline.admin_screen_opens`, Platform health › Screen use). Migrations `20261020060000_cf247_layer23_operations.sql`, `20261020070000_cf247_nz_cop_signatory.sql` (tables `nz_cop_reads`, `nz_cop_status`; `svc_nz_cop_next/_record`, `security.nz_cop_apply_v1` with a minimum-signatory guard and person values kept; job `nz-cop` every 10 minutes; settings `batch.nz_cop`, `nz.cop_window_days`, `nz.cop_min_signatories`), `20261020080000_cf247_d11_idle_tables_retiring.sql` (54 tables retiring, retire_after 3 Nov 2026, readers listed). Worker coverage-sweep v0.34.0 (mode `nz_cop`, stored files only). SOPs 1.41; guide updated |
+| Checked | Dry runs passed (operations 5 stages; universities 1,885 rows; decided; departure merge refuses an unknown successor; nz_cop file selection = latest run's 21 files); full suite 798 passed; build and release:verify PASS; PR checks and all five post-merge workflows passed (Deployed UAT included); three migrations applied; anon cannot run `admin_layer23`; 62 jobs staged; 13 screens marked retired; job `nz-cop` active, first 3 files read (60 providers, 29 signatories); consumer_api_check_v1 drift 0 |
+| Open | NZ flag is applied by `nz-cop` once the 21 files are read (about 70 minutes); D11 drop waits on moving the live readers (listed in USAGE-AUDIT.md) and 3 Nov 2026 |
+| Consumer API | Unchanged (only the value of `enrols_international` for NZ providers changes) |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 15:15: NZ international flag checked; No values cleared (No only when stated)
+
+| Item | Detail |
+|---|---|
+| Checked | Scheduled check of job `nz-cop` (v2.15.300): all 21 NZQA files read, 0 errors, 415 providers; applied 03:50 UTC: 189 Yes (page says it is a signatory), 226 No |
+| Found | All eight New Zealand universities were among the No. Their NZQA pages do not carry the sentence "This Education Organisation is a Signatory to the Code of Practice ..."; non-signatory pages do not mention the Code at all, so a missing sentence does not prove a provider is not a signatory |
+| Change (PR #601) | Migration `20261020090000_cf247_nz_cop_no_only_when_stated.sql` (md5-guarded): Yes when the page says signatory, No only when the page says it is not, otherwise blank; values a person set never change. The 226 No values were cleared to blank; the 189 Yes stay. `nz_cop_status` keeps the NZQA type, an explicit-No mark and the words around "Code"; `svc_nz_cop_record` takes the reader (3-argument form retiring); the files are read again once by worker coverage-sweep v0.34.1 |
+| Checked after | Full suite 798 passed; PR checks and post-merge workflows passed; migration applied; NZ now 189 Yes, 226 blank; consumer_api_check_v1 drift 0; re-read started (polytechnics 16 of 16 signatories with the sentence) |
+| Open | When the re-read reaches the universities, read their wording and propose a rule for them (universities are expected to be signatories, but only on evidence) |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 16:50: NZ universities set Yes (international-enrolment flag)
+
+| Item | Detail |
+|---|---|
+| Found | The NZQA re-read (coverage-sweep v0.34.1, 21 files, reader v2) by type: polytechnics 17 of 17 signatories, private providers 171 of 383, wānanga 1 of 3, government establishments 0 of 4, universities 0 of 8. The pages of the eight universities and of Te Wānanga o Aotearoa and Te Wānanga o Raukawa say nothing about international students (no sentence either way) |
+| Decided | Platform Admin, 20 Oct 2026: "Universities Yes (Recommended)": the eight universities Yes, with the basis that a New Zealand university must be a signatory to the Code to enrol international students; the two wānanga stay blank until their own sites show it |
+| Change (PR #602) | Migration `20261020100000_cf247_nz_universities_yes.sql` (md5-guarded edit of `security.nz_cop_apply_v1`): NZQA type UNI without a sentence is Yes with that basis; values a person set never change; applied at once |
+| Checked | Contract tests (settings, housekeeping, consumer API) passed; PR checks and post-merge workflows passed; migration applied; NZ now 197 Yes (189 stated signatories + 8 universities), 218 blank; 99 Yes providers have 5 or more courses; consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:05: v2.15.301 menu review built; discovery "stopped" alarm explained
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 19:23: "Ask me nav menu wise and its tab wise questions with its use and recommended choice to keep, move or retire"; 16 answers 19:2x; 19:31 "Go for 1 and then proceed with 2" |
+| Decided | Keep: Dashboard (Waiting = Inbox), Providers › Campuses, Provider contacts, Rankings & statistics (review 3 Nov), Scheduled jobs (all three tabs), Settings, Models & services, Go-live, Users, Guides. Move: Scholarships › Extraction → Models & services › AI; Coverage › Flags → Layer 2/3 › Flags; Platform health › Capacity → Go-live checklist; API usage → Settings › API usage; Storage & retention → Platform health tab; Ranking imports → Rankings › Datasets. Merge: Key dates + Reference sources (one list, type filter); Layer 1 › Scholarships + Layer 2/3 › Scholarships (one tab on Layer 2/3); Sources + Layer 1 › Sources (one page on Layer 1, Registers / All layers). Retire: Progress › Running now and Levers; Data model |
+| Change (PR #603) | UI v2.15.301 / package 0.1.228: `src/nav-map.js` (menu 23 → 19 pages; every old address redirects), `src/mature-main.jsx` (SourcesPage, ReferenceList, merged Scholarships, Storage and API usage tabs, Capacity on Go-live, Data model removed), `src/Dashboard.jsx` (Waiting for you = Inbox kinds, Also for non-Inbox queues), `src/Progress.jsx` (Overview and Journeys). Role gates kept (API usage Operator; Storage Platform Admin; Scholarship extraction Curator, AI configuration Operator). Migration `20261020110000_cf247_menu_decisions.sql`: component register only (12 screens retired, 4 added). SOPs 1.42; guide reviewed for 2.15.301 |
+| Checked | Full suite 807 passed (new spec s81 for the menu); release contract PASS; PR checks and all post-merge workflows passed (Deploy on merge, Frontend build, Deployed UAT, Release currentness); migration applied live; register 12 retired / 4 added; consumer_api_check_v1 drift 0 |
+| Discovery alarm | Health check "Coverage provider discovery has stopped: 85 waiting" is a false alarm. svc_coverage_discovery_next only takes focus providers that are not hidden or held; the check counts without those rules. The 85 are 42 held as Course pages not found (all 42 in the Inbox) and 43 small Australian providers outside the top-50 focus (343 courses, at most 23 each). Nothing changed yet; options put to the Platform Admin |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:28: discovery stall alarm fixed; 34 small Australian providers re-found (refind-2)
+
+| Item | Detail |
+|---|---|
+| Decided | Platform Admin, 20 Oct 2026: "Also search the 43 small": the health check counts only what the discovery job may take, and the small Australian providers outside the top-50 focus are searched. Under the 19 Oct rule (5+ courses re-find; 1-4 CRICOS-only) that is 34 of the 43; the 9 with 1-4 courses stay CRICOS-only |
+| Change (PR #604) | Migration `20261020120000_cf247_discovery_stall_eligible_only.sql`: md5-guarded edit of `security.platform_health_check_v1` (47a4adf1… → a7efe398…); `coverage_queues:discover` counts with the job's own rules (focus, not hidden, not held). Live, through Build adapter as the Platform Admin (logged in admin_control_events): the 34 in re-find wave `refind-2` (25 onboarding retried, 9 started) |
+| Checked | Dry run (edit applies once, rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied, live md5 a7efe398… as in the dry run; all 34 sites mapped within minutes; health check coverage_queues ok (discover moving); consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:42: Canada international-enrolment flag from the IRCC DLI list
+
+| Item | Detail |
+|---|---|
+| Found | All 1,130 Canadian providers came from the IRCC Designated Learning Institutions (DLI) list and each holds a verified DLI number (last verified 8 Oct 2026), but their international-enrolment flag was blank. In Canada only a DLI may enrol study-permit students: the DLI list is to Canada what CRICOS is to Australia |
+| Decided | Platform Admin, 20 Oct 2026: "All DLIs Yes (Recommended)" |
+| Change (PR #605) | Migration `20261020130000_cf247_ca_dli_international_flag.sql`: `security.ca_dli_apply_v1()` sets a Canadian provider with a current DLI number to Yes, basis "IRCC Designated Learning Institution (DLI <number>)"; only blank or rule-set values are touched (a person's value never changes); an ended DLI goes back to blank. Daily job `ca-dli-flag` (catalogued). Each change logged in admin_control_events |
+| Checked | Dry run (1,130 Yes; second run changes nothing; rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied; CA 1,130 Yes, 0 blank, all with the DLI basis; job active and catalogued; run logged; consumer_api_check_v1 drift 0 |
+| Consumer API | Shape unchanged; only values of enrols_international change (as for New Zealand) |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 21:16: D11 references cross-checked; paste file for 33 tables ready (14-day wait waived)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 20:54: "Why do we need to wait for 3 Nov. Fore all the tasks and cross check all references. List all the tables and their sizes that can be retired, how much space is going to be saved." 3 Nov is the 14-day housekeeping wait (Decision 260), not a technical limit |
+| Found | 57 tables retiring, 66.5 MB in all. 33 (49.5 MB) have no live reader: only dead functions name them (no scheduled job, trigger, admin screen, edge worker or live function calls those), and none was read or written during the check. 24 (17.0 MB) are still read by something live (listed in docs/platform/usage-audit/USAGE-AUDIT.md) |
+| Decided | Platform Admin: "Drop 34 now, fix 23 (Recommended)"; layer2_tuning_events joined the 23 (the shared admin read names it), so 33 and 24 |
+| Change | Archive definition (PR #606) and export run 39405000377 (34 tables, read back and checked). Paste file `docs/platform/usage-audit/PASTE-20261020-d11-drop-33-tables.sql`: checks the export and each table's count and key hash, drops 61 dead functions, the view pipeline.scholarship_provider_stats and three foreign keys into the Layer 2 trial tables, checks nothing else names the tables, drops the 33, marks them retired and logs it |
+| Checked | Dry run against the live database through the migration workflow (raise at the end): every check passed, 24 left retiring, sample functions gone; nothing kept (tables, view and functions still present afterwards). The first dry run stopped on a third foreign key (layer2_provider_trial_results → layer2_completeness_trials), added before the second |
+| Next | Platform Admin runs the paste file; then the 24: readers changed in a migration, export, second paste file |
+| Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 21:24: D11 paste file run; 33 tables dropped
+
+| Item | Detail |
+|---|---|
+| Run | Platform Admin ran `docs/platform/usage-audit/PASTE-20261020-d11-drop-33-tables.sql` ("Success. No rows returned") |
+| Checked live | None of the 33 tables remains; all 33 marked retired in the component register; 24 still retiring; the 61 functions and the view pipeline.scholarship_provider_stats are gone; the drop is logged in admin_control_events (61 functions); database 3,694 MB → 3,646 MB; platform health check runs; no scheduled job failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
+| Next | The 24 tables still read by something live: change the readers (one migration and release), export, second paste file |
+| Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:03: D11 second step: v2.15.302 live, 15 tables kept, paste file for 9 ready
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 21:29: "proceed with task 1 and bring out any task relating to prod readiness that i may have left in the middle" |
+| Found | Reading the readers of the 24: 15 hold something still in use (Layer 3 holdout evidence of the pinned models, AI key audit trail, scholarship job list, ETL schedules and source qualification, Scholarships › Coverage "mark checked", Canadian register course-scope keys, six empty workflow tables read by 18 live functions) |
+| Decided | Platform Admin: "Drop the 9, keep the 15 (Recommended)"; D11 reversed for the 15 |
+| Change (PR #607, v2.15.302) | Migration `20261020140000_cf247_d11_readers_off_nine.sql`: nine live functions stop reading the 9 tables (md5-guarded edits: retention estimate and tick, wave parent stamp, Task manager running now, platform health check, resource observe, platform health summary, scholarship layer read, dispatcher tuning read); old scholarship AI control read answers "retired"; the 15 back to active. Layer 4 drawer: unused "Suggest a new record from a source" panel retired. Archive export run 39409708653. Paste file `docs/platform/usage-audit/PASTE-20261020-d11-drop-9-tables.sql` (9 tables, 31 dead functions; 5-second lock limit). SOPs 1.43 |
+| Incident | Platform health warning 21:48 "coverage-sweep: 6 of 212 calls failed" (5 × svc_coverage_firecrawl statement timeout at 21:44): caused by a dry run (21:43:48–21:44:35) whose test drop of layer2_provider_trial_results locked pipeline.layer2_acquisition_providers (foreign key) while it ran the full health check. No other coverage-sweep failure in 24 hours; 0 failures in the 50 calls after. Paste file now has lock_timeout 5s; dry runs no longer run long checks while holding locks |
+| Also (PR #608) | The A16 deployed test (runs only when Layer4Intervention.jsx changes) had failed since v2.15.272: Layer 4 corrections sit under the closed More panel and contacts moved to the Provider contacts page. Fixed; 4 passed on the live site |
+| Checked | Dry run of migration + paste file (passed, rolled back); full suite 807 passed; PR checks and post-merge workflows passed (Deployed UAT after #608); migration applied; no live reader left; 9 retiring, 15 kept; no scheduled job failed; consumer_api_check_v1 drift 0 |
+| Next | Platform Admin runs the paste file |
+| Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:11: D11 second paste file run; 9 tables dropped; D11 closed
+
+| Item | Detail |
+|---|---|
+| Run | Platform Admin ran `docs/platform/usage-audit/PASTE-20261020-d11-drop-9-tables.sql` ("Success. No rows returned") |
+| Checked live | The 9 tables and 31 functions are gone; no table is left retiring; drop logged (31 functions); database 3,646 → 3,634 MB (3,694 MB before D11 today); platform health check runs; no scheduled job or edge call failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
+| D11 result | 42 tables dropped (33 + 9), 92 dead functions removed, 15 tables kept (in use); 60 MB returned |
+| Next | Platform Admin, 22:11: production goes to new GitHub, Supabase and toolset accounts under the customer's name; plan the data migration between Supabase projects and the code copy between GitHub accounts |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:45: production migration plan written (customer-owned accounts)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin, 22:11: "For production, i'll create github repo and rest under customer name, plan that data migration between supbase and code copy between github accounts"; 22:33: "Why both repo are required? Only pilot will turn into production, there will new cloudflare worker deployed with studysearch.ai domain" |
+| Plan | Doc "StudySearch Production Migration Plan" (Claude doc, private to the Platform Admin): only Coursefinder-Pilot moves (mirror with full history to a private customer repository); coursefinder-admin stays with the developer as the internal record; database by schema and data dump (3.6 GB, 420 tables), files by rclone (24.7 GB, 4 buckets), 72 edge functions deployed from git, 14 Vault secrets and every toolset key re-entered (never copied), 117 schedules recreated paused; new Cloudflare Worker on admin.studysearch.ai, consumer API on api.studysearch.ai; 4–6 hour cutover window, pilot frozen 30 days for rollback; about 50 MSP hours (60 with allowance) |
+| Found | Four workflows hold the pilot workers.dev address as their default (deployed-uat, m2-4-ux-audit, release-currentness-deployed, ui-review-screenshots): to read a repository variable before the copy. A Worker custom domain needs studysearch.ai's DNS in the customer's Cloudflare account (website records recreated there first) |
+| Decisions open | Region (Sydney recommended), api.studysearch.ai, full history, adapter captures within retention, daily backups, go-live evening; where studysearch.ai's DNS is managed today |
+| Consumer API | Shape unchanged; address change to be recorded as an approved consumer API change before cutover |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 07:30: NZ Destination Page review – Maori provider names, campus cities, single-campus links
+
+| Item | Detail |
+|---|---|
+| Request | Website developer feedback (NZ Destination Page review, 12 items; open data items 2, 4, 5, 7, 8, 9, 10); Platform Admin choice "Quick fixes first (Recommended)" |
+| Change | Migration `20261021090000_cf247_nz_names_campus_cities.sql` (PR #609): 10 Maori provider names restored with macrons (the NZQA page sends "?" for each macron vowel; guarded so only that difference can change; manual locks); 65 of 73 blank NZ campus cities set from the published campus name (8 multi-town or placeless names left blank; manual locks); 290 courses at single-campus providers linked to that campus (online-only excluded; 81 Lincoln) |
+| Checked live | Dry run passed and rolled back (run 39490337028); applied (run 39490579629); NZ courses with a city 1,984 → 2,898 of 6,474 (31% → 45%); Lincoln University 196 of 199; no provider name holds "?"; 85 manual locks; event logged; search refresh processed (generation 159); consumer_api_check_v1 drift 0 |
+| Found | QS history is already held: QS 2021–2027 and THE 2016–2026 for all 8 NZ universities (the website reads the latest edition unless it passes edition_year). No NZ outcome data held (AU only). Scholarships: none for Victoria University of Wellington, AUT, Lincoln or any polytechnic. International fees: 1,022 of 6,474 NZ courses; Otago 0 of 252; 29 fees under NZD 10,000 (3 doctoral fees match the NZ rule that international PhD students pay domestic fees; the rest are whole-course fees for short courses or domestic/industry-training fees, for review). Course details: Massey intakes 18 and English 21 of 265; Canterbury English 12 of 280 |
+| Next | Adapter work: Otago international fees; Massey and Canterbury intakes, English and duration; multi-campus course links (2,013 courses); scholarships for VUW, AUT, Lincoln and the polytechnics. "Last reviewed" date and scholarships page link per institution would be a consumer API addition (needs approval) |
+| Consumer API | Not touched (values only) |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 08:30: v2.15.303 live – every field on Coverage, standing Fill the gaps queue, cross-check
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin, 07:30: "Platform needs to keep working and cross checking on missing data fields ... rest of every fields should have cross check and mechanism to enrich the data ongoing. Work only or queue should fill them with checks. Also coverage menu should details all data fields filled together not the top 7 ... same attributes completeness across the board"; choices "Stored pages + AI, small reads (Recommended)", "When page changes, or 60 days (Recommended)", "All on Coverage; queue for readable ones (Recommended)" |
+| Change | Migration `20261021110000_cf247_field_register_gap_queue.sql` and release v2.15.303 / 0.1.230 (PR #610): field register (15 course, 9 provider fields, target 80%); hourly coverage build covers every course field (In the fill queue, No reader yet; duration and campus register values in Australia only); standing gap queue, job `field-gap-queue` every 6 hours (catalogued), one Enrich fields task (lane enrich-standing) when due, new page reads capped at 200 a day (`gaps.scraper_reads_per_day`), a field the page did not state held until the page changes or 60 days (`gaps.recheck_days`; the flag unit's soft hold now ends after the set days, `security.enrich_item_held_v1`); cross-check of held duration, level and delivery against the latest page reading (`pipeline.field_crosscheck_findings`, never overwritten; Keep held or Take page value); `public.admin_field_coverage`; Coverage › Attributes: Every field by country, Fill the gaps, Cross-check differences. Edits to `enrich_fields_slice_v1`, `field_enrich_items_gate_v1`, `admin_course_coverage_read` md5-guarded. SOPs 1.44 |
+| Checked | Dry runs passed and rolled back; full suite 1,646 passed; release:verify PASS; PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT); migration applied (run 39499274632); deployed screens captured (v2.15.303; all three panels and 15 course fields drawn); consumer_api_check_v1 drift 0 |
+| Live | First standing run started 08:19 with 932 items (the rest are held by the flag unit until their page changes or 60 days pass); 892 settled and 175 values filled by 08:26; AI US$0.28 of the US$25 guard; 0 of 200 new reads. 2,813 cross-check differences open (AU duration 1,502 mostly register weeks against page wording; delivery 845, of which 322 are blended against on campus and online) |
+| Found | Course completeness score is now over 15 fields (57.3%, was over 7); three fields have no reader yet (application deadline, academic entry requirements, course description) and provider description |
+| Next | Readers for deadline, academic entry and descriptions (next release); whether blended and on campus and online count as the same mode in the cross-check (Platform Admin) |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 09:20: v2.15.304 live – stalled fields raised by Platform health, actions to resolve, 10-minute field check
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin, 08:42: "go ahead with next step for Field Stalled and action to resolve it. and 10-min check up - should update in the guide/SOP"; on blended and on campus and online: "this should be University abbreviation how do they define and might be different for different univ. recommended choice and context where is this been seen" |
+| Change | Migration `20261021130000_cf247_field_stalled.sql` and release v2.15.304 / 0.1.231 (PR #611): `pipeline.field_coverage_daily` (history from 29 Sep); `security.field_stalled_v1` (below target and less than 1 point gained in 7 days; 30 points behind the best country; no reader; main cause, action, five universities missing it most); Platform health check `field_stalled` every 3 hours (issue per country, no-reader fields, Fill the gaps not running for 7 hours; issues close themselves); `admin_field_coverage` stalled, fill_now (Pipeline Operator), release_and_fill (Platform Admin, reason); settings `stall.days`, `stall.min_points`, `stall.country_gap_points`, `stall.queue_hours`; Coverage › Attributes opens on Stalled fields; Platform health links there. Guide and SOPs 1.45: the 10-minute field check (4 steps) |
+| Checked | Dry runs passed and rolled back; full suite 1,648 passed; release:verify PASS; PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT); migration applied (run 39506144670); deployed screens captured (v2.15.304, Stalled fields and Platform health); consumer_api_check_v1 drift 0 |
+| Live | Platform health raised: Australia 1 field not moving (official course page 71.3%), Canada 8, New Zealand 12, and 4 fields with no reader; 15 not moving, 6 behind in all. First standing Fill the gaps run finished: 932 items, 189 values filled |
+| Delivery modes (found) | Pages use the words two ways: a choice of modes ("On campus, Online, Blended": Torrens 78, Collarts 28, Canberra, ACPE, Royal Roads, UVic) means on campus and online; a mix inside one course ("14 hours face to face and 6 hours online", "67%/33%": Rockford 23, Entrepreneur Education 24, Berkeley 12, SGSCC 12, Abbey) means blended; own wording (UNSW "Face-to-face (includes blended)", USC, SIT). The reader takes "blended" first, so lists become blended. Recommended to the Platform Admin: keep two modes, teach the reader lists against mixes, a per-university wording list in the Builder, and on campus for international students where online is domestic only (decision pending) |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 10:30: v2.15.305 live – delivery modes: blended is a mix in one course, on campus or online is a choice; university wording
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin: choice "Keep two, fix reader (Recommended)" for blended and on campus and online |
+| Change | Migration `20261021150000_cf247_delivery_modes.sql` and release v2.15.305 / 0.1.232 (PR #612): the delivery reader reads shares or hours each way, or online with block or onsite weeks, as blended; a list of two or more modes as on campus and online; online for domestic students only is left out; `pipeline.delivery_wording` (a university's own phrase, seeded UNSW "Face-to-face (includes blended)" = on campus) applied first by `security.delivery_mode_read_v1`; Enrich fields and the cross-check use it; open differences that no longer differ close themselves; Coverage › Attributes › Delivery wording (PIM Admin and above, with a reason); coverage-sweep worker v0.34.2 (AI prompt gets the two meanings). Held course values not changed. SOPs 1.46 |
+| Checked | Dry runs passed and rolled back (all 20 real page phrases read as intended); full suite 1,648 passed; release:verify PASS; PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT); migration applied (run 39512520080); deployed worker v0.34.2 confirmed; consumer_api_check_v1 drift 0 |
+| Live | Delivery cross-check differences 845 → 693 open (647 closed as no longer differing); the 693 are real disagreements between the held mode and the page, for a person (for example 192 held as on campus or online whose page describes an hours mix) |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 14:00: v2.15.306 live – Enrichment plan: end-to-end enrichment per university, automatic within limits, on demand with its own allowance
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin: "build a functionality to tackle end to end data enrichment for universities… automation is gated by toolset configurable limits but manual should decide on screen of required toolset usage but can do it on demand". Choices: "Own on-demand allowance", "All, most missing first", "Universities row + plan tab" |
+| Change | Migration `20261021170000_cf247_enrichment_plan.sql` and release v2.15.306 (PR #613): `security.enrich_plan_v1` builds a six-step plan per university (website, course pages, adapter, admit, fields, scholarships) with the expected Firecrawl credits and AI cost from 30-day averages; `pipeline.enrich_plan_runs` (one open run per university) and `pipeline.enrich_plan_control`; jobs `enrich-plan-run` (every 5 minutes) and `enrich-plan-auto` (hourly, most missing first) catalogued; manual runs charge a separate daily on-demand allowance (`firecrawl.ondemand_credits_per_day` 2000, `openrouter.ondemand_usd_per_day` 10) and do not use automatic shares; directory sites still refused; automatic plans limited by `plans.auto_open_max` 20, `plans.auto_per_run` 10, `plans.redo_days` 14, `plans.step_wait_hours` 48, `plans.step_max_hours` 24. Admit stays a person's step. UI: Layer 2/3 › Enrichment plan tab and a Plan link on each Universities row. SOPs 1.47 |
+| Checked | Dry run passed and rolled back (Otago plan: website 14.8 credits, pages 162, adapter 55.4, fields 2); local suite without credential-only deployed tests 1,644 passed, 0 failed; release:verify PASS; post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT, Frontend Build); migration applied (run 39535412408); jobs scheduled and catalogued; `enrich-plan-run` succeeded at 02:55 UTC; screenshot shows the tab live in v2.15.306; consumer_api_check_v1 drift 0 |
+| Correction | The v2.15.304 and v2.15.305 entries said "full suite 1,648 passed". The same runs also reported failures: most were deployed tests that need UAT credentials (they passed in the Deployed UAT workflow), and one was real (the v2.15.305 migration header did not start its `-- Replaces:` line on its own line, failing the housekeeping test). Fixed in PR #613; the rerun is clean |
+| Live | Automatic plans on; first automatic selection at the next `enrich-plan-auto` run (:41 each hour); no plans open yet |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 18:10: v2.15.307 live – enrichment plans: task labels, plans that need a person, search refresh gap; why seven adapters stopped
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 17:30: "Pick b, and proceed with task 2 and 3" (B: automatic plans stay at 10 an hour; task 2: label automatic tasks, show plans that need a person, ease the search refresh; task 3: find why the adapter stopped for seven universities) |
+| Change | Migration `20261021190000_cf247_plan_needs_person.sql` and release v2.15.307 / 0.1.234 (PR #614): tasks a plan starts carry `plan_run`/`plan_mode` and say so in their reason (running ones labelled); `pipeline.enrich_plan_runs.needs_person` via `security.enrich_plan_needs_person_v1` (finished plans filled in); `admin_enrich_plan` lists them; `security.search_refresh_requested_v1` runs the full comparison for Enrich fields and plan requests at most every `search.refresh_min_gap_minutes` (30), other requests not held. Task manager: Started by shows Enrichment plan (automatic) / (Run now). Layer 2/3 › Enrichment plan: Plans that need a person. SOPs 1.48 |
+| Checked | Dry run passed and rolled back (6 plans need a person, 51 tasks labelled); build OK; release:verify PASS; local suite without deployed tests 1,646 passed, 4 failed (the same 4 fail on main: CF-091 and CF-103 legacy source checks, not touched); PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT, Frontend Build); migration applied (run 39558614626); live: 7 plans need a person, 58 tasks labelled, functions edited, setting 30; screenshots show Plans that need a person (7) and Task manager "Enrichment plan (automatic)"; consumer_api_check_v1 drift 0 |
+| Findings (task 3) | Georgian College and University of Manitoba: most course pages on record are not course pages (library guides, a thesis repository, journal downloads; Georgian 51 of 72), so the adapter has nothing to read. SFU, Calgary and Otago: the pages are right but fees, English and intakes are on shared pages, not each course page (Otago fees read on 7 of 191 pages); shared (central) pages are not set up for them. NZIST: six provider records share the name "New Zealand Institute of Skills and Technology" (WITT, NorthTec, Whitireia, TPP and two nzist.ac.nz), each with too few pages. George Brown: delivery and intakes read on few pages |
+| Load | Database busier 14:00–16:00 while the NZ Enrich fields task and the first plans ran (some jobs about 1 s to 60–75 s); back to normal from 17:00; a screen read at the busy minute can time out (8 s limit) |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 20:00: daily NZ field report per provider; v2.15.308 live – enrichment plans in two tracks, New Zealand first, larger Firecrawl shares
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:27–18:36: "Prepare the nz data per uni including all fields before and at present"; "Produce it daily please"; "Lets speed up course data for each provider, [Firecrawl] as a separate parallel job?" (choice "Two tracks + more credits") |
+| Change (daily report) | Migration `20261021210000_cf247_provider_field_daily.sql` (PR #615): `pipeline.provider_field_daily` (one row a day per provider), `security.provider_field_daily_record_v1`, job `provider-field-daily` 19:55 UTC catalogued, `retention.provider_field_daily_days` 120; seeds 21 Oct (all countries) and 20 Oct NZ worked out. Admin repo: `scripts/data-admission/build_nz_fields.py`, `docs/data-admission/NZ-FIELDS-README.md`, first workbook `nz-fields/NZ-course-data-2026-10-21.xlsx`. Scheduled task "Daily NZ field report per provider" 7:15 am Melbourne: builds, recalculates, commits and sends the workbook |
+| Change (speed-up) | Migration `20261021230000_cf247_plan_two_tracks.sql` and release v2.15.308 / 0.1.235 (PR #616): `security.enrich_plan_tick_v1` runs one step per track (Fill missing fields beside the Firecrawl steps); `security.enrich_plan_auto_v1` takes `plans.priority_countries` (["NZ"]) first; Firecrawl daily total 15,000 → 25,000, course search 6,000 → 13,000, reads 3,000 → 5,000, central 1,500 → 2,500; plans an hour 10 → 20, open 20 → 40 (logged in admin_control_events). Firecrawl credits left until 2 Nov: 366,796. SOPs 1.49 |
+| Checked | Dry runs passed and rolled back (NZ before and now match the 21 Oct workbook; tick started 32 waiting steps; NZ first); builder tested on live data, recalculated with 0 errors; local suite without deployed tests 1,650 passed, 4 failed (same 4 legacy checks fail on main); build OK; release:verify PASS; PR checks passed; migrations applied (runs 39563287174, 39566187857); Deploy on merge, Release Currentness Deployed and Frontend Build passed |
+| Open | Deployed UAT after v2.15.308 failed twice on one test: Layer 1 CRICOS validation (layer1-operations-control returned HTTP 500); the other 5 passed. This change does not touch Layer 1; the database was busy at the time (scheduled jobs about 55 s a run). To be re-run when quieter and investigated if it fails again |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 21:00: never-a-course-page patterns; term dates for NZ and Canada; Otago, Calgary and SFU start months; SFU English page; NZIST names
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:18: "Go on with task 3" (the adapter fixes found for the seven plans that stopped: course-page filter; shared pages for Otago, SFU and Calgary; NZIST names) |
+| Found | 174 bound "course pages" at 18 providers were not course pages (library and research guides, thesis and journal repositories, archived handbooks: Georgian 49, Sydney 33, Manitoba 28, George Brown 19), 103 of them published as the official course link; `security.calendar_default_intakes_apply_v1` had the country written in as 'AU', so approved term dates never filled intakes in NZ or Canada; Otago's, Calgary's and SFU's parsed calendars gave no single start month; SFU's English central page was a Computing Science FAQ; NZ fees cannot use the fee-schedule reader, which matches by CRICOS code (open) |
+| Change | Migration `20261021235000_cf247_page_filter_calendars_nzist.sql` (PR #617): `pages.not_course_patterns` and `security.not_course_page_v1` in the existing guard trigger on `pipeline.coverage_course_pages` (every binding route); the 174 pages marked mismatch and blocked for their course, their 103 active official links set inactive (nothing deleted); `calendar.countries` (AU, NZ, CA) in place of the written-in 'AU'; by-hand start months Otago (Mar, Jul), Calgary (Sep, Jan), SFU (Sep, Jan, May); SFU English requirement page added; NZIST records named from NZQA (NorthTec, Whitireia and WelTec, WITT, Tai Poutini Polytechnic, NZIST Work-Based Learning, NZIST) and locked |
+| Checked | Dry run passed and rolled back (174 pages / 18 providers; 103 links; names; months; the calendar run would fill 233 courses); local suite without deployed tests 1,656 passed, 4 failed (the same 4 legacy checks fail on main); PR checks passed; migration applied (run 39571608814); Deploy on merge and Frontend Build passed; live: 0 non-course pages still bound, names and months as set, intakes now from term dates at Otago 84 courses (was 2), SFU 45, Calgary 20, Ara 30, UBC 33; consumer_api_check_v1 drift 0 |
+| Open | Deployed UAT: the Layer 1 CRICOS validation test has failed on every run since 19:40 (layer1-operations-control HTTP 500 while reading the CRICOS package from data.gov.au); the other 5 tests pass. Not caused by these changes (none touches Layer 1); needs the edge function log or a check of the data.gov.au package. NZ and Canadian fees need a fee reader that matches by qualification name (Otago's fee tables are per division) |
+| Consumer API | Not touched (provider names and official links change as data) |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 21:30: CRICOS check suspended (data.gov.au maintenance); v2.15.309 live – AI fee reader (NZ universities first, ready for CA and later countries)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:58: "Suspend cricos check" (data.gov.au: "undergoing maintenance, back online on 22 October 2026"). 20:02: "Build fee reader for nz unis and make sure its compatible to ca and upcoming countries. The logic has to be built by using ai model in the platform and collect and feed error to build and evolve data reader and help in enrichment ... think along the lines if the reader built for existing uni and country changes in coming month what will be required". Choices: "Automatic above confidence", "As published + yearly estimate", "NZ universities, then NZ rest, then CA" |
+| CRICOS | The three data.gov.au Layer 1 sources (CRICOS courses, CRICOS institutions, TEQSA register) paused with the reason (admin_control_events); the deployed CRICOS validation test skipped until 2026-10-22T13:00Z (PR #618; Deployed UAT then passed); a check is scheduled for 22 Oct 18:00 Melbourne to resume them when data.gov.au is back |
+| Change | Migration `20261022001000_cf247_fee_reader.sql` and release v2.15.309 / 0.1.236 (PR #619): `pipeline.fee_country_profiles` (NZ, CA, AU), `fee_reader_queue` (per page version), `fee_reader_rows`, `fee_reader_findings`, `fee_reader_recipes` (versioned reading notes); job `fee-reader` every 10 minutes (catalogued); admission above `fees.auto_admit_confidence` (0.85) with title agreement, usual-range and held-fee checks, otherwise Layer 4; findings and notes given to the AI on each read; spend guard `guard_fee_ai`; scope settings `fees.countries` (NZ) and `fees.provider_types` (university); coverage-sweep worker v0.35.0 mode `fee_ai`; Layer 2/3 › Enrich fields › Fee reader (AI); SOPs 1.50. Hotfix `20261022002000_cf247_fee_pages_first_read.sql` (PR #620): a central page never read is not held by the 30-day refresh rule (the first run's 21 new fee pages were refused as not_due; their attempts were reset, logged). Design and change-readiness note in the project docs (coursefinder-fee-reader-design.md) |
+| Checked | Dry runs passed and rolled back (simulated Otago read admitted one fee and recorded findings; hotfix allowed the Otago sciences page); local suite without deployed tests 1,662 passed, 6 failed (4 legacy checks failing on main; 2 the s82 worker-version check, fixed in the PR); build OK; release:verify PASS; PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT, Frontend Build); deployed worker v0.35.0 confirmed; hotfix applied (run 39581638868) |
+| Live | First reads: Otago's main fee page had no rows (finding) and the AI found its four division pages and foundation page; after the hotfix 21 pages were read; first 4 page reads gave 105 rows for Otago: 96 admitted, 4 to Layer 4 (AI matches that the title check caught, for example Master of Physiotherapy against Bachelor of Physiotherapy with Honours), 5 with no matching course; Otago courses with a fee 0 → 59 of 252; 17 pages of the other seven universities queued (3 every 10 minutes); AI spend US$0.04; screenshot shows the Fee reader card; consumer_api_check_v1 drift 0 |
+| Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 22:30: job queue review; course-page search in priority order, stopped after 20 wrong pages in a row
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 21:36: "Review the job queue"; choice "Keep 13,000, fix order only" |
+| Found | Tasks: 4 running or queued (one course-page task stuck for budget). Enrichment plans: 53 done, 27 running, 22 waiting for course-search credits until midnight. Fee reader: 10 pages read, 21 queued. Layer 4: 6 pending. Scheduled jobs: no failures; 60–75 s at busy minutes. Course-page search used its whole 13,000-credit share: title searches bound 2,487 pages, 39 confirmed, 1,426 the wrong page (19 Oct: 34 of 424); the spend went to Newcastle, Adelaide, Sydney and Monash, and 924 credits to NZIST Work-Based Learning (no course pages); 1,381 searches queued (AU 662, NZ 443, CA 276) |
+| Change | Migration `20261022003000_cf247_search_order_and_waste.sql` (PR #621): `svc_course_link_search_next` takes `search.priority_countries` (NZ) first and skips `search.skip_providers` (provider:nzqa:6044); `fc_search_stopped_v1` also stops a university when its latest `search.wrong_in_row_stop` (20) read title-search pages were all wrong (resumes with Search again). Share unchanged (13,000) |
+| Checked | Dry run passed and rolled back; governance and migration-scanning tests pass; PR checks passed; migration applied (run 39586309931); live: universities with search stopped 43 → 57 (including Otago, Lincoln and Massey, whose recent title searches were all wrong); consumer_api_check_v1 drift 0; AI fee reader so far: 91 courses with a fee |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 09:00: v2.15.310 NZ enrichment review fixes; flags show the toolset tried; daily backup of publishing and settings
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 07:22: "Review the data enrichment for nz and keep the stat how much of toolset we used used successfully and failed before uni or courses were flagged. Find the gaps and resolution."; choices "Quick wins: 1, 3, 6, 8", "University route change (2)", "Field reader fallbacks (4, 7)", "Daily toolset sheet (9)". 07:41: "Maintain daily unpublished providers as the sql script and report ... backup on daily basis and restore it, only by platform admin". 08:12: flags for exhausting the toolset to be shown in the UI, helpful and intuitive |
+| Review | Workbook NZ-enrichment-review-2026-10-22.xlsx sent. NZ: course-page search 10,033 calls (20,066 credits), 973 correct pages, 1,746 wrong; AI page match 11,905 tries, 3,118 chosen; AI field reader 37,319 items (US$11.91), 17,256 filled, 19,380 skipped; fee reader 66 reads, 351 fee rows admitted; 149 providers used 6,432 search credits with no correct page; address guesses 1 correct of 123 |
+| Change | PR #622, release v2.15.310 (package 0.1.237), worker v0.36.0. Migrations `20261022010000_cf247_nz_review_quick_wins.sql` (search off where the site lists 5 or fewer course pages in NZ; four more never-search providers; render pass for NZ pages that need a browser, retried after 24 h; address guesses only AU and CA; one provider flag `course_pages_not_listed`), `20261022011000_cf247_nz_review_route_reader_stats.sql` (universities: site list before title search; AI match retry cap by right pages, at least 2 candidates; Enrich fields quote-miss hint, no re-ask of an unchanged page copy; `pipeline.toolset_use_daily`, job `toolset-use-daily`, seeded 8–21 Oct), `20261022012000_cf247_settings_backup.sql` (`pipeline.settings_backups`, job `settings-backup-daily`, diff, SQL script, restore by Platform Admin only with reason and a backup first), `20261022013000_cf247_flag_tool_stats.sql` (`security.flag_tool_summary_v1`; `admin_flags` returns the toolset used before each flag). Settings › Backup & restore; Layer 2/3 › Flags shows "Tried: …" and a toolset table; daily NZ report gains a Toolset use sheet; guide; SOPs 1.51 |
+| Checked | Each migration dry-run and rolled back, then applied before merge (runs 39671895382, 39673525491, 39673590845, 39678639565); md5 guards held; live definitions confirmed; 85 provider flags raised; retry cap 1; 11,730 toolset rows for 14 days; first backup: 3,101 providers (1,786 published, 1,315 unpublished), 302 settings. Build OK; release:verify PASS; full local suite 1,672 passed (only the 4 legacy CF-091/CF-103 failures before the three intended test updates); post-merge workflows passed; deployed coverage-sweep files identical to main (md5); report builder tested with sample data and recalculated with 0 errors; consumer_api_check_v1 drift 0 |
+| Consumer API | Not touched (restoring changes provider data the API reads, never its shape) |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 13:00: v2.15.311 Backup & restore fix; v2.15.312 unpublished providers pause, Adapter filter and onboarding backfill, course on-website chip, users last active; hotfix
+
+| Item | Detail |
+|---|---|
+| Requests | Platform Admin 11:40 "shown button doesn't work and there is no restore button to restore the select backup"; 11:42 "unpublished providers should be removed from any schedule tasks or updates. - reenabling them bring back to respective tasks and jobs"; 11:47 Adapter filter, sortable Adapter status, "Create adapters for All Universities where website were found" (choice "All 738 with a website"); 11:50 course shows "not published"; 11:57 "Sujata last login was yesterday" |
+| v2.15.311 (PR #623) | Settings › Backup & restore: the backup shown is marked Selected; every backup has Compare and Restore; a Restore this backup section is always shown and says when nothing differs. No database change. SOPs 1.52 |
+| v2.15.312 (PR #624) | Migrations `20261022014000_cf247_unpublished_providers_pause.sql` (15 scheduled queues skip unpublished or archived providers; AI field reader items of automatic tasks settled as `provider unpublished` and asked again by the gap queue once published; what a person starts still runs), `20261022015000_cf247_course_detail_provider_published.sql` (course detail returns its provider's switch; the course shows On the website or Hidden: provider not published), `20261022016000_cf247_adapter_filter_and_backfill.sql` (`security.provider_adapter_status_v1`, `security.admin_providers_page_v2` with the Adapter filter, column and sort, `admin_catalogue_page` calls it, old page function retiring; 726 published providers with their own website and no adapter queued for onboarding: 536 never onboarded, 190 stopped before), `20261022017000_cf247_user_last_active.sql` and `admin-user-management` (Last active = latest sign-in or session refresh; Sujata 21 Oct). Every university already had an adapter (AU 45, NZ 8). SOPs 1.53 |
+| Hotfix (PR #625) | `20261022018000_cf247_pause_hotfix.sql`: in the onboarding and plan ticks the pause check compared the pause list with itself, so for about 40 minutes no queued onboarding started and no automatic plan moved. Fixed; onboarding started 100 providers, plans started 7 and finished 2 at once |
+| Checked | Each migration dry-run and rolled back, then applied before merge (runs 39702097353, 39702259322, 39702911386, 39702985861, 39705808807); 15 paused functions confirmed live; full local suite 1,680 passed (failures fixed: colour tokens, housekeeping scan of a temporary-table edit; only the 4 legacy CF-091/CF-103 remain); post-merge workflows passed; deployed admin-user-management carries Last active; consumer_api_check_v1 drift 0 |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 14:30: NZ review resolutions finished; search gates pass only a person's request; daily Resolutions & lessons sheet
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 13:28: "Include resolution to be programmed after everyday report with lesson learnt. Implement - program following resolution" (the nine gaps of the NZ enrichment review) |
+| Change | PR #626. Migration `20261022019000_cf247_nz_resolutions_finish.sql`: providers in the check-first countries without a site map get one before any search (`security.site_not_checked_v1`; 117 NZ providers); pages refused by robots.txt listed with one provider flag `pages_refuse_reading` (15 providers); provider-level facts when a course page is silent (`security.enrich_fallback_v1`: campus = the provider's only campus; international = yes with an international fee or CRICOS registration, no when the provider does not enrol international students); `security.nz_resolution_measures_v1` (one daily figure per resolution). Migration `20261022020000_cf247_search_gates_automatic_requests.sql`: bulk onboarding asked for searches like a person and passed every gate (374 wrong title-search pages for 4 right since the gates went live); now only a person's request passes (`security.search_asked_by_person_v1`; 854 of 2,197 queued requests count as a person's). Admin repo: `nz-resolutions.json` (resolutions, status, measures, lessons learnt), Resolutions & lessons sheet in the daily NZ report, README query adds the measures |
+| Not programmed | Fix 5 (campus lists) is person time in Layer 4; delivery has no sound provider-level fact |
+| Checked | Both migrations dry-run and rolled back, then applied before merge (runs 39711949840, 39712283596); contract and governance tests pass; report builder tested with the live measures (6 sheets, 0 formula errors) |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 15:00: v2.15.313 fee reader reads a fee printed for a number of points correctly
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:35: "proceed with AUT fee fix" |
+| Problem | Fees printed for a number of points, such as AUT's "$19,929.84 (for 60 points)" and Lincoln and Canterbury's "$27,300 (60 points)", were read as a fee per point and multiplied by a full-time year: NZ$2.4 to 3.4 million a year (51 rows, held in Layer 4 by the range check, none published). 52 more rows with the same wording, read as a whole-course fee, had no yearly figure |
+| Change | PR #627, release v2.15.313 (package 0.1.240). Migration `20261022021000_cf247_fee_reader_units_covered.sql`: `security.fee_row_units_v1` takes the points or credits from the quote; `svc_fee_ai_record` works out yearly = amount / points x the country's full-time load (NZ 120), keeps `units_covered` on the row, records a "fee unit not understood" finding when the reader called it per point, and marks a page's earlier rows `replaced` when it is read again (md5-guarded). Worker v0.36.1: the fee reader prompt and schema carry `units_covered`. The affected fee pages are queued to be read again |
+| Checked | Dry run replayed AUT's page and rolled back: the 4 certificates came out at NZ$39,860 to 45,060 a year and were admitted; applied before merge (run 39719676557); deployed worker confirmed v0.36.1; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
+| Lesson | A unit the AI chooses is checked against the quote: when the page states the points next to the amount, the database decides, not the model |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 15:45: v2.15.314 Fee reader shows how each yearly figure was worked out
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 15:21: "AUT fix - how can we make that available in the UI?" |
+| Change | PR #628, release v2.15.314 (package 0.1.241). Enrich fields › Fee reader (AI), a provider's rows: the quote under each qualification; "for 60 points" when the fee is for a number of points; the yearly figure says how it was worked out (amount ÷ points × the country's full-time year); rows replaced by a newer read hidden behind a count; findings show what a row was read as and what it is. Frontend only; SOPs 1.55 |
+| Checked | Release contract, build and full test suite pass except the 4 known legacy CF-091/CF-103 tests |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 16:30: v2.15.315 Fee reader - add, stop and start fee pages
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 15:57 (University of Otago): "how to change the existing non-producing URL in UI and replace them with correct them. can we add manually in UI by ourselves, how will it start admitting data to the courses field?" |
+| Found | Otago's right pages already gave fees (business school 32, health sciences 64, humanities 40, sciences 39 admitted); every page showed the older page reader's status "no_values"; seven old or overview pages give no fee rows and were read by the AI on every Read again |
+| Change | PR #629, release v2.15.315 (package 0.1.242). Migration `20261022022000_cf247_fee_pages_add_stop.sql`: `admin_fee_reader` actions `page_add` (fetched by the provider-facts job within about 10 minutes, then read by the AI and admitted or sent to Layer 4), `page_stop` (fees it gave stay), `page_resume` (Pipeline Operator and above, with a reason, logged); Read again leaves stopped pages out; each page returns fees, admitted, already held and to-review counts (md5-guarded). Fee reader screen: fetch status in words, the AI result per page, Stop / Start again, Add a fee page. SOPs 1.56 |
+| Checked | Dry run on Otago (stop, read again skipping it, resume, add) rolled back; applied before merge (run 39727575006); live definition confirmed; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 17:05: v2.15.316 providers with no courses need no adapter; Adapter builder course list
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:22: "is ti correct 1410 don't have adapters, how will their courses be reflected?" (choice "Stop onboarding, label 'No courses'"); 16:10 UTS Adapter builder course list: no bulk action, edit a course's page, "show course already read" did not work, ticks replaced step numbers (choice "Yes, build them") |
+| Found | Of 1,410 published providers without an adapter, 1,206 have no active course (Canada 1,078, New Zealand 128): nothing for an adapter to read; 536 of them were queued or waiting in onboarding. 204 have courses (most stopped for too few course pages). Courses without an adapter still show their register facts and anything the AI field reader and fee reader find. UTS: the 162 "Stored, not read yet" were 129 pages about another course and 42 on the old handbookpre2025 site |
+| Change | PR #630, release v2.15.316 (package 0.1.243). Migration `20261022023000_cf247_no_courses_and_course_pages_card.sql`: adapter status `no_courses` (Providers filter "Not needed: no courses"; No courses chip instead of Create adapter); onboarding stops a provider with no active course (`no_courses`, no credits) and queues it again by itself once a course is active; Adapter builder course list states `wrong_page` and `old_site`, up to 2,000 courses (md5-guarded). Builder 2.1: state chips filter the list (Read included), any row can be ticked, Tick all shown, Search again for the ticked, Add/Change page on the row, paging; step numbers kept with a Done chip. SOPs 1.57 |
+| Checked | Dry run with live checks rolled back; applied before merge (run 39731124096); live after the next onboarding run: 536 stopped `no_courses`, published adapter status no_courses 1,206 / admitting 273 / testing 97 / none 192; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
+| Next | v2.15.317 course list page per provider with a weekly retry of providers stopped for too few pages; v2.15.318 Sydney course data file reader (fees and English) |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 17:40: University of Sydney course data file read for fees and English (recorded, not admitted)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:44 "sydney website is difficult" (fee drawn in by the browser after a student-type and year choice); 15:51 found the data file behind the fee box (`<page>.coredata.json`, checked in a private window); 16:30 choice "Yes: fees and English", tried on courses first and admitted only after approval |
+| Change | PR #631: migration `20261022024000_cf247_sydney_course_data_file.sql` (companion address made by replacement, `pipeline.uni_adapter_companions.url_replace`; `security.companion_sync_v1` md5-guarded; Sydney companion read directly, patterns for the international fee and year, IELTS overall and band, TOEFL iBT, PTE; 575 data files lined up). PR #632: worker v0.36.2, the direct reader reads an address ending in .json as JSON (the first trial of 20 was refused as not HTML). PR #633: migration `20261022025000_cf247_sydney_latest_fee_year.sql`, fee and year from the newest year with an international fee (files list 2026 and 2027) |
+| Checked | Patterns tested on the real file structure; trial runs: 37 of 40 read with every value (for example Bachelor of Social Work 2027 A$59,100, IELTS 7.0; Master of Public Health 2027 A$64,800, IELTS 6.5), 11 answered with something other than a data file; deployed worker confirmed v0.36.2. Nothing written to courses: values are on `pipeline.course_companion_pages` until the Platform Admin approves admitting them. The hourly job companion-read reads the remaining 527 |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 18:30: v2.15.317 course list page per provider, weekly retry; first live check (Waikato)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:30, choice "Course list page per provider (Recommended)" for the 192 published providers with courses but no adapter (most stopped in onboarding for too few course pages); 15:05 "will that be helpful in case of website being searched for courses and not finding it - especially different language and nz based" |
+| Found | The AI page match draws its candidates from the provider's site addresses and, in Australia, only for focus providers; a course with no candidates was never prepared again; title search is held for automatic requests since the morning. A stopped provider had nothing left that would find its pages although its note said it carries on by itself |
+| Change | PR #634, release v2.15.317 (package 0.1.244): migration `20261022026000_cf247_course_list_pages.sql` (`pipeline.provider_course_lists`; `public.admin_course_list` list/add/stop/read_now; `svc_course_list_next`/`svc_course_list_record`, links with their link text into `pipeline.coverage_provider_urls` source `course_list`; job `course-list-read` catalogued, every 10 minutes when a list is due; settings batch.course_list_read, course_list.max_pages, min_links, reread_days (7, the weekly retry), retry_hours, max_attempts; `security.coverage_ai_match_prepare_v1` runs for any provider with a read list, md5-guarded); worker v0.37.0 mode `course_list_read`; Adapter builder 2.1 Course list page box (no reason prompts); SOPs 1.58. PR #635 worker v0.37.1 (course links are those under the list page's folder; scraper when too few). PR #636 worker v0.37.2 (follow page=2, 3, ... when next buttons have no links). PR #637 migration `20261022027000_cf247_course_list_attempt_rule.sql` (one attempt after each list read whatever the earlier count) |
+| Checked | Dry run with Waikato rolled back; each change applied before merge (runs 39735289770, 39738454474); deployed worker confirmed v0.37.2. Live check with the page the Platform Admin showed (waikato.ac.nz/study/qualifications/): first a direct read gave only the site menu (fixed in v0.37.1), then 10 course links (fixed in v0.37.2), then 103 course links from 10 list pages through the scraper; the AI page match then prepared Waikato's 156 courses without a page: 28 chosen (going through the identity check on read), 127 with no fitting link. Full test suite passes except the 4 known legacy CF-091/CF-103 tests |
+| Lesson | A list drawn by the browser shows only the site menu to a direct read: count only links under the list page's own folder |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 19:00: coverage sweep worker errors fixed (course search stopped since 14:53); CRICOS sources resumed
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:26 (Scheduled jobs, Workers sending back errors): "Why is the coverage sweep job failing". Scheduled check (set 21 Oct): resume the data.gov.au sources when it is back |
+| Found | 1 `svc_course_link_search_next` timed out on every run from 14:30 (236 errors; no course page search sent after 14:53; 4,041 waiting): the search gates of 20261022019000/20000 ran provider-level checks once per queued row (about 4,000 rows), and the once-used WITH block was folded back into every row. 2 `svc_provider_contact_next` timed out (30 since 13:00): the directory-site test ran on 1,327 providers before the cheap filters (10.4 s, 0 found). 3 With the backlog draining, `svc_fc_spend` timed out about twice every 5 minutes: each course-search spend worked out the stopped list for every provider under the spend lock. The 503 errors at 17:30 were the hosting platform's edge runtime ("SUPABASE_EDGE_RUNTIME_SERVICE_DEGRADED"), tried again on the next run; the one failed run of search-refresh-requested (16:46) was a single timeout that did not repeat |
+| Change | PR #638 migration `20261022028000_cf247_search_next_per_provider.sql` (provider checks once per provider, MATERIALIZED; directory-site check per provider; indexes `coverage_vendor_usage_purpose_at_idx`, `coverage_course_pages_title_search_bound_idx`; same rules, order and limits; 30 s to under 1 s). PR #639 `20261022029000_cf247_contact_next_cheap_first.sql` (cheap filters first; 10.4 s to 59 ms). PR #640 `20261022030000_cf247_fc_spend_stopped_one_provider.sql` (`security.fc_search_stopped_for_v1`, same answer as the all-provider list for 1,549 providers, 7 ms). All md5-guarded, dry-run with timing, applied before merge |
+| Checked | Live 18:46 to 18:53: 0 timeouts, 0 server errors, 514 searches sent in 7 minutes; backlog 4,041 to 2,767 |
+| CRICOS | data.gov.au back (CKAN package_show cricos success). CRICOS courses, CRICOS institutions and TEQSA resumed 18:16 with the reason logged (admin_control_events) and validated: courses Active=25,540 and institutions 1,545 unchanged; TEQSA failed on "named resource not found" because it was republished on 20 Oct as providers_16102026a.csv: its resource rule widened to providers_[0-9]{8}[a-z]?[.]csv$ (logged), then passed with 200 providers. The Deployed UAT CRICOS test runs after its dated skip ends (13:00Z); a check is scheduled for 13:10Z |
+| Lesson | A gate added to a queue pick is per row unless it is worked out per provider first; a once-used WITH block needs MATERIALIZED to stay once. Time the pick in the dry run, not only its result |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 20:00: v2.15.318 Adapter builder manual mode
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:02 "Update for adapter builder?"; 19:05 "Yes, we need to accommodate manual actions as well. Do what complete the process in manual mode" |
+| Found | The Adapter builder tab was hidden (reached only from a provider row); step 3.1 offered only the AI proposal; a build done by hand never showed 3.2 and 3.3 as done (they waited for a proposal); step 4 (by hand) needed 3 read pages; 3.4 admitted only fields that passed the check (the server already allowed a person's decision); screenshots were removed after 7 days even while a build was open |
+| Change | PR #641, release v2.15.318 (package 0.1.245): Adapter builder back in the Layer 2/3 tabs after Build adapter; Build adapter › university: Do it by hand in Adapter builder; 3.1 Write the settings by hand (opens step 4); settings saved by hand count for 3.2 and 3.3; step 4 from one read page; 3.4 admit a field that has not passed the check as the Platform Admin's decision (confirmed, reason logged "admitted by a person without passing the check"). Migration `20261022031000_cf247_builder_screenshots_open_build.sql` (`security.screenshot_in_open_build_v1`; setting `retention.screenshot_open_build_days` 30; `svc_retention_files_next` and `retention_estimate_v1` md5-guarded). Migration `20261022032000_cf247_contact_recheck_setting.sql`: the contact recheck written as 90 days in 20261022029000 is the setting `contact.recheck_days` (the settings guard caught it; that file's line was brought into line with the live function). SOPs 1.59 |
+| Checked | Dry run: 1,353 screenshots of open builds kept, 2,869 older still removed; both migrations applied before merge (runs 39748752728, 39748788341); live definitions confirmed (1,345 kept now); full suite passes except the 4 known legacy tests after updating the tab-order tests; post-merge Deploy on merge, Frontend Build, Release Currentness Deployed and Deployed UAT passed |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 21:30: v2.15.319 progress watchdog; Canadian inactive courses investigated, scope widened to colleges with a level
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:42: "I wanted the platform to self maintain work job or queue until it completes the data enrichment or notify when it runs out of toolset or get stuck." Choices 19:53 (all recommended): Canadian inactive courses "Investigate first, then decide"; alerts "Health page + phone/email" (push or email only for Stuck and Out of toolset; Done and Nothing left to try in the daily report); build order "Watchdog, rules, workspace, clean-up"; self-fix "Safe fixes only, logged". Canada, after the findings: "Widen to colleges, level required (Recommended)"; watchdog "Yes, start now (Recommended)" |
+| Watchdog | PR #642, release v2.15.319 (package 0.1.246): migration `20261022033000_cf247_queue_watchdog.sql` (applied before merge, run 39759501076; history md5 b15dbc179f6ddfbef8e5b1fc62ebf889 equals the file). 14 enrichment queues in `pipeline.queue_watch` with their waiting, finished, failed and nothing-left counts, jobs and tools; job `queue-watch` every 15 minutes (catalogued) gives each one state: Moving, Waiting for budget (today's Firecrawl share or AI guard used), Stuck, Failing, Out of toolset (Firecrawl credit at its reserve or OpenRouter balance under its floor), Nothing left to try, Done, Paused. Stuck, Failing and Out of toolset open a Platform health issue (`queue_watch:<queue>`) that closes by itself. Alert outbox `pipeline.queue_watch_alerts`: notify (Stuck, Out of toolset; again after 12 hours) and report (Done, Nothing left to try). Safe fix: items that gave up on a passing error (no answer, 408, 429, 5xx, cut-off AI answer) get one more try, at most 25 a queue a run and once a week each, never while a tool is out; logged in `pipeline.queue_watch_fixes`. Nine settings `queue_watch.*`. Screen: Platform health › Work queues |
+| Delivery | Scheduled tasks: "Work queue alerts" (hourly; takes the notify alerts and sends them to phone and email, quiet when there are none) and "Work queue daily report" (07:35 Melbourne, emailed) |
+| Checked | Dry run rolled back (1.7 s for 14 queues); first live run 10:04 UTC succeeded in 6.7 s: 25 course pages that had given up on a time-out or a busy server and 1 cut-off central page AI answer given one more try; states then: 5 moving, 6 done, 3 nothing left to try, none stuck. Found by the first runs: the course page reader's recent tries are mostly pages that refuse direct reads (403) or are the wrong page; one central page search queued since 12 Oct waits for an unpublished provider (not a stall once the count follows the job's own pick). Suite 1,706 passed except the 4 known legacy deployed tests (tab-order tests updated); post-merge Deploy on merge, Frontend Build, Release Currentness Deployed and Deployed UAT passed |
+| Canada found | The 5,615 inactive Canadian courses (58 providers) were retired on purpose on 17 Aug by the scope ca-intl-bachelor-plus-v1 (bachelor and above, level from the source): EducationPlannerBC sub-degree 2,687, Quebec MES non-degree 1,363, college catalogues not read since August about 1,560. But the 8 Oct re-read of 15 college catalogues made 2,121 college courses active with a level below bachelor (102) or none (2,019), shown on the website against that scope. The college catalogues name no credential; 1,182 of the 2,019 have a read course page |
+| Canada change | Migration `20261022034000_cf247_ca_college_scope.sql` and worker coverage-sweep v0.38.0 (see the Checked line of the next update for live results): scope ca-intl-college-plus-v2 in `pipeline.country_scope_levels` (bachelor and above plus diploma, advanced diploma, certificate, graduate certificate and diploma, associate degree); job `credential-read` reads the credential a course page states ("Credential: Ontario College Diploma", "Designation", "Credential: Diploma", French "Diplôme d'études collégiales de l'Ontario") from the stored page with `pipeline.credential_rules` and `pipeline.credential_level_map` (no fetch, no AI): a labelled credential decides, an Ontario credential name decides only when the page names one level; kept as a study level observation (scheme provider_page) and given to a course with no level (manual locks kept). Job `country-scope-gate` (hourly, logged in `pipeline.course_scope_changes`) hides active courses with no level or one out of scope once their page has been read for a credential, and shows inactive ones in scope at a DLI provider with a page read in 180 days and nothing else retiring them; it is created switched off until the first credential pass is checked. `svc_layer1_apply_course_scope` (md5-guarded) no longer retires a course whose level is in scope |
+| Canada checked | Applied before merge (PR #643, run 39763122351; history md5 9f64061ffa296c4bfb5f1ef59dd1b043 equals the file); deployed worker confirmed coverage-sweep-worker-v0.38.0. First pass over all 1,617 read pages (no fetch, no AI): 1,345 given a level (diploma 490, certificate 354, graduate certificate 157, advanced diploma 121, associate degree 7, bachelor or honours 6), 62 held as ambiguous (pages naming several Ontario credentials, mostly Confederation College), 420 with no credential stated (Yukon University 50, Niagara 55, wrong pages bound such as library pages). Spot-checked against the page wording (Algonquin, Okanagan, Camosun, George Brown, Canadore). Gate preview then: hide 1,154 (1,136 no level, 18 out of scope), show 252 (BC diplomas and certificates). Gate switched on (logged, admin_control_events gate_on) and run: 1,169 hidden, 252 shown, all 1,421 logged in pipeline.course_scope_changes; a third run found nothing more to change. Two fixes found on the way: courses with a level outside the scope were not hidden (PR #644, `20261022035000`, md5 227cfbf6…; 15 hidden) and the website search copy is refreshed only on request (PR #645, `20261022036000`, md5 caa1d9fd…; the gate now asks for a refresh) |
+| Canada now | Active Canadian courses 3,806 (from 4,723): bachelor and above 2,614, diploma 507, certificate 379, graduate certificate 176, advanced diploma 123, associate degree 7. Still to come: about 1,560 courses of the college catalogues not read since August have no course page yet, and 837 active courses had no read page (now hidden until a page and a credential are found); the course page search and a Layer 1 re-read of those colleges bring them in, and the gate shows them once a level is read |
+| Lesson | A Layer 1 re-read can undo a scope decision made outside the reader; the scope must be a rule that runs after every read, not a one-off correction |
+| Consumer API | Not touched (shape unchanged; which Canadian courses are active changes only through the scope gate, by the Platform Admin's decision) |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 21:50: watchdog false Stuck fixed; Canadian website copy refreshed
+
+| Item | Detail |
+|---|---|
+| Found | The watchdog's second run (21:19) called Read course pages Stuck while 18 pages were read in the hour: its last-finished time counted only pages read as the right page, its finished count all pages read |
+| Change | PR #646, migration `20261022037000_cf247_watchdog_finished_counts_as_progress.sql` (md5-guarded; applied before merge, history md5 795bab4954a8c4159cd9ccf76a435892 equals the file): a queue that finished anything in the window is never Stuck, Waiting or Out of toolset; the reader's last-finished time counts every page read. The one alert raised was withdrawn before the hourly delivery sent it, and its health issue closed |
+| Checked | Next run: no queue Stuck, Failing or Out of toolset (4 Nothing left to try, the rest Moving or Done). Website search copy refreshed at 21:46: 3,806 active Canadian courses, no inactive one left in it |
+| Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 23:00: v2.15.320 15-minute stats; stuck "2 of 3" tasks fixed; website review fixes (NZ graduate levels, intakes only from the course page)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 21:57: Firecrawl read time, tasks stuck at 2 of 3, NZ progress, "stat's and toolset usuage every 15 minutes. Keep the lesson learnt and find gaps quickly". 22:32 website review (rankings, offerings, intakes, academic entry, tuition range, layout, QILT); choices 22:40: offerings "Leave as is", intakes "Page-only months, no API change", "Fixes only, no note". 22:45: NZ has no QILT (Australia only), agreed |
+| Found | Read calls take about 4 s (90% under 9.4 s). "2 of 3" was Fill in from website firing a central search every minute that the spend check refused as not due (417 refusals). "0 of N" Find course pages tasks wait behind about 2,800 asked-for searches at 36 to 160 an hour. NZ: 3,455 of 6,474 courses have no official page; 2,137 title-search pages were rightly refused as wrong pages. Website review: the API returns NZ ranking history (18 editions for each of 8 universities) and Australian QILT (Monash 60, Melbourne 48): website side, as are the Skills in Demand layout and Green List sections. Academic entry is R19 (planned). Fee min/max are not in the API; the website works them out from course fees, and the registered course total (regulatory, up to A$572,729, 126 at 0) must not be mixed with yearly tuition |
+| Change | PRs #647 to #650. `20261022038000` 15-minute stats (`pipeline.stats_15m`, job `stats-15m`, settings `stats.*`); `20261022039000` Fill in from website respects the central page hold, stats ignore not-due refusals, watchdog central count follows the spend check; `20261022040000` `public.admin_stats_15m`; release v2.15.320 (Platform health › Work queues › Last 15 minutes; SOPs 1.61); scheduled task "StudySearch hourly stats (15-minute snapshots)" (scheduled tasks run at most hourly). `20261022041000` register level codes read correctly (`svc_layer1_apply_register_records`, md5-guarded): 1,204 NZ postgraduate and graduate qualifications given their level (Auckland now 82 graduate diplomas and 62 graduate certificates; 12 diplomas and 20 certificates). `20261022042000` intakes only from the course's own page: 2,166 calendar-made months and 22 superseded older-read months withdrawn; jobs provider-calendar-intakes and provider-calendar-defaults off and retiring |
+| Checked | Each applied before merge; history md5 matches each file (038000 4fbd15f8…, 039000 248d6ca3…, 040000 efc95ea2…, 041000 c673e8c0…, 042000 2788dc84…). Stuck fill task finished on the next tick; stats snapshots every 15 minutes; suite 1,722 passed except the 4 known legacy deployed tests; mocked Work queues screen checked |
+| Lesson | Lessons 25 to 31 added to the enrichment lessons document (v1.5) |
+| Consumer API | Shape not touched (Decision 266); values changed only by the level and intake corrections |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 03:00: the platform finds course sources itself (v2.15.321, course source finder); courses from university programme lists (Quebec)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 22 Oct 23:09: "Proceed with all steps, keep iterating through the gaps found and apply the fixes". 23:46: "Platform needs to independently read website ... We should only be trying out what works and let platform execute it using toolset. And leave all configurable and manageable from ui". 23:53: "use the ai or firecrawl to fasten up the process ... toolset to maximise and fasten the process" |
+| Found | (1) The only Quebec course source (MES non-degree programmes over 20 credits) holds no bachelor, master or doctoral degree, so the 14 Quebec universities (Montréal, McGill, Laval, Concordia, UQAM and others, about 1,300 records) had no active course. (2) Finding pages is the bottleneck, not reading them: 178 found pages were waiting to be read across AU, NZ and CA, against 9,069 active courses with no page; about 2,800 pages are read a day, mostly directly at no cost. A crawl would mostly re-read pages already held. (3) 236 of 490 NZ AI page-match picks were the wrong programme; the identity check refused every one (no extra gate added). (4) 24 courses were bound to scholarship, events, policy, e-book or partner pages |
+| Change | PR #652 (worker v0.39.0, migration `20261022043000_cf247_programme_lists.sql`): programme lists (`pipeline.programme_sources`, `pipeline.programme_candidates`, jobs `programme-discover`, `programme-read`, `programme-create`). Courses are created inactive and unpublished with the programme page bound. The country scope gate (md5-guarded edit) shows them only after a Platform Admin approves that university's list. French university credentials for CA; course lists may be site maps with a pattern. PR #653 (release v2.15.321 / 0.1.248, worker v0.40.0, migration `20261022044000_cf247_course_source_finder.sql`): course source finder, job `source-find` (off until checked), tables `source_find_countries`, `source_find_paths`, `source_find_runs`, settings `source_find.*`, `read_via` (Firecrawl map) on course and programme lists. Layer 2/3 › Course sources screen: what was found and why, every source, find again, stop, add, approve (Platform Admin), countries and list addresses, all with a reason. SOPs 1.62. PRs #654 and #655 (worker v0.40.1 and v0.40.2, migration `20261023001000_cf247_source_finder_steps.sql`): every host in the map is looked at; a second, searched map; the search works in steps carried over between runs (map, map_search, sitemap, lists); known pages taken at the address they were read at. PR #656 (worker v0.40.3): a source with at least as many course addresses as known pages is kept; with no known pages it needs twice the minimum; list pages the map names are tried first; the course folder is also tried without its first part; 45 s for heavy list pages |
+| Data | NZ course list pages (AUT, MIT, Ara, Otago Polytechnic, SIT) and 17 AU and CA list pages were added by hand before 23:46; they are now the finder's test set, and no further sources are added by hand. 24 wrongly bound course pages unbound (logged in `admin_control_events`). 26 NZ AI-matched pages blocked by 403 re-queued for the scraper (v0.38.1) |
+| Checked | Each migration applied before merge; history md5 equals the file (043000 77d77cfcda0f57b36d143e396bd75d63, 044000 023602f401b6b797bd3d45590116860e, 001000 e2f1510bf92b52788c2c6175d245658a). Deployed workers confirmed by the version each call returns. Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Finder test run on the 34 hand-found universities (test mode, nothing added): first run (v0.40.0 to v0.40.2) 24 of 34 found; after v0.40.3, 27 of 34. Better than the hand pick for RMIT (446 course addresses vs 6), UTS (401 vs 86), UNSW (289 vs 11), Federation (220 vs 20), Macquarie (177 vs 20), Ara (166 vs 52), SIT (256 vs 121), Victoria University (389 and 367 vs 54 and 81) and Université de Montréal (1,100 programmes on admission.umontreal.ca). Weaker: Humber (39 vs 320), Lincoln (110 vs 429), AUT (one faculty list, 38). Nothing found: Monash, Canberra, Waikato, Wintec, Otago Polytechnic, Simon Fraser, Manitoba (each shown on Course sources with what was tried). Firecrawl use by the test runs: 101 map calls (101 credits) and 126 list-page scrapes. Gap found: the spend ledger counts each list-page scrape as 5 units (purposes named fcx_ are priced as AI-extraction scrapes) though these are plain scrapes billed at 1 credit, so the finder's scrapes count five-fold against the daily budget (731 units recorded for about 227 credits billed); to be fixed next |
+| Waiting | Job `source-find` stays off until the Platform Admin chooses to switch it on. No programme list is approved, so no programme-list course is shown |
+| Lesson | Lessons 32 to 39 added to the enrichment lessons document (v1.6) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 06:30: finder switched on; hand lists replaced where the finder found more; three faults fixed after switch-on
+
+| Item | Detail |
+|---|---|
+| Decision | Platform Admin 23 Oct: "Switch on for AU, NZ, CA (Recommended)" and "Use finder's where it found more (Recommended)" |
+| Applied | Job `source-find` switched on (logged). For 17 of the 34 test universities the finder's source gave more course addresses than the hand list, so the hand lists were stopped and the finder's added (16 course lists, 13 read by Firecrawl map; Université de Montréal a programme list read by map). The other 10 keep their hand list (equal or larger: UBC, Humber, Lincoln, Calgary, Curtin and others); the 7 with nothing found keep theirs |
+| Found and fixed | (1) Ledger: list-page scrapes were recorded as `fcx_course_list` and counted 5 units each; now `list_scrape`, 1 unit, page reads group (PR #657, worker v0.40.4, migration `20261023002000_cf247_list_scrape_purpose.sql`, md5 6b6fb66cc287a168a94f336c332f5226). (2) The idle guard (`flag_jobs_v1`) paused `source-find` at 18:30 UTC: the finder's replies used keys it does not count as work; `source_find`, `programme_discover` and `course_list_read` now reply with `items`, `done` and `read` (PR #658, worker v0.40.5); flag released with the reason and the job switched on again. (3) The programme list recorder failed on every read (`found` clashes with PL/pgSQL FOUND), and the programme page recorder on every page (`chr(0)` is refused by PostgreSQL); both replaced (PR #658 migration `20261023003000_cf247_programme_record_found_fix.sql`, md5 20c315fc1e3909218f4025f2ef0fe64e; PR #659, worker v0.40.6, migration `20261023004000_cf247_programme_record_null_fix.sql`, md5 2341883a91e201b723a2f0054ed701f2) |
+| Checked | Each migration dry-run with a realistic call, applied before merge, history md5 equals the file; full suite before each deploy (4 known legacy failures only). Université de Montréal programme list recorded: 1,095 programme pages (Firecrawl map, 1 credit). Sample of 40 pages read: 34 bachelor, 1 master, 5 with no level (skipped). First scheduled finder run 19:16 UTC succeeded |
+| Running now | `programme-read` (40 pages every 10 minutes), `programme-create` (hourly; courses created inactive and unpublished), `source-find` (every 20 minutes). No programme-list course is shown until the Platform Admin approves Université de Montréal's list on Layer 2/3 › Course sources |
+| Still open | The finder keeps one course folder per university (UNSW: postgraduate site map only); several folders per university is the next finder change. Seven universities with no source found (Monash, Canberra, Waikato, Wintec, Otago Polytechnic, Simon Fraser, Manitoba) |
+| Lesson | Lesson 40: every new database function gets a realistic sample call in its dry run before it ships (three faults here were in functions whose dry run only checked that they were created) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 06:45: CRICOS resume confirmed by Deployed UAT
+
+| Item | Detail |
+|---|---|
+| Background | The three data.gov.au sources were resumed at 07:16Z on 22 Oct and validated (CRICOS courses Active 25,540, institutions 1,545, TEQSA 200 after its file rule was widened for providers_16102026a.csv). The Deployed UAT CRICOS validation test carried a dated skip until 2026-10-22T13:00Z (data.gov.au maintenance) |
+| Checked | "CourseFinder Deployed UAT" started on main by workflow_dispatch (run 39841453381, 19:35Z): Deployed UAT (targeted) succeeded, 6 passed, none skipped. The targeted set always includes `tests/uat/layer1-operations-deployed.spec.mjs`, so "authorised Layer 1 operator performs real CRICOS authority, shape and active-count validation" ran and passed (earlier runs: 5 passed, 1 skipped) |
+| Status | CRICOS, institutions and TEQSA sources resumed and checked end to end; no further action |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 09:00: what happened to a course and Read with AI (v2.15.322); course page fees through the AI fee reader, NZ fee proofs (v2.15.323)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 07:12: Auckland diplomas missing location and fees, "the university page for a course i checked had newer version link ... Make sure its added to coursefinder". 07:14: "make sure max data is admitted for top 20 nz unis with maximum courses". 07:16: "audit and logging of exactly what happened and was tried to fetch nz Auckland university data". 07:24: "read course pages with ai button". Decisions: 07:47 NZ fees also admitted from pages proved by exact title, title with level, or bound by a person; 08:30 course page fees "Through the AI fee reader" |
+| Found | (1) Auckland catalogue pages (Oracle APEX) carry their values in escaped markup the page reader dropped, and the default page is the 2026 version; the 2027 "newer version" link is itself inside escaped markup. (2) 4 of the 12 diplomas have no correct page (title search and AI page match refused wrong pages). (3) Read with AI asked the AI fill for nothing: every missing field held an "AI found no value" hold from 14 Oct. (4) Since Layer 3 was retired (12 Oct) nothing admitted a fee read from a course's own page outside universities with an adapter (about 1,800 pages across AU, NZ and CA; 238 NZ with a safe reading); 68 NZ pages were also held for good by a closed Layer 3 work item. (5) Auckland's adapter fee is excluded for 58 catalogue pages (7 Oct: low end of a range, whole-programme fees). (6) Settings › Identify the page refused every change to English, intakes and official address (the write accepted six proofs; rows held manual, host_page and adapter proofs) |
+| Change | PR #660 (v2.15.322 / 0.1.249, worker v0.40.7 and v0.40.8, migrations `20261023005000_cf247_find_again_with_source.sql`, `20261023006000_cf247_course_audit_read_now.sql`): course drawer › What happened to this course (`public.admin_course_audit`) and Read with AI (`public.admin_course_read_now`, Curator and above, with a reason, logged); page text keeps escaped-markup values, a fee's own label decides its audience, the newest year version of a course page is read; the finder learns up to three course folders. PR #661 (v2.15.323 / 0.1.250, worker v0.40.9 and v0.41.0, migrations `20261023007000_cf247_identity_settings_all_proofs.sql`, `20261023008000_cf247_read_now_releases_holds.sql`, `20261023009000_cf247_fee_reader_course_pages.sql`): every proof can be ticked on Identify the page; NZ tuition admits manual; Read with AI releases no-value holds and re-sends the fee; a changed page fee goes to the fee check again after a closed check; the AI fee reader reads course pages (one course, proof admits tuition, no fee held, adapter-excluded fees included) with the same admission checks as fee schedules. Settings `fees.course_pages`, `fees.course_pages_per_tick`. SOPs 1.63 and 1.64 |
+| Data | NZ tuition proofs set on Settings (cricos_code, nzqa_code, exact_title, title_level; manual by migration), logged in `admin_control_events`. Read with AI run on the 12 Auckland diplomas with the request's reason, before and after v2.15.323 (8 pages read again; 4 have no page). Setting `fees.pages_per_run` 3 to 8 (a course page is one course), logged |
+| Checked | Each migration dry-run on the live database with a realistic call, then applied before merge; history md5 equals each file. Dry runs: 40 course pages queued on the first tick; Diploma in Arts NZ$48,133 admitted end to end; a PhD fee of NZ$8,847 sent to review (outside the usual range). Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Deployed worker confirmed by version |
+| Waiting | Results of the first course-page fee reads (admitted and review counts) and the 2027 Auckland re-reads; the 4 Auckland diplomas with no page (finder and AI page match continue) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 09:45: fee reader at full speed from Settings; a course first in line from its page (v2.15.324)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 09:03: "Can we increase the fee reader setting, to get through faster and procced what maximum system can handle. Does the change course url goes to ai, can we push it as priority from course page." 09:07: "Make sure its all avaible to change from ui with maximum values displayed." |
+| Found | 8 course pages were read by the AI fee reader in 11 seconds (about US$0.003 a page); the limit was the job (every 10 minutes, at most 10 pages a run, 2 at a time), about 60 pages an hour against about 250 NZ course pages waiting. A course page changed by a person was read again at once, but its fee went to the AI fee reader only when no fee was held and no AI fill followed; Read with AI could fill fields from the old copy of a page being read again. The run frequency was not a setting |
+| Change | PR #662 (v2.15.324 / 0.1.251, worker v0.41.1, migration `20261023010000_cf247_fee_reader_speed_and_course_priority.sql`): settings `fees.run_every_minutes` (1 to 10, 2), `fees.concurrency` (1 to 8, 4), `fees.pages_per_run` range 1 to 40 (40); job fee-reader called each minute and runs every `fees.run_every_minutes`; `pipeline.fee_course_requests` and queue priority: Read with AI and a changed official page put the course's fee first in line once the page has been read again, even when a fee is held; the AI fill waits for the new page. All settings are on Settings › Pipeline settings with their ranges. SOPs 1.65 |
+| Data | Before the release, on Settings: `fees.pages_per_run` 8 to 10 (the old maximum) and `fees.course_pages_per_tick` 40 to 200, both logged |
+| Checked | Migration dry-run on the live database (Read with AI and a changed official page each recorded a request; the requested course was taken first; fields waited for the new page; the job ran), applied before merge, history md5 equals the file (b2fab9d8…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker confirmed by version |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 10:00: course page fee backlog cleared; fix for fee pages linked from course pages (PR #663)
+
+| Item | Detail |
+|---|---|
+| Found | First runs at full speed: 5 course pages failed to record because the AI named other fee pages linked from the course page and they were added with linked_from set to the course page's queue key, which the foreign key to `pipeline.provider_fact_sources` refused, so those readings were lost |
+| Change | PR #663 (migration `20261023011000_cf247_fee_course_page_linked_pages.sql`): a fee page found from a course page is added with no linked_from ("linked from a course page"); the failed course pages were queued again |
+| Data | By 09:59 all 250 queued NZ course pages were read: 108 international fee rows admitted (96 courses now hold a fee), 52 sent to Layer 4 review, 120 domestic rows kept (not admitted), 14 not yearly, 1 with no matching course; no errors; AI cost US$0.57 |
+| Checked | Dry-run on the live database (a linked page from a course page recorded with no linked_from), applied before merge, history md5 equals the file (88006045af664ca520d26bdffa8fdcf1). Full suite before deploy: only the 4 known legacy deployed-UAT failures |
+| Waiting | The 52 fees in Layer 4 review (outside the usual range, or match not sure enough) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 12:30: the AI reader covers every attribute; why values are missing, every hour (v2.15.325, PRs #664 to #666)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 10:25: "Locations state and city are also missing with English requirement. Do I have to spell out every attribute or you can cross check the gaps and accommodate the ai reader requiement. What is point of hourly reporting if you are not finding gaps and making the platform self sufficient." |
+| Found | Top 20 NZ (4,189 courses): English missing for 2,190 (1,157 no page, 327 page not read, 705 page read with no IELTS found by the text patterns); the AI fill never read English or intakes; 50 of 75 campuses had a city but no region (29% of courses had a campus with both); the hourly report gave counts, not causes or actions. First AI run: 1,416 NZ pages state no IELTS at all (only a university English rule can fill them; 6 of the top 20 have no central English page found, 6 more a central page that gave no values); 121 intake readings named semesters, not months. From 11:25 every AI-reader call timed out recording its readings (a per-value search refresh) |
+| Change | PR #664 (v2.15.325 / 0.1.252, worker v0.42.0, migration `20261023012000_cf247_ai_reader_every_attribute_and_gap_causes.sql`): Enrich fields and the standing Fill the gaps task also read English (IELTS overall and lowest band) and intakes from the stored course page, each quoted and admitted only where the page proof admits the field; campus regions from the country's list, kept per city (`pipeline.city_regions`); job `gap-causes` (hourly at :55) records why each attribute is missing and what the platform does about it (`pipeline.gap_cause_snapshots`, `public.admin_gap_causes`), on Platform health › Work queues › Why values are missing; causes with nothing automatic listed under Needs a change. PR #665 (worker v0.42.1, migration `20261023013000_cf247_intake_periods_and_rule_causes.sql`): semesters, trimesters and terms mapped to start months through the latest approved university calendar; the university rule state shown for English and intakes the page does not give. PR #666 (migration `20261023014000_cf247_enrich_apply_no_per_item_refresh.sql`): no per-value search refresh; one open refresh request. SOPs 1.66 |
+| Data | Enrich fields task started for NZ (English, intakes, campus region, campus, duration, delivery; 9,642 items), Platform Admin reason. The hourly scheduled report now includes the top causes and the Needs a change list |
+| Checked | Each migration dry-run on the live database with realistic calls (IELTS 6.5/6.0 admitted for an NZ course; Napier given Hawke's Bay; Semester One/Two to March and July; 15 admissions in under a second; snapshot in about 20 s), applied before merge; history md5 equals each file (012000 667e5e29…, 013000 303242c6…, 014000 fec595be…). Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.1 confirmed. Deployed UAT after PR #664 failed once on two 500 responses from layer1-operations-control at 10:57 and 10:59 (while the first gap snapshot ran) and passed on re-run |
+| Waiting | Platform Admin decisions on the Needs a change list (CA fee proofs, AU scraper, NZ adapter-title proofs, university English rules) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 13:40: Needs a change decisions applied; Courses list shows the international fee and city (v2.15.326, PRs #667, #668)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:40 decisions on the first Needs a change list: "Exact title, field and award, page bound by a person" (CA fees); "Switch on for AU" (scraper); "Yes, admit like exact title" (NZ adapter title); "AI finds and reads the central page; auto-approve when every score is quoted" (university English rules). 12:52 (Courses list, Auckland diplomas): "Still no city or fees on these." |
+| Found | Five of the twelve Auckland diplomas held an international fee but the Courses list showed only CRICOS tuition (never held in NZ or CA) and had no city column; the diplomas had no campus because the catalogue pages give locations only as a data list (["City","South Auckland"]) the AI campus reading did not take; Read with AI did not ask again when the same page copy had not stated a field. Central English pages suggested by the central-page search were never attached without a person (Auckland, Canterbury, Massey, SIT, MIT among them), and automatic approval of AI readings covered only the AU focus list |
+| Change | PR #667 (migration `20261023015000_cf247_gap_decisions_ca_fees_au_scraper_adapter_title_english_rules.sql`): CA tuition proofs exact_title, field_award, manual and CA in Fee reader: countries; AU in pages.render_countries; setting identity.adapter_title_countries (NZ) and NZ tuition adapter_title; job central-attach (hourly at :48, catalogued) attaches the next suggested central English page per university without a rule, searches again when none is left (capped by central.research_per_run), sends read pages to the pinned AI; policy-auto-approve approves English readings with every score quoted for every university (central.auto_approve_english_all; readings most course pages disagree with still go to a person); Why values are missing shows a central page being read or searched. PR #668 (v2.15.326 / 0.1.253, worker v0.42.2, migration `20261023016000_cf247_course_list_international_fee_city.sql`): Courses list International fee (amount, year) and City columns; Read with AI asks the AI again; campus and duration from a short data label. SOPs 1.67 |
+| Data | All settings changes logged in `admin_control_events`. 71 central English pages attached on the first run. NZ AI reader run finished (queue empty at 13:35). Read with AI run again on the 12 Auckland diplomas |
+| Checked | Each migration dry-run on the live database (CA exact-title pages admit tuition for 2,227 courses; Auckland diplomas list Arts NZ$48,133 for 2026), applied before merge; history md5 equals each file (015000 789c270e…, 016000 a100e95f…). Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.2 confirmed |
+| Waiting | Auckland campus and city readings from v0.42.2; English rules read and approved for universities that had none |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 14:05: Courses list column names; notice Go to links open their settings (v2.15.327, PR #669)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 13:24: "in - Catalogue "Courses" change column name - CRICOS tuition to Tuition Only and Legacy presence - to completeness or enrichment or something relevant". 13:26: "bug/fix cant setup or change limit - go to openrouter settings doesn't open, check rest of the link and streamline it made sure all limits can be configured from UI" |
+| Found | The notice Go to for the OpenRouter balance pointed at the screen already open and carried no card, so nothing opened or scrolled; the course-page search budget and website notices pointed at retired screens. Every limit those notices name is already a setting on Toolsets & limits or Settings › Pipeline settings |
+| Change | PR #669 (v2.15.327 / 0.1.254, no migration): Courses list columns Tuition Only and Completeness; every notice Go to opens its card (and the Toolsets & limits card it sits in) and scrolls to it, also when that screen is already open; search budget and website links point to their live settings. SOPs 1.68 |
+| Checked | Full suite before deploy: 1,780 passed, only the 4 known legacy deployed-UAT failures. After merge: Pilot Frontend Build, Deployed UAT, Release Currentness and Release History all passed |
+| Waiting | OpenRouter top-up (balance US$2.22) by the Platform Admin, outside StudySearch |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 15:20: AI reader reads labelled page data and only the course's own page; wrong-page values taken back (v2.15.328, PR #670)
+
+| Item | Detail |
+|---|---|
+| Request | Scheduled check (13:39) of Read with AI on the 12 University of Auckland diplomas, gap causes and central English rules. Platform Admin decision 14:40 on values filled from another course's page: "Take them all back" |
+| Found | Every campus, duration and delivery reading came back "not stated": the Auckland catalogue holds them as display items (P5_CAMPUS ["City","South Auckland"], P5_DURATION_FULL_TIME "1 Year", P5_DELIVERY_MODE "Campus Experience") outside the main page text the AI reader reads. The Diploma in Dance Studies took its delivery from the Master of Dance Studies page: the AI reader read whatever page was last tried for a course, also pages already found to be another course's (status mismatch): 3,369 values on about 2,370 courses in AU, CA and NZ since 14 Oct. Gap causes (:55) and central-attach (:48) ran; 14 English rules approved automatically, 9 waiting for a person (named courses only, level not stated, course-specific) |
+| Change | PR #670 (v2.15.328 / 0.1.255, worker v0.42.3, migration `20261023017000_cf247_ai_reader_bound_pages_only.sql`): enrich_ai reads a page's short labelled data items first as "Label: value"; `security.enrich_fields_slice_v1` gives the AI only a bound page (or ambiguous with an identity proof), otherwise "no correct course page"; wrong-page values recorded in `pipeline.enrich_value_retractions` (value, quote, page kept to check or restore) and taken back: 2,788 course fields emptied (delivery, duration, international), 1 intake withdrawn. SOPs 1.69 |
+| Paste file | `docs/platform/wrong-page-values/PASTE-20261023-wrong-page-campus-links.sql`: removes 717 campus links on 581 courses read from those pages (no delete in a migration) |
+| Checked | Migration dry-run on the live database (3,371 recorded, 2,790 cleared, Dance diploma delivery empty), applied before merge; history md5 equals the file (dc586222…); slice definition md5 as in the dry run. Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.3 confirmed. Read with AI run again on the 8 Auckland diplomas with a bound page |
+| Waiting | Paste file run by the Platform Admin; Auckland diploma readings from v0.42.3 |
+| Consumer API | Shape not touched (Decision 266); field values taken back |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 16:30: Read with AI links a campus the university already has (v2.15.329, PR #671)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:52 (Courses list, Auckland diplomas): "Still no city or fees on these." Follow-up of Update 15:20 |
+| Found | With worker v0.42.3 the Auckland diplomas got delivery (Campus Experience: on campus) and length where the page gives it (Arts, Fine Arts: 1 year; Commerce and Design leave the full-time length empty and give only 120 points). Campus was still not linked: the campus list step kept only names given exactly (the page gives ["City","South Auckland"] as one name), and a campus needed `enrich.campus_min_pages` (2) course pages while Read with AI reads one course, so even the existing City campus was never linked |
+| Change | PR #671 (v2.15.329 / 0.1.256, worker v0.42.4, migration `20261023018000_cf247_campus_list_existing_campus_one_page.sql`): a campus name found inside a listed name is kept; `security.enrich_campus_list_apply_v1` links an active campus of the same name from one course page; a new campus (South Auckland) still needs the setting's pages or a person. SOPs 1.70 |
+| Checked | Dry run on the live database replaying the Diploma in Arts: City admitted, South Auckland to a person, course linked to City (Auckland, on campus). Applied before merge; history md5 equals the file (c7675472…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.4 confirmed. Read with AI run again for campus on the 8 Auckland diplomas with a bound page |
+| Waiting | Dance Studies, Science, Architectural Studies, Sport Health and Physical Education diplomas: no correct course page yet (page search continues) |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:40: values from an older wrong page taken back or read again; South Auckland campus (v2.15.330, PR #672)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:02: first paste file run ("581 Campus cleared"), OpenRouter topped up; "recomend for other 2". Decisions: "Take back 3,462, re-read 2,023" and South Auckland "Add it, Auckland region" |
+| Found | The Diploma in Architectural Studies (3 years) and the Diploma in Sport, Health and Physical Education (3 years) took their length on 14 Oct from the Bachelor's page; the 17000 take-back missed them because it covered only the course's current page copy, not an earlier page later replaced. Same gap: 3,462 values on 1,856 courses whose page is now another course's, and 2,023 values on about 1,450 courses that now have their own page but took values from an earlier, different page. South Auckland (Te Papa Ako o Tai Tonga, 6 Osterley Way, Manukau) confirmed on the university's campus page |
+| Change | PR #672 (v2.15.330 / 0.1.257, migration `20261023019000_cf247_older_wrong_page_values_and_south_auckland.sql`): both groups recorded in `pipeline.enrich_value_retractions` and taken back (4,153 course fields emptied); the 2,023 read again from the course's own page (112 Read with AI jobs, one per university, campus excluded); South Auckland campus added and linked to the Diploma in Arts. SOPs 1.71 |
+| Paste file | `docs/platform/wrong-page-values/PASTE-20261023-older-wrong-page-campus-links.sql`: removes 1,572 campus links from those pages, then queues 375 campus re-reads (a re-read does not link a campus already linked, so it follows the removal) |
+| Checked | Dry run on the live database, applied before merge; history md5 equals the file (9d966458…); live figures equal the dry run (3,462 taken back, 2,023 read again, 4,153 cleared, 112 jobs, Architectural Studies and Sport lengths empty, Diploma in Arts linked to City and South Auckland). Full suite before deploy: only the 4 known legacy deployed-UAT failures |
+| Waiting | Second paste file run by the Platform Admin; 112 re-read jobs |
+| Consumer API | Shape not touched (Decision 266); field values taken back |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:55: second wrong-page paste file run
+
+| Item | Detail |
+|---|---|
+| Data | Platform Admin ran `docs/platform/wrong-page-values/PASTE-20261023-older-wrong-page-campus-links.sql`: links_left 0, 33 campus re-read jobs for 375 courses. Live check: every campus value taken back is cleared; 8,854 values recorded in `pipeline.enrich_value_retractions` in all; 145 re-read jobs (5 done, 140 queued) |
+| Waiting | The re-read jobs; progress shows in the hourly report |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:15: Task manager runs up to 40 tasks a minute and shows it is alive (v2.15.331, PR #673)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:38: "nothing seems moving, first one launched at 4:24pm". 16:40: "Yes, maximise to speed it up". 16:43: "can you dry run 40 task in a minute". 16:47: "i can't trust the task manager even after refreshing it nothing seems moving. UI should be responsive and refresh, otherwise there is no trust on the platform" |
+| Found | The 145 re-read tasks were moving one per lane a minute (the task runner took one task per lane each minute). The Task manager refreshed every 5 seconds but showed nothing that changed: finished tasks left the list without a trace, waiting Enrich fields tasks showed 0 of 0, and nothing said when the runner last ran or where a task was in line |
+| Change | PR #673 (v2.15.331 / 0.1.258, migration `20261023020000_cf247_tasks_per_lane_per_minute.sql`): setting `jobs.per_lane_per_tick` (1 to 40, set to 40, logged); `security.admin_jobs_tick_v1` moves up to that many tasks per lane each minute, stops taking more after 40 seconds; `public.admin_jobs_pulse()` (read only); Task manager live line (refreshed time, runner last run, red when late, waiting, running, finished in 15 minutes, AI reader backlog), each waiting task's place in line, start estimate and items. SOPs 1.72 |
+| Checked | Dry runs on the live database (20 tasks, then 40 tasks moved in 1.3 seconds, 34 finished; pulse 226 ms), applied before merge; history md5 equals the file (7fe5542c…). Full suite before deploy: only the 4 known legacy deployed-UAT failures (the en-AU formats contract, failed by a local time format, fixed with the shared formatter and re-run). Task manager screenshot checked. After deploy: re-read tasks 38 done before, 105 done, 25 running, 15 queued within minutes |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 19:20: task manager up to 2,000 tasks per lane each minute (v2.15.332, PR #674)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:42: "We should try higher setting lets try 100". 18:45: "Keep incrementing to higher i want to test the limits if the system, we can decrease if it start failing or stalled by system" |
+| Found | Dry runs on the live database (one minute's run of one-course Read with AI tasks, rolled back): 100 in 1.6 s, 250 in 3.5 s, 500 in 4.4 s, 1,000 in 12.4 s, 2,000 in 25.2 s; about 12 ms a task, so the runner's 40-second stop is reached near 3,000. The next limit is the AI reader (Enrich fields: AI calls at once 4 of 6, items per call 30 of 40) |
+| Change | PR #674 (v2.15.332 / 0.1.259, migration `20261023021000_cf247_tasks_per_lane_100.sql`): `jobs.per_lane_per_tick` range 1 to 2,000, set to 1,000 (logged); runner and pulse cap at 2,000; the 40-second stop stays. SOPs 1.73 |
+| Checked | Applied before merge; history md5 equals the file (37376748…); live setting 1,000, maximum 2,000. Full suite on the 100 version: only the 4 known legacy deployed-UAT failures; after the numbers changed to 2,000/1,000 the affected specs re-run and pass. Deploy workflows passed |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 20:10: AI reader load settings; OpenRouter load test (v2.15.333, PR #675)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:27: "Lets test openrouter where it goes bottleneck, and make that settings configurable in ui as well." |
+| Found | The AI reader (Enrich fields) ran at most `enrich.ai_calls_at_once` (1 to 6) worker calls, each reading 3 pages at once (fixed in the worker): at most 18 OpenRouter requests together. Nothing recorded rate limits or answer times |
+| Change | PR #675 (v2.15.333 / 0.1.260, worker v0.43.0, migration `20261023022000_cf247_openrouter_load_settings.sql`): `enrich.ai_calls_at_once` 1 to 40, new `enrich.ai_pages_at_once` (1 to 12), `fees.concurrency` 1 to 16, all on Settings › Pipeline settings; the worker counts every OpenRouter request (answered, 429, 5xx, timed out, answer times) and returns them; the Task manager live line shows the last 15 minutes and turns red when more than 5% are pushed back. SOPs 1.74 |
+| Load test | Real gaps only (campus, delivery, duration, international on 1,206 courses with their own readable page; Read with AI tasks, values checked as usual). Step 1, 4 calls × 3 pages (12 at once): 150 requests, 0 rate-limited or failed, typical 0.9 s, slowest 6.4 s, US$0.25. Step 2, 10 × 6 (60 at once), 40 items a call: 326 requests, 0 failed, typical 0.85 s, slowest 2.2 s, US$0.56. Step 3, 20 × 10 (200 at once): about 335 requests a minute at peak, 681 in all, 0 rate-limited, 0 server errors, 0 timeouts, typical 0.9 s, slowest 8.4 s, US$1.16. OpenRouter did not push back; the test ran out of work (every course with a readable page and a gap was read). 1,683 values filled, 76 to review. Settings left at 20 calls × 10 pages, 40 items a call (logged) |
+| Checked | Dry run on the live database, applied before merge; history md5 equals the file (21eacc51…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.43.0 confirmed |
+| Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 21:10: NZ enrichment brief decisions recorded; Release 1 artefacts drafted (nothing built)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 20:42: decisions on the NZ brief verification and release plan; produce the Release 1 artefacts under conditions C1 to C4; dump the response as `docs/platform/nz-enrichment-brief/2026-10-23-nz-brief-decisions.md` |
+| Decisions | Release 1 GO with C1 (item 1 seed blocked until the Government list is cited), C2 (NZQA directory 30 → 7 days until 31 Mar 2027), C3 (fee floors NZ/AU/CA 8,000 as quarantine, CA reviewed after 30 days), C4 (22-row disposition, MITO and Tai Poutini spot-checked); Release 2 after Release 1 in the three-step order; Release 3 after Release 2; item 5 Option A approved with a fourth guard (30-day retraction-rate monitoring); binding plan approved (75% in 30 days, 85% by 31 Dec 2026), hourly report lines live before the push |
+| C1 | Ministry of Education page (14 Jul 2025) and TEC update (26 Sep 2025) fetched and cited: the Open Polytechnic is one of the ten (federation anchor); Unitec and MIT merge; NorthTec, WITT, Whitireia/WelTec and Tai Poutini remained in Te Pūkenga with a decision due in the first half of 2026. That 2026 decision page could not be fetched (robots / client errors); the four rows seed as `in_te_pukenga_decision_pending` until it is cited (open item O1) |
+| Produced | Decision record; C1 action and citation design; draft migrations and settings writes for items 1, 2, 3, 4, 10 and the cadence change with live md5s (as at 20:50) and effort; pre-binding-push checklist with the finder run order (83 partly-covered providers first); item 5 Option A build spec with the four guards and the retraction query; open items O1 to O5 |
+| Applied | Nothing. No migration, deploy, settings write or seed |
+| Consumer API | Not touched (Decision 266); the plan confirms Release 1 has no G3 change |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 21:29: NZ brief Release 1 live (v2.15.334, PR #676)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin decisions 20:42 (Release 1 GO, C1 to C4), addendum 20:52 (O1 closed, N1 to N5), flags 20:56 (F1, F2). Record: `docs/platform/nz-enrichment-brief/2026-10-23-nz-brief-decisions.md` |
+| Change | PR #676 (v2.15.334 / 0.1.261). Migrations: `20261023023000_cf247_nz_provider_transitions.sql` (table, `security.transition_recheck_v1`, job `transition-recheck` daily 03:41, settings), `20261023024000_cf247_nz_provider_transitions_seed.sql` (17 rows with Government sources), `20261023025000_cf247_provider_domain_moved.sql` (`public.admin_provider_domain_moved`, same host refused), `20261023026000_cf247_fee_floor.sql` (`min_annual_international` per country, `security.fee_below_floor_v1`, quarantine in `coverage_apply_course_v1` as `unverified` plus a Layer 4 item, AI fee reader review below floor, Settings UI). Logged settings changes before the release: NZQA directory 30 → 7 days (C2, until 31 Mar 2027); NZ English and intakes accept the page-code proof (item 10). SOPs 1.75 |
+| Data | Transitions: 11 re-established 2026, 3 standalone from 2027, Tai Poutini operations transfer 2027 (re-check every 14 days), 2 NZIST entity rows. Floors NZ/AU/CA 8,000. C4: 20 NZ fees quarantined to Layer 4, 2 kept and flagged (22 Layer 4 items). F2: AU (109) and CA (66) rows below the floor stay live until read again (open item O6) |
+| Checked | All four migrations dry-run together on the live database (re-check queued 5; same host refused; a NZ$3,000 test fee quarantined with its reason), applied in order before merge; history md5 equals each file (e6897c96…, 47953b0b…, 2b6e876a…, bbfeed53…). Full suite before deploy: 1,802 passed, only the 4 known legacy deployed-UAT failures. Deploy workflows passed |
+| Waiting | Item 3 (signatory list: URL, worker v0.44.0, migration) as the next release |
+| Consumer API | Not touched (Decision 266): the website reads only `active` fees |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 23:55: diagnostic mandate, throughput plan, bound-but-empty sweep, read lane capacity (v2.15.335, PR #677)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 21:49 diagnostic and direction mandate (findings, nothing built); 22:11 consolidated throughput / gap-detection / schema mandate (plan and estimate only); 22:24 hours-scale re-sequence with the bound-but-empty sweep run NOW; 22:57 read lane capacity; 23:13 "Go"; 23:35 F6–F8. Records: `docs/platform/nz-enrichment-brief/2026-10-23-nz-brief-decisions.md` (section 7) and `docs/platform/nz-enrichment-brief/2026-10-23-platform-throughput-gap-schema.md` (plan; section 10 log) |
+| Findings | Single bottleneck: course-page binding held by the search scheduler's gates (2,816 queued, 0 picked, 12,916 credits unused that day), not budget. No durable per-mode ledger (logs ~6 h). No negative evidence for wrong pages. 34 AU courses with an older fee year live; intakes and English carry no dates. 36 pool and 49 timeout literals in the worker. One human user of the admin app |
+| Plan | 12 items, 14 days; `bound_at` already present (schema change 3 dropped); four draft migrations; R1 (Q2+Q4+Q3) → R3 health-hourly → audit sign-off → R2 (Q1 at cap 100) → stepped read test → rest. CA onboarding "not yet": identity proof, AU–NZ audience pair and currency words are still code |
+| Sweep (ran live 22:31) | 3,675 courses bound > 12 h with no fee and no English (CA 2,499, NZ 1,176): fee requests inserted (2,737 queued at once, 321 not admitted, 617 waited for the read), pages reset first in line. 3,320 re-read in 42 minutes. SQL: `docs/platform/wrong-page-values/PASTE-20261023-bound-but-empty-sweep.sql` |
+| Live changes ("Go" 23:14) | `pages.render_countries` NZ, AU → NZ, AU, CA (reason logged); job `coverage-read-2` switched on (4 read calls a minute) |
+| Change | PR #677 (v2.15.335 / 0.1.262). Migration `20261023027000_cf247_read_lane_settings.sql` applied live (history md5 `b40b2a974769f345d379064cfac7d9fa` = file): setting `reading.pages_at_once` (1–32, 8), `svc_worker_settings_v1` returns `reading.*`, `svc_coverage_read_next` takes up to 200 a call (md5-guarded). Worker v0.44.0: read mode up to 200 a call, `reading.pages_at_once` at once (were 60 and 8 fixed). Values unchanged (60 / 8) until R3 is live (F6). Test s89; s87 accepts worker v0.43+. SOPs 1.76 |
+| F7 / F8 lists | `docs/platform/wrong-page-values/LIST-20261023-sweep-identity-not-admitted-and-mismatch.csv` (324: NZ 229, CA 92; AU label `cricos_code` on 63 NZ pages, NZ label `nzqa_code` on 57 CA pages → section 6 item 1 pulled forward as item 8a); `SEED-20261023-page-rejections-attempts-exhausted.csv` (1,870: AU 1,563, CA 237, NZ 70) for S1 |
+| Verification | Dry run clean; full suite 1,804 passed (4 known legacy failures); history md5 equals the file; worker version confirmed live after the deploy workflow; admin-repo files verified against a fresh clone |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 01:40: NZ/CA field admission mandate; identity-basis quarantine; item 5 live (v2.15.336, PR #678)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 00:21 (8a re-verification), 00:26 (quarantine the 160), 00:32 (pre-R1 fee_ai check), 00:35 consolidated NZ field-admission mandate, 00:46 addendum A1–A4 (CA in scope, stored-page inventory, replay, wrong-page runbook). Records: `docs/platform/nz-enrichment-brief/2026-10-24-nz-field-admission.md` (deliverable) and `2026-10-23-platform-throughput-gap-schema.md` section 10 (audit trail) |
+| Quarantine (ran live 00:35) | 149 courses / 158 international fees admitted on mislabelled bindings set `unverified`, one Layer 4 row each (`source = identity_basis_reverify`, separate from the 22 fee-floor rows); control event logged; search refresh requested. `docs/platform/wrong-page-values/PASTE-20261024-identity-basis-reverify-quarantine.sql` |
+| Verification | fee_ai enforces the identity policy at enqueue only; `coverage_apply_course_v1` never; R1 extended with the apply-time check. CA tuition list contains `cricos_code` (decision open) |
+| Fired (existing lanes) | 832 NZ fee requests (69 providers) queued to the fee reader; 10 NZ and 17 CA central-policy pages enqueued. CA fee requests not fired (gated on 8a). `PASTE-20261024-nz-field-admission-fire.sql` |
+| Change | PR #678 (v2.15.336 / 0.1.263). Migration `20261024001000_cf247_course_url_fill.sql` applied live (history md5 `6df1196020bd2c6567f5ec9ccf5c972f` = file): `pipeline.course_url_fills`, `security.course_url_fill_v1` (four guards), `security.course_url_retraction_30d_v1`, four settings, job `course-url-fill` 02:23 UTC. First run: 1,874 NZ official links filled (NZ with a link 899 → 2,773). Test s90; full suite 1,810 passed (4 known legacy); SOPs 1.77 |
+| A2–A4 | Stored-page inventory for NZ top-20 and CA top-10 (every bound page has a copy ≤ 30 days); replay already runs by default in every reader (no build); wrong-page runbook: 1,333 NZ top-20 mismatch pages listed, 1,287 verified under the current rule, seed `SEED-20261024-page-rejections-nz-top20-wrong-pages.csv`; steps 4–5 gated on S1 and R2 |
+| Consumer API | Not touched (Decision 266): `course_url` is an existing nullable field |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 10:40: CRICOS proofs Australian only (v2.15.337, PR #679); zero-yield page re-acquisition (v2.15.338, PR #680); UoA pilot
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 07:22 (Courses list not showing NZ fees: stale rows in the tab; API verified), 07:32 "make sure cricos is only applicable for au and no other country", 07:43 zero-yield re-acquisition mandate. Records: `docs/platform/nz-enrichment-brief/2026-10-24-zero-yield-reacquisition.md` (deliverable, decisions D1–D10) and `2026-10-23-platform-throughput-gap-schema.md` section 10 (audit trail) |
+| v2.15.337 (PR #679) | Worker v0.45.0, identity rule `identity-v0.6.0`: `cricos_code` only for AU pages; NZ programme code → `nzqa_code`; CA and others → title rules. Migration `20261024002000_cf247_cricos_australia_only.sql` (applied by the merge; md5 `77ba7cc98276cb6ebd072e3a93a619bb` = file): `coverage_identity_allowed` refuses CRICOS proofs outside AU; `cricos_code` removed from every non-AU list; `svc_coverage_read_record` and `coverage_bind_v2` country-aware; 406 mislabelled NZ/CA bindings re-verified (count-guarded); fee requests for the 149 quarantined courses. `coverage-reidentify` paused for the deploy window and resumed (logged). Courses list hides the CRICOS "Tuition Only" column off AU. Tests s91 new; s27, coverage-sweep, nz-coverage, s89 updated. Full suite 1,816 passed |
+| v2.15.338 (PR #680) | Migration `20261024003000_cf247_zero_yield_reacquisition.sql` (applied by the merge; md5 `9667cc465cd2b9fb90bedcdddfd9c7e9` = file): `pipeline.page_rejections` (S1 partial), `pipeline.zero_yield_snapshots`, `security.zero_yield_pages_v1`, `zero_yield_reset_v1`, `zero_yield_detect_v1`, `page_rejection_bonus_v1`, `page_match_bonus_v1`; reidentify and AI-match prepare skip rejected pages (md5-guarded); 14 settings; job `zero-yield-detect` hourly at :21; automatic resets off. Test s92. Full suite 1,822 passed. SOPs 1.79 |
+| UoA pilot (by hand, 10:25) | 48 pages verified wrong (47 off-pattern catalogue-regulations pages with a matching study-option page, 1 zero-yield title mismatch) reset; 5 official links retracted; UoA bound 329 → 281, catalogue-bound 64 → 22 (manual and no-candidate pages stay); AI page match re-acquisition recorded in the deliverable |
+| Consumer API | Not touched (Decision 266); `website_v2_course_item` verified serving NZ tuition (40 of 40 sampled) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 10:45: AU quick wins from the website developer's gap review; 24/7 ingestion audit; hourly lag
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 09:17: AU quick-wins mandate (reconcile the website developer's 23 Oct review of 14,930 AU courses; D1 triage and quick wins today; D2 round-the-clock schedule audit and hourly-lag fix). Record: `docs/platform/nz-enrichment-brief/2026-10-24-au-quick-wins-and-247-ingestion.md`; audit trail `2026-10-23-platform-throughput-gap-schema.md` section 10; paste file `docs/platform/wrong-page-values/PASTE-20261024-au-quick-wins-fire.sql` |
+| Reconciliation | The developer's 14,930 = the active courses of the 224 published AU providers (the catalogue holds 26,103 active AU courses; the rest are at unpublished providers). Every figure reconciled within one course: no start months 6,884 (theirs 6,885), no English 3,181 (3,182), no link 3,732 (25%), no description 14,767, 45 universities without a description, 7 without rankings, scholarships 898 / 63 nationalities / 479 closing dates. Tuition: 99 courses with none; 8,461 carry only the CRICOS registered total (the yearly figure is derived and flagged `tuition.annual_is_derived` on the course item) |
+| Fired (settings-keyed, logged) | `course_url.fill_countries` NZ → NZ, AU, CA (approved 09:17): four runs filled **16,889 AU + 1,863 CA** official links, 0 retractions; AU published courses with a link 11,130 of 14,930 after the search refresh. AU Enrich fields task `77c5a3bf…` (29 universities, 1,269 items): 1 filled — the intake and English gaps on AU bound pages had already been read by the standing task (3,121 of 3,131 and 1,698 of 1,717 copies) and are not stated on the pages. Central AI enqueued the stored English-policy and intake-calendar pages of 32 AU providers (94 sources; proposals need the Platform Admin's approval) |
+| 24/7 and hourly lag | Every lane runs around the clock (no sleep windows, no manual nudges); the only lane idle with eligible work is course-page search (2,816 queued, scheduler gates) — R2. Invariant stated. Hourly report reads `stats_15m` (≤ 2 min old at :03) and `gap_cause_snapshots` (:55); queue wait measured from timestamps (fee reader during the sweep burst p50 71 min / p90 577 min, 0 queued now) until R1's Q3 ledger replaces it. R1 still not started (recorded in the file's first lines) |
+| Builds (none started) | B1 entry requirements (approved to proceed, first; 2.5 days), B2 course descriptions reader (1.5 days), B3 university descriptions (0.5 day), B4 scholarship second pass (1 day), B5 `provider_annual_is_derived` on the search document (0.5 day), B6 rankings editions and QILT mapping (1 day). F9 logged: enrich-lane rejection reasons stored without the quote |
+| Consumer API | Not touched (Decision 266); no migration, no release |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 11:30: R1 (v2.15.339, PR #681) and R3 (v2.15.340, PR #682) live; AU builds B1–B7 planned; enrichment jobs E1–E6
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 09:55: all builds and enrichment jobs from the website developer's AU gap review, plus the standing order — R1 first, as one release, then R3. Record: `docs/platform/nz-enrichment-brief/2026-10-24-au-builds-and-enrichment-jobs.md`; paste file `docs/platform/wrong-page-values/PASTE-20261024-e5-fee-follow-through.sql` |
+| Finding | The empty-tick backoff already existed (flag unit): a drained lane was paused for six hours and more with no wake-up test for most modes — coverage-read paused 09:40 with pages due, next trial 15:40. The quick-wins file's "no sleep windows" line was wrong; corrected in that file |
+| v2.15.339 (PR #681), R1 | Migration `20261024004000_cf247_r1_backoff_ledger_identity.sql` (applied by the merge; md5 `b7b335d953c94bc79213ef0a31d0eca3` = file): `tick.backoff_max_minutes` (15) caps the idle guard's trial wait (`flag_jobs_v1`, md5-guarded); `worker_mode_waiting_v1` answers for 13 lanes so the 10-minute recheck wakes a paused lane as soon as work waits; `pipeline.mode_outcome_ledger` + `public.svc_worker_report_v1` + `security.lane_queue_wait_v1` + job `ledger-retention` (also removes old zero-yield snapshots); `queue_watch.upstream_key` + `security.lane_why_idle_v1` on the Work queues screen (`admin_queue_watch`, md5-guarded); 219 University of Sydney companion data files get their attempts back (count-guarded); `coverage_apply_course_v1` quarantines a fee whose bound page carries a proof the country refuses (`fee_quarantined_identity`, md5-guarded). Worker `coverage-sweep-worker-v0.46.0`: every call reports to the ledger; a `.json` address answering with HTML is read as the page. Test s93; s91 pin loosened. Full suite 1,830 passed. SOPs 1.80. Live 10:40; the four lanes paused before the release had their next trial brought forward to the cap (logged); at 10:50 the recheck switched coverage-read, coverage-read-2 and find-site on again because work was waiting |
+| v2.15.340 (PR #682), R3 | Migration `20261024005000_cf247_r3_health_hourly.sql` (applied by the merge; md5 `307754643ae40fec4bd49b85ca5c29dd` = file): `pipeline.health_snapshots`; `security.health_hourly_v1()` hourly at :11 (job `health-hourly`) writes headline, fields_delta per country, lane_wait, ledger, idle, bound_empty, negative_movers, budget_burn; `security.health_latest_v1()`; settings `health.*` (7, incl. `health.headline_target` 0 = not yet set) and `retention.health_snapshots_days`; `ledger_retention_v1` replaced (md5-checked); `stats.countries` (NZ, AU, CA) replaces the country list carried in the `stats-15m` job command. The hourly report scheduled task reads the health rows. Test s94. Full suite 1,838 passed. SOPs 1.81. Live 11:20; first run by hand wrote 10 rows (237 pages read in the hour) |
+| Builds planned (none started) | B1 entry requirements (first, 2.5 d), B2 course descriptions (1.5 d), B3 university descriptions (0.5 d), B4 scholarship second pass (1 d), B5 derived-fee flag on the search document (0.5 d), B6 rankings editions + QILT mapping (1 d), B7 campus-list reader (0.5 d, new) — settings keys, expected counts and order in the record file, section 2 |
+| Enrichment jobs | E1: 65 provider-policy proposals waiting (48 providers); checked readings approve themselves (43 in 24 h); daily summary line added to the work-queue daily report. E2: calendar job analysed, left off — it would write 0 today (no pending course-intake review items); 53 of 224 AU providers hold an approved calendar; a course-level default is an inference, not recommended; decision with the Platform Admin. E3: stored coverage checked (39 of 53 universities); the existing lane cannot produce full lists → B7. E4: detect-only, 14 providers flagged; F9 moves to the next release; UoA and auto_reset decisions open. E5: 112 of the 149 quarantined courses re-bound, 115 carry a live fee again; 95 Layer 4 rows closed (count-guarded, logged); 4 MIT pages bound with a cricos_code label during the v0.45.0 deploy window reset the same way (3 fees quarantined); 54 + 3 remain with reasons. E6: existing scholarship reads give 0 free nationalities and ≤ 31 close dates needing a rule; B4 must ask explicitly |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 14:30: HOTFIX — manual task never reached Firecrawl, stalled task invisible, Layer 4 address entry refused (v2.15.342, PR #686, not merged)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 13:17 (priority over everything; Phase 3 suite resumes after). Record: `docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md` |
+| D2 root cause | The worker was asked every minute and answered `picked 0`: the one course search picker drops a university on the search-stop list before it looks at who asked (Otago stopped 21 Oct 10:33, 20 wrong in a row, never resumed), and the bulk-onboarding check voids the person-asked bypass. 2,866 person-requested rows wait (1,549 stop list, 1,130 not a Firecrawl target, 127 hidden, 59 bulk, 1 no site); **292 Find course pages tasks closed as done with "the rest wait their turn" since 11 Oct, 289 with nothing found (7,259 courses)** |
+| D2 fix | A row of a person's running Find course pages task passes the stop and the bulk check only (setting `search.person_task_bypass`, on); the task asks the worker at accept with the minute job's exact body (one path). No gate, budget or cap changed |
+| D3 fix | `security.link_search_block_v1` (picker gate order → `{code, words, fix}`) and `security.admin_job_status_v1` (last progress, last forwarded, next attempt, blocked after `tasks.stall_seconds` 60); Task manager shows them; the watcher's closing note names the gate; gap cause "no page: web search stopped for this university" (not automatic) |
+| D1 root cause / fix | Held-fee rows (`provider_current_tuition`) show as "Course link"; their "Enter another address" fell through `layer4_review_decide` to the scalar resolver. Now `security.layer4_fee_item_rebind_v1` → `admin_course_edit set_official_url` (manual binding and locks, read first in line, fee reader; manual is exempt from the identity quarantine); https:// on the provider's site; "Use the new page" hidden on fee items |
+| Verification | Migration `20261024009000` dry run against live, rolled back: accept logged one worker request; picker 58/58 Otago; stall cause `search_stopped` with the bypass off; AUT `c62b431b…` enter → page manual/bound/read now, locks set, item edited_approved; http:// and off-site refused with plain messages. Test s99; full suite 1,852 passed, only the 4 known legacy failures |
+| Not changed / decisions | Target-only (1,130 rows at 136 non-target universities): refuse at start, or let a person's task pass? Re-open the 24 stopped universities' falsely closed tasks by paste file, or leave to plans? `coverage-admit` paused by the Platform Admin at 12:18 — v2.15.341 fix verified live, resume when ready |
+| After merge | Platform Admin E2E (browser extension): Otago re-find moves past 0; one AUT item accepts a manual address. UI audit PRs rebase and renumber: #684 → v2.15.343, #685 → v2.15.344, Phase 1 → v2.15.345 |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 15:50: hotfix live and verified, hotfix 2, UI audit stack merged and renumbered (v2.15.342–346)
+
+| Item | Detail |
+|---|---|
+| Instruction | Platform Admin 13:55 (decisions D-target_only, D-stopped; execute steps 1–6) and 14:18 ("make sure all PRs are merged") |
+| Decisions | **D-target_only:** a task the target-only gate holds is refused at start with the gate named; no task passes target-only (R2's audit decides its release); added to v2.15.342 before merge. **D-stopped:** one count-guarded paste file re-opens the stop-held rows, applied by the Platform Admin; until S1 (per-course stop + negative evidence, the permanent fix) this is the accepted handling |
+| Merged | #686 v2.15.342 HOTFIX (`3c3f218b`) · #687 v2.15.343 HOTFIX 2 (`c5749a9c`) · #684 v2.15.344 Phase 2 (`42e3d2d6`) · #685 v2.15.345 Phase 3 (`70462968`) · #688 v2.15.346 Phase 1 (`3f2e6dba`). Full suite before each: 1,852 / 1,854 / 1,858 / 1,864 / 1,884 passed, only the 4 known legacy failures. Each migration's applied text md5 = repo file (`96842621…`, `d8f18f4f…`, `864c8f32…`, `12a7bd0a…`). No open PRs |
+| Post-merge (step 1) | All eight v2.15.342 functions carry the hotfix lines; four new functions; settings `search.person_task_bypass` 1, `tasks.stall_seconds` 60 |
+| E2E (step 2) | Through the screens' server calls as the Platform Admin; the session had no browser link, so the extension view is still to be looked at. **AUT** item `c62b431b`: manual https:// address 03:27:38 UTC → left the Inbox, page manual/bound/locked, read 03:30:43, **fee $48,059.68 active 03:32:26**. **Otago**: forwarded within the second of accept (picked 58) but searched 0 — found **a third stop gate in the credit check `svc_fc_spend`** (918 refusals) and a status that still looked alive → **HOTFIX 2 v2.15.343**; then 58/58 searched 03:50:21–03:51:00, 41 pages found |
+| coverage-admit (step 3) | Resumed 14:28; first run 03:30 UTC succeeded `{written 92, layer4 39, decided_by_rule 21, errors 0, more false}`; 29 http:// official-page rows to Layer 4 (the 187 counted every http:// row in the plan; only take-rule rows go to a person) |
+| Paste (step 5) | `docs/platform/ui-audit/PASTE-20261024-hotfix-reopen-stopped-rows.sql` with the Platform Admin; rolled back on live after v2.15.343: 22 tasks, 1,483 courses; Nova (16, unpublished) not started |
+| Open items (step 6) | CRICOS legal-name capture (Layer 1; needs a coverage-reidentify-delta decision; not now) · Torrens display name (Platform Admin, Providers screen) · two ECU near-duplicate scholarships (scholarship owner) |
+| Next | Follow-on mandate resumes: completeness surfaces (course-detail-blade Fields section + Providers-panel strip), field-admission map + regeneration job, then Coverage & completeness retirement after the blade section is accepted; INDEX.md release rows after each merge |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 16:15: HOTFIX 3 — Task manager read timed out (v2.15.347, PR #689, merged); re-open paste applied
+
+| Item | Detail |
+|---|---|
+| Re-open paste | Applied by the Platform Admin 15:39: 22 Find course pages tasks, 1,247 courses (236 held rows are of inactive courses and stay queued; Nova 16 unpublished). First minute: 137 searches, 0 refusals. By 05:00 UTC 17 of 22 done; 5 blocked by `search.skip_providers` (429 courses, NZ providers) |
+| Defect | Platform Admin 15:51: Task manager "could not be read" (ref 9F5R4H). The v2.15.342 stall cause worked out the stop for every university (1.7 s) per stalled task; the read reached the 8 s limit and admin-jobs ticks took 16–41 s |
+| Fix | Migration `20261024011000` (md5-guarded) on `security.link_search_block_v1`: one university's stop (0.09 s), totals once per statement, one person-task query. Suite 1,886 passed (4 legacy failures). Live: migration md5 `0d42b28b…` matches; read 365 ms; ticks 4–6 s |
+| Decision open | Refuse Find course pages at start for a skip-listed university (as D-target_only)? |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 19:20: Campuses by their CRICOS location name, Provider filter (v2.15.348, PR #690, merged)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:27 "Bug/Fix — Campus name and UI filter": the Campuses list should read as the CRICOS institution page's Location Name list (examples UoW 00102E, Monash 00008C); no provider filter; Provider details campuses did not show the location name |
+| Finding | Stored names already equal the CRICOS location names (3,984 of 3,984; UoW and Monash 9/9 with counts). Provider details showed the city (`c.city||c.name`); the list had no provider filter although `admin_campus_page_fast` already accepted `provider_id` |
+| Change | Presentation only: Campuses list Provider filter (reset with country or state), first column "Location name"; Provider details campus pills = location name · course count (city in the hover); nameless providers read "Unnamed on the register". Test s100. Suite 1,890 passed (4 legacy failures; M2.4.5 expectation updated and re-run green). Merged `7d7d100f`; frontend build and deployed-release checks passed |
+| Noted | Monash Peninsula links 48 courses, CRICOS shows 50 (two registered since the last register import) — register refresh, not a screen fix |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 19:45: `target_only` audit produced; title/international-intent mandate recorded (queued)
+
+| Item | Detail |
+|---|---|
+| Audit | Read-only, per throughput record section 3.2. Record `docs/platform/nz-enrichment-brief/2026-10-24-target-only-audit.md`; CSV `docs/platform/wrong-page-values/PASTE-20261024-target-only-audit.csv`. Group A (cache, excluded) 87: 85 `rule_false_no_reason` (published; AU 13, CA 72; 58 unbound courses), 2 `deliberate_list`. Group B (not in cache) 455: 334 unpublished/archived (held), 120 `never_evaluated` (published; 891 unbound courses), 1 `robots`. `past_failure` 0 |
+| Write-back | `PASTE-20261024-target-only-audit-writeback.sql`: reason into `override_reason` on the 87 group-A rows; releases nothing; count-guarded; dry run on live passed |
+| O10 (Platform Admin) | Apply the write-back; approve the domain-rule re-run + release of passing `rule_false_no_reason` providers and `firecrawl-targets` for the 120 `never_evaluated`; then R2 (Q1 at `search.daily_picked_cap = 100`) |
+| New mandate | `docs/platform/ui-audit/2026-10-24-title-and-international-intent-mandate.md` (Platform Admin 19:05): NZ title verification and AU international-intent pages; no deletion, quarantine via count-guarded paste only, no auto-quarantine; division of labour vs zero-yield drafted. Queued behind audit → O10 → R2 |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 20:00: target_only write-back applied (overwritten by the minute refresh), O10 finding, Defect 1 title measure
+
+| Item | Detail |
+|---|---|
+| Write-back | Applied ~19:11 on the Platform Admin's decision; 87 rows, ids verified against the CSV. Overwritten at 08:14 UTC by `firecrawl-targets` (the cache is rebuilt from the rule each minute; `override_reason` comes from `pipeline.firecrawl_targets.reason`). Nothing released, no harm. Durable reason needs a small migration (rule clause as the reason) — proposed, not done |
+| O10 | Approved with conditions; measured: **0 of the 205 pass the current target rule** (85: 25 excluded word, 60 below the course minimum; 120: name lacks "university"). No release paste written (it would change nothing). Options a keep / b change rule settings / c named override rows — Platform Admin decision; R2 does not depend on it |
+| Defect 1 (parallel, read-only) | NZ bound courses 3,343 of 6,474: 88% of measurable titles match exactly; 157 below 0.7; 290 need the stored copy. Worst 20: 12 are wrong pages (zero-yield/S1 territory), the rest variants (Māori register titles published in English, level shorthand) or title-extraction noise. Record: mandate file section A; list `2026-10-24-d1-nz-title-below-threshold.csv` |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 23:10: target route staged (c)-then-(b); v2.15.349 rule reasons (PR #691); Defect 1 decisions; sweep 24 h report
+
+| Item | Detail |
+|---|---|
+| Decisions (19:23) | D1 staged (c)-then-(b): tranche 1 override paste (≤25), normal search only, (b) after two weeks of ledger data, rule-reason release; D2 Defect 1: threshold 0.7, wrong-page signal first (no AI for confirmed wrong pages), title-noise fix, aliases for genuine renames, no-page courses out of scope |
+| Tranche 1 | `docs/platform/nz-enrichment-brief/PASTE-20261024-target-tranche-1-overrides.sql`, for review, not applied; 3 polytechnics + 22 private providers (12 NZ polytechnics already targets); guard requires R2's cap; dry run 25/25 included |
+| v2.15.349 (PR #691) | `firecrawl_target_cache.rule_reason` filled each minute; merged and live; migration md5 matches; 87 excluded all carry a reason; suite 1,896 (4 legacy) |
+| Weekly line | Scheduled task "Tranche 1 weekly report", Mondays 08:36 Melbourne |
+| Sweep 24 h report | Throughput record section 10: 138 fees and 69 English admitted for the 3,675 swept courses, almost all in the first three hours; fee reader queue 0; remaining blockers are S1 / 8a / fee-schedule route |
+| Next | R2 (Q1, `search.daily_picked_cap` = 100); then Defect 1 build (wrong-page first, noise fix, aliases); Defect 2 after R2 |
+| Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 23:40: R2 landed (v2.15.350, PR #692) with tranche 1; Layer 4 triage Phase 0; approvals 23:07 recorded
+
+| Item | Detail |
+|---|---|
+| Approvals 23:07 | Tranche 1 applies with R2; Tai Poutini highest attention; TAFEs/wānanga/ITOs out until the weekly line; weekly line as configured plus poor-type rule (worst providers named; definition: < 60% or 15+ points below the other type); 951-override finding recorded prominently — (b) starts from it; no further sweeps, baseline logged; Defect 1 order approved |
+| R2 | `search.daily_picked_cap` 100, `search.stop_per_course_after` 6; picker counts today's picks (UTC), a person's running task counted not held, per-course stop from `page_rejections`; stall cause `daily_cap`. Merged `441aaa8a`; migration md5 matches; suite 1,902 (4 legacy) |
+| Tranche 1 | 25 override rows applied 12:35 UTC; 25/25 included at 12:36. The day's cap is already used (877 sent today), so searching starts 00:00 UTC |
+| Layer 4 triage | New mandate (23:17), record `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`: Phase 0 census 2,011 items (1,258 aged), classification per kind, Phase 1 designs ≈ 1,000 credits / < US$1.50 AI, Phase 2 learning loop; three questions open |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 12:15: central policy approval queue located (defect D-L4-1), 65 proposals exported, count-guarded approval paste file
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11:34: "Settings › Provider policies" does not exist; give the exact navigation or confirm no surface (record the defect); export the proposals and a count-guarded paste file; no new panel |
+| Where | Layer 2/3 Build & enrich › Operations › collapsed panel "Approvals waiting (all universities): 65" (English policies / Academic calendars, Show: Waiting); per university in Build adapter (1.3). Verified live as the Platform Admin (count 65, list reads < 0.2 s) |
+| Defect D-L4-1 | Every signpost is wrong: INDEX said Settings › Provider policies (never existed, corrected); the Inbox item text says Providers › Onboarding (retired); the gap cause says Layer 4 › Attributes (retired v2.15.253); the Inbox counted 2 while 65 waited; the panel is collapsed with no age. Fix goes in the follow-on UI mandate |
+| Export | Triage record section "Central policy approvals": R01-R65 with policy, courses it would fill, plan, quote, page and id (md5-checked transcription). English 16 (fills 140; 7 BLOCKED by the disagreement gate), calendars 49 (21 with an Intake 1 month, fill 42; 28 add nothing) |
+| Paste file | `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql`: mark approve / reject, set the two counts; calls `admin_provider_policy_decide` as the Platform Admin, all or nothing. Dry runs against live (rolled back): unmarked stops; 3 approve + 1 reject applied; no-month calendar refused; BLOCKED row refused with full rollback |
+| Findings for the Platform Admin | `provider-calendar-defaults` is OFF since 22 Oct 11:43 UTC, so calendar approvals fill no course until it is on (INDEX decision 4). `policy-auto-approve` is ON (`central.auto_approve`, `central.auto_approve_english_all`): AI-read English policies approve with no person, against the 23:17 "nothing auto-resolves" mandate; left as decided 15 and 23 Oct, decision requested |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 12:40: decisions 11:58 recorded (central.auto_approve kept with conditions; calendar lane waits on E2), E2 calendar analysis delivered, paste file calendar rule corrected
+
+| Item | Detail |
+|---|---|
+| Decision 2 | `central.auto_approve` KEPT, conditions: (a) every automatic approval visible with "automatic" as decider; (b) automatic outcomes in the learning-loop acceptance report; revisit only if the report shows the disagreement check failing. Live: 111 automatic approvals since 14 Oct (52 English, 59 calendars), decider null, Decided view shows no decider — (a) and (b) not met; (a) first item of the follow-on UI mandate, (b) added to Phase 2 design |
+| Decision 1 / E2 | Calendar rows wait for the on/off decision. Analysis: `provider-calendar-defaults` gives calendar months to courses whose page states none (AU/NZ/CA, universities undergraduate only); off and retiring since the 22 Oct page-only decision (2,166 rows withdrawn); on now ≈ 36 + 42 = 78 courses, ≈ 0.5 pt of the AU gap, shown to the website as ordinary months. Recommendation: leave off; approved calendars still serve the course-page period route (Enrich fields, Decision 228) — 22 of the 49 rows usable |
+| Correction | Earlier record and paste text said calendar approvals fill courses once the job runs; corrected: the job is retiring, approval writes nothing by itself. Paste calendar guard now follows `enrich_parse_intake_periods_v1` (R60 approvable, 27 refused); dry runs against live rolled back (unmarked stops; R60 + R64 approve, R07 reject applied; R17 refused) |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 13:30: consolidated mandate recorded (D-calendar, D-auto-approve); Part A hotfix v2.15.351 (PR #693, not merged); Parts B–E specified; Part C quantified
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:15 consolidated mandate; record `docs/platform/ui-audit/2026-10-25-consolidated-visibility-and-data.md`. List structure frozen; blade and existing panels only; one release at a time; nothing merges without review |
+| Decisions | D-calendar: provider-calendar-defaults stays off and retires (replaced by the course-page period route); paste calendar check kept. D-auto-approve: stays on; decider display and acceptance report are Part D work items |
+| Part A | Root cause: the Completeness / Tuition Only sorts use the older `ui_courses_decision_page`, which has no International fee or City. Fix: `20261025001000` edits `admin_course_page_search_state` (md5-guarded). Dry run NZ Completeness 0 → 50 fee, 0 → 49 city. Suite 1,906 passed (4 legacy). PR #693 awaiting review. SIT 2935 / UCOL 2664 genuinely empty (blade empty too) |
+| Part B | Spec: Fields chips from the existing gap-cause vocabulary (per-course classifier lifted, snapshot totals unchanged); pipeline strip with real follow-paths (no `extraction_runs` table exists). Stored-copy check: NOT met: Read with AI always re-fetches (42 of 57) — fix in R1 with `read_now.stored_copy_max_age_days` 14 |
+| Part C | One unnamed NZ course (SIT NZQA 3954 "--"), not 3,954; fill-or-quarantine proposal awaits approval |
+| Part D / E | D1–D4 specified with settings and estimates. E: 0 AU/NZ/CA providers have a description; no about page held; reader spec; UOW source confirmed live, acceptance test runs on the first build |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 13:10: lineage verified (PIPELINE-LINEAGE.md 1.1), #693 merged and checked live, D-stored-copy recorded, Track B release 1 planned on course_events
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:44 combined mandate; record `docs/platform/ui-audit/2026-10-25-lineage-verify-and-trackb.md` |
+| D-693 | PR #693 merged 01:44 UTC (`a7fe02d1`); all workflows green; migration `20261025001000` md5 = repo; live NZ Completeness 50 fee / 49 city, LI4245 NZD 37000 Lincoln; browser check is the Platform Admin's |
+| D-SIT3954 | Stored copy located (evidence `d0ff24c6…`, NZQA batch-5 JSON, 647 records; register row `6015|3954` seen 23 Oct) but not readable from this session; route (a) Platform Admin evidence preview or (b) one-off workflow read awaits choice; no file written |
+| D-stored-copy | `read.stored_copy_max_age_days` 14 (0–30) approved; corrects the 23 Oct 09:03 "fields wait for the new page"; ships in Track B release 1 (`admin_course_read_now_v2`) |
+| Part 1 | PIPELINE-LINEAGE.md verified in place: 16 [T] marks resolved (8 flipped, 6 flipped with correction, 2 verified absent); 11 corrections, including: the page read re-fetches (only downstream readers are stored-first), the real gate order, the read-attempt cap being a literal (G2 finding), `extraction_runs` / `field_change_log` absent, queued-at present in the queue but not in the ledger |
+| Part 2 | 2.1 `pipeline.course_events` specified as the single data source of Track B release 1; 2.2 version stamps, 2.3 task items and resume, 2.4 queued-at into the ledger specified with settings, retention, tests and estimates — queued behind Track A |
+| Part 3 | Doc-as-code standing rule recorded in PIPELINE-LINEAGE.md section 7; contract test s104 lands with Track B release 1 |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 15:00: academic entry requirements — Part 1 verified against 40 live providers; design corrected (1.1); build planned after Track B release 1
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:36 mandate; record `docs/platform/ENTRY-REQUIREMENTS-IMPLEMENTATION.md` |
+| Part 1 | Top 20 per country fetched today. Publishing shape: 19 HTML, 10 PDF only, 6 JavaScript only, 5 none / course-only / refused. Grain: NZ is provider-wide (12 of 13 readable matrices); the AU Group of Eight is mostly per-course (5 of 8) or band ladders (ANU, UWA); RMIT, Flinders and UOW are band ladders. One sample row with quote per provider; quotes are near-verbatim and re-checked at build |
+| Corrections | `ENTRY-REQUIREMENTS.md` 1.1: matrix gains course_id, matrix_kind, benchmark_band, conditions, edition, min_value, quote; plural `course_entry_requirements` (B1's table); resolution order override → course row → band → provider → contact; scholarship min-academic is NOT an existing field (B4); both mermaid diagrams corrected and rendered |
+| Merge | B1 spec (field-admission section 5) extended, not replaced — noted in both files |
+| Part 2 plan | Steps A (HTML reader, 19 providers) → B (PDF, +10) → C (JavaScript rendered or contact provider, 6); Layer 4 first-run review per provider; settings `entry.matrix_*`; consumer API additive under an explicit approval line; developer-pack worked example (India, RMIT BEng) written at release from admitted rows |
+| Decisions | Consumer API placement; Sydney 2027 robots-disallowed |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 15:15: decisions 14:50 recorded (lineage / Track B + entry requirements); SIT 3954 stored extract obtained (register title "--")
+
+| Item | Detail |
+|---|---|
+| Decisions | 1 SIT 3954 route (b); 2 #693 accepted; 3 Track B release 1 approved as specified; 4 items 2.2–2.4 queued behind Track A; 5 `reading.read_attempts_max` (3, 1–10) open row; 6 real-tables rule (AGENT-OPERATING-MODEL rule 7); 7 entry feed additive in the EXISTING course and provider payloads (B1 notes updated); 8 Sydney 2026 edition current plus quarterly `entry-matrix-edition-check`; 9 entry build plan approved; 10 case-by-case rendering rule (developer-pack note) |
+| SIT 3954 | One-off workflow runs 40159801364 / 40159842215 read only the evidence object (SHA-256 = content_hash) and printed only the 3954 record: `{"code": "3954", "title": "--", "status": "Current", "level": null, "credits": "60"}`. The register has no title, which points to the quarantine paste; not written until the Platform Admin has seen the extract. Workflow removed from the branch; branch deletion refused by the session proxy, so the Platform Admin deletes it |
+| INDEX | Pruned to the next gates: SIT 3954 extract, Track B release 1 PR, Track A PRs |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 16:35: temporary branch cf247-sit3954-extract — verified identical to main, deletion attempted, refused by the session proxy; standing rule added
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:28: delete the branch yourself after confirming zero difference; record it; make branch hygiene standing |
+| Verified | compare main...branch: 0 files changed; branch tree = merge-base tree (`509fcfc7…`) |
+| Attempts | `git push --delete` and `git push :refs/heads/…`: proxy disconnect (ordinary pushes work); refs API DELETE: HTTP 403 "Write access to this GitHub API path is not permitted through this proxy" |
+| Result | Branch not deletable from this session (stated once); the Platform Admin deletes it. It is harmless: identical tree, no workflow |
+| Standing | AGENT-OPERATING-MODEL rule 8: no orphaned branches; temporary branches deleted in the same flow after the result is recorded. Because this session cannot delete refs, one-off reads now run on the existing scratch branch `cf247-zoho-dryrun` instead of new branches |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 19:05: overnight outcomes mandate running; S1 part 1 PR #694 for review; Track C (entry requirements) opened on a branch
+
+| Item | Detail |
+|---|---|
+| Overnight mandate (18:02, clarified 18:05) | Record: `docs/platform/ui-audit/2026-10-25-overnight-outcomes.md`. Additive to Tracks A and B. Budget: 30,000 Firecrawl credits and $25 AI, stop at 75%. Working AI stop is US$15 because the balance is US$20.77. Levers applied through existing mechanisms: O6 cap 100→200, O1 fee reader widened to all provider types, O2 intakes task, O5 re-check queue. Tracker: `docs/platform/COURSE-WISE-TRACKER.md` edition 1 |
+| Track A, S1 part 1 | PR #694 (v2.15.352): one refused-page predicate and one course-search stop gate. Dry run: 0 of 1,822 rows differ. Suite 1,912 (4 legacy). **Not merged**: waiting for Platform Admin review |
+| Track C opened (18:54) | Entry requirements Step A, drafted on branch `cf247-entry-matrix`. Boundary: matrix and course-requirement tables, the new reader, central-page discovery's page-type list, Layer 4 first-run items only. It touches nothing in the search picker, stop gates, course_events or the blade. Merge order is fixed: #694 → Track B R1 → Track C Step A. Extraction runs start after Track B R1 lands |
+| Byte-check | Part 1 quotes checked against raw page text: 17 exact, 6 exact after whitespace, 2 corrected (EIT, NMIT; design doc corrected in the same commit), 7 fetch refused (kept as unverified). The workflow was removed after use (rule 8) |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 22:45: speed reconfiguration mandate recorded; primary track changes after S1 #694
+
+| Item | Detail |
+|---|---|
+| Mandate (22:05) | Speed programme replaces the throughput model: map-then-match binding (S1), search-query quality (S2), calibrated stops (S3, awaits O8/O9), decisions S4, velocity (S5) and live visibility in the existing UI (S6). Accuracy gates unchanged. Record: `docs/platform/ui-audit/2026-10-25-speed-reconfiguration.md` |
+| Finding | Map-then-match exists (`coverage_ai_match`) and has run over almost every unbound course. Residue: NZ 47.0% bound (tracker definition; "53.5%" not reproducible), mostly courses without a page of their own or with no page published by the provider. S1 = fresh maps for 301 providers with missing or thin inventories + no-page gap cause + conjoint rule (Layer 4 first runs) |
+| S2 baseline | Since R2: 9% found, 14% no results, 77% results refused by the URL picker (recipes). Queries already site-scoped. Iteration 1: skip no-own-page shapes, per-result verdict log, recipe widening from evidence (person-decided), title variants, provider low-yield → map lane |
+| S4 | CA fee gap into Tranche 2 (Part A paste written, dry-run 7 overrides / 18 fee pages); Part B (TAFE/wānanga/ITO) from Monday's weekly line; unpublished AU first cut 1,332 providers / 11,173 courses; mislabel `target_list_refused` specified for SP-1 |
+| Queue | #694 → Track B R1 (S5+S6 proposed inside) → #695 → SP-1 (D-S0: SP-1 before #695 recommended) |
+| Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 23:30: standing rules 9 and 10; #694 gate consolidation merged and live; SP-1 (#696) merging
+
+| Item | Detail |
+|---|---|
+| Standing rules (23:16) | AGENT-OPERATING-MODEL rule 9: the agent merges its own PRs once the gates hold (suite green except the named legacy failures, live md5 of every edited function verified just before merge, live dry run where applicable, change control written), confirms the live version and records the merge. Destructive and consumer-API shape changes stay paste files. Rule 10: every mandate response is lodged in the admin repo before the chat reply |
+| #694 gate consolidation | Merged `c478404e` (v2.15.352). Live md5 of all 8 edited functions verified before merge. deploy-on-merge applied `20261025002000` (history md5 matches the file). Release currentness on the deployed site passed. Post-merge md5s of the gate and the AI-match prepare equal the values SP-1 edits |
+| SP-1 (#696, v2.15.353) | No page published by the provider + conjoint rule (Layer 4 first run per provider, 60% rule, universities first, at most 10 new first runs an hour), extra course domains, AI match scope (AU), named Firecrawl refusals. Rebased on main after #694. Live md5 of all 8 edited functions verified. Live dry run on top of #694 passed (rolled back). Suite 1,910 passed (4 legacy; 4 older contract tests updated to the renamed spend-check calls). Activation `bind.no_page_on` stays 0 |
+| Track C (#695) | Not merged tonight: the Platform Admin's 18:54 instruction for Track C was "NO merge" tonight. It is rebased after SP-1 (decide/desk md5, worker v0.48.0) and merged under rule 9 on 26 Oct |
+| Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 (Mon, Melbourne) – Update 04:30: SP-1.1 pending cap on Layer 4 first runs (rule 9 merge)
+
+| Item | Detail |
+|---|---|
+| Defect | SP-1 capped first runs per hourly run (10) but not the number waiting: 50 pending at 04:00, heading for about 177 |
+| SP-1.1 (v2.15.354) | `bind.no_page_pending_max` (60, 5–500): a new first run opens only while fewer are waiting. md5-guarded edit of `security.no_page_propose_v1` (live md5 `0b68723d…` verified before merge). Live dry run passed (cap 50 → 0 new first runs). Suite 1,920 passed, only the 4 legacy failures. Test s118 |
+| Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 (Mon, Melbourne) – Update 07:50: overnight outcomes 08:00 report; Track C step A (#695) merged under rule 9
+
+| Item | Detail |
+|---|---|
+| 08:00 report | `docs/platform/ui-audit/2026-10-25-overnight-outcomes.md` ("08:00 report") and `docs/platform/COURSE-WISE-TRACKER.md` edition 2: fees +35 courses (NZ +30, CA +5), bindings 0 (cap used before 18:00; resets 11:00 AEDT); no cause = 0 everywhere; spend 545 Firecrawl credits / US$0.54 AI. 60 university first runs (41 no page, 19 conjoint) wait in Layer 4. Tranche 2 Part A not yet applied. Unpublished AU quantified by type and site status (1,322 providers / 11,173 courses; registration status not readable from the database) |
+| Track C step A (#695, v2.15.355) | Rebased on SP-1.1; decide/desk/spend md5 verified live 07:45; live dry run on the post-SP-1 database passed (01:00); suite 1,940 passed (4 legacy only). Reader off (`entry.matrix_enabled` 0), job `entry-matrix-read` inactive; extraction runs after Track B release 1 |
+| Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 09:00 AEDT — SP-2a: Layer 4 first runs auto-admitted on a proven shape (v2.15.356)
+
+- Decision: Platform Admin 26 Oct 2026 08:25 ("Layer 4 stops being the stopgap … my attendance becomes audit, not gate"). Record: `docs/platform/ui-audit/2026-10-26-auto-admit-escalation.md`.
+- Done first: `bind.no_page_on` confirmed 1; Tranche 2 Part A applied by the agent (authorised): 7 target overrides, 18 fee pages requeued; all 23 fee pages of the 7 providers fetched by 08:40.
+- Change: migration `20261026002000_cf247_sp2a_layer4_auto_admit_first_runs.sql`. Table `pipeline.layer4_auto_admissions`; functions `security.course_list_check_v1`, `security.no_page_sample_check_v1`, `security.no_page_auto_admit_v1`; eight `layer4.auto_admit_*` settings (on 1, audit 1 in 10, sample 0.8, list recall 0.7, minimum sample 3, minimum bound 20, list age 30 days, look-alike 0.6); job `layer4-auto-admit` (catalogued, hourly at :47). Test s119.
+- Rule: a no-page or conjoint first run is approved without a person only when the provider's course list is verified, the sample is confirmed by the machine, and the list shape matches a first run a person approved. New shapes stay in Layer 4; 1 in 10 that pass is kept for a person. Trust escalation (60% rule), re-open on any later page and "nothing deleted" are unchanged.
+- Bootstrap: no person-approved first run exists yet, so the first provider of each shape stays in Layer 4 and is marked with the number of waiting first runs it unlocks.
+- Dry run on live (rolled back): 0 auto-admitted before any approval; after one simulated approval of shape `map|university|d3`, 5 auto-admitted with 5 decisions and 5 Decided rows; 30 seconds.
+- Consumer API not touched. Nothing dropped or deleted.
+
+### 26 Oct 2026 09:45 AEDT — SP-2a merged and live (#698, v2.15.356)
+
+- Merged under rule 9 as `5aa3ede2`. Suite 1,948 passed (legacy cf-091, cf-103 only); migration `20261026002000` applied with history md5 matching the file; live function bodies match the file byte for byte; `no_page_review_apply_v1` unchanged.
+- First run by hand straight after deploy: 0 auto-admitted (no shape approved by a person yet), 0 audits, 16 new-shape, 26 course list not verified, 10 sample not confirmed, 8 no course list.
+- Six shapes have leaders waiting in Layer 4 (CDU/Flinders/Griffith/SCU/UQ; RMIT/Auckland; Massey; Federation/UTS; Canterbury; Otago). One approval per shape unlocks 10 waiting first runs on the next hourly run.
+
+### 26 Oct 2026 11:00 AEDT — Test governance: register, retirements, G4 (Platform Admin mandate 09:36)
+
+- Records: `docs/platform/TEST-REGISTER.md` (the register) and `docs/platform/ui-audit/2026-10-26-test-governance.md` (decisions). Standing: AGENT-OPERATING-MODEL rule 11 and Pilot `CLAUDE.md` G4. Rule 9 amended: the suite must be green with no exceptions (the cf-091 / cf-103 carve-out ended).
+- Retired 16 tests:
+  - 8 deployed browser halves that skipped locally and were in no deployed tier;
+  - CF-103 browser theme test (red in every local run);
+  - A13 retired-screen test;
+  - 6 `node:test` tests that were red but never counted (CF-208 ×3, CF-209 ×2, CF-210 ×1).
+
+  Every retired rule is still guarded by a named spec.
+- Fixed: CF-091 source contract (Provider Assets now under Providers › Assets). Converted 11 passing `node:test` tests to Playwright. The legacy baseline is now asserted once (S70).
+- Phone viewport: runs only `@responsive` tests and the deployed gate. Local runs per pass 1,968 → 990. Local result: 990 passed, 0 skipped, 0 failed.
+- Added `s120` (G4): Guards line on every spec, no `node:test`, no unconditional skip, no environment skip outside `@deployed`, phone filter kept. Added `scripts/test-register.mjs`.
+
+### 26 Oct 2026 11:30 AEDT — Weekly deployed run and phone tests for the operated screens (Platform Admin 10:49)
+
+- Weekly deployed run approved. `deployed-weekly.yml` runs Monday 05:17, desktop and phone, with results on the branch `deployed-weekly-results` for the Monday line.
+- Ten deployed tests that change live data or the UAT user's settings are tagged `@live-acting`. They are held unless the live-acting switch is on (default off), in the weekly run and in `deployed-uat`. The register has an "Acts on live" column. 84 safe tests run; 10 are held.
+- Phone-width tests (`s121`) cover the Course catalogue list, the Course detail blade and Layer 4 Review. They run on the phone project only, and each asserts phone width first. The student website's course search and results are recorded as planned.
+- `s120` now guards the phone filter, the three screen tests, the `@live-acting` tags and both workflows' holds.
+- Findings, not changed: Layer 4 choice buttons are 25 px high on a phone and Filters is 31 px (both above the WCAG AA 24 px, below the 44 px platform guidance). The catalogue opens with all filters expanded on a phone, so the first course sits at 1,063 px.
+- Full local suite: 995 passed, 0 skipped, 0 failed. PR #701.
+
+### 26 Oct 2026 12:50 AEDT — Waikato triage follow-ups lodged (Platform Admin 12:29)
+
+- Record: `docs/platform/ui-audit/2026-10-26-waikato-triage-followups.md`.
+- WI0858 is held from no-page proposals: a `course_no_page` hold row (`rejected`, basis "title-verify (Defect 1)"), logged in `admin_control_events`. It stays in the course search.
+- Redirect-to-other-course rule: wrong page, S1 semantics. Spec written and added to the `PIPELINE-LINEAGE.md` mechanism table; build queued with the search-quality / Defect 1 batch.
+- Correction to the premise: WI0911's $6,483 came from its own fees-schedule row, not from the CAEL page. The pending Layer 4 item has it as the 2027 fee where it is the 2026 one. Recommend reject.
+- Found: all 60 first runs sit in the Layer 4 Inbox with no university (provider-entity items). Proposed Inbox fix, not made tonight.
+- The extension run is logged as acceptance evidence (4 of 4 rule-correct).
+
+### 26 Oct 2026 13:20 AEDT — Hotfix v2.15.357: Layer 4 first runs under their university (Platform Admin 12:50)
+
+- Scope, exactly as decided: first-run items (no page and conjoint) carry their university in the Layer 4 inbox, show under "By university", and offer approve / edit / reject on the card. Nothing else.
+- Migration `20261026003000_cf247_hotfix_l4_first_runs_inbox.sql`, md5-guarded:
+  - `layer4_inbox_items_v1` (`c5f4f34c…`): first runs get their university and their own kind;
+  - `layer4_inbox_kinds_v1` (`1703346f…`): two kinds with approve / edit / reject choices;
+  - `admin_layer4_inbox` (`2e2225b0…`): routes to `layer4_review_decide`. The 60% rule is unchanged.
+- UI: `Layer4Inbox.jsx` shows the sample and ticks the courses that have a page. Test s122.
+- Live dry run (rolled back):
+  - Waikato lists both first runs under By university;
+  - all 60 first runs carry their university;
+  - a tick outside the sample is refused;
+  - edit and approve with one course ticked: 4 of 5 confirmed, trusted;
+  - reject: not trusted.
+- Also recorded:
+  - identity-gate evidence for WI0911 / WI0194, in the acceptance data;
+  - the near-twin rename check, joining the Defect 1 batch;
+  - WI0911 noted for the first-run review (it has its own fees-schedule row).
+
+### 26 Oct 2026 17:3x AEDT — AU completion week opened (Platform Admin 17:01): v2.15.358 register end dates; publish paste; fee reader AU scope; MARK-FILE
+
+- Record: `docs/platform/ui-audit/2026-10-26-au-completion-week.md`. This is the week's primary track.
+- **Step 1, v2.15.358 (#703, `3e31bacd`, rule 9).** Migration `20261026004000_cf247_au_register_end_dates.sql`:
+  - `security.layer1_register_end_dates_v1` records CRICOS end dates. A course registration not on the latest register edition gets `valid_to`, the last date it was listed. A provider registration none of whose courses is listed is `ended`, and is restored if listed again.
+  - Guard `layer1.register_end_dates_min_share` (0.9). Job `layer1-register-end-dates` is catalogued and runs daily at 04:41 UTC.
+  - `security.au_publish_eligibility_v1` is read-only.
+  - Course retirement is unchanged. Consumer API shape untouched. Test s123.
+- **Post-fix verification passed:**
+  - suite 1,001 passed;
+  - history md5 `c9bdaeb0` matches the file;
+  - both function bodies are live byte for byte;
+  - 1,372 course end dates and 16 provider registrations ended (mirrored to identifiers); 1,540 current;
+  - 0 inconsistencies (ended but listed, or current with nothing listed);
+  - AU active courses unchanged at 26,103.
+- **Step 2, publish paste:** `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`. It publishes 1,056 providers (9,454 courses), with id-list md5 `a37d52ad…`.
+  - Two guards: still eligible now, and exactly 1,056 changed.
+  - Verified by a rolled-back dry run: 1,056 published; AU courses under published providers go from 14,930 to 24,384.
+  - Platform Admin to apply. Never applied by the agent.
+- **Held, each with a cause and owner:**
+  - 5 registration ended;
+  - 104 with no website;
+  - 147 whose site gave no course pages;
+  - 10 whose site has not been checked.
+- **Separate decision for the Platform Admin:** the 30 Sep held retirement of 563 courses no longer on the register (run `b8a541af`). 318 of them sit under the providers in the paste.
+- **Step 3:** `fees.countries` gains AU; `fees.provider_types` gains `higher_education_institute` and `university_college`. Logged.
+  - In the first 15 minutes: 217 new AU fee-schedule pages, 267 stored pages queued for the AI reader.
+- **Step 4:** MARK-FILE `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` (35 rows). It fills at most 27 courses now, and 4 of the 5 English defaults would be refused by the system's own check.
+
+### 26 Oct 2026 18:4x AEDT — AU completion week step 6 staged (#704); step 5 started
+
+- **#704 (`7a6f73cd`, rule 9): migration `20261026005000_cf247_entry_matrix_au_top20_staged.sql`.**
+  - Setting `entry.providers` holds the AU top 20: the Group of Eight plus the 12 largest other universities.
+  - `security.entry_matrix_enabled_v1` honours it (md5-guarded `a238a2c2…`).
+  - Test s124. Suite 1,003 passed. History md5 `59df4a0c`.
+  - Live: 20 listed, 0 enabled. `entry.matrix_enabled` stays 0 and `entry-matrix-read` stays inactive until the Platform Admin confirms.
+- **Step 5, description reader: started.**
+  - Draft branch `cf247-provider-description-reader`: settings, table, queue, and a worker interface with server-side rule checks. Not merged.
+  - It lands Wednesday with the worker mode and the Wollongong acceptance test.
+
+### 26 Oct 2026 19:45 AEDT — Gate hotfix v2.15.359 (#705): tuition identity check at the table for every fee writer (Platform Admin 19:27)
+
+- **Found:** Swinburne 087852C's 2027 fee ($36,300) was written live by `security.adapter_overwrite_v1` from an `exact_title` binding.
+  - The adapter's fee branch had no tuition identity check.
+  - For AU courses with CRICOS codes, it writes through `svc_coursefacts_apply_record`, past R1's check in `coverage_apply_course_v1`.
+  - 23 functions write `catalogue.course_fees`; 2 checked.
+  - The fee was quarantined at 19:27 under the Platform Admin's decision.
+- **Fix (migration `20261026006000_cf247_fee_identity_gate_all_writers.sql`):**
+  - trigger `course_fee_identity_gate` (BEFORE INSERT OR UPDATE): an international provider fee written live for a course whose bound page proof the country does not accept is stored unverified, with a Layer 4 item;
+  - a person's write and the manual-edit flag are exempt; setting `fees.identity_gate_on`;
+  - the `adapter_overwrite_v1` fee branch checks tuition identity first (md5-guarded `c96ca02c…`);
+  - test s125.
+- **Checks:**
+  - live dry run passed;
+  - suite 1,005 passed;
+  - history md5 `d3ab7249`;
+  - trigger body and adapter edit live byte for byte;
+  - release currentness v2.15.359.
+- AU tuition now accepts `cricos_code`, `adapter_code` and `manual` (Platform Admin 19:1x).
+- **Fee re-apply paste lodged:** `docs/platform/pastes/PASTE-20261026-au-fee-reapply.sql`, 386 items. Verified by a rolled-back dry run. Platform Admin to apply with the publish paste.
+
+### 26 Oct 2026 (night) — AER v1.1: schema live (#706); entry reader reads table rows whole, admin re-read (#707)
+
+- **#706 (`0dc6086d`), migration `20261026007000_cf247_aer_v11_entry_matrix_columns.sql`** (Platform Admin 21:50 "Schema approved"):
+  - six additive columns on `catalogue.provider_entry_matrix` (routes, valid_to, withdrawal_reason, row_hash, version, aer_level);
+  - indexes: row_hash unique where status = 'active', status, lookup (provider_id, country_code, study_level_id, benchmark_band, status);
+  - row identity `security.entry_matrix_row_hash_v1` filled by trigger `provider_entry_matrix_identity`; test s126;
+  - history md5 `c4efbc41`; live 31 → 37 columns, 3 indexes, trigger. Nothing dropped, renamed or updated.
+- **First reader runs (21:59–22:05), reader paused 22:05** (`entry.matrix_enabled` 0; the pause reason logged it as "23:2x", a clock error on my part — the event time is 22:05:15): 6 runs, 12 rows proposed, 2 Layer 4 items, US$0.02.
+  - 30 rows dropped `unknown_country`: `ref.countries` holds 8 countries. Adding countries is consumer-visible (G3), so it is a paste: `docs/platform/pastes/PASTE-20261026-ref-countries-for-entry-matrix.sql` (241 rows, trial-run and rolled back).
+  - 23 dropped `quote_not_on_page`: RMIT names the level once per group of table rows, so the whole-row quote was not on the plain text.
+- **#707 (`b0a0e0a9`), worker v0.48.1 + migration `20261026008000_cf247_entry_matrix_reread.sql`:**
+  - stored HTML is read with each table row as one line, a merged or blank first cell carried down inside its table; quotes are checked against the same text (prompt `entry-matrix-v0.1.1`, `page_basis` table-rows-v1);
+  - `public.admin_entry_matrix_reread(uuid[], text)`: Platform Admin (or database owner), reason required, logged; proposed rows and pending items superseded, earlier result kept in `previous_results` (new additive column); active rows never touched;
+  - test s127.
+- **Checks:** suite 1,012 passed; live dry run (rolled back) re-queued 2 runs, superseded 8 Canada rows and their item, kept the previous result; history md5 `bff1c614` matches the file; worker version 208, `index.ts` and `entry.ts` live byte for byte.
+- **Next:** after the countries paste is applied, re-read the 6 runs and switch the reader on again. VU and Federation wait for the PDF reader (step B).
+
+### 26 Oct 2026 22:38–22:47 — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
+
+Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, exactly as written … keep extraction paused until every acceptance check passes … stop and record the defect before coding").
+
+**Pause time reconciled.** The first reads ran 21:59–22:05 and the reader was paused at 22:05:15 (control event). Earlier notes saying "23:2x" or "23:0x" are clock errors on my part. That includes the pause reason and the paste header, which is left unedited because the paste is applied as written.
+
+**1. Countries paste: applied once, 22:42:00.** `docs/platform/pastes/PASTE-20261026-ref-countries-for-entry-matrix.sql`, file md5 `edc5ffa8…`, applied exactly as written. Its control event records the Platform Admin's id, as the paste is written; the agent ran it under the 22:38 authority.
+- Guards checked first: exactly AU,CA,DE,GB,IE,IN,NZ,US; no earlier `countries_paste` event.
+- After:
+
+  | Check | Result |
+  |---|---|
+  | Countries | 249 (8 + 241) |
+  | Code-list md5 | `8c4bd9d5…` |
+  | All 241 rows: code, alpha-3, numeric, name, official name | md5 `8469d52f…`, the same as the file byte for byte |
+  | Bangladesh, China, Cambodia, Malaysia (and Viet Nam) | present, `seed_only` |
+  | Ingestion or student-search flags on for the new rows | 0 |
+
+- **Consumers (G3):** the shape fingerprints match before and after for the Zoho country filter, the Zoho reference bundle, the Zoho AU provider search, website scholarships and website rankings.
+  - The country lists still return the same 3 countries (AU, NZ, CA): they list only countries with courses.
+  - Content hashes differ only by `generated_at`.
+  - `consumer_api_check_v1`: no drift (73 functions, 48 relations).
+
+**2. Six pages re-read** through `admin_entry_matrix_reread` (logged).
+- 6 runs re-queued; 12 earlier proposed rows and 2 pending items superseded; each earlier result kept in `previous_results`. No row was ever active.
+- The scheduled job `entry-matrix-read` was switched off (logged), and `entry.matrix_enabled` was set to 1 only for the hand-started worker call, then back to 0 (both logged). No new runs were queued.
+- Every row carries worker v0.48.1 and prompt `entry-matrix-v0.1.1`. Re-read cost US$0.029.
+- Side effect: the worker's fetch step stored 6 more RMIT pages (stored copies only, no AI read). 10 RMIT pages now hold stored copies with no run.
+
+| Page | Before (proposed / dropped) | After (proposed / rejected) | Published on the page | Reconciliation |
+|---|---|---|---|---|
+| RMIT Bangladesh | 0 / 11 | 11 / 0 | 11 minimums (HSC: Foundation, Fast Track, 3 diploma bands, 6 bachelor bands) | 11 = 11 |
+| RMIT China | 0 / 8 | 22 / 0 | 22 (Gao Er 2, Gao San 11, Gao Kao 9) | 22 = 22 |
+| RMIT Canada | 8 / 14 | 22 / 2 | 24 (Year 11 2, OSSD 11, Dogwood 11) | 22 + 2 rejected = 24. The OSSD Foundation and Fast Track rows ("Completion of Ontario Secondary School Diploma") were quoted from the footnote row, so they were rejected as `grade_not_in_quote`. That is correct |
+| RMIT Cambodia | 0 / 2 | 4 / 0 | 2 minimums + 1 merged "case-by-case, C grade average" cell spanning both level groups | 2 + 1 rule per level group (2) = 4 |
+| UTS | 4 / 19 | 40 / 5 | One page, many countries | 40 rows across 39 countries, 40 distinct identities |
+| WSU | 0 / 0 | 0 / 0 | — | Not published |
+
+- **Countries per RMIT page:** each page names one country and gives one. Bangladesh, China and Cambodia went from 0 to 1. Parity holds on all four.
+- **Carry-down:** every one of the 59 RMIT rows quotes its whole table line, starting with its level label ("Bachelor degrees | 70% | Not applicable | Minimum CGPA of 4.2"). Every band row's Australian-standard band is in its quote.
+- **UTS rejections stay rejected:**
+  - Malaysia UEC and Viet Nam: paraphrased quotes, `quote_not_on_page`;
+  - GB A Levels and US: grade not in the quote, `grade_not_in_quote`;
+  - "International Baccalaureate": not a country, `unknown_country`.
+- **WSU:** "not published", not an extraction miss. The HTML page states no country minimums ("International students are required to meet the same standards as Australian residents"). It links a "Download Entry Qualifications Table" PDF, which is likely where WSU's minimums are. That PDF is not seeded: adding it would widen scope. It is noted for the PDF reader.
+
+**3. Defect found (separate from #707). RMIT lane fails acceptance.** Recorded before any code.
+- **What:** the model leaves `benchmark_band` empty on every RMIT band-ladder row (0 of 59), although each quote holds the Australian-standard band (50%…90%). The rows are typed `provider_minimum`, not `band_ladder`.
+- **Effect:** rows of one level and qualification share an identity:
+
+  | Page | Rows | Identities |
+  |---|---|---|
+  | Bangladesh | 11 | 3 |
+  | China | 22 | 6 |
+  | Canada | 22 | 6 |
+  | Cambodia | 4 | 3 |
+
+  Approving any RMIT Layer 4 item would break the active-row identity rule: the approval fails, and nothing is admitted wrongly. Without the band, the rows also cannot say which RMIT score each grade equals.
+- **Do not approve** the 4 pending RMIT items (Bangladesh, China, Canada, Cambodia). The UTS item can be reviewed.
+- **Fix proposed (not built; needs your go):**
+  - tell the reader that a column of Australian-standard scores is the benchmark band for each row;
+  - check in the worker that a band given is in the quote, and drop a row whose quote shows a band it did not give (`band_missing`);
+  - test on the four RMIT pages;
+  - re-read through `admin_entry_matrix_reread`.
+
+**4. Lanes.**
+- Not re-enabled. The acceptance condition (all non-PDF pilot checks pass) is not met, because RMIT fails on the band defect.
+- UTS and WSU pass their checks. Re-enabling them would read nothing new tonight: one page each, already read, unchanged.
+- State: `entry.matrix_enabled` 0, job `entry-matrix-read` inactive, 0 open runs.
+- VU and Federation stay halted for the PDF reader (`pdf_step_b`).
+
+### 26 Oct 2026 23:05 — AER v1.1: RMIT benchmark-band fix (#708), written before merge (merged 23:06)
+
+Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT benchmark-band fix … merge its PR under rule 9 when every gate passes").
+
+- **Defect (recorded 22:47):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
+- **Second cause, found before coding:** RMIT's Foundation Studies and University Pathways Fast Track both map to the foundation study level and print no band. With the band alone, Bangladesh would give 10 identities for 11 rows.
+- **Fix (PR #708, branch `cf247-entry-band`):**
+  - **Worker v0.48.2, prompt `entry-matrix-v0.1.2`:**
+    - each table line carries the band its "Australian standard" column prints;
+    - a row whose whole-row quote shows that band but gives none is rejected (`band_missing`);
+    - a band not in the quote (`band_not_in_quote`), different from the printed one (`band_mismatch`), or ambiguous between matching lines (`band_ambiguous`) is rejected;
+    - the band kept is the printed one, never inferred.
+  - **Migration `20261026009000_cf247_entry_matrix_band_identity.sql`** (two md5-guarded edits, nothing dropped):
+    - `entry_matrix_identity_tg` (`86ddafc3…`): the row's level label joins the condition keys of the existing identity as `level: <label>`, as the qualification name did in #706. The hash function and status values are unchanged.
+    - `entry_matrix_review_apply_v1` (`e3f02aaa…`): approval refuses a run whose proposed rows share an identity (raises; nothing changes).
+  - **Tests:** s128 is new (carried-down label, band extraction, missing-band rejection, identity separation). s127 now accepts the new worker and prompt versions. The test register is regenerated.
+- **Gates:**
+  - suite 1,017 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): approval of the pending Bangladesh item refused ("proposed rows share an identity"). With the printed bands, Bangladesh has 11 rows and 11 identities (3 before). 0 active rows.
+- **Next:**
+  1. Verify live md5s just before the merge.
+  2. Merge, then verify the deployed migration and worker.
+  3. Re-read the four RMIT pages and run the acceptance checks.
+  4. Restore only the eligible non-PDF lanes, if the controls allow it without the PDF lanes.
+
+### 26 Oct 2026 23:11 — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
+
+- **Merge:** #708 squash `832b5717`.
+  - Gates: suite 1,017 passed (0 failed, 0 skipped); live dry run passed; change control written before merge.
+  - Live md5s just before merge: `entry_matrix_review_apply_v1` `e3f02aaa…`, `entry_matrix_identity_tg` `86ddafc3…`, both equal to the guards.
+- **Deployed, checked against the repo:**
+  - `deploy-on-merge` applied `20261026009000`; history md5 `8dd0ceba` matches the file;
+  - `entry_matrix_identity_tg` live md5 `915df18e…` equals the guarded original with the edit applied, byte for byte;
+  - `entry_matrix_review_apply_v1` live md5 `76cce959…`: reverting the edit gives `e3f02aaa…`;
+  - `entry_matrix_row_hash_v1` unchanged (`a5127baf…`);
+  - worker version 209: `index.ts`, `entry.ts` and `extract.ts` byte for byte.
+- **Re-read of the four RMIT pages only** (`admin_entry_matrix_reread`, logged): the 59 earlier proposed rows and the 4 unsafe items were superseded, and each earlier result was kept in `previous_results`. The scheduled job stayed off and the reader setting was 1 only for the hand-started call.
+- **First post-fix read of China: 13 of 22.** The whole Gao Kao column (9 rows) was left out by the model; nothing was dropped. One repeat read (logged) gave 22 of 22. **The omission does not repeat reliably, which makes it a completeness risk** (open item below).
+- **Acceptance (live, worker v0.48.2 on every row):**
+
+  | Page | Published (table rows with a minimum) | Proposed | Distinct identities | With band | Rejected |
+  |---|---|---|---|---|---|
+  | Bangladesh | 11 | 11 | 11 (3 before) | 9 band rows + 2 non-band | 0 |
+  | China | 22 | 22 | 22 (6 before) | 18 + 4 | 0 (repeat read) |
+  | Canada | 24 | 24 | 24 (6 before) | 18 + 6 | 0 |
+  | Cambodia | 11 | 11 | 11 (3 before) | 9 + 2 | 1 (`band_missing`) |
+  | **Total** | **68** | **68** | **68** | **54 + 14** | 1 |
+
+  - **Canada** is now 24 proposed, not 22 + 2. The two OSSD rows the earlier read quoted from the footnote are now quoted from their own cells.
+  - **Cambodia** is 11 rows, not the 4 expected. The merged "case-by-case, C grade average" cell spans all 9 band rows, and the fixed reader gives one row per band, each with its band in the quote: 9 rows plus Foundation and Fast Track. That matches the source table row for row. The earlier 4 was one row per level group with no band.
+  - **No collapse remains** through a missing band or level: 68 rows, 68 identities, 0 rows whose quote shows a band they lack.
+  - **Missing-band guard, live:** one Cambodia row ("Diploma/Associate degrees | 50% | … Assessed on a case-by-case basis …") came back without its band and was rejected as `band_missing` before it could be proposed.
+- **Evidence:**
+  - every proposed row's quote was checked on the stored page by the worker;
+  - all 54 band rows quote their whole line, starting with the level label (the carry-down holds);
+  - 6 Canada Foundation and Fast Track rows quote only their cell ("Completion of Ontario Secondary School Diploma"). Those quotes are on the page, but they do not prove which level. The reviewer should check those 6.
+- **Unsafe items:**
+  - the 4 pre-fix RMIT items, the 2 from the first re-read and China's 13-row interim item are superseded (7 in all);
+  - a rolled-back probe tried to approve each of the 7: all were refused ("no entry matrix run for this review item");
+  - the new approval guard refuses any run whose rows share an identity;
+  - active rows: 0.
+- **Lanes restored (logged):**
+  - `entry.providers` narrowed to RMIT, UTS and WSU. Both VU records and Federation were taken out, so search discovery cannot add HTML pages for them;
+  - `entry.matrix_enabled` 1; job `entry-matrix-read` active;
+  - `entry_matrix_enabled_v1` is true for exactly 3 providers: RMIT, UTS and WSU.
+  - VU and Federation stay halted for the PDF reader. WSU's linked Entry Qualifications Table PDF is not added.
+- **Pending review:** 5 items (UTS 40 rows; RMIT Bangladesh, China, Canada, Cambodia). New RMIT pages will land as proposed rows with a Layer 4 item each. Nothing is admitted without review.
+- **Open:**
+  1. **Completeness risk.** The model can leave out a whole qualification column, and no gate detects it. Proposed guard (needs a go): compare the rows a read gives with the table's band rows and qualification columns, and hold a read that falls short. Until then, reviewers should count the rows against the page.
+  2. The 6 Canada rows that quote only their cell.
+  3. PDF reader for VU, Federation and WSU's linked table.
+
+### 26 Oct 2026 23:35 — AER v1.1: source-anchored completeness guard (#709), written before merge
+
+Authority: Platform Admin 26 Oct 2026 23:16 ("Build and release the source-anchored completeness guard … merge under rule 9 when every gate passes").
+
+- **Containment, 23:16:49 (logged):** `entry.providers` was narrowed from RMIT, UTS and WSU to UTS and WSU. RMIT is paused at provider level; UTS and WSU are unchanged.
+  - Before the pause, the 23:14 cycle read 3 RMIT pages: Germany 11 rows, Colombia 2, Mexico 6. Their review items have no verdict; the new guard refuses them.
+  - 12 RMIT runs queued at 23:14 are frozen without being read.
+- **Why:** after #708, a China read gave 13 of 22 published minimums (the whole Gao Kao column left out). Nothing was dropped, and it was proposed for review. Separately, 6 Canada rows quoted only their cell.
+- **Fix (PR #709, branch `cf247-entry-completeness`):**
+  - **Worker v0.48.3, prompt `entry-matrix-v0.1.3`:**
+    - `entryManifest` builds, from the stored page, every minimum its band tables publish: qualification columns and headings, the band column, carried level labels, merged cells. Grading and calculation rows count as footnotes; a repeated copy of a table counts once.
+    - `entryCompleteness` matches each kept row to exactly one entry. The quote must be the entry's table line, showing the level and the band; the grade must be in the entry's own cell; the level, band and column must be right; the country must be named on the page.
+    - Any omitted column or row, misplaced cell, cell-only quote, duplicate or unexplained row holds the whole read. A band table the guard cannot read is held before any AI read.
+  - **Migration `20261026010000_cf247_entry_matrix_completeness_guard.sql`:**
+    - setting `entry.completeness_providers` (RMIT);
+    - new function `security.entry_completeness_required_v1`;
+    - md5-guarded edits:
+
+      | Function | Guarded md5 | Change |
+      |---|---|---|
+      | `svc_entry_matrix_next` | `4b5a59da…` | each item says whether its provider is under the guard |
+      | `svc_entry_matrix_record` | `d80183c6…` | a read under the guard without a complete verdict proposes nothing; the read is kept in `previous_results` and retried within `entry.matrix_attempts`; an unreadable page is failed, not re-read |
+      | `entry_matrix_review_apply_v1` | `76cce959…` | approval (and the changed-page auto-admit) refused without a complete verdict |
+
+    - No new states or statuses. Nothing dropped.
+  - **Tests:** s129 is new. It covers:
+    - China with Gao Kao omitted: 13 rows, held;
+    - China complete: 22 rows, passes;
+    - Cambodia's merged cell and carried labels;
+    - Canada's footnote quote refused, and its whole-line OSSD rows passing;
+    - cell-only quotes refused (6, `level_not_evidenced`);
+    - wrong level and wrong column;
+    - duplicates;
+    - an unreadable table;
+    - a repeated table.
+
+    s127 and s128 now accept the new versions. The test register is regenerated.
+- **Gates:**
+  - suite 1,024 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back):
+    - 13-row China read held: 0 proposed, read kept, re-queued;
+    - a read with no verdict held;
+    - third held attempt failed;
+    - complete 22-row read proposed and approved (22 active);
+    - pre-guard Germany RMIT run refused;
+    - UTS still approvable.
+- **Next:**
+  1. Verify live md5s just before the merge.
+  2. Merge, then verify the deployed functions and worker and check release currentness.
+  3. Re-read the four RMIT pages.
+  4. Live negative and positive guard tests.
+  5. Restart RMIT only if all four pass.
+
+### 27 Oct 2026 00:02 — #709 merged and verified live; RMIT acceptance under the guard passed; RMIT restarted; #710 (complete admission) written before merge
+
+**#709, merged 23:36:33** (squash `e15166bc`).
+- Live md5s just before merge equalled the guards (`svc_entry_matrix_next` `4b5a59da…`, `svc_entry_matrix_record` `d80183c6…`, `entry_matrix_review_apply_v1` `76cce959…`), and the new objects were absent.
+- `deploy-on-merge` applied `20261026010000`; history md5 `7b712633` matches the file.
+- Each of the three edited functions, with its edits reversed, equals its guarded original byte for byte. The setting `entry.completeness_providers` holds RMIT.
+- Worker version 210: every coverage-sweep file is byte for byte the repo's.
+- **Release currentness:** it runs only when release files change, so it had not run for #706–#709. Run by hand on `e15166bc` (run 40325241884): passed.
+
+**Acceptance reads, under the guard, 23:44–23:49.** The scheduled job was off. RMIT was in scope only for one hand-started call, and only the 4 re-read runs (the oldest) were taken. RMIT was out of scope again once they were leased. All logged.
+
+| Page | Published (manifest from the stored page) | Matched | Proposed | Identities | Held or rejected |
+|---|---|---|---|---|---|
+| Bangladesh | 11 | 11 | 11 | 11 | 0 |
+| China | 22 (Gao Er 2, Gao San 11, Gao Kao 9) | 22 | 22 | 22 | 0 |
+| Canada | 24 (Year 11 2, OSSD 11, Dogwood 11) | 24 | 24 | 24 | 0 |
+| Cambodia | 11 (2 + 9 rows of the merged case-by-case cell) | 11 | 11 | 11 | 0 |
+
+- All 68 rows came in on the first attempt, with verdict `complete` (`manifest-v1`).
+- **Canada's six short quotes are resolved.** All six Foundation and Fast Track rows now quote their whole table line, which starts with the level. Every quote of all 68 rows starts with its level label.
+- **Cambodia's rejected row:** the read at 23:08 (before #709) rejected one row as `band_missing`. It repeated the Diploma 50% case-by-case row without its band, and the same row came in again with its band. That read is kept in `previous_results`. The acceptance read rejected nothing.
+
+**Live rolled-back tests on the real China run (deployed functions).**
+- **Negative:**
+  - the Gao Kao column removed, 13 rows: held, 0 proposed, run re-queued, no item;
+  - the same 13 rows with no verdict: held ("no complete verdict (missing)"), 0 proposed;
+  - the superseded earlier item: approval refused.
+- **Positive:** the complete 22-row read was proposed, and approval made 22 rows active with 22 distinct identities.
+- **Gap found:** approving the complete read with the Gao Kao rows *excluded by the reviewer* admitted 13 rows. A complete read could be admitted in part. Closed by #710 below.
+
+**RMIT restarted at 23:51** (logged):
+- the 3 pages read at 23:14 before the guard (Germany, Colombia, Mexico) were re-read under it;
+- `entry.providers` = RMIT, UTS, WSU; job `entry-matrix-read` active;
+- 3 providers enabled; VU (both records) and Federation off;
+- 15 RMIT runs queued. No approvals are pending tonight.
+
+**#710 (PR, branch `cf247-entry-complete-admission`), written before merge.**
+- Migration `20261026011000_cf247_entry_matrix_complete_admission.sql`, an md5-guarded edit of `entry_matrix_review_apply_v1` (`9386a7be…`): under the guard, approval admits only when the rows it would make active are exactly the rows the complete verdict matched. Excluding rows, or rows missing since the verdict, refuses the approval; the reviewer rejects the whole run instead. UTS is unchanged.
+- Test s130; test register regenerated.
+- Suite 1,025 passed, 0 failed, 0 skipped.
+- Live dry run (rolled back, real China run):
+  - Gao Kao excluded at approval: refused ("13 of the 22 rows the complete read matched would be admitted");
+  - Gao Kao rows removed since the verdict: refused;
+  - whole read: 22 active;
+  - UTS: approvable.
+
+### 27 Oct 2026 00:08 — #710 merged and verified live; RMIT lane under the guard; RMIT paused 00:06 for a band-normalisation defect
+
+**#710, merged 00:03:50** (squash `cb062640`).
+- Live md5 of `entry_matrix_review_apply_v1` just before merge equalled the guard (`9386a7be…`).
+- `deploy-on-merge` applied `20261026011000`; history md5 `9cee3b80` matches the file. With the edit reversed, the live function equals the guarded original byte for byte (live md5 `f1152d19…`).
+- Release currentness, run by hand on `cb062640` (run 40327511679): passed.
+- **Live rolled-back tests on the real complete China run (deployed functions):**
+  - negative, Gao Kao column excluded at approval: refused ("13 of the 22 rows the complete read matched would be admitted");
+  - negative, Gao Kao rows removed since the verdict: refused;
+  - positive, the whole read: 22 active, 22 identities.
+  - Active rows after the tests: 0.
+
+**RMIT lane, 23:51–00:06 (restart to pause).** Of the 32 RMIT pages besides the four acceptance pages:
+
+| Measure | Count |
+|---|---|
+| Attempted (AI reads) | 8 pages, 12 reads |
+| Complete | 2 (India 33 of 33, Japan 11 of 11). Items pending review |
+| Held by the guard | 6 pages, 10 held reads, each kept whole in `previous_results` |
+| Retried | 4 pages, once each (Colombia, Denmark, Foundation equivalencies, Hong Kong) |
+| Failed | 0 (no run reached `entry.matrix_attempts`) |
+| Admitted | 0 (no approvals; active rows 0) |
+| Not yet attempted | 24 pages (23 queued runs, 1 stored page not yet queued) |
+| **Silent partial reads** | **0**. Every read either matched its whole manifest or was held |
+
+RMIT review items pending: 6 (Bangladesh, China, Canada, Cambodia, India, Japan), all with complete verdicts. RMIT AI spend to date: US$0.16.
+
+**Holds, by cause:**
+1. **Defect D1: "Not applicable" kept as a band** (Hong Kong, International Baccalaureate).
+   - The reader gives `benchmark_band` = "Not applicable" for Foundation and Fast Track rows. The page prints that in the Australian-standard column to mean no band.
+   - The #708 band check keeps it, because it is in the quote. The guard then correctly refuses the rows (`wrong_band`).
+   - Every retry repeats it, so these pages would exhaust their attempts and end `failed`.
+2. **Column left out by the reader** (Colombia, Denmark, Indonesia): whole qualification columns missing. These are the omission the guard exists to catch. Whether each column is a genuine minimum, or a column the manifest should not expect (for example a case-by-case column), is still to be checked against the stored pages.
+3. **Defect D2: special pages that are not country equivalency tables.**
+   - "Foundation equivalencies" has a table headed with "Australian standard" whose other columns are English requirement, academic requirement and prerequisites. The manifest counts them as qualification columns; the reader rightly skips English rows. That page will always be held.
+   - The International Baccalaureate and Global Assessment Certificate pages name a qualification, not a country.
+4. **Gap D3:** `admin_entry_matrix_reread` re-reads only `done` runs. A run that exhausts its attempts and ends `failed` cannot be brought back through the logged mechanism.
+
+**Containment:** RMIT out of `entry.providers` at 00:06 (logged). All its runs stay `queued` with their attempts intact. UTS and WSU are unchanged; VU and Federation are out.
+
+**Proposed (needs a go; not built):**
+- **D1:** a band printed as "Not applicable" (or blank) is no band. It is normalised to null in the reader's band check, deterministically: no inference, and the guard's comparison is unchanged.
+- **D3:** the logged re-read also takes `failed` runs, earlier results kept.
+- **D2:** the manifest counts only qualification columns, not requirement-type columns (English, prerequisites). Special non-country pages are held as `unparsed`, not retried. Or they are taken out of the RMIT pilot by your decision.
+- Then re-read the held pages under the guard and restart RMIT.
+
+### 27 Oct 2026 05:15 — AER v1.1: RMIT D1–D3 (#711), written before merge; triage of Colombia, Denmark and Indonesia
+
+Authority: Platform Admin 27 Oct 2026 04:58 ("Build D1–D3 and merge under rule 9 … Keep the three D2 pages in the pilot's evidence history, but hold them as non-country/unreadable sources without further automatic retries").
+
+**Triage against the stored pages** (the manifest is built from each stored page, so it shows what the source publishes):
+
+| Page | Column in the source? | What happened | Classification |
+|---|---|---|---|
+| Denmark | Yes (HHX/HTX and Folkeskolens: Foundation and Fast Track cells) | The reader read both columns but gave "Not applicable" as the band; the guard refused them (`wrong_band`) | **D1**: resolved by this change |
+| Colombia | Yes: one merged "Assessed on a case-by-case basis…" cell across the 9 band rows | The reader gave 9 rows for it. On attempt 2 every grade was outside its quote (`grade_not_in_quote`); on attempt 3 every row lacked its band (`band_missing`). Both refusals are correct | **D4 (reader defect, recorded): merged case-by-case column misread.** Held with this evidence; not forced |
+| Indonesia | Yes: 4 qualification columns, 25 minimums | The reader put band-row grades under the wrong qualification column (11 rows under SMA2, whose band cells are "Not applicable") and dropped others (`band_missing` 9, `band_mismatch` 11, `grade_not_in_cell` 9) | **D4 (reader defect, recorded): column misassignment on a 4-column table.** Held with this evidence; not forced |
+
+D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has 1 attempt left and Indonesia 2. The guard refuses any partial read, and D3 brings them back once D4 is fixed.
+
+**Fix (PR #711, branch `cf247-entry-d1-d3`):**
+- **D1 (worker v0.48.4):**
+  - a band given as the page's own "Not applicable" (or N/A, or a dash) is no band where the quoted line prints none in its band column; the quote keeps the source text;
+  - on a line that prints a band, "Not applicable" or an absent band is `band_missing` (the missing-band guard is not weakened);
+  - the #708 identity is unchanged: Foundation and Fast Track stay distinct by their level labels, with no band manufactured.
+- **D2:**
+  - under the completeness guard, a table that is not one country's is held as `held_unparsed` before any AI read:
+    - requirement-type columns (English requirement, academic requirement, prerequisites: Foundation equivalencies);
+    - or a heading (h1 and title) that names no country of `ref.countries` (International Baccalaureate, Global Assessment Certificate). The longest name wins ("Nigeria" over "Niger"); an alpha-3 code counts only as its own word ("USA");
+  - the record function (#709) already makes `held_unparsed` terminal: state failed, no retry, the read kept;
+  - new `public.svc_entry_country_refs_v1()` (service role) gives the worker the list;
+  - from now on, verdicts record the page heading.
+- **D3:** `admin_entry_matrix_reread` (md5-guarded `cec71585…`) also takes failed runs. The earlier result keeps its state, error, the attempts it used and `earlier_index` (its link to what came before). The run starts its own attempts again. Proposed rows and pending items are superseded as before, so nothing is proposed or admitted twice.
+- **Tests:** s131 is new. It covers:
+  - D1 "Not applicable" becoming no band, with the source text kept;
+  - an absent band (null, empty, "Not applicable", "N/A") on a band line still refused;
+  - Foundation and Fast Track identity separation with no band;
+  - the D2 shapes (IB, GAC, Foundation equivalencies held; the RMIT country headings checked against the live 249-country list, fixture md5 `e5698bb8…`, equal to live);
+  - D2 before the AI read and terminal;
+  - D3 history and attempts;
+  - #709 and #710 still enforced.
+
+  s129 now accepts v0.48.4. The test register is regenerated.
+- **Gates:**
+  - suite 1,032 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): country refs 249. The real Colombia run, set failed after three held reads, came back through the re-read: queued, attempts 0, history 3 → 4 (state failed, error, attempts_used 3, earlier_index 3), 0 proposed.
+
+### 27 Oct 2026 05:30 — #711 merged and verified live; D1 and D2 proven live; new parser defect D5; RMIT paused again
+
+**#711, merged 05:24:24** (squash `de31e8c1`).
+- Live md5s just before merge:
+  - `admin_entry_matrix_reread` `cec71585…`, equal to the guard;
+  - `svc_entry_matrix_next` `f992b7fc…`, `svc_entry_matrix_record` `e1a130e2…` and `entry_matrix_review_apply_v1` `f1152d19…`, unchanged since #710;
+  - `svc_entry_country_refs_v1` absent.
+- `deploy-on-merge` applied `20261027001000`; history md5 `7328012c` matches the file.
+- The re-read function with its edits reversed equals `cec71585…` byte for byte. The body of `svc_entry_country_refs_v1` equals the file's (md5 `28125f63…`). It returns 249 countries and is executable by `service_role` only.
+- Worker version 211: all 17 deployed files byte for byte the repo's (the coverage-sweep modules and the `_shared` register modules).
+- Release currentness, run by hand on `de31e8c1` (run 40377612045): passed.
+
+**Acceptance reads, 05:27 (scheduled job off; RMIT in scope for one hand-started call, then out at 05:27:47; all logged):**
+
+| Check | Result |
+|---|---|
+| **D1 (Hong Kong)** | **11 of 11 complete** on its third attempt. Foundation and Fast Track carry no band, their quotes keep "… \| Not applicable \| …", and they have 2 distinct identities |
+| **D1 (Denmark)** | The `wrong_band` refusals are gone: the HHX/HTX and Folkeskolens Foundation and Fast Track rows now read. The run is still held, for a different reason: the reader skipped 8 band rows whose cell repeats the band above ("Average of 7" at both 70% and 75%). Failed after 3 attempts; recoverable through D3 |
+| **D2 (Global Assessment Certificate)** | `held_unparsed: not a country table: no country named in the page heading`. Held before any AI read, terminal (state failed), 0 retries left |
+| **D2 (International Baccalaureate)** | Same reason; held before any AI read, terminal |
+| **D2 (Foundation equivalencies)** | `held_unparsed: not a country table: requirement-type columns, not qualifications (English Requirement 1; Academic Requirement; Prerequisites)`. Terminal |
+| **India / Japan / China** | Unchanged and still complete: 33/33, 11/11, 22/22 (Gao Kao 9 included), identities equal rows, items pending |
+| **Newly complete under the guard** | Germany 11/11, Kenya 9/9, Malaysia 22/22, Mauritius 13/13, New Zealand 11/11. Each verdict now records its heading (for example "Germany \| Germany \| Academic Entry Requirements") |
+
+**New parser defect D5 (mine, in the manifest; recorded before any code).**
+- **What:** `entryManifest` checks every row's cell count against the header *before* it recognises a footnote row, and refuses a data row shorter than the header.
+- **Kuwait:** held as `held_unparsed: a row has 4 cells, the header 3: Grading / Calculation System | …`. The footnote row is wider than the header.
+- **Mexico:** held as `held_unparsed: a row has 3 cells, the header 4: Bachelor degrees | 80% | Not applicable`. Probably trailing empty cells left out of the HTML.
+- Both are genuine country tables, now terminally held. D3 can bring them back once D5 is fixed.
+- **Fix to propose (not built):**
+  - recognise footnote rows before the width check;
+  - pad a short row with blanks only when the missing cells are trailing and no merged cell from above spans them; otherwise stay `unparsed`. Padding the wrong way would make the manifest under-count, and a short read could then pass.
+- **RMIT taken out of scope at 05:27:47 (logged)** so no further page can be falsely held while D5 is open.
+
+**Reader defect D4 (recorded at 05:15), wider than first seen.**
+- **Merged "+ first year at university" case-by-case column left out or misread:** Colombia (failed after 3 attempts), Nepal and Nigeria (held, 1 attempt used).
+- **Column misassignment:** Indonesia (held, 2 attempts used) and Norway (`grade_not_in_cell`, held, 1 attempt used).
+- **Repeated values across bands skipped:** Denmark (see above).
+- Pakistan and Philippines are held with "6 rows not explained (not_a_table_row)": rows from outside the band table. Still to be triaged against their stored pages.
+- Every one of these was held whole by the guard. **No silent partial read; 0 rows active.** No proposed row lacks a complete verdict.
+
+**Per-page state, RMIT (36 pages):**
+
+| State | Count | Pages |
+|---|---|---|
+| Passed (complete, in review) | 12 | Bangladesh, Cambodia, Canada, China, Germany, Hong Kong, India, Japan, Kenya, Malaysia, Mauritius, New Zealand |
+| Source-held (D2, terminal by decision) | 3 | Foundation equivalencies, International Baccalaureate, Global Assessment Certificate |
+| Parser defect D5 (terminal; recoverable by D3) | 2 | Kuwait, Mexico |
+| Reader defect D4 (failed; recoverable by D3) | 2 | Colombia, Denmark |
+| Held, attempts remaining (queued) | 7 | Indonesia (2 used), Nepal, Nigeria, Norway, Pakistan, Philippines (1 used each), Singapore (0; returned for time budget) |
+| Not yet attempted (queued) | 9 | Saudi Arabia, South Korea, Sri Lanka, Taiwan, Thailand, United Arab Emirates, United Kingdom, USA, Vietnam |
+| Stored, not yet queued | 1 | Qatar |
+
+**Lanes:**
+- RMIT out of scope (D5).
+- `entry-matrix-read` active again at 05:29 for UTS and WSU only; 2 providers enabled.
+- VU and Federation excluded.
+- RMIT AI spend to date: US$0.21.
+
+### 27 Oct 2026 05:57 — AER tooling: read-only `entry_inspect` (#712), written before merge
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tests "must use the stored source pages"). Decision recorded 05:50, before code.
+- **Worker v0.48.5:** read-only mode `entry_inspect`. For at most 12 entry-matrix sources it returns the stored copy's `<h1>`, `<title>` and raw `<table>` markup (capped at 120,000 characters), the content hash and the sha256 of the stored text. No AI call, no web fetch, no write.
+- **Migration `20261027002000_cf247_entry_matrix_inspect_paths.sql`:** `public.svc_entry_matrix_inspect_paths(uuid[])`, read-only, service role only. Nothing dropped; the consumer API is not touched.
+- **Test:** s132 (read-only: no AI, fetch, upload or record call; service role only). Test register regenerated.
+- **Gates:**
+  - suite 1,034 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): the paths for Kuwait and Mexico are returned with their content hashes.
+- Kept apart from D5, so the parser PR stays one change with attributable evidence.
+
+### 27 Oct 2026 06:23 — #712 merged and verified; stored pages captured; D5 (#713) written before merge
+
+**#712 (read-only `entry_inspect`), merged 05:59:18** (squash `0c04c703`).
+- Before the merge, the new function was absent live.
+- `deploy-on-merge` applied `20261027002000`; history md5 `a510d9f9` matches the file. The function body is byte for byte the file's (md5 `ce67bb7d…`), and it is not executable by `authenticated`.
+- Worker version 212: all 17 files byte for byte the repo's.
+- Release currentness, run by hand on `0c04c703` (run 40382939223): passed.
+
+**Stored pages captured (06:00):** `entry_inspect` returned the title, h1 and table markup of all 36 RMIT stored copies. Each was written to `tests/fixtures/entry-matrix/rmit-stored/` and its md5 checked against the database copy (36 of 36). With the live parser, every complete page reproduces its live expected count, and the D2 pages their holds.
+
+**D5 design addendum (06:1x, before the final code):**
+- Browsers show a short row's cells from the left. A cell missing in the middle therefore shifts the others; s129's "broken" case shows this.
+- So a padded row is accepted only when its band cell is blank, "Not applicable", or the same shape as the band cells of the table's full rows ("80%").
+- With no full row to compare, a short row is not understood (fail closed).
+- Pre-existing behaviour noted, not changed: a blank label on the first data row is carried down from the header row (#707). It cannot pass silently, because no reader gives that level; out of D5's scope.
+
+**D5 (PR #713, branch `cf247-entry-d5`), parser only, no migration:**
+- Worker v0.48.6: a footnote row is recognised before any width check (Kuwait: `colspan="3"` under a three-column header).
+- A data row whose trailing cells were left out is read with them blank (Mexico 80%), unless:
+  - a merged cell from above spans a column past its end (new `covered` flag from `entryTables`), or
+  - its band cell does not read as a band.
+
+  Both stay `unparsed`, as does a wider data row.
+- **Evidence (s133, on the stored copies):**
+  - Kuwait reads 11 minimums, footnote recognised; Mexico reads 6, as printed;
+  - a short read, an omitted column, an omitted band and a footnote row cannot pass;
+  - 34 other pages keep their manifest and page text byte for byte (pre-D5 fingerprints);
+  - the 12 runs complete under the guard stay complete with their own 189 proposed rows, one identity per row;
+  - D1 and D2 unchanged.
+- Suite 1,042 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests are the pre-merge evidence.
+
+### 27 Oct 2026 06:28 — Checkpoint 1: D5 merged and verified (#713)
+
+- **Merged 06:24:57** (squash `b94c2df7`).
+- Just before the merge, the entry-matrix functions it runs against were unchanged:
+
+  | Function | md5 |
+  |---|---|
+  | `svc_entry_matrix_next` | `f992b7fc…` |
+  | `svc_entry_matrix_record` | `e1a130e2…` |
+  | `entry_matrix_review_apply_v1` | `f1152d19…` |
+  | `admin_entry_matrix_reread` | `ca394b60…` (#711) |
+
+- `deploy-on-merge` succeeded (worker only, no migration). Worker version 213: all 17 files byte for byte the repo's, `index.ts` at v0.48.6.
+- Release currentness, run by hand on `b94c2df7` (run 40386670555): passed.
+- **Recovery reads wait** (mandate C: after D4 and D5 are both verified). Kuwait and Mexico stay failed, and RMIT stays out of scope.
+- **Recovery mechanism gap, recorded:** the queue takes RMIT runs in creation order, so a hand-started call cannot be aimed at named runs. It would also take the 7 held and 9 unread pages, which the mandate forbids before D4. Targeted recovery needs either a run filter on the hand-started call (a small tooling change, decided separately) or waiting for D4 so that every queued RMIT page may run.
+
+### 27 Oct 2026 06:48 — D4 (#714), written before merge
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B: D4 as one separate reader-correctness PR). Triage and design recorded 06:35, before code.
+- **Worker v0.48.7, prompt `entry-matrix-v0.1.4`:**
+  - **Cell list:** when a one-slice stored page has a band table the manifest can read, the reader's request lists the published cells in printed order (level, band, printed column, cell, whole line) and asks for exactly one row per listed cell. A cell list in each slice of a multi-slice page would ask for cells twice, so multi-slice pages are read as before.
+  - **No-minimum filter:** `entryDropNoMinimum` drops, before the guard, a row whose quoted table line publishes no minimum (every qualification cell blank or "Not applicable"), as `no_minimum_published`.
+  - `entryManifestDetail` returns the manifest unchanged plus those empty lines (s133 fingerprints still pass).
+- **Unchanged:** the completeness guard (the independent check), whole-run approval, identity, D1–D3 and D5. No expected count is lowered.
+- **Evidence (s134, on the stored pages and the actual held reads):**
+  - Denmark: all 22 cells listed, including "Average of 7" on three band rows (65/70/75%);
+  - Colombia, Nepal and Nigeria: the merged case-by-case cells listed on each band row (9/6/6);
+  - Indonesia: three printed columns at 50%. Norway: its 11 cells;
+  - a read that follows the list passes the guard on all eight pages;
+  - Pakistan and Philippines: the held reads, replayed, lose only their six "Not applicable" rows and are complete (5/5, 7/7);
+  - the other six held reads, replayed, stay held. Nothing incomplete passes without a new read.
+- **Gates:** suite 1,050 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests and replays are the pre-merge evidence.
+
+### 27 Oct 2026 06:59 — D4 (#714) verified; controlled RMIT recovery; AER stopped at new defect classes
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B and C).
+
+**D4 post-merge (#714, squash `ba1cce46`, merged 06:49:32):**
+- `deploy-on-merge` succeeded (run 40390185784), worker only.
+- Worker version 214: all 17 deployed files byte for byte the repo's at `ba1cce46` (`coverage-sweep-worker-v0.48.7`).
+- Release currentness, run by hand on `ba1cce46` (run 40390267777): passed.
+- The entry-matrix functions were unchanged just before the merge.
+
+**Recovery (all logged in `admin_control_events`):**
+- 06:54:10: the re-read function's md5 was checked (`ca394b60…`, as guarded). D3 re-read Kuwait and Mexico (D5) and Denmark and Colombia (D4). Their earlier failed results were kept with state, error and attempts used (1, 1, 3, 3), each linked by `earlier_index`. These four failed reads proposed nothing, so nothing was superseded.
+- In the same transaction:
+  - `entry-matrix-read` was switched off;
+  - RMIT was put back in `entry.providers`.
+- The last scheduled call (fired 06:54:00) reached the worker after the commit and took the first four runs.
+- Hand-started calls at 06:54:39 (2) and 06:55:45 (3), limit 4 each. Qatar was enqueued at 06:55:51 through the existing `entry_matrix_enqueue_v1`.
+- The 12 complete pages were not re-read. The 3 D2 pages stayed terminal, with no retry.
+- Reads ended about 06:57. RMIT queue: 0 leased.
+
+**Outcome: 36 RMIT pages**
+
+| Outcome | Pages | Detail |
+|---|---|---|
+| **Complete, in review (earlier, not re-read)** | 12 | Bangladesh 11, Cambodia 11, Canada 24, China 22, Germany 11, Hong Kong 11, India 33, Japan 11, Kenya 9, Malaysia 22, Mauritius 13, New Zealand 11 |
+| **Complete, in review (this recovery)** | 13 | Colombia 11, Denmark 22, Indonesia 25, Kuwait 11, Mexico 6, Nepal 11, Pakistan 5, Philippines 7, Saudi Arabia 2, South Korea 22, Taiwan 26, UAE 2, USA 24 |
+| **Non-country, terminal hold (D2)** | 3 | Foundation equivalencies, International Baccalaureate, Global Assessment Certificate. No retry |
+| **Legitimate source hold** | 0 | |
+| **Still defective: guard (new class G1)** | 3 | Sri Lanka, Thailand, United Kingdom. The guard's column match ignores one-character words, so two columns that differ only by one tie, and a correctly read row is refused as `qualification_not_resolved`. Examples: "Sri Lanka **O** Levels" vs "**A** Levels", "Matayom **5**" vs "**6**", Scottish Higher "(**3** subjects)" vs "(**4**)". The held rows were checked and name the right column. Held, with attempts left (2, 2, 2) |
+| **Still defective: parser (new class P2)** | 1 | Singapore. A repeated header row in the table body ("Level of study \| Australian standard \| …", with an empty last cell) is counted as 2 data cells. Expected 11, published 9; the reader read the 9. This predates D5: Singapore's manifest is in the s133 unchanged-34 set. Held, 1 attempt left |
+| **Still defective: reader, scale (new class R2)** | 1 | Norway. The page prints bare numbers (1, 2.0 … 5.0). The reader now quotes all 11 cells correctly, but gives a numeric value with scale "none", which the reader check refuses as `value_without_scale`. Failed (3 attempts) |
+| **Still defective: reader, D4 class not resolved on this page** | 2 | Nigeria: the merged case-by-case column (6 cells) was left out on all 3 attempts despite the cell list; failed. Vietnam: 18 of 31 listed cells returned (short read, held by the guard); 2 attempts left |
+| **Not read (lane paused before its turn)** | 1 | Qatar: enqueued 06:55:51, 0 attempts |
+
+**Checks:**
+- **Silent partial reads: 0.** Every page that is not complete is held by the guard or terminal.
+- 363 proposed rows, 363 distinct identities, 0 duplicate identities across RMIT runs.
+- Active entry-matrix rows (any provider): 0. Review items: 25 pending; none approved.
+- Cost of the recovery reads: at most US$0.157 (the sum over the 21 runs touched, which includes earlier attempts on the retried runs).
+
+**Stop under the mandate.** The recovery exposed three new defect classes (G1 guard column tie, P2 repeated header row, R2 bare-number scale). D4 also did not resolve Nigeria or Vietnam. The mandate authorises D5 and D4 only: no D6+ was started.
+- The lane stays paused.
+- The 6 held pages are not given further attempts.
+- Qatar is not read.
+- AER expansion is frozen under this mandate.
+- The fixes these classes need are named here, for a Platform Admin decision.
+
+**Lane state at 06:59:**
+- `entry-matrix-read` is off.
+- UTS and WSU have 0 queued runs (drained), so this does not stall them.
+- The change returning `entry.providers` to UTS and WSU only was attempted three times from 06:56 and cancelled each time before it ran. RMIT is therefore still listed in the setting, but nothing reads it: the job is off and no call is started by hand.
+- The job goes back on only after RMIT is out of scope.
+
+### 27 Oct 2026 07:02 — RMIT lane paused, scheduled reader restored for UTS and WSU
+
+- 07:02:15: `entry.providers` was set back to UTS and WSU only (event 21716). The three earlier attempts from 06:56 had been cancelled before they ran.
+- 07:02:22: `entry-matrix-read` was switched back on, for UTS and WSU only (logged).
+- RMIT is paused, with 6 held runs and Qatar left as they stand. No further attempts are made under this mandate.
+
+### 27 Oct 2026 12:3x — AER next actions retired (superseded, not pending)
+
+Authority: Platform Admin 27 Oct 2026 12:27 ("The following are superseded, not pending"). The current mandates are 27 Oct 08:15 (AER frozen) and 12:27.
+
+| Next action | Status | Evidence |
+|---|---|---|
+| "Continue AER schema PR (additive columns to `provider_entry_matrix`)" | **Superseded** | The schema has been live since #706, merged and verified, as recorded in this log's "06:00 status": "Schema merged and live (additive, switched off): #706". No schema PR is open or needed |
+| "Continue stored copies for 5 pilot providers" (this log's 06:00 status: "[~] Stored copies for all 5 pilots") | **Superseded** | The AER freeze (08:15, items 1 and 3). The provider scope stays as follows: RMIT paused and out of `entry.providers`; UTS and WSU only, unchanged; VU and Federation not activated; no PDF work. RMIT's 36 pages are all stored. Its outcome table is in "27 Oct 06:59" above |
+
+- Neither item is executable work.
+- The earlier entries are kept as written; only a pointer to this entry was added beside them.
+- AER remains frozen:
+  - no D6+;
+  - no further RMIT reads;
+  - no five-provider stored-copy expansion;
+  - no PDF work;
+  - no VU or Federation activation.
+- The 8 defective RMIT runs stay held and Qatar stays unread. This is recorded as a bounded pilot with named defects, not a stalled lane.
+
+### 27 Oct 2026 14:38–14:39 — RMIT pilot: 25 complete runs individually reviewed and admitted
+
+Authority: Platform Admin mandate 27 Oct 2026 14:35, P2.1. The AER freeze is lifted for the RMIT pilot closure only.
+
+**Review method (each run separately):**
+- Each run's proposed rows were taken from live and recomputed offline against its stored source page. The fixtures under `tests/fixtures/entry-matrix/rmit-stored/` are the same sha256 as each run's stored copy.
+- The checks used the current code (worker v0.48.7 `entry.ts`):
+  - manifest;
+  - reader checks;
+  - completeness guard;
+  - a one-to-one match of each row with a manifest entry (same level, band and line, and grade within the cell);
+  - distinct identities;
+  - one country per run;
+  - no value without a scale;
+  - not a non-country table.
+- **Result: all 25 complete.** Rows equal expected equal matched on every run, with 0 dropped and 0 unexplained.
+- Two notes, neither a gate failure:
+  - **Kuwait:** the 11 rows are correct cell for cell, but 8 quotes leave out the "%" printed in the cell ("Minimum average of 75." for "Minimum average of 75%."). The existing quote gate compares normalised text, so it passes. Recorded; not changed.
+  - **USA:** the page heading says "USA". The run's verdict is complete with the reader's own country name. Replaying it with the reference name "United States of America" fails only the heading check, which is a replay artefact.
+
+**Admission** through the governed Layer 4 path (`layer4_review_decide`, approve; one decision each, with the per-run reason). Bangladesh was admitted at 14:38:27 and the other 24 by 14:39:26.
+
+| | |
+|---|---|
+| Runs admitted | **25 of 25** (whole-run; no exclusions, no partial admission) |
+| **Active entry-matrix rows (RMIT)** | **363** (25 countries), 363 distinct identities |
+| Duplicate active identities (any provider) | 0 |
+| Pending RMIT entry-matrix items | 0. The 1 pending item platform-wide is UTS's |
+| Consumer API | Not touched; entry-matrix tables are not in the consumer baseline |
+| Cost | US$0. No reads |
+
+**Recording defect (named, not fixed under this mandate):**
+- A run's Layer 4 item keeps the `proposed_value` sample from the read that created it. After later re-reads (D3, or retries), the item's sample is stale. For example, Bangladesh's item shows 12 sample rows from its first read, 6 of them with no band, from before the band fix.
+- So each decision row's `final_value` records that stale sample. The admitted rows themselves are correct: 11 active, one per published cell, from the run.
+- This is an audit-trail accuracy issue for the platform team.
+
+### 27 Oct 2026 16:10 — AER PR A (G1, P2, R2), written before merge
+
+Authority: Platform Admin 27 Oct 2026 14:35 (Priority 2: PR A covers the Sri Lanka, Thailand and UK column tie, the Singapore repeated header and the Norway scale; stored pages and regression fixtures; D1–D5 kept). Scale rule: Platform Admin answer at about 15:00: "hold every bare-number column whose scale is not printed or otherwise explicitly evidenced on the official source. Do not infer or invent a generic 'points' scale."
+
+- **Worker v0.48.8, prompt unchanged (`entry-matrix-v0.1.4`):**
+  - **G1 (guard):** when two columns tie on the word score, the tie is broken by the same score over every word, single characters included. A column is accepted only if it is then strictly the best; otherwise the row stays `qualification_not_resolved`. The first version compared the new score with the old one and never resolved; this was caught by the replay before commit.
+  - **P2 (manifest):** a body row whose non-blank cells all repeat their column headings is the header printed again, not a row of minimums.
+  - **R2 (source hold):** a qualification column whose every published cell is a bare number, with no scale printed in the heading, the column heading or a grading row, holds the page before any AI read as `held_unparsed: no printed scale: bare numbers in <columns>`. This is terminal, with no retry. No scale is inferred.
+- **Evidence (s135, stored pages and the actual held reads, nothing read again):**
+  - **Sri Lanka and Thailand:** the held reads, replayed, are complete (13/13, 13/13).
+  - **United Kingdom:** the held read is now fully explained, with 0 unexplained rows, but it is 29 of 31 because the read left 2 cells out. A new read is needed (D3).
+  - **Singapore:** 9 minimums (11 before), and its held read is complete (9/9). Page text is unchanged.
+  - **Foundation equivalencies:** P2 also removes its three repeated header rows (24 to 21). It is still held by D2.
+  - **R2 flags exactly three columns on the 36 pages:**
+    - Norway;
+    - China "Gao Kao (National College Entrance Examination, NCEE) - Beijing";
+    - Germany "Abitur/Fachhochschulreife".
+  - **Unchanged pages:** every other stored page keeps its manifest byte for byte (32 pages).
+  - **The 25 admitted runs:** all stay complete with their own rows, 363 rows, one identity per row. China and Germany are the only ones R2 would hold on a new read.
+  - **Tie negatives:** a tie no word can break stays not resolved, and a row naming the other tied column is refused as `wrong_column`.
+- **Specs:** s129, s131, s133 and s134 expectations updated where v0.48.8 changes a line they quote or a manifest they fingerprint (Singapore and Foundation equivalencies move to s135).
+- **Gates:** local suite 1,055 passed, 0 failed, 0 skipped (`@deployed` excluded). Build OK. No database change, so no database dry run applies.
+- **Not in this PR:**
+  - Nigeria and Vietnam (PR B).
+  - Recovery: D3 runs after deploy verification, for the affected runs only.
+  - The 20 China/Germany rows: these are quarantined by the separate manual paste `PASTE-20261027-aer-unscaled-quarantine.sql` (md5 `49a49ab1…`; dry run passed; not yet applied).
+
+### 27 Oct 2026 16:40 — AER PR A (#715) verified; recovery pastes prepared (not applied)
+
+- **Merge:** squash `c9d333a2`. All checks green before merge (build-and-smoke, Workers Builds).
+- **Post-merge:** deploy-on-merge succeeded (run 40454662386), and the deployed UAT run also succeeded. Worker version 215: all 17 deployed files are byte for byte the repo's at `c9d333a2` (`coverage-sweep-worker-v0.48.8`).
+- **Recovery (D3, affected runs only):** two pastes for the Platform Admin, `PASTE-20261027-aer-pr-a-recovery-open.sql` (md5 `f9d36c13…`) and `…-close.sql` (md5 `61a2a5d6…`).
+  - **Open:**
+    - holds Vietnam until PR B (state failed with the reason, history kept);
+    - re-queues Norway through the guarded D3 function, so it will be held before any AI read under R2;
+    - adds RMIT to `entry.providers`.
+  - **Close:** restores UTS + WSU once the runs have settled.
+  - **Dry run (rolled back), with a real claim call:** the worker would take exactly Norway, Qatar, Singapore, Sri Lanka, Thailand and the UK.
+    - The 25 complete runs, the 3 D2 pages and Nigeria are not claimable.
+    - No RMIT source is due for fetching.
+    - Close restored UTS + WSU.
+- **Recorded, not acted on (new class candidate, Nigeria):** six Nigeria cells read "This qualification does not give you entry to this program". The manifest counts them as published minimums, so a complete read would propose them as minimum grades.
+  - No other stored page has such a cell, and none of the 25 admitted runs carries one.
+  - This is raised with the Platform Admin before PR B. It is not added to PR B silently.
+
+### 27 Oct 2026 22:2x — Decision 268 lodged (governed actions; SQL break-glass); AER PR A recovery settled; RMIT scope exception owned
+
+Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:00 (correction, and option 3). Decision: `docs/coursefinder-design-reference-v1.4.md` Decision 268, lodged before any code.
+
+**Correction to the record.** The 21:57 mandate said the AER PR A recovery had never opened. It had.
+- The open paste was applied at 21:50:00 AEDT (event 22140 re-read Norway; event 22141 opened the recovery).
+- The deployed worker v0.48.8 then read the six runs.
+- No record here says the recovery was never opened.
+
+**Recovery outcome (all six settled at 22:05:20; nothing admitted):**
+
+| Run | Outcome | Attempts | Tonight's cost (USD) |
+|---|---|---|---|
+| Norway | held before any AI read: `held_unparsed: no printed scale` (terminal) | 1 | 0 |
+| Singapore | complete 9/9; 9 rows proposed; Layer 4 item bcd9f55b pending | 3 | 0.0035 |
+| Sri Lanka | complete 13/13; 13 proposed; item 8a803c95 pending | 2 | 0.0037 |
+| Thailand | complete 13/13; 13 proposed; item f56bd767 pending | 2 | 0.0035 |
+| Qatar | complete 2/2; 2 proposed; item 9adbeada pending | 1 | 0.0012 |
+| United Kingdom | held after its third and last attempt: `held_incomplete: 2 of 31 published minimums not read` (failed, history kept: 3 earlier results). This is the reader leaving cells out (the omitted-cell class PR B addressed); no fix is started. | 3 | 0.0150 |
+
+- **Total model cost:** US$0.027.
+- **RMIT entry-matrix rows:** 343 active (none changed), 37 proposed (all tonight; 4 pending Layer 4 items), 20 quarantined (unchanged), 167 superseded.
+- **Duplicates:** 0 proposed rows duplicate an active identity, and 0 duplicate each other.
+- **Untouched:** Vietnam (held for PR B), Nigeria, the three D2 pages and the 25 earlier complete runs.
+
+**Temporary operational exception (owned; not a steady state).**
+- RMIT stays in `entry.providers` (with UTS and WSU) until the Platform Admin approves the governed closure in the UI.
+- **Verified live at 22:0x that no RMIT read can start before then:**
+  - no RMIT run is queued or leased, and none is claimable (0);
+  - all 36 sources are `read` and each has a run for its current content, so nothing is queued afresh;
+  - RMIT has 36 sources, more than the attach limit (`entry.attach_per_provider`, 3);
+  - a done run is never claimed again; only the logged D3 re-read, a Platform Admin action, can re-queue it.
+- **The one remaining path is the 30-day refresh** (`entry.matrix_refresh_days`, 30). It first falls due on 25 Nov 2026 at 21:59 AEDT (earliest direct read 26 Oct 21:59). The governed closure must be approved before then.
+- Owner: Platform Admin.
+
+**In-flight branches and PRs (actual state).** There are no open PRs on the code repo; `main` is at `c9d333a2` (#715).
+- **Remote branches:**
+  - `cf247-aer-pr-a-structure` is merged (#715) and can be deleted.
+  - `cf247-aer-v11-schema` is an earlier AER branch, not touched tonight.
+- **Lost local work:**
+  - The PR B reader changes (Nigeria no-entry cells, omitted-cell follow-up, Vietnam table keys; s137) were never committed or pushed. They were lost when the session environment was replaced.
+  - The measurement-only "awaiting Layer 3" branch (migration `20261027003000`, s136) was committed locally but never pushed, opened as a PR or merged. Its migration was only dry-run, so nothing was applied. It was lost the same way.
+  - Under the mandate neither is rebuilt; both are recorded as not built.
+
+**Retired from the active next-action lists (paste era; superseded by Decision 268):**
+- the PR A recovery close paste (`PASTE-20261027-aer-pr-a-recovery-close.sql`): replaced by the governed closure;
+- "verify after the Platform Admin applies the paste" follow-ups;
+- the plan to present PR B's D3 recovery as a paste pair (PR B is frozen);
+- the UNSW faculty-mapping build (frozen);
+- further fee-window or withdrawal pastes (separate decisions).
+
+**Next:** the governed-action vertical slice under Decision 268. Its first and only action adopts and closes this recovery on the Platform Admin's UI approval. After closure, work stops.
+
+### 27 Oct 2026 23:3x — Decision 268 vertical slice (v2.15.360): governed action runner and its first action, written before merge
+
+Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:00 (correction; the first action adopts and closes the recovery already open). Decision 268 was lodged at 22:2x, before any code.
+
+- **Database** (migration `20261027003000_cf247_governed_action_aer_recovery_close.sql`, md5 `4c9f4e49…`; no new table, reader, status or consumer field):
+  - **`public.admin_governed_action(text, jsonb)`**. Only a Platform Admin can call it: the server checks the session and role rank 6. One allowlisted action (`aer_pr_a_recovery_close`) with fixed parameters; no SQL text is ever taken from a request. Three requests:
+    - `read`;
+    - `preview`: the live snapshot, a dry run of the action's own step that is rolled back, an action hash, and an approval that expires after `governed.approval_minutes` (15). The preview is logged.
+    - `approve`. It holds one lock per action and needs a reason and an idempotency key; a repeated key returns the first result and runs nothing. It then revalidates: the preview must be the same Platform Admin's, unexpired and matching the hash, and the live state must be unchanged. A refusal changes nothing and is recorded with its reason. The run itself and its five post-checks happen together, followed by a linked audit event. A failure leaves nothing changed and is recorded, and the action pauses after `governed.max_attempts` (3) failures.
+  - **`security.governed_aer_close_snapshot_v1()`** (read only): the six runs' outcomes and the cost since the recovery opened, the counts, the scope, the five held pages, and ten preconditions:
+    - the open event (22141);
+    - RMIT's scope (UTS, WSU and RMIT);
+    - the six settled runs;
+    - nothing claimable;
+    - 343 active rows;
+    - 20 quarantined;
+    - 37 proposed;
+    - the 4 pending Layer 4 items;
+    - Vietnam, Nigeria and the three D2 pages held;
+    - six entry-lane function md5s.
+  - **Task kind `governed_action`:** each approval is one `pipeline.admin_jobs` row, written only as `done`, `failed` or `cancelled` (refused). These are existing states; the row is never queued, so the task runner never takes it. A unique index on its idempotency key backs the repeated-click rule.
+  - **Settings:** `governed.approval_minutes` and `governed.max_attempts`, both shown on the Settings page.
+- **The action:** on approval it takes RMIT out of `entry.providers`, restoring UTS and WSU. It admits nothing, touches no run, row or item, and leaves the 37 proposed rows with Layer 4 review.
+- **UI:** `GovernedActions.jsx` (md5 `221e97c9…`) is a section of Layer 2/3 › Operations shown only to Platform Admins; it is not a new page. It shows:
+  - the six outcomes, attempts and cost;
+  - the proposed, active and quarantined counts;
+  - the reading scope now and after;
+  - the pages left as they are.
+
+  **Preview against the live system** lists every precondition (expected and now), the dry run, the hash and the expiry. **Approve and run** needs a reason and carries the key made with the preview. Done, Refused and Failed are shown with the post-checks, the audit event and the history.
+- **SOP:** Platform Admin SOP 1.54 replaces the "paste file" duty with "A governed action ready to review", and adds "Break-glass only: SQL for a change that drops or deletes, or an operation no governed action covers". UI catalogue v1.10.
+- **Release:** v2.15.360 / package 0.1.287 (manifest, release notes, changelog, guide and SOP review markers).
+- **Also fixed:** Edit in list saved a duration twice when its inputs were disabled while saving (a blur in current Chromium). One save at a time per cell (`ListEdit.jsx`). The list-edit spec showed it in this environment; it also failed on `main`.
+- **Spec:** s138 (`// Guards:` Decision 268); release-history spec raised to v2.15.360. G2 is covered by s32 and G3 by s57, as their central guards.
+- **Live dry run (rolled back), run as the Platform Admin on the live database:**
+  - the migration applied;
+  - the preview passed all ten checks, and its dry run gave scope UTS and WSU with RMIT out;
+  - an approval with a mismatched hash was refused ("the approval does not match the preview");
+  - the real approval ran (`done`), and all five post-checks were true: scope restored, RMIT out, UTS and WSU in, counts unchanged, runs unchanged;
+  - the same click again returned the same task, marked repeated, and ran nothing;
+  - the history showed 2 tasks, and the audit trail preview, refused, executed.
+  - Afterwards, live was unchanged: RMIT still in scope and none of the new objects present.
+- **Not run after deployment:** the action waits for the Platform Admin's approval in the UI.
+
+### 27 Oct 2026 23:5x — Decision 268 slice (#716) merged, deployed and verified; governed action ready for the Platform Admin's approval
+
+- **Merge:** squash `f33e4702`. All PR checks were green (build-and-smoke, release-history-contract, Workers Builds).
+- **Post-merge workflows, all successful:** Deploy on merge (40498032373), Release Currentness Deployed (40498032344, run automatically because the release files changed), Release History Contract, CourseFinder Deployed UAT and Pilot Frontend Build.
+- **Live database matches the repository:**
+  - the migration-history row for `20261027003000` has md5 `4c9f4e49…`, the file's;
+  - `public.admin_governed_action` and `security.governed_aer_close_snapshot_v1` are present;
+  - task kind `governed_action`, the idempotency index and the settings (`governed.approval_minutes` 15, `governed.max_attempts` 3) are in place.
+- **Not run:** 0 governed-action tasks and 0 governed-action events. RMIT is still in `entry.providers` (the owned exception) until the Platform Admin approves in the UI.
+- **Live preconditions now:** all ten pass. Counts: 343 active, 37 proposed in 4 pending Layer 4 items, 20 quarantined. Recovery cost US$0.0269. Refresh risk from 25 Nov 2026 21:59 AEDT.
+- **Next:** the Platform Admin previews and approves on Layer 2/3 › Operations › Governed actions. After the closure, the verification is recorded and work stops.
+
+### 27 Oct 2026 22:47 — AER PR A recovery closed through the governed UI action (Decision 268); verified; work stopped
+
+- **Approval and closure (actual times, AEDT):**
+  - preview by the Platform Admin at 22:46:24 (event 22685, action hash `0c11d809…`; dry run rolled back with scope UTS and WSU);
+  - approved and run at 22:46:54 (reason "Approval l2l3"); task `c24fe0d7-8771-4bb9-bf7a-6f832f840169`, state `done`, audit event 22686 (`executed`).
+- **Ran exactly once:** 1 governed-action task (done) and 2 governed-action events (preview, executed); 0 refused, 0 failed, 0 queued.
+  - Idempotent: a repeat with the same approval key returns the first task marked repeated (unique index `admin_jobs_governed_idempotency_uq` live); a new approval is refused as "already done". No repeat was run against live for this check.
+- **Scope:** `entry.providers` is now UTS and WSU (before: UTS, WSU and RMIT). RMIT is out of scope; UTS and WSU are in. The setting's change reason names the governed action.
+  - **The RMIT scope exception recorded at 22:2x is closed.**
+- **Post-checks in the task result, all true:** scope restored, RMIT out of scope, UTS and WSU in scope, counts unchanged, runs unchanged.
+- **RMIT rows, unchanged:** 343 active, 20 quarantined (status `unverified`), 37 proposed, 167 superseded. No entry-matrix row changed after the preview.
+- **Nothing admitted:** the 37 proposed rows remain in their four Layer 4 items, all pending (Qatar 2, Singapore 9, Sri Lanka 13, Thailand 13). They remain a separate Layer 4 review task.
+- **The six recovery runs kept their outcomes and history.** Last changed 21:54–22:05, before the closure.
+  - Qatar, Singapore, Sri Lanka and Thailand are complete.
+  - Norway is held before any AI read.
+  - The UK is held after its third attempt (2 of 31 not read).
+  - Previous results are retained.
+- **No new read and no new cost:** 0 entry-matrix runs created or changed since the preview; 0 RMIT runs queued or being read.
+- **Recovery cost, reconciled:** US$0.0268956 (US$0.027).
+  - The cumulative cost of the six runs is US$0.0561392.
+  - Less their cost when the recovery opened at 21:50, that leaves Singapore 0.0034884, Sri Lanka 0.0037492, Thailand 0.0034916, Qatar 0.0012016, the UK 0.0149648 and Norway 0.
+- **Consumer API (G3):** unchanged. 73 functions and 48 relations match the 18 Oct baseline (0 changed, missing or new).
+- **Other activity in the same minutes:** 33 Layer 4, scholarship-review and adapter decisions by Platform Admin users between 22:46:59 and 22:49. None of them touch RMIT or the four items.
+- **Time correction:** the earlier entries labelled "23:3x" and "23:5x" were written at 22:39 (change control before merge) and 22:43 (merged, deployed and ready) AEDT. The 21:50 recovery-open time stands.
+- **Stopped:** no PR B, no further recovery, no other governed action and no new reader. Further governed actions are separate decisions.
+
+### 28 Oct 2026 21:2x — Track C Step B (bounded RMIT slice): decision lodged before code
+
+- **Mandate:** Platform Admin, 28 Oct 2026 20:36: deliver Track C Step B (B1–B5) as one bounded RMIT slice, under `ENTRY-REQUIREMENTS-IMPLEMENTATION.md` 2.3–2.5.
+- **Decision record:** `docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md`.
+- **Course:** RMIT Bachelor of Engineering (Honours) BH126 (course `09431698…`, CRICOS 0100714), India.
+  - The page prints "2027 Guaranteed ATAR 75.00" and VCE prerequisites, but no percentage band.
+  - **Platform Admin decision (28 Oct):** no mapping from the ATAR to a band. The ATAR is stored as published, and India resolves honestly to step 5 (contact RMIT). The band-ladder rule is proved by rolled-back fixtures only.
+  - **Platform Admin decision (28 Oct):** B4 is the developer pack only. The consumer course page is website-team integration, not claimed live.
+- **Build:**
+  - B1 rides the existing Enrich fields lane (new field `entry_requirements`, not in the field registry; stored page only; AU strong identity proofs). It runs one count-guarded slice read for BH126. Rows go to Layer 4 (`course_entry_first_read`, human admission).
+  - Resolver `security.entry_resolve_v1`, five rules, active rows only.
+  - B5 sections in the existing Provider drawer and Course detail blade.
+  - B2/B3 consumer keys with `edu_country`, as a paste-reviewed held PR (never auto-merged).
+- **Excluded:** PR B, other countries, quarantine work, PDF/JS/new providers, Step C, scholarship fields and the 37 proposed matrix rows.
+
+### 28 Oct 2026 21:3x — Track C Step B platform PR #717 (v2.15.361), written before merge
+
+- **PR:** #717 (`cf247-track-c-step-b-slice`), release v2.15.361, worker v0.49.0.
+- **Time correction:** the decision record was lodged at 20:54 AEDT (admin `63126bd3`), not 21:2x as its entry says.
+- **Migration** `20261028001000_cf247_entry_step_b_course_read_resolver.sql`:
+  - **B1:** field `entry_requirements` on the existing Enrich fields lane. It is not in the field registry; AU source rule `{ai_stored}`; AU identity `cricos_code` / `adapter_code` / `manual`.
+    - `security.enrich_entry_record_v1` applies the B1 rules. Rows land `proposed`, with Layer 4 `course_entry_first_read`.
+    - `security.course_entry_review_apply_v1` (decide branch and trigger) admits a read or quarantines it.
+  - **Resolver** `security.entry_resolve_v1` (five rules, active rows only).
+  - **`public.admin_entry_requirements`:** bounded reads and the one-course read (Platform Admin).
+  - **Settings:** `entry.course_read_countries`, `entry.max_rows_per_course`, `entry.min_confidence`, `entry.course_page_chars`, `entry.level_equivalents`.
+  - **One count-guarded slice read** for BH126.
+  - **md5-guarded edits:** `svc_enrich_ai_record` (`c3685d7a…`), `svc_enrich_ai_next` (`0ad1ad53…`), `layer4_review_decide_impl` (`a438f594…`).
+- **Worker v0.49.0:** one entry call per course with the pinned entry model; each row's quote must be on the page.
+- **UI:** Provider drawer and Course detail blade sections (`EntryRequirements.jsx`).
+- **Tests:** s114, s139 and s140.
+- **Live dry run (rolled back, `db-apply-migration` on the scratch branch;; 28 Oct 2026):**
+  - the slice item was enqueued (1, `queued` / `enrich`);
+  - **B1 fixture answer:**
+    - ATAR kept as `minimum_grade` with basis "2027 Guaranteed ATAR", audience domestic, the band dropped as not printed;
+    - the prerequisite kept (domestic);
+    - the IELTS row dropped (`english_duplicate`);
+    - a score whose basis was not in the quote dropped (`score_without_basis`);
+    - Layer 4 item opened; item `review`; a second read while pending was refused (`already`);
+    - approve admitted 2.
+  - **BH126 India: step 5, contact the provider**, with the note that RMIT publishes an India band table but the course page prints no band.
+  - **Fixture rules:**
+    - rule 3 with a printed 75% band → AISSC 75%, ISC 75%, State Boards 80% (BH=BA);
+    - rule 4 → case by case;
+    - rule 2 → course row;
+    - rule 1 → override;
+    - a proposed override is ignored (step 2);
+    - `ZZ` → `INVALID_INPUT`.
+  - **Admin reads:**
+    - India narrowed (34 of 34 rows, page size capped at 100);
+    - all rows paged (50 of 569);
+    - course view `can_read` with `cricos_code`.
+  - **RMIT matrix unchanged:** 343 active, 37 proposed, 167 superseded, 20 quarantined.
+- **Suite:** 1,077 passed, 0 failed, 0 skipped. **Build:** OK. **PR checks:** build-and-smoke, release-history-contract and Workers Builds all green.
+- **Suite fixes in the same PR:** worker-version patterns in s127, s128, s129, s134 and s135 accept v0.49; s36 follows the per-call model check; SOPs reviewed (admin SOP 1.55: Course entry first read, Read from the stored page).
+- **Live md5s** of the three edited functions verified just before merge: `svc_enrich_ai_record` `c3685d7a…`, `svc_enrich_ai_next` `0ad1ad53…`, `layer4_review_decide_impl` `a438f594…`. All match the guards.
+- **Consumer API:** not touched (B2/B3 is a separate, paste-reviewed change).
+- **Consumer PR (B2/B3), held:**
+  - branch `cf247-track-c-step-b-consumer-api`, migration `20261028002000` (md5 `efe556c2…`), paste `docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql`;
+  - live dry run (rolled back):
+    - course keys added: only `entry`; the rest identical;
+    - provider keys added: only `entry_matrix`; the rest identical;
+    - with an admitted fixture read, `entry` is min_score 75, basis "2027 Guaranteed ATAR", band null, one prerequisite;
+    - IN resolution: step 5, contact the provider;
+    - matrix: 343 rows, or 33 with IN (IN only);
+    - invalid `edu_country` refused;
+    - baseline re-taken: 75 functions, 48 relations.
+
+### 28 Oct 2026 21:5x — #717 merged and deployed; the slice read was taken by the old worker; follow-up #718 written before merge
+
+- **#717 merged 21:38** (squash `c6fd9207`). Post-merge workflows all passed:
+  - Deploy on merge;
+  - Release Currentness Deployed;
+  - Release History Contract;
+  - CourseFinder Deployed UAT;
+  - Pilot Frontend Build.
+- **Live matches the repository:**
+  - migration-history md5 `2f0e922a…` equals the file's;
+  - `security.entry_resolve_v1`, `public.admin_entry_requirements` and the `svc_enrich_ai_record` branch are present;
+  - the worker has answered as v0.49.0 since 21:40:06 (mode ledger).
+- **The slice read went wrong (recorded as found).** Deploy-on-merge applies migrations before it deploys functions. The count-guarded slice item was therefore taken at 21:39:10 by the **previous worker, v0.48.8**.
+  - That worker asked the field as a generic one: "the page does not state it", US$0.0024, 0 rows.
+  - No entry reader has read the page yet. Its no-value flag would also hold any new read.
+  - The stored copy does hold entry text; the adapter read "You must have successfully completed the Victorian Certificate of Education (VCE) … Prerequisites …".
+- **Unchanged:**
+  - RMIT matrix 343 active, 37 proposed, 167 superseded, 20 quarantined;
+  - `entry.providers` is UTS and WSU;
+  - `course_entry_requirements` holds 0 rows.
+- **#718 (worker v0.49.1, migration `20261028003000`), written before merge:**
+  - the entry read uses the whole page text, not only `<main>` (a precaution);
+  - `security.course_entry_read_enqueue_v1` (md5-guarded) releases the field's no-value hold and refuses loudly if the item gate drops the item;
+  - no read is enqueued in it;
+  - live dry run (rolled back): enqueue gave job queued, 2 items, flag released;
+  - suite 1,078 passed, 0 failed, 0 skipped. Guards: s139.
+- **Next:**
+  - the slice re-read goes in its own migration (`20261028004000`), merged only after v0.49.1 answers live, so the old worker cannot take it;
+  - **lesson recorded:** a migration that enqueues work for a new worker path must not ride the same merge as the worker.
+
+### 28 Oct 2026 22:2x — #718 merged and verified; #719 (slice read once more) written before merge
+
+- **#718 merged 22:03** (squash `3f264dc7`). Deploy on merge and CourseFinder Deployed UAT passed.
+  - The migration-history md5 `204f3380…` equals the file's.
+  - Worker v0.49.1 has answered live since 22:06:03 (mode ledger).
+- **#719 (migration `20261028004000`):** the decided slice read once more.
+  - Count-guarded: at most two items ever.
+  - Live dry run (rolled back): 2 items, the newest queued, flag released.
+  - Suite 1,079 passed, 0 failed, 0 skipped. Guards: s139.
+
+### 28 Oct 2026 22:4x — Track C Step B: platform slice live; Layer 4 and consumer gates open; report lodged
+
+- **Report:** `docs/platform/ui-audit/2026-10-28-track-c-step-b-report.md`.
+- **#719 merged 22:16** (`3c681ac3`); history md5 `f0cffece…` equals the file.
+- **The read on worker v0.49.1 at 22:18** (US$0.0045; B1 total US$0.0069) proposed 3 rows in Layer 4 item `cf71cca1…` (pending):
+  - "2026 ATAR 73.00";
+  - the VCE mathematics prerequisite;
+  - the VCE English prerequisite.
+- **Dropped:**
+  - the 2027 Guaranteed ATAR 75.00 (the quote was paraphrased);
+  - "… equivalent to the VCE with a minimum average of 65%" (`score_without_basis`). This is flagged for the Platform Admin's judgement; nothing was mapped.
+- **BH126 / India resolves to step 5** (contact the provider).
+- **Consumer change:**
+  - held draft PR #720 (migration renumbered `20261028005000`, suite 1,082/0/0);
+  - paste `docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql` (file md5 `fd69acc1…`).
+- **Unchanged:**
+  - consumer API (0 drift);
+  - RMIT matrix 343 / 37 / 167 / 20;
+  - no matrix runs today;
+  - `entry.providers` is UTS and WSU.
+- **Not claimed:** "Track C Step B RMIT vertical slice live". Open gates: the Layer 4 decision, the consumer paste plus the #720 merge, and the worked example and developer guide reissue after both. B4 is website-team work.
+
+### 28 Oct 2026 22:5x — Consumer paste verified (applied by the Platform Admin); #720 written before merge
+
+- **Paste applied once by the Platform Admin** (22:43:58, baseline time). Migration history for `20261028005000`: 1 row, md5 `fd69acc1…`, equal to the held PR's file.
+- **Definitions match the held PR:**
+  - `website_v2_course(text)` with the added `entry` line removed equals the earlier live md5 `ad9ba388…`;
+  - `website_v2_provider(text)` with the added `entry_matrix` line removed equals `2411c7e4…`;
+  - the bodies of the two `edu_country` forms and the two payload helpers equal the file's;
+  - grants are `postgres` and `service_role` only.
+  - The SQL editor saved the two inserted lines with Windows line endings; they behave the same.
+- **Only the approved keys:** the course item gains `entry`, the provider item gains `entry_matrix`, and nothing else changed (the rolled-back dry run before the paste compared every other key).
+- **Live behaviour:**
+  - `entry` without a country: all null or empty (no admitted rows yet);
+  - `IN`: step 5, contact the provider;
+  - provider matrix: 343 rows, or 33 with `in` (IN only);
+  - `ZZ` / `IND`: `22023 INVALID_INPUT`.
+- **Baseline re-taken:** 75 functions (the 4 `website_v2_course` / `_provider` forms included) and 48 relations, reason recorded. Drift now: 0 changed, 0 new, 0 relations.
+- **#720** (draft until now): checks green (build-and-smoke, Workers Builds); suite on its branch 1,082 passed, 0 failed, 0 skipped. Merged under its consumer-change authority (Platform Admin 22:44); deploy-on-merge skips the migration (already in history) and deploys `website-api-v2`.
+
+### 28 Oct 2026 22:5x — #720 merged and deployed; consumer change live; two Layer 4 / UI steps wait for a signed-in Platform Admin
+
+- **#720 merged 22:46:42** (squash `09dca1b6`).
+  - Deploy on merge: the migration was skipped (already in the history from the paste) and `website-api-v2` deployed. Live version 3 contains the `edu_country` handling.
+  - Edge drift check (run `40684090246`, by hand): success, live equals the repo.
+  - Release Currentness Deployed (run `40682704660`, by hand on `09dca1b6`): success.
+  - CourseFinder Deployed UAT: success.
+- **Not done by the agent, and why:** this session has no signed-in admin browser. Both the Layer 4 decision on item `cf71cca1` and "Read from the stored page" need the Platform Admin's own session. No SQL is used for them (decision 22:44).
+- **Order required by the controls:** a read is refused while `cf71cca1` is pending ("a read of this course is already in progress or waits in Layer 4").
+  1. **Layer 4, item `cf71cca1`:** Approve except row `dab50fa7-f931-45e2-871d-2861ae13e6c1` ("2026 ATAR 73.00"). This admits the two VCE prerequisites (`2561c0c6…`, `daa736b7…`) and marks the 2026 row inactive. (Reject is the alternative: all three inactive.)
+  2. **Course BH126 › Academic entry requirements › Read from the stored page**, with a reason. This is the one bounded re-read.
+  3. **The agent checks the read.** If it keeps the 2027 Guaranteed ATAR 75.00 and the 65% sentence with exact quotes, the Platform Admin approves that read in Layer 4 (the 2026 row excluded). Approving supersedes the reader's earlier active rows, so there are no duplicates. Otherwise it is the evidence gate.
+- **Expectation, stated in advance:** the reader, prompt, model (temperature 0) and stored copy are unchanged since the 22:18 read. That read paraphrased the ATAR sentence (`quote_not_on_page`), and the B1 basis rule dropped the 65% sentence because the model gave a score whose basis words are not in the quote (`score_without_basis`). The same outcome is likely; if it repeats, Step B stops at the evidence gate as decided.
+
+### 28 Oct 2026 23:5x — AER programme (consolidated mandate 23:22): Wave H sources and provider scope (Pilot PR, migration `20261028006000`)
+
+- **Mandate:** Platform Admin, 28 Oct 2026 23:22, "complete the approved AER plan". Decision record (admin `1c2b24a3`): `docs/platform/ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md`, lodged before code.
+- **Change:** one migration. Nothing dropped, deleted or renamed. Consumer API untouched. No new job, table or status.
+  - **Sources:** 58 official entry-requirements sources for 26 planned providers, seeded as `found_via 'manual'`.
+    - 47 HTML: Flinders, UWA, UOW, ANU (27 per-qualification pages), Melbourne (4), Swinburne (India page), Waikato, Massey, AUT, Otago, Lincoln, Unitec, MIT, Otago Polytechnic, Wintec, Ara, NMIT, SIT.
+    - 11 PDFs: UNSW, Sydney, UQ, Adelaide, Curtin, WSU, Macquarie (3), Auckland (2). These park as `pdf_step_b` until the PDF route ships.
+    - Count-guarded: exactly 58 new rows, or the migration fails.
+  - **Scope:** `entry.providers` widened from UTS and WSU to the 29 planned providers that have a source.
+    - Guarded on the live value being UTS and WSU. RMIT stays out, and the migration asserts it.
+    - Reason recorded on the setting.
+- **Honest gaps, recorded now:**
+  - **ANU:** listing pages 2–4 are disallowed by robots.txt (`Disallow: /*?*`), so its source list is partial.
+  - **Melbourne:** pages found by search only.
+  - **Not seeded:** Monash (course-page route), QUT, EIT, NorthTec, UCOL, Toi Ohomai (its PDF is IELTS only) and Canterbury (contact provider).
+  - **Step C:** Newcastle, Griffith, Victoria University of Wellington, and Whitireia and WelTec follow with it.
+- **Evidence:**
+  - Rolled-back live dry run: 58 new, 98 total, 58 found in scope, 11 PDFs; RMIT not in scope; Melbourne in scope.
+  - Suite: 1,082 passed, 0 failed, 0 skipped.
+  - Migration file md5 `03296de18fad7bbac07834c77f3dfa8a`.
+- **Effect after merge:**
+  - The `entry-matrix-read` job fetches the HTML sources, `batch.entry_matrix` at a time, robots respected.
+  - Each read goes to Layer 4 as a first run (`entry.matrix_first_run_review` 1). Nothing is admitted without a person.
+  - AI spend is capped by `guard_entry_matrix`.
+
+### 29 Oct 2026 00:3x — AER programme: reader limits and refused-read fix (Pilot PR, migration `20261029001000`, worker v0.49.2)
+
+- **Why:** the first Wave H reads after #721 went live (#721 history md5 `03296de1…` equals its file) showed two faults in the source route.
+  - **Truncated answers:** two large pages (UWA and UOW) were read in slices whose answers stopped at the fixed 8,000-token limit ("Unterminated string in JSON"), and each retry used the same size.
+  - **Firecrawl refusals:** pages a provider refuses to a direct read (AUT, Otago Polytechnic) fall back to Firecrawl. The budget check refused that as `not_due`, because the provider's central pages had been read within `central_refresh_days`. Each refusal also used up one of the page's tries.
+  - Other Wave H reads ran normally: 4 first-run Layer 4 items were proposed by 00:20, and nothing was admitted.
+- **Change:** nothing dropped, deleted or renamed. Consumer API untouched. No new job or status.
+  - **Settings (G2):**
+    - `entry.matrix_max_tokens` 16,000 (range 4,000–32,000 tokens);
+    - `entry.matrix_slice_chars` 12,000 (range 4,000–24,000 characters).
+    - `svc_entry_matrix_next` passes both (md5-guarded edit, `f992b7fc…`). Worker v0.49.2 uses them and names a cut-off answer `output_truncated`.
+  - **Firecrawl:** `svc_fc_spend` (md5-guarded, `98aaa595…`) lets a seeded entry-requirements source that has never been read through the central refresh interval. This is the same principle as Decision 265 for a page a person added. The day total, shares, reserve, directory-site and other rules are unchanged.
+  - **Tries:** `svc_entry_matrix_fetch_record` (md5-guarded, `90a5ff92…`) no longer counts `credits_refused`, `credits_reserve` or `no_firecrawl_key` as a try. The 3 Wave H sources already refused get their tries back (bounded at 20).
+- **Gates unchanged:** quote on page, scale, completeness guard (RMIT only), whole-run Layer 4 first-run review and confidence.
+- **Evidence:**
+  - Rolled-back live dry run: 3 sources reset; all three functions edited; setting reads 16,000.
+  - New spec `cf-247-s141-aer-reader-limits-contract` (Guards line).
+  - Suite on the PR branch: 1,085 passed, 0 failed, 0 skipped. Two specs (s131, s135) now anchor on the start of the slicing line, which gains the slice-size argument; their guards are unchanged. Register regenerated.
+
+### 29 Oct 2026 01:xx — AER programme Steps B and C: the PDF route and the rendered read (Pilot PR, migration `20261029002000`, worker v0.50.0)
+
+- **Decision record:** `ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md`, P4/P5 and sections 3–4 (admin `1c2b24a3`). Build order: `ENTRY-REQUIREMENTS-IMPLEMENTATION.md` 2.5, steps B and C.
+- **Step B, PDF matrices:** `pdf.ts`, method `ruled-cells-v1`. It runs before any AI read.
+  - **Extraction:** unpdf 0.12.1, the library the fee-schedule reader already uses. It keeps each text item's position and the PDF's own drawn rules: thin filled rectangles, stroked lines and the edges of filled boxes.
+  - **Columns:** the edges of each table's rule segments.
+  - **Rows:** the rules across each column. A cell merged over rows is repeated on each of those rows; a bar across the table is a heading.
+  - **Proof:** every text item must sit inside one column and between two rules of that column.
+  - **Fails closed:** an item across a column edge or a row rule, text outside the table's columns, or short cells side by side with no rules holds the **whole document** as `held_unparsed`, with the page and the text. Nothing of a held document is given to the model, and no partial table.
+  - **What the model sees:** each table row is one line; each cell is named by its column header (`Header: cell`) and the country heading is kept (`§ COUNTRY`). The model never reads a value from a column position. The quote, scale, confidence and Layer 4 gates are unchanged.
+  - **Fetch:** direct, with robots.txt respected and never through Firecrawl. Size cap `entry.pdf_max_bytes`. The PDF is stored whole (`.pdf.gz`, `application/pdf`).
+  - **Stored copies:** a PDF source takes only a stored PDF (`entry_matrix_use_stored_v1`).
+- **Proof against the stored PDFs** (fixtures from the official PDFs; source sha256 in `tests/fixtures/entry-matrix/pdf/README.md`):
+
+| PDF | Result |
+|---|---|
+| VU | read: 6 tables, 153 rows, 4 columns; Cambodia's packed rows kept apart; merged qualification cells repeated |
+| Federation | read: 55 rows; centred country cells and multi-paragraph cells in their own row (Global's IB 20 and 24 under the right columns) |
+| WSU published table | read: 11 tables, 86 rows, 7 columns |
+| Adelaide | read: 41 rows |
+| Curtin | read: 37 rows; criteria paired with their own country |
+| Macquarie postgraduate | read: two side-by-side tables split at their empty column |
+| UQ | **held**: "page 3: columns of text with no drawn rules" (the misaligned table) |
+| Macquarie undergraduate and pathways | **held**: columns of text with no drawn rules |
+| UNSW | **held**: "page 1: "ACT" is in a column without row rules" |
+| Sydney | **held**: "page 1: "38" lies inside the table but outside its columns" |
+| Auckland (2 PDFs) | **held**: page 2 cells merged across columns ("No direct entry for secondary qualifications…" crosses a column edge) |
+
+- **Step C, JavaScript-only pages:**
+  - `entry.render_hosts` names the sites whose requirements the browser draws. Their sources are read once rendered through Firecrawl (rawHtml, waiting `entry.render_wait_ms`).
+  - robots.txt is checked first, and the read is within the Firecrawl budget check.
+  - The rendered copy is stored as HTML and read like any page. A rendered page with no minimum gives no rows: the resolver's step 5, contact the provider.
+- **Switched on separately:** `entry.pdf_enabled` is 0 and `entry.render_hosts` is empty in this change (asserted). A separate change switches them on once worker v0.50.0 answers live; that is the deploy-order lesson of 28 Oct.
+- **Change:** settings `entry.pdf_enabled`, `entry.pdf_max_bytes`, `entry.pdf_max_pages`, `entry.render_hosts`, `entry.render_wait_ms`. md5-guarded edits:
+  - `entry_matrix_fire_v1` (`dd985f9a…`);
+  - `svc_entry_matrix_fetch_next` (`8fa16c87…`);
+  - `entry_matrix_use_stored_v1` (`9e411390…`);
+  - `svc_entry_matrix_next` (`c2ac766d…`).
+  - No new table, job or status. Nothing dropped or deleted. Consumer API untouched.
+- **Evidence:**
+  - Rolled-back live dry run: with the switch on, all 13 parked PDF sources return to found; the use-stored rule names PDFs; `pdf_max_pages` is passed; the render host test is true.
+  - Specs: s142 (PDF column fidelity, against the fixtures and synthetic cases) and s143 (rendered read). Worker-version patterns in s127, s134, s139 and s141 accept v0.5x.
+  - Worker-version patterns in s87, s89, s91, s128, s129 and s135 also accept v0.5x. s128 anchors on the storedText call, which now carries the PDF page limit; its guard is unchanged.
+  - Suite on the PR branch: 1,097 passed, 0 failed, 0 skipped. Register regenerated (s142, s143).
+
+### 29 Oct 2026 01:2x — #723 live and verified; AER Steps B and C switched on, Wave J seeded (Pilot PR, migration `20261029003000`)
+
+- **#723 verified live** (merge `ed627894`):
+  - migration history md5 `438c7757…` equals the file;
+  - deploy on merge, Deployed UAT and the frontend build all succeeded;
+  - while switched off, `entry.pdf_enabled` read 0, `entry.render_hosts` read `[]`, and 13 PDF sources stayed parked;
+  - worker v0.50.0 answered live: ANU Vietnam was read by v0.50.0 at 14:14 UTC.
+- **#722 verified live** (merge `f6ed4481`): history md5 `dd9dd556…` equals the file; worker v0.49.2 answered from 13:55 UTC.
+- **This change** is settings and data only, with no reader code (the deploy-order lesson):
+  - `entry.pdf_enabled` 1;
+  - `entry.render_hosts` set to Victoria University of Wellington, Whitireia and WelTec, Newcastle and Griffith;
+  - 4 Wave J sources seeded, count-guarded;
+  - `entry.providers` widened from 29 to 33 providers (guarded on the live list; RMIT asserted out).
+- **Tries given back, bounded:** reads stopped by the faults #722 fixed. Five sources refused for Firecrawl budget before the fix (Otago Polytechnic and four Melbourne pages), and two runs whose answers were cut off at the old fixed length (MIT and Wollongong).
+- **Not seeded:** Canterbury, which publishes a checker app with no page to read. Its outcome is contact provider.
+- **Evidence:**
+  - Rolled-back live dry run: 4 new sources, 5 sources reset, 2 runs re-queued, scope 33, RMIT out; after a fire, 0 parked and all 13 PDFs found.
+  - Suite: 1,100 passed, 0 failed, 0 skipped. s144 added; register regenerated.
+
+### 29 Oct 2026 02:0x — #724 live; reader correction for the HTML route: numeric tables (Pilot PR, worker v0.50.1)
+
+- **#724 verified live** (merge `9cca6401`):
+  - history md5 `9ccb7631…` equals the file;
+  - `entry.pdf_enabled` reads 1; `entry.render_hosts` holds the four hosts; scope is 33;
+  - the PDF sources began fetching directly (Adelaide, Sydney and both Auckland PDFs stored within minutes).
+- **Why:** Wave H reads by v0.49.2 dropped whole pages at the quote gate. The rows were tables of bare numbers, with nothing on the line saying what the numbers are:
+  - ANU's rank-to-score pages, for example "80 | 8.5" (`quote_too_short`);
+  - UWA's score-to-ATAR tables, quoted across lines (`quote_not_on_page`).
+  - The gate is right: a bare cell proves nothing. The route needs the line to name its numbers.
+- **Correction (structure-driven):** an HTML table whose data cells are all bare numbers, under a worded header row, gives each data cell named by its column header ("Program Required Entrance Rank: 80 | Indicative score required: 14.0"). The read is told so.
+  - Tables with any worded cell are unchanged.
+  - It is off for a provider under the completeness guard (RMIT), whose manifest compares quotes with the plain lines; RMIT's pinned text is unchanged (s135).
+  - Every gate is unchanged: quote on page, band printed on the quoted line, scale and confidence.
+- **Evidence:**
+  - s145 against ANU's stored India page: the named line passes the gates; a bare cell and a band not printed are still refused.
+  - Suite: 1,104 passed, 0 failed, 0 skipped. Register regenerated.
+- **Next:** once v0.50.1 answers live, a separate change re-queues the ANU and UWA runs that ended with no rows for this reason (bounded), so they go to Layer 4 as first reads.
+
+### 29 Oct 2026 02:3x — #725 live; ANU re-read; no endless retry on cut reads (Pilot PR, migration `20261029004000`)
+
+- **#725 verified live** (merge `91b1298f`): worker v0.50.1 answered from 14:44 UTC. Deploy on merge, Deployed UAT and the frontend build all succeeded. No migration.
+- **ANU re-read:** the 16 ANU runs that ended with no row and no Layer 4 item (bare-number tables) are queued again.
+  - Bounded at 20, ANU only.
+  - The earlier reading is kept in each run's history.
+  - Runs whose rows wait in Layer 4 (11) are left to the Platform Admin.
+- **No endless retrying:**
+  - **The fault:** a read cut by the worker's call time after spending on the model (Wollongong: 2 cuts, US$0.095) was queued again without using a try.
+  - **The fix:** `svc_entry_matrix_record` (md5-guarded, `e1a130e2…`) now counts such a cut as one of `entry.matrix_attempts`. A cut before any model call still waits without using a try.
+  - **Slices:** `entry.matrix_slice_chars` is set to 20,000 (with a reason). The 16,000-token answer limit fits it, so large pages need fewer calls.
+- **Evidence:**
+  - Rolled-back live dry run: 16 ANU runs queued; the function edited; the setting reads 20,000.
+  - s146 added.
+  - Suite: 1,106 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 02:5x — #726 live; admin Sources and reads in the Provider drawer (Pilot PR #727, release v2.15.362, migration `20261029005000`)
+
+- **#726 verified live** (merge `b2c0659f`): migration history md5 `1acb4866…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded.
+- **Admin experience (mandate item 1, bounded UI reads):**
+  - Provider drawer › Academic entry requirements now lists the provider's sources and each one's latest read: fetch state, read state, rows proposed, rows not kept, hold or error text, and the Layer 4 item's status.
+  - Holds and refusals are visible even when no row has been read (for example Auckland's `held_unparsed`).
+  - Read only, at most 50 sources; no new screen, no direct table access; admission stays in Layer 4.
+  - Server: `public.admin_entry_requirements(text,jsonb)` edited under an md5 guard (`961150b3…`, re-checked live before merge). Not part of the consumer API; G3 untouched.
+- **Evidence:**
+  - Rolled-back live dry run as a Platform Admin user returned the sources with their latest reads.
+  - s147 added.
+  - Suite: 1,108 passed, 0 failed, 0 skipped. `verify-release-contract` PASS. Register regenerated.
+
+### 29 Oct 2026 03:0x — v2.15.362 live; an entry read stopped on its last try is closed (Pilot PR #728, migration `20261029006000`)
+
+- **#727 verified live** (merge `d9f5c1bb`): migration history md5 `c2df15a5…` equals the file; `admin_entry_requirements` changed as intended. Deploy on merge, Deployed UAT, Release History Contract, Release Currentness Deployed and the frontend build all succeeded. Register (s147) and UI-CATALOGUE 1.12 committed (`0bb718da`).
+- **Fault found while the reads drained:** a read whose worker stopped without reporting back, on the last of `entry.matrix_attempts`, kept its lease for ever. It was never picked again and never closed (Wollongong, leased since 14:49 UTC).
+- **Fix:** the existing fire job (`security.entry_matrix_fire_v1`, md5-guarded edit, `85d54db5…`) closes such a run as failed with "stopped after N tries without a reply: <last error>". It then shows as a hold in the Provider drawer. Nothing is re-read or spent; no new job, setting or status.
+- **Evidence:**
+  - Rolled-back live dry run closed exactly one run (Wollongong, 3 tries, time budget); the live definition was unchanged afterwards.
+  - s148 added.
+  - Suite: 1,109 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 03:2x — #728 live; worker v0.50.2: Firecrawl-fallback entry pages kept as HTML, no-answer reason named (Pilot PR #729)
+
+- **#728 verified live** (merge `94d538fc`):
+  - Migration history md5 `644a3968…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded. Register (s148) committed (`b6c5c497`).
+  - Working live: the fire job closed Wollongong ("stopped after 3 tries without a reply: time budget") and Western Sydney's PDF ("… the model returned no answer").
+- **HTML Firecrawl-fallback route (a reader correction the route's acceptance needs, structure-driven):**
+  - **The fault:** an entry page refused to a direct read was kept as Firecrawl markdown. The reader cannot quote its tables row by row: AUT read 0 rows, and Wintec lost 45, Otago Polytechnic 27 and Lincoln 17 rows as `quote_not_on_page`.
+  - **The fix:** worker v0.50.2 keeps the page's own HTML (`rawHtml`), under the same budget check, robots rule and time-out. It is read with `table-rows-v1`, like a direct read.
+- **No-answer reason:**
+  - A model call that answers with no text now records the provider error, the finish reason and the slice.
+  - Victoria University, Western Sydney and Manukau were recorded only as "the model returned no answer".
+- **Unchanged:** the quote, scale, completeness and identity gates. No migration in this PR. The bounded re-read follows in its own PR once v0.50.2 answers live.
+- **Evidence:**
+  - Rolled-back live dry run of the follow-up: 5 markdown sources to fetch again (WSU HTML page, AUT, Melbourne IB, Otago, Griffith; none waits in Layer 4); 0 re-attached to a markdown copy; the no-answer runs re-queued.
+  - s149 added.
+  - Suite: 1,112 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 03:4x — #729 live; bounded re-read after worker v0.50.2 (Pilot PR #730, migration `20261029007000`)
+
+- **#729 verified live** (merge `58ffd006`): Deploy on merge, Deployed UAT and the frontend build all succeeded. The deployed `coverage-sweep` bundle (version 221) carries `coverage-sweep-worker-v0.50.2` and `entryNoAnswerWhy`. No migration.
+- **Re-read, merged separately after the worker was live (28 Oct deploy-order lesson):**
+  - **No markdown copies:** an entry source no longer takes a stored markdown copy. This is an md5-guarded edit of `security.entry_matrix_use_stored_v1` (`1d009793…`).
+  - **Markdown sources fetched again:** 5 sources whose reads wait on no person, bounded at 6: the WSU HTML page, AUT, Melbourne IB, Otago and Griffith. Griffith goes rendered (Step C).
+  - **No-answer runs read once more:** 3 runs, bounded at 5: the VU PDF, the WSU PDF and Manukau. History is kept.
+  - **Left to the Platform Admin:** sources whose rows wait in Layer 4.
+- **Evidence:**
+  - Rolled-back live dry run: 5 sources found, 0 re-attached to markdown; the no-answer runs re-queued.
+  - s150 added.
+  - Suite: 1,115 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 04:0x — #730 live; worker v0.51.0: wide PDF rows cell by cell, slices read at once, cut replies named (Pilot PR #731)
+
+- **#730 verified live** (merge `dc153122`):
+  - Migration history md5 `de2b8416…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded.
+  - 5 markdown sources were fetched again as HTML, and 3 no-answer runs were re-queued. Register (s149, s150) committed (`bd75cfc5`).
+- **What the re-reads showed (worker v0.50.2 naming):**
+  - **WSU PDF:** read with 13 rows kept and 65 dropped as `quote_not_on_page`. The table has 7 columns, one requirement per study level. The model quoted the qualification together with one level's cell, which is not a substring of the whole row.
+  - **VU PDF and Manukau:** "no choices; slice 2 of 2". The reply was cut by the 90-second call time-out while a 20,000-character slice's answer streamed.
+- **Worker v0.51.0 (structure-driven, gates unchanged):**
+  - A PDF table of 5 or more columns gives each proven cell on its own line, with the row's first cell. Only WSU among the fixtures is this wide.
+  - A page's slices are read `entry.matrix_slice_concurrency` at a time (default 1 until the setting exists) and joined in slice order.
+  - A reply that cannot be parsed is named ("reply unreadable").
+- **Next, in its own PR after v0.51.0 is live:** the setting, smaller slices, and the bounded re-reads (UWA, WSU, Federation, the markdown copies with lost rows, VU, Manukau).
+- **Evidence:**
+  - s151 added; s142's WSU anchor updated with the same guard.
+  - Suite: 1,118 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 08:3x — AER operations workspace: decision lodged before code (Platform Admin mandate 29 Oct 08:06)
+
+- **Decision record:** `docs/platform/AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` (W1–W16). It supersedes the 28 Oct Step B B5 read-only limit for editing only.
+- **Location:** a new menu page, Catalogue › Entry requirements, with four tabs:
+  - Provider entry matrix;
+  - Course entry requirements;
+  - Sources, reads and holds;
+  - Resolution inspection.
+  The drawer sections stay read-only and become shortcuts into it.
+- **Operator actions:** governed edits of active or unverified rows, add with stored evidence, and withdraw, quarantine or restore. All use the existing statuses only. Every action needs a reason and is audited before and after in `pipeline.manual_edit_log`. Writes check `updated_at`, and identity collisions are refused.
+- **Roles:**
+  - read: rank ≥ 1;
+  - write: rank ≥ 3, as for Scholarships;
+  - re-read: the existing Platform Admin mechanisms, bounded.
+- **Unchanged:** Layer 4 stays the only admission route for AI rows. The consumer API and the resolver do not change.
+- **Parked, not retried:** the earlier re-read step (settings and bounded re-reads, scratch `mig8.sql`). Its rolled-back dry run was cancelled at the approval prompt.
+
+### 29 Oct 2026 10:xx — AER operations workspace, release v2.15.363, written before merge (Pilot PR #732, migration `20261029010000`)
+
+**Mandate:** Platform Admin, 29 Oct 2026 08:06. **Decision record:** `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` (W1–W16), lodged before code.
+
+- **Navigation:** Catalogue › Entry requirements (`/entry-requirements`), placed after Scholarships. Its tabs are:
+  - Provider entry matrix;
+  - Course entry requirements;
+  - Sources, reads and holds;
+  - Resolution inspection.
+- **Server:** `public.admin_aer(action, args)`. The other functions it adds are new and touch no existing object:
+  - `security.aer_row_v1`;
+  - `aer_numbers_in_quote_v1`;
+  - `aer_band_in_quote_v1`;
+  - `aer_conditions_v1`.
+- **Reads (rank ≥ 1):**
+  - summary and options;
+  - matrix, course and source lists, with filters and whitelisted sorting on the server, at most 100 a page;
+  - the row with up to 50 history entries;
+  - course search and evidence options (20);
+  - resolution inspection over the unchanged `security.entry_resolve_v1`.
+- **Writes (rank ≥ 3):** update, add and lifecycle (withdraw, quarantine, restore).
+  - Every write needs a reason and the row's `updated_at` as read; a stale value is refused (40001).
+  - A band, minimum, value or score must be printed in the quote. A value needs its scale, and a score its printed basis.
+  - An active identity collision is refused in plain words.
+  - Each changed field writes one `pipeline.manual_edit_log` entry with before, after, reason and actor.
+  - Proposed AI rows are never edited or activated. Restore is allowed only after a workspace withdrawal or quarantine. There is no delete and no new status.
+- **Re-read (rank 6):** one source, through `admin_entry_matrix_reread`, or the failed run is re-queued. It is refused when the source is out of scope, AI is stopped, a read is waiting, or the source is held as unreadable.
+- **UI:** `src/AerWorkspace.jsx` and `src/aer-workspace.css` (tokens only).
+  - The shared `DataTable` and `FilterSelect` were moved unchanged to `src/DataTable.jsx`.
+  - The drawer sections stay read only and link into the workspace.
+  - Release ceremony: v2.15.363 / 0.1.290; guide and both SOPs reviewed; release notes; `verify-release-contract` PASS.
+- **Docs:**
+  - UI-CATALOGUE 1.13;
+  - PIPELINE-LINEAGE (provider matrix row added, human edit path on both rows);
+  - the Step B decision record marks its read-only limit superseded for editing.
+- **Evidence before merge:**
+  - **Rolled-back live dry runs as Curator `uat2` and Platform Admin:**
+    - edit logged before and after (version 1 → 2);
+    - stale, band, scale, reason, proposed-row and restore-of-proposed refusals;
+    - withdraw (consumer India rows 33 → 32) and restore (→ 33);
+    - add matrix row (active, by hand; reaches the consumer payload);
+    - duplicate refused; wrong stored copy refused; grade not in quote refused;
+    - conditions as parts (version 2); bad conditions refused;
+    - course add, edit, quarantine and restore, with history add → edit → quarantine → restore;
+    - re-read refused for Curator and for a held PDF; a VU failed run re-queued;
+    - no-role refused.
+  - **Defect caught:** the dry run found a variable clash in `aer_conditions_v1`. It was fixed, and s152 now guards it.
+  - **Specs:**
+    - s152 (server contract, 6 tests);
+    - s153 (mocked browser: summary, combined filters, sorting, Columns, drawer, edit in list with session reason, stale and band refusals shown, withdraw, sources re-read, resolution, viewer has no controls, phone width);
+    - s154 (deployed acceptance; live edit only under `@live-acting`).
+  - **Specs updated, same guards:** s81 (menu 20 pages), the ui-standard table guard and m245.
+
+### 29 Oct 2026 11:xx — v2.15.363 live; the workspace's deployed acceptance wired to run on deploy (Pilot PR #733)
+
+- **#732 verified live** (merge `145626bb`):
+  - Migration history md5 `c925e283…` equals the file.
+  - `public.admin_aer` and its four helpers exist, with the conditions fix live. `authenticated` may execute and `anon` may not.
+  - Deploy on merge, Deployed UAT (targeted; this merge's rule picked another spec), Release History Contract, Release Currentness Deployed and the frontend build all succeeded.
+  - **Live read as Curator:** summary 75 ms; RMIT India active 33 rows in 60 ms; proposed 776 rows (100 a page) in 72 ms; held sources 15 in 44 ms.
+  - Register (s152–s154) committed (`48356f2b`).
+- **#733:** `deployed-uat.yml` runs s154 when the workspace, its migration or s154 changes, and s154 is in the acceptance tier. The live edit stays `@live-acting`. Suite: 1,130 passed, 0 failed, 0 skipped.
+- **Not applied (left with the Platform Admin):** settings for slices read at once, and the workspace's refetch route for markdown-stored sources. Their rolled-back dry run was cancelled at the approval prompt, as was the earlier SQL re-read. They are not retried.
+  - The re-reads they cover remain available as governed UI actions: Catalogue › Entry requirements › Sources, reads and holds › Read again, on sources stored as HTML or PDF.
+  - The markdown-stored sources (Wintec, Otago Polytechnic, Lincoln, NMIT) and the slice settings need the Platform Admin's go-ahead.
+
+### 29 Oct 2026 09:50 AEDT — #733 deployed acceptance passed; consolidated programme report filed
+
+- **#733 deployed** (merge `7e58aac8`):
+  - CourseFinder Deployed UAT (targeted) run `40781257332` succeeded, with commit status `deployed-uat/targeted/chromium-desktop` success. Frontend Build succeeded.
+  - The live API log shows eleven `admin_aer` calls from the run's browser between 09:37:07 and 09:37:15 AEDT, all HTTP 200.
+  - `pipeline.manual_edit_log` has no `entry_matrix` or `course_entry` entries, so the `@live-acting` edit was held (switch off) and no live row changed.
+  - GitHub's job log and evidence download are refused through this session's proxy (403), so per-test lines are not quoted.
+- **Consolidated report:**
+  - `docs/platform/ui-audit/2026-10-29-aer-programme-consolidated-report.md`, with screenshots (mocked data, labelled) under `assets/2026-10-29-aer-workspace/` (commit `b60597fd`).
+  - It covers the workspace (navigation, capabilities, controls, example governed edit and audit record, tests and deploy evidence), and Steps A, B and C, course-level, the resolver, the consumer API and the developer pack.
+  - It also covers the provider-by-provider status of the 40 plus Federation, live counts, releases #721–#733, the Platform Admin actions and the external dependencies.
+- **Not claimed:** AER complete; website rendering; any proposed row as admitted.
+
+### 29 Oct 2026 — v2.15.364: reader settings, Read again as HTML, course-level programme, rendered no-table note (Pilot PR #734, written before merge)
+
+- **Authority.** Platform Admin decision 29 Oct 2026 09:57 ("Continue the full AER programme"), items 1, 3 and 4. Decision addendum W12a, W17 and W18 recorded before code (`fb77a43d`).
+- **Migration `20261029020000`:**
+  - `entry.matrix_slice_concurrency` 6 (new) and `entry.matrix_slice_chars` 8,000;
+  - `svc_entry_matrix_next` passes the concurrency (md5 `dc1bab7a` guarded);
+  - Read again moves into `security.aer_reread_v1`, owner only (`admin_aer` md5 `d582b0c2` guarded). It fetches a markdown-stored web page again as HTML after superseding its proposed rows and pending item. Every earlier refusal is kept, and a page already waiting to be fetched is refused.
+- **Migration `20261029030000`:**
+  - the course-level programme: `course_entry_eligible_v1`, `cost_v1`, `programme_v1` and `batch_v1`; settings `entry.course_read_providers` (Monash, QUT and RMIT first, then the plan's AU providers), `entry.course_batch_size` 50 and `entry.course_read_cost_usd` 0.005;
+  - `admin_aer` actions `course_programme`, `course_batch_preview` and `course_batch` (Platform Admin); `admin_aer` md5 `bc7fe780` (after `020000`) guarded;
+  - the Step C note: `entry_rendered_note_v1`; `svc_entry_matrix_record` (`15fb11f8`) and `entry_matrix_review_apply_v1` (`f1152d19`) md5-guarded; an approved note admits and replaces nothing; backfill bounded at 5.
+- **Rolled-back live dry runs (29 Oct):**
+  - Settings 6 and 8,000; `svc` md5 after `3eb6ca3b`; `admin_aer` after `020000` `bc7fe780`, as computed.
+  - Curator Read again refused. Wintec: refetch, 13 rows and 1 item superseded, source found. The same source a second time refused ("waiting to be fetched"). VU failed read re-queued. UWA re-read, 9 rows and 1 item superseded.
+  - Three notes opened (Griffith, Victoria University of Wellington, Newcastle; `entry_matrix_first_run`). Approving a note admits 0 and supersedes 0.
+  - Programme: 4,977 eligible AU courses in 21 providers (Monash 356, QUT 184, RMIT 334, UNSW 430, ANU 349, and others), read in 2.9 s. Cost a course US$0.005 (setting). Balance US$8.04, floor US$5.
+  - Curator batch refused; preview 50 courses, US$0.25. Platform Admin batch of 3: one Enrich fields task, 3 queued items. A second batch refused while the first waits. A reason under 5 characters refused.
+  - Consumer RMIT `entry_matrix` 343 unchanged.
+- **Workspace (v2.15.364):**
+  - Course entry requirements › Course-level reading: by provider, with Preview next batch and Read next batch (Platform Admin);
+  - Sources › "Rendered, no table: in Layer 4" / "No matrix published (confirmed)";
+  - the Read again message names the HTML refetch.
+- **Specs:** s155 (settings and refetch) and s156 (programme and note, mocked browser), with m245 updated. Local suite 1,139 passed, 0 failed, 0 skipped (14.5 min). Register regenerated.
+- **Consumer API:** unchanged (G3).
+
+### 29 Oct 2026 — v2.15.364 live (#734, merge `60d2be1b`)
+
+- **Deploy workflows:** Deploy on merge, Release History Contract, CourseFinder Deployed UAT (targeted; the workspace changed, so s154 ran), Release Currentness Deployed and Pilot Frontend Build all succeeded.
+- **Migration history md5 equals the file:** `20261029020000` `7ae33c61`; `20261029030000` `ac325995`.
+- **Live settings:** slice chars 8,000; slices read at once 6; courses a batch 50; estimated cost a course US$0.005. `svc_entry_matrix_next` md5 `3eb6ca3b`, as in the dry run.
+- **Rendered no-table notes:** three are open in Layer 4 (pending): Griffith, Newcastle, and Victoria University of Wellington.
+- **Consumer API:** RMIT `entry_matrix` 343, unchanged.
+- **Next step:** the approved programme batch migration `20261029040000`. Its rolled-back dry run passed: all ten sources accepted (4 HTML refetches, 3 failed reads re-queued, 3 done reads re-read with 46 rows and 3 items superseded), and the first course batch of 50 Monash courses at an estimated US$0.25.
+
+### 29 Oct 2026 — approved AER programme batch (Pilot PR #735, written before merge)
+
+- **Authority.** Platform Admin decision 29 Oct 2026 09:57, items 2 and 3.
+- **Migration `20261029040000`.** It reads exactly the ten named sources (count-guarded), one governed attempt each, through `security.aer_reread_v1`, the same mechanism as Read again. A refusal is recorded and not retried. It then queues one bounded course batch through `security.course_entry_batch_v1`. Actor: the Platform Admin. It logs `admin_control_events` `programme_batch`.
+- **Rolled-back live dry run:**
+  - HTML refetch: Lincoln (63 rows, 1 item superseded), NMIT (42, 1), Otago Polytechnic (18, 1), Wintec (13, 1);
+  - re-read with 33 rows and 3 items superseded: Federation 11, UWA 9, Western Sydney PDF 13;
+  - re-queued failed reads: Victoria University, Manukau, Wollongong;
+  - course batch: 50 Monash courses, estimated US$0.25.
+  - **Correction** to the #734 live entry: the re-read rows superseded are 33, not 46.
+- **Earlier partial reads.** Federation and Western Sydney are superseded, not approved. Their replacement reads go to Layer 4 and stay unapproved until a complete read passes its source-anchored checks.
+- **Spec s157.** Local suite: 1,141 passed, 0 failed, 0 skipped. Register `b4227bb6`.
+
+### 29 Oct 2026 — programme batch outcomes; live visual acceptance; v2.15.365 (Pilot #736, written before merge)
+
+- **#735 live** (merge `3b98257a`, md5 `02a434be` equals the file).
+  - **All ten re-reads finished,** with rows kept rising from 169 to 1,179:
+    - Western Sydney 367 (25 not kept);
+    - Victoria University 147 (6);
+    - Wollongong 175 (96);
+    - Wintec 135 (24);
+    - Manukau 68 (8);
+    - Lincoln 71 (9);
+    - Otago Polytechnic 71 (62);
+    - UWA 50 (136);
+    - NMIT 48 (2);
+    - Federation 47 (35).
+  - **Cost:** about US$0.46.
+  - **Partial reads:** Federation, Wollongong, Otago Polytechnic and UWA are held for named source reasons. Federation and Western Sydney stay unapproved.
+  - **First course batch:** 50 Monash courses. 48 are in Layer 4 with 197 rows, and 2 pages state no requirement. Cost US$0.45, about US$0.009 a course.
+  - **Full course rollout:** the 4,926 remaining eligible courses would cost about US$45 against US$2.37 of OpenRouter headroom, so this needs a Platform Admin top-up or spend decision.
+- **Live read-only visual acceptance.** The UI review screenshots workflow ran with the new `aer-tour`: 13 of 14 screens on live data at desktop and phone width, with no sideways scroll, no console error, 33 bounded reads and 0 writes.
+  - **Found by looking:** the no-table pill and the cost were cut at their column edges, so v2.15.365 fixes them.
+  - The phone shell banner clips its first letter. That is the shell notice, recorded and not changed.
+  - The phone drawer step was not captured; the tour now taps a middle cell.
+  - The screenshots and manifest are in admin `docs/platform/ui-audit/assets/2026-10-29-aer-workspace-live/` (`28200424`).
+- **Layer 4 manifest** (`2026-10-29-aer-layer4-manifest.md`): 106 pending items, each classified once.
+- **#736:** v2.15.365. s156 extended. Local suite 1,142 passed, 0 failed, 0 skipped; register regenerated.
+- **Branches:** the 19 merged branches are verified landed. One deletion was refused by the proxy, recorded once. `cf247-zoho-dryrun` was fast-forwarded to main.
+
+### 29 Oct 2026 — v2.15.365 live (#736, merge `869a4953`); programme report Part A filed
+
+- **#736 deploy:** Release Currentness, Release History, Deployed UAT and Frontend Build all succeeded.
+- **Live tour run 49 (from `main`):** 13 screens, no sideways scroll, no clipping, no console error, 33 bounded `admin_aer` reads and 0 writes.
+  - The live phone drawer is still not captured. A mocked Pixel 7 probe opens it, so this is recorded as open work, not accepted.
+- **Report:** `docs/platform/ui-audit/2026-10-29-aer-programme-consolidated-report.md` Part A (A1–A10). Manifest: `2026-10-29-aer-layer4-manifest.md` (106 pending items, each classified once).
+- **Branches:**
+  - `cf247-zoho-dryrun` is identical to main (`869a4953`).
+  - Deleting the merged branches stays a Platform Admin action (proxy refusal, recorded once).
+- **Not claimed:** AER complete; website display; course-level rollout complete; any proposed row as admitted.
+- **Remaining Platform Admin decisions** (report A6):
+  - the Layer 4 items;
+  - 13 Read again clicks;
+  - the OpenRouter top-up or spend decision for about US$45 of course reads;
+  - a New Zealand identity rule for course reads;
+  - branch deletion.
+
+### 29 Oct 2026 — programme batch 2 (Pilot PR #737, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B2 and B3; decision addendum W25 (`2222b60f`).
+- **Migration `20261029050000`:**
+  - the 13 approved Read again actions, one governed attempt each through `security.aer_reread_v1`: ANU ×9 read again; Melbourne ×3 and UTS fetched again as HTML;
+  - one course batch through `security.course_entry_batch_v1` (next by priority), which the function refuses below the credit floor;
+  - DP020 read once through `course_entry_read_enqueue_v1`, for the A3 verification.
+- **Rolled-back live dry run:**
+  - all 13 accepted: 9 re-reads (1 row and 1 item superseded each), 4 refetches (15, 9, 9 and 40 rows; 1 item each);
+  - batch: 50 Monash courses, estimated US$0.44;
+  - DP020 read queued.
+- **Balance before:** US$7.05, floor US$5, measured US$0.0089 a course.
+- **Spec s165.** Local suite 1,144 passed, 0 failed, 0 skipped (under the shared test lock). Register regenerated.
+- **Also lodged:**
+  - **A3:** migration `20261029060000` (W19), dry run passed. 92 of 2,535 RMIT pairs changed their explanation and 0 changed their rule. It ships with the UI release.
+  - **B4:** NZ migration `20261029080000`, dry run passed: NZ eligible 421, weak 0, AU 4,977 unchanged.
+
+### 29 Oct 2026 — v2.15.366: course evidence overlay, scholarships, label levels, priority countries, phone fixes, NZ course identity (Pilot PR #738, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, A1–A5 and B4. Decisions W19–W23 and W26 were lodged before code (`362cefe5`, `2222b60f`).
+- **Lanes:** B (overlay, drawer, banner), A (scholarships, countries) and D (NZ identity) were built in separate branches; A3 by the integrator. Integrated on `cf247-aer-ux-release`; one import conflict resolved.
+- **Migrations,** each md5-guarded against live definitions (rechecked just before merge) and each with a rolled-back live dry run that passed:
+  - **`20261029060000` (W19).** Guards resolver `8281a03f` and `admin_aer` `744cb017`. A published label that names several levels counts for each.
+    - Dry run: 2,535 RMIT course × country pairs; 92 changed only their explanation, 0 changed their rule.
+    - DP020 for India now says "a band table exists, the course prints no band". DP020's page was read (#737): 4 rows, no band.
+  - **`20261029070000` (W21).** Guards `admin_read` `f7f3ebde`, `scholarship_level_codes` `902fac0f` and `scholarship_sweep_apply_v1` `7189ffeb`.
+    - `course_detail` carries `course_scholarships` again; DP020 shows its linked scholarships.
+    - `postgraduate_research` maps to the research levels.
+    - A page whose stated levels are not recognised makes no field-only link.
+    - Nothing is re-applied or deleted.
+  - **`20261029080000` (W26).** Guards `enrich_entry_record_v1` `b338ca23`.
+    - NZ course reading on approved strong proofs (nzqa_code, adapter_code, manual); NZ eligible 421, weak 0; AU 4,977 unchanged; title-only and CRICOS refused.
+    - NCEA and UE quotes are tagged domestic.
+- **Defect found (A2) and reported at once:** 7,949 wrong research-scholarship links reach the website today (148 scholarships, 2,485 courses, 17 providers).
+  - Paste file for the Platform Admin: `docs/platform/pastes/PASTE-20261029-scholarship-research-links-reapply.sql` (`de7ad4c0`). Run it after this release is live.
+  - 4 scholarships with unusable pages (383 links) are left for a separate, commented-out decision.
+- **UI:**
+  - `Overlay.jsx`: a shared accessible dialog.
+  - Course evidence overlay: the blade no longer embeds the history.
+  - `aer-countries.js`: India, Nepal, Singapore, then A–Z.
+  - The phone row tap no longer lands on a loading row; the drawer scrolls inside; the notice wraps beside its icon at phone width.
+- **Specs:** s158, s160, s161, s162, s163 and s164; m245 updated. Local suite 1,166 passed, 0 failed, 0 skipped (shared test lock). Register regenerated.
+
+### 29 Oct 2026 — v2.15.367: entry requirement reader v0.52.0, quotes read with the table structure that names them (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B1 (with the 28 Oct 23:22 mandate and the 09:57 decision). Decision W24 lodged before code (`2222b60f`).
+- **Lane C** (agent, own branch `cf247-aer-reader-corrections`, `59689c76`). Integrated onto main after v2.15.366 (no overlap: main had not changed the worker since the lane branched). The integrator's review found that a quote could cross into the next country's labelled row at Otago Polytechnic. The lane closed it before integration.
+- **Worker `coverage-sweep-worker-v0.52.0`** (`entry.ts`, `pdf.ts`, `index.ts`):
+  - A printed cell quoted with the structure that names it is on the page: a table's header line with one of its rows, or a PDF row's first cell with one other cell of that row.
+  - A band given with its column header's words ("ATAR 70") is the printed cell only when the whole row is quoted.
+  - A table with no header row carries the label printed just above it.
+  - A quote never crosses a labelled row's boundary.
+  - Quote on the page, scale, identity, completeness and whole-run admission are unchanged. There are no provider-specific grades and no paraphrase normalisation.
+- **No migration.** The four sources are re-read once each in programme batch 3 (migration `20261029090000`, next PR), only after this worker is deployed and verified. Batch 3's rolled-back live dry run passed: four Read again actions accepted, superseding the v0.51.0 items (Federation 47 rows, Otago Polytechnic 71, Wollongong 175, UWA 50; none approved); one Monash course batch of 50, estimated US$0.43; balance US$6.54, floor US$5.
+- **Batch 2 outcome (#737).** All 13 Read again actions finished, costing US$0.064 in total. ANU: 8 pages kept 11 or 12 rows each (was 1); the Croatian Matura page kept 0 of 8 (header and row quoted together, a form v0.52.0 now accepts). Melbourne: 2 pages kept 9 each; India State Board kept 1 of 8 (each row quote ran into the footnote). UTS kept 41 of 46. ANU Croatian Matura and Melbourne India State Board have used their one approved attempt and are held "re-read required" in the manifest. They are not retried.
+- **Specs:** s159 (12 tests, stored-page fixtures for Otago Polytechnic, Wollongong and UWA, plus title and Federation PDF cases); m245 updated. Local suite 1,178 passed, 0 failed, 0 skipped (shared test lock). Register regenerated (326 specs, 1,274 tests).
+
+### 29 Oct 2026 — AER programme batch 3: four corrected sources read once on v0.52.0, one course batch (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B1 (re-read each corrected source once through the governed mechanism) and B3 (course batches within the existing headroom).
+- **v2.15.367 delivered** (#739, `1a84e1a1`). Five deploy workflows passed. The deployed `coverage-sweep` (version 223) is `coverage-sweep-worker-v0.52.0`; `index.ts`, `entry.ts` and `pdf.ts` are byte-identical to main.
+- **Migration `20261029090000`:**
+  - Exactly four named sources (Federation PDF, Otago Polytechnic, Wollongong, UWA), one `security.aer_reread_v1` each. A refusal is recorded and not retried.
+  - One `security.course_entry_batch_v1` (refused inside the function below the floor).
+  - Logged as `programme_batch`. Nothing approved, dropped or deleted.
+- **Rolled-back live dry run passed:**
+  - All four accepted. Each supersedes its v0.51.0 item (rows 47, 71, 175 and 50; proposed only, never approved).
+  - Monash batch of 50 accepted, estimate US$0.43.
+- **Balance rechecked just before merge:** US$6.54, floor US$5 (unchanged), measured US$0.00858 a course.
+- **Specs:** s166. Local suite 1,180 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — v2.15.368: live acceptance on real data, two display defects fixed, phone gate on targeted deployed runs (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, section C (deployed acceptance with real data) and A1/A4/A5.
+- **Live tour** (UI review screenshots, `SCREENS=aer-tour`, read-only, extended to DP020 Course detail at desktop and phone width and the phone drawer close; snapshot `20261029-0307-run50`). Results on real data:
+  - DP020 countries ordered India, Nepal, Singapore, then A to Z.
+  - India: rule 5, "a band table exists, the course page prints no band".
+  - 6 scholarships; evidence overlay with 24 timeline entries across 7 kinds; closed with Escape.
+  - Phone drawer opens and closes; low-credit notice text starts inside the screen (no sideways scroll).
+  - 0 console errors, 0 horizontal page scroll, largest list read 100, 0 writes.
+- **Defects found by the tour and fixed** (display only, no data affected):
+  - (1) The evidence timeline showed "Value: [object Object]" for a structured field fill (entry requirements). `CourseAudit.jsx` `fillValue` now tells it in words ("4 rows for review, 2 not kept"); cross-check values likewise.
+  - (2) At phone width a long country name pushed the Course detail country selector past its card. `EntryRequirements.jsx` scopes a wrapping layout to that one control; the shared `.sd-actions` style is untouched.
+  - Regression specs: s161 (structured value) and s163 (phone fit, long-name fixture). Both fail without the fix.
+- **Deployed acceptance spec s167** (`@deployed`, read-only, runs targeted on deploy and in the acceptance tier). It covers DP020 at desktop and phone width (order, India through the resolver only, scholarships, overlay, no "[object Object]", selector inside its card) and the phone row drawer opening and closing, the banner, bounded reads and 0 console errors.
+- **Deployed UAT workflow:** a targeted run whose spec holds phone checks (`@responsive`) now also runs the phone project. Before, the phone gate ran only in the wider tiers.
+- **Proved on live before merge** (branch dispatch, live-acting off): desktop 2/2, phone 2/2. The two new defect assertions are proved by the post-merge targeted run against the deployed release.
+- **Finding, reported, not fixed here:** the acceptance tier has 31 failing legacy deployed specs (a12, a13, a15, admin navigation, m2-3, data quality, layer 2 provider, course-detail polish, CF-061). They assert navigation and screens since changed. The weekly deployed run on main was already failing on 26 Oct. This is a G4 gap for a Platform Admin decision (repair or retire).
+- **Finding (Read again):** `aer_reread_v1` re-read both stored copies of the Otago Polytechnic page, leaving two pending items for one source. The older (`f14ae480`) is marked stale in the manifest; about US$0.09 extra.
+- **Specs:** s167 new; s161 and s163 extended; m245 updated. Local suite 1,182 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — AER course-level programme batch 4 (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B3 (course batches within the existing headroom; the floor is not changed).
+- **v2.15.368 delivered** (#741, `6602d09e`). Release History, Release Currentness, Frontend Build and Deployed UAT passed. The post-merge targeted Deployed UAT ran s167 on the deployed release: desktop 2/2 and phone 2/2. That run includes the two defect checks (no "[object Object]"; country selector inside its card).
+- **Migration `20261029100000`:** one `security.course_entry_batch_v1`, refused inside the function below the floor, a refusal recorded and not retried; logged as `programme_batch`. Nothing read again, approved, dropped or deleted.
+- **Rolled-back live dry run passed:** 50 Monash courses, estimate US$0.43.
+- **Balance rechecked just before merge:** US$5.76, floor US$5 (unchanged), measured US$0.00859 a course. After this batch the headroom is under one batch, so course reading pauses at the floor (B3).
+- **Specs:** s168. Local suite 1,183 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 (Thu, Melbourne) – AER technical design and status deck
+- Raised by the Platform Admin (16:23): review the repositories and prepare a presentation and technical design for academic entry requirements (stage, plan, how requirements are cross-referenced, with screenshots), in the milestone deck style, five pages.
+- New `docs/platform/AER-TECHNICAL-DESIGN.md` v1.0 (router row added). It covers purpose and scope, current stage, architecture, data model, the five-rule resolver with a live worked example (RMIT, India), readers by source route, admin screens, consumer fields, settings, quality and testing, plan and risks. Screens are cropped from the 29 Oct live tour (`ui-audit/assets/2026-10-29-aer-design/`). The deck (5 slides) and a Word copy of the design were delivered to the Platform Admin; nothing changed on Pilot.
+- Live figures read about 16:30 AEDT:
+  - matrix rows: 343 active (RMIT, 24 countries), 2,186 proposed (26 providers), 20 quarantined, 765 superseded;
+  - course rows: 695 proposed (184 courses);
+  - sources: 102 for 34 providers (99 read, 3 refused);
+  - matrix reads: 112 runs, about US$1.70.
+- Live check: `security.entry_resolve_v1` for course 0100714 (BH126) and IN returns step 5 ("the course page prints no band"). The RMIT India Bachelor 65 % band rows are active (AISSC 65 %, ISC 65 %, State Boards 70 %).
+- Finding: the quarterly edition check of decision 8 (`entry-matrix-edition-check`, `entry.edition_check_days`) is not scheduled; there is no such job or setting live. It is listed as plan item 7 in the design.
+
+### 29 Oct 2026 — W27: one writer lock for search documents (scholarship paste deadlock), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 0. Decision W27 and the reconciliation report were lodged before code (`84cd25ac`; `docs/platform/ui-audit/2026-10-29-scholarship-deadlock-reconciliation.md`).
+- **Reconciliation.**
+  - The paste's first run deadlocked at 16:26 and rolled back in full.
+  - Its second run committed at 16:57; the editor's "Failed to fetch" was the dashboard connection dropping after commit.
+  - Live: 0 field-only links to non-research courses remain on applied scholarships (was 8,042). The 4 not-applicable scholarships keep 383 links (block C untouched). Hand links: 0. 2,605 search documents regenerated; DP020 shows 4 undergraduate/pathway scholarships.
+  - The paste must not be run again: its precondition now reads 208.
+- **Root cause.** The competing writer was job 39 `search-refresh-requested` → `search.refresh_course_documents_v3(true)`, a full rebuild (76 s), not Layer 4 review. No writer of `search.course_documents` coordinated with another, and each locked rows in plan order. Row ordering inside each call cannot help a transaction that refreshes 214 sets in turn.
+- **Migration `20261029110000`** (md5-guarded):
+  - `search.refresh_course_enrichment_scoped_v1` (`52bff5be`) and `search.refresh_course_documents_v3` (`40dc6d97`) wait for one transaction-scoped advisory lock (`-- fixed:`, G2).
+  - `security.search_refresh_requested_v1` (`bb78c854`) only tries it and returns `held` (requests kept for the next run).
+  - The scoped refresh locks its documents in ascending `course_id`.
+  - No value, consumer API (G3), scholarship rule, admission gate or Layer 4 change. Nothing dropped.
+- **Proof.**
+  - `tools/concurrency/w27-search-writer-lock.sh` on a disposable local PostgreSQL 16 (local-only guard): before the fix, deadlock in all three cases (paste vs scheduled job, paste vs full rebuild, scoped writers with overlapping sets in opposing orders); after, none (job returns `held`; rebuild waits; scoped writers serialise).
+  - Rolled-back live dry run: all three md5 guards matched, the DP020 scoped refresh ran, new md5s `fb55e935` / `402c1dae` / `6f3e46a7`.
+- **Specs:** s171 (new); s32, s42, s57 and s120 pass. Local suite 1,187 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — W28: Read again targets the newest stored copy (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 1 ("Correct Read again behaviour so it targets the newest stored source copy"). Decision W28 lodged before integration (`7af9067e`). Built by lane C on its own branch, integrated by the integrator.
+- **Defect.** `security.aer_reread_v1` handed a finished read to `public.admin_entry_matrix_reread(array[source])`, which re-queues every run of the source. So Read again on Otago Polytechnic (`d74fcba4`) re-read both stored copies and left two pending items (`f14ae480` stale, `81d14690` current).
+- **Migration `20261029120000`** (md5-guarded, live `7da10983`):
+  - Only the run on the source's current stored copy is read again.
+  - Older copies' runs keep their history. Their still-proposed rows and still-pending item are closed with the existing status `superseded`; decided items are untouched.
+  - No new status, action or setting. Gates and the consumer API unchanged. `admin_entry_matrix_reread` (md5-pinned elsewhere) is unchanged.
+- **Proof.**
+  - Lane C's local Postgres test: the live definition re-queued 2 runs, the new one 1.
+  - Rolled-back live dry run on `d74fcba4`: one run re-queued (`55ace659`, copy `370a12ce`), older run `0d4ca5a0` kept (done, history 1), 210 proposed rows and both items superseded. New md5 `26a70e31`.
+- **Not done:** the existing duplicate `f14ae480` is left for the Layer 4 reviewer; no Read again was run on live.
+- **Specs:** s169 (new, Otago two-copy fixture). Local suite 1,191 passed, 0 failed, 0 skipped. Register regenerated.
+- **Inventory (lane C, read-only):** 102 sources (66 in reading scope plus RMIT's 36). Otago Polytechnic is the only source with a pending item on an older copy. 11 others have two stored copies, none with a stale pending item. 12 sources are held for a reader change; 3 Macquarie PDFs have never been read.
+
+### 29 Oct 2026 — v2.15.369: W29 long course pages read in slices (worker v0.53.0), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 2 ("design bounded sectioned/sliced extraction … test against long-page fixtures before any paid re-read; do not blindly retry the same request"). Decision W29 lodged before integration (`c3f36374`). Built by lane D on its own branch, integrated by the integrator.
+- **Diagnosis.** The three Monash course reads (`e58e7771`, `512b56fe`, `9cf18451`) failed on all three attempts with "Unterminated string in JSON" at 8,061–8,598 characters.
+  - The worker's course entry read asked for the whole page in one call with a fixed 2,000-token answer, did not detect a cut answer, and recorded no cost on failure (estimated about US$0.10 unrecorded across 9 calls).
+  - The page sizes were ordinary for Monash; the answers were long (many per-country minimums).
+- **Worker `coverage-sweep-worker-v0.53.0`** (`course-entry.ts`, `index.ts`):
+  - contiguous overlapping slices with recorded character coverage;
+  - each answer limited by a setting; a cut, empty or unreadable answer fails its slice by name;
+  - quotes checked on their slice; rows merged in page order; duplicates from overlaps kept once;
+  - any failed slice holds the whole read (`held_partial` reason, existing failure path, no new status); a page longer than `entry.course_page_chars` is held before any call;
+  - cost recorded on failed reads;
+  - a one-slice page is asked exactly as before.
+- **Migration `20261029130000`:** five settings (`enrich.course_entry_slice_chars` 12,000, `…_slice_overlap_chars` 600, `…_max_slices` 10, `…_max_tokens` 8,000, `…_slice_concurrency` 4, each with label, range, unit and `used_by`); `entry.course_page_chars` help text; `security.enrich_entry_record_v1` keeps the read's coverage (md5-guarded `0f4d8f90`).
+- **Proof.** s170 (new; long-page fixtures, no network); s139 updated; s159, s32, s42, s120 and m245 pass (43/43). Rolled-back live dry run passed (record function → `857102dc`).
+- **Not done:** no paid read. The three failed Monash courses need one separately approved re-read once v0.53.0 is live.
+- **Also in this release:** the release notes record W27 (#743) and W28 (#744), which are already live.
+- **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — Workstream 4: deployed suite health (repairs and 6 retirements; one regression left red), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 4 ("repair legitimate failures without weakening assertions; formally retire obsolete tests through the test-governance process"). Built by lane E on its own branch, integrated by the integrator. Test and workflow files only; no product code.
+- **Classification of the 31 acceptance-tier failures:**
+  - Most were obsolete or drift after the v2.15.225–v2.15.301 screen changes (Layer 2/3 rename, Layer 4 Inbox, Datasets, insights on demand, contacts off the blade). They were repaired against the current canonical screens.
+  - A shared helper bug was fixed: it checked for the tab bar before it was drawn.
+- **Retired (6), recorded in the retirement log** (`ui-audit/2026-10-26-test-governance.md`, `594115c6`): m2-4-4-layer-status, course-detail-polish (3), m245 v2.15.74 release currentness, cf-092 scheduled-jobs config, admin-navigation "Source profiles…", cf-080 Layer 4 contact reconciliation. Deployed tests go from 97 to 89; `deployed-uat.yml` lists updated.
+- **Left red, by rule:**
+  - **(b) product regression:** `admin_layer23('universities')` returns 1.97 MB against the 700 KB budget (about 3.2 s). The budget is unchanged; server paging needs a decision.
+  - **(b/d) intermittent statement timeouts** on five admin reads.
+- **Evidence:** lane E acceptance run 40842662895 (live-acting off): desktop 68 passed, 1 failed (the regression), 1 flaky (timeouts). A phone run with the weekly-only specs (run 40840795858) gave about 75 passed per project.
+- **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 30 Oct 2026 — v2.15.370: W30 enrichment reliability and W32 AI answer limits (mandate 30 Oct 00:01, Workstreams 2 and 5)
+
+- **Decisions:** W30 and W32 were lodged before code (`AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` §8, admin `cb1974b9`). Evidence: `ui-audit/2026-10-30-enrichment-health-reconciliation.md`.
+- **Migration `20261030010000_cf247_enrich_reliability`** (md5-guarded edits of live definitions):
+  - `public.svc_source_find_next` (was `57a32d94`): the candidate scan is worked out once per set. It had timed out at 8 s on 80 of 143 calls in 48 h.
+  - `public.svc_coverage_read_next` (was `a8bfed7c`): the lease is re-checked on the locked row, so one claim per page. Jobs 49 and 159 had double-paid 767 of 3,083 scrapes in 7 days.
+  - `security.provider_onboarding_job_v1` (was `ab742e1e`): tracks its own university's job.
+- **Migration `20261030020000_cf247_reader_answer_limits`:** 12 `reading.answer_tokens.*` settings. Defaults are the values formerly fixed in code; the fee reader gets 32,000.
+- **Worker `coverage-sweep-worker-v0.54.0`:**
+  - answer limits come from settings, and a cut answer is held as `held_partial: output_truncated`;
+  - cost is recorded on failed reads;
+  - capture and proposal calls report `items` and `failed`.
+- **Rolled-back live dry runs:**
+  - W30: md5 guards matched; the source-finder call took 139 ms after the edit;
+  - W32: 12 settings within range, and `svc_worker_settings_v1` returns all 12.
+- **Tests:**
+  - specs s172 and s173 are new; s170, s11 and m245 were adjusted (no assertion weakened);
+  - full local suite 1,211 passed, 1 failed: the s173 version pin, fixed in `9c79fc2e` and re-run green, so effectively 1,212/0/0;
+  - build OK; worker syntax check OK; TEST-REGISTER regenerated.
+- **Unchanged:** the consumer API (G3), identity, quote, completeness and admission gates, and the floor. No paid read.
+
+### 30 Oct 2026 — v2.15.371: W31 site re-maps keep code-proved course pages; W33 Universities list paging (mandate 30 Oct 00:01, Workstreams 3 and 4)
+
+- **Decisions:** W31 and W33 were lodged before code (`AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` §8, admin `cb1974b9`).
+- **W31 cause:** on 29 Oct the routine 30-day re-map and job 47 demoted or replaced 789 AU code-proved pages, 714 of them wrongly (eligible AU 4,977 → 4,156). No weak page became eligible.
+- **Migration `20261030030000_cf247_coverage_bind_code_proof`:** an md5-guarded edit of `security.coverage_bind_v2` (was `bc1872ed`).
+  - A page read with a `cricos_code`, `nzqa_code`, `adapter_code` or `manual` proof is never re-scored, demoted or released unless refused.
+  - The release step releases only binder-owned rows.
+- **Worker `coverage-sweep-worker-v0.54.1`:** in `extract.ts`, the labelled NZQA number rule no longer applies to a page of another known country (it still applies to NZ pages and to callers that give no country). College of the North Atlantic (CA) had 53 pages labelled `nzqa_code`.
+- **Migration `20261030040000_cf247_universities_paging`:**
+  - `admin_layer23('universities_page')` is added beside the existing actions (md5 guard `aaf0e7d8`);
+  - settings `layer23.universities_page_size` (100) and `layer23.universities_tick_max` (2,000);
+  - `AdaptersWorkspace.jsx` reads pages.
+  - The old `'universities'` action is kept until the screen is live, then retired by a later md5-guarded edit.
+- **Rolled-back live dry runs:**
+  - W31 on 9 providers: 0 of 1,230 code-proved pages changed (10 other rows rebound normally);
+  - W33: first page 83 KB in 1.0 s (was 1.97 MB); NZ ticks 404 rows.
+- **Tests:** s174 (W33) and s175 (W31) are new; the performance spec waits for either action, with its budgets unchanged. UI catalogue 1.15; TEST-REGISTER regenerated.
+- **Not done (BLOCKED):** recovery of the 714 displaced pages (decision paper R1, up to 714 Firecrawl credits); the past-year handbook currency decision; the admin-read timeout snapshots (decision).
+- **Unchanged:** the consumer API (G3) and every gate. No paid read.
+- **Full local suite:** 1,221 passed, 1 failed. The failure was `cf-247-nz-coverage-contract`, which calls `identity()` without a country. The rule was corrected to keep the old behaviour for callers that give no country, and the spec was re-run green with no assertion changed, so effectively 1,222/0/0. Build OK; worker syntax check OK.
+
+### 30 Oct 2026 — AER bounded paid reads, step 1: B1 and B2 (Platform Admin mandate 30 Oct 06:53)
+
+- **Migration `20261030050000_cf247_aer_validation_reads_b1_b2`.**
+  - **B1 (ceiling US$0.05):** ANU Croatian Matura `87f40035`, ANU Bosnia-Herzegovina `6aee5653` (item `509c8f82`) and Melbourne India State Board `467c7a0c` (item `290bd250`), each read again on its newest stored copy through `aer_reread_v1`.
+  - **B2 (ceiling US$0.10):** Monash `e58e7771`, `512b56fe` and `9cf18451`, each read once through `course_entry_read_enqueue_v1` by worker v0.54.1, which reads in slices.
+- **Preconditions in the migration:**
+  - each source's newest run is on its current copy, with nothing waiting;
+  - the 3 courses are eligible, with exactly 3 failed items and no others;
+  - no course read is waiting;
+  - AI reading is allowed;
+  - the balance is above the floor by both ceilings;
+  - the worker is v0.54.x.
+- **Post-checks:** 3 runs and 3 course reads queued.
+- **Live dry run (rolled back):** all checks passed. Balance US$104.84, floor US$5, worker v0.54.1. As expected under W28, items `509c8f82` and `290bd250` were superseded by the newest-copy re-read.
+- **Outputs** go to Layer 4 for a person. Nothing is admitted automatically.
+
+### 30 Oct 2026 — AER paid step 1 verified (B1, B2) and step 3 queued (R1) (Platform Admin mandate 30 Oct 06:53)
+
+- **B1, done at 07:14 AEDT. Actual spend US$0.0155 against the US$0.05 ceiling.** Each read is on its newest copy with worker v0.54.1. Rows kept now against before:
+
+  | Source | Kept now | Kept before | Spend | New Layer 4 item |
+  |---|---|---|---|---|
+  | Melbourne India State Board | 9 of 9 | 1 | US$0.0050 | `dcf9300f` |
+  | ANU Bosnia-Herzegovina | 5 of 5 | 1 | US$0.0028 | `987dac71` |
+  | ANU Croatian Matura | 7 of 8 | 0 | US$0.0077 | `2b491c25` |
+
+  - All three new items are pending, with 21 rows proposed. Nothing was admitted.
+  - The partial items `509c8f82` and `290bd250` were superseded by the newest-copy re-read (W28).
+- **B2 held, with no spend.** The three Monash course pages hold 104,282, 108,295 and 100,365 characters of text. That is above `entry.course_page_chars` (100,000), so each read was held before any AI call (`held_partial`, cost recorded as US$0). Nothing was proposed.
+  - **Decision needed:** raise `entry.course_page_chars` to 115,000, which fits within 10 slices of 12,000 with overlap, then re-read the three courses (ceiling unchanged at US$0.10).
+- **R1, migration `20261030060000`:** recovery reads for the verified manifest.
+  - **A, 451 pages:** the same page, read again.
+  - **B, 263 pages:** the previous page restored as ambiguous and read again.
+  - A page becomes bound only when a fresh read finds the course's CRICOS code (`svc_coverage_read_record`, unchanged).
+  - **Not touched:** 73 past-year handbook pages (the holds stay), 3 refused pages and 32 others.
+  - **Ceiling:** one read attempt each (`read_attempts` set to 2), so at most 714 reads and at most 714 Firecrawl credits. No AI is called by a page read.
+  - **Live dry run (rolled back):** A 451, B 263, 714 due.
+
+### 30 Oct 2026 — v2.15.372: the AER review path (A1–A3) and bulk Read again on the newest copy (A5) (Platform Admin mandate 30 Oct 06:53)
+
+- **Decisions:** §9 and §10 of `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md`, lodged before merge (`d9514fb8`, `d9e5db47`).
+- **Migration `20261030070000_cf247_aer_review_path`:** md5-guarded edits of `layer4_review_decide_impl` (`22f17fa1`), `entry_matrix_review_apply_v1` (`5531f019`), `course_entry_review_apply_v1` (`e2ae70b0`), `layer4_review_bulk_decide` (`e6a2ffdd`), `layer4_batch_decide_v1_impl` (`f8e9e973`), `layer4_inbox_kinds_v1` (`3f1fddbe`), `layer4_inbox_items_v1` (`cc42a3d5`) and `admin_layer4_inbox` (`272438c2`), plus five new review functions.
+  - **A1:** Approve except. Excluded rows go `inactive` with "excluded by approve except (item, reviewer): reason", and the decision and events record their lineage.
+  - **A2:** bulk and batch decide skip AER kinds and return `skipped_aer`.
+  - **A3:** AER decisions need rank 6.
+  - **Inbox:** AER items have their own kind, `aer_review`.
+- **Migration `20261030080000_cf247_aer_bulk_reread_newest_copy`:** `admin_entry_matrix_reread` (`ca394b60`) now reads the newest copy only, and the governed snapshot (`55910cb4`) moves to Option A.
+  - **Security fix:** the role check never fired inside the security-definer function. API callers must now be Platform Admin.
+  - **Reported separately:** the same idiom in `admin_adapter_measures`.
+- **Live dry runs (rolled back):**
+  - Inbox: 242 AER items.
+  - A3: Curator refused, both directly and through the Inbox.
+  - A2: bulk skipped 184, batch skipped 2, pending unchanged.
+  - A1: RMIT Qatar approve-except gave 1 row active and 1 excluded, with lineage, run `e07eeaf5` and hash `64edc4fe`.
+  - A5: Curator refused; Otago Polytechnic re-queued 1 run (the newest copy), the older copy kept, 2 items superseded, unknown id skipped.
+- **Tests:** specs s176 and s177; full local suite **1,238 passed, 0 failed, 0 skipped**; build OK; TEST-REGISTER regenerated.
+- **Guides:** role guides updated for A1–A5 (`c78c83e9`). A4 is recorded as O9 in the website register (2.4). The API marker for "scale not stated" is the next decision; the developer guide is unchanged because the API is unchanged.
+- **Open point:** approving a change item supersedes the active row whose new reading was excluded. Until it is decided, reviewers reject such change items.
+- **Unchanged:** the consumer API.
+
+### 30 Oct 2026 — R1 reconciled; v2.15.372 delivered; B3 batch 1 queued (Platform Admin mandate 30 Oct 06:53)
+
+- **R1, settled at 07:34 AEDT.** Queued 714, against a manifest of A 451 and B 263.
+
+  | Outcome | Pages |
+  |---|---|
+  | Bound again on a fresh CRICOS proof (A 440, B 237) | 677 |
+  | Bound on exact title, not eligible for entry requirements | 2 |
+  | Adapter-code proofs, still ambiguous (the reader promotes only on CRICOS) | 13 |
+  | Needs render | 6 |
+  | Fetch failed | 4 |
+  | Blocked | 2 |
+  | Identity mismatch | 3 |
+  | Still waiting for their one attempt | 7 |
+
+  - **Credits:** 3 Firecrawl credits used, against the 714 ceiling. No AI.
+  - **Eligibility:** AU eligible is now 4,834 (4,157 before R1); NZ is 438.
+  - No CRICOS or code-proof requirement was weakened, and no page was bound by hand.
+- **v2.15.372 delivered** (#751, `b1cf6189`). Live md5s match the dry runs:
+  - `admin_entry_matrix_reread` `e2566cb6`, snapshot `af76dcb7`;
+  - decide `67966ceb`, apply `7c718987` and `25899209`, bulk `512226a0`, batch `d3135163`, inbox `3f2b49d5`, `08e7999c` and `ff6e116b`.
+- **B3 batch 1, migration `20261030090000`:**
+  - `entry.course_batch_size` changes from 50 to 200, within its range, with the reason recorded.
+  - It queues the next 200 eligible AU courses by plan order: Monash 155 and QUT 45.
+  - **Preconditions in the migration:** B3 scope total stays within 500; spend plus estimate stays within US$6; no read waiting; AI allowed; balance above floor by the estimate; worker v0.54.x.
+  - **Post-checks:** every queued course is AU and eligible.
+  - **Live dry run (rolled back):** estimate US$2.00 at US$0.0100 a course (measured US$0.0080, plus 25%); balance US$104.80.
+
+### 30 Oct 2026 — B3 complete (500 AU courses, US$2.69 of US$6); B4 batch 1 queued (Platform Admin mandate 30 Oct 06:53)
+
+**B3 by batch:**
+
+| Batch | Migration | Courses | Layer 4 review | Skipped | Held (US$0) | Spend |
+|---|---|---|---|---|---|---|
+| 1 | `20261030090000` | Monash 155, QUT 45 | 127 | 30 | 43 (QUT) | US$1.1763 |
+| 2 | `20261030130000` (#753) | RMIT 200 | 197 | 3 | 0 | US$1.1351 |
+| 3 | `20261030135000` (#754) | RMIT 100 | 100 | 0 | 0 | US$0.3760 |
+| **Total** | | **500** | **424** | **33** | **43** | **US$2.6874** |
+
+- **QUT paused.** 43 of 45 QUT pages were held before any AI call, because the page text (173,314 to 201,314 characters) is longer than `entry.course_page_chars` (100,000).
+  - Under the mandate ("stop on repeated truncation", "use covered slices"), QUT was not continued and the held reads are not repeated.
+  - Batches 2 and 3 were limited to RMIT, the next provider in plan order. Each was dry-run live and rolled back before queuing.
+  - **Next decision:** a page-size limit for QUT (about 205,000 characters, 18 slices) and for the B2 Monash pages (115,000), with a bounded re-read of the 43 + 3.
+- **Holds count toward the 500.** The scope count includes the held reads, so B3 was not extended.
+- **Nothing admitted.** Every read is in Layer 4 for a one-at-a-time Platform Admin decision (A1–A3).
+
+**B4 batch 1, migration `20261030160000` (#755):**
+- **Preconditions re-verified at 08:04 AEDT:** 438 eligible NZ courses, all bound and never read. Scope is capped at the approved 421, taken in plan order.
+- **Queued:** 200 courses (AUT 163, Ara 16, Lincoln 11, Waikato 9, Massey 1), job `6c668db0`.
+  - Estimate US$1.63 (measured cost plus 25%) against the US$4.50 ceiling.
+  - Balance US$102.10, observed 08:00; floor US$5; worker v0.54.1.
+- **Country setting:** `entry.course_read_countries` was limited to NZ inside the transaction only. It was restored byte-for-byte, and this was verified live after the merge (`["AU","NZ"]`, `updated_at` unchanged).
+
+**Branches:**
+- `cf247-zoho-dryrun` was fast-forwarded to main (`6ee5e8b1`).
+- `cf247-enrich-reliability` (`739d7145`), `cf247-reader-answer-limits` (`0644db73`) and `cf247-universities-paging` (`f6bf116d`) hold no unique work. Their only differences from main are integration renumbering and worker version labels, since superseded by v0.54.1.
+- **BLOCKED:** this session's GitHub proxy refuses to delete branches (both git push and the REST API returned 403). Operator action: `git push origin --delete cf247-enrich-reliability cf247-reader-answer-limits cf247-universities-paging`.
+
+**Lane N lodged** (admin `c1450551`, NOT executed):
+- `docs/platform/pastes/PASTE-20261030-stuck-adapter-drafts.sql`, with its reconciliation. Preconditions were re-verified at 07:58 AEDT: 5 drafts still capturing, snapshot `b8e5c62a`.
+- `docs/platform/ui-audit/2026-10-30-edge-capacity-assessment.md`: read-only, proposals P1–P7. No schedule or capacity was changed.
+
+### 30 Oct 2026 08:33 AEDT — mandate 30 Oct 06:53 close-out: B4 complete, v2.15.373 delivered, deployed run green
+
+- **B4 complete:** 421 NZ courses (#755, #756, #758) for US$0.8207 against the US$4.50 ceiling.
+  - 348 to Layer 4 review, 71 skipped, 2 AUT pages held (108,958 and 880,128 characters).
+  - The 17 eligible NZ courses beyond the approved 421 were not read.
+  - `entry.course_read_countries` was restored after each batch.
+- **Totals for the mandate:**
+
+  | Line | Spend | Ceiling |
+  |---|---:|---:|
+  | B1 | US$0.0155 | US$0.05 |
+  | B2 | US$0 (held) | US$0.10 |
+  | R1 | 3 Firecrawl credits, no AI | 714 credits |
+  | B3 | US$2.6874 | US$6 |
+  | B4 | US$0.8207 | US$4.50 |
+
+  - **Nothing admitted.** Layer 4 AER pending: 1,014 (956 course first reads, 54 matrix first runs, 4 matrix changes).
+  - **Consumer-visible AER:** RMIT's 343 active matrix rows only; 0 active course rows.
+- **`entry.course_batch_size` back to 50** (#759, `20261030210000`). Verified live at 08:27 (value 50, reason recorded).
+- **v2.15.373 delivered** (#757, `b74abefb`): W34 and W35. Migrations `20261030190000` and `20261030200000` were renumbered after the B4 batches.
+  - **Dry runs:**
+    - All six W35 md5 guards apply to the live definitions.
+    - Notices 1,721 → 6 ms; field coverage NZ 3,040 → 1,283 ms (identical figures).
+    - `providers_page`: 4 of 4 identical, 364 → 37 ms.
+  - **Live after the merge:**
+    - Snapshots built with no error. Jobs `admin-read-snapshots` and `course-coverage-snapshot` are scheduled and catalogued.
+    - `gap-causes` runs `gap_causes_run_v1()`.
+    - `admin_read` is unchanged (`6b1bb9d5`).
+  - **Local suite:** 1,252 / 0 / 0. Register regenerated (admin `65f11971`). UI catalogue 1.16; SOPs copied (admin `ea2cd96f`).
+- **Deployed weekly run** `40956651633` (safe mode, 08:18–08:30): **success**.
+  - Desktop 79 of 79, phone 80 of 80.
+  - The four tests left red at 01:00 pass at the first attempt: core workspaces budgets, Scheduler and Jobs, and field coverage. No assertion, budget or timeout was changed.
+  - One unrelated desktop flake (`cf-061` QILT course-row locator) passed on retry.
+- **Health:**
+  - Source finder: no time-out since about 00:00.
+  - Course list read: median 0.04 s.
+  - W30 duplicate scrapes: 4.3%, down from 21% and 37.5%.
+  - `adapter-overwrite`: 1 time-out in 3 h.
+- **Documents:** handback `docs/platform/ui-audit/2026-10-30-aer-enrichment-handback-2.md`; live status at 08:33; decision §10 W34 recorded. Admin `50cbf693`.
+- **Open, each with its exact next decision (handback §11):**
+  - D1: raise `entry.course_page_chars` to 205,000 and re-read the 46 held pages plus the 137 unread QUT courses.
+  - D2: B5 tranches T1–T6, each US$6.
+  - D3: the 35 R1 residues.
+  - D4: the `entry_matrix_change` supersede rule.
+  - D5: the A4 API marker.
+  - D6: the `admin_adapter_measures` role check.
+  - D7: run the stuck-drafts paste.
+  - D8: capacity proposals P1–P7.
+  - D9: delete the 3 lane branches (blocked by the proxy).
+
+### 30 Oct 2026 08:55 AEDT — mandate 30 Oct 08:45: D7 executed, D9 blocked, D1 step 1 (settings and probe) about to merge
+
+- **Decisions recorded before code:** decision §11 (admin `73a71e5d`), with §11.1–11.3 for D4, D5 and D6 (admin `aef0490f`). The D4, D5 and D6 lanes are building.
+- **D7 executed, 08:50:59 AEDT.** The stuck-drafts paste ran unchanged as one transaction, after a rolled-back dry run of the same text.
+  - All preconditions held: 5 untouched capturing drafts, snapshot `b8e5c62a`, no active onboarding or autobuild, no earlier audit row.
+  - **Result:** 5 drafts went from `capturing` to `error`, each with one appended error entry. 1 audit row (`cf247-stuck-capturing-20261030`).
+  - Drafts still capturing overall: 24 → 19. The older 12 Oct drafts of the same providers were not touched.
+  - Vardhan's and AIBT's newest drafts are no longer capturing, so both are unblocked. Kulin already had a newer draft.
+  - Onboarding events on these drafts are unchanged (7). Nothing was captured or deleted, no course or provider row changed, and no cost.
+- **D9 BLOCKED.** Re-verified at 08:52:
+  - `cf247-enrich-reliability` (`739d7145`), `cf247-reader-answer-limits` (`0644db73`) and `cf247-universities-paging` (`f6bf116d`) are each 1 commit ahead and 13 behind main.
+  - Every line they add is in main, apart from integration renumbering and worker version labels (checked line by line).
+  - `cf247-zoho-dryrun` (`6ee5e8b1`) is 0 ahead, so it is an ancestor of main.
+  - The deletion was refused: `git push --delete` returned "remote end hung up", and the REST refs API returned HTTP 403 "Write access to this GitHub API path is not permitted through this proxy". Nothing else was deleted, and no history was rewritten.
+  - Operator action: `git push origin --delete cf247-enrich-reliability cf247-reader-answer-limits cf247-universities-paging cf247-zoho-dryrun`.
+- **D1 scope reconciled.**
+  - 48 courses have a long page as their newest held read: QUT 43, Monash 3, AUT 1, NorthTec 1. Handback 2 said "46" and named AUT for the 880,128-character page; both were errors.
+  - NorthTec stays held (over 205,000).
+  - **Unique D1 scope:** 47 held courses plus 137 never-read QUT courses = 184.
+- **D1 step 1** (migration `20261030220000`):
+  - **Settings:**
+    - `entry.course_page_chars` 100,000 → 205,000 (range maximum 150,000 → 250,000);
+    - `enrich.course_entry_max_slices` 10 → 19;
+    - `enrich.course_entry_slice_concurrency` 4 → 10 (D1 only).
+    - The values before are kept in the event.
+  - **Probe:** 5 courses (Monash 3, AUT 1, QUT 201,314 characters), 57 expected slices.
+  - **Checks:** each course eligible, bound to its newest stored copy, and with its newest read a held long page within 205,000.
+  - **Live dry run (rolled back):** 5 queued; estimate US$0.0843 (57 slices × measured US$0.00118 a slice × 1.25); balance US$101.28, floor US$5; settings applied as intended.
+  - **Pre-run estimate for the whole of D1:** about US$4.30 measured, US$5.40 with margin, against the US$6 ceiling.
+
+### 30 Oct 2026 09:04 AEDT — D1 probe settled; D1 step 2 and D3 about to merge
+
+- **D1 probe delivered** (#760, migration `20261030220000`, settings live at 08:57 AEDT). All 5 reads were complete at the first attempt, and all 29 rows went to Layer 4. Nothing was admitted.
+
+  | Course | Slices | Rows |
+  |---|---:|---:|
+  | Monash | 9 | 6 |
+  | Monash | 10 | 6 |
+  | Monash | 10 | 6 |
+  | AUT | 10 | 5 |
+  | QUT | 18 | 6 |
+
+  - Spend US$0.1064 against an estimate of US$0.0843. QUT measured US$0.00233 a slice, the highest seen.
+- **Newest-copy finding.** QUT double-degree pages are shared, so the newest stored copy of a page can carry a sibling course's id.
+  - Newest-copy identity is now checked by the page's URL as well as the course.
+  - Six held QUT courses are bound to a 4–5 Oct copy while a newer copy of the same page was stored on 29 Oct. They are left out of D1 rather than read from an older copy: `566856d9`, `6b725a6f`, `c685ea5e`, `e41a156d`, `f302160d`, `f427e635`.
+- **D1 step 2** (migration `20261030240000`): 36 held QUT pages, 610 expected slices.
+  - **Live dry run (rolled back):** 36 queued; estimate US$1.7765 (610 × US$0.00233 × 1.25); D1 spend so far US$0.1064; balance US$101.18.
+- **D1 forecast at the measured QUT rate.**
+  - The 137 unread QUT pages come to about 1,950 slices (sizes from their stored copies at the measured 1.78 characters per gzip byte), so about US$4.54. Three of them are over 205,000 characters and would be held.
+  - Probe plus step 2 plus the 137 comes to about US$6.4, which is over the US$6 ceiling.
+  - Under D1 ("stop if the hard ceiling is insufficient"), the 137 are read only as far as the ceiling allows with the 25% margin, or they wait for a decision. Their newest-copy check is applied first.
+- **D3** (migration `20261030230000`). The 35 pages left by R1, reconciled at 09:02:
+
+  | Pages | Category | Action |
+  |---:|---|---|
+  | 7 | Single attempt already done (CRICOS not on the page) | Not re-read. Curtin 5 are their course pages; UniMelb 1 and Newcastle 1 are not course pages |
+  | 6 | Needs render (Federation 5, UNSW 1) | One rendered attempt brought forward |
+  | 4 | Fetch failed | One retry each, attempts 3 → 2 |
+  | 13 | Flinders adapter-code proofs | **Not restored**: no approved, documented rule promotes on an adapter code. 5 of the 13 pages name a different course or variant (MA Research for MA Social Work, PhD Research for PhD Nursing/Midwifery, BCIFT, MCRNOT, GDPTESOL exit-only) |
+  | 2 | Blocked (QUT) | Left blocked |
+  | 3 | Identity mismatch | Left unbound. Curtin 2 now say "Course not found"; UNSW 1 redirects to degree search |
+
+  - **Live dry run (rolled back):** 6 + 4 queued. At most 10 Firecrawl credits, within the 35-credit ceiling. No AI.
+
+### 30 Oct 2026 09:16 AEDT — correction: time labels
+
+Several time labels written during this mandate ran ahead of the clock. Corrected in place, checked against the commit times and the database timestamps:
+
+| Item | Label written | Correct |
+|---|---|---|
+| Change-control heading (D7, D9, D1 step 1) | 09:20 | 08:55 |
+| Change-control heading (D1 probe, step 2, D3) | 09:45 | 09:04 |
+| D3 reconciliation | 09:30 | 09:02 |
+| Decision §11, scope reconciled | 08:55 | 08:48 |
+| Decision §11.1–11.3 | 09:15 | 08:54 |
+| Manifest baseline | 09:55 | 09:08 |
+| Live status | 10:05 | 09:12 |
+
+**Two labels could not be corrected:**
+- The comment in migration `20261030230000` still says "reconciled live at 09:30 AEDT"; the correct time is 09:02.
+- The #761 PR body says "the admin repo entry at 09:45"; the correct time is 09:04.
+
+**Database times were always right:**
+- D7 ran at 08:50:59.
+- D1 step 1 was applied at 08:57:15.
+- D3 was queued at 09:06:22.
+- No content or count changed.
+
+### 30 Oct 2026 10:10 AEDT — v2.15.374 (D4 supersede rule, D6 role check) about to merge; D5 paste lodged
+
+- **v2.15.374** (branch `cf247-v374-int`):
+  - **D4** (`20261030260000`): md5-guarded edits of three functions.
+
+    | Function | md5 before | md5 after |
+    |---|---|---|
+    | `entry_matrix_review_apply_v1` | `7c718987` | `db3fde75` |
+    | `course_entry_review_apply_v1` | `25899209` | `ce8d0bad` |
+    | `layer4_inbox_kinds_v1` | `08e7999c` | `629fcbda` |
+
+    Spec s180 has 10 tests, including mixed approve and exclude groups.
+  - **D6** (`20261030270000`): `admin_adapter_measures` role check uses the A5 pattern with rank 5 (md5 `b1417eaf` → `8ad49afc`). Spec s181 (contract) and s183 (deployed, reads only).
+  - **Live md5s re-checked just before the merge:** all four still have their before values.
+  - **D4 live dry run (lane, rolled back):**
+    - an excluded replacement leaves the active row unchanged and linked;
+    - an approved replacement supersedes the old row, which records what replaced it;
+    - C1 and C2 hold the decision with nothing changed;
+    - on a course page that already has active rows, Approve except is held.
+  - **D6 live dry run (rolled back):**
+    - allowed: owner session, Platform Admin, rank 5;
+    - refused with 42501: anon, curator, rank 4, service_role with no user.
+  - **Local suite:** 1,266 passed, 0 failed, 0 skipped. Register regenerated.
+  - **Reviewer guide** §5.1, §5.2 and §5.6 updated for D4 (admin `eadcee43`).
+- **D5:**
+  - Built (branch `cf247-d5-lane`, commit `3b8ec042`): suite 1,257/0/0, rolled-back dry run with every earlier key byte-identical.
+  - **Paste lodged, NOT applied:** `docs/platform/pastes/PASTE-20261030-d5-scale-stated-marker.sql` (md5 `d159cfec`). Its live before-md5s still match (`be5478d0`, `492ece03`).
+  - **Order:** the Platform Admin applies the paste, then the D5 PR merges (marker `20261030280000` re-runnable, workspace "Not stated on the page" `20261030290000`) as v2.15.375.
+  - **Document drafts** are in `ui-audit/d5-drafts/`, to issue at go-live.
+
+### 30 Oct 2026 10:36 AEDT — v2.15.374 deployed run: s183 failed on a wrong premise; fix about to merge
+
+- **v2.15.374 is live** (#763, `a50aeb8d`). The live md5s match the dry runs: `db3fde75`, `ce8d0bad`, `629fcbda`, `8ad49afc`.
+- **Weekly safe run** `40971522020` (10:12–10:24): desktop 79 of 80, phone 80 of 81. The only failure, on both, was the new D6 deployed spec s183: "Platform Admin or Operator required", HTTP 403, where 200 was expected.
+- **Cause:** the deployed UAT login (`25269f74`) is a Pipeline Operator (rank 4), not the Platform Admin. D6 refused it correctly, as intended. The spec's premise was wrong.
+- **Fix** (branch `cf247-s183-fix`): s183 reads the session's own rank (`admin_read('context')`).
+  - Below rank 5, it requires exactly 403 / 42501 / "Platform Admin or Operator required".
+  - At rank 5 or above, it requires 200 `[]`.
+  - This proves "signed in, unauthorised" over the live API. "Authorised" stays proven by s181 and the dry run.
+  - No other assertion changed, and no timeout or skip was added.
+- **Local suite:** 1,266 passed, 0 failed, 0 skipped. Register regenerated with the guard text updated.
+- **Every other deployed test passed,** including the four former reds.
+
+### 30 Oct 2026 11:30 AEDT — mandate 30 Oct 08:45 close-out
+
+- **Releases:** v2.15.374 (#763: D4 and D6) is live, and the s183 premise fix is merged (#764).
+- **Deployed:** the weekly safe run `40978658818` on `a8e02461` passed 80 of 80 on desktop and 81 of 81 on phone, with 0 skipped and 10 live-acting specs held.
+- **Delivered:**
+  - D1 steps 1–2: 41 long pages read, all complete, for US$1.6891.
+  - D3: run, with 0 pages restored and 0 credits used.
+  - D7: run at 08:50:59.
+  - D8: decision paper.
+  - The Layer 4 manifest.
+- **Blocked, each with its exact decision in handback 3 §9:**
+  - D1: the 125 remaining QUT pages are over the ceiling.
+  - D3: the render path and the Flinders exact-title rule.
+  - D5: the Platform Admin applies the paste.
+  - D9: branch deletion, refused by the proxy.
+  - B5: held.
+- **Queue at 11:30:**
+  - 1,055 AER items pending; 0 decided in the last 24 hours.
+  - Active rows: course 0, provider table 343 (RMIT).
+  - Entry reads waiting: 0.
+- **Not complete:** AER is not complete until reviewed course rows are admitted and reach the consumer API.
+- **Handback:** `docs/platform/ui-audit/2026-10-30-aer-handback-3.md`.
+
+### 30 Oct 2026 22:43 AEDT — v2.15.375 (D5) released through change control (AER production-closure mandate §1)
+
+- **D5 paste:**
+  - The Platform Admin's third run succeeded at 22:19 AEDT. The first two runs (16:5x and 18:50) rolled back on their md5 guards, with nothing changed: CRLF line endings, then editor auto-indent.
+  - Verified live at 22:30:
+    - `entry_matrix_payload_v1` `5f7eb755`, `entry_resolve_v1` `69bbc05f`, both comments carry D5;
+    - D5 consumer baseline row at 22:19:48;
+    - 0 consumer functions drift from the baseline, read with the empty search path the baseline uses;
+    - payload: 343 active matrix items, all carry `scale_stated` (310 true, 0 false, 33 null, the 33 all case by case).
+- **v2.15.375 (package 0.1.302):**
+  - Migrations `20261030280000_cf247_d5_scale_stated_marker` (finds the paste applied; changes nothing) and `20261030290000_cf247_d5_aer_scale_not_stated` (`admin_aer` `09dbbaf2` → `5e58f5d6`; live dry run passed, rolled back).
+  - Live md5s re-checked at 22:42: `5f7eb755`, `69bbc05f`, `09dbbaf2`.
+- **Local full suite:** 1,271 passed, 0 failed, 0 skipped. Register regenerated (s182 added under D5 / A4).
+- **Consumer API:** additive `scale_stated` only, approved by the Platform Admin at 08:45 (D5). No existing field changed and no scale is inferred.
+
+### 31 Oct 2026 10:47 AEDT — v2.15.376: AER course outcome register (closure decision C1; StudySearch transformation Phase 1)
+
+- **What:** migration `20261030300000_cf247_aer_course_outcome_register` adds:
+  - three settings, `aer.outcome_register_every_minutes` / `_page_rows` / `_stale_after_minutes`;
+  - the derived tables `pipeline.aer_course_outcomes` and `pipeline.aer_course_outcome_builds`;
+  - job `aer-outcome-register`, catalogued first;
+  - `public.admin_aer_outcomes`, rank 4 and above.
+- **Screen:** Catalogue › Entry requirements › Resolution inspection gains the Course outcome register, with Download CSV.
+- **Read only:** nothing is admitted, read, queued or decided. Consumer API unchanged.
+- **Live dry run (rolled back, 10:41):**
+  - the build holds exactly the 31,875 in-scope courses (built in 4.5 s);
+  - admitted-course 44 = 44 courses with active rows;
+  - counts by outcome: excluded 10,423, identity 10,230, awaiting review 4,924, provider resolution 3,840, no URL 2,327, verified none 80, admitted course 44, unreadable 7.
+- **Before merge:** no register object exists live; nothing left from the interrupted 30 Oct dry run.
+- **Local full suite:** 1,279 passed, 0 failed, 0 skipped (10:46). Register regenerated (s184 contract and mocked browser, s185 deployed read-only).
+- **Records:** decision C1 in the admin `2026-10-30-aer-production-closure-response.md` §0; programme record `2026-10-31-studysearch-transformation.md`.
+
+### 31 Oct 2026 11:01 AEDT — v2.15.377: F1, scheduled provider checks once per provider (StudySearch transformation Phase 1)
+
+- **Why:**
+  - Job `waste-guard` hit its 120 s limit (14 of 24 runs failed on 30–31 Oct); job `coverage-ai-match-prepare` timed out intermittently.
+  - Both evaluated provider-level checks once per course, AI-match row or flag.
+  - Root cause in the admin `2026-10-31-studysearch-transformation.md` §7.
+- **What:** migration `20261031010000_cf247_f1_provider_checks_once`, md5-guarded edits:
+  - `security.enrichment_flags_refresh_v1` `ae577625` → `3bbec96c`;
+  - `security.coverage_ai_match_prepare_v1` `b7db293c` → `ab2dd5dc`.
+  - Each check now runs once over a materialised distinct-provider list.
+  - No time-out, schedule, command, setting, data or consumer change.
+- **Proof (rolled back):**
+  - identical row sets in every section: 9,145; 2,128 on 17,888 rows; 11,297; 5,932; 142 providers;
+  - flag refresh 15.3 s (was 115–120 s); AI-match preparation 19.4 s (median was 47.7 s).
+- **Before merge:** live md5s re-checked at 11:01 (`ae577625`, `b7db293c`).
+- **Local full suite:** 1,283 passed, 0 failed, 0 skipped. Register regenerated (s186).
+
+### 31 Oct 2026 11:44 AEDT — v2.15.378: SS-005 Rule 4 job paused (ref F1c) and SS-006 error-reporter grant (ref F6)
+
+- **Approval:** Platform Admin, 31 Oct 2026 11:32 (execution register instruction §6: "SS-005 — v2.15.378, which has already been approved"; SS-006 in the same scope).
+- **What:** migration `20261031020000_cf247_f1c_rule4_paused`.
+  - Job `l4-rule-low-agreement` is set inactive.
+  - Its catalogue description now says it admits from the page and is paused (it wrongly said it "sends values to review").
+  - Anon EXECUTE on `public.admin_ui_error_report` is removed; authenticated is restated.
+  - No function, adapter flag, data or consumer object changes.
+- **Rollback:** `cron.alter_job(… active := true)`, the previous description and the anon grant (each a single statement).
+- **Local full suite:** 1,287 passed, 0 failed, 0 skipped. Register regenerated (s187).
+- **Records:** register `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (SS-005, SS-006); record §8.9, §10.2, §14.
+
+### 31 Oct 2026 13:22 AEDT — v2.15.379: SS-007 remediation hold and governed binding correction (no data changed)
+
+- **Approval:** Platform Admin, 31 Oct 2026 11:53 (SS-007 Option 2 with controls) and 12:38 (Executive Execution Mandate §2: Option C, build the hold, tests, dry runs and change control). The production re-role waits for decision pack D1.
+- **What:** migration `20261031030000_cf247_ss007_remediation_hold`.
+  - New table `pipeline.course_remediation_holds` (one open hold per course) and check `security.course_held_v1`.
+  - The hold is enforced through four existing controls, each an md5-guarded edit:
+
+    | Control | Before | After |
+    |---|---|---|
+    | Binding guard trigger function | `efd59e2a` | `33351b50` |
+    | One search stop gate | `6e08df75` | `d7679a05` |
+    | AI match preparation | `ab2dd5dc` | `23d433d2` |
+    | Link-search tick send path | `13b0771d` | `ffc9fb64` |
+
+  - `security.binding_remediation_apply_v1` (Platform Admin only; one provider; exact count guard; batch limit setting `remediation.max_batch_courses` 50) and `security.binding_remediation_lift_v1` (restore or release).
+  - No hold is created; nothing is re-roled by the migration.
+- **Dry runs (live, rolled back):**
+  - whole file applied with the post-check;
+  - batch A, 177 re-roled: 5 lanes refuse the held courses, 167 published links → 0, restore exact;
+  - the count guard refused a changed batch.
+- **Rollback:** with no holds open, the four edits have no effect. Revert by restoring the before-definitions (md5s above).
+- **Local full suite:** 1,294 passed, 0 failed, 0 skipped. Register regenerated (s188).
+- **Records:** register (SS-007); record §18 to §21; decision pack `2026-10-31-studysearch-decision-pack.md`; handover `docs/integrations/handover/2026-10-31-SS-007-official-link-corrections-HANDOVER.md`; paste `docs/platform/pastes/PASTE-20261031-ss007-batch-a-re-role.sql` (not run).
+
+### 31 Oct 2026 13:50 AEDT — v2.15.380: SS-010 D5a, mismatch-page courses held out of enrichment queues
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decision D5 (part A).
+- **What:** migration `20261031040000_cf247_ss010_enrich_mismatch_hold`, an md5-guarded edit of the central enrichment hold `security.enrich_item_held_v1` (`66be0efc` → `688da7ae`).
+  - It holds a course while its page binding is `mismatch`; manual bindings are excepted.
+  - The hold ends by itself when a page is bound again.
+- **Evidence:** 11,332 Enrich items on mismatch-page courses in 4 days, 0 filled.
+- **Dry run:** held course-fields over the last 4 days rise from 9,264 to 16,797 (of 19,512).
+- **Rollback:** the one-line before-definition (md5 `66be0efc`).
+- **Local full suite:** 1,297 passed, 0 failed, 0 skipped. Register regenerated (s189).
+- **Records:** record §25.
+
+### 31 Oct 2026 14:05 AEDT — v2.15.381: SS-012 D6, Website and Zoho course items built about twice as fast (output identical)
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decision D6. The G3 approval line is in the migration, and the consumer baseline is re-taken.
+- **What:** migration `20261031050000_cf247_d6_course_item_speed`, an md5-guarded edit of `api.website_v2_course_item` (`15129314` → `8f2a0ac9`).
+  - The display code is computed once per item (it was computed 3 times).
+  - The published check is keyed on the provider, instead of a scan of the hidden-provider view per item.
+  - `public.website_v2_course_search` is unchanged: a sort and count rewrite measured no faster under live load.
+- **Proof (live, rolled back):**
+  - 34 searches covering every sort, filter, pagination past the end, empty results and page sizes 1/20/50: byte-identical.
+  - 400 random course items: identical.
+  - 8 interleaved runs of 50 items: median 536 ms → 280 ms.
+- **Rollback:** the before-definition (md5 `15129314`) plus a re-baseline.
+- **Local full suite:** 1,300 passed, 0 failed, 0 skipped. Register regenerated (s190).
+- **Records:** record §26; handover: no API change (developer guide unchanged).
+
+### 31 Oct 2026 14:20 AEDT — v2.15.382: SS-008 D3 Rule 4 retired logically; SS-009 D4 additive entry.min_scores[]
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decisions D3 and D4. The D4 G3 approval line is in the migration, and the baseline is re-taken.
+- **D3:** migration `20261031060000_cf247_d3_rule4_retired`.
+  - Job `l4-rule-low-agreement` (inactive) and `security.l4_rule_low_agreement_v1` are marked `retiring`, replaced by Layer 4 review, with retire_after = today + `hygiene.retire_after_days`.
+  - The catalogue says retired.
+  - EXECUTE is revoked from app roles.
+  - Nothing is dropped; the 22 historical admissions are kept.
+- **D4:** migration `20261031070000_cf247_d4_entry_min_scores`, an md5-guarded edit of `security.entry_course_payload_v1` (`80fdfabb` → `691bbba7`).
+  - It adds `entry.min_scores[]` with score, basis, audience, scale, quote, source_url and as_at, as admitted.
+  - `min_score` and `min_score_basis` are unchanged.
+  - Dry run: 41 courses, all other content identical, 116 items.
+- **Rollback:**
+  - D3: restore the status, description and grant.
+  - D4: the before-definition (md5 `80fdfabb`) plus a re-baseline.
+- **Local full suite:** 1,306 passed, 0 failed, 0 skipped. Register regenerated (s191, s192).
+- **Records:** record §27 and §28; developer guide issue 7; handover `docs/integrations/handover/2026-10-31-D4-entry-min-scores-HANDOVER.md`.
+
+### 31 Oct 2026 14:45 AEDT — v2.15.383: SS-014 health alerts persist and escalate; AI spend across all routes; SS-013 names
+
+- **Authority:** Platform Admin mandate, 31 Oct 2026 14:27 (SS-013, SS-014: improve existing controls). Standing engineering authority; no consumer change.
+- **What:** migration `20261031080000_cf247_ss014_health_alerts_cost_truth`, an md5-guarded edit of `security.platform_health_check_v1` (`29315678` → `d245c535`).
+  - A job failure stays open while the last run failed, or while it failed 3 or more times in 24 hours.
+  - A job is critical after 3 consecutive failures, at any schedule.
+  - AI spend over 24 hours is measured from the OpenRouter credit balance (all routes), against setting `budgets.ai_daily_ceiling_usd` (14).
+  - The remaining credit is no longer labelled as spend.
+  - Four settings were added. The capacity-policy comment now says StudySearch.
+  - **SS-013:** 8 test names and 2 workflow names now say StudySearch. Identity guard s6 is extended to all of `src/`, test names and workflow names.
+- **Evidence:** 62 self-closing job-failure issues in 4 days, none escalated. The AI spend check read US$0 (Layer 3 only) against a true US$4 to US$6 a day on 29 and 30 Oct.
+- **Dry run:** full forced health run 14.3 s; spend 24 h US$0.25; waste-guard and AI-match preparation stay visible as warnings.
+- **Rollback:** the before-definition (md5 `29315678`). The settings may stay.
+- **Local full suite:** 1,310 passed, 0 failed, 0 skipped. Register regenerated (s193; s6 extended).
+- **Records:** record §30; `STUDYSEARCH-IDENTITY-INVENTORY.md`; `OPERATIONAL-LIMITS.md` 1.1 (targets T1 to T8).

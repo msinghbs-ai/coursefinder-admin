@@ -1,0 +1,1163 @@
+[
+ {
+  "code": "105122F",
+  "prov": "Flinders Unive",
+  "before_amt": 42900,
+  "before_n": 1,
+  "reg": [
+   "present",
+   35500
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    36289,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    789,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    35500,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": false,
+  "mech": true
+ },
+ {
+  "code": "0101621",
+  "prov": "Griffith Unive",
+  "before_amt": 47000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   21047
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    21614,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    567,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    21047,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "046442E",
+  "prov": "Griffith Unive",
+  "before_amt": 41000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   20047
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    20614,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    567,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    20047,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "061457F",
+  "prov": "Griffith Unive",
+  "before_amt": 46500,
+  "before_n": 1,
+  "reg": [
+   "present",
+   21797
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    22364,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    567,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    21797,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "082403B",
+  "prov": "Griffith Unive",
+  "before_amt": 43000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   41999
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    43036,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    1037,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    41999,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "107421A",
+  "prov": "Griffith Unive",
+  "before_amt": 42500,
+  "before_n": 1,
+  "reg": [
+   "present",
+   20797
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    21364,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    567,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    20797,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "114089E",
+  "prov": "Griffith Unive",
+  "before_amt": 41000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   39999
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    41036,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    1037,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    39999,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "114091M",
+  "prov": "Griffith Unive",
+  "before_amt": 41000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   20047
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    20614,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    567,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    20047,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "043153E",
+  "prov": "La Trobe Unive",
+  "before_amt": 44800,
+  "before_n": 1,
+  "reg": [
+   "present",
+   43000
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    43000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    0,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    43000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "102427B",
+  "prov": "La Trobe Unive",
+  "before_amt": 43000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   41400
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    41400,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    0,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    41400,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "014891M",
+  "prov": "RMIT Universit",
+  "before_amt": 50880,
+  "before_n": 1,
+  "reg": [
+   "present",
+   50880
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    51266,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    50880,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "055528B",
+  "prov": "RMIT Universit",
+  "before_amt": 50880,
+  "before_n": 1,
+  "reg": [
+   "present",
+   50400
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    50786,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    50400,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "060584G",
+  "prov": "RMIT Universit",
+  "before_amt": 50880,
+  "before_n": 1,
+  "reg": [
+   "present",
+   50400
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    50786,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    50400,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "076022K",
+  "prov": "RMIT Universit",
+  "before_amt": 50880,
+  "before_n": 1,
+  "reg": [
+   "present",
+   49440
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    49826,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    49440,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103217D",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103218C",
+  "prov": "RMIT Universit",
+  "before_amt": 54060,
+  "before_n": 1,
+  "reg": [
+   "present",
+   50880
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    51266,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    50880,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103220J",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103221H",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103222G",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103223F",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103224E",
+  "prov": "RMIT Universit",
+  "before_amt": 45120,
+  "before_n": 1,
+  "reg": [
+   "present",
+   45120
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    45506,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    45120,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103226C",
+  "prov": "RMIT Universit",
+  "before_amt": 48000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   24000
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    24193,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    193,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    24000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": false,
+  "mech": false
+ },
+ {
+  "code": "103227B",
+  "prov": "RMIT Universit",
+  "before_amt": 41280,
+  "before_n": 1,
+  "reg": [
+   "present",
+   41280
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    41666,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    41280,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103228A",
+  "prov": "RMIT Universit",
+  "before_amt": 41280,
+  "before_n": 1,
+  "reg": [
+   "present",
+   41280
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    41666,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    41280,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103229M",
+  "prov": "RMIT Universit",
+  "before_amt": 50880,
+  "before_n": 1,
+  "reg": [
+   "present",
+   50880
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    51266,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    50880,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "103236A",
+  "prov": "RMIT Universit",
+  "before_amt": 43200,
+  "before_n": 1,
+  "reg": [
+   "present",
+   43200
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    43586,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    43200,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "104982C",
+  "prov": "RMIT Universit",
+  "before_amt": 48960,
+  "before_n": 1,
+  "reg": [
+   "present",
+   48960
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    49346,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    386,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    48960,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "121356K",
+  "prov": "Southern Cross",
+  "before_amt": 27000,
+  "before_n": 1,
+  "reg": [
+   "present",
+   27000
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    29000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    2000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    27000,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "031944F",
+  "prov": "The University",
+  "before_amt": 50560,
+  "before_n": 2,
+  "reg": [
+   "present",
+   25280
+  ],
+  "after_amt": 50560,
+  "after_n": 1,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    25434,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    154,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "provider_current_tuition",
+    2027,
+    50560,
+    "provider_course_page_sweep",
+    "df_file/0034/462949/2027InternationalFeeTables.pdf"
+   ],
+   [
+    "tuition",
+    null,
+    25280,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "085950F",
+  "prov": "The University",
+  "before_amt": 64640,
+  "before_n": 2,
+  "reg": [
+   "present",
+   32320
+  ],
+  "after_amt": 64640,
+  "after_n": 1,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    32474,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    154,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "provider_current_tuition",
+    2027,
+    64640,
+    "provider_course_page_sweep",
+    "df_file/0034/462949/2027InternationalFeeTables.pdf"
+   ],
+   [
+    "tuition",
+    null,
+    32320,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": true,
+  "mech": false
+ },
+ {
+  "code": "116548M",
+  "prov": "The University",
+  "before_amt": 60952,
+  "before_n": 1,
+  "reg": [
+   "present",
+   171150
+  ],
+  "after_amt": null,
+  "after_n": 0,
+  "others": [
+   [
+    "estimated_total_course_cost",
+    null,
+    174896,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "non_tuition",
+    null,
+    3746,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ],
+   [
+    "tuition",
+    null,
+    171150,
+    "dataset",
+    "415e-9595-f17d0c3a4af0/download/cricos-courses.csv"
+   ]
+  ],
+  "fee_rewrite": false,
+  "mech": true
+ }
+]

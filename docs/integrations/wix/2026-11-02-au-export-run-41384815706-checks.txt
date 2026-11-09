@@ -1,0 +1,85 @@
+SWORD: ***
+mif [ -z "$PGPASSWORD" ]; then echo "Secret SUPABASE_DB_PASSWORD is not set"; exit 1; fi[0m
+SSWORD: ***
+SSWORD: ***
+SSWORD: ***
+SSWORD: ***
+SSWORD: ***
+2s] PASS courses: rows equal the count in its snapshot: {"rows":26912,"count_in_snapshot":26912}
+2s] PASS courses: ids are unique: {"rows":26912,"distinct_ids":26912}
+2s] PASS course_fees: rows equal the count in its snapshot: {"rows":179621,"count_in_snapshot":179621}
+2s] PASS course_fees: ids are unique: {"rows":179621,"distinct_ids":179621}
+2s] PASS course_intakes: rows equal the count in its snapshot: {"rows":28437,"count_in_snapshot":28437}
+2s] PASS course_intakes: ids are unique: {"rows":28437,"distinct_ids":28437}
+2s] PASS course_entry_requirements: rows equal the count in its snapshot: {"rows":2649,"count_in_snapshot":2649}
+2s] PASS course_entry_requirements: ids are unique: {"rows":2649,"distinct_ids":2649}
+2s] PASS english_requirements: rows equal the count in its snapshot: {"rows":27134,"count_in_snapshot":27134}
+2s] PASS english_requirements: ids are unique: {"rows":27134,"distinct_ids":27134}
+2s] PASS course_scholarships: rows equal the count in its snapshot: {"rows":101422,"count_in_snapshot":101422}
+2s] PASS course_scholarships: ids are unique: {"rows":101422,"distinct_ids":101422}
+2s] PASS scholarship_master: rows equal the count in its snapshot: {"rows":1804,"count_in_snapshot":1804}
+2s] PASS scholarship_master: ids are unique: {"rows":1804,"distinct_ids":1804}
+2s] PASS scholarship_award_tiers: rows equal the count in its snapshot: {"rows":761,"count_in_snapshot":761}
+2s] PASS scholarship_award_tiers: ids are unique: {"rows":761,"distinct_ids":761}
+2s] PASS scholarship_criteria: rows equal the count in its snapshot: {"rows":4503,"count_in_snapshot":4503}
+2s] PASS scholarship_criteria: ids are unique: {"rows":4503,"distinct_ids":4503}
+2s] PASS scholarship_criterion_groups: rows equal the count in its snapshot: {"rows":142,"count_in_snapshot":142}
+2s] PASS scholarship_criterion_groups: ids are unique: {"rows":142,"distinct_ids":142}
+2s] PASS scholarship_application_windows: rows equal the count in its snapshot: {"rows":49,"count_in_snapshot":49}
+2s] PASS scholarship_application_windows: ids are unique: {"rows":49,"distinct_ids":49}
+2s] PASS scholarship_offering_cycles: rows equal the count in its snapshot: {"rows":187,"count_in_snapshot":187}
+2s] PASS scholarship_offering_cycles: ids are unique: {"rows":187,"distinct_ids":187}
+2s] PASS scholarship_identifiers: rows equal the count in its snapshot: {"rows":1897,"count_in_snapshot":1897}
+2s] PASS scholarship_identifiers: ids are unique: {"rows":1897,"distinct_ids":1897}
+2s] PASS provider_rankings: rows equal the count in its snapshot: {"rows":0,"count_in_snapshot":0}
+2s] PASS provider_rankings: ids are unique: {"rows":0,"distinct_ids":0}
+2s] PASS provider_entry_matrices: rows equal the count in its snapshot: {"rows":2335,"count_in_snapshot":2335}
+2s] PASS provider_entry_matrices: ids are unique: {"rows":2335,"distinct_ids":2335}
+2s] PASS course_links: rows equal the count in its snapshot: {"rows":20247,"count_in_snapshot":20247}
+2s] PASS course_links: ids are unique: {"rows":20247,"distinct_ids":20247}
+2s] PASS course_campuses: rows equal the count in its snapshot: {"rows":48732,"count_in_snapshot":48732}
+2s] PASS course_campuses: ids are unique: {"rows":48732,"distinct_ids":48732}
+2s] PASS course_identifiers: rows equal the count in its snapshot: {"rows":26912,"count_in_snapshot":26912}
+2s] PASS course_identifiers: ids are unique: {"rows":26912,"distinct_ids":26912}
+2s] PASS course_pages_held: rows equal the count in its snapshot: {"rows":24240,"count_in_snapshot":24240}
+2s] PASS course_pages_held: ids are unique: {"rows":24240,"distinct_ids":24240}
+2s] PASS search_course_documents: rows equal the count in its snapshot: {"rows":23732,"count_in_snapshot":23732}
+2s] PASS search_course_documents: ids are unique: {"rows":23732,"distinct_ids":23732}
+2s] PASS layer4_course_review_items: rows equal the count in its snapshot: {"rows":21827,"count_in_snapshot":21827}
+2s] PASS layer4_course_review_items: ids are unique: {"rows":21827,"distinct_ids":21827}
+2s] PASS providers: rows equal the count in its snapshot: {"rows":1556,"count_in_snapshot":1556}
+2s] PASS providers: ids are unique: {"rows":1556,"distinct_ids":1556}
+2s] PASS ref_study_levels: rows equal the count in its snapshot: {"rows":24,"count_in_snapshot":24}
+2s] PASS ref_fields_of_study: rows equal the count in its snapshot: {"rows":102,"count_in_snapshot":102}
+2s] PASS ref_english_tests: rows equal the count in its snapshot: {"rows":5,"count_in_snapshot":5}
+2s] PASS ref_ranking_sources: rows equal the count in its snapshot: {"rows":0,"count_in_snapshot":0}
+2s] PASS ref_enrichment_gates: rows equal the count in its snapshot: {"rows":11,"count_in_snapshot":11}
+2s] PASS ref_enrichment_source_gates: rows equal the count in its snapshot: {"rows":3561,"count_in_snapshot":3561}
+2s] PASS ref_projection_country_gates: rows equal the count in its snapshot: {"rows":3,"count_in_snapshot":3}
+2s] PASS ref_sources: rows equal the count in its snapshot: {"rows":3137,"count_in_snapshot":3137}
+2s] PASS ref_sources: ids are unique: {"rows":3137,"distinct_ids":3137}
+2s] PASS AU courses equal count(*) in the snapshot: {"exported":26912,"snapshot_count":26912,"snapshot":34}
+2s] PASS in_website_api_v2 subset equals the search.course_documents rows of AU courses: {"flagged":23732,"projection_rows_exported":23732,"course_documents_au_c
+2s] PASS in_website_api_v2 subset equals search.course_documents with country_code AU: {"flagged":23732,"course_documents_country_code":23732}
+2s] PASS course_fees: every course_id is in courses: {"rows":179621,"missing_course":0}
+2s] PASS course_intakes: every course_id is in courses: {"rows":28437,"missing_course":0}
+2s] PASS course_entry_requirements: every course_id is in courses: {"rows":2649,"missing_course":0}
+2s] PASS english_requirements: every course_id is in courses: {"rows":27134,"missing_course":0}
+2s] PASS course_scholarships: every course_id is in courses: {"rows":101422,"missing_course":0}
+2s] PASS scholarship_award_tiers: every scholarship_id is in scholarship_master: {"rows":761,"missing_scholarship":0}
+2s] PASS scholarship_criteria: every scholarship_id is in scholarship_master: {"rows":4503,"missing_scholarship":0}
+2s] PASS scholarship_criterion_groups: every scholarship_id is in scholarship_master: {"rows":142,"missing_scholarship":0}
+2s] PASS scholarship_application_windows: every scholarship_id is in scholarship_master: {"rows":49,"missing_scholarship":0}
+2s] PASS scholarship_offering_cycles: every scholarship_id is in scholarship_master: {"rows":187,"missing_scholarship":0}
+2s] PASS scholarship_identifiers: every scholarship_id is in scholarship_master: {"rows":1897,"missing_scholarship":0}
+2s] PASS provider_rankings: every provider_id is in providers: {"rows":0,"missing_provider":0}
+2s] PASS provider_entry_matrices: every provider_id is in providers: {"rows":2335,"missing_provider":0}
+2s] PASS course_links: every course_id is in courses: {"rows":20247,"missing_course":0}
+2s] PASS course_campuses: every course_id is in courses: {"rows":48732,"missing_course":0}
+2s] PASS course_identifiers: every course_id is in courses: {"rows":26912,"missing_course":0}
+2s] PASS course_pages_held: every course_id is in courses: {"rows":24240,"missing_course":0}
+2s] PASS search_course_documents: every course_id is in courses: {"rows":23732,"missing_course":0}
+2s] PASS layer4_course_review_items: every entity_id is in courses: {"rows":21827,"missing_course":0}
+2s] PASS course_scholarships: every scholarship_id is in scholarship_master: {"missing_scholarship":0}
+2s] PASS courses: every provider_id is in providers: {"missing_provider":0}
+2s] PASS courses are in id order (the reconciliation merge-join needs it): {"sorted":true}

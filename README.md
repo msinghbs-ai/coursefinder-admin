@@ -1,4 +1,6 @@
-# CourseFinder PIM Admin — v2.11 Accepted Governance State
+# StudySearch PIM Admin (formerly CourseFinder) — v2.11 Accepted Governance State
+
+> **Current documents:** this page is the v2.11 governance snapshot and is kept as history. The current document router is `docs/README.md`; the live work register is `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md`. Names that still say "coursefinder" are kept for compatibility (`docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md`).
 
 Governed Admin/PIM architecture, migration mirrors, Change Control and release documentation for the CourseFinder Supabase catalogue.
 

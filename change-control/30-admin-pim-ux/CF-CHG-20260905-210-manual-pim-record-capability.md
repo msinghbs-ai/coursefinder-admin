@@ -1,6 +1,6 @@
 # CF-CHG-20260905-210 — Governed Manual PIM Record Capability
 
-**Status:** DESIGN ACCEPTED / IMPLEMENTATION PARTIAL  
+**Status:** CLOSED / SUPERSEDED BY CF-247 (19 Oct 2026) (was DESIGN ACCEPTED / IMPLEMENTATION PARTIAL)  
 **Milestone:** M2.4.5  
 **Workstream:** H5 — Manual record creation across PIM  
 **Type:** PIM GOVERNANCE / ADMIN UX / DATA AUTHORITY  
@@ -104,3 +104,16 @@ This decision preserves the authoritative PIM principle that names/titles do not
 ## Gate
 
 H5 is not yet closed. The capability model is accepted; implementation is complete for managed records but the common source-backed candidate registration action for core catalogue entities remains the next H5 deliverable.
+
+## Closure record (19 Oct 2026)
+
+Platform Admin, 19 Oct 2026 22:47: "Close as superseded by CF-247 (Recommended)".
+
+| Part | Where it was delivered |
+|---|---|
+| Managed records (CourseFinder-owned identity) | Delivered here (implementation partial at 5 Sep 2026, completed for managed records) |
+| Source-backed candidate registration (H5/H6) | Closed under the M2.4.5 H5–H6 execution design (`project-runsheets/milestone-2/m2.4/m2.4.5/H5-H6-EXECUTION-DESIGN.md`), as recorded in CF-CHG-20260906-219 |
+| Add course / Add provider, Edit this course / provider, hand-entered values that win over every automated writer | CF-CHG-20260915-247, Decision 181 (v2.15.114, 30 Sep 2026) |
+| Course pages added by hand, Layer 4 decisions and manual locks | CF-CHG-20260915-247 (Layer 4 course-page-needed queue, manual locks) |
+
+Nothing open remains under this record. Any further manual-record work is raised under CF-247.

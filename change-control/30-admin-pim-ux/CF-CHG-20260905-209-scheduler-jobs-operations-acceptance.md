@@ -84,3 +84,7 @@ No runtime schema, cron schedule, Edge Function, credential, Production resource
 ## Gate
 
 H4 is CLOSED / TARGETED PASS. Generic retry/replay/reset remains disabled by design; adapter-specific replay may be introduced only under a separate governed change with idempotency and audit proof.
+
+## Closure record (19 Oct 2026)
+
+Platform Admin, 19 Oct 2026 22:47: "Close as superseded by CF-247 (Recommended)". Already CLOSED / TARGETED PASS on 5 Sep 2026 and extended by CF-CHG-20260910-092. Scheduler and job operations were later rebuilt under CF-CHG-20260915-247 (Jobs and Schedules merged, the automation catalogue and Task manager, settings in the UI, Decision 260 housekeeping). No further work is tracked here; this record stays the H4 rollback baseline named by CF-092.

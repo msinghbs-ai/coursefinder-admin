@@ -1464,6 +1464,195 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 260 — Data pipeline operating model: gates between Layers 1–4, new countries, and housekeeping
+**Status:** Current (15 October 2026) · **Recorded in:** `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` v1.0; System reference
+- **Platform Admin (15 Oct, 11:06):** "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach."
+- **Choices (multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change and its data kept 14 days; gates pass automatically everywhere, including a country's first publish to the website; a live component register with a generated document.
+- **Gates.** Source, provider, AI, admission and country publish gates are measured settings; a pass moves on by itself, a stop is flagged with its reason and the pipeline moves on. The Platform Admin can close any provider or country at any time.
+- **Housekeeping.** Every change names what it replaces and retires; new components are registered in the same change; retired tables, functions and edge functions are dropped by paste file after 14 days; documents keep one current version per topic.
+
+### Decision 261 — Flags: stop, record, move on, re-join; registers first for new countries
+**Status:** Current (15 October 2026) · **Recorded in:** `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` v1.1 (3.0, 4.0); System reference 1.19 (4g); v2.15.282
+- **Platform Admin (15 Oct, 15:20):** "we don't keep burning the toolset on repetitive waste and produce nothing. we need to automate flag and keep moving and have flag unit that can be removed or raised manually and automatically by tried burn. evidence of that flag will details why it was raised or released manually and the said entry or provider get re-entered in queue. this will prevent the false case of providers website being out and when comes online we re-join them for enrichment." Also: "find out from Firecrawl if we can search country for education institute and build our database".
+- **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
+- **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
+
+### Decision 269 — Admin menu: 53 tabs become 47; dead sections retire
+**Status:** Current (3 November 2026, about 22:05 AEDT; approved before any code) · **Recorded in:** this entry; review `docs/platform/ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md`; execution register SS-020; mock-ups on the Design canvas "StudySearch Admin Menu Review" (https://claude.ai/artifact/8hxx9qgcFkxNkXSsVJJyGw)
+- **Platform Admin (3 Nov, 20:33):** "review the repo again, i want your recommendation based on current mechanism which tab is aligned with current design and which can be retired." **Decision (about 22:05):** "Approve all, build in order."
+- **Basis.** Every one of the 53 tabs in v2.15.439 was checked against the code, the live screens and screen use by people since 20 Oct (the automated test account, about 89% of opens, excluded). Low use alone was not a reason (UR-12): a tab merges only into a named home, and a section retires only where the mechanism behind it was retired by an earlier decision.
+- **Merges (8 tabs into existing or new homes; same 22 pages):**
+  - Rankings › Outcomes (QILT) and Student flow (PRISMS) → Rankings › Datasets as "View data".
+  - Coverage › Progress → Layer 2/3 › Operations (journeys, hourly history) and Models & services › Services & limits (Firecrawl and AI today).
+  - Layer 2/3 › Build adapter → step 0 of the Adapter builder and a row action on Layer 2/3 › Universities. Decision 267's one-click build stays; only its tab goes.
+  - Platform health › Work queues + the Pipeline yield section of Integration queue → new tab Platform health › **Queues & yield**.
+  - Models & services › Services, Toolsets & limits and Fetchers → new tab Models & services › **Services & limits** (one card per service); AI model switches → AI & OpenRouter.
+- **Moves within the menu:** Scholarships › Coverage "Settings and jobs" → Layer 2/3 › Scholarships; Coverage › Attributes run controls (Fill the gaps, Stalled fields Fill now, Provider descriptions) → Layer 2/3 › Enrich fields, with Attributes kept as read-only measures that link there; Layer 4 review readiness → a header line on Layer 4 › Inbox; Coverage › Courses Link refresh and portals → Settings.
+- **Sections retired:** Scheduled jobs › Automations "Refresh schedules and one-off runs" (old M2.3 model; nothing processes its Layer 2 requests; Layer 1 runs from Layer 1 › Sources); the Layer 3 AI area (Automations) and Layer 3 block (Health checks); Serper, ScrapingBee and Search pass cards (Firecrawl only, 4 Oct); dropped acquisition providers (29 Sep); the Go-live checklist's Layer 3 model profiles and dropped-provider gates; Progress "Courses with each field" (duplicate).
+- **Fixed in place:** paging for Course sources, Course entry requirements, Automations, Layer 4 › Inbox and Reference data; the Layer 2/3 header strip shown on Operations only; Layer 1 › Sources rows collapsed; Health checks Capacity link; Enrichment plan and Enrich fields engine defects from the 3 Nov controls audit (items 4, 7, 8, 9, 10); guide and SOP names (UR-09).
+- **Who builds (Platform Admin, 3 Nov 20:49):** "i want only the review and prompt for ongoing development session, let it handle the build and align with design." The ongoing development session builds it from `docs/platform/ui-audit/2026-11-03-admin-menu-build-prompt.md`; the review session does not change Pilot.
+- **Rules for the build.** Order: (1) retire dead sections, (2) paging, (3) Services & limits and Queues & yield, (4) Layer 2/3 consolidation, (5) Datasets and Settings moves, (6) guides, SOPs and component register in the same releases. Each retirement also retires its scripts, jobs and tables in the same change, data kept 14 days (Decision 260 housekeeping). Old addresses redirect through `LEGACY` in `nav-map.js`. One release per step with a version-pill entry. No consumer API change (Decision 266).
+
+- **Amendments (Platform Admin, 4 Nov 2026 about 05:40, after the implementation review `docs/platform/ui-audit/2026-11-04-ss020-implementation-review.md`):**
+  - The menu has 20 pages, not 22 (counting error in the review); the target is 47 tabs on 20 pages, as built.
+  - Refresh schedules and one-off runs: "Rewire, then retire." Layer 1 › Sources' Schedule edits the three Layer 1 refresh policies (`pipeline.refresh_policies`, read by `refresh_scheduler_tick_impl`); then the Automations section retires.
+  - Link refresh and portals stay on Coverage › Courses (Operators edit them; Settings is Platform Admin only). The move to Settings is withdrawn.
+
+### Decision 268 — Routine operations become governed actions in the admin UI; SQL is break-glass only
+**Status:** Current (27 October 2026, 22:2x AEDT; decided before any code) · **Recorded in:** this entry; change control CF-CHG-20260915-247 (27 Oct 22:2x); `project-runsheets/milestone-2/m2.4/m2.4.7/` (CURRENT-STATE, RUNSHEET, NEXT-CHAT); `docs/platform/aer-v1.1-build-log.md`; mandate response `docs/platform/ui-audit/2026-10-27-mandate-2157-response.md`
+- **Platform Admin (27 Oct, 21:57, final consolidated mandate):** "The manual SQL phase is closed. Do not ask me to paste another file into Supabase. Do not prepare another open/close paste pair." Routine operations move to governed actions in the existing admin interface.
+- **Correction (Platform Admin 27 Oct, 22:00):** the 21:57 mandate said the AER PR A recovery had never opened; it had. Its open paste was applied at 21:50:00 (events 22140 re-read, 22141 open), and the recovery ran under the deployed worker v0.48.8 until 22:05:20. The decision below rests on that verified state.
+- **What changes.**
+  - Routine operations that were run as SQL pastes become governed actions in the existing Cloudflare Worker admin interface. They are added to the existing operations and review screens, not to a new standalone panel.
+  - Platform Admin approval stays mandatory for any destructive or consumer-visible action. It moves to an authenticated UI action; it is not removed.
+  - SQL becomes break-glass only.
+  - Each paste-driven step that a governed action covers is retired from the operating procedure in the same change. No parallel panel or SOP duplicates it.
+- **What stays.**
+  - The admission, identity, quote, completeness, consumer-API (Decision 266) and audit controls stay as they are.
+  - Nothing here is a new reader, status, consumer field or open-ended operation.
+- **What a governed action is.** One allowlisted action with fixed parameters, never arbitrary SQL. Each action has:
+  - authenticated Platform Admin access, authorised on the server;
+  - a before/after summary of exactly what will change;
+  - the action's current hash, its live preconditions and expected counts, and an approval that expires;
+  - a live rolled-back dry run before approval, where one applies;
+  - revalidation immediately before it runs;
+  - an idempotency key, so a repeated click or retry cannot run it twice;
+  - mandatory post-checks and a linked audit event;
+  - visible success, refusal, failure and partial-settlement evidence, without inventing consumer statuses;
+  - bounded retries and a safe paused state on failure;
+  - automatic cleanup and closure, without a second approval file;
+  - secrets kept on the server, and no change to the consumer API's shape.
+  - It is not a workflow builder, plugin framework or replacement admin system.
+- **First governed action: close the AER PR A recovery that is already open (Platform Admin 22:00).** It adopts and closes the existing recovery; it does not start another one.
+  - **The approval screen shows the live state the action will close:**
+    - the six actual outcomes (Norway held before any AI read for its unprinted scale; Singapore 9/9, Sri Lanka 13/13, Thailand 13/13 and Qatar 2/2 complete; the UK held after its third attempt with 2 of 31 cells not read);
+    - the proposed, active and quarantined counts (37 proposed in 4 pending Layer 4 items, 343 active, 20 quarantined);
+    - the actual cost;
+    - RMIT's current scope (RMIT in `entry.providers` with UTS and WSU).
+  - **On the Platform Admin's explicit approval in the UI, the action:**
+    - removes RMIT from `entry.providers`;
+    - verifies that the original scope (UTS and WSU) is restored;
+    - writes its post-checks and audit event.
+  - It is idempotent. It refuses if the live scope, the function md5s, the six runs' states or the other preconditions have changed. No second close action, SQL paste or manual database step is needed.
+  - It does not admit the 37 proposed rows. They stay with the existing Layer 4 review.
+  - It leaves untouched: Vietnam (held for PR B), Nigeria, the three D2 pages, the 25 earlier complete runs and the 20 quarantined China/Germany rows.
+  - It is not run automatically after deployment; the Platform Admin approves it in the UI.
+  - After the closure, work stops. Further governed actions (fee windows, withdrawals, future recoveries) are separate decisions.
+- **Temporary operational exception, owned until the UI closure.**
+  - RMIT stays in `entry.providers` from 21:50 on 27 Oct until the Platform Admin approves the governed closure. It is not a new steady state.
+  - **No RMIT read can start while it stays (verified live at 22:0x):**
+    - no RMIT run is queued or leased, and no retry is pending;
+    - every RMIT source is read and has a run for its current content, so nothing is queued afresh;
+    - RMIT already has more sources (36) than the attach limit (3);
+    - a completed run is never re-read without the logged D3 re-read.
+  - **The one remaining path is the 30-day refresh.** It falls due first on 25 Nov 2026 at 21:59 AEDT and would re-fetch the pages. The closure must be approved before then.
+  - Owner: Platform Admin. Recorded in CURRENT-STATE.
+- **Why.** The paste phase relied on manual application, by-hand verification and open/close file pairs. One recovery was opened while the record said it had not been, and paste pairs can be left half-applied. Governed actions keep the approval and the controls but take the transcription and sequencing errors out of a person's hands.
+
+### Decision 267 — Build adapter: one click per university
+**Status:** Current (18 October 2026) · **Recorded in:** migration `20261018070000`; worker v0.30.0; change control e159
+- **Platform Admin (17 Oct, 18:56):** "click and generate the adapter and configure it for all fields available in the db and seek value for enrichment or foundation fill." Choices: one admin click; fields duration, campus, majors and specialisations, study level; rebinding by learnt rules. 18 Oct 11:58: Build adapter added to Layer 2 › Adapters, the Adapter builder kept; 12:43 "proceed with Phase 2".
+- **Readiness.** Eight fields per university: intakes, fee, English, delivery, duration, campus, study level, majors. A field is Ready when the adapter reads it on enough of the university's pages and, where the catalogue already holds a value, agrees with it (the qualify shares already in Settings); Review when it reads it but on too few pages or disagreeing; Not ready when it does not read it. Each field shows what it would add.
+- **One click.** A Platform Admin admits a university's Ready fields with a reason. Review and Not ready fields are never admitted by the click. Each field goes through its existing route: the adapter's admission for intakes, fee, English and delivery; an Enrichment task that fills only what the catalogue lacks for duration, campus and study level; the course's majors and specialisations list for majors.
+- **Building** reuses onboarding (website, course pages, capture, AI proposal, apply, qualify). A passing measurement never admits anything by itself.
+- **Majors and specialisations** are held in their own table. The website API does not send them until an approved API change (Decision 266).
+- **Where it lives (v2.15.287).** Layer 2 › Build adapter, between Adapters and the Adapter builder: Universities, a university's page with the one Admit button, and Waves.
+
+### Decision 266 — The consumer API is frozen
+**Status:** Current (18 October 2026) · **Recorded in:** migration `20261018050000`; CLAUDE.md G3; test S57; change control e156
+- **Platform Admin (18 Oct, 11:58):** "From here on, make sure the consumer api are not affected by any decision or design." Choice: "Frozen-surface guard (Recommended)".
+- **What is frozen.** Everything the website and Zoho read: the five consumer edge functions, the consumer database functions (`website_v2_*`, `website_edge_*`, `website_api_v2_*`, `zoho_edge_*`, `svc_website_settings_v1`, schema `api`) and the tables, views and columns they read. Nothing is altered, dropped, renamed or retyped. New work reads from it or writes beside it (new tables or columns).
+- **How it is held.** A baseline taken from live; a daily check raises a hard flag on any difference; the build fails on a migration or edge function change that touches it without a recorded approval.
+- **Changing it.** Only with the Platform Admin's explicit approval, recorded in the change as `-- Consumer API change approved:`, with the baseline re-taken in the same change. Decision 257's additive-only rule for Website API v2 still applies and is now enforced.
+
+### Decision 265 — Companion pages, course group rules and courses not on the university's site
+**Status:** Current (18 October 2026) · **Recorded in:** migrations `20261018010000` to `20261018040000`; worker v0.29.0; change control e155
+- **Platform Admin (18 Oct):** "Help resolve 'still to do for english'". Choices: Melbourne "Yes, build and read"; Wollongong and Torrens "Check CRICOS first"; ACU "Yes, UAC for ACU"; both written-out policies approved.
+- **Companion pages.** A university may keep a course fact on a page beside the course page (Melbourne: the English level on Entry and participation requirements). The page is the bound address plus a suffix, read on a schedule (scraper or direct, set per university), kept as a stored copy and read with the university's own patterns. Values are used only through an approved policy.
+- **Course group rules.** When no page names a level, an approved policy may assign one by the course's title and study level, in a fixed order. A course whose own page prints a score keeps it.
+- **Admissions-centre pages.** A page an admissions centre publishes for a university (UAC for ACU) may be the source when the university's own pages print no scores and it is approved by the Platform Admin for that university.
+- **Not on the university's site.** A course still on the CRICOS register but on none of the university's current course pages stays active with a soft flag for a person (no archive). A course with no current-year handbook page where the register no longer lists it remains under Decision 263 (not offered).
+- **Person-added sources** are read when found, without waiting for the central-page refresh interval; the daily budget still applies.
+
+### Decision 264 — English levels named on course pages
+**Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017070000`, `20261017080000`; worker v0.28.0; change control e154
+- **Platform Admin (17 Oct):** "Band reader (Recommended)"; 18:56 "Proceed with band reader". Choices: level map first; ready fields admitted by one admin click; rebinding by learnt rules.
+- **Levels.** Some universities publish English as named levels: the course page names the level ("Band 2", "This course has higher ELC requirements") and one central table gives each level's scores. An approved English policy may hold these levels, each value quoted from the stored page; a person approves it as any policy (Decision 227).
+- **Course values.** Where the course page names a level the approved policy holds, the course gets that level's scores. A course's own reading, a value set by hand or a pending Layer 4 item is never replaced. When the course page prints its own score and it differs from the level, the course keeps its own reading only. A level name the policy does not hold is reported, not guessed.
+- **Hand-written policies** (written out from the central page when the parser cannot read its tables) are not re-read by the parser.
+
+### Decision 263 — Course page rules decide automatically; a decided proposal is never raised again
+**Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017050000`, `20261017060000`; change control e152, e153
+- **Platform Admin (17 Oct, 16:19):** "Bring everything from layer 4 and assess either for rule or ai extraction and proceed or give me recomemded choices." Choices (multiple choice): ANU rule; title match, then AI; "Yes, automate"; "You check and decide".
+- **Never raised twice.** A value a person or a rule has decided (rejected, approved, edited and approved) is not sent to Layer 4 again while the proposal is the same.
+- **Official course page rules.** Keep the held page when the proposed one is a course directory or search site, a handbook page while the held page is the course page, or a listing, not-found, scholarship, minor or domestic-only page. Take the proposed page when the held page is the handbook, when it is the course's own page under a held listing, or when it is the same program code in a newer handbook year. Rule decisions are recorded under the system automation account with the rule as the reason and show in Layer 4 history.
+- **ANU.** The official page is ANU's current-year handbook page for the program code when it shows the course's CRICOS code; a program with no current-year page is not offered and its course is flagged for archive.
+- **Layer 4 approvals.** Approving an English item writes the course's English requirement and locks it as a person's decision; course links are read from `url` or `course_url`.
+- **Left to a person:** two genuine pages on the provider's own site where the course title cannot tell them apart.
+
+### Decision 262 — One English policy in force per university and study level
+**Status:** Current (17 October 2026) · **Recorded in:** `docs/platform/ENGLISH-POLICY-IN-FORCE-REPORT.md`; migration `20261017040000`; change control e151
+- **Platform Admin (17 Oct, 15:01):** "One policy per uni and report it as well, also record it in admin repo." (asked after 32 universities were found holding more than one approved English policy, 19 with different IELTS defaults).
+- **Rule.** For each level (undergraduate, postgraduate, research) only one approved English policy is in force. It is chosen in this order: a real admission page (not a course page, an English for Academic Purposes course or an overseas campus page); every value quoted on the page; the most courses already holding its values; the latest decision. The other policies give up that level (kept on record with the policy in force); a policy left with no level is closed.
+- **Course values.** A course row from a policy that gave up its level moves to the policy in force when the value is the same; when it differs, the row stays and a person confirms it in Layer 4. Courses a policy names keep their own rows.
+- **Ongoing.** The rule runs first in every 10-minute English policy run, so a later approval (by a person or automatic) never leaves two policies in force again.
+- **Also.** A section for courses with alternative or higher English requirements is never read as a default (parser v0.2.5).
+
+### Decision 259 — Website sync by cursor; rankings and logos approved for display; logo links a year
+**Status:** Current (14 October 2026, release v2.15.277; migrations 20261014110000 and 20261014111500; edge function wix-course-api version 6) · **Recorded in:** this reference; System reference §4b; website requirements register R15, R16
+- **Platform Admin (14 Oct, 20:43):** "For ranking, we can pass it on v2 api and for logos we can pass it on as file links to be stored in wix platform with maximun validity. And subsequent api requests only pass changed data unless queried for full load." Chosen (multiple choice): approved to display; logo links one year, renewed in the delta; a new sync action with a cursor.
+- **Display approval is a setting.** `terms_status` reads `approved` from two Yes/No settings on Settings › Pipeline settings › Website API (changed with a reason, logged). Switching one off returns `management_decision_pending` again. This supersedes the rankings-and-logos line of Decision 257.
+- **Logo links.** Signed links valid `website.logo_link_days` (365); the bucket stays private. A logo is resent in the sync delta `website.logo_renew_before_days` (30) before its link ends.
+- **Sync, additive.** A new action; every earlier action answers as before. No cursor (or `full_load`) returns everything in pages; the cursor then returns only new, changed and removed items. The website keeps the cursor, so a failed write is retried by sending the same cursor again. Change detection is a rolling check of each item as the API builds it (job `website-sync-check`), not timestamps, so a change in a joined record (a provider's name in its courses, a scholarship closing by date) is seen.
+- **Course items in sync are the search items** (the website's CF_Courses), not the course detail: the detail repeats provider-grain QILT rows on every course and is 25 times slower to build.
+
+### Decision 258 — Institution type from the registers; ordered rules; a person's choice is kept
+**Status:** Current (14 October 2026, release v2.15.276; migrations 20261014060746, 20261014063911, 20261014064736, 20261014065115, 20261014070026, 20261014070327 and 20261014070622; edge functions layer1-provider-facts v1.3.0, layer1-operations-control v1.9.0, layer1-operations-scheduled v1.5.0) · **Recorded in:** this reference; System reference §4c; developer handover Version 2 (14 Oct reissue); CF-CHG-20260915-247 entry of 14 Oct 2026.
+- **Why.** The website developer asked for institution type (1 Oct). The platform held none: `provider_type_id` was empty for every provider.
+- **Platform Admin choices (14 Oct, multiple choice).** Types mirror the registers: University, University College, Higher Education Institute, TAFE / Polytechnic, Private VET college, School, Wānanga, Other. Australian universities come from the TEQSA National Register (data.gov.au). A CRICOS Government provider that offers VET is TAFE; a provider of school courses only is School. New Zealand from the NZQA organisation type. Canada is left empty. training.gov.au (national VET register) is left for later: its web services need credentials.
+- **Facts, then rules.** Register values are kept as facts with their source and evidence. Ordered, editable rules turn facts and the provider's active courses into a type; the first enabled match wins. No match, no type: the reason is kept and shown (Needs type). Nothing is inferred beyond the rules.
+- **A person's choice is kept.** PIM Admin and above can set a type by hand (no reason asked); it is locked against the rules until set back to Auto. Rules are changed by the Platform Admin on Settings › Pipeline settings, logged, and run at once.
+- **Sources are Layer 1 registers.** TEQSA providers file and CRICOS Institutions through the data.gov.au CKAN API; the NZQA provider search per organisation type. Verified weekly, applied when the file changes, every file kept as evidence. A dual-sector university (RMIT, Swinburne, CDU) is a University because the TEQSA rule comes first.
+- **Matching.** By register number first. The NZQA search number is the NZQA number followed by a five-digit site number (415 of 415 checked). A listed name is a fallback only, when every listed row with that name has the same type.
+- **Website API v2 (additive).** `institution_type {code, name, basis}` on providers and on the provider of each course; `institution_types` filter on search and providers; type list in reference. null when not held.
+
+### Decision 257 — Website API v2: one contract for the three website tools, opt-in on the same key; release rules; display codes
+**Status:** Current (8 October 2026, migrations 20261008032403–20261008034140 and edge function wix-course-api version 5; extended 14 October 2026, migrations 20261014032122, 20261014034927 and 20261014040646) · **Recorded in:** this reference; System reference §4b; developer handover `docs/integrations/coursefinder-wix-api-handover-v2.md`; CF-CHG-20260915-247 entries of 8 and 14 Oct 2026.
+- **Why.** The website team needs Course Finder, University Finder and Scholarship Finder. v1 had no intake, English, ranking, logo or scholarship-eligibility filters, and the website's prototype tables are not the platform's model.
+- **One endpoint, opt-in contract.** The website sends `"contract": "website-search-v2"` with the existing Wix key. Without it, v1 answers exactly as before. v2 changes are additive only; a breaking change needs a new major contract.
+- **One developer document per contract (Platform Admin, 14 Oct).** The handover is "Version 2" only, reissued with a date and a change-log line for additive changes; Version 3 only for a breaking change.
+- **Platform-first shapes.** v2 returns the platform's own fields. Website field names are added only where the platform holds the fact (the scholarship mapping). Nothing is defaulted or estimated: null means not held.
+- **The provider Published switch controls the API (Platform Admin, 14 Oct).** A provider switched off or archived is not returned to any API query, with its courses, campuses and scholarships (in effect since the R4 gate of 10 Oct; verified 14 Oct, no leak on any action). Courses have no switch of their own: a returned course reads `published`, following its provider. Scholarships are published only, always.
+- **QILT at provider grain (Platform Admin, 14 Oct).** QILT statistics are returned on provider and course detail at provider grain, by study level, under the website gate `courses/provider_outcomes`. The course-grain gate `courses/qilt` stays blocked: provider statistics are never presented as a course fact. Other outcome surveys need their own decision.
+- **Institution type (14 Oct).** Returned since v2.15.276 from the registers by the rules of Decision 258; null when not held (Canada). No value is inferred.
+- **Tuition.** The basis is always stated. A whole-course total is never shown as per year. An annual figure is derived only for courses of 12 months or more. Amounts under 1,000 are placeholders and are treated as not held. There is no currency conversion.
+- **Course display code (14 Oct).** Every course carries `display_code` (the printed code, else the StudySearch code of Decision 255) with its kind and label. `course_code` stays the source value. The course action accepts a StudySearch code.
+- **Rankings and logos.** Delivered with attribution and `terms_status`. Approved for display since 14 Oct 2026 and logo links valid a year (Decision 259).
+- **Security.** v2 database functions are security definer with a pinned search path, and execute for service_role only. The edge function checks the key, limits each action to 60 a minute, and never returns storage paths.
+- **Operator links released and Canada opened (Platform Admin, 8 Oct).** The "Manual entry (platform operators)" source is approved for the website projection on official link, intakes, English and provider fee. The Canada country gate is approved.
+
+### Decision 256 — Scholarship search flag per provider; directory sites never searched
+**Status:** Current (14 October 2026, v2.15.271, migration 20261014013200) · **Recorded in:** this reference
+- **Why.** On 14 Oct 2026 the AI reader retried 1,391 queued pages on directory sites (australiancourses.com.au, oneuedu.com) for 17 small colleges every 30 minutes. Each read was refused before any credit was spent, but the retry was never counted, so it looped (about 13,500 refusals a day). The 30-course rule guards site mapping and search, not pages already queued.
+- **Platform Admin (08:33):** "skip scholarship search for any provider whose website is a directory site ... I need visible flag in provider for such rows. Which we can toggle to enable." Chosen: auto off, operator can enable; close the queued reads and stop the loop.
+- **The flag.** `pipeline.provider_scholarship_search` (with a log). Off automatically when the only website known for the provider is a directory site (85 providers on the day). It shows on Providers (Scholarship search column) and in the provider panel.
+- **Switching.** A Pipeline Operator or above turns it On with a reason and the provider's own website (saved as entered by a person; a directory address is refused), which starts a fresh search; or Off with a reason. An automatic Off never overrides a person's choice.
+- **Readers.** Discovery, the refill, page reading and the AI reader skip providers that are Off. The AI reader closes reads of directory pages and of Off providers (`skip_reason`). A read refused for credits counts toward its 3 tries.
+- The 30-course rule and the per-university credit cap still apply after a provider is switched on.
+
+### Decision 255 — Course codes: the printed code, else a StudySearch code
+**Status:** Current (14 October 2026, v2.15.271, migrations 20261014013200–3300) · **Recorded in:** this reference
+- **Why.** Canada has no national course code. Canadian courses came from provincial portals and college sites, so the code column held portal record IDs (long GUIDs), page IDs and address slugs for about half of them.
+- **Platform Admin (08:33):** "fill the real program code and if missing generate the studysearch code, create something not too long and meaningful with uni/campus/Degree based, it will be applicable to upcoming countries as well."
+- **Printed or not.** `ref.course_code_schemes` lists each identifier type as a printed code (CRICOS, NZQA, Quebec and Ontario program codes, college program codes) or a source ID (portal GUIDs, page and post IDs, slugs). A new country adds rows. A printed code always wins, so marking a type printed takes effect at once.
+- **StudySearch code.** A course with no printed code gets `<university>-<level>-<number>`, for example `UBC-MA-014`:
+  - university: its own short name when the name carries one in brackets, else the initials of three or more words, else four letters of its distinctive word; unique within the country;
+  - level: two letters from the study level (`ref.study_levels.short_code`), else read from the title (CO when neither says);
+  - number: per university and level, in title order.
+- **Rules.** The code is a typed identifier (scheme `studysearch`, issued by StudySearch), never written into `course_code`, which stays the source's value that importers match on (Decision 149). A code never changes. It is never used as evidence that a page belongs to a course (Decision 220 needs a printed code). The campus is not part of the code: NZ and Canadian courses have no campus records, and adding a campus would otherwise change the code.
+- **Where it shows.** The course list (Course code column, marked SS), the course record and search. The hourly job `studysearch-codes` codes new courses (setting `batch.studysearch_codes`).
+- On the day: 7,082 Canadian courses were coded; 6,313 show the StudySearch code (769 Ontario courses show their printed program code).
+
 ### Decision 254 — University adapters are the admission path for course fields: page roles, waves of five, a visual builder
 **Status:** Current (4 October 2026, migrations 20261004001280–20261004001330, worker coverage-sweep v0.16.2, releases v2.15.183–v2.15.185, Pilot PRs #302–#305) · **Recorded in:** this reference; full report and design in `docs/coursefinder-university-adapters-v1.0.md`; register and configurations in `docs/adapters/` · **Amends:** Decision 253 (adapters) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 - **Why.** The general reader missed fields because each university prints them differently. For example, it found start dates on 25 of 262 Flinders study pages. The Flinders adapter read 173, with no Firecrawl credits.

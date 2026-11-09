@@ -1,0 +1,42 @@
+# Guards: Admin #382, controller checkpoint and handover quality gates.
+# Governance validation only. Production deployment remains in Coursefinder-Pilot.
+name: Controller continuity
+on:
+  pull_request:
+    paths:
+      - 'docs/platform/STUDYSEARCH-CONTROLLER-STATE*'
+      - 'docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md'
+      - 'scripts/validate-controller-state.py'
+      - 'scripts/test-controller-state.py'
+      - 'scripts/controller-ownership.py'
+      - 'scripts/test-controller-ownership.py'
+      - '.github/workflows/controller-continuity.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/platform/STUDYSEARCH-CONTROLLER-STATE*'
+      - 'docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md'
+      - 'scripts/validate-controller-state.py'
+      - 'scripts/test-controller-state.py'
+      - 'scripts/controller-ownership.py'
+      - 'scripts/test-controller-ownership.py'
+      - '.github/workflows/controller-continuity.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned schema validator
+        run: python -m pip install jsonschema==4.26.0
+      - name: Test continuity gates
+        run: python scripts/test-controller-state.py -v
+      - name: Test exclusive ownership protocol
+        run: python scripts/test-controller-ownership.py -v
+      - name: Validate durable checkpoint and register handover
+        run: python scripts/validate-controller-state.py

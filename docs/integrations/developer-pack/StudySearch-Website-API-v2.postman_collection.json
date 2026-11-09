@@ -1,0 +1,449 @@
+{
+  "info": {
+    "name": "StudySearch Website API v2 (website-api-v2)",
+    "description": "Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "syncCursor",
+      "value": ""
+    },
+    {
+      "key": "scholarshipId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "reference",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"reference\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "search – example (35)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"keyword\": \"business\",\n    \"cities\": [\n      \"Melbourne\"\n    ],\n    \"study_level_codes\": [\n      \"masters_coursework\"\n    ],\n    \"intake_months\": [\n      2\n    ],\n    \"english_test_codes\": [\n      \"IELTS\"\n    ],\n    \"english_score_max\": 6.5,\n    \"tuition_annual_max\": 45000\n  },\n  \"page\": 1,\n  \"page_size\": 6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "search – nursing Melbourne (107)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"keyword\": \"nursing\",\n    \"cities\": [\n      \"Melbourne\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20,\n  \"sort\": \"relevance\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "search – Canada (3,814)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"country_codes\": [\n      \"CA\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "course – 082960F",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"course\",\n  \"course_code\": \"082960F\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "course – display code UNBC-BA-019",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"course\",\n  \"course_code\": \"UNBC-BA-019\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "providers – Go8 by QS (8)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"providers\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"university_groups\": [\n      \"go8\"\n    ]\n  },\n  \"sort\": \"qs_rank_asc\",\n  \"page\": 1,\n  \"page_size\": 6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "providers – AU universities (45)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"providers\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"institution_types\": [\n      \"university\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "providers – with logo (1,463)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"providers\",\n  \"filters\": {\n    \"has_logo\": true\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "provider – UQ detail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"provider\",\n  \"provider_id\": \"provider:cricos:00025b\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "course – entry requirements, India (0100714)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"course\",\n  \"course_code\": \"0100714\",\n  \"edu_country\": \"IN\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "provider – entry table, India (RMIT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"provider\",\n  \"provider_id\": \"provider:cricos:00122a\",\n  \"edu_country\": \"IN\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "rankings – QS 2027 AU (38)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"rankings\",\n  \"filters\": {\n    \"system_codes\": [\n      \"qs_wur\"\n    ],\n    \"edition_year\": 2027,\n    \"country_codes\": [\n      \"AU\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "scholarships – international (1,111)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"scholarships\",\n  \"filters\": {\n    \"student_types\": [\n      \"international\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "scholarship – detail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"scholarship\",\n  \"scholarship_id\": \"{{scholarshipId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "sync – full load, first page",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"sync\",\n  \"page_size\": 600\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "sync – next page or delta (uses syncCursor)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 600\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

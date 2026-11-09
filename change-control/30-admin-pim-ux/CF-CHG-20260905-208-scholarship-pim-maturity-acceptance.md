@@ -54,3 +54,7 @@ Final evidence:
 ## Gate
 
 H3 is CLOSED / TARGETED PASS. Continue PIM completion through H4/H5 while H14 API-key lifecycle remains independently governed under CF-207.
+
+## Closure record (19 Oct 2026)
+
+Platform Admin, 19 Oct 2026 22:47: "Close as superseded by CF-247 (Recommended)". Already CLOSED / TARGETED PASS on 5 Sep 2026; no further work is tracked here. The Scholarships catalogue was later reshaped under CF-CHG-20260915-247 (published scholarships only, no status filters or tags, 4 Oct 2026; scholarship acquisition, AI extraction and Layer 4 review under the M2.4.7 runsheet). This record is kept as the H3 baseline.
