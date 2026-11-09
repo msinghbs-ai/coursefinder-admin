@@ -57,13 +57,16 @@ req={"type":"object","required":["action"],"properties":{
  "cursor":{"type":["string","null"],"description":"sync: next_cursor from the last reply; omit or null for a full load"},
  "full_load":{"type":"boolean","description":"sync: true starts a full load again"},
  "entities":{"type":"array","items":{"type":"string","enum":["reference","provider","logo","rankings","scholarship","course"]},"description":"sync, full load only; default all six"}}}
+ITEM={"type":"object","additionalProperties":True,"properties":{
+ "campuses":{"type":"array","description":"Provider items only (providers, provider, sync provider items): one item per campus","items":{"$ref":"#/components/schemas/ProviderCampus"}},
+ "nationality_eligibility_status":{"$ref":"#/components/schemas/NationalityEligibilityStatus"}}}
 base={"api_version":{"type":"string","const":"website-v2"},"request_id":s("string")}
-lst={"type":"object","properties":dict(base,total=s("integer"),page=s("integer"),page_size=s("integer"),items={"type":"array","items":{"type":"object","additionalProperties":True}},filters_not_applied=arr())}
-det={"type":"object","properties":dict(base,item={"type":"object","additionalProperties":True})}
+lst={"type":"object","properties":dict(base,total=s("integer"),page=s("integer"),page_size=s("integer"),items={"type":"array","items":ITEM},filters_not_applied=arr())}
+det={"type":"object","properties":dict(base,item=ITEM)}
 syn={"type":"object","properties":dict(base,
   items={"type":"array","items":{"type":"object","required":["entity","id","seq","change"],"properties":{
    "entity":{"type":"string","enum":["reference","provider","logo","rankings","scholarship","course"]},"id":s("string"),"seq":s("integer"),
-   "change":{"type":"string","enum":["upsert","remove"]},"item":{"type":"object","additionalProperties":True,"description":"Present for upsert"}}}},
+   "change":{"type":"string","enum":["upsert","remove"]},"item":dict(ITEM,description="Present for upsert")}}},
   has_more=s("boolean"),next_cursor={"type":"string","description":"Opaque; store as is after the page is written"},
   mode={"type":"string","enum":["full","delta"]},full_load_complete=s("boolean"),
   checked_through={"type":["string","null"],"format":"date-time"},as_of=s("string",format="date-time"))}
@@ -96,7 +99,7 @@ oas={"openapi":"3.1.0",
        "description":"On scholarships. restricted: limited by nationality or citizenship, or domestic only (citizenship_eligibility lists codes where held; may be empty). unrestricted: stated open to any nationality. unknown: nothing held - not open to all. under_review: being checked. Region codes (R-ASEAN, R-SASIA, ...) are never expanded into countries."}}}}
 json.dump(oas,open("StudySearch-Website-API-v2.openapi.json","w"),indent=2,ensure_ascii=False)
 items=[]
-names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (107)","search_canada":"search – Canada (3,814)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (1,463)","provider":"provider – UQ detail","course_entry":"course – entry requirements, India (0100714)","provider_entry":"provider – entry table, India (RMIT)","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,144)","provider_campuses_nz":"provider – campuses, University of Auckland (9)","provider_ranking_history":"provider – ranking history, Adelaide University","scholarships_nationality":"scholarships – nationality VN or South-East Asia","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
+names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (107)","search_canada":"search – Canada (3,814)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (1,465)","provider":"provider – UQ detail","course_entry":"course – entry requirements, India (0100714)","provider_entry":"provider – entry table, India (RMIT)","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,144)","provider_campuses_nz":"provider – campuses, University of Auckland (9)","provider_ranking_history":"provider – ranking history, Adelaide University","scholarships_nationality":"scholarships – nationality VN or South-East Asia","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
 for k,v in ex.items():
     it={"name":names[k],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],
       "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/website-api-v2"}}

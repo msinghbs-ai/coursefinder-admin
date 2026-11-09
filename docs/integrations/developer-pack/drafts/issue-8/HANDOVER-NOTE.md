@@ -7,15 +7,15 @@
 
 ## What changes in Issue 8
 
-1. **Provider campuses.** In `providers`, `provider` and `sync` provider items, `campuses[]` has one item per campus. Campuses that share a city are no longer merged into one item. Each item keeps its six existing fields with the same values and gains `campus_id`, `campus_name` and `course_count` (guide 7.4).
+1. **Provider campuses.** In `providers`, `provider` and `sync` provider items, `campuses[]` has one item per campus. Campuses that share a city are no longer merged into one item, so a provider can return more items (University of Auckland 1 to 9, RMIT 5 to 6, George Brown College 1 to 4), and the order of `campuses[]` changes: campus name, then `campus_id` (it was the database's own order). Key campuses by `campus_id`; do not rely on position or on `campuses[0]`. Each item keeps its six existing fields with the same values and gains `campus_id`, `campus_name` and `course_count` (guide 7.4).
 2. **Scholarship nationality.** Each scholarship gains `nationality_eligibility_status`: `restricted`, `unrestricted`, `unknown` or `under_review` (guide 7.5). An empty `citizenship_eligibility` list means "not held", never "open to all".
 
-Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that ignores unknown fields keeps working.
+Nothing is renamed or removed. Course `campuses[]` are unchanged. A client that ignores unknown fields keeps working; a client that reads `campuses[0]` or counts campuses must be checked.
 
 ## What to check on your side
 
 - If you grouped a provider's campuses by city, group by `campus_id` instead. A city filter still works on `city`.
-- After the release, providers and scholarships come again in the next `sync` deltas with the new fields (about 1,600 providers and 1,150 scholarships). No full load is needed and your cursor stays valid.
+- After the release, providers and scholarships come again in the next `sync` deltas with the new fields (about 1,402 providers and 1,144 scholarships, about 22 MB uncompressed in all). No full load is needed and your cursor stays valid.
 - `unrestricted` is not returned yet: it needs an explicit "any nationality" statement on the scholarship, and none is held today. Do not show "Open to all nationalities" unless you receive it.
 
 ## Your answers to the other requests

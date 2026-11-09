@@ -2,7 +2,7 @@
 
 **Version:** handover note 1.0 for developer guide **issue 8**.
 **Status (9 Nov 2026): prepared, not released, not sent.** G3 approved by the Platform Admin on 9 Nov 2026 on conditions (approval package `../../platform/approvals/2026-11-06-g3-r23-r24-approval-package.md` §11). Pilot release candidate: draft PR #945. The release date and the verification at release are added when the change is live.
-**Audience:** the website developer. Zoho is not affected.
+**Audience:** the website developer. Zoho's provider list and scholarship passthrough return the changed items: see section 7, the Zoho developer note.
 **Guide:** `../developer-pack/drafts/issue-8/StudySearch-Website-API-v2-Developer-Guide-Issue-8-RC.md`: §7.4, §7.5, §9, acceptance tests 25 and 26, and the §13 line. The developer-facing summary is `../developer-pack/drafts/issue-8/HANDOVER-NOTE.md`.
 
 ## 1. What is new
@@ -19,6 +19,7 @@ One behaviour changes with the keys: **campuses that share a city, postcode, sta
 ## 2. How to show it
 
 - Key a provider's campuses by `campus_id`, not by city. A `city` filter still works on `city`.
+- Key campuses by `campus_id`, never by position: `campuses[0]` is a different campus from before for 283 providers, and the order is now campus name, then `campus_id`.
 - Show `campus_name` as printed; where it is null show the city only. Hide a campus with `course_count` 0 if the page lists courses by campus. Do not add up the counts to get a provider's course count.
 - Show the scholarship status as in guide §7.5 (`restricted`: the codes, or "restrictions apply"; `unknown` and `under_review`: "check the scholarship page"; `unrestricted`: "open to all nationalities"). `unrestricted` is not produced yet.
 
@@ -27,15 +28,15 @@ One behaviour changes with the keys: **campuses that share a city, postcode, sta
 | Check | Result |
 |---|---|
 | Existing keys, types and values of `campuses[]` | Unchanged for every campus item. With the three new keys removed, the distinct items are exactly the items returned before (live sample of 57 providers: 0 differ; fixture: all cases) |
-| Number of `campuses[]` items | **Can grow** (more items per provider because campuses are no longer merged by city). Measured 9 Nov 2026: Australia 3,074 to 3,525, New Zealand 170 to 221, Canada 52 to 67 (3,296 to 3,813 in all; 258 of 1,402 providers with a campus return more items). A consumer that keyed campuses by city sees more items; a consumer that ignores unknown keys and reads `city` keeps working |
+| Number and order of `campuses[]` items | **Can grow, and the order changes.** More items per provider because campuses are no longer merged by city (University of Auckland 1 to 9, RMIT 5 to 6, George Brown College 1 to 4). The order was the database's own sort order; it is now campus name, then `campus_id`. Measured 9 Nov 2026: for 489 of 1,620 providers the array differs at some position (258 return more items, 231 the same campuses in a new order); for 283 the first item is a different campus. A client must key by `campus_id` and must not rely on `campuses[0]`. Measured 9 Nov 2026: Australia 3,074 to 3,525, New Zealand 170 to 221, Canada 52 to 67 (3,296 to 3,813 in all; 258 of 1,402 providers with a campus return more items). A consumer that keyed campuses by city sees more items; a consumer that ignores unknown keys and reads `city` keeps working |
 | Existing keys, types and values of scholarship items | Unchanged (live sample: 91 built items byte-identical apart from the new key; fixture: 13 cases and the wrappers) |
 | `citizenship_eligibility`, `eligible_countries_list`, filter `nationality_codes` | Unchanged. Region codes (`R-*`) keep their meaning |
 | Course `campuses[]` (search, course detail) | Unchanged (decision P3) |
 | Endpoints, actions, filters, identifiers, errors | Unchanged. No edge function file changes |
 | Search, rankings, logos, tuition, entry | Unchanged |
 | Breaking change | None for a client that ignores unknown keys (acceptance test 18). The item count change above is the one behaviour to read |
-| Zoho | Not affected: no Zoho function reads either builder |
-| Sync | The next `sync` deltas carry every provider and scholarship once more (about 1,600 providers and 1,150 scholarships). No cursor reset, no full load |
+| Zoho | **Partly affected** (corrected 9 Nov 2026 after independent QA). `zoho_v2_providers` (the provider list) passes the website `campuses[]` items through, so the item count, the order and the three new keys change there (about 30 of 50 providers sampled by QA). `zoho_v2_passthrough` `scholarships` and `scholarship` return the new `nationality_eligibility_status` key. Not affected: `zoho_v2_provider` (provider detail; it replaces `campuses` with its own list), Zoho sync items, `zoho_edge_*`, the Zoho course functions and the edge functions. See the Zoho developer note (section 7) |
+| Sync | The next `sync` deltas carry the changed providers (about 1,402, those that hold a campus) and every scholarship (about 1,144) once more: about 22 MB uncompressed in all (about 6 MB providers, 16 MB scholarships, measured as stored item text on 9 Nov 2026; gzip cuts it to roughly a seventh). No cursor reset, no full load |
 | Size | Provider campus JSON grows by about 0.6 MB across all providers (measured 5 Nov 2026) |
 | Null handling | A name not held is null; nothing is invented. A count of 0 is a count |
 
@@ -62,3 +63,13 @@ At release (to be recorded here by the Integration Controller): migration applie
 ## 6. Not validated yet
 
 The migration has not been applied to any database. The developer's side (Wix read-back, display) has not been seen. The course coverage table in guide §8 is as at 31 Oct 2026.
+
+## 7. Zoho developer note (to send to the Zoho developer before the release)
+
+What changes for Zoho when R23 and R24 are released. In plain terms:
+
+1. **Provider list** (`providers`, the Zoho v2 provider list). Each provider's `campuses[]` now has one item per campus. Before, campuses in the same city were joined into one item with no name. Each item also gains three keys: `campus_id`, `campus_name` and `course_count`. The existing keys keep their values. The number of items and their order change for many providers (about 30 of 50 in the QA sample). If a Zoho mapping reads the first campus or counts campuses, please check it, and key campuses by `campus_id`.
+2. **Scholarships** (`scholarships` and `scholarship` through the Zoho v2 passthrough). Each item gains one key, `nationality_eligibility_status`: `restricted`, `unrestricted`, `unknown` or `under_review`. `unknown` means nothing is held; it does not mean open to all nationalities. The existing keys (including `citizenship_eligibility`) are unchanged.
+3. **Not changed:** provider detail (it already returns its own campus list), the Zoho sync items, the Zoho course search and detail, and the `zoho_edge_*` functions.
+
+Nothing needs to change for Zoho to keep working if it ignores keys it does not know. The release date will be sent with this note. Status: **not yet sent** (release precondition C, approval package section 9.2).

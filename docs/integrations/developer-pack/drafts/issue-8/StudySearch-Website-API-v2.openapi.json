@@ -689,7 +689,19 @@
             "type": "array",
             "items": {
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "properties": {
+                "campuses": {
+                  "type": "array",
+                  "description": "Provider items only (providers, provider, sync provider items): one item per campus",
+                  "items": {
+                    "$ref": "#/components/schemas/ProviderCampus"
+                  }
+                },
+                "nationality_eligibility_status": {
+                  "$ref": "#/components/schemas/NationalityEligibilityStatus"
+                }
+              }
             }
           },
           "filters_not_applied": {
@@ -712,7 +724,19 @@
           },
           "item": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "properties": {
+              "campuses": {
+                "type": "array",
+                "description": "Provider items only (providers, provider, sync provider items): one item per campus",
+                "items": {
+                  "$ref": "#/components/schemas/ProviderCampus"
+                }
+              },
+              "nationality_eligibility_status": {
+                "$ref": "#/components/schemas/NationalityEligibilityStatus"
+              }
+            }
           }
         }
       },
@@ -764,6 +788,18 @@
                 "item": {
                   "type": "object",
                   "additionalProperties": true,
+                  "properties": {
+                    "campuses": {
+                      "type": "array",
+                      "description": "Provider items only (providers, provider, sync provider items): one item per campus",
+                      "items": {
+                        "$ref": "#/components/schemas/ProviderCampus"
+                      }
+                    },
+                    "nationality_eligibility_status": {
+                      "$ref": "#/components/schemas/NationalityEligibilityStatus"
+                    }
+                  },
                   "description": "Present for upsert"
                 }
               }

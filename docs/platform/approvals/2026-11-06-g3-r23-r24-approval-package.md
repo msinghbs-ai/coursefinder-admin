@@ -131,7 +131,7 @@ Search documents that a campus count would exclude: 0 held back by Layer 4 or a 
 | Read and pinned, not changed | `security.place_presentable(text)` `a7b720fc9b34203d0a23315376fd483a`. Views `security.layer4_search_blocked_courses` `35cdaa19a775ffaaf60fc2be302affec`, `security.layer4_active_blocks` `300ac7ca5fe9b72b13e2647a861ea8c6` and `security.provider_hidden_v1` `c8e2c132cc6fa8a52dccdbb04317707b` | | |
 | Edge functions `website-api-v2`, `wix-course-api` (and the other three) | None. They pass the payload through. Live hashes match `tests/uat/consumer-api-baseline.json` (`a833301f…`, `c7e1182b…`) | | |
 | Internal readers of the scholarship builder (`security.scholarship_coverage_items_v1`, `security.har_sch_value_verify_v1`) | None. They only test `is not null`, so an extra key changes nothing | | |
-| Zoho | Not affected. Zoho does not read provider campuses, and Zoho scholarships use their own function | | |
+| Zoho (corrected 9 Nov 2026 after independent QA; the first version of this row was wrong) | **Partly affected.** `public.zoho_v2_providers` (provider list) calls `website_v2_providers` and passes `campuses[]` through: the item count, order and the three new keys change (about 30 of 50 providers sampled by QA). `public.zoho_v2_passthrough` actions `scholarships` and `scholarship` call `website_v2_scholarships` and `website_v2_scholarship`: the new `nationality_eligibility_status` key appears. Not affected: `public.zoho_v2_provider` (detail; it removes `campuses` and returns its own list), Zoho sync items (`security.zoho_sync_item_v1`), `zoho_edge_*`, the Zoho course functions and the Zoho edge functions. The change is additive for Zoho too. Confirmed against the live function definitions on 9 Nov 2026. See the Zoho developer note in the handover (§7) | | |
 | Grants | Unchanged. `CREATE OR REPLACE` keeps `postgres=X/postgres` on both builders (checked in the fixture) | | |
 
 Not changed (decision P3): course search and detail `campuses[]`. The course item builder also feeds Zoho.
@@ -145,7 +145,9 @@ No edge function file changes, so the five hashes in `tests/uat/consumer-api-bas
 | Risk | Assessment | Mitigation |
 |---|---|---|
 | A consumer that keyed campuses by city now sees more items (258 providers) | The shape is additive and the values are unchanged. A city filter still works on `city` | Guide Issue 8 §7.4 tells the developer to key by `campus_id`. The developer asked for this behaviour |
-| Wix collection churn | Next sync: about 1,620 provider upserts and 1,151 scholarship upserts once. No cursor reset and no full load | Guide §9 sync guidance |
+| Wix collection churn | Next sync: about 1,402 provider upserts (providers that hold a campus) and 1,144 scholarship upserts once; about 22 MB uncompressed (about 6 MB providers, 16 MB scholarships; the QA estimate of 9 to 12 MB is too low because scholarship items average 14 KB). No cursor reset and no full load | Guide §9 sync guidance; gzip |
+| Order of `campuses[]` changes | Before: the database's own order, undocumented. After: campus name, then `campus_id`. For 489 of 1,620 providers the array differs at some position (AU 454, NZ 25, CA 10): 258 gain items and 231 are reordered with the same items; for 283 the first item is a different campus (measured 9 Nov 2026, live, read-only). A client that reads `campuses[0]` could show a different campus | Guide §7.4 and §13 say so; key by `campus_id`. Examples: Auckland 1 to 9, RMIT 5 to 6, George Brown 1 to 4 |
+| Zoho list and scholarship passthrough output changes | See the §4 Zoho row. Additive keys; the item count and order of `campuses[]` change | Zoho developer note (handover §7) sent before the release (precondition C) |
 | Database time | Live, the 50 Australian providers with the most campuses: about 3.5 ms each today, about 11 ms each with R23 (560 ms for all 50, EXPLAIN ANALYZE). The anti-join alternative was slower live (650 ms), so the per-link form was kept. Scholarship item: live today 8.6 ms per item (1,151 items in 9.85 s, EXPLAIN ANALYZE); the status adds indexed EXISTS checks, +0.07 to +0.15 ms per item in the fixture (under 2%), and the same checks across all 1,151 scholarships take 12.7 ms on live | A `providers` page of 50 of the largest providers gains about 0.4 s of database time; a typical page under 0.1 s |
 | Live definition drifts before deploy | The migration refuses and changes nothing | md5 guards on 2 changed and 7 pinned objects |
 | Status semantics misread (`unknown` read as "open to all") | Documented in the guide and the handover note | `unrestricted` needs explicit evidence |
@@ -209,6 +211,28 @@ values ('pipeline', 'api.v2_r23_r24_approved', 'Website API v2 R23/R24 consumer 
 | Decisions | P1 ☐ P2 ☐ P3 ☐ P4 ☐ |
 | Conditions | |
 | Release version | (set at release) |
+
+### 9.1 Dated record lines (templates; each is completed when the event happens, with the time of day)
+
+```
+- <dd Mon yyyy hh:mm AEDT>: Platform Admin approval (G3, P1 and P2) recorded: <who>, <where>, conditions: <list>
+- <dd Mon yyyy hh:mm AEDT>: Issue 8 release candidate sent to the Wix developer with release date <dd Mon yyyy>; acknowledgement received <dd Mon yyyy hh:mm AEDT> from <name>, <channel>
+- <dd Mon yyyy hh:mm AEDT>: Zoho developer note sent to <name>, <channel>
+- <dd Mon yyyy hh:mm AEDT>: Platform Admin wrote api.v2_r23_r24_approved = 1 with approval-setting.sql (reason quotes the 9 Nov 2026 approval)
+- <dd Mon yyyy hh:mm AEDT>: release PR merged by <who>; md5 re-check <result>; newest migration <number>; migration applied <hh:mm AEDT>
+- <dd Mon yyyy hh:mm AEDT>: consumer_api_check_v1 = no drift; payloads checked (section 11.4 step 5); guide Issue 8 issued
+```
+
+The approval of 9 Nov 2026 is recorded in §11.1. Record the other lines in this section (or in the handover's release record) as they happen; the time of day is part of the record.
+
+### 9.2 Release preconditions
+
+The release PR must not be merged until all four hold:
+
+- **A. The developer has the release candidate.** Issue 8 RC (guide, OpenAPI, Postman, examples, handover note) has been sent to the Wix developer with a release date, and the developer's acknowledgement is recorded (dated line above).
+- **B. The approval setting is written first.** The Platform Admin writes `api.v2_r23_r24_approved` with `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` **before** the release PR merges. Otherwise the deploy halts at step 0 of the migration and, because migrations apply in order, blocks every later migration. The author does not write it.
+- **C. The Zoho note has been sent.** The Zoho developer note (handover §7) has been sent to the Zoho developer.
+- **D. At merge:** re-check the md5 guards of the nine objects in §4 against live (they must still be the "before" values), re-check that the newest migration on main and live is still before `20261109160000` and that `20261109160000` is free (renumber if not), then follow §11.4.
 
 ## 10. Open questions for the Platform Admin
 
@@ -321,6 +345,16 @@ Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns):
 - Named examples (current output compared with new output in the same transaction): `provider:nzqa:7001` 1 to 9 items; `provider:cricos:00122a` 5 to 6; `provider:ca:ircc_dli:o19283850612` 1 to 4. Scholarship examples: South Asia research scholarship `restricted` (list `R-SASIA`), China High Achievers `restricted` (`CN`), UTS Southeast Asia `restricted` (list empty), MBChB graduate entry `unknown`. For all four, the item minus the new key is identical to the current item.
 - After the run, live again showed the current md5s and no approval row: nothing was committed.
 
+**Run 4 (9 Nov 2026, 18:27 and 18:46 AEDT, inside the `:x6` to `:x8` window; read-only, nothing written)** after the independent QA. All figures come from the live data with the new builder evaluated beside the live one:
+
+| Measure | Result |
+|---|---|
+| Order of `campuses[]` (all 1,620 returned providers; the new items minus the three new keys against the old array) | Differs at some position for 489 (AU 454, NZ 25, CA 10): 258 gain items, 231 have the same items in a new order. First item differs for 283. The set of distinct items is identical for all 1,620 (0 differ) |
+| Sync stored items, live (excluding removed) | 38,327: courses 34,041, providers 1,620, scholarships 1,144, logos 1,465, ranking sets 56, reference 1. Stored text 108 MB (courses 83.9 MB, scholarships 16.2 MB, providers 5.9 MB, rankings 1.1 MB, logos 0.8 MB) |
+| Delta after the release | About 1,402 providers (those holding a campus, about 5.1 MB now plus about 0.6 MB of new campus JSON) and 1,144 scholarships (16.2 MB): about 22 MB uncompressed. Higher than the QA estimate of 9 to 12 MB because each scholarship item is about 14 KB |
+| Guide figures re-measured through the same wrappers | Logos 1,465 (was 1,463); AU universities 45; Go8 8; QS 2027 AU 38; search example 35; nursing Melbourne 107; courses AU 23,732, NZ 6,495, CA 3,814; `provider:cricos:00025b` 48 QILT rows. Not re-measured (dated in the guide): QILT 116 providers, ranking coverage 72/77 providers, the section 8 coverage table |
+| Live guards re-read 9 Nov 2026 about 18:15 | Both builders at their "before" md5s, the three wrappers, `place_presentable` and the three views as in §4; newest migration on live `20261109150000`, so `20261109160000` is free; no `api.v2_r23_r24_approved` row |
+
 ### D. Tests in the Pilot candidate (all run with `npx playwright test --project=chromium-desktop`)
 
 | Spec | What it proves |
@@ -335,6 +369,7 @@ Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns):
 
 - **Nothing has run against a deployed system.** The migration has not been applied to any database. The compatibility evidence is the isolated fixture and the rolled-back live runs.
 - **The edge functions were not re-hashed against live in this session.** No file changes (the five hashes in `tests/uat/consumer-api-baseline.json` are untouched, `s57` passes); the `website-api-v2` source read from live passes the database answer through unchanged apart from signing logos. The nightly `consumer-api-guard` and `edge-drift-check` are the live checks.
+- **Zoho was mis-stated in the first version of this package** ("not affected"). Independent QA found that the Zoho provider list and scholarship passthrough return the changed items. The §4 row, the handover and the Zoho developer note are corrected; the Zoho developer has not yet been sent the note.
 - **Wix read-back and the website developer's acceptance tests 25 to 27** can only run after the release.
 - **The live sample is bounded** (57 providers, 112 scholarships, 3 provider details, 6 scholarship details). The whole-population figures in 11.3 C use set-based reads and the builder under the load policy, not a comparison of every provider.
 - **The course coverage table in guide section 8 (courses holding a value, 31 Oct 2026) was not refreshed.** Its queries are not held in the repository and were not reproduced.
@@ -343,7 +378,7 @@ Run 3 (about 17:45 AEDT, same method, bounded to the providers the API returns):
 ## 11.4 Release steps (for the Integration Controller; none has been done)
 
 1. QA agent verification of Pilot draft PR #945 and the admin draft PR; Integration Controller decision to merge. The author does not merge.
-2. **Before the release applies migrations**, the Platform Admin runs the approval paste `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` (one insert; reason quotes the 9 Nov approval). Without it the migration stops at step 0 and, because migrations apply in order, blocks every later migration until the setting exists.
+2. **Release preconditions A to D in §9.2 hold.** **Before the release PR merges and applies migrations**, the Platform Admin runs the approval paste `tests/fixtures/website-api-v2-r23-r24/approval-setting.sql` (one insert; reason quotes the 9 Nov approval). Without it the migration stops at step 0 and, because migrations apply in order, blocks every later migration until the setting exists.
 3. Immediately before applying, re-read the live md5s listed in §4 (they must still be the "before" values) and the newest migration number; if main has gained a later migration, keep this one in order.
 4. Apply through the release. The migration re-takes the consumer baseline itself as its last step (`security.consumer_api_rebaseline_v1`, only a migration can call it). **Do not re-take the baseline by hand before or after.** Verify afterwards that `select security.consumer_api_check_v1()` returns no drift and that the `consumer-api-guard` hard flag is not raised on its next daily run.
 5. Verify representative payloads against §2 and the guide examples: `provider:nzqa:7001` returns 9 campuses, RMIT 6, a scholarship with `R-SASIA` returns `restricted`, `unknown` where nothing is held; existing keys byte-identical; check one `sync` delta carries the provider and scholarship items.
