@@ -10193,3 +10193,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Next | Observe the next `calendar-reread` runs (hourly at :13) wake and read the set-aside copies; then the multi-column extraction fix in the worker reader (Flinders), then Rule A |
 | Correction | The three entries above were first stamped 22:45, 23:10 and 23:45 with decisions "about 23:05" and "about 23:40"; those times were later than the commits that recorded them (22:42, 22:52, 22:59). Corrected here, in the design reference (Decisions 273, 274, 270a) and in the execution register to the commit-bounded times. The comment of applied migration `20261110120609` still says "~23:40"; it is left as applied (the ledger and file must match) |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 06:05 AEDT — F-CDESC: course description admission moved out of the AI worker's recording call (Pilot #1001, released)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 10 Nov 23:03 ("course description not admitting fast enough") and 23:17 ("go ahead": build the fix, update the Admin record and the operating model) |
+| Root cause | After `enrich.course_text_items_per_day` went 500 → 2000 only about 118 description readings landed in the day. The AI worker records up to 40 answers in one `svc_enrich_ai_record` call (API `statement_timeout` 8 s); trigger `field_enrich_items_cdesc_machine` ran the full machine admission (about 1 s a reading) inside it; a time-out (`query_canceled`) is not caught by `exception when others`, so whole batches were lost: job `4a20ee5e`, 385 items failed with a paid answer stored, 596 answers superseded. Second cause: deadlocked standing job `bba24b11` left 1,500 description items queued with no runner |
+| Change | Pilot PR #1001, migration `20261111000000_cf247_cdesc_admit_outside_ai_record` (md5-guarded body replacement of `security.course_description_machine_trg_v1()`, `ec9b96…` → `c75d63…`): a reading recorded through the API is left waiting and admitted by the job `course-description-machine` (settle); readings the job records itself are admitted at once as before |
+| Not changed | No setting, job, table or consumer object; the stranded 1,500 items and the 385 paid answers are not yet recovered |
+| Verified live (same turn) | Body md5 `c75d63a6390f4cb0e3ed7276e70c25f8`; trigger unchanged and enabled; ledger statement md5 = file md5 `94d4468a4a28aa1f5058596623f85007`; one full CI run at head `dcf62f5a` all success; independent QA approve with conditions |
+| Tests | `tests/fixtures/cdesc-admit-outside-record/run.sh` (failure reproduced on the live body; after-cases A1–A6; refused on a changed body; idempotent; recovery byte for byte); spec `cf-247-cdesc-admit-outside-record-contract` |
+| Recovery | `supabase/held/cdesc_admit_outside_ai_record_forward_recovery.sql` |
+| Next | Observe the next standing job (no recording time-outs, admissions via `settle`, run time of `course-description-machine` under its 120 s limit); release the 1,500 stranded items and fix the job lifecycle; replay the 385 paid answers (`ops.answer_replay_on`, Platform Admin); QA follow-ups F1 (job time budget) and F2 (worker per-item retry on SQLSTATE 57014) |
+| Governance | Operating Model v1.10 (bounded work on worker write paths; throughput measured, not assumed); execution register `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (10 Nov 23:55) |
+| Consumer API | Not touched (Decision 266) |
