@@ -10201,3 +10201,14 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Live baseline | Budget 40 (max 40); 0 credits actually used; 6 failed and 1 open request reserving 5 each (counter 35 of 40); hard stop exists; no 80% alert, per-provider cap, yearly window or successor search; an address never refreshed twice (blocks the rollover); Firecrawl plan Standard 100,000 a month |
 | Not yet changed | No setting, function or schedule changed. Safeguards first (yearly window, reconciliation, caps, 80% alert, 100% stop, monthly report, tests for concurrency, failure, retry, duplicate reservation, rollover), then max_value, then value, citing Decision 273 |
 | Consumer API | Not touched (Decision 266) |
+
+### 10 Nov 2026 23:45 AEDT — Decisions 274 and 270a; credit-refusal findings; ten-university calendar classification
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin briefs 22:52 (credit refusals; Rules A and B for ten universities); decisions by multiple choice about 23:40 |
+| Credit refusals | Worker guard (plan remaining minus stop-at reserve, Firecrawl provider budget; not the Serper/ScrapingBee `plan_reserve`). Refusals in every group 3 Nov 18:52 – 8 Nov 00:56 UTC until the Standard plan. Six calendar fact sources failed on 5 Nov after 3 attempts and stay failed (Monash principal dates, Flinders ×2, Melbourne, Sydney ×2); no other source parked on credits; JMC Academy open, `credits_refused`. Plan headroom 97,135; re-read cost 6–30 credits; 1,617 month-only rows at the four universities |
+| Classification (stored copies, read-only inspection) | RMIT (i) address/title, already proved, Rule B only; Deakin (i) address/title, never read by the current reader; Monash range heading over unlabelled columns (hypothesis partly holds, no column header); Flinders (v) year in every cell, the reader took one column (0-starts hypothesis refuted); UWA (iv) no year on the governance page, other page 2025–2026 only; La Trobe (iv) no year, no weekday; UNSW (iii) year only in tabs/anchors; Torrens (v) years printed, never read by the current reader; Curtin (v) dates behind a drop-down, not stored; QUT (v) dates in collapsed sections, not stored |
+| Decisions | 274: last 200 plan credits reserved for calendar acquisition; a credit refusal waits and re-queues without using a try; the six re-queued once Decision 273 accounting is live. 270a: range heading over unlabelled columns maps by order only with matching column count and independent weekday/period evidence (basis `range_columns`). Rule B for all levels (Decision 272). Order: re-read and column fix first, then Rule A, then rendered refresh, then Rule B shadow |
+| Not changed | No setting, function, schedule or source changed by this entry |
+| Consumer API | Not touched (Decision 266) |
