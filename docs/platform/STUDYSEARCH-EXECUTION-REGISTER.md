@@ -2347,7 +2347,7 @@ I tried to restore the ceiling to 0.75 (below the earlier 1.00) with the reason 
 Platform Admin P0 direction (18:44) executed as a review only. Result is recorded in the existing contract, not a new document: [acceptance contract, integrated review result](STUDYSEARCH-FEATURE-ACCEPTANCE.md#integrated-review-result-and-release-sequence-10-nov-2026-evening); [lineage §1A](PIPELINE-LINEAGE.md) (24-field matrix); [settings audit §14](SETTINGS-CONTROL-AUDIT.md). Verified: register has 15 course and 9 provider keys (inventory corrected from 14/10); Data Delivery covers 9 of 24 keys; `academic_entry` and `p_description` register readers are wrong; AER and Scholarships show recovery "off" while jobs are active; only 69 of 1,181 pipeline settings are classified; six large Layer 4 kinds are outside `layer4_intervention_classes`; provider descriptions show 490 of 1,258 matched on the Website (cause not yet investigated). Production jobs unchanged. Next: release P0-1.
 
 
-## 10 Nov 2026 ~22:45 AEDT — F-INT: Swinburne hyphenated dates released; Decisions 270–272
+## 10 Nov 2026 22:42 AEDT — F-INT: Swinburne hyphenated dates released; Decisions 270–272
 
 | Lane | Before | After | Net | Consumer check | Next executable action |
 |---|---|---|---|---|---|

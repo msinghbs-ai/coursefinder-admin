@@ -10178,7 +10178,7 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **State at 2 November 2026:** assessment documented; semantic extension PROPOSED; SS-017 Awaiting decision. No production deployment. The 30 October ingestion hold and P1 execution scope remain. G3 and human-review gates remain; next gate is Platform Admin semantic/scope review and integrator read-only census/minimal additive proposal.
 - **Update before merge, 9 November 2026:** the state line above is the position when the review was written and is kept as history. It was overtaken the same afternoon by the Platform Admin's AER decisions of 2 Nov 2026 (D-A1: 1,476-provider scope for inventory and discovery in place of the 28 October limit; D-A3: ingestion hold lifted for stored copies only, US$2 a day; D-A5: additive tables for qualification identity and provider recognition approved; D-A6, a G3 approval for any consumer qualification filter or new response field, last recorded as open on 3 Nov 2026 and not re-checked for this note). SS-017 in the execution register now tracks the implementation (status Implementing there). The ID SS-017 in this record refers to the same workstream. See `docs/platform/nz-enrichment-brief/2026-11-02-platform-admin-decisions-1450.md`.
 
-### 10 Nov 2026 22:45 AEDT — F-INT: Swinburne hyphenated dates released (265 exact start dates); Decisions 270–272 (calendar year from page edition, month to nearest start, all study levels)
+### 10 Nov 2026 22:42 AEDT — F-INT: Swinburne hyphenated dates released (265 exact start dates); Decisions 270–272 (calendar year from page edition, month to nearest start, all study levels)
 
 | Item | Detail |
 |---|---|
@@ -10192,23 +10192,38 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Next | Rule A build (fixtures from the real pages, md5 baselines, dry run, apply, verify), then Rule B in shadow mode and the 30-row audit; one provider at a time after a separate switch-on |
 | Consumer API | Not touched (Decision 266) |
 
-### 10 Nov 2026 23:10 AEDT — Decision 273: standing spend and throughput authority for calendar refresh (supersedes R2 of the 5 Nov 2026 mandate); operating model v1.9
+### 10 Nov 2026 22:52 AEDT — Decision 273: standing spend and throughput authority for calendar refresh (supersedes R2 of the 5 Nov 2026 mandate); operating model v1.9
 
 | Item | Detail |
 |---|---|
-| Request | Platform Admin 10 Nov 2026 22:43 brief (standing calendar spend policy); decision by multiple choice about 23:05 |
+| Request | Platform Admin 10 Nov 2026 22:43 brief (standing calendar spend policy); decision by multiple choice by 22:52 |
 | Decision | Decision 273 in the design reference (R2 quoted in full); `docs/platform/AGENT-OPERATING-MODEL.md` v1.9, new section "Spend and throughput authority": 200 credits a calendar year in one ledger; 10 a provider a cycle; 3 refresh documents a run; successor-search cap with the successor search; value and max_value kept; stop at 100%, alert at 80%; reservation while open, actual credits once resolved; monthly report; re-approved each October |
 | Live baseline | Budget 40 (max 40); 0 credits actually used; 6 failed and 1 open request reserving 5 each (counter 35 of 40); hard stop exists; no 80% alert, per-provider cap, yearly window or successor search; an address never refreshed twice (blocks the rollover); Firecrawl plan Standard 100,000 a month |
 | Not yet changed | No setting, function or schedule changed. Safeguards first (yearly window, reconciliation, caps, 80% alert, 100% stop, monthly report, tests for concurrency, failure, retry, duplicate reservation, rollover), then max_value, then value, citing Decision 273 |
 | Consumer API | Not touched (Decision 266) |
 
-### 10 Nov 2026 23:45 AEDT — Decisions 274 and 270a; credit-refusal findings; ten-university calendar classification
+### 10 Nov 2026 22:59 AEDT — Decisions 274 and 270a; credit-refusal findings; ten-university calendar classification
 
 | Item | Detail |
 |---|---|
-| Request | Platform Admin briefs 22:52 (credit refusals; Rules A and B for ten universities); decisions by multiple choice about 23:40 |
+| Request | Platform Admin briefs 22:52 (credit refusals; Rules A and B for ten universities); decisions by multiple choice by 22:59 |
 | Credit refusals | Worker guard (plan remaining minus stop-at reserve, Firecrawl provider budget; not the Serper/ScrapingBee `plan_reserve`). Refusals in every group 3 Nov 18:52 – 8 Nov 00:56 UTC until the Standard plan. Six calendar fact sources failed on 5 Nov after 3 attempts and stay failed (Monash principal dates, Flinders ×2, Melbourne, Sydney ×2); no other source parked on credits; JMC Academy open, `credits_refused`. Plan headroom 97,135; re-read cost 6–30 credits; 1,617 month-only rows at the four universities |
 | Classification (stored copies, read-only inspection) | RMIT (i) address/title, already proved, Rule B only; Deakin (i) address/title, never read by the current reader; Monash range heading over unlabelled columns (hypothesis partly holds, no column header); Flinders (v) year in every cell, the reader took one column (0-starts hypothesis refuted); UWA (iv) no year on the governance page, other page 2025–2026 only; La Trobe (iv) no year, no weekday; UNSW (iii) year only in tabs/anchors; Torrens (v) years printed, never read by the current reader; Curtin (v) dates behind a drop-down, not stored; QUT (v) dates in collapsed sections, not stored |
 | Decisions | 274: last 200 plan credits reserved for calendar acquisition; a credit refusal waits and re-queues without using a try; the six re-queued once Decision 273 accounting is live. 270a: range heading over unlabelled columns maps by order only with matching column count and independent weekday/period evidence (basis `range_columns`). Rule B for all levels (Decision 272). Order: re-read and column fix first, then Rule A, then rendered refresh, then Rule B shadow |
 | Not changed | No setting, function, schedule or source changed by this entry |
+| Consumer API | Not touched (Decision 266) |
+
+### 10 Nov 2026 23:15 AEDT — F-INT: calendar re-read of stored copies opened to every eligible provider (Decisions 273, 274 order of work, step 1)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin decision by 22:59 ("Re-read and column fix first"): reprocess stored calendar evidence (Deakin, Torrens, RMIT 2026 and the rest of the eligible population) without new acquisition cost |
+| Root cause | `security.calendar_reread_relevant_v1()` counted only the 10 pilot universities (`intake_ui_scopes_v1`), so the hourly `calendar-reread` job set 337 stored main-teaching calendar copies at 136 providers aside as "not needed" although their intake rows miss dates. Deakin, Torrens, Curtin, La Trobe, QUT and UWA calendars were never read by reader calendar-v2.1 |
+| Change | Pilot PR #1000, migration `20261110120609_cf247_calendar_reread_all_providers` (applied live; ledger statement md5 = file md5 `774f6801909cadefd4f2171a99913c08`). New `security.calendar_reread_relevant_v2()` (read only, no anon or authenticated grant): every provider in `calendar.countries` with intake rows missing a year or start. `public.svc_calendar_reread_next_v2` reads v2 (md5-guarded edit, body `755ef3b7…` → `6bede79d…`). Stored copies only: no Firecrawl credit is spent; AI cost about US$0.002 a document (about US$0.72 for the 337) |
+| Not changed | `public.svc_calendar_refresh_v1` (Firecrawl path) still bounded by v1, body `fb01d769…` unchanged, until Decision 273's safeguards are released. No setting, schedule, job, qualifier rule, threshold, blocked or excluded word, approval or publication changed. A new reading still goes through the calendar qualifier and approval before it can fill a date |
+| Verified live (same turn) | Picker body md5 `6bede79de2f656b4bc9de6ea783696b6`; v2 body md5 `42e2c5a73dbfbf6cacc333ffb92a9b61`; refresh unchanged; v1 lists 10 providers, v2 500; anon cannot execute v2; one `component_register` row. Dry run before apply (rolled back): 337 documents at 136 providers would be woken |
+| Tests | `tests/fixtures/calendar-reread-all-providers/run.sh` (isolated PostgreSQL): production parity, before/after cases, a hand-changed definition refused, applied twice, held forward recovery byte for byte, consumer API identical; wired into `intake-run-validate-test.yml`. Central guards s32, s42, s57, s120, s70, m245 pass; three browser-mocked specs cannot run locally (no Chromium download) and fail identically on `main` |
+| Recovery | `supabase/held/calendar_reread_all_providers_forward_recovery.sql` (restores the picker to v1; v2 stays, unused) |
+| Next | Observe the next `calendar-reread` runs (hourly at :13) wake and read the set-aside copies; then the multi-column extraction fix in the worker reader (Flinders), then Rule A |
+| Correction | The three entries above were first stamped 22:45, 23:10 and 23:45 with decisions "about 23:05" and "about 23:40"; those times were later than the commits that recorded them (22:42, 22:52, 22:59). Corrected here, in the design reference (Decisions 273, 274, 270a) and in the execution register to the commit-bounded times. The comment of applied migration `20261110120609` still says "~23:40"; it is left as applied (the ledger and file must match) |
 | Consumer API | Not touched (Decision 266) |
