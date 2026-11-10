@@ -10181,7 +10181,7 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Not changed | No setting, function, schedule or source changed by this entry |
 | Consumer API | Not touched (Decision 266) |
 
-### 10 Nov 2026 23:15 AEDT — F-INT: calendar re-read of stored copies opened to every eligible provider (Decisions 273, 274 order of work, step 1)
+### 10 Nov 2026 23:11 AEDT — F-INT: calendar re-read of stored copies opened to every eligible provider (Decisions 273, 274 order of work, step 1)
 
 | Item | Detail |
 |---|---|
