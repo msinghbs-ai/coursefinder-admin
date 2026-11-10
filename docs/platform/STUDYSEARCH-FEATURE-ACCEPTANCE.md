@@ -100,6 +100,9 @@ A shared spec, `// Guards: P0 cross-domain operator contract (Platform Admin 10 
 
 ## 2. Feature and subtask acceptance checklist
 
+**Shared source-to-published enrichment design (Platform Admin request, 10 Nov 2026):** [Provider, course-description and AER source → AI → policy → canonical → consumer contract](SHARED-SOURCE-TO-PUBLISHED-ENRICHMENT-DESIGN.md) defines one-click governed Run Now, stored/direct/Firecrawl source fallback, machine-vs-human hold classification, durable run stages, unattended progress and independently verified Website/Zoho results across **F-PDESC.01–.05, F-CDESC.01–.06, F-AER.01–.06 and F-OPS.01/.02/.03A/.05/.06**. It reuses existing queues and G1–G4 controls; **AER first-read human approvals remain required**. Design recorded, not an implemented/deployed/accepted claim.
+
+
 ### F-INT — Intake dates, deadlines and provider/course-specific verification (P0 IQ-00313; related IQ-00111)
 **Already exists:** Pilot `src/IntakeRunValidate.jsx` (scope, bounded cohort, preview, fix cohort, audited Run Now, verify), `src/AutomationProgress.jsx` (status, stages, universities, history, failures, controls), `docs/intake-run-validate.md` and `docs/intake-automation-progress.md`; Admin `docs/platform/processes/intake-dates.md`. **Do not create a duplicate screen, scheduler or second progress mechanism.** Current scope appears cohort/top-university based; the individual-course and full selected-university journeys require proof or extension.
 
