@@ -63,6 +63,41 @@ This file is the single map of WHAT feeds each catalogue field, HOW the pipeline
 
 ---
 
+## 1A. Field-to-operator matrix — all 24 `pipeline.field_register` keys (P0 review, 10 Nov 2026 evening)
+
+Evidence: live `pipeline.field_register` (15 course, 9 provider), live `security.data_delivery_v1()` payload at 10 Nov ~18:50 AEDT, read-only canonical counts, Pilot `main` `6fcae65c`. "DD" = Layer 2/3 › Operations › Data delivery. Items marked **verify** were not confirmed in this pass. Counts are a dated snapshot, not status. Columns that the P0 mandate lists as "missing work" are delivered by the releases P0-1 to P0-6 in the [acceptance contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md#integrated-review-result-and-release-sequence-10-nov-2026-evening).
+
+| Field key | Register label | Canonical column(s) | Source / reader | Admission / Layer 4 rule | DD row today | Gap or hold (verified) | Consumer check | F-subtask |
+|---|---|---|---|---|---|---|---|---|
+| `official_url` | Official course page | `catalogue.course_links` (`official_course`) | `course-link-search-worker`, `course-url-fill` | Identity-proved binding; Layer 4 `official_course_url` (2,175 pending, 202 returned to Layer 2) | `disc`: 23,945 of 35,689 | Pending not split technical vs discretionary | `disc` 23,574 of 23,945 matched | F-DISC |
+| `level` | Study level | `catalogue.courses.study_level_id` | Register; Enrich fields AI | Machine; no Layer 4 | **none** | 99.4% canonical | Course feed | F-OPS.03A |
+| `field_of_study` | Field of study | `catalogue.courses.primary_field_id` | Register (AU); Enrich fields AI (ASCED) | Machine | **none** | 99.4% canonical | Course feed | F-OPS.03A |
+| `duration` | Duration | `catalogue.courses.duration_value/unit` | Register; Enrich fields AI (quote on page) | Machine | **none** | 81.7% canonical | Course feed | F-OPS.03A |
+| `delivery` | Delivery mode | `catalogue.courses.delivery_mode`, `course_campuses.delivery_mode` | Register; Enrich fields AI | Machine; Layer 4 where held | **none** | 60.5% canonical (largest unmeasured gap) | Course feed | F-OPS.03A |
+| `campus` | Campus linked | `catalogue.campuses`, `catalogue.course_campuses` | Register (AU); Enrich fields AI | Machine | **none** | 91.1% of courses linked | Course feed | F-OPS.03A |
+| `campus_city` | Campus city | `catalogue.campuses` (city of linked campus) | Derived from linked campus only | Machine | **none** | Follows campus | Course feed | F-OPS.03A |
+| `international` | Open to international students | `catalogue.courses.open_to_international` | Register; `nz-cop`; Enrich fields AI | Machine; Layer 4 | **none** | 88.1% canonical | Course feed | F-OPS.03A |
+| `provider_tuition` | Provider tuition (fee year) | `catalogue.course_fees` (`provider_current_tuition`) | `fee-reader`, fee schedules | Fee identity gate; Layer 4 fee validation (136 pending); protected: La Cité paste | `fee`: 27,600 of 35,689 | Recovery shows needs attention | `fee` 25,594 of 27,600 matched | F-FEE |
+| `registered_tuition` | Registered tuition (register) | `catalogue.course_fees` (registered) | CRICOS register, AU only | Register | **none** (verify whether `fee` includes it) | Not separately measured | Course feed | F-FEE |
+| `intakes` | Intakes / start dates | `catalogue.course_intakes` | Page months; page-date route; calendar lane **retired** 22 Oct | Machine page-date admit; calendar needs approval; P3 audience rule open (1,644) | `int`: 1,769 of 31,411 intake rows | Register text still says "central calendars" (wrong) | `int` 1,041 of 1,075 matched | F-INT |
+| `deadline` | Application deadline | `catalogue.course_intakes.application_deadline` | Enrich fields AI (page route does not read it) | Machine / Layer 4 | shares `int` | No own measure; page route unchanged | With `int` | F-INT |
+| `english` | English requirements | `catalogue.course_english_requirements` | Enrich fields AI; central policy lane; `policy-auto-approve` | Machine / person on disagreement | `eng`: 20,749 of 35,689 | Register reader text says "coverage" (imprecise) | `eng` 20,459 of 20,749 matched | F-ENG |
+| `academic_entry` | Academic entry requirements | `catalogue.course_entry_requirements`, `catalogue.provider_entry_matrix` | Entry reader, `aer-scheduled-read`, `entry-matrix-read` | **Every first read goes to a person**; machine policy is a protected decision | `aer`: 480 of 35,689 | Register says `reader=none` (wrong); recovery "off" while job active (verify cause); 373 providers have no stored source | Not yet measured on DD | F-AER |
+| `description` | Course description | `catalogue.courses.description` | Enrich fields AI; `cdesc-machine-v1` | Machine admission live (safe class); declined readings human (1,331 first-read pending) | `cdesc`: 738 of 35,689 | Pending not split technical vs discretionary | Visibility = provider Published switch; Zoho course feed has no description field (G3) | F-CDESC |
+| `p_website` | Website | `catalogue.providers.website` | Register; `find_site` | Layer 4 `website_needed` | **none** | 74.9% (2,324 of 3,103) | Provider feed | F-OPS.03A |
+| `p_address` | Street address | Provider and campus address columns (**verify** exact columns) | Register; contact or home page | Machine | **none** | Not measured | Provider feed | F-OPS.03A |
+| `p_campuses` | Campuses | `catalogue.campuses` | Register; campus lists | Machine | **none** | Not measured | Provider feed | F-OPS.03A |
+| `p_type` | Institution type | `catalogue.providers.provider_type_id` (+ basis) | Register; institution-type rules | Rules; person edits | **none** | Not measured | Provider feed | F-OPS.03A |
+| `p_international` | Enrols international students | `catalogue.providers.enrols_international` (+ basis) | CRICOS / NZQA / IRCC | Register rules | **none** | Not measured | Provider feed | F-OPS.03A |
+| `p_logo` | Logo | `catalogue.provider_assets` | `logo-find` | Machine; flag if not found | **none** | 2,014 of 3,103 providers have an asset | Provider feed | F-OPS.03A |
+| `p_contact` | Phone or email | `pipeline.provider_contacts` (+ points) | `provider-contact-page` | Machine | **none** | Only 11 providers have contact rows (**verify**: job state and any direct columns) | Provider feed | F-OPS.03A |
+| `p_scholarships` | Scholarships | `scholarship.scholarships` | `scholarship-read`, `scholarship-auto-publish` | Layer 4 held scholarship; policy decisions open | `sch`: 1,149 (no total) | Recovery "off" while jobs active (verify cause) | `sch` 1,149 of 1,149 matched | F-SCH |
+| `p_description` | Description | `catalogue.providers.description` | `provider-description-read`; machine admit; register-fact profile | Machine admission live | `pdesc`: 1,258 of 3,087 | Register says `reader=none` (wrong) | **Only 490 of 1,258 matched on the Website**: cause not yet investigated (likely the provider Published switch or feed timing) | F-PDESC |
+
+**Untracked domains (no register key, no DD row):** rankings (`catalogue.provider_rankings`: 0 providers with rows), QILT and PRISMS (`catalogue.provider_outcomes`, `outcome_benchmarks`), country equivalency matrices (`provider_entry_matrix`, part of `academic_entry`), course and provider lifecycle and registration end dates (`layer1-register-end-dates`), publication and consumer parity, financial quotas (Firecrawl and AI). Release P0-2 gives each a row that says "no reader" or "not measured" until measured.
+
+**Layer 4 pending by kind (snapshot):** `official_course_url` 2,175; `course_description_first_read` 1,331; `course_entry_first_read` 605; `provider_current_tuition_validation` 136; `no_page_first_run` 55; `entry_matrix_first_run` 45. `pipeline.layer4_intervention_classes` covers 11 kinds and none of these six; release P0-4 adds `route_class` and the six.
+
 ## 2. Execution model — how work moves
 
 **Stages per course:**
