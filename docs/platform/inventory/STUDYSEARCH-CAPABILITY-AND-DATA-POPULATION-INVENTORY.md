@@ -42,7 +42,7 @@ The live `catalogue.providers` table holds these field groups (plus IDs, timesta
 **Linked provider entities** (not simple `providers` columns): `provider_aliases`, `provider_identifiers`, `provider_registrations`, `provider_register_facts`, `provider_assets`, `provider_associations`, `provider_entry_matrix`, `provider_fee_ranges`, `provider_rankings`, `provider_outcomes`, `pipeline.provider_contacts` and associated contact points/versions/observations. Scholarship tables associate awards, audiences and eligibility with providers. At snapshot, **27** providers had provider-entry-matrix rows, **0** had provider rankings, and **2,011** had assets; not necessarily all current/approved.
 
 ## D. All 24 tracked fields — how each fills
-These are the exact keys in live `pipeline.field_register` (14 course, 10 provider). Their presence represents a *tracking rule*, not proof of a functioning reader. The reader/fills metadata requires verification against deployed code.
+These are the exact keys in live `pipeline.field_register` (15 course, 9 provider; corrected 10 Nov 2026 against the live register: the earlier 14/10 split was wrong). Their presence represents a *tracking rule*, not proof of a functioning reader. The reader/fills metadata requires verification against deployed code.
 
 | Tracked field(s) | Source → reader/pipeline → landing |
 |---|---|

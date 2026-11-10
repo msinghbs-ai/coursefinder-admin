@@ -190,3 +190,22 @@ The v1.0 search for readers missed functions in the `l4_api` and `admin_api` sch
 **Course-description machine admission** follows the same rule: its ship-OFF switch and its policy word lists are human; all thresholds, batch sizes and timings are automatic and add no new Settings rows.
 
 **Next:** classify the remaining toolsets in the same way as each is touched (one toolset per change, not a mass edit); the outcome is measured as the count of human-class controls shown first on Settings. Implementation: F-OPS.05 in the reconciled plan.
+
+## 14. Whole-platform classification and limits home (P0 review, 10 Nov 2026 evening)
+
+**Measured (live):** `pipeline.platform_toolset_settings` holds 1,181 pipeline rows plus Firecrawl 60, Serper 23, ScrapingBee 16, OpenRouter 13, edge functions 2 and scheduled jobs 2. Only 69 pipeline rows carry a `control_class` (22 human, 47 automatic); 1,112 pipeline rows and every non-pipeline row are unclassified. The largest unclassified families are `batch` 92, `har` 90, `layer4` 60, `entry` 47, `ops` 47, `enrich` 42, `aer` 39, `wc` 35, `scholarship` 35 and `fees` 33.
+
+**Rule (unchanged from §13):** a setting is human only if it is a real operational decision: enable or pause, scope, spend or credit ceiling with its period, admission or publication policy, and an approved Run now. Everything else is automatic and collapsed. Classification is done by release P0-3 for all toolsets in one change, with the dependency check first. Rows are never deleted by a migration.
+
+**One value, one editor, one home.** The editors stay where they are (Settings › `environment`, Models & services › Services & limits). Each stream row on Data delivery links to the exact row ("Manage limits") through a `limits_group` on the field register and shows the value read from the same row: no copy, no second editor.
+
+| Stream | Human controls today (starting list; P0-3 produces the final one) | Misleading or missing |
+|---|---|---|
+| Provider descriptions | `pdesc.enabled`, `pdesc.ai_usd_max` (0.75), `pdesc.firecrawl_reads_max` (20), `pdesc.machine_admit_on`, `pdesc.registry_factual_on` | The two ceilings are lifetime and include reservations, but are labelled "all reads": rename to say so and show remaining |
+| Course descriptions | `enrich.course_description_machine_on`, `enrich.course_text_items_per_day` (2000) | No spend figure: show derived US$/day beside the item cap rather than add a setting |
+| Entry requirements (AER) | `aer.source_stored_find_on` and the job switches | 39 `aer.*` and 47 `entry.*` rows unclassified |
+| Account level | Firecrawl `daily_budget_total` (4000 credits a day), `ondemand_credits_per_day` (2000); OpenRouter `credit_floor_usd` (5), `ondemand_usd_per_day` (10) | Balance, reserve and remaining not shown beside the stream |
+| Fees, English, intakes, scholarships | To be classified in P0-3 | Unclassified |
+
+**Retire (dependency check first, then `retiring` in `pipeline.component_register`, paste file after 14 days):** `pdesc.provider_keys`, `pdesc.queue_per_run`; any further row found by the check to be read by no deployed code. No other retirement is claimed here.
+
