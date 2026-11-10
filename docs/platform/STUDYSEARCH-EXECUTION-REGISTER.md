@@ -2407,3 +2407,15 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 - Worker prompt version stamp still `provider-description-v2` although the registry says v2.1 (needs a worker release).
 - Quality follow-up: when the sentence filter drops the first sentence, the description can start with "It …" (Medicus College). Proposed rule: the first kept sentence must name the provider.
 - Next yield blockers are page discovery and identity (no About link found 279, name not proved 293): a worker change to read the home page through Firecrawl when a direct read gives a script shell, plus catalogue names/aliases.
+
+## 11 Nov 2026 06:35 AEDT — F-CDESC: stranded standing job resumed; reads and admissions verified live after #1001
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 06:04 "Go ahead and run now admit data" |
+| Finding | Besides blocking its 1,500 courses, the deadlocked job `bba24b11` kept counting against `enrich.course_text_items_per_day`: the day's room is the cap minus items created by standing jobs in the last 24 hours (1,500 + 500 = 2,000), so `field-gap-queue` created no description work after 14:23Z and would not until about 17:23 AEDT. `admin_jobs_tick_v1` marks a task failed on any slice error (a transient deadlock included) with no retry, and `public.admin_jobs` can resume only a paused task |
+| Action (production write, Integration Controller) | 06:05 AEDT: job `bba24b11` set from `failed` (deadlock detected) back to `queued`, exactly as the existing resume does, guarded on its state and on no other open task in lane `enrich-standing`; `admin_job_events` and `admin_control_events` rows with the reason. No setting, item, code or schedule changed; the reads use allowance already counted |
+| Verified live (06:05 to 06:34) | All 1,500 description items read: 583 to Layer 4, 27 filled, 889 held by checks, 1 failed. AI answers 718 recorded and 1 superseded (10 Nov: 596 superseded); 0 statement time-outs in `svc_enrich_ai_record` or the description trigger. Machine admissions now arrive through the job: 06:14 run 7 admitted via `settle`, 2 via subset, 18 declined; 06:24 run 20 via `settle`, 7 via subset, 38 declined. Active courses with a description 1,016 → 1,043. `course-description-machine` runs 33 s, 88 s, 83 s (within its time boxes, limit 120 s). 527 readings waiting for their first machine decision, about 60 decided a run |
+| Also seen | The same defect class in provider descriptions: 4 statement time-outs 19:11–19:12Z in `svc_provider_description_record` → `provider_description_machine_admit_v1` (admission inside the worker's recording call; Operating Model v1.10 rule 1). Raised as a follow-up under F-PDESC, not changed here |
+| Next | Backlog of first decisions clears at about 60 a run (about 90 minutes); job lifecycle fix (a transient slice error retries instead of failing the task) and F1 job time budget as code changes; F-PDESC follow-up; replay of the 385 paid answers of 10 Nov (`ops.answer_replay_on`, Platform Admin) |
+| Consumer API | Not touched (Decision 266) |
