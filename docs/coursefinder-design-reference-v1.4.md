@@ -1477,6 +1477,47 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 272 — Calendar intake filling covers every study level; supersedes the 19 October 2026 "Undergraduate only" choice
+**Status:** Current (10 November 2026, 22:36 AEDT; approved before any code) · **Recorded in:** this entry; `docs/platform/processes/intake-dates.md` §12 · **Supersedes:** the Platform Admin choice of 19 October 2026 06:34 ("Undergraduate only", runsheet entry for migration `20261019010000`) · **Refines:** Decision 241
+- **Platform Admin (10 Nov 2026):** calendar-based intake filling applies to all study levels, including postgraduate.
+- **Live state found before deciding (read only, 10 Nov 2026):** `calendar.university_levels` (bachelor, bachelor honours, associate degree, diploma, advanced diploma) is read only by `security.calendar_default_intakes_apply_v1`, job `provider-calendar-defaults`, which has been off since 22 Oct 2026 and is retiring (25 Oct 2026 decision D-calendar: it gave months to courses whose page states none; 2,166 rows were withdrawn under the 22 Oct page-only decision). The live intake-dates planner (`security.intake_dates_plan_v3`, job `intake-dates-apply`) has no level filter: postgraduate rows already go through it on the same rules.
+- **Decision (multiple choice, 22:36):**
+  - Decisions 270 and 271 apply to every study level. No level gate is added to the intake-dates planner.
+  - `calendar.university_levels` is left unchanged ("Leave it, record why"). It belongs to the retiring college-defaults job and is not authoritative for the live planner. The job is not switched back on. When the job's retirement completes, the setting leaves the active controls with its audit history kept.
+  - No calendar is approved or published as part of this decision.
+- **Safeguards for postgraduate courses** (many run on trimesters, short terms, blocks or rolling intakes) are part of Decision 271.
+
+### Decision 271 — A stated intake month may take the nearest main-teaching start, by provider, opt-in
+**Status:** Current (10 November 2026, 22:36 AEDT; approved before any code; off by default) · **Recorded in:** this entry; `docs/platform/processes/intake-dates.md` §12 · **Refines:** Decisions 228, 241 and the 5 Nov 2026 containment of `intake_dates.month_unique_match`
+- **Problem (verified on live data, 10 Nov 2026):** course pages and adapters give months only ("February, July"), while the main-teaching start can fall early in the next month (RMIT and Monash Semester 1 = 1 March 2027; February is orientation). The month-only rule cannot join February to a March start. Month-only rows with no matching period: Monash 548, RMIT 483, QUT 357, Melbourne 333 (all levels).
+- **Decision (multiple choice, 22:36: "35 days"; "Inside Rule B"):**
+  - A stated month takes a calendar start only when exactly one eligible main-teaching start falls in that month; if none does, only when exactly one falls within `intake_dates.nearest_start_days` (35) days after the 1st of that month.
+  - Only main-teaching starts of an approved calendar count: never orientation, enrolment, census, a deadline or a non-main period. Two or more qualifying starts keep the row month only.
+  - The rule needs an unambiguous course-to-calendar mapping. A different date printed on the course page holds the row.
+  - **Mandatory safeguards inside the rule:** a course whose page says rolling, flexible, continuous or multiple unspecified intakes is not given an exact date; a calendar approved before the qualifier existed is re-checked for calendar families (and postgraduate-specific exceptions) when the rule plans, and a mixed calendar holds the row. Both must pass before the rule writes a date.
+  - The 35-day tolerance is not permission to infer an intake the page does not state.
+  - Opt-in per provider; off by default. `intake_dates.month_unique_match` stays 0 (global, unchanged).
+  - Order: shadow mode first (it logs what it would fill and changes nothing), a 30-row audit against the official pages, then one provider at a time, each a separate, deliberate switch-on. A passing test never switches it on.
+  - Every resolved date records its source, the mapping rule and the evidence. Existing dates that the rule's evidence contradicts are reported for governed correction; nothing is withdrawn automatically.
+- **Scope:** all eligible AU and NZ providers with an approved calendar, all study levels (Decision 272).
+
+### Decision 270 — A year-less calendar start takes its year from the page's own edition
+**Status:** Current (10 November 2026, 22:36 AEDT; approved before any code) · **Recorded in:** this entry; `docs/platform/processes/intake-dates.md` §12 · **Refines:** the calendar qualifier (9 Nov 2026, F-INT.01/SRC-01)
+- **Problem (verified, 10 Nov 2026):** some calendar pages print "Monday 1 March | Teaching period begins" with no year; the year lives in the address, the page title, a column header or a year heading. The reader then records starts with no year and the qualifier cannot use them (it needs a year per start).
+  - Deakin: `.../2027-handbook/2027-trimester-dates`, title "2027 Trimester dates"; the printed weekdays agree with 2027.
+  - Monash: `summary-dates`, one heading "Semester dates 2026–2028" over three year columns; the 2027 column ("1 Mar – 25 Jun") has no year, and the 2026 and 2028 columns were given a year from the range heading alone.
+  - QUT: `teaching-periods` stacks a "2026" and a "2027" heading above dated sections (its page prints full dates; it also needs a re-read with the current reader).
+  - RMIT: already resolved by the current reader (Semester 1 = 1 March 2027 proved).
+- **Decision (multiple choice, 22:36: "Address, title, column, heading"):**
+  - A start printed without a year takes one only when exactly one edition year (2025–2035) is shown in the address, the page title, the column header above the cell, or the nearest unambiguous year heading above it, and no other year on the page contradicts it.
+  - A range heading ("2026–2028") is never an edition year unless each date is clearly mapped to one year (its column).
+  - Where the page prints a weekday, it must agree with the resolved date.
+  - Where the year cannot be established reliably, there is no start and the reason is recorded; a year is never guessed.
+  - The proposal records where each year came from (address, title, column, heading) so a person can see it.
+  - No other qualifier rule changes (main teaching, minimum starts, blocked words, series and family limits, evidence age); `central.auto_approve_calendar_dates`, `central.calendar_qualify_blocked_words` and `central.calendar_excluded_words` are not changed.
+  - Regression fixtures from the real pages (Monash, Deakin, QUT, RMIT) and a negative case where two years compete and the result must be no starts.
+- **Acceptance (all three decisions, Platform Admin 22:36):** one governed change set with automated tests, shadow-run evidence and production verification. Completion means a verified increase in correctly populated intake dates with no invented or unsupported date; passing tests or a merged PR alone is not completion. Legitimate month-only information is kept where an exact date cannot be verified. Continuous assurance reports incorrect dates, missing coverage, stale calendars and failed mappings.
+
 ### Decision 269 — Admin menu: 53 tabs become 47; dead sections retire
 **Status:** Current (3 November 2026, about 22:05 AEDT; approved before any code) · **Recorded in:** this entry; review `docs/platform/ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md`; execution register SS-020; mock-ups on the Design canvas "StudySearch Admin Menu Review" (https://claude.ai/artifact/8hxx9qgcFkxNkXSsVJJyGw)
 - **Platform Admin (3 Nov, 20:33):** "review the repo again, i want your recommendation based on current mechanism which tab is aligned with current design and which can be retired." **Decision (about 22:05):** "Approve all, build in order."
@@ -1781,6 +1822,7 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Status:** Current (3 October 2026; migration 20261003001800; job provider-calendar-defaults) · **Recorded in:** this reference · **Refines:** Decision 228
 - Platform Admin, 13:25 (multiple choice "Yes, but only for VET/TAFE colleges"): for an Australian college (a provider not named University) with an approved academic calendar, Intake 1 and Intake 2 as approved on the Academic calendars list fill every course of that college that has an official course page and no intake at all. Universities keep Decision 228's rule (a calendar only turns a period named on the page into a month).
 - The default never overrides an intake stated on the page, set or removed by hand, or waiting in a review with a value; the calendar page is the evidence; the intakes carry a calendar_default key so they can be told apart and replaced when a page states its own.
+- **Later history (pointer, 10 Nov 2026):** on 19 Oct 2026 the rule was extended to universities' undergraduate courses (setting `calendar.university_levels`, migration `20261019010000`); since 22 Oct the job `provider-calendar-defaults` is off and retiring (25 Oct decision D-calendar). The undergraduate-only level restriction is superseded by **Decision 272**; the setting is left unchanged and the job stays off.
 
 ### Decision 240 — Application deadline (international) is the sixth course attribute
 **Status:** Current (3 October 2026; pattern step and AI contract to follow) · **Recorded in:** this reference · **Refines:** Decision 228

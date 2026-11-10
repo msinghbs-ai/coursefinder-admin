@@ -10143,3 +10143,17 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** the before-definition (md5 `29315678`). The settings may stay.
 - **Local full suite:** 1,310 passed, 0 failed, 0 skipped. Register regenerated (s193; s6 extended).
 - **Records:** record §30; `STUDYSEARCH-IDENTITY-INVENTORY.md`; `OPERATIONAL-LIMITS.md` 1.1 (targets T1 to T8).
+
+### 10 Nov 2026 22:45 AEDT — F-INT: Swinburne hyphenated dates released (265 exact start dates); Decisions 270–272 (calendar year from page edition, month to nearest start, all study levels)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 10 Nov 2026 22:01 ("Go ahead 1 and 4", Group 1, Swinburne) and two briefs (22:25 calendar Rules A and B; 22:32 all study levels); decisions by multiple choice 22:36 |
+| Released | Migration `20261110110523_cf247_intake_hyphen_dates` (live ledger version 20261110110523, applied 11:05 UTC): the intake hint, page route and the plan's page-date guard read `01-March-2027`. Live baselines md5-checked before; dry run rolled back (265); after apply each function reverses exactly to its baseline. Re-runnable form, held recovery and fixture in Pilot PR #999; the re-runnable file run on Pilot afterwards reports "already applied" ×3 |
+| Data gain | Swinburne: 265 exact start dates at 148 courses (1 Mar 129, 2 Aug 120, 21 Jun 10, 5 Jul 5, 1 Feb 1), each a start of the approved 2027 calendar on the same day; 148 search documents refreshed; no other provider touched |
+| Held | 36 page-only dates, 11 identity refusals, 2 past dates; 105 rows with no stored page wording; 2 "November" intakes from an event banner (098493G, 116706B) need Course edit → Remove intakes (signed-in Curator) |
+| Not changed | Blocked words left as they are: allowing `/courses/intakes/` would not qualify Swinburne's start-dates page (it mixes four calendar families and fails `scope_check_families`) |
+| Decisions | 270 year from the page's own edition (address, title, column, nearest heading; range headings never; weekdays agree; fail closed); 271 month to nearest main-teaching start, 35 days, per provider, opt-in, shadow first, with mandatory rolling-wording and calendar-family safeguards; 272 all study levels, `calendar.university_levels` left unchanged (it belongs to the retiring college-defaults job, off since 22 Oct). Recorded in the design reference and `docs/platform/processes/intake-dates.md` §12 |
+| Findings | `calendar.university_levels` is read only by `calendar_default_intakes_apply_v1` (job off and retiring); the live planner has no level filter. RMIT's 2027 calendar already proves Semester 1 = 1 Mar 2027 (Rule B only). Monash: one "2026–2028" heading over three columns, 2027 column year-less. Deakin: year in address and title only. QUT: approved calendar 2026 only; teaching-periods page needs a re-read with the current reader. Stored copies could not be opened from the session (the evidence viewer needs a signed-in admin); confirmed from the stored-copy readings and the live pages |
+| Next | Rule A build (fixtures from the real pages, md5 baselines, dry run, apply, verify), then Rule B in shadow mode and the 30-row audit; one provider at a time after a separate switch-on |
+| Consumer API | Not touched (Decision 266) |
