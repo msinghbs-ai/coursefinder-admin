@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.9, 10 Nov 2026 (v1.8 retained; "Spend and throughput authority" added for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; history in Git). This file is the complete onboarding for any AI agent working on
+v1.10, 11 Nov 2026 (v1.8 and v1.9 retained; v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -92,6 +92,16 @@ Before escalating:
 7. **Measure it.** Record the full-run wall-clock time, the number of full runs per release and the number of reruns caused by failures or conflicts in the Monday line. The aim is one full run per final head, and a wall-clock time measured in minutes.
 
 **What does not change:** the mandatory independent QA, exact-head CI before merge, migration safeguards, consumer API (G3) approvals, financial limits, manual locks and production verification. Targeted tests are never a substitute for the full run before merge; they are what is run before it.
+
+## Bounded work on worker write paths; throughput is measured, not assumed (Platform Admin, 10 November 2026; permanent rule)
+
+**Why:** On 10 Nov the course-description cap went from 500 to 2,000 readings a day and real output fell to about 118. The AI worker records up to 40 answers in one API call (8 s statement time-out); a trigger ran the full machine admission (catalogue scans and a Website read-back, about 1 s a reading) inside that call, a time-out cancelled the whole batch, and 385 paid answers were lost. A deadlocked standing job also left 1,500 items queued with no runner. Evidence: [execution register, 10 Nov 23:55](STUDYSEARCH-EXECUTION-REGISTER.md).
+
+1. **A worker or API write path does bounded work per item.** An RPC called by a worker (`svc_*` recording calls) and every trigger it fires do constant-time work per item: validate, record, enqueue. Admission decisions, catalogue-wide scans, consumer read-backs and anything whose cost grows with data volume belong to the catalogued job that already settles that state, never inside the API statement (`authenticator`: `statement_timeout` 8 s, `lock_timeout` 8 s). Before adding work to a trigger or RPC, name the slowest call it makes and its cost at current volume.
+2. **A swallow block is not a time-out guard.** `exception when others` does not catch `query_canceled` (a statement time-out or a cancel): the whole statement, and every item batched in it, is lost. Never describe a path as "never fails" because of such a block; bound the work instead (rule 1).
+3. **A capacity change is verified by measured throughput.** Raising a cap, batch size or daily allowance is an intermediate state, not delivery (v1.5 rule 3). At the next cycle, measure attempted against recorded against failed items, worker batch errors and statement time-outs in the logs, and report that, not the setting. A raised cap that lowers real output is a P1 defect.
+4. **No orphaned work after a job fails.** A terminal job failure (deadlock, time-out) must not leave its items queued or leased with no runner. They are settled, released to the next job or raised as an integration issue in the same cycle, never left silent.
+5. **Paid answers are recovered before re-asking.** An AI answer already received and stored is replayed through the recording route before the item is asked again (the existing replay), consistent with the cost discipline above.
 
 ## The two repos (both public)
 1. DECISIONS — github.com/msinghbs-ai/coursefinder-admin. Blueprints, designs, thread
