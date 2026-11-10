@@ -316,3 +316,24 @@ The acceptance result is visible in the existing Admin view.
 **Required operating design:** For each active course and intake, process known official course page, current relevant academic-year main-teaching calendar (only if applicable), unique explicit exact course-page date where source/identity/current course offering is proved, and negative/rejected-date memory. Use stored official pages first, direct reads then metered Firecrawl if budgeted; if no page or calendar, acquire it and retry/park the one provider while continuing others. Do not auto-use institution-wide semester day for a course not offered in it. Keep valid month-only values month-only. After admission: canonical row→Website/Zoho projections→actual consumer check, schedule repeat/refresh on source change.
 
 **Acceptance & duration:** two unattended post-release `:26` cycles with positive *verified* retained net date gain on eligible sources, sound handling of false/retired dates and cross-provider progression. At existing 200 attempts/hour, a single scan of 30,302 active no-exact-date rows would need a lower bound of 152 hourly slots even without validation/source cost, so not every row can be processed by midnight at unchanged throughput; and not every month-only row has a truthful day. Do not promise a fixed full-population ETA before valid-source eligibility and real throughput are measured.
+
+## 12. Swinburne hyphenated dates; calendar rules A and B; all study levels — 10 November 2026
+
+**Swinburne (released and verified, 10 Nov 2026 ~22:05 AEDT).** Swinburne's page adapter stores start dates as `01-March-2027`; the page route, its hint and the plan's page-date guard read only `1 March 2027`. Migration `20261110110523_cf247_intake_hyphen_dates` (three md5-guarded edits; Pilot PR #999 holds the re-runnable form, the held recovery and fixture `tests/fixtures/intake-hyphen-dates`). A run limited to Swinburne's courses admitted **265 exact start dates at 148 courses** (1 Mar 129, 2 Aug 120, 21 Jun 10, 5 Jul 5, 1 Feb 1), each a start of the approved 2027 calendar on the same day (P1); 148 search documents refreshed; no other provider touched. Held: 36 page-only dates, 11 identity refusals, 2 past dates, 105 rows with no stored page wording. Two "November" intakes at Swinburne (098493G, 116706B) come from a "Study Expo 24-November-2026" banner: removal needs a signed-in Curator (Course edit → Remove intakes).
+
+**Baseline for the calendar rules (read only, 10 Nov 2026 ~22:40 AEDT).** Month-only rows (active intakes with no start date):
+
+| University | Undergraduate | No matching period | Year unproven | Postgraduate and other | No matching period | Year unproven |
+|---|---:|---:|---:|---:|---:|---:|
+| Monash | 314 | 303 | 0 | 293 | 245 | 1 |
+| RMIT | 358 | 265 | 0 | 246 | 218 | 0 |
+| QUT | 192 | 184 | 0 | 189 | 173 | 0 |
+| Deakin | 217 | 46 | 164 | 234 | 62 | 140 |
+| Melbourne | 31 | 27 | 0 | 348 | 306 | 0 |
+| Swinburne | 44 | 0 | 0 | 116 | 0 | 0 |
+
+What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT already has Semester 1 = 1 Mar 2027 and Semester 2 = 19 Jul 2027 proved, so only the month gap (February → 1 March) blocks it; Monash's summary page has one "Semester dates 2026–2028" heading over three columns and the 2027 column has no year; Deakin's 2027 trimester page has the year only in its address and title; QUT's approved calendar holds 2026 starts only and its teaching-periods page (full dates, stacked year headings) was last parsed on 4 Oct with no values.
+
+**Decisions (Platform Admin, 10 Nov 2026 22:36; design reference Decisions 270, 271, 272).** Rule A (270): a year-less start takes its year only from one unambiguous edition year in the address, title, column header or nearest year heading; range headings never; weekdays must agree; otherwise no start, with the reason. Rule B (271): a stated month takes the single main-teaching start in that month, or else the single one within 35 days after the 1st (`intake_dates.nearest_start_days`); rolling or multiple-intake wording and calendars mixing families hold the row; opt-in per provider, shadow first, 30-row audit, then one provider at a time. Levels (272): all study levels; `calendar.university_levels` left unchanged because it belongs to the retiring college-defaults job (off since 22 Oct), which stays off.
+
+**Safeguards found missing in the live planner (built inside Rule B):** no hold for rolling or "multiple intakes" wording on a course page (the planner's "rolling" refers to rolling application deadlines); calendars approved before the qualifier (9 Nov) are not re-checked for calendar families.
