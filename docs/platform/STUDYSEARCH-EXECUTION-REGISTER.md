@@ -2379,3 +2379,31 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 3. Recover the 385 paid answers without a new AI call: `ops.answer_replay_on` (0 since 3 Nov) after step 1, through the audited Settings route (a protected setting; the Platform Admin's write).
 4. QA follow-ups: F1 job time budget for `course_description_machine_run_v1` (max 74.3 s of 120 s before deferral); F2 per-item retry in the worker on SQLSTATE 57014; sync the admin `TEST-REGISTER.md` at merge.
 5. Acceptance: description readings per day close to `enrich.course_text_items_per_day` for two unattended standing cycles, with the admitted gain read back through the Website feed.
+
+## 10 Nov 2026, 23:50 AEDT: provider descriptions — veto removed, Firecrawl restored, self-heal job, 5-minute reader (controller)
+
+**Platform Admin direction (22:57, 23:02, 23:04 AEDT):** replace basic descriptions with better source-backed ones, speed the process up, use Firecrawl as much as needed, and make the platform recover by itself.
+
+**Root causes found (live, `fxcwkweaxjtknorudmwp`):**
+1. Since worker v0.60.0 (#985) the model often returns `about_page = false` while still giving quote-backed sentences. `security.provider_description_validate_v1` held the whole answer as `not_stated` on that flag alone: 146 of 186 AI reads of v0.63.0 (5–10% before v0.60.0). Replay: 6 of 6 recent holds passed every sentence rule once the flag was ignored.
+2. `pdesc.firecrawl_reads_max` was a lifetime count (20 of 20 used), so blocked or script-only About pages were held for good ("Firecrawl ceiling reached", 86 reads).
+3. Provider-description Firecrawl reads fell in the shared group "other" (daily share 200 credits), used up early each day by discovery search and site maps (613 refusals on 10 Nov).
+4. One worker call of 10 every 10 minutes (60 reads an hour).
+
+**Changes applied (Supabase MCP; schema_migrations rows aligned to the filenames; all function changes md5-guarded and verified on live afterwards):**
+- `20261110250000` — validate_v1 records `checks.about_page_flag` and lets every existing sentence rule decide (md5 `35d6d532…` → `d4a4d31a…`); Firecrawl allowance per 24 h window (`pdesc.firecrawl_window_hours` 24, `pdesc.firecrawl_reads_max` 20 → 300); `security.provider_description_self_heal_v1` and job `provider-description-self-heal` (catalogued, registered); `pdesc.firecrawl_per_call` 5 → 10, `pdesc.concurrency_max` 12 → 30. `pdesc.ai_usd_max` unchanged (0.75).
+- `20261110251000` — self-heal respects the one-open-read-per-provider index; each item isolated (first live run had rolled back on that index, nothing changed).
+- `20261110252000` / `20261110253000` — three calls a fire tried and reverted (the lease does seconds of work under its lock: one call hit the 8 s time-out and two gave up). Now one call a fire every 5 minutes (`pdesc.every_minutes` 10 → 5, lower bound 10 → 5); self-heal at :03, :13, … :53. Lease md5 back to `82bfe2da…`.
+- `20261110254000` — provider descriptions get their own Firecrawl group `pdesc` and `firecrawl.daily_share_pdesc` 300 (day total 4,000 unchanged).
+- Data nudge: 12 reads refused for credits brought forward to retry now.
+
+**Verified live (23:13–23:48 AEDT):** fires at 5-minute cadence (12:31, 12:36, 12:41, 12:46 UTC) each with 10 items, HTTP 200; Firecrawl reads 5 and 4 in the last two fires, no `pdesc` refusals; self-heal succeeded 3 times (first run: 5 re-checked → 3 admitted, 1 proposed, 1 held; 20 Firecrawl-stopped reads requeued). Admissions 12:13–12:48 UTC: 34 (direct 7, stored 8, firecrawl 1, registry_factual 18), including UNSW, Monash, La Trobe, UWA, Flinders, PSC Creative College, Medicus College, SCIC. Providers described: 1,377 → 1,420.
+
+**Overnight, unattended (read 11 Nov 2026 06:02 AEDT):** 397 admissions since the fix (registry_factual 233, direct 112, stored 48, firecrawl 4); providers described 1,377 → 1,772; reader fires 71 worked in the last 6 h; self-heal 40 runs succeeded, 0 failed; reads queued 6, proposed 99, held 2,239; Firecrawl 126 credits today in group `pdesc`; AI spend US$0.695 of the US$0.75 ceiling.
+
+**Not done here / open:**
+- Pilot PR [#1002](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1002) (branch `cf247-pdesc-autonomous-throughput`, head `56e30e66`: 5 migrations and the held forward-recovery file) opened 11 Nov 2026 05:50 AEDT; all 11 checks green (build-and-smoke, provider-description, test-evidence and 6 shards, Workers Builds). Live function checksums re-verified against the PR the same morning. **Awaiting a person's review and merge** (the controller may not merge without review); until merged, `main` lags live for this change. Deploy on merge will find the five versions already applied.
+- `pdesc.ai_usd_max` 0.75: lane spend US$0.695 at 06:02 AEDT 11 Nov; AI reads stop at the ceiling. Platform Admin decision needed (estimate for remaining AU/NZ/CA plus Basic → Enriched upgrades: about US$3–5).
+- Worker prompt version stamp still `provider-description-v2` although the registry says v2.1 (needs a worker release).
+- Quality follow-up: when the sentence filter drops the first sentence, the description can start with "It …" (Medicus College). Proposed rule: the first kept sentence must name the provider.
+- Next yield blockers are page discovery and identity (no About link found 279, name not proved 293): a worker change to read the home page through Firecrawl when a direct read gives a script shell, plus catalogue names/aliases.
