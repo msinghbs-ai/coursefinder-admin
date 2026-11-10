@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.8, 10 Nov 2026 (v1.6 and v1.7 controls retained; test-run efficiency and one-full-run release rules added; history in Git). This file is the complete onboarding for any AI agent working on
+v1.9, 10 Nov 2026 (v1.8 retained; "Spend and throughput authority" added for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -265,3 +265,15 @@ Source: Platform Admin directive "Operating Model Consolidation and Execution Co
 **5. The Admin UI is the control plane.** Production progress must be readable without asking Claude: status by field, canonical coverage, admitted and published gains, last and next processing, evidence and quality, held reasons, recovery, Website/Zoho verification, Run Now / Fill fields. Every change that adds a data stage adds its counts to the existing Data Delivery panel in the same change.
 
 **6. Usage budget.** Weekly Claude usage is limited. Read the Quick Start first; retrieve only the relevant task history; no repeated full Supabase inventories; no thousands of tests during discovery; no agents to investigate what is already recorded. Safety, security and release tests are not reduced.
+
+## Spend and throughput authority (Platform Admin, 10 November 2026; Decision 273)
+
+Standing authority for Firecrawl credits spent on calendar refresh, successor-edition search and re-reads of university and college calendars (AU, NZ, CA). It supersedes the one-off R2 cap of the 5 November 2026 mandate (40 credits in total); R2's checks before acquisition stay in force. Limits change by setting with a reason, not by a new mandate.
+
+1. **Allowance:** 200 credits per calendar year (Melbourne time), counted in one ledger. Per provider: 10 credits a cycle. Per run: 3 refresh documents. A successor-search cap is created with the successor search.
+2. **Ceilings are kept:** each cap is a setting with value and max_value (raise max_value first, then value). Spend stops automatically at 100% of the allowance; an alert is raised at 80%. Never unlimited.
+3. **Accounting:** an open request counts its reservation; a resolved one counts the credits actually used; never undercount while open; reconciliation is idempotent.
+4. **Spend order:** most unfilled intake rows first; never on a page whose stored copy fails for a reason a re-fetch cannot fix; never an unchanged page twice in a cycle; no duplicate acquisition.
+5. **Reporting:** monthly credits used, pages refreshed, rows newly filled and credits per filled row in the existing admin metrics; a cap that blocked a legitimate refresh is reported with evidence.
+6. **Review:** the Platform Admin re-approves the allowance each October as one recorded line.
+7. **Unchanged:** auto-approval, qualifier rules and thresholds, blocked and excluded words; a refreshed calendar still qualifies and is approved before it fills anything. A passing test never switches anything on.

@@ -1477,6 +1477,36 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 273 — Standing spend and throughput authority for calendar refresh; supersedes R2 of the 5 November 2026 mandate
+**Status:** Current (10 November 2026, about 23:05 AEDT; approved before any code; limits change only after the safeguards are built and proved) · **Recorded in:** this entry; `docs/platform/AGENT-OPERATING-MODEL.md` v1.9, section "Spend and throughput authority" · **Supersedes:** section 3 ("Current official calendars — R2 APPROVED") of the Platform Admin mandate received 5 November 2026 12:44 AEDT (`docs/platform/2026-11-05-final-intake-recovery-strategy-mandate-1244.md`), kept as history
+- **R2 in full (as recorded 5 Nov 2026):**
+  > Prioritise official 2027 calendar evidence.
+  > First use the existing stored pages, including the reported 2027 RMIT, UTS, Newcastle and Swinburne documents.
+  > Then acquire genuinely missing or stale current editions using up to **40 Firecrawl credits in total**, within existing approved vendor settings and authority.
+  > Restrict this acquisition to the previously approved top-10 Australian university scope.
+  > Before acquisition:
+  > - Check for an already stored equivalent edition.
+  > - Verify the official university source.
+  > - Confirm the correct country, campus and institution.
+  > - Exclude pathway colleges, residential colleges and unrelated offshore campuses.
+  > - Confirm the document represents the applicable teaching calendar.
+  > - Preserve source lineage and the old calendar edition.
+  > Do not automatically replace manually locked or human-approved bindings where existing governance requires a decision.
+  > Deduplicate source acquisition across universities, editions and courses.
+  > Record actual credit usage and useful yield.
+- **Live state before deciding (read only, 10 Nov 2026 ~23:00):** budget 40 (max 40); 0 Firecrawl credits actually used; 6 failed requests and 1 open, each reserving 5 credits, so the lifetime counter showed 35 of 40. A hard stop exists (reservation before each request). No 80% alert, no per-provider cap, no yearly window, no successor-edition search; an address was never refreshed twice, which would block the yearly rollover. Firecrawl plan: Standard, 100,000 credits a month (not a constraint, and not an instruction to spend).
+- **Decision (multiple choice, about 23:05):**
+  - **Scope:** Firecrawl credits for calendar refresh, successor-edition search and re-reads of university and college calendars (AU, NZ, CA). R2's checks before acquisition stay in force.
+  - **Allowance:** 200 credits per calendar year (Melbourne time), with a complete usage ledger across AU, NZ and CA; replaces the 40-credit lifetime cap. Increases are justified by actual use, coverage and evidence of unmet demand.
+  - **Caps:** 10 credits per provider per cycle; 3 refresh documents per run. A successor-search cap is created with the successor search itself.
+  - **Accounting:** an open request counts its reservation; a resolved request counts the credits actually used (a failed read that used nothing releases its reservation); never undercount while open; reconciliation is idempotent and auditable; yearly and per-provider balances are kept.
+  - **Ceilings kept:** every cap is a setting with value and max_value; automatic stop at 100% of the allowance; alert at 80%.
+  - **Spend order:** most unfilled intake rows first; never on a page whose stored copy fails for a reason a re-fetch cannot fix (year-less after Decision 270, wrong scope); never an unchanged page twice in one cycle (the calendar year); no duplicate acquisitions.
+  - **Reporting:** monthly credits used, pages refreshed, rows newly filled and credits per filled row in the existing admin metrics; cases where a cap blocked a legitimate refresh are reported with evidence.
+  - **Review:** the allowance is re-approved each October (edition rollover) as one recorded line, not a new mandate.
+  - **Order:** the safeguards (calendar-year window, reservation reconciliation, per-provider and per-run caps, 80% alert, 100% stop, monthly report, tests for concurrency, failures, retries, duplicate reservations and the annual rollover) are built and proved first; then max_value is raised, then value, each reason citing Decision 273.
+  - **Not changed:** auto-approval, qualifier rules and thresholds, blocked and excluded words. A refreshed calendar must still qualify and be approved before it fills anything. Completion means verified controls and accurate live accounting, not a merged PR.
+
 ### Decision 272 — Calendar intake filling covers every study level; supersedes the 19 October 2026 "Undergraduate only" choice
 **Status:** Current (10 November 2026, 22:36 AEDT; approved before any code) · **Recorded in:** this entry; `docs/platform/processes/intake-dates.md` §12 · **Supersedes:** the Platform Admin choice of 19 October 2026 06:34 ("Undergraduate only", runsheet entry for migration `20261019010000`) · **Refines:** Decision 241
 - **Platform Admin (10 Nov 2026):** calendar-based intake filling applies to all study levels, including postgraduate.

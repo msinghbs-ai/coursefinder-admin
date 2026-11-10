@@ -10159,3 +10159,13 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Findings | `calendar.university_levels` is read only by `calendar_default_intakes_apply_v1` (job off and retiring); the live planner has no level filter. RMIT's 2027 calendar already proves Semester 1 = 1 Mar 2027 (Rule B only). Monash: one "2026–2028" heading over three columns, 2027 column year-less. Deakin: year in address and title only. QUT: approved calendar 2026 only; teaching-periods page needs a re-read with the current reader. Stored copies could not be opened from the session (the evidence viewer needs a signed-in admin); confirmed from the stored-copy readings and the live pages |
 | Next | Rule A build (fixtures from the real pages, md5 baselines, dry run, apply, verify), then Rule B in shadow mode and the 30-row audit; one provider at a time after a separate switch-on |
 | Consumer API | Not touched (Decision 266) |
+
+### 10 Nov 2026 23:10 AEDT — Decision 273: standing spend and throughput authority for calendar refresh (supersedes R2 of the 5 Nov 2026 mandate); operating model v1.9
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 10 Nov 2026 22:43 brief (standing calendar spend policy); decision by multiple choice about 23:05 |
+| Decision | Decision 273 in the design reference (R2 quoted in full); `docs/platform/AGENT-OPERATING-MODEL.md` v1.9, new section "Spend and throughput authority": 200 credits a calendar year in one ledger; 10 a provider a cycle; 3 refresh documents a run; successor-search cap with the successor search; value and max_value kept; stop at 100%, alert at 80%; reservation while open, actual credits once resolved; monthly report; re-approved each October |
+| Live baseline | Budget 40 (max 40); 0 credits actually used; 6 failed and 1 open request reserving 5 each (counter 35 of 40); hard stop exists; no 80% alert, per-provider cap, yearly window or successor search; an address never refreshed twice (blocks the rollover); Firecrawl plan Standard 100,000 a month |
+| Not yet changed | No setting, function or schedule changed. Safeguards first (yearly window, reconciliation, caps, 80% alert, 100% stop, monthly report, tests for concurrency, failure, retry, duplicate reservation, rollover), then max_value, then value, citing Decision 273 |
+| Consumer API | Not touched (Decision 266) |
