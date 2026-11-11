@@ -10249,6 +10249,7 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Verified live | Setting 10000 with reason; ledger row `20261111210000`; checker examines 5,370 of 5,370 pending; first run after deploy 01:51 UTC succeeded in 8.5 s (before: 8.6–8.8 s) |
 | Waiting on Platform Admin | (a) the 371 old readings: re-read (about US$3.30, provenance recorded) or accept a same-course exact-sentence AI answer (111, no spend, weaker binding); (b) a separate per-provider limit for machine-declined first descriptions (proposed 20); (c) D-1 trust policy O3; (d) Inbox group decisions: Auckland 165 shared/list pages, archived-year addresses 188 (Macquarie 51, ANU 34, Melbourne 27), CRICOS page differs 173 (SFU 47, Adelaide 36); RMIT 312 of 668 entry first reads |
 | Not claimed | The backlog is not reduced by this release; no Layer 4 item was decided by an agent |
+
 ### 11 Nov 2026 13:15 AEDT — F-AER: why AER parks on Layer 4; entry search for missing providers released; self-healing corrected reads (Pilot #1004–#1006, #1014, #1016)
 
 | Item | Detail |
