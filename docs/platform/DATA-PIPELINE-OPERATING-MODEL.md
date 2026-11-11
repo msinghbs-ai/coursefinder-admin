@@ -71,6 +71,20 @@ Every flag keeps who or what raised and released it, why, and the evidence (Cove
 | Retry | A further attempt only while it still succeeds in at least the set share of cases |
 | Activation | A passing qualification never switches a task on by itself in production; switching on is a separate, recorded step |
 
+### 3.3.1 AI-written text: prompt-based, on demand and regular scan (Platform Admin 11 Nov 2026 14:51 and 14:57; first applied to provider descriptions)
+
+Text that AI writes from an official page (first: a provider's description, `20261112010000`, worker `coverage-sweep` v0.69.0) follows these rules.
+
+| Part | Rule |
+|---|---|
+| Wording | Set by a **prompt** kept in the database (provider descriptions: `pipeline.provider_description_prompts`), versioned, one active. The Platform Admin edits it on the screen (Models & services › AI & OpenRouter › Provider description prompt) with a reason; a save is a new version, never an edit in place. A switch (`pdesc.prompt_on`) returns to the built-in prompt. |
+| Checks | Only checks a machine applies reliably stay as rules: the provider's own site and identity before any AI call; every supporting passage on the page; every number in its passage; complete sentences supported by their passages; a short list of words the text never carries (rankings, awards, outcomes, promotion, fees, visas); the first sentence names the provider; length; not a copy of another provider's text. Style is the prompt's job, not a rule's. |
+| A new prompt | Is new knowledge: each read records the prompt version, and answers that failed under an older version are read again once by the self-heal job. |
+| On demand | An operator's one-click **Fill** (no reason to type) starts a read at once. It is not held by the task's own AI ceiling, daily guard, Firecrawl allowance or daily share, or by the "same page already failed" memory. It still stops for a manual lock, the identity proof, the platform-wide AI rule (credit floor, platform daily ceiling) and the account's own limits (Firecrawl monthly plan, credit reserve). Its priority lasts a set number of minutes, so the regular scan never waits behind it. |
+| Regular scan | Runs by itself on its schedule and honours every limit of the task (AI ceiling and daily guard, Firecrawl allowance and daily share). |
+| Written by hand | A value entered by hand sets a manual lock; neither Fill, the scan nor the record replaces it. |
+| Visible | AI spend against the ceiling and daily guard, Firecrawl use against allowance and share, progress (admitted in 24 hours, described, waiting, held, written by hand) and the jobs' last runs are shown on the screen that holds the prompt and on the task's own card. |
+
 ### 3.4 Admission gate (Layer 4, per value)
 
 | Check | Rule |
@@ -163,5 +177,6 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.2 | 11 Nov 2026 | 3.3.1 AI-written text: prompt-based wording maintained on screen, one-click on demand outside the task's own limits, regular scan within them, hand-entered values never replaced (Platform Admin 11 Nov 2026 14:51, 14:57; provider descriptions first). |
 | 1.1 | 15 Oct 2026 | 3.0 Flags (Decision 261, v2.15.282); 4.0 how the provider list is built for new countries (registers first, search fills gaps). |
 | 1.0 | 15 Oct 2026 | First issue: principles, layers, gates, country onboarding with the next seven countries' sources, assessment, housekeeping standard and starting point (Decision 260). |
