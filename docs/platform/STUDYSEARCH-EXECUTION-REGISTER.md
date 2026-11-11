@@ -2563,3 +2563,15 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 | Reversal | Settings: `pdesc.machine_numbers_allowed` 0; `pdesc.prompt_on` 0 (built-in prompt and every earlier list); the prompt is edited on Models & services › AI & OpenRouter |
 | Next | None needed to keep it running: the scan, self-heal, re-check and admission run on their own. Watch the daily admissions and the person queue for marketing and "accredited" items |
 | Consumer API | Not touched (Decision 266) |
+
+## 11 Nov 2026 20:05 AEDT — F-CDESC: post-release check of #1001 passed; job time budget released (Pilot #1033, QA follow-up F1)
+
+| Item | Detail |
+|---|---|
+| Post-release check (19:12, SELECT and logs) | Trigger body still `c75d63a6…`; runner `d25e4bad…`. Since 06:00: 0 items failed "no answer could be recorded"; 2 of 6,906 AI answers superseded (US$0.01); 0 statement time-outs in `svc_enrich_ai_record`. Machine admissions 11 Nov: 388 via `settle`, 407 via subset, 235 via `fresh_reading` (job-recorded readings), 2,462 declined. Active courses with a description 1,016 (06:00) → 1,858; 2 readings undecided |
+| Risk found | `course-description-machine` ran at its limit under the replay backlog: 117 s (18:14, 203 decisions) and 120 s (19:04, 294 decisions) against the 2-minute statement time-out; a run past it is cancelled with every decision rolled back. The step boxes (subset to 45 s into the statement, settle 40 s and read-back 15 s from their own starts) add up to about 120 s; the earlier "107 s worst case" estimate was wrong |
+| Change | Pilot #1033, migration `20261112080000_cf247_cdesc_run_time_budget` (md5-guarded, two lines): settle (`4c40d655…` → `5fa17251…`) takes no item past 85 s of the statement; the read-back (`a6138e39…` → `f4b6bc3e…`) starts none past 100 s. End of a run about max(85 s + slowest admission, 100 s + slowest read-back): about 102 s if no item takes over about 5 s (an estimate; per-function timing is not collected live) |
+| Verified live (same turn) | Both bodies at the new md5s; ledger statement md5 = file md5 `a85631a7662fd66be6df3001553100a7`; runs after deploy 80–84 s. One full CI run at head `834a7e0e` all success (real-time fixture: live settle started 83 s in ends at 123 s; after: 85 s; read-back 100 s). Independent QA APPROVE WITH CONDITIONS at `d0cc2f12`: C2 (state the worst case as an estimate) applied before merge; C1 (24-hour check that every run stays at or under about 105 s) scheduled 12 Nov 20:30 AEDT |
+| Also found | AI spend for 10–11 Nov under-recorded: each cancelled recording call also rolled back its spend entry, so `pipeline.ai_spend_ledger` shows US$4.17 for all lanes 10 Nov 06:00Z–19:00Z while the stored answers of this reader alone cost US$19.51 (of which US$11.11 was paid for answers later superseded). A ledger backfill from the stored answers is offered to the Platform Admin, not done |
+| Recovery | `supabase/held/cdesc_run_time_budget_forward_recovery.sql` |
+| Consumer API | Not touched (Decision 266) |
