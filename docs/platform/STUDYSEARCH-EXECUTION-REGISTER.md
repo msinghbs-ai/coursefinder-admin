@@ -2450,3 +2450,40 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 3. **Read rate:** `aer.schedule_daily_max` 200 → 1,000 would be about US$5 a day (US$0.005 a read) inside the US$14 daily AI ceiling; 13,986 courses in about 14 days instead of 70.
 
 **Next executable actions:** (1) CI on #1004, merge, deploy-on-merge, verify md5s and worker v0.64.0 on live, then watch `central_entry_search` spends and `aer_source_discover_requests` outcomes for one day; (2) decision 1 at or after 23:39 AEDT; (3) decisions 2–3; (4) acceptance F-AER.06: active AER rows beyond 1,304 read back through the Website feed for two unattended days.
+
+## 11 Nov 2026, 13:10 AEDT: F-AER.02 self-healing: corrected reads keep draining Layer 4 when nobody reviews (Pilot #1014, #1016; controller)
+
+**Trigger:** Platform Admin 11 Nov 05:42 (as the 06:45 entry): "why parking on layer 4 ... Make sure platform is autonomous to execute this in future, self sustaining".
+
+**Status of the 06:45 work:** Pilot #1004, #1005 and #1006 merged; `20261111100000_cf247_aer_entry_search` applied by deploy-on-merge and verified on live (ledger md5 = file md5 `b8516d26…`; `fc_purpose_group_v1` `8041bf16…`, `svc_fc_spend` `ee400f93…`; worker v0.64.0 deployed with the targeted entry search).
+
+**Evidence (project `fxcwkweaxjtknorudmwp`, read only, 08:15–08:50 AEDT):**
+- Unchanged since 06:45: Layer 4 668 + 49 = 717 against 600; every hourly `aer-scheduled-read` since 14:13Z 10 Nov started 0 reads (`back_pressure` true, "the daily cap is reached").
+- Of the 354 reads the shadow machine admission declines, 277 are `gate_incomplete`: 99 cut at the row limit (RMIT 53, QUT 38), 225 with printed requirements dropped (654 quotes not found on the page across 252 waiting reads; 1,317 rows set aside for an unprinted score basis, which `aer-replay` already restores).
+- `security.aer_recovery_rule_v1` makes **160 of the 277 eligible for an automatic corrected read today** (changed_conditions 156: limits raised by `20261111010000`; reread_eligible 4). None was read again:
+  1. `security.aer_schedule_held_v1` sent every read with `rows_cut > 0` to a person **before** asking the rule (60 eligible row-limit reads never re-read);
+  2. `security.aer_schedule_tick_v1` counted corrected reads and new reads against one 24-hour cap; new reads used it, back-pressure then stopped new reads, and the cap also stopped the corrected reads, the only automatic way waiting items are replaced.
+- Not fixable here: QUT (37 reads, class `source_is_matrix`) prints per-country admission tables that belong to the entry matrix route; 38 reads wait on Human input items (identity, missing scale).
+
+**Change (Pilot #1014, migration `20261111220000_cf247_aer_self_healing_corrections`, md5-guarded text edits):**
+- Held picker: a row-limit cut follows the shared recovery rule like every hold (read again only when eligible and the correction check passes; otherwise it waits with the rule's class and next action).
+- Tick: corrected reads have their own allowance, new setting **`aer.schedule_correction_daily_max` = 100** (Settings › Pipeline settings, Entry requirements; about US$0.58 a day at most), at most `batch.aer_schedule_held` a run; `aer.schedule_daily_max` counts new reads only. Back-pressure, the Layer 4 limit, AI guards and the OpenRouter floor unchanged. No switch, mode or job changed.
+- Bodies: `aer_schedule_held_v1` `d390d02a…` → `d0863451…`; `aer_schedule_tick_v1` `f995e952…` → `b9616377…`.
+
+**Release record:**
+- Version renumbered before merge: `20261111110000` was taken on main by `cf247_calendar_status_read` (#1009, applied live). Deploy-on-merge skips a version already in the ledger, so the first number would have been skipped silently. The spec now guards that the version is unique.
+- Deploy-on-merge of #1014 stopped on the file's own precondition guard (wrong argument list for `course_entry_correction_check_v1`) and rolled back; live verified unchanged. Fixed in place by #1016 (fixture stub now uses the live signature and fails on the wrong one) and applied through Database apply migration, since the file never reached the ledger.
+- Applied 13:08 AEDT by Database apply migration run 42944071585 from `84075e02`; verified live in the same turn: ledger md5 = file md5 `e9c3e141…`; bodies `d0863451…` and `b9616377…`; setting present (100, reads a day). **First run after release (13:13 AEDT): 10 corrected reads started, 0 skipped, under back-pressure**, the first AER reads the scheduler started since 14:13Z on 10 Nov.
+
+**Tests:** fixture `tests/fixtures/aer-self-healing/run.sh` (live bodies from read-only snapshot run 42904796361; both defects reproduced; 10 after-cases; refused on a changed body; idempotent; recovery byte for byte), workflow `aer-self-healing-test`, spec `cf-247-f-aer-02-self-healing-contract` (Guards: F-AER.02). Test register regenerated (also adds specs merged without a regeneration: F-AER.01, s528–s532).
+
+**Recovery:** `supabase/held/aer_self_healing_corrections_forward_recovery.sql`; without code, set `aer.schedule_correction_daily_max` to 0.
+
+**Still for the Platform Admin (unchanged from 06:45, now the only blockers to unattended AER admission):**
+1. **Enable machine admission** at or after 23:39 AEDT tonight: run `security.aer_machine_validate_v1()`; if `passed`, set `aer.machine_mode` 2 citing the 10 Nov recovery pack decision 1 and the validation id. Shadow now: would admit 294, disagreed with 0 of 498 past human decisions. A passing validation does not switch it on by itself.
+2. `wc.aer_fair_on` 1 (per-provider share; RMIT holds 312 of the 668) and/or `aer.schedule_daily_max` above 200 (each 100 reads ≈ US$0.58 a day).
+3. QUT: route its admission tables to the entry matrix reader (37 reads).
+
+**Next executable actions:** watch `aer-scheduled-read` runs (corrected reads > 0 each hour, `corrections_used_24h` rising to the allowance, Layer 4 pending falling as complete corrected reads replace waiting items and the replay restores rows); `central_entry_search` spends and `aer_source_discover_requests` outcomes for one day; acceptance F-AER.06 (active AER rows beyond 1,304 through the Website feed for two unattended days).
+
+**Consumer API:** not touched (Decision 266).

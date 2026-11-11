@@ -10266,4 +10266,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Verified live | Setting 10000 with reason; ledger row `20261111210000`; checker examines 5,370 of 5,370 pending; first run after deploy 01:51 UTC succeeded in 8.5 s (before: 8.6–8.8 s) |
 | Waiting on Platform Admin | (a) the 371 old readings: re-read (about US$3.30, provenance recorded) or accept a same-course exact-sentence AI answer (111, no spend, weaker binding); (b) a separate per-provider limit for machine-declined first descriptions (proposed 20); (c) D-1 trust policy O3; (d) Inbox group decisions: Auckland 165 shared/list pages, archived-year addresses 188 (Macquarie 51, ANU 34, Melbourne 27), CRICOS page differs 173 (SFU 47, Adelaide 36); RMIT 312 of 668 entry first reads |
 | Not claimed | The backlog is not reduced by this release; no Layer 4 item was decided by an agent |
+### 11 Nov 2026 13:15 AEDT — F-AER: why AER parks on Layer 4; entry search for missing providers released; self-healing corrected reads (Pilot #1004–#1006, #1014, #1016)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 05:42 "Find the issue with AER not admitting fast enough and missing providers, why parking on layer 4, build readers where required. Make sure platform is autonomous ... self sustaining" |
+| Why it parks | By policy every first read goes to a person, and machine admission (aer-machine-v1) is still in shadow. No person has decided an AER item since 1 Nov, so Layer 4 reached 717 against 600 and `aer-scheduled-read` stopped itself (0 reads since 14:13Z 10 Nov). Two defects also stopped the platform healing itself: the held picker sent every row-limit cut to a person before asking the recovery rule, and corrected reads shared the new-read cap. 160 of the 277 incomplete reads were eligible for an automatic corrected read; none ran |
+| Missing providers | Discovery asked about 294 providers with nothing stored; 242 refused (`svc_fc_spend` not_due), 0 sources found. Fixed by the targeted entry search (`20261111100000`, worker v0.64.0), released and verified |
+| Change | `20261111220000_cf247_aer_self_healing_corrections`: row-limit cuts follow the recovery rule; corrected reads have their own allowance `aer.schedule_correction_daily_max` 100 (≈US$0.58 a day). No switch, mode or job changed |
+| Verified live (same turn) | Ledger md5 = file md5 `e9c3e141…`; bodies `d0863451…`, `b9616377…`; 13:13 run: 10 corrected reads started, 0 skipped |
+| Release notes | Version renumbered (`20261111110000` was taken by #1009, would have been skipped silently); first deploy stopped on its own precondition (wrong signature), rolled back, fixed by #1016 and applied by Database apply migration |
+| Tests | Fixture `aer-self-healing` (live bodies, defects reproduced, 10 after-cases, refusal, idempotent, recovery byte for byte); spec `cf-247-f-aer-02-self-healing-contract`; test register regenerated |
+| Recovery | `supabase/held/aer_self_healing_corrections_forward_recovery.sql`, or the allowance to 0 |
+| For the Platform Admin | (1) at or after 23:39 AEDT: `security.aer_machine_validate_v1()`, and if passed set `aer.machine_mode` 2 (about 294 admitted; a pass never switches it on by itself); (2) `wc.aer_fair_on` 1 and/or a higher `aer.schedule_daily_max`; (3) route QUT's country tables to the entry matrix reader (37 reads) |
+| Next | Watch corrected reads each hour and Layer 4 pending fall; `central_entry_search` spends for one day; F-AER.06 acceptance |
 | Consumer API | Not touched (Decision 266) |
