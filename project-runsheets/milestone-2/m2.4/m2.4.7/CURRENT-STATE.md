@@ -10220,3 +10220,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Also seen | The same defect class in provider descriptions: 4 statement time-outs 19:11–19:12Z in `svc_provider_description_record` → `provider_description_machine_admit_v1` (admission inside the worker's recording call; Operating Model v1.10 rule 1). Raised as a follow-up under F-PDESC, not changed here |
 | Next | Backlog of first decisions clears at about 60 a run (about 90 minutes); job lifecycle fix (a transient slice error retries instead of failing the task) and F1 job time budget as code changes; F-PDESC follow-up; replay of the 385 paid answers of 10 Nov (`ops.answer_replay_on`, Platform Admin) |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 10:50 AEDT — F-INT: calendar rules A and B released; calendar status; Rule B ready for Monash (Decisions 270, 270a, 271)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 09:26 "Go ahead with 1, 2 and 3"; 10:16 "Go ahead with Monash and give me exact instructions how to lift the pause, update relevant docs and operation model" |
+| Released (Pilot) | #1003 reader calendar-v2.2 (Rule A: column, range_columns, address, weekday check); #1008 calendar-v2.3 (a column-resolved start stands for its whole row); #1009 calendar status card and `public.admin_calendar_status_read`, `batch.calendar_reread` 20 → 100; #1010 Rule B shadow (`pipeline.intake_nearest_start_shadow`); #1011 Rule B in `security.intake_dates_plan_v3` for listed providers (body 33e3fef0 → ef496c19, md5-guarded); #1012 re-read run size follows its setting (worker v0.67.0, live v254), provider list can be emptied (minimum 0) |
+| Verified live | Each migration once in the ledger; function bodies equal the files (md5); `coverage-sweep` v253 equals main file for file; `intake_dates.nearest_start_providers` = `[]`, `intake_dates.month_unique_match` = 0; 0 rows admitted by Rule B. Monash `summary-dates` approved 09:25 AEDT (Semester 1 = 1 Mar 2027, Semester 2 = 26 Jul 2027); RMIT 2027 and UNSW Term 1 2027 resolved |
+| Measured | Re-read 10:13 run took 60 documents, not 100: the worker's fixed cap of 60 (G2), fixed in #1012 (released and verified: live worker equals main). 288 calendars waiting |
+| Audit (Rule B) | 40 rows: 21 right (Monash and RMIT 12/12), 10 unproven, 9 wrong (ACU, Deakin research degrees, Southern Cross June → July, TAFE SA "applications open"); guards added for the wrong patterns. Dry run with Monash listed (rolled back): 381 filled by Rule B, 35 held by the course-level check |
+| Calendar status (11 Nov) | 73 providers with rows waiting: 8 approved 2027, 17 read 2027 not approved, 40 stored with no 2027 start, 8 read failed, 0 none found |
+| Waiting on Platform Admin | List Monash in "Intake dates: providers using the nearest start" (id `543b87b8-f0dd-4bc7-80d6-76252cfaabec`) with a reason; steps in `docs/platform/processes/intake-dates.md` §13 and Operating Model v1.11. Scoped lift of P0 IQ-00313 for Monash only |
+| Docs | Design reference Decisions 270, 271 (implementation and activation); intake-dates §13; Operating Model v1.11 "Switching on a gated rule, one provider at a time" |
+| Next | After Monash is listed: verify the next `:26` cycles against the shadow (about 381), re-check a sample against the official pages; then RMIT. Spend safeguards (Decisions 273, 274); blocked-word review (24 providers) |
+| Consumer API | Not touched (Decision 266) |

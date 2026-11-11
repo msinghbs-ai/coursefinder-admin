@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.10, 11 Nov 2026 (v1.8 and v1.9 retained; v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
+v1.11, 11 Nov 2026 (v1.8 to v1.10 retained; v1.11 adds "Switching on a gated rule, one provider at a time" (Decision 271, Rule B); v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -275,6 +275,16 @@ Source: Platform Admin directive "Operating Model Consolidation and Execution Co
 **5. The Admin UI is the control plane.** Production progress must be readable without asking Claude: status by field, canonical coverage, admitted and published gains, last and next processing, evidence and quality, held reasons, recovery, Website/Zoho verification, Run Now / Fill fields. Every change that adds a data stage adds its counts to the existing Data Delivery panel in the same change.
 
 **6. Usage budget.** Weekly Claude usage is limited. Read the Quick Start first; retrieve only the relevant task history; no repeated full Supabase inventories; no thousands of tests during discovery; no agents to investigate what is already recorded. Safety, security and release tests are not reduced.
+
+## Switching on a gated rule, one provider at a time (Platform Admin, 11 November 2026; Decision 271)
+
+Some rules ship built, tested and shadowed but switched off, because their errors are provider-specific (first case: Rule B, intake months taking the nearest main-teaching start). Switching one on is a Platform Admin decision, never a side effect of a merge, a passing test or a qualification.
+
+1. **Ship off.** The change merges with its provider list empty (`intake_dates.nearest_start_providers = []`) and a post-check that refuses a non-empty list. A shadow table (`pipeline.intake_nearest_start_shadow`) shows what it would do for every provider.
+2. **Evidence before each provider.** Before a provider is listed, the agent reports that provider's shadow counts (would fill, ambiguous, held) and an audit sample read against the course-page wording and the calendar line. The audit's wrong rows are fixed by a guard in code or keep that provider off; they are never accepted.
+3. **One provider, one recorded line.** The Platform Admin adds one provider id to the list on Settings › Pipeline settings, with a reason that names the decision, the shadow counts and the audit. This is also the scoped lift of any containment that blocked the rule for that provider (Rule B: P0 IQ-00313 stays in force globally; `intake_dates.month_unique_match` stays 0).
+4. **Verify the next cycle.** After the next `intake-dates-apply` run (hourly at :26) the agent reports rows filled by the rule against the shadow's prediction, re-checks a sample of the filled dates against the official pages, and confirms nothing changed for unlisted providers. A mismatch is a P1: the provider is removed from the list (which stops new fills at once) and filled rows go through the governed withdrawal; nothing is deleted.
+5. **Next provider.** Only after a clean cycle; never two at once.
 
 ## Spend and throughput authority (Platform Admin, 10 November 2026; Decision 273)
 
