@@ -10311,3 +10311,14 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Checked, not changed | Provider descriptions (15 time-outs today) and scholarships (30) post one item per call: a time-out retries one item, no batch loss; provider descriptions admitted 453 today, 3 dead letters. `course-description-machine` is bounded by its step time boxes at about 107 s worst case under its 120 s limit (observed max 88 s) |
 | Status | Courses with a description 1,016 (11 Nov 06:00) → 1,316 (13:45) before the replay's 428 readings are decided |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 14:55 AEDT — Layer 4 build-up: the 79 unrecorded-reader courses read again
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:43 "raised to 20000, validate and proceed" |
+| Validated live | `enrich.course_text_items_per_day` = 20000 (reason "Layer 4 Cleanup 11/11", 03:43 UTC); preview room 12,589. `enrich.course_description_pending_global_max` still 0 (off) |
+| Queued (production, Integration Controller) | `security.cdesc_on_demand_v1` Recheck, actor system automation account, 4 Enrich fields tasks `ea78e248`, `7a710f95`, `05c22b72`, `316a3eb4` (20+20+20+19 = 79), idempotency keys `l4-buildup-cdesc-reread-20261111-b1..b4`, nothing blocked. The 14:50 UTC scheduled follow-up was cancelled |
+| Verified live (14:50 AEDT) | All 4 tasks done: 79 read, model and prompt recorded on all 79, 59 passed the checks (waiting for the machine rule), 20 held by checks, 0 failed; AI US$0.103 |
+| Machine rule | Settle job decided 448 in the last hour; 279 undecided ahead (about 40 min). Run time 87–105 s against the job's 120 s statement time-out: watch |
+| Consumer API | Not touched (Decision 266) |
