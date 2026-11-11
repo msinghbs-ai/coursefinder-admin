@@ -1,6 +1,6 @@
 # StudySearch – Academic entry requirements (AER): technical design and status
 
-**Version:** 1.1 (2 Nov 2026; dated assessment and proposed extension, section 13)
+**Version:** 1.2 (11 Nov 2026; decisions D1–D3 and production completion, section 14)
 **Historical baseline:** v1.0, 29 Oct 2026, platform release v2.15.368
 **Change control:** CF-247
 **Status:** current consolidated design. Section 13 is the design rationale for the qualification-first extension: adopted in part by the Platform Admin's decisions of 2 Nov 2026 (D-A1, D-A3, D-A5; D-A6 last recorded as open on 3 Nov 2026) and tracked as SS-017 in the execution register. Treat what section 13 says is "proposed" as a design intent, not as a description of what is deployed. Sections 1–12 describe the 29 Oct historical baseline and have not been refreshed.
@@ -282,6 +282,7 @@ AI spend is held by the OpenRouter credit floor (US$5). Reading stops before it 
 
 | Version | Date | Change |
 |---|---|---|
+| 1.2 | 11 Nov 2026 | Section 14: Platform Admin decisions D1–D3 (SS-017, Operating Model v1.12) as built and verified live: machine admission of country tables and qualification rows (with the quote proof and audited activation), discovery campaign on verified spare capacity, source management in the existing workspace; re-read recovery; Data Delivery reporting. Pilot #1035–#1044. |
 | 1.1 | 2 Nov 2026 | Dated qualification/applicability, country/provider coverage, postgraduate, UI and Provider source design assessment; section 13 proposed; linked gap register. No production changes. Status wording updated 9 Nov 2026 to record the decisions of 2 Nov (see Status); no design content changed. |
 | 1.0 | 29 Oct 2026 | First issue: design, cross-reference, live status, plan; with the 5-slide deck. |
 
@@ -354,3 +355,38 @@ Any Website/Zoho Provider payload addition requires explicit G3 authority and th
 The detailed gap register and UAT cases are in the dated response. Before implementation: reconcile live objects and function md5s, approve semantic scope and the consumer compatibility proposal where applicable, and record execution in Admin before Pilot code. Before reading: explicitly lift the applicable ingestion hold with provider scope, spend ceiling and review capacity. Before publication: retain quote-on-page, printed scales/bases, D5 no-scale wording, identity/edition checks, active-only publication, reasoned versioned edits and authorised human Layer 4 review.
 
 No new status values, jobs, settings, panels, SOPs or duplicate API are introduced here. Any later implementation follows G1–G4 and housekeeping from their canonical sources. Destructive/consumer-shape changes retain their Platform Admin gate. This user mandate expressly prohibits production deployment.
+
+## 14. Decisions D1–D3 and production completion — 11 November 2026 (v1.2)
+
+Platform Admin decisions under SS-017 / Operating Model v1.12, recorded here (the AER design) and in the execution register (11 Nov 2026 22:05 AEDT); no separate programme plan. Success is sustained, source-backed AER coverage across the eligible catalogue, not PRs or pending Layer 4 proposals.
+
+### 14.1 D1 — machine admission of country tables and qualification rows
+
+Rule `aer-matrix-machine-v1` (`security.aer_matrix_machine_check_v1`), run by the existing job `aer-machine-admission` (:24, :54) beside the course rule `aer-machine-v1`, with its own ledger (`pipeline.aer_matrix_machine_admissions`) and validations. It admits an entry-matrix **first read** only when all of these hold; otherwise the item stays in Layer 4 with the reason:
+
+- the item is pending, untaken and undecided; no manual lock on the provider's entry requirements; no person rejected or returned an earlier read **of the same source**;
+- the stored copy exists, is the one read, and was fetched (an uploaded copy is never admitted: `uploaded_copy`);
+- the source host is the provider's own website host or a subdomain, and no other active provider shares it;
+- the read passes the D-R3 gate and the completeness guard and proposes at least one row;
+- every country and qualification row: applicability resolved (never inferred), confidence ≥ `aer.matrix_machine_min_confidence`, quote ≥ the minimum length, destination level mapped, a published minimum, and **that minimum printed in the row's own quote** (`security.aer_quote_has_value_v1`, added after the first validation failed on ANU a6e3bcb2);
+- no duplicate identity in the read and no conflicting active row; not chosen for the audit sample (`aer.matrix_machine_audit_pct`).
+
+Admission is the person's apply (`security.entry_matrix_review_apply_v1`) as the system actor marked `machine`, with a Layer 4 decision, control event and search refresh; `security.aer_matrix_machine_withdraw_v1` reverses it. Changes to an admitted table always stay with a person. Machine decisions are not counted towards human trust thresholds and historical human-held decisions are not converted. Validation (`security.aer_matrix_machine_validate_v1`): enough shadow results, every current would-admit re-checked, and agreement with past human matrix decisions using the same row rules. A pass switches nothing on; activation was its own migration (`20261112143700`, validation 6 passed). First admissions 11 Nov 21:54 AEDT: Adelaide Institute of Higher Education (7 rows) and Monash College (1 row), served by the unchanged consumer field `entry_matrix`.
+
+### 14.2 D2 — discovery campaign on verified spare central capacity
+
+`security.aer_discovery_spare_room_v1`: day total − automatic credits billed − every other group's projected need (recent rate or the same hours of the previous day, plus `aer.discovery_spare_margin_pct`, at most its unused share) − unused central share; at most `aer.discovery_spare_daily_max` (≤ 1,000) and the vendor balance above the floor; 0 without a fresh balance. `public.svc_fc_spend` lets a campaign spend past the central share only from that room; the 10,000-credit ceiling, monthly limit, cost breakers and the not-due rule (no repeat on unchanged evidence) still apply. Spare spends: `pipeline.aer_discovery_spare_spends`. Metrics: `security.aer_discovery_metrics_v1` (attempted, new and usable sources, not found, credits, spare credits, cost per usable source). The campaign's credit count no longer scans all usage (it had timed out spends).
+
+### 14.3 D3 — source management in the existing workspace
+
+Catalogue › Entry requirements › Sources, reads and holds (no new tab or dashboard), linked from the Provider record. One registry: `pipeline.entry_matrix_sources`; attachments, classes (country table, international qualification, national qualification, undergraduate, postgraduate, course-specific) and ownership checks in `pipeline.aer_source_attachments`. `public.admin_aer_source`: check (Pipeline Operator+), attach an address or begin a PDF upload (Platform Admin, reason), meta (classes, version, last verified, next retry). The existing reader reads every attached source (web tables, rendered page, PDF tables); no reader is created. PDF uploads: edge function `aer-source-upload` → stored where the fetch step stores PDFs → `public.svc_aer_source_upload_record` → one read queued. The discovery outcomes and campaign figures are shown below the sources list.
+
+### 14.4 Recovery and reporting
+
+- Qualification re-reads held beside a waiting item are read again through the governed re-read, which supersedes the source's own waiting item first (one item per source).
+- A corrected course read skipped before reading is closed as refused by the hourly tick (`security.aer_supersession_settle_v1`), so its item is not blocked.
+- Data Delivery › AER panel stage 4 "Discovery and admission" (`public.admin_aer_delivery_progress`).
+
+### 14.5 Open
+
+Qualification rows are not yet in the consumer API (a consumer API change, needs Platform Admin approval under Decision 266). Most matrix declines are incomplete reads (D-R3): reader completeness is the next lever. Phase 2 (European destination universities) remains recorded only.
