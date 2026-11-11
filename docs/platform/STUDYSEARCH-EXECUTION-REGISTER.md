@@ -2755,3 +2755,16 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 **Other items:**
 - Still open: the Website search description field, study level and course code in the lease (C3), the 26 admitted descriptions with generic phrases, and the ledger backfill decision.
 - The QA C1 24-hour check for #1033 is due 12 Nov 20:30.
+
+## 12 Nov 2026 11:00 AEDT — AER mandate 09:23: grid reader, course links and reader fixes released; production verification fixes (Pilot #1048, #1050, #1052, #1053, #1054; #1055 open)
+
+| Item | State |
+|---|---|
+| Merge policy | Operating Model v1.15 rule 9: merge on green CI; consumer API changes held until the Wix and Zoho developers are told |
+| Grid reader (F-AER.08) | Live (v0.73.0+). Sydney 1,869 + 178 and UQ 1,268 + 162 read from stored copies, 0 dropped; re-read after #1054 (identity, ATAR) |
+| Course links | Sydney 89/89 by CRICOS; UQ 49 by title, 5 for a person; Layer 4 course-link panel live |
+| Reader fixes (F-AER.10) | Live (v0.74.0); re-read of UWA, Federation, CDU, CSU, UTS, Curtin, Wollongong, VU next |
+| Production fixes | stream identity, ATAR as course fact, one PDF per call (v0.74.1), title-key index (#1055) |
+| Admitted | 0 grid rows yet (grid reads stay with a person until shadow validation) |
+| Human | UTas: approve 5284a753, reject 73615b9a (evidence in the response file) |
+| Record | `docs/platform/nz-enrichment-brief/2026-11-12-aer-mandate-0923-response.md` |
