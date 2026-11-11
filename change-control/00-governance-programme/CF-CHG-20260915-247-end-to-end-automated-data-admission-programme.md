@@ -10392,3 +10392,63 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Tests | New specs: `cf-247-f-aer-04-matrix-machine-contract`, `-04-discovery-spare-contract` (renamed from `-05-`, which belongs to F-AER.05), `-04-source-management-contract`, `-04-matrix-machine-enable-contract`, `-04-delivery-progress-contract`, `-02-supersession-settle-contract`, `-03-qualification-reread-waiting-contract`; fixtures `aer-matrix-machine`, `aer-discovery-spare`, `aer-source-management`, `aer-supersession-settle`, `aer-delivery-progress`. Test register regenerated. |
 | Open / next | Watch matrix admissions each run (`aer-machine-admission` :24/:54) and the audit sample; the 14 re-reads landing (one item each); the campaign to completion (60 open, ceiling 10,000). Main blocker to more machine admissions is incomplete reads (D-R3, 32 of 42 declines): reader completeness work. 4 Macquarie/CIT PDFs blocked (403): attach by upload on the Sources screen. Data Delivery read time. Qualification rows in the consumer API (approval needed). |
 | Consumer API | Not touched (Decision 266) |
+
+## 12 Nov 2026 00:30 AEDT — F-CDESC: course descriptions now written with the pinned source-grounded prompt (CD-R0 to CD-R4 released, Pilot #1047)
+
+**Direction:** Platform Admin, 11 Nov 2026: implement the Course Description production redesign recorded in Admin PR #430, as a straight production replacement. Contract: [COURSE-DESCRIPTION-PRODUCTION-DESIGN.md](COURSE-DESCRIPTION-PRODUCTION-DESIGN.md).
+
+**CD-R0 audit (live, 11 Nov):**
+- **The three screenshot examples are not ours.** For Torrens DUX `course:cricos:03389e:103346f`, the canonical, projection and API descriptions are all null. UniSC "Graduate Certificate in ICT" is not in the catalogue, and Academy IT ICT30120 was not found. `website_v2_course_search` returns no description field, so the generic, clipped text on the Website comes from the Website itself.
+- **No platform text is clipped.** All 2,396 canonical descriptions end with terminal punctuation.
+- **Copied text was being admitted.** 65.7% of course-description sentences were verbatim page copies. 26 admitted and 45 waiting descriptions contain "designed to equip" or "comprehensive program".
+- **New readings had stopped.** 2,030 first descriptions were waiting in Layer 4, over `enrich.course_description_pending_global_max` (1,500), so `field-gap-queue` had created no description reading since 11 Nov 03:23 AEDT (0 in 24 h). 2,014 of those were made by course-text-v1/v2 (or an unrecorded prompt) and declined for good by the machine.
+- **Baseline (Data Delivery):** 35,689 active courses; 20,658 without a description; 11,460 never read; 4,975 held by a check; 1,935 waiting in Layer 4; 788 held behind provider places.
+
+**Released (Pilot #1047, squash `95e39439`):**
+- **Worker `coverage-sweep` v0.72.0.** The description has its own call with prompt `cdesc-source-grounded-v1`, pinned verbatim. sha-256 is `e1fcd3e1d34d5700aa3daf14405cbc6cd97aa93f46b863e91ff0f18fc273e7c5`, equal to the contract text block.
+  - Source spans are numbered from the stored page. Each claim cites span ids, and each sentence's quote is the exact text of the spans it cites.
+  - `insufficient_verified_course_facts` is recorded as such, never filled.
+  - The deadline keeps `course-text-v2` in its own call. The D4 re-ask is removed.
+- **Migration `20261112170000`.** Three md5-guarded edits:
+  - `cdesc_sentence_fault_v1` `0aacac45→c17adb1d`: copied sentences (10 words in a row) and generic phrases are held.
+  - `enrich_course_text_gaps_v1` `66d9dad4→ddba9b55`: a reading made by an earlier prompt that a check held, or that Layer 4 superseded, is read again once.
+  - `course_description_machine_run_v1` `42c73e9c→545a8740`: new first step `cdesc_prompt_supersede_v1`.
+- **The new supersede step.** It supersedes waiting descriptions that an earlier prompt made and that the machine declined for good under the current policy. They are recorded as `decided_before` in `layer4_supersessions`, in batches of `layer4.reconcile_batch`, and read again.
+- **Two new settings:** `enrich.course_description_copy_run_words` (10) and `enrich.course_description_generic_phrases`.
+- **`enrich.course_description_reask_max` is retiring.** It is removed by a paste file after 14 days.
+- **Unverified claims** are recorded and never published; every sentence must still be supported by the spans it cites.
+- Forward recovery: `supabase/held/cdesc_source_grounded_forward_recovery.sql`.
+
+**Tests and QA:**
+- **Fixture `tests/fixtures/cdesc-source-grounded/run.sh`:** 32 checks. All 7 REGRESSION checks fail on the database from before the migration. The fixture also shows the migration applies twice with no change, refuses a changed live body, and that the forward recovery restores the bodies byte for byte.
+- **Spec `cf-247-cdesc-source-grounded-contract` (6 tests).** s233 was updated. Three s360 re-ask tests were retired (retirement log). Register regenerated.
+- **Independent QA at exact head:** first pass PASS WITH CONDITIONS.
+  - C1, readings held behind provider places were re-read: fixed; they keep following Layer 4.
+  - C2, an overlap hold on unverified claims held descriptions that leave the claim out: removed.
+  - C3, the course record lacks study level and code: accepted gap, follow-up.
+  - C4, ramp in stages: done, see below.
+  - Re-check at `230548e4`: **PASS**.
+- Full CI green at `230548e4`.
+
+**Verified live (12 Nov 00:10 AEDT):**
+- The three bodies are at the after md5s, and `check_with_v1` is unchanged (`d310fa64`).
+- `schema_migrations` `md5(statements[1])` is `f0d19d64637f211e7ab0352bf6c04ced`, equal to the file.
+- `coverage-sweep` v260 `index.ts` and `course-text.ts` are byte-identical to main.
+- The settings are present with `used_by`.
+
+**Ramp (P5, QA C4):**
+- `enrich.course_text_items_per_day` was lowered from 20,000 to 2,000 for the first cycle (admin_control_events #34900, with reason). It returns to 20,000 once the first cycle's hold reasons are checked.
+- First runs of `course-description-machine`:
+  - 00:04: settle re-checked 552 waiting items under the new policy.
+  - 00:14: 200 superseded, and pending fell from 2,030 to 1,798.
+- New readings resume once pending is below 1,500 (expected at the 01:23 gap run).
+
+**Open / next:**
+- Check the first cycle's hold reasons and cost per reading, then return the cap to 20,000.
+- Canonical, API and excerpt parity; two unattended cycles.
+- Add study level and code to the lease (C3).
+- Refresh the 26 admitted descriptions that contain generic phrases.
+- Website search returns no description (a Website request, or a G3-approved change).
+- The about US$15 ledger backfill is still awaiting the Platform Admin's decision.
+
+**Consumer API:** not touched (Decision 266).
