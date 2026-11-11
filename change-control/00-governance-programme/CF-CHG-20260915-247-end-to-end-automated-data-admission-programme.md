@@ -10331,3 +10331,17 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Released (Pilot #1023, `efe474e8`) | Migration `20261111235950_cf247_cdesc_review_backpressure_on`: `enrich.course_description_pending_global_max` 0 → 1,500. Settings only. Made as a migration because `admin_toolsets_write` needs a signed-in Platform Admin and the agent does not act under that account. Version moved twice to stay unique (`20261111220000` and `20261111235900` were taken by other sessions' changes on main); no history rewritten |
 | Verified live | Setting 1500 with reason; ledger row `20261111235950`; 2,427 course descriptions pending, so new description readings (standing queue and Fill / Recheck) pause until it falls below 1,500 |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 16:00 AEDT — F-AER.03: AER machine admission switched on after validation (Pilot #1019, #1025)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 13:42 "Can we do any sooner"; 14:39 "Go" (enable at 14 shadow hours instead of 24); 15:22 "Option A" (through a migration, as the database tool's confirmation prompt could not be answered) |
+| Finding | `security.aer_machine_validate_v1()` could not finish inside the API limit: `aer_machine_history_v1()` took 120 s (three unindexed lookups by `provenance->>'review_item_id'` per past decision). The 23:39 validation planned earlier would also have failed |
+| Released | #1019 `20261111235000_cf247_aer_machine_validate_index` (one additive expression index; history 120 s → 8.4 s, same result). #1025 `20261112001700_cf247_aer_machine_enable`: shadow minimum 24 → 14 h with the decision as reason; validation run and recorded; `aer.machine_mode` 1 → 2 only if passed; control events `machine_validate`, `machine_mode_set` |
+| Verified live (same turn) | Ledger md5 = file md5 for both (`17c1de8d…`, `90a31da2…`). Validation 2 passed: shadow 16.0 h, 734 results, 311 would admit, 0 regressions, 0 human non-approvals, history 0 of 302 disagreements. `aer.machine_mode` 2. First live run 15:54: 15 admitted, 2 audit samples to a person, 43 declined (gate_incomplete 41) |
+| Throughput | `batch.aer_machine` 60 a run, two runs an hour, `aer.machine_daily_max` 300: the 296 remaining "would admit" reads clear in about 3 hours; Layer 4 entry items then fall below 600 and `aer-scheduled-read` starts new reads again |
+| Also seen | Version collisions between parallel sessions: `20261111110000` (avoided before merge) and `20261111235000` (#1020's file; the deploy guard refused it, nothing ran; re-issued as `20261111235900` by #1022). AER specs now assert their own version is unique |
+| Reversal | `aer.machine_mode` 1 or `aer.machine_suspended` 1 on Settings › Pipeline settings; admitted rows withdrawn by the existing machine withdrawal |
+| Next | Watch admissions each run, the audit samples, Layer 4 falling below 600 and new reads restarting; F-AER.06 acceptance (active AER rows through the Website feed for two unattended days). Still open: `wc.aer_fair_on`, the new-read cap, QUT to the entry matrix reader |
+| Consumer API | Not touched (Decision 266) |
