@@ -285,6 +285,7 @@ Some rules ship built, tested and shadowed but switched off, because their error
 3. **One provider, one recorded line.** The Platform Admin adds one provider id to the list on Settings › Pipeline settings, with a reason that names the decision, the shadow counts and the audit. This is also the scoped lift of any containment that blocked the rule for that provider (Rule B: P0 IQ-00313 stays in force globally; `intake_dates.month_unique_match` stays 0).
 4. **Verify the next cycle.** After the next `intake-dates-apply` run (hourly at :26) the agent reports rows filled by the rule against the shadow's prediction, re-checks a sample of the filled dates against the official pages, and confirms nothing changed for unlisted providers. A mismatch is a P1: the provider is removed from the list (which stops new fills at once) and filled rows go through the governed withdrawal; nothing is deleted.
 5. **Next provider.** Only after a clean cycle; never two at once.
+6. **Rehearse the exact edit (learnt 11 Nov 2026).** A dry run applies the migration's own edit to the live definition inside a rolled-back transaction and compares the md5 of the inserted text with the file's; a hand-copied version can hide a defect (the Rule B helper's `date[]`). A newly listed provider may be planned at once with the job's own bounded mode for that provider's courses, because the hourly job serves other rows first.
 
 ## Spend and throughput authority (Platform Admin, 10 November 2026; Decision 273)
 

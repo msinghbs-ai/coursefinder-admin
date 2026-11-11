@@ -10278,3 +10278,16 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Verified live | 121 decisions, 76 Auckland course-page items left, 0 course rows changed; 0 `reader_unrecorded` pending; 372 readings closed; total pending 5,442 at 13:54 |
 | Not done | Archived-year addresses (188) and CRICOS page differs (173): the stored addresses do not prove the answer; a live page check is needed (web check awaiting Platform Admin approval) |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 14:10 AEDT — F-INT: Rule B switched on for Monash and validated; three fixes; 47 values withdrawn
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:20 listed Monash in `intake_dates.nearest_start_providers` (reason "271: Rule B for Monash; shadow 502 rows, audit 12/12; scoped lift of P0 IQ-00313 for Monash only"); 12:21 "settings saved, validate"; 13:41 "Yes" (named-period fix) |
+| Found 1 (all providers) | `intake-dates-apply` failed at 10:26 and 11:26 (statement time-out waiting for the search-document writer lock held by `search-refresh-requested`, which starts at the same second); no intake date admitted 09:26–12:26. Not caused by Rule B. Fix Pilot #1013: the apply tries the lock once and otherwise queues the courses in `search.refresh_requests` (apply body 0cb3cd42 → 8eb3fa7f) |
+| Found 2 (Rule B) | `security.intake_nearest_start_v1` declared the page day numbers as `date[]`; a listed provider's row whose page prints a date errored the whole apply. The 20261111130000 dry run used a transcribed copy (int[]), which hid it. Fix Pilot #1015 (helper 517f2986 → a99b42c7), released 13:01 before the 13:26 run. Rule from it: a dry run applies the exact edit to the live definition and the inserted text's md5 is compared with the file's |
+| Monash result (bounded runs of the apply, 13:0x) | 604 looked at, 466 filled: Rule B 381 exactly as the shadow predicted ("February" → 1 Mar 2027: 217; "July" → 26 Jul 2027: 164); named period 38 (July → 26 Jul 2027) and 47 (see below). 0 Rule B rows for any other provider, 0 research degrees, catalogue equal to every fill |
+| Found 3 (named period) | 47 "Semester one (February)" intakes took 28 Feb 2028 (the 2028 column; Semester 1 2027 starts 1 Mar). None published. Withdrawn with `security.intake_date_withdraw_v1`, reason recorded (actor Integration Controller (Claude)); a withdrawn value is never re-admitted; their re-check is due 25 Nov. Fix Pilot #1017: a named period never takes a later year's start when it starts sooner in another month; a listed provider takes Rule B, any other is held (plan body ef496c19 → 98ab7972) |
+| Monash now | 419 dated intakes; the rest held with reasons (ambiguous wording, page not proved the course's own, other intake months with no single main-teaching start) |
+| Next | RMIT after #1017 is verified (same procedure: shadow 475, listing by the Platform Admin, validation); spend safeguards (Decisions 273, 274); blocked-word review |
+| Consumer API | Not touched (Decision 266) |
