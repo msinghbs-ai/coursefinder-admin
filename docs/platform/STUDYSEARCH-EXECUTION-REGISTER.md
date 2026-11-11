@@ -2419,6 +2419,7 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 | Also seen | The same defect class in provider descriptions: 4 statement time-outs 19:11–19:12Z in `svc_provider_description_record` → `provider_description_machine_admit_v1` (admission inside the worker's recording call; Operating Model v1.10 rule 1). Raised as a follow-up under F-PDESC, not changed here |
 | Next | Backlog of first decisions clears at about 60 a run (about 90 minutes); job lifecycle fix (a transient slice error retries instead of failing the task) and F1 job time budget as code changes; F-PDESC follow-up; replay of the 385 paid answers of 10 Nov (`ops.answer_replay_on`, Platform Admin) |
 | Consumer API | Not touched (Decision 266) |
+
 ## 11 Nov 2026, 06:45 AEDT: F-AER throughput and missing providers: root causes, reader built, live-only migrations checked in (controller)
 
 **Trigger:** Platform Admin 05:42 "Find the issue with AER not admitting fast enough and missing providers, why parking on layer 4, build readers where required. Make sure platform is autonomous to execute this in future, self sustaining".
