@@ -10235,3 +10235,16 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Docs | Design reference Decisions 270, 271 (implementation and activation); intake-dates §13; Operating Model v1.11 "Switching on a gated rule, one provider at a time" |
 | Next | After Monash is listed: verify the next `:26` cycles against the shadow (about 381), re-check a sample against the official pages; then RMIT. Spend safeguards (Decisions 273, 274); blocked-word review (24 providers) |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 12:55 AEDT — Layer 4 build-up: triage, step 1 released (Pilot #1007), step 2 decisions prepared
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 06:15 "find out how to resolve layer4 build up"; 08:13 "Yes and follow up on next step"; 12:23 merge on green per operating model |
+| Measured live (06:20 AEDT) | 5,361 pending (course descriptions 2,200; official course page 2,176; course entry first read 668; tail 317); 2,980 past `layer4.target_days` 7. 10 Nov: 2,512 created, 1,327 decided (net +1,185) |
+| Findings | (1) `integration-validate` read only the newest 5,000 pending (`integration.l4_pending_max`), so the oldest 361 went unchecked: defect, fixed. (2) 371 `reader_unrecorded` declines are 3 Nov readings made before readers recorded model and prompt, promoted from `held_first_admission` 9–10 Nov; declined as designed (111 have an exact-sentence AI answer on another reading of the same course). (3) Since #1001, machine-declined items take no `enrich.course_description_pending_max` place, so declined items per provider are unbounded (top provider 132, 126 in 24 h): the main growth driver, by design |
+| Released (Pilot #1007, `0c90a186`) | Migration `20261111210000_cf247_l4_checker_whole_queue`: `integration.l4_pending_max` 5,000 → 10,000. Settings only; no function, job, Layer 4 item or consumer object changed |
+| Verified live | Setting 10000 with reason; ledger row `20261111210000`; checker examines 5,370 of 5,370 pending; first run after deploy 01:51 UTC succeeded in 8.5 s (before: 8.6–8.8 s) |
+| Waiting on Platform Admin | (a) the 371 old readings: re-read (about US$3.30, provenance recorded) or accept a same-course exact-sentence AI answer (111, no spend, weaker binding); (b) a separate per-provider limit for machine-declined first descriptions (proposed 20); (c) D-1 trust policy O3; (d) Inbox group decisions: Auckland 165 shared/list pages, archived-year addresses 188 (Macquarie 51, ANU 34, Melbourne 27), CRICOS page differs 173 (SFU 47, Adelaide 36); RMIT 312 of 668 entry first reads |
+| Not claimed | The backlog is not reduced by this release; no Layer 4 item was decided by an agent |
+| Consumer API | Not touched (Decision 266) |
