@@ -10263,3 +10263,16 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | For the Platform Admin | (1) at or after 23:39 AEDT: `security.aer_machine_validate_v1()`, and if passed set `aer.machine_mode` 2 (about 294 admitted; a pass never switches it on by itself); (2) `wc.aer_fair_on` 1 and/or a higher `aer.schedule_daily_max`; (3) route QUT's country tables to the entry matrix reader (37 reads) |
 | Next | Watch corrected reads each hour and Layer 4 pending fall; `central_entry_search` spends for one day; F-AER.06 acceptance |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 13:55 AEDT — Layer 4 build-up step 2: 121 Auckland course-page items decided; 372 unrecorded-reader descriptions superseded for re-reading
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11 Nov 13:02 "read them again … platform will do the reading"; "Fix this now" (official course pages); 13:0x chose "You decide 121" (agent decides only the provable Auckland subset, recorded as the Platform Admin's instruction) |
+| Decided (production, Integration Controller) | 121 `official_course_url` items, University of Auckland, "page shared by several courses" whose suggested address is the bare list `study.auckland.ac.nz/ords/r/uoa/catalogue/program`: Keep the page we hold (`reject`) through `security.layer4_review_decide_impl`, actor = system automation account `c0ffee00-…0150` (Decision 263), reason names the instruction. Rolled-back dry run first. Audit: `admin_control_events` `bulk_keep_held_course_link` |
+| Superseded (production, Integration Controller) | 372 pending `course_description_first_read` items declined `reader_unrecorded` (3 Nov readings promoted 9–10 Nov; 371 plus 1 that arrived during the run) and their readings (state `skipped`, reason "superseded: read again …"). Status `superseded`, not a decision. Five batches (one 371-item run hit the statement time-out on the promote-held trigger and rolled back whole). Audit: `supersede_reader_unrecorded_cdesc` (372) |
+| Re-reading | 292 of the courses were already read again 11 Nov with the reader recorded (81 waiting in Layer 4, 211 held by checks). 79 still need a reading: `enrich.course_text_items_per_day` (2,000) has no room (7,411 description items in 24 h, incl. 3,455 failed by the 10 Nov time-out fixed in #1001). Scheduled: queue the 79 through `cdesc_on_demand_v1` (Recheck) at 11 Nov 14:50 UTC when room returns, then verify |
+| Side effect (by design) | Freed places promoted held first readings: 523 new description items in 30 min; machine rule settled 170 by 13:54 (14 admitted, 156 declined), 426 queued for its next runs |
+| Verified live | 121 decisions, 76 Auckland course-page items left, 0 course rows changed; 0 `reader_unrecorded` pending; 372 readings closed; total pending 5,442 at 13:54 |
+| Not done | Archived-year addresses (188) and CRICOS page differs (173): the stored addresses do not prove the answer; a live page check is needed (web check awaiting Platform Admin approval) |
+| Consumer API | Not touched (Decision 266) |
