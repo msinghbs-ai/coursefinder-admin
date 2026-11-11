@@ -2575,3 +2575,15 @@ Detail: [intake process record §12](processes/intake-dates.md#12-swinburne-hyph
 | Also found | AI spend for 10–11 Nov under-recorded: each cancelled recording call also rolled back its spend entry, so `pipeline.ai_spend_ledger` shows US$4.17 for all lanes 10 Nov 06:00Z–19:00Z while the stored answers of this reader alone cost US$19.51 (of which US$11.11 was paid for answers later superseded). A ledger backfill from the stored answers is offered to the Platform Admin, not done |
 | Recovery | `supabase/held/cdesc_run_time_budget_forward_recovery.sql` |
 | Consumer API | Not touched (Decision 266) |
+
+## 11 Nov 2026, 21:45 AEDT: F-PDESC provider descriptions in the Guide for each role; runbook; catalogue up to date (Pilot #1040; admin; controller)
+
+| Item | Detail |
+|---|---|
+| Direction | Platform Admin 11 Nov 21:04: "Add Provider description to the Guide for applicable role and update repo. We need to record schedule, working mechanism, how to control the throughput or stop the associated jobs on the system" |
+| Guide | Platform Admin SOP 2.37: the prompt; the reader runs every 5 minutes, the self-heal every 10; pace and money controls; stop (Reader on 0, or pause on Automations; automatic admission only; Firecrawl only); what to watch. Operator SOP 2.20: Fill description (Curator and above: Extract / refresh description now, then Fill description); Layer 4 provider descriptions; a hand-typed description is never replaced; no pace or pause for operators. Platform guide › Specialist tasks: Fill (Curator); prompt and controls (Platform Admin) |
+| Runbook | `docs/platform/PROVIDER-DESCRIPTIONS-RUNBOOK.md` v1.0: what it does, how it works (8 steps and Fill), schedule, every throughput control with its setting key, every way to stop and who may, roles, what to watch. Listed in the docs router |
+| Catalogue | Scheduled jobs › Automations described the reader as "every ten minutes, at :06 …", "off until activated" and "a person approves". Migration `20261112110000` updates both descriptions and the self-heal label to the live schedule and design (text only; dry run on live) |
+| Also | G4: the retirement log was dropped by admin #424 and #426. It now lives in Pilot `docs/test-retirement-log.md` and the register generator carries it. CLAUDE.md G4 line updated |
+| Docs | `docs/sops` regenerated, mirror check passes. Router: operating model v1.3, SOPs v2.37/v2.20, runbook row. Test register regenerated from `7cc56944` with the retirement log |
+| Consumer API | Not touched (Decision 266) |
