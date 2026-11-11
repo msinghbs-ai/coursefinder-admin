@@ -360,6 +360,7 @@ What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT alrea
 **Switching Rule B on for a provider (Platform Admin; Operating Model v1.11).**
 1. Open Settings › Pipeline settings, section Intake dates, setting "Intake dates: providers using the nearest start".
 2. In "Add a provider", type the first letters of the university's name (for example `monash`) and pick it from the matches; it is added as a named chip. No provider id is typed (Pilot #1021: list settings of provider ids are chosen by name; the setting still stores the ids).
+   **From 11 Nov 2026 (Decision 275) the usual route is Layer 2/3 Operations › Process results › "Nearest start (Rule B): which universities qualify": the platform tries every university (job `intake-rule-b-qualify`) and "Approve all qualified" adds every university that passed, in one recorded update with a reason. "Check now" queues one university or all. Steps 1 to 2 remain for an exception.**
 3. Reason: `Decision 271: Rule B for Monash; shadow 502 rows, audit 12/12; scoped lift of P0 IQ-00313 for Monash only`. Save.
 4. Leave "Intake dates: a month takes the date of the only start that month" (`intake_dates.month_unique_match`) at 0.
 5. The next `intake-dates-apply` run (hourly at :26) plans Monash's rows again; about 381 dates fill over the following runs (200 rows a run, shared across universities). The agent then verifies filled against predicted and re-checks a sample against the official pages.

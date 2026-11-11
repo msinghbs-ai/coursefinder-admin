@@ -10348,3 +10348,16 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Also found | AI spend for 10–11 Nov under-recorded: each cancelled recording call also rolled back its spend entry, so `pipeline.ai_spend_ledger` shows US$4.17 for all lanes 10 Nov 06:00Z–19:00Z while the stored answers of this reader alone cost US$19.51 (of which US$11.11 was paid for answers later superseded). A ledger backfill from the stored answers is offered to the Platform Admin, not done |
 | Recovery | `supabase/held/cdesc_run_time_budget_forward_recovery.sql` |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 21:40 AEDT — F-INT: Rule B qualified by the platform, approved together (Decision 275; Pilot #1037, #1042)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 20:34 "i dont want to add univ 1 by 1, develope another strategy to run and execute on demand correction"; 20:40 chose B: the platform qualifies every university, one approval for all that passed (a passing qualification never switches anything on by itself) |
+| Built (#1037) | Job `intake-rule-b-qualify` (every 10 minutes): rolled-back trial of the live planner per university with Rule B on; checks wording states the month as an intake, no vocational/pathway/research course, calendar evidence, one date per month, at least 5 dates. Register `pipeline.intake_rule_b_qualifications`; Process results › "Nearest start (Rule B): which universities qualify" with Check now and Approve all qualified (reason; Platform Admin only). A listed university failing a check is taken off with a hard flag. Settings: batch, re-check hours (24), minimum dates (5), row limit, auto-pause |
+| Verified live | Five functions byte-identical to the migration; job scheduled, command holds no number; deploy, frontend and Deployed UAT green |
+| First pass (all 77) | Qualified 9 (about 754 dates): Bond 250, UQ 227, Deakin 101, Edith Cowan 72, Southern Cross 46, ACU 21, ACAP 17, Wollongong 10, AIM 10. Listed and clean: Monash, RMIT. Held 66 (mostly nothing for Rule B to add). Paused 0, errors 0 |
+| Look before approving | ACU: February -> 1 Feb 2027 from a 10-week staff study period ("Mon 1 Feb - Sun 11 Apr 2027"), may be a short term rather than the main semester. Southern Cross: June -> 5 Jul 2027, flagged by an earlier audit. "Leave out" per university added (#1042) |
+| Docs | Decision 275 (design reference); Operating Model v1.13 rule 3; intake-dates §13 |
+| Next release | Throttled automatic re-read of stored pages when the reader improves; withdrawal course-lock fix; automatic withdrawal of Rule B dates failing a later check |
+| Consumer API | Not touched (Decision 266) |
