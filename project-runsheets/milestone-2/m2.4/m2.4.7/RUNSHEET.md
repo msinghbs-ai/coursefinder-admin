@@ -10541,3 +10541,42 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - The ledger backfill decision is with the Platform Admin.
 
 **Consumer API:** not touched (Decision 266).
+
+## 12 Nov 2026 06:50 AEDT — F-CDESC: second controlled batch (worker v0.72.1) measured; daily cap set to 4,000
+
+**Batch:** 798 readings from the 05:23 gap run, at US$0.00153 a reading.
+- 511 were re-reads of the 733 v0.72.0 readings marked `reread:`. 287 were first readings.
+
+**Outcome:**
+- **Passed 180 (22.5%):** 106 filled, 74 sent to Layer 4.
+  - First readings: 80 of 287 passed (28%), against 16% in the first cycle.
+  - Re-reads: 100 of 511 recovered (20%). These were answers that had failed before.
+- **Held:**
+  - 349 `unsupported_sentence` (80 first readings, 269 re-reads)
+  - 109 `copied_sentence`
+  - 56 `sentence_count`
+  - 39 `quote_not_on_page` (5%, down from 13%)
+  - 24 `unsupported_marketing`
+  - 20 `length`
+  - 10 `unsupported_claim` (down from 285)
+  - 2 `course_id_mismatch`
+  - 1 duplicate of another course
+- **Insufficient facts:** 7.
+
+**Quality check:**
+- The held sentences sampled are genuine answer faults: content added beyond the cited spans, for example "emphasizes advanced research methodologies within an interdisciplinary framework", "designed for individuals interested in…", and "cafés" where the page says "boutique food enterprises". No recording defect remains.
+- The passed descriptions sampled (5) are specific and source-backed: qualification codes, units, placement hours, structure and study modes.
+
+**Decision:**
+- `enrich.course_text_items_per_day` is set to **4,000** (control event #35388), not 20,000.
+- At US$0.00153 a reading, 20,000 a day would cost about US$30 a day, over `budgets.ai_daily_ceiling_usd` (US$14). AI spend in the last 24 h was already US$16.35, of which enrich_fields was US$12.75.
+- 4,000 a day (about US$6) clears the roughly 11,000 never-read courses in about three days within the existing limit.
+- Raising the ceiling or the cap further is the Platform Admin's cost decision.
+
+**Next (yield, not throughput):**
+1. **Prompt v2.** Most holds are the model adding unsupported wording or copying page text. A `cdesc-source-grounded-v2` that asks for claims-first wording, each sentence restating only its cited spans, would raise yield. Because the prompt is the contract in Admin PR #430, a v2 needs a contract update. Held v1 readings are then re-read automatically by the existing earlier-prompt rule.
+2. **Partial title match.** `cdesc_known_strip_v1` removes only the exact title. Model paraphrases of long titles (UVic "Combined Major in the Bachelor of Science (BSc) degree") are still counted as unsupported words.
+
+**Other items:**
+- Still open: the Website search description field, study level and course code in the lease (C3), the 26 admitted descriptions with generic phrases, and the ledger backfill decision.
+- The QA C1 24-hour check for #1033 is due 12 Nov 20:30.
