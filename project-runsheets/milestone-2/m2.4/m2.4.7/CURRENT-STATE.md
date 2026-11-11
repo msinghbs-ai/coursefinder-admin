@@ -10486,3 +10486,56 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - The about US$15 ledger backfill is still awaiting the Platform Admin's decision.
 
 **Consumer API:** not touched (Decision 266).
+
+## 12 Nov 2026 04:35 AEDT — F-CDESC: first-cycle check of cdesc-source-grounded-v1; recording fix released (Pilot #1049)
+
+**First cycle (worker v0.72.0, 00:23–02:15 AEDT, cap 2,000):**
+- **Readings:** 1,882 at US$2.86 (US$0.00152 each).
+- **Passed: 307** (87 filled, 220 to Layer 4). A sample of five is specific, factual and not copied; per-sentence support is 0.63–1.00.
+- **Insufficient facts: 22**, recorded as `insufficient_verified_course_facts`.
+- **Held: 1,553.**
+  - 481 `unsupported_sentence` and 252 `quote_not_on_page`: the worker's recording, not the answers. A claim reached only one sentence, and the course's own title and provider counted as unsupported words.
+  - 302 of 341 `unsupported_claim`: "students" used as the neutral subject of a supported sentence.
+  - Held as designed: 305 `copied_sentence`, 155 `sentence_count`, 44 `unsupported_marketing`, 28 `length`, 3 `course_id_mismatch`.
+- **Layer 4 queue:** the supersede step cleared 1,783 earlier-prompt declines. Waiting first descriptions fell from 2,030 to 418 by 02:15, and to 141 by 04:29.
+
+**Released (Pilot #1049, squash `8feea7c5`):**
+- **Worker `coverage-sweep` v0.72.1:**
+  - A claim with page evidence backs every sentence that shares enough of its meaningful words (stop words left out). The thresholds are new settings: `enrich.course_description_claim_reach_share` 0.5 and `enrich.course_description_claim_reach_min_words` 2.
+  - A sentence no claim reaches takes the closest page claim.
+  - Quotes are page text only. `catalogue` is an accepted evidence id that is never quoted.
+  - The cited spans are kept with each reading.
+- **Migration `20261112190000`:**
+  - New `security.cdesc_known_strip_v1` removes the course's title and provider from each sentence before its tests, wired in by an md5-guarded edit to `course_description_check_with_v1` (`d310fa64→b4d4dabd`).
+  - `enrich_course_text_gaps_v1` (`ddba9b55→d117edb4`): a reading marked `reread:`, or superseded in Layer 4, is read again whatever prompt made it.
+  - "students" is removed from `enrich.course_description_claim_words`, with a control event. The held recheck re-checks those stored readings at no AI cost.
+  - The 733 v0.72.0 mapping holds are marked `reread:`, to be read again once at about US$1.1. Their stored values keep only joined quotes, so they cannot be re-recorded from storage.
+  - Forward recovery: `supabase/held/cdesc_reread_forward_recovery.sql`.
+- **Tests:** fixture `tests/fixtures/cdesc-reread` (4 of 4 REGRESSION checks fail before) and spec tests; register regenerated.
+
+**Independent QA:**
+- First pass: **FAIL**, one blocker. Appending the catalogue record to each quote let a sentence pass on title words alone ("…prepares graduates for leadership" scored 0.667).
+- Reworked as above: quotes stay page text, and names are left out of the tests in the database.
+- Conditions also met: stop words, a minimum of 2 shared words, thresholds as settings, a count guard on the relabel (stops above 2,000), and a control event in the recovery.
+- Re-check at `4de71184`: **PASS**.
+- **CI:** the first run failed only on GitHub runner DNS (apt mirrors unreachable). The re-run was fully green.
+
+**Verified live (12 Nov 04:25 AEDT):**
+- Function bodies at `d117edb4` and `b4d4dabd`; `cdesc_known_strip_v1` present.
+- `schema_migrations` `md5(statements[1])` is `07f43283fcda64c6b1bb0f8c72296c54`, equal to the file.
+- `coverage-sweep` v261 `index.ts` and `course-text.ts` are byte-identical to main.
+- 733 readings marked `reread:`; claim words no longer contain "students"; 3 control events.
+
+**Ramp:**
+- The cap was raised from 2,000 to 2,800 for a second controlled batch of 800 readings on v0.72.1 (control event #35239), starting from the 05:23 gap run.
+- It returns to 20,000 once that batch's hold rate is acceptable.
+
+**Open:**
+- Measure the v0.72.1 batch.
+- Website search returns no description field (needs a Website-developer request or a G3-approved change).
+- Add study level and course code to the lease (C3).
+- Refresh the 26 admitted descriptions that contain generic phrases.
+- QA C1 24-hour check for #1033, due 12 Nov 20:30.
+- The ledger backfill decision is with the Platform Admin.
+
+**Consumer API:** not touched (Decision 266).
