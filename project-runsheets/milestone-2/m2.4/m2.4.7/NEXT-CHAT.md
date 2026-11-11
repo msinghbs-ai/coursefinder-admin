@@ -10282,3 +10282,12 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | UI (#1021) | Settings › Pipeline settings: list settings of provider ids show named chips and add providers by name (`public.admin_provider_pick_v1`, read only; body md5 equals the file). Saved value unchanged (ids, with a reason). Deployed and Deployed UAT green |
 | Docs | intake-dates §13 switch-on steps use the picker; Operating Model v1.12 rule 7 (check the inputs the rule reads, per provider) |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 15:55 AEDT — Layer 4 build-up: course-description review back-pressure on (Pilot #1023)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 15:21 "set it" (back-pressure at 1,500 after the daily limit went to 20,000) |
+| Released (Pilot #1023, `efe474e8`) | Migration `20261111235950_cf247_cdesc_review_backpressure_on`: `enrich.course_description_pending_global_max` 0 → 1,500. Settings only. Made as a migration because `admin_toolsets_write` needs a signed-in Platform Admin and the agent does not act under that account. Version moved twice to stay unique (`20261111220000` and `20261111235900` were taken by other sessions' changes on main); no history rewritten |
+| Verified live | Setting 1500 with reason; ledger row `20261111235950`; 2,427 course descriptions pending, so new description readings (standing queue and Fill / Recheck) pause until it falls below 1,500 |
+| Consumer API | Not touched (Decision 266) |
