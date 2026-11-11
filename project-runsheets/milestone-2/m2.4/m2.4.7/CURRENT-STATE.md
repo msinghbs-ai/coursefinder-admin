@@ -10316,3 +10316,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Verified live (14:50 AEDT) | All 4 tasks done: 79 read, model and prompt recorded on all 79, 59 passed the checks (waiting for the machine rule), 20 held by checks, 0 failed; AI US$0.103 |
 | Machine rule | Settle job decided 448 in the last hour; 279 undecided ahead (about 40 min). Run time 87–105 s against the job's 120 s statement time-out: watch |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 15:45 AEDT — F-INT: Rule B switched on for RMIT and validated; providers chosen by name on Settings (Pilot #1020, #1021, #1022)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 14:38: "RMIT added, there has to be better way in UI rather that using the provider's ID, can you fix it?" |
+| First pass | 14 RMIT dates against a shadow of 475. 445 rows held "the course page does not state February as an intake": the RMIT adapter kept only "adapter pattern: February" as the page wording |
+| Fix 1 (#1020) | coverage-sweep worker v0.68.0 keeps the page's own words around an adapter's intakes reading ("... Next intake: February, July"). Deployed v255 (Deploy edge functions), index.ts and adapters.ts byte-identical to main. RMIT's 299 stored pages read again by the adapter (no Firecrawl): 299 of 299 now carry the wording |
+| Fix 2 (#1020, re-issued #1022) | `intake_dates.nearest_start_hold_levels`: Rule B never dates vocational and pathway levels, which follow their own calendar. `security.intake_nearest_start_v1` a99b42c7 -> 5e864efd (rehearsed on the live definition; live md5 verified). #1020's migration took version 20261111235000, already applied by #1019, so deploy-on-merge refused it; re-issued as 20261111235900 |
+| Pause | RMIT taken off the list 15:17–15:4x (Operating Model rule 4 stop, recorded in admin_control_events) so the 15:26 run could not date vocational rows before the hold was live; restored after the rolled-back plan showed only higher-education fills |
+| Result | 401 RMIT intakes dated by Rule B: 221 February -> 1 Mar 2027, 180 July -> 19 Jul 2027; all higher education; 56 vocational and pathway rows held; no research degree; no other provider touched; none published yet |
+| Withdrawn | University Pathways Fast Track July (19 Jul 2027). Its January row (4 Jan 2027, course unpublished) is behind the hold lock the first withdrawal placed on the course: clear on the course's edit screen |
+| UI (#1021) | Settings › Pipeline settings: list settings of provider ids show named chips and add providers by name (`public.admin_provider_pick_v1`, read only; body md5 equals the file). Saved value unchanged (ids, with a reason). Deployed and Deployed UAT green |
+| Docs | intake-dates §13 switch-on steps use the picker; Operating Model v1.12 rule 7 (check the inputs the rule reads, per provider) |
+| Consumer API | Not touched (Decision 266) |
