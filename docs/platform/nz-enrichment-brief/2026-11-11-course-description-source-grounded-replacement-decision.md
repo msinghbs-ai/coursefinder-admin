@@ -1,6 +1,8 @@
 # Decision — F-CDESC source-grounded description replacement (11 Nov 2026)
 
-**Detailed production design:** [Controls, UI, prompt and operator guide](../COURSE-DESCRIPTION-PRODUCTION-DESIGN.md). This is a straight production implementation, not a proposed new pilot or manually enabled release trial.\n\n**Authority:** Platform Admin instruction, 11 Nov 2026. **Status:** Approved design direction; engineering release, production baseline and governed retirement NOT yet verified. **Owner:** Claude, sole Integration Controller. **Execution:** existing F-CDESC.01–.06 and F-OPS.03A, not a parallel programme.
+**Detailed production design:** [Controls, UI, prompt and operator guide](../COURSE-DESCRIPTION-PRODUCTION-DESIGN.md). This is a straight production implementation, not a proposed new pilot or manually enabled release trial.
+
+**Authority:** Platform Admin instruction, 11 Nov 2026. **Status:** Approved design direction; engineering release, production baseline and governed retirement NOT yet verified. **Owner:** Claude, sole Integration Controller. **Execution:** existing F-CDESC.01–.06 and F-OPS.03A, not a parallel programme.
 
 ## Why / observed failure
 The CourseFinder Website sample shows generic promotional and repeated template descriptions for Diploma of UX and Web Design and Graduate Certificate in Information and Communications Technology. Displayed text stops mid-word or mid-sentence; determine whether this is canonical truncation, search projection/API truncation, or UI excerpt length before changing the producer. The Claude assessment reported about 66% verbatim copying in candidate sentences, and 2,718 blank courses held by strict length/figure/word constraints; these are **reported claims awaiting reproducible measurement**, not independently accepted production counts. Do not infer that a blank field implies no attempt.
