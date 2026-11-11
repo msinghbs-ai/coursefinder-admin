@@ -337,3 +337,30 @@ What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT alrea
 **Decisions (Platform Admin, 10 Nov 2026 22:36; design reference Decisions 270, 271, 272).** Rule A (270): a year-less start takes its year only from one unambiguous edition year in the address, title, column header or nearest year heading; range headings never; weekdays must agree; otherwise no start, with the reason. Rule B (271): a stated month takes the single main-teaching start in that month, or else the single one within 35 days after the 1st (`intake_dates.nearest_start_days`); rolling or multiple-intake wording and calendars mixing families hold the row; opt-in per provider, shadow first, 30-row audit, then one provider at a time. Levels (272): all study levels; `calendar.university_levels` left unchanged because it belongs to the retiring college-defaults job (off since 22 Oct), which stays off.
 
 **Safeguards found missing in the live planner (built inside Rule B):** no hold for rolling or "multiple intakes" wording on a course page (the planner's "rolling" refers to rolling application deadlines); calendars approved before the qualifier (9 Nov) are not re-checked for calendar families.
+
+## 13. Rules A and B released; calendar status; activation one provider at a time — 11 November 2026
+
+**Rule A (Decisions 270, 270a; Pilot #1003, #1008).** Reader `calendar-v2.3`: a start printed without a year takes it from its table column, a range heading over unlabelled columns (with weekday and academic-period evidence), the section, or the address; a printed weekday must agree; a column-resolved teaching start stands for its whole row. Live: Monash `summary-dates` approved 11 Nov 09:25 AEDT (Semester 1 = 1 Mar 2027, Semester 2 = 26 Jul 2027); RMIT 2027 and UNSW Term 1 2027 resolved.
+
+**Calendar status (Pilot #1009).** Adapters › "Academic calendars by provider" (`public.admin_calendar_status_read`, read only): each provider with intake rows waiting for a date, its status (approved 2027; 2027 read, not approved; earlier edition only; stored, no 2027 start; read failed; none found), rows waiting and the latest qualifier verdict. 11 Nov: 8 / 17 / 0 / 40 / 8 / 0 providers. Course pages supply the month (7,472 of 9,365 month-only rows come from course pages); the approved calendar supplies the day.
+
+**Calendar re-read.** `batch.calendar_reread` 20 → 100 (maximum 60 → 100), stored copies only. Measured: the first run took 60 because the worker capped the call at a fixed 60; worker v0.67.0 (Pilot #1012) passes the setting through.
+
+**Rule B (Decision 271; Pilot #1010 shadow, #1011 planner).**
+
+| Item | Detail |
+|---|---|
+| Rule | Where the course page names no study period: the one main-teaching start in the stated month, else the one within `intake_dates.nearest_start_days` (35) after the 1st. Rule `calendar-v3-nearest-start` |
+| Never | Research degrees; rolling, flexible or continuous wording; a calendar line naming applications, census, orientation or enrolment; a blocked period word; a value withdrawn before; a differing full date on the course page; a course whose other intake months have no single main-teaching start or share the date |
+| Who | Providers listed in `intake_dates.nearest_start_providers` only (ships `[]`). `intake_dates.month_unique_match` stays 0 (P0 IQ-00313) |
+| Shadow | `pipeline.intake_nearest_start_shadow`: Monash 502, RMIT 475 would fill, none ambiguous; all providers 1,550 would fill, 524 ambiguous, 413 research degrees, 3,377 no future start yet |
+| Audit | 40 rows: 21 right (Monash, RMIT 12/12), 10 unproven, 9 wrong; guards added for the wrong patterns |
+| Dry run | Monash listed, rolled back: 381 filled by Rule B, 35 held by the course-level check |
+
+**Switching Rule B on for a provider (Platform Admin; Operating Model v1.11).**
+1. Open Settings › Pipeline settings, section Intake dates, setting "Intake dates: providers using the nearest start".
+2. Add the provider id — Monash: `543b87b8-f0dd-4bc7-80d6-76252cfaabec` — so the value reads `["543b87b8-f0dd-4bc7-80d6-76252cfaabec"]`.
+3. Reason: `Decision 271: Rule B for Monash; shadow 502 rows, audit 12/12; scoped lift of P0 IQ-00313 for Monash only`. Save.
+4. Leave "Intake dates: a month takes the date of the only start that month" (`intake_dates.month_unique_match`) at 0.
+5. The next `intake-dates-apply` run (hourly at :26) plans Monash's rows again; about 381 dates fill over the following runs (200 rows a run, shared across universities). The agent then verifies filled against predicted and re-checks a sample against the official pages.
+6. To stop: remove the id (the list back to `[]`; the screen accepts an empty list from Pilot #1012, migration 20261111140000, and shows "Empty means none"). New fills stop at the next run; filled rows go through the governed withdrawal.
