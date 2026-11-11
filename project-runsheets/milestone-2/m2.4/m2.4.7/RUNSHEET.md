@@ -10356,3 +10356,15 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 | Reversal | `aer.machine_mode` 1 or `aer.machine_suspended` 1 on Settings › Pipeline settings; admitted rows withdrawn by the existing machine withdrawal |
 | Next | Watch admissions each run, the audit samples, Layer 4 falling below 600 and new reads restarting; F-AER.06 acceptance (active AER rows through the Website feed for two unattended days). Still open: `wc.aer_fair_on`, the new-read cap, QUT to the entry matrix reader |
 | Consumer API | Not touched (Decision 266) |
+
+### 11 Nov 2026 16:30 AEDT — F-INT: RMIT verified on the hourly run; adapter wording re-read for the main universities; Deakin ready for Rule B
+
+| Item | Detail |
+|---|---|
+| RMIT check | 16:26 `intake-dates-apply` run: no RMIT or Monash value changed, no Rule B fill elsewhere, no vocational, pathway or research row filled. Every RMIT Rule B row's page quote names its own month (the 14 first-pass rows carry the older quote form) |
+| Re-read | Adapter re-read (worker v0.68.0, stored pages, no Firecrawl) for UNSW, UQ, Monash, Adelaide, QUT, Swinburne, Melbourne, WSU, Bond, VU, Torrens, Canberra, UNE, SCU, ACU, Federation, UWA, USQ, Collarts. Pages lacking any intake wording: 5,481 -> 3,758. Left: UBC (fails on worker compute even alone), Flinders (one call failed), NZ and CA providers, small colleges; UNE's adapter pattern itself holds no words |
+| Side effect | Running chains alongside scheduled fan-outs pushed other coverage-sweep calls over compute (546: 14 at 15:xx, 6 at 16:10; none earlier today). Re-reads stopped; the remainder runs one chain at a time later |
+| Normal route | The re-read lets the existing page-date and named-period routes fill without Rule B: USQ about 50 (15 Feb, 31 May 2027), Deakin 155 March (1 Mar 2027), Canberra 8 at 16:26 |
+| Rule B candidates (rolled back) | Deakin: +101 (58 July -> 5 Jul 2027 "Trimester 2: 5 July - 24 Sept"; 43 November -> 1 Nov 2027 "Trimester 3: 1 Nov - 28 Jan 2028"), matching Deakin's official 2027 trimester calendar and handbook. USQ +1 (not worth listing). Adelaide and SCU: blocked by course-page identity (E16), not by Rule B |
+| Waiting on | Platform Admin to add Deakin on Settings › Pipeline settings (provider picker) |
+| Consumer API | Not touched (Decision 266) |
