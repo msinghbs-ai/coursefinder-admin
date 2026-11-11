@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.1 (15 Oct 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
+**Version:** 1.3 (11 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -79,6 +79,7 @@ Text that AI writes from an official page (first: a provider's description, `202
 |---|---|
 | Wording | Set by a **prompt** kept in the database (provider descriptions: `pipeline.provider_description_prompts`), versioned, one active. The Platform Admin edits it on the screen (Models & services › AI & OpenRouter › Provider description prompt) with a reason; a save is a new version, never an edit in place. A switch (`pdesc.prompt_on`) returns to the built-in prompt. |
 | Checks | Only checks a machine applies reliably stay as rules: the provider's own site and identity before any AI call; every supporting passage on the page; every number in its passage; complete sentences supported by their passages; a short list of words the text never carries (rankings, awards, outcomes, promotion, fees, visas); the first sentence names the provider; length; not a copy of another provider's text. Style is the prompt's job, not a rule's. |
+| Automatic admission | With the prompt, admission without a person applies the same reliable checks again (lineage, identity, validation) and sends to a person only what the prompt must never carry (refused topics such as rankings, outcomes, fees and visas), marketing wording, and words kept for human eyes (provider descriptions: "accredited"). Figures pass when the validation has proved each one in its passage. Word lists used only by a built-in prompt do not decline prompt-written text (`20261112034500`). |
 | A new prompt | Is new knowledge: each read records the prompt version, and answers that failed under an older version are read again once by the self-heal job. |
 | On demand | An operator's one-click **Fill** (no reason to type) starts a read at once. It is not held by the task's own AI ceiling, daily guard, Firecrawl allowance or daily share, or by the "same page already failed" memory. It still stops for a manual lock, the identity proof, the platform-wide AI rule (credit floor, platform daily ceiling) and the account's own limits (Firecrawl monthly plan, credit reserve). Its priority lasts a set number of minutes, so the regular scan never waits behind it. |
 | Regular scan | Runs by itself on its schedule and honours every limit of the task (AI ceiling and daily guard, Firecrawl allowance and daily share). |
@@ -177,6 +178,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.3 | 11 Nov 2026 | 3.3.1 adds Automatic admission: the prompt profile's checks again, refused topics, marketing words and words kept for human eyes to a person; figures proved in their passages pass (Pilot #1031). |
 | 1.2 | 11 Nov 2026 | 3.3.1 AI-written text: prompt-based wording maintained on screen, one-click on demand outside the task's own limits, regular scan within them, hand-entered values never replaced (Platform Admin 11 Nov 2026 14:51, 14:57; provider descriptions first). |
 | 1.1 | 15 Oct 2026 | 3.0 Flags (Decision 261, v2.15.282); 4.0 how the provider list is built for new countries (registers first, search fills gaps). |
 | 1.0 | 15 Oct 2026 | First issue: principles, layers, gates, country onboarding with the next seven countries' sources, assessment, housekeeping standard and starting point (Decision 260). |
