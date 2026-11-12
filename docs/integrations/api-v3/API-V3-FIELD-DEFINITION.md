@@ -1,6 +1,6 @@
 # StudySearch API v3 – field definition
 
-Version 0.2, 12 November 2026. Status: release 1 built (Pilot #1085). It is **not released**: both v3 URLs refuse every key until it is released.
+**Current document status (13 November 2026):** Website API v3 is deployed and responds to a valid key, but the Wix developer has not switched to it; Zoho API v3 is not yet deployed in the last verified repository status. The detailed release-1 design based on unmerged Pilot #1085 in sections 1–6 below is **historical/proposed**, not the deployed v3 contract. Read the dated deployed-state notes and new S2-CF/S2-Intakes addenda first; verify against live before describing any proposed field as released. **Document revision 0.3 (13 November 2026).**
 
 > **Deployed state, 12 Nov 2026 22:10 AEDT (read this before section 1).** What is live is the WP-0 copy, not the release-1 design below:
 > - **Live:** edge function `website-api-v3` (version 1, Pilot #1084) and the `public.website_v3_*` functions, which wrap the unchanged v2 functions. R28 `intakes[].start_date_status` (#1084, migration `20261113180000`). R23 provider `campuses[]` one item per campus with `campus_id`, `campus_name`, `course_count`, and R24 scholarship `nationality_eligibility_status` (Pilot #1088, merge `514cb3bd`, migration `20261113190000`; the applied statements equal the file, md5 `80d0fe37…`).
