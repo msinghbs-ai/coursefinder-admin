@@ -21,3 +21,9 @@ D-1 Zoho path · D-2 study load and admission test data design · D-3 accreditat
 ## Source workbook
 
 The working sheet (claude.ai artifact "StudySearch Requirements Register") holds the same 83 rows with live links to the original requests, the Platform Admin's replies tab and the v1 snapshot.
+
+## Follow-up (12 Nov 2026, later)
+
+- **Platform Admin decision:** the admin repo is the single register of record for website and Zoho requests ("Admin repo (Recommended)"); the working sheet becomes a view. `WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.13 adds Z1–Z12 and the intake and reporting routine.
+- **Platform Admin decision:** weekly automated check approved ("Yes, weekly (Recommended)"): Monday morning Melbourne, reads developer email, proposes rows, re-checks open rows live, drafts status emails as Gmail drafts only.
+- Reconciled with `api-v3/API-V3-FIELD-DEFINITION.md` (another session, Pilot #1085): D-1 and D-5 settled by that build; R23, R24, R28, O26 are in v3 release 1, not yet deployed on 12 Nov 2026.

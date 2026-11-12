@@ -1,10 +1,17 @@
 # Website API v3 – build brief from the consumer request consolidation
 
-**Version:** 1.0 (12 Nov 2026, 21:30 AEDT)
+**Version:** 1.1 (12 Nov 2026; reconciled with `API-V3-FIELD-DEFINITION.md`)
 **Change control:** CF-247 · **Decisions:** 266 (consumer API frozen), 277 (Website API v3 beside a frozen v2)
 **Owner:** Platform Admin. **Built by:** any continuous build session, through the single integrator.
 **Companion files (this folder):** `CONSUMER-REQUESTS-REGISTER-2026-11-12.csv` (all 83 requests, REQ-01 to REQ-83), `NEXT-SESSION-PROMPT.md` (paste into a build session).
 **Register of record:** `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` (repo items R1–R34, O1–O31). This brief does not replace it; it says what goes into v3 and in what order.
+
+
+> **Read with `API-V3-FIELD-DEFINITION.md` (v0.1, release 1 built on Pilot #1085, not released).** That document is the v3 field contract and wins on field names. Since this brief was written:
+> - **D-1 is settled by the build:** Zoho gets `zoho-api-v3` beside a frozen `zoho-api-v2` (option a). WP-4 items are Z1–Z4 in the register.
+> - **Already in v3 release 1:** WP-0 (copy, dispatchers, release switch `api.v3_released`), WP-0.3 R28, WP-1.1 R23, WP-1.2 R24, WP-1.7 O26. D-5 is therefore answered (rebuilt in v3; close the v2 draft).
+> - **Still to build in v3:** WP-1.3 R29 paging, WP-1.4 R31, WP-1.5/1.6, WP-2.1 OET/CELPIP, Z1, Z3, Z4; after decisions: R30 (D-3), R32 (D-4), study load and admission tests (D-2).
+> - Live check 12 Nov 2026: no `website_v3_call` or `zoho_v3_call` on the production database yet, and no `api.v3_released` setting row. Release 1 is built but not deployed.
 
 ---
 
@@ -129,4 +136,5 @@ REQ-02, 05, 07, 08, 16, 39, 53, 60, 61, 62, 63, 64, 69, 70, 71 and repo O31: fie
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 12 Nov 2026 | Reconciled with the v3 field definition: D-1 and D-5 settled by the build; built and remaining items listed at the top. |
 | 1.0 | 12 Nov 2026 | First issue: 83 consumer requests consolidated; v3 work packages WP-0 to WP-6; decisions D-1 to D-5. |

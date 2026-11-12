@@ -1,12 +1,12 @@
-# StudySearch – Website developer requirements register
+# StudySearch – Consumer developer requirements register (website and Zoho)
 
-**Version:** 2.12 (12 Nov 2026; consumer request consolidation: R29–R33 added and queued for Website API v3, R23 and R24 move to v3; brief `api-v3/WEBSITE-API-V3-BUILD-BRIEF.md`)
+**Version:** 2.13 (12 Nov 2026; register of record widened to Zoho (Z1–Z12) with the intake and status routine; R23, R24, R28 defined in API v3 release 1)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
 **How it works now:** `docs/platform/SYSTEM-REFERENCE.md` §4b (website API v2) and §4c (institution type).
 
-This page is the single list of what the website developer has asked for, what the platform returns today, and what is still open. Start here before changing anything the website reads.
+This page is the single list of what the website (Wix) and Zoho developers have asked for, what was confirmed back to them, what the platform returns today, and what is still open (Platform Admin, 12 Nov 2026: register of record for all consumer requests). Start here before changing anything a consumer reads, and before writing to a developer about status. The file keeps its name so existing links work. IDs: R and O for the website, Z for Zoho; the consolidation numbers REQ-01 to REQ-83 (`api-v3/CONSUMER-REQUESTS-REGISTER-2026-11-12.csv`) are a one-off cross-reference and are not issued again.
 
 ## Rules for any change the website reads
 
@@ -45,8 +45,8 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R19 | Academic entry requirements by country of previous study (Raghav, 16 Oct 2026; replaces R12's academic part) | **Returned** (developer guide issue 5, 29 Oct 2026; consumer fields approved 25 Oct and shipped in Pilot #720). Coverage grows only as a person admits rows in Layer 4: on 29 Oct, one provider's table (343 rows) and no course rows were active. The website display is the website team's work and is not built | `edu_country` on `course` and `provider`; `entry` (with `resolution`) on `course`; `entry_matrix[]` on `provider` (guide §7.9). Planned name `academic_entry` was not used |
 | R20 | Scholarship eligibility by nationality, searchable (Raghav, 16 Oct 2026) | **Returned** as `citizenship_eligibility[]` with filter `nationality_codes`; on 3 Nov 2026 78 of 1,148 published scholarships name nationalities. The status the website needs is R24 | `citizenship_eligibility`, `eligible_countries_list`, filter `nationality_codes` |
 | R21 | Lighter logos for the full load (from Raghav's measures: 1,550 logos, 131 MB, 283 WebP) | **Planned**; waits for the formats Wix accepts | `logo.url` points to a standard copy; original kept |
-| R23 | Campus names and course counts (developer request, 2 Nov 2026; mandate 3 Nov 2026 11:46) | **Proposed, awaiting Platform Admin approval** (missing API functionality; data held). Provider `campuses[]` one item per campus with `campus_id`, `campus_name`, `course_count`; prepared on Pilot branch `cf247-devapi-r23-r24` (draft PR; migration `20261106100000`, refuses to apply until approved; supersedes branch `cf247-website-api-v2-campus-nationality`); G3 approval package `docs/platform/approvals/2026-11-06-g3-r23-r24-approval-package.md`. Course `campuses[]` not changed (decision P3) | Proposal `docs/platform/nz-enrichment-brief/2026-11-03-website-api-v2-change-proposal.md` §2; guide draft issue 8 §7.4 |
-| R24 | Scholarship nationality eligibility (same request) | **Proposed, awaiting approval** (missing API functionality and incomplete data): `nationality_eligibility_status` `restricted`/`unrestricted`/`unknown`/`under_review`; empty list never unrestricted; regions kept as regions. Live 3 Nov: restricted 94, unknown 1,054. Live 5 Nov: restricted 95, unknown 1,056 (of 1,151). Same branch and approval package as R23. Reader improvement proposed as platform work (P4) | Proposal §3; guide draft §7.5 |
+| R23 | Campus names and course counts (developer request, 2 Nov 2026; mandate 3 Nov 2026 11:46) | **Defined in API v3 release 1** (`api-v3/API-V3-FIELD-DEFINITION.md`; not released; live check 12 Nov 2026: no v3 dispatcher deployed yet). Earlier: proposed, awaiting Platform Admin approval (missing API functionality; data held). Provider `campuses[]` one item per campus with `campus_id`, `campus_name`, `course_count`; prepared on Pilot branch `cf247-devapi-r23-r24` (draft PR; migration `20261106100000`, refuses to apply until approved; supersedes branch `cf247-website-api-v2-campus-nationality`); G3 approval package `docs/platform/approvals/2026-11-06-g3-r23-r24-approval-package.md`. Course `campuses[]` not changed (decision P3) | Proposal `docs/platform/nz-enrichment-brief/2026-11-03-website-api-v2-change-proposal.md` §2; guide draft issue 8 §7.4 |
+| R24 | Scholarship nationality eligibility (same request) | **Defined in API v3 release 1** (not released). Earlier: proposed, awaiting approval (missing API functionality and incomplete data): `nationality_eligibility_status` `restricted`/`unrestricted`/`unknown`/`under_review`; empty list never unrestricted; regions kept as regions. Live 3 Nov: restricted 94, unknown 1,054. Live 5 Nov: restricted 95, unknown 1,056 (of 1,151). Same branch and approval package as R23. Reader improvement proposed as platform work (P4) | Proposal §3; guide draft §7.5 |
 | R25 | Ranking history (same request) | **Done — existing API** (documentation only): `provider` `rankings[]` and `rankings` with `edition_year`; QS 2021–2027 (72 providers), THE 2016–2026 (77); Adelaide University from 2026 only | Guide draft §7.6 example |
 | R26 | Academic entry requirements (same request) | **Existing API** (R19); coverage is platform AER work, reported separately (3 Nov: 13 provider tables, 480 courses admitted); hide-unavailable guidance in guide draft §7.9 | `entry`, `entry_matrix[]` |
 | R27 | University-level costs (same request) | **Not available** (no reliable data basis; see R13): no institution-published cost-of-living or compulsory non-tuition cost held; course tuition unchanged | Guide draft §7.8 |
@@ -57,6 +57,34 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R31 | Scholarships page link and last reviewed date per institution (Raghav, NZ audit 20 Oct 2026; REQ-46) | **Queued for Website API v3** (WP-1.4). Data held in `pipeline.scholarship_listing_pages` (url, read_at) | v3 provider `scholarships_page_url`, `scholarships_last_reviewed_at` |
 | R32 | Main (primary) campus per provider (Raghav, 2 Nov 2026 handoff; REQ-75) | **Decision needed (D-4), then Website API v3** (WP-1.8). Not held; the first campus returned is not the main one | v3 provider `campuses[].is_primary` |
 | R33 | Field dictionary: meaning, type, allowed values and null meaning for every field (Raghav, 2 Nov 2026 handoff; REQ-76) | **Queued for the v3 developer guide** (WP-6.1) | v3 guide |
+
+## Zoho requests and status (Z1–Z12)
+
+Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consolidation of 12 Nov 2026. Zoho reads `zoho-api-v2` (frozen, Decision 266). New Zoho fields go to `zoho-api-v3` (`api-v3/API-V3-FIELD-DEFINITION.md`), released with the website v3 under the release switch and the comms rule. Delivered Zoho requests are listed in the consolidation CSV and are not repeated here.
+
+| # | Request (who, date; REQ) | Status (12 Nov 2026) | Where it is returned / next step |
+|---|---|---|---|
+| Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Queued for Zoho API v3** | v3 `search` items: top-5 scholarship summary |
+| Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data first.** Export carries IELTS and PTE only; OET and CELPIP not held (website O13) | v3 export columns once the data is admitted |
+| Z3 | Provider and course export beyond Australia (Divya, 3 Nov; REQ-35) | **Setting change, released with v3.** `zoho.sync_countries` is `["AU"]` | Setting; consumer change, held for comms |
+| Z4 | Academic entry by student country on Zoho course detail (Divya; REQ-28) | **Queued for Zoho API v3** (website has `edu_country` since 28 Oct) | v3 Zoho `course` `edu_country` |
+| Z5 | How a scholarship is matched to a course (Divya, 3 Nov; REQ-30) | **Answer only** (v3 guide field dictionary, R33) | Reply to Divya |
+| Z6 | Five 3 Nov questions already met by v2: level flags, English/intakes/scholarships in search, search by institute name, numeric fields, multi-identifier lookup (REQ-11, 25, 26, 29, 33) | **Delivered; reply owed** | Reply to Divya with field names |
+| Z7 | Study area on scholarships (Divya; REQ-07) | **Open, data work** | Platform data; no API change until held |
+| Z8 | Student filters: qualification, GPA/WAM/percentage, English for scholarships (Divya; REQ-18, 19, 20) | **Decision needed (D-2)** | v3 filters after the decision |
+| Z9 | Receiving sponsorship yes/no (Divya; REQ-13) | **Open, not held** | Platform data |
+| Z10 | Institute representatives (Divya; REQ-22) | **Partly delivered**: provider contacts on Zoho detail (31 contacts at 11 providers) | Platform data coverage |
+| Z11 | State missing for NZ and CA courses (Saurabh; REQ-58) | **Open, data work** | Platform data |
+| Z12 | Ten-provider check before production; university groups (Sujata, Saurabh; REQ-59, REQ-77) | **Open.** Groups: IRU renamed 2050 Alliance on 27 May 2026 (adds ACU and VU); data fix awaiting Platform Admin approval | Data fix, then tell Raghav and Divya |
+
+## How requests are taken in and reported (Platform Admin, 12 Nov 2026)
+
+1. **Intake.** Any new ask from a developer (email, WhatsApp, PDF, call note) gets the next ID here (R for website, Z for Zoho) in the same week, with who asked, the date and the source. One ask per row; a repeat ask is a dated note on the existing row.
+2. **Triage status**, one of: *Delivered* (field and name), *Partly delivered*, *Queued for API v3*, *Decision needed (D-n)*, *Data work* (no API change until held), *Answer only*, *Declined* (with reason). Consumer-visible changes go to API v3 (Decision 277) and are held for developer comms before release.
+3. **Confirmed back.** When the Platform Admin confirms a field or value to a developer, note the date on the row. What was promised is what is tracked.
+4. **Weekly check (Monday morning, Melbourne).** A scheduled task reads new developer emails, proposes new rows, re-checks open rows against live functions and data, and drafts a status email per developer as a Gmail draft. Nothing is sent and nothing is merged by the task; the Platform Admin reviews, sends and approves.
+5. **Status to developers** is written from this page only: delivered since last update, queued for v3, needs your input, not held. No repository, commit or internal tool names; keys only by a secure channel.
+6. The working sheet (claude.ai "StudySearch Requirements Register") is a view of this page and is refreshed from it, not the other way round.
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
@@ -168,6 +196,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.13 | 12 Nov 2026 | Register of record widened to Zoho (Platform Admin: "Admin repo" as the single register; weekly automated check approved). Z1–Z12 added from the consolidation; intake and reporting routine added; R23 and R24 now defined in API v3 release 1 (`api-v3/API-V3-FIELD-DEFINITION.md`, not released). |
 | 2.12 | 12 Nov 2026 | Consumer request consolidation (Platform Admin 21:20): 83 requests from email and the developers' PDFs checked against live code (`docs/integrations/api-v3/`). R29–R33 added. R23 and R24 (draft branch `cf247-devapi-r23-r24`, built for v2) are to be rebuilt in Website API v3 (decision D-5). Zoho requests have no v3 path yet (decision D-1). |
 | 2.11 | 12 Nov 2026 | Decision 277 (Platform Admin 21:00): Website API v3 is a separate copy beside the frozen v2, open to additions until the website goes live on it, then frozen; rule 1 states the versions; R28 approved and built in v3 only. |
 | 2.10 | 12 Nov 2026 | Destination data sources reviewed against Website API v2 for course fields other than academic entry: O25–O31 added (study load, description on search items, post-study work rights, field-of-study codes by scheme, recognition flags, study-area outcomes, coverage of existing fields); review `2026-11-12-destination-sources-course-api-gap-review.md` |
