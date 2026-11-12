@@ -1,7 +1,7 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 2.9 (12 Nov 2026; destination data sources reviewed for academic entry: open items O13–O24, review `docs/integrations/2026-11-12-destination-sources-aer-api-gap-review.md`; no API change)
-**Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
+**Version:** 2.11 (12 Nov 2026; Decision 277: Website API v3 beside a frozen v2, v3 open to additions until the website goes live on it; R28 approved and built in v3)
+**Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
 **How it works now:** `docs/platform/SYSTEM-REFERENCE.md` §4b (website API v2) and §4c (institution type).
@@ -11,6 +11,7 @@ This page is the single list of what the website developer has asked for, what t
 ## Rules for any change the website reads
 
 1. **Additive only.** `website-search-v2` keeps every field, filter and action it has. New fields and filters are added; nothing is renamed or removed. A breaking change needs a new contract (Version 3) and a Platform Admin decision.
+   **Versions (Decision 277, Platform Admin 12 Nov 2026 21:00):** Website API v2 is frozen (G3): nothing is added to it either. New work goes into **Website API v3** (`website-search-v3`, `public.website_v3_*`), a separate copy of v2 reading the same data with the same keys. v3 takes additions freely until the website goes live on it; at go-live the Platform Admin records the date and v3 joins the frozen surface in the same change. Each request below says which version returns it.
 2. **The provider Published switch is the control.** A provider switched off or archived is not returned by any action, with its courses, campuses and scholarships (`security.provider_hidden_v1`).
 3. **Nothing is inferred.** null means not held. No defaults, no estimates, no currency conversion.
 4. **Guard and record.** Every replaced website function is md5-guarded in its migration. `tests/uat/cf-247-website-api-v2-contract.spec.mjs` and `cf-247-institution-type-contract.spec.mjs` must pass.
@@ -50,7 +51,7 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R26 | Academic entry requirements (same request) | **Existing API** (R19); coverage is platform AER work, reported separately (3 Nov: 13 provider tables, 480 courses admitted); hide-unavailable guidance in guide draft §7.9 | `entry`, `entry_matrix[]` |
 | R27 | University-level costs (same request) | **Not available** (no reliable data basis; see R13): no institution-published cost-of-living or compulsory non-tuition cost held; course tuition unchanged | Guide draft §7.8 |
 | R22 | Fewer, faster full-load calls (from Raghav's measures: 257 calls, 2 min 53 s, largest page 628 KB) | **Done** (17 Oct, migration 20261017010000): sync pages up to 600 size units (`website.sync_page_max`); full load about 86 calls, about 1–2 minutes; replies compressed with `Accept-Encoding: gzip` (about 15 MB instead of 113 MB). O8 closed | `sync` (6, 6.1) |
-| R28 | Why an intake has no exact start date (Platform Admin, 12 Nov 2026 19:48: "mention if its not available on the course page, academic calendar or not fetched by AI ... what is holder value for each reason ... helpful in handover") | **Proposed, awaiting Platform Admin approval** (consumer API change under G3; nothing returned yet). Data held: every intake's last planner decision in `pipeline.course_intake_dates` (`next_action`, `reason`). Proposal: an additive `start_date_status` on each item of `intakes[]` (course detail and search), from the fixed list in "Intake start-date status" below; `start_date` stays null when not held | Proposed `intakes[].start_date_status`; list and live counts below |
+| R28 | Why an intake has no exact start date (Platform Admin, 12 Nov 2026 19:48: "mention if its not available on the course page, academic calendar or not fetched by AI ... what is holder value for each reason ... helpful in handover") | **Approved 12 Nov 2026 21:00; built in Website API v3 only** (Decision 277: "Build R28 in v3 instead of v2? yes"). v2 is unchanged and never returns it. Data held: every intake's last planner decision in `pipeline.course_intake_dates` (`next_action`, `reason`). An additive `start_date_status` on each item of `intakes[]` (course detail and search), from the fixed list in "Intake start-date status" below; `start_date` stays null when not held | v3: `intakes[].start_date_status`; list and live counts below |
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
@@ -100,9 +101,9 @@ Status (17 Oct 2026): **R22 and R18 done**; R21 waits for the formats Wix accept
 4. **R19:** after Raghav's example and the country choice; build in Pilot, measure on a handful of universities, then fill.
 5. After each: developer guide issue with a section 13 line (API changes only), this register updated, change-control entry.
 
-## Intake start-date status (R28, for the developer handover; proposed 12 Nov 2026)
+## Intake start-date status (R28, for the developer handover; approved 12 Nov 2026, Website API v3 only)
 
-`start_date` is null unless the exact first teaching day is proved by the university's own approved academic calendar (or a dated line on the course page). The proposed `start_date_status` says why it is null. One value per intake, always one of these:
+`start_date` is null unless the exact first teaching day is proved by the university's own approved academic calendar (or a dated line on the course page). In Website API v3, `start_date_status` says why it is null (v2 does not return it). One value per intake, always one of these:
 
 | `start_date_status` | Meaning for the website | Where the gap is | Show to visitors | Australia, live 12 Nov 2026 21:2x (active intakes, 24,227) |
 |---|---|---|---|---|
@@ -162,6 +163,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.11 | 12 Nov 2026 | Decision 277 (Platform Admin 21:00): Website API v3 is a separate copy beside the frozen v2, open to additions until the website goes live on it, then frozen; rule 1 states the versions; R28 approved and built in v3 only. |
 | 2.10 | 12 Nov 2026 | Destination data sources reviewed against Website API v2 for course fields other than academic entry: O25–O31 added (study load, description on search items, post-study work rights, field-of-study codes by scheme, recognition flags, study-area outcomes, coverage of existing fields); review `2026-11-12-destination-sources-course-api-gap-review.md` |
 | 2.9 | 12 Nov 2026 | Destination data sources reviewed against Website API v2 for academic entry: O13–O24 added (local-language and more English tests, level-type requirements, English waivers, teaching language, admission tests, non-grade entry conditions, quote and source link on `entry_matrix[]`, qualification codes, academic-entry search filter, application route, other 25 destinations). Review `docs/integrations/2026-11-12-destination-sources-aer-api-gap-review.md`. No API change. |
 | 2.8 | 5 Nov 2026 | Developer feedback of 5 Nov 2026 (Wix integration confirmed working; R23 and R24 requested again; decision 19:14 §5). R23 and R24 re-prepared on Pilot branch `cf247-devapi-r23-r24` (draft PR, migration 20261106100000, G3 approval PENDING), checked against live on 5 Nov 2026 with a production-parity fixture; G3 approval package written. Issue 8 draft figures and examples re-measured. Nothing approved, merged or deployed. |
