@@ -50,6 +50,7 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R26 | Academic entry requirements (same request) | **Existing API** (R19); coverage is platform AER work, reported separately (3 Nov: 13 provider tables, 480 courses admitted); hide-unavailable guidance in guide draft §7.9 | `entry`, `entry_matrix[]` |
 | R27 | University-level costs (same request) | **Not available** (no reliable data basis; see R13): no institution-published cost-of-living or compulsory non-tuition cost held; course tuition unchanged | Guide draft §7.8 |
 | R22 | Fewer, faster full-load calls (from Raghav's measures: 257 calls, 2 min 53 s, largest page 628 KB) | **Done** (17 Oct, migration 20261017010000): sync pages up to 600 size units (`website.sync_page_max`); full load about 86 calls, about 1–2 minutes; replies compressed with `Accept-Encoding: gzip` (about 15 MB instead of 113 MB). O8 closed | `sync` (6, 6.1) |
+| R28 | Why an intake has no exact start date (Platform Admin, 12 Nov 2026 19:48: "mention if its not available on the course page, academic calendar or not fetched by AI ... what is holder value for each reason ... helpful in handover") | **Proposed, awaiting Platform Admin approval** (consumer API change under G3; nothing returned yet). Data held: every intake's last planner decision in `pipeline.course_intake_dates` (`next_action`, `reason`). Proposal: an additive `start_date_status` on each item of `intakes[]` (course detail and search), from the fixed list in "Intake start-date status" below; `start_date` stays null when not held | Proposed `intakes[].start_date_status`; list and live counts below |
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
@@ -98,6 +99,28 @@ Status (17 Oct 2026): **R22 and R18 done**; R21 waits for the formats Wix accept
 3. **R18, then R20:** small, read from pages already stored.
 4. **R19:** after Raghav's example and the country choice; build in Pilot, measure on a handful of universities, then fill.
 5. After each: developer guide issue with a section 13 line (API changes only), this register updated, change-control entry.
+
+## Intake start-date status (R28, for the developer handover; proposed 12 Nov 2026)
+
+`start_date` is null unless the exact first teaching day is proved by the university's own approved academic calendar (or a dated line on the course page). The proposed `start_date_status` says why it is null. One value per intake, always one of these:
+
+| `start_date_status` | Meaning for the website | Where the gap is | Show to visitors | Australia, live 12 Nov 2026 21:2x (active intakes, 24,227) |
+|---|---|---|---|---|
+| `known` | `start_date` holds the first teaching day | — | the date | 4,319 |
+| `no_official_calendar` | The university's official academic calendar for that year is not held or not approved | Academic calendar | the month (and year if held); "exact date to be confirmed" | 10,137 |
+| `month_only` | The course page gives a month (e.g. "February"), but no study period or date, and the university is not yet approved for the nearest-start rule | Course page gives only a month | the month | 2,887 |
+| `not_on_course_page` | The course page does not state this intake as an offering (or only in a past year or a student's story) | Course page | the month; treat the intake as unconfirmed | 32 |
+| `course_page_not_verified` | The page read for this course is not proved to be this course's own page | Course page identity | the month | 3,144 |
+| `next_year_calendar_pending` | This year's start has passed and the next year's calendar is not yet published or read | Academic calendar (next year) | the month; "dates for next year to be confirmed" | 1,490 |
+| `not_yet_read` | The page wording has not been read yet (the AI or reader has not fetched or kept it) | Not fetched / not read | the month | 819 |
+| `own_calendar` | Vocational, pathway or research course that follows its own calendar, not the main teaching calendar | Different calendar | the month | 230 |
+| `conflicting_evidence` | The page or calendar gives more than one possible start (several dates, several periods, a period that starts in another month) | Evidence disagrees | the month | 1,078 |
+| `held_for_review` | A person withdrew or locked the value; waiting for review | Review | the month | 91 |
+| `rolling` | Rolling or flexible intake: no fixed start | — | "start any time" | 0 measured |
+
+Rules for the website (when approved): never invent a date from the month; show `start_date` only when `start_date_status` = `known`; the list is closed (a new value would be an API change under section 13). Deadlines follow the same idea later (`application_deadline` is held on 38 Australian courses today).
+
+How each value is worked out (platform side, no API change): `known` when `course_intakes.start_date` is set; otherwise from the intake's `pipeline.course_intake_dates` row — `next_action` `calendar_needs_correction` or `awaiting_official_calendar`, or no row at a university with no approved calendar → `no_official_calendar`; `waiting_for_next_academic_year` → `next_year_calendar_pending` (or `not_on_course_page` when the reason says the page does not state the month); `course_identity_unresolved` → `course_page_not_verified`; `reader_correction_needed`, or no row at a university with a calendar → `not_yet_read`; reason "names no study period" → `month_only`; reason "vocational or pathway" or "research degree" → `own_calendar`; `human_decision_required` → `held_for_review`; rolling wording → `rolling`; anything else → `conflicting_evidence`.
 
 ## Open work (for the build chat)
 
