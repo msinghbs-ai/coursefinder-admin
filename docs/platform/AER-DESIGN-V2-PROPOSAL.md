@@ -1,6 +1,6 @@
 # AER design v2: a prompt-led reader with a strict verifier (proposal)
 
-**Version:** 0.2, proposed, 12 Nov 2026 (0.2 adds country packs §3.9, the lean job set and Fill on demand §3.10, success measures §3.11, lessons from descriptions §1.1) · **Change control:** CF-247 (SS-017 follow-on) · **Status:** for Platform Admin decision; nothing is built or switched on by this document
+**Version:** 0.3, approved with amendments (Decision 276, 12 Nov 2026 17:20), steps 0–1 in progress (0.3 adds §9 amendments; 0.2 added country packs §3.9, the lean job set and Fill on demand §3.10, success measures §3.11, lessons from descriptions §1.1) · **Change control:** CF-247 (SS-017 follow-on) · **Status:** approved with amendments (Decision 276); steps 0–1 in progress; activation by the precision gate in §9
 **Reads with:** `2026-11-12-aer-admission-mechanism.md` (how it works today, with live figures), `AER-TECHNICAL-DESIGN.md` v1.2 (design of record), `DATA-PIPELINE-OPERATING-MODEL.md` §3.3.1 (AI-written text), `PROVIDER-DESCRIPTIONS-RUNBOOK.md` (the pattern this follows)
 
 ## 1. Why change
@@ -236,3 +236,15 @@ On a new "Academic entry" section, plus the AI & OpenRouter prompt card:
 4. Approve the five-job set and Fill entry requirements on demand (§3.10).
 5. Confirm the activation gate for course pages (proposed: verifier pass rate at least 70% and no new false admissions on the labelled set).
 6. Later: qualification rows in the consumer API (Decision 266 approval).
+
+## 9. Approved amendments (Decision 276, 12 Nov 2026 17:20)
+
+These amend the sections above where they differ (review: `2026-11-12-aer-design-v2-review.md`).
+
+1. **Proven structure is a record source** (amends §3.2): a table whose structure the converter proves (aligned grid: every value in exactly one column, fail closed) yields records directly, through the same verifier; the model does not re-extract it. The UNSW, Sydney and UQ rows (5,526 minimums) are kept with their evidence. AI is used only where interpretation is needed.
+2. **Independent completeness for tables** (amends §3.3 and §3.4): measured from the converted source (rows and labels printed against records returned), not from the model's own "seen but not mapped" list. For course pages the model's list is sufficient.
+3. **Precision gate** (amends §3.11 and decision 5): activation needs no new false admission on the labelled set; error no worse than the current reader, measured independently; no regression in course identity, qualification identity, score attribution or source evidence; Layer 4 and manual locks effective; failures held with a reason and retried by the job. The 70% pass rate is an operational target.
+4. **Production safeguards kept** (amends §3.4): printed course in the row identity; per-course qualification minimums never admitted as the provider's; one catalogue course per course minimum (CRICOS, exact title and level, then a person; AI suggests only); a rank (ATAR) is a course fact, recorded in the provider-country pack; one large stored PDF per worker call; recording within the 8 s API statement limit; host checks.
+5. **v1 frozen** (amends §6): essential correctness and security fixes only while v2 is built; v1 keeps reading and admitting under the approved rules.
+6. **Throughput now** (decision 2): `aer.machine_daily_max` 1,000.
+7. **Coverage measure** (amends §3.8 and §3.11): resolver-based (`entry_resolve_v1` returns `minimum_published`) over the leading applicant countries, beside "courses with any admitted requirement".
