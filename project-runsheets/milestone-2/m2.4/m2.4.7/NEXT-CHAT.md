@@ -10896,3 +10896,21 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 - Murdoch table reader.
 - WP-0.4 (v3 keys and the guide skeleton), then WP-1.1.
 - Let the intake planner finish re-planning the E16 rows, and report the dates added.
+
+## 12 Nov 2026 23:30 AEDT — Website API v3: scholarship fields (from #1077), O20, O22, OET and CELPIP live
+
+**Platform Admin, 12 Nov 2026 22:37: "Fix pr 1077 decide to merge it on v3 and then proceed with o20,22 and oet, [CELPIP] and update relevant docs including operational model, develop request and v3 api".**
+- **Scholarship detail fields (v3 home of the v2 draft Pilot #1077):** Pilot #1098 merged on green (`a71109d8`), migration `20261113240000` applied. `website_v3_scholarship_item` gains `description`, `award_type`, `sponsor`, `programme`, `award_code`, `benefits[]`, `application`, `award_duration`, `academic_year`, `excluded_nationality_codes[]`, `nationality_regions[]`. Live md5 `0e5e608e…` equals the rolled-back dry run. First 50 scholarships on live: every v2 key kept on all 50; 45 carry benefits. v2 item function unchanged (`d1792cc7…`). #1077 closed unmerged.
+- **O20 (WP-1.5):** Pilot #1093 (`311f5c5c`), built and merged by the other v3 build session.
+- **O22 (WP-1.6):** two sessions built it (Pilot #1094 and #1097, same migration version and function). #1097 was merged by its session (`5a71b899`); #1094 closed as the duplicate, with a note that it also added `has_academic_entry` as an item key. Live: 6,312 courses with the filter true.
+- **OET and CELPIP (WP-2.1, O14):** Pilot #1099 merged on green (`ab491028`), migration `20261113250000` applied: two rows in `ref.english_tests`; policy parser `provider-policy-v0.3.1`, worker v0.82.0. The first full run failed on the English-requirements fixture (one scenario had the old parser version hard-coded where it meant the current parser); fixed, second run green. The other five tests read as before (stored-page compatibility spec unchanged). The hourly `policy-add-tests` job reads the 162 approved policies once more (stored copies, no Firecrawl, no AI).
+- Docs: WEBSITE-DEVELOPER-REQUIREMENTS 2.17, v3 field definition, build brief 1.4, v3 README, DATA-PIPELINE-OPERATING-MODEL 1.7 (section 3.6).
+
+**Not yet verified:** the worker v0.82.0 reading OET or CELPIP on a real stored policy page (the job runs hourly); no OET or CELPIP requirement is held yet.
+
+**Open for the Platform Admin:**
+- OET letter grades: most universities print "B in each sub-test". They are not converted, so OET yield will be low until it is decided whether a grade may be stored.
+- Draft Pilot #1085: its fields are now all live through other PRs; what remains only there is the release switch `api.v3_released`, Zoho v3 and the dispatchers.
+- v3 developer guide (WP-6) not yet issued.
+
+**Next executable action:** WP-6 v3 developer guide; then check the first `policy-add-tests` runs for OET and CELPIP.

@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.6 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
+**Version:** 1.7 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -127,6 +127,10 @@ A country is returned by the website API when all of these hold (settings per co
 - **Go-live of v3:** the Platform Admin records the date the website switches. In the same change v3 is added to the frozen surface (CLAUDE.md G3, the consumer API baseline, the `s57` guard). From then v3 follows G3.
 - v2 keeps running until the Platform Admin decides to retire it; a retirement is a paste file, never an applied migration.
 - First v3 addition: R28, `intakes[].start_date_status` (why an intake has no exact start date).
+- **A held v2 draft moves to v3, it is not merged into v2.** A consumer change drafted for v2 and still waiting for its approval or its developer notice is rebuilt as a `website_v3_*` change and the v2 draft is closed unmerged (done for R23/R24, Pilot #945 and #954, and the scholarship fields, Pilot #1077). The v3 change is md5-guarded, dry-run on live in a rolled-back transaction, and v2 keys always win over a v3 key of the same name.
+- **One PR per v3 item.** Two sessions must not build the same item: the first PR to pass on its final head is merged, and the other is closed as a duplicate with what it had that the merged one lacks written on it (O22: Pilot #1097 merged, #1094 closed).
+- **Reference data is not a version.** A new reference row (an English test) is data: it appears in v2 and v3 alike and needs no consumer approval, because no key, type or shape changes (OET and CELPIP, Pilot #1099).
+- v3 additions live on 12 Nov 2026: R23, R24, R28, R29, R31, O20, O22, O26 and the scholarship detail fields. The list of record is `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md`.
 
 ## 4. Onboarding a new country
 
@@ -207,6 +211,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.7 | 12 Nov 2026 | 3.6 Consumer API versions: a held v2 draft moves to v3 and is closed unmerged; one PR per v3 item; reference rows are data in both versions; v3 additions live on 12 Nov listed (Platform Admin 12 Nov 2026 22:03 and 22:37). |
 | 1.6 | 12 Nov 2026 | 3.3.2 On demand and scheduled work: on-demand work (a person or a Claude session) is not held by toolset limits, only by the account; scheduled work obeys every limit; a request shows its estimate and credit left before, and its actual use and credit left after (Platform Admin 12 Nov 2026 21:07; Pilot #1083). |
 | 1.5 | 12 Nov 2026 | Principle 8 and 3.6 Consumer API versions: v2 frozen, v3 open to additions until the website goes live on it, then frozen (Decision 277, Platform Admin 12 Nov 2026 21:00). |
 | 1.4 | 12 Nov 2026 | 3.3.1 adds scholarships (F-SCH production redesign: sch-extract-v3 structured extraction, evidence checks, fill of empty unlocked fields) and how G2 and directive §11 divide settings from software-managed extraction heuristics. |
