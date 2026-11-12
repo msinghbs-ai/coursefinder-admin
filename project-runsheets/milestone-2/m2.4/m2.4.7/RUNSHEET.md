@@ -10991,3 +10991,38 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 - Make the held-first rule permanent: a held first reading from an earlier prompt that no longer passes the checks is read again.
 - Other AI readers (AER, scholarships, enrich fields) use the same key: their owners should check for the same refusals.
 - Still open from earlier: prompt v2 decision, US$15 ledger backfill, CD-R6 retirement.
+
+## 13 Nov 2026 00:10 AEDT — F-SCH.01 follow-up: eligibility reader live again; re-admission path in shadow; detail backfill measured
+
+**Eligibility reader (Pilot #1101 re-issued as #1102; migration `20261113260000`; history md5 equals the file, `3c303754…`).**
+- No proof has been read since 20:10. All 17 shadow decisions under rule `20261113065000` were reviewed, and every one was right: 9 domestic, 4 linked how-to-apply pages refused (AUArts), 1 mixed audience (RMIT), 3 earlier withdrawals held.
+- `sch_elig.apply_on` changed from 0 to 1 (control event recorded), and the 17 proofs were reset.
+- The live run at 13:04 UTC matched the rolled-back dry run exactly: 9 domestic_only and 6 refused, and **no admission was made**, so there was nothing to withdraw before the :29 publish run.
+- **Version collision:** #1101 first used `20261113240000`, which `cf247_website_api_v3_scholarship_fields` had already taken. The deploy refused it and nothing was applied. It was re-issued under `20261113260000`, and main now holds one migration per version.
+
+**Re-admission path (shadow; new setting `sch_elig.readmit_on`, 0).**
+- It covers records withdrawn as `eligibility_proof_not_specific` whose proof passes the current rule on the award's own page (the page's last path segment names the award).
+- Live re-admission reverses the withdrawal on the same record: active again, still unpublished, course links rebuilt.
+- Live outcome: Sydney Bowel Cancer Translational Research Scholarship is held as `readmit_held`. The dry run with the setting on re-admitted it: active, unpublished, 17 course links.
+- Charles Perkins (an awards list page) and UTS Gullotta (a how-to-apply page) stay withdrawn.
+
+**Detail backfill and published completeness (13 Nov 00:00).**
+- Of 1,655 active scholarships, 77 have no version 3 extraction, and the backfill has stopped. Since the 4,500-token limit: 207 ok, 44 cut off, 18 with no choices returned, 10 unreadable.
+- The 77 are terminal failures: 50 cut off and 44 with no choices returned (some scholarships had both).
+
+| Published field (1,202 records) | 16:30 | 00:00 |
+|---|---|---|
+| Description | 46 | 822 |
+| Application method | 19 | 878 |
+| Award-duration record | 0 | 418 |
+| Award type | — | 952 |
+| Benefits | — | 1,015 |
+| Nationalities (country codes) | 81 | 144 |
+
+Scholarship AI spend today: US$2.02.
+
+**Not done:** #1077 was not merged. Its fields were built in v3 by `20261113240000` (Platform Admin 22:37).
+
+**Next executable action:**
+- Switch on `sch_elig.readmit_on` after one live cycle shows only `readmit_held` for Sydney Bowel Cancer.
+- Plan the 77 terminal backfill failures: a split read for long pages.
