@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.5 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
+**Version:** 1.6 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -88,6 +88,20 @@ Text that AI writes from an official page (first: a provider's description, `202
 | Visible | AI spend against the ceiling and daily guard, Firecrawl use against allowance and share, progress (admitted in 24 hours, described, waiting, held, written by hand) and the jobs' last runs are shown on the screen that holds the prompt and on the task's own card. |
 
 **Scholarships (F-SCH production redesign, 12 Nov 2026; `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0 section 13).** The same pattern extracts structured facts, not only text: one versioned prompt (`pipeline.scholarship_ai_prompts` version 3, sch-extract-v3) reads one official evidence bundle; every field is kept only when its passage is on the evidence and carries the value; the summary is AI-written text under the rules above (no copied run, no number the evidence does not print); the fill writes only empty, unlocked canonical fields and never admits or publishes. Reconciling G2 with directive §11 ("internal queue sizes, leases, retries, model routing parameters, extraction heuristics and technical thresholds should be software-managed"): extraction heuristics and quality thresholds of the evidence checks stay in code with their reason, while every limit an operator steers (enable or pause, batch, spend, scope, refresh) stays a setting.
+
+### 3.3.2 On demand and scheduled work: who obeys the toolset limits (Platform Admin 12 Nov 2026 21:07)
+
+Platform Admin, 12 Nov 2026 21:07: "toolset limit should be waved when doing on demand, only scheduled tasks should obey toolset limits. especially when requested to execute from claude session it should display estimated toolset value adn then after finsih display actual used or credit left on toolset".
+
+| Part | Rule |
+|---|---|
+| Scheduled work | Every job and task that runs on its own schedule obeys every toolset limit: the Firecrawl daily total, daily shares, per-university caps, refresh intervals, cost breakers and campaign ceilings, and the AI daily ceiling and lane guards. |
+| On-demand work | Work a person starts (Run now, Fill, Read now) or a Claude session asks for is **not held by toolset limits**. It stops only at the account's own limits (Firecrawl monthly plan and credit reserve; OpenRouter credit floor), and at rules that are policies rather than limits (directory sites, robots.txt, manual locks, identity proof). Its use is counted as on demand and never takes room from the scheduled shares. |
+| The request | An on-demand request names its providers and its reason and is recorded in `pipeline.on_demand_requests`, open for `ondemand.window_hours` (6) or until closed. A Claude session opens one with `security.on_demand_open_v1('claude_session', reason, providers, estimate)` before it starts the work. |
+| Before | The estimate (Firecrawl units, AI US$) and the credit left on each toolset are shown: on the screen for Run now, and in the Claude session's reply. |
+| After | `security.on_demand_close_v1(id)` records and shows the actual use (Firecrawl units by purpose; AI spend in the window) and the credit left on each toolset; the Claude session reports both. |
+| Allowances | The earlier on-demand allowances (`firecrawl.ondemand_credits_per_day`, `openrouter.ondemand_usd_per_day`) stay on screen for reference and no longer hold a run. |
+| Built | Pilot #1083 (`20261113153100`): Firecrawl spends and Run now. Phase 2: the AI daily ceiling and lane guards for on-demand AI calls (they need the request passed with the call); until then on-demand AI still meets them. |
 
 ### 3.4 Admission gate (Layer 4, per value)
 
@@ -193,6 +207,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.6 | 12 Nov 2026 | 3.3.2 On demand and scheduled work: on-demand work (a person or a Claude session) is not held by toolset limits, only by the account; scheduled work obeys every limit; a request shows its estimate and credit left before, and its actual use and credit left after (Platform Admin 12 Nov 2026 21:07; Pilot #1083). |
 | 1.5 | 12 Nov 2026 | Principle 8 and 3.6 Consumer API versions: v2 frozen, v3 open to additions until the website goes live on it, then frozen (Decision 277, Platform Admin 12 Nov 2026 21:00). |
 | 1.4 | 12 Nov 2026 | 3.3.1 adds scholarships (F-SCH production redesign: sch-extract-v3 structured extraction, evidence checks, fill of empty unlocked fields) and how G2 and directive §11 divide settings from software-managed extraction heuristics. |
 | 1.3 | 11 Nov 2026 | 3.3.1 adds Automatic admission: the prompt profile's checks again, refused topics, marketing words and words kept for human eyes to a person; figures proved in their passages pass (Pilot #1031). |
