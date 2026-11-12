@@ -1,0 +1,84 @@
+req_id,request,requested_by,date,area,status_12nov,repo_item,build_home,work_package,evidence_12nov
+REQ-01,Scholarship name,Divya,2026-08-14,Scholarship,Delivered,,,,name in scholarship API
+REQ-02,Auto applied (yes/no),Divya,2026-08-14,Scholarship,Delivered,,,WP-5,"automatic_consideration; known on 889 of 1,202 published"
+REQ-03,"Scholarship value, % or amount",Divya,2026-08-14,Scholarship,Delivered,,,,"amount_type, amount_value, scholarship_percentage, amount_note"
+REQ-04,Expected amount from / to,Divya,2026-08-14,Scholarship,Delivered,,,,"amount_value, amount_is_maximum, award_tiers"
+REQ-05,Eligible nationalities (international only),Divya,2026-08-14,Scholarship,Partly delivered,R24,Website API v3,WP-1.2,"citizenship_eligibility; 144 of 1,202 name countries; status field not built"
+REQ-06,Mode of study (full time),Divya,2026-08-14,Scholarship,Delivered,,,,study_load
+REQ-07,Study area,Divya,2026-08-14,Scholarship,Open,,Data work,WP-5,study_area_codes in API; field scopes 0 rows
+REQ-08,Scholarship duration,Divya,2026-08-14,Scholarship,Delivered,,,WP-5,"amount_type_detail; filled on 671 of 1,202"
+REQ-09,Student type (international),Divya,2026-08-14,Scholarship,Delivered,,,,student_type
+REQ-10,New or current student,Divya,2026-08-14,Scholarship,Delivered,,,,study_stages
+REQ-11,Level of study plus six eligibility flags,Divya,2026-08-14,Scholarship,Delivered,,,WP-6.2,one study_levels list with study_levels_source
+REQ-12,CRICOS-registered courses (AU),Divya,2026-08-14,Scholarship,Delivered,,,,follows from linked courses
+REQ-13,Receiving sponsorship (yes/no),Divya,2026-08-14,Scholarship,Open,,,,not held; Divya to confirm if needed
+REQ-14,Application form required and link,Divya,2026-08-14,Scholarship,Delivered,,,,"automatic_consideration, official_scholarship_url"
+REQ-15,Status open / will open / closed,Divya,2026-08-14,Scholarship,Delivered,,,,current_status worked out from dates
+REQ-16,Open and closing dates,Divya,2026-08-14,Scholarship,Delivered,,,WP-5,"dates and deadline_is_rolling; closing date on 666 of 1,202"
+REQ-17,High achiever / academic requirement,Divya,2026-08-14,Scholarship,Delivered,,,,"academic_minimum, min_academic_score"
+REQ-18,Student filter: qualification dropdown,Divya,2026-08-14,Scholarship,New field needed,O21,Website API v3,WP-3.4,not held as a list
+REQ-19,Student filter: GPA / WAM / percentage,Divya,2026-08-14,Scholarship,Partly delivered,,Website API v3,WP-3.5,min_academic_score with its scale; no common scale
+REQ-20,Student filter: English for scholarships,Divya,2026-08-14,Scholarship,New field needed,,,,not held; course English used
+REQ-21,"Course search filters (institute, course, country, level, intakes, city, fee, English, last qualification)",Divya,2026-08-31,Course,Partly delivered,R2,Website API v3,WP-1.6,all but last qualification and score
+REQ-22,Institute representatives,Divya,2026-09-01,Provider,Partly delivered,,,,"3,054 contact points, 31 named contacts at 11 providers"
+REQ-23,Global university ranking,Divya,2026-09-01,Provider,Delivered,R25,,,provider rankings in API
+REQ-24,Supabase login / GET URL,Divya,2026-09-02,Access,Declined,,,,API is the only read interface
+REQ-25,"English, intakes and scholarship detail in search",Divya,2026-10-14,API,Delivered,,,WP-6.2,server-side English and intake filters; courses call for 50 details
+REQ-26,Search by institute name,Divya,2026-10-14,API,Delivered,,,WP-6.2,provider_name filter
+REQ-27,CSV export for CRM sync,Divya,2026-10-16,API,Delivered,,,,export and sync actions
+REQ-28,Academic entry by student country and qualification,Divya,2026-11-03,Course,Partly delivered,"R19, R26, O20-O22",Website API v3,"WP-1.5, WP-1.6, Z-4","edu_country and entry_matrix in Website v2; 1,289 rows, 16 providers, 83 countries; course rows by country 0"
+REQ-29,Scholarship numeric fields,Divya,2026-11-03,API,Delivered,,,WP-6.2,"amount_type, amount_value, amount_currency, scholarship_percentage"
+REQ-30,How a scholarship is matched to a course,Divya,2026-11-03,Scholarship,Open,,,WP-6.2,answer not sent
+REQ-31,Scholarship list in search response,Divya,2026-11-03,API,Open,,Zoho (decision D-1),Z-1,Zoho search returns a count only
+REQ-32,Scholarship eligibility as structured fields,Divya,2026-11-03,Scholarship,Delivered,,,,criteria fields in API
+REQ-33,Multi-identifier provider lookup,Divya,2026-11-03,API,Delivered,,,WP-6.2,"provider_cricos_codes filter, 50 a page"
+REQ-34,English export: more tests,Divya,2026-11-03,API,Open,,Zoho (decision D-1),Z-2,export has IELTS and PTE only
+REQ-35,Provider export for all countries,Divya,2026-11-03,API,Open,,Zoho (decision D-1),Z-3,zoho.sync_countries = AU
+REQ-36,Sujata 30-field course list incl. academic entry by country,Sujata,2026-05-14,Course,Partly delivered,R19,Website API v3,WP-1.5,see REQ-28
+REQ-37,"Academic entry countries extended (ZA, UK, US, CA, NZ)",Sujata,2026-10-28,Course,Partly delivered,R19,Website API v3,WP-1.5,matrix covers 83 countries
+REQ-38,List courses (search or export),Raghav,2026-09-30,API,Delivered,R1,,,search and sync
+REQ-39,Campus city and postcode on courses,Raghav,2026-09-30,Course,Delivered,R3,,WP-5,"campuses with city, postcode, regional category"
+REQ-40,Fee per year or whole-course fee marked,Raghav,2026-09-30,Course,Delivered,R3,,,"fee_year, basis, annual_is_derived"
+REQ-41,Scholarships in API scope,Raghav,2026-09-30,API,Delivered,R7,,,scholarships actions
+REQ-42,"Provider list with city/state, QS and QILT",Raghav,2026-09-30,Provider,Delivered,"R6, R8",,,"providers, rankings, outcomes"
+REQ-43,Duolingo scores,Raghav,2026-10-16,Course,Delivered,R18,,,DET
+REQ-44,Per-nationality scholarship eligibility,Raghav,2026-10-16,Scholarship,Delivered,R20,,,"citizenship_eligibility, nationality filter"
+REQ-45,Named campus records; Lincoln; Wellington polytechnic,Raghav,2026-10-20,Provider,Partly delivered,R23,Website API v3,WP-1.1,names held; Website API sends none
+REQ-46,Scholarships page link and last reviewed date per institution,Raghav,2026-10-20,Scholarship,Open,R31 (new),Website API v3,WP-1.4,"pipeline.scholarship_listing_pages holds url, read_at"
+REQ-47,Otago fees; fee coverage; low fees,Raghav,2026-10-20,Course,Open,O31,Data work,WP-5,not rechecked
+REQ-48,"Intakes, English, duration for Massey and Canterbury",Raghav,2026-10-20,Course,Partly delivered,O31,Data work,WP-5,adapters admitting
+REQ-49,Campus names and course counts in API,Raghav,2026-11-03,API,Open,R23,Website API v3,WP-1.1,promised 3 Nov; not in Website API
+REQ-50,University-level costs,Raghav,2026-11-03,Provider,Declined,R27,,,declined 3 Nov
+REQ-51,"Data gaps doc: entry, intakes, scholarship countries, prototype data",Raghav,2026-10-24,Course,Partly delivered,O31,Data work,WP-5,"intakes 14,445 of 35,689"
+REQ-52,Full-time or part-time on courses,Raghav,2026-11-11,Course,New field needed,O25,Website API v3,WP-3.1,no field
+REQ-53,Study mode missing,Raghav,2026-11-11,Course,Partly delivered,O31,Data work,WP-5,"no mode: AU 20, NZ 3,378, CA 1,211"
+REQ-54,"Admission tests (UCAT, GAMSAT, GMAT, GRE)",Raghav,2026-11-11,Course,New field needed,O18,Website API v3,WP-3.2,no field
+REQ-55,OET and CELPIP,Raghav,2026-11-11,Course,New field needed,O14,Website API v3,WP-2.1,not in test list
+REQ-56,TEQSA category,Raghav,2026-11-11,Provider,Delivered,R9,,,45 / 8 / 137 from TEQSA register
+REQ-57,"AACSB, EQUIS, AMBA accreditations",Raghav,2026-11-11,Provider,New field needed,R30 (new),Website API v3,WP-3.3,not held
+REQ-58,Course state missing for NZ and CA,Saurabh,2026-10-13,Course,Open,,Data work,WP-5,not checked
+REQ-59,10-provider check before production,Saurabh / Sujata,2026-10-11,QA,Open,,,,agreed on a call
+REQ-60,University descriptions,Raghav,2026-10-24,Provider,Partly delivered,,Data work,WP-5,31 of 45 AU universities
+REQ-61,Course descriptions and official links,Raghav,2026-10-24,Course,Partly delivered,"O26, O31",Website API v3,WP-1.7,"3,391 descriptions"
+REQ-62,Graduate outcomes for four universities,Raghav,2026-10-24,Provider,Partly delivered,R8,Data work,WP-5,four not rechecked
+REQ-63,Rankings for 7 universities; QS 2018-2020,Raghav,2026-10-24,Provider,Partly delivered,R25,Data work,WP-5,history from 2021
+REQ-64,23 contradicting scholarship value notes,Raghav,2026-10-24,Scholarship,Open,,Data work,WP-5,not checked
+REQ-65,"Prototype reference data (cities, jobs, post-study work, occupations)",Raghav,2026-10-24,Reference data,New field needed,O27,Scope decision,,not held
+REQ-66,Import old academic entry and scholarship data,Raghav,2026-10-24,Course,Open,,Scope decision,,not imported
+REQ-67,"City population, living costs, visa charges, campus lists",Raghav,2026-10-24,Reference data,New field needed,,Scope decision,,not held
+REQ-68,"Terms of use for JSA, QILT, Home Affairs",Raghav,2026-10-24,Licensing,Open,,,,Study Square to confirm
+REQ-69,"Intake year, start date, deadline",Raghav,2026-11-02,Course,Partly delivered,"R28, O31",Website API v3,WP-0.3,"year 4,633, start 4,401, deadline 346 of 31,866 intake rows"
+REQ-70,"Fee year, basis, derived flag",Raghav,2026-11-02,Course,Partly delivered,O31,Data work,WP-5,"fee year on 11,705 of 38,431 fee rows"
+REQ-71,34 unclassified scholarship benefits,Raghav,2026-11-02,Scholarship,Partly delivered,,Data work,WP-5,32 published text-only
+REQ-72,Scholarship status vs date conflicts,Raghav,2026-11-02,Scholarship,Open,,Data work,WP-5,not rechecked
+REQ-73,Linked courses capped at 200,Raghav,2026-11-02,API,Open,R29 (new),Website API v3,WP-1.3,"176 scholarships over 200; about 22,300 links cut"
+REQ-74,Study levels source,Raghav,2026-11-02,API,Delivered,,,,study_levels_source
+REQ-75,Primary campus,Raghav,2026-11-02,Provider,New field needed,R32 (new),Website API v3,WP-1.8,no flag
+REQ-76,Field dictionary and null meanings,Raghav,2026-11-02,API,Open,R33 (new),Website API v3,WP-6.1,guides only
+REQ-77,University group membership,Sujata / Raghav,2026-11-02,Provider,Partly delivered,,Data work,,26 of 45 have a group
+REQ-78,"Scholarship extras (rolling, age, reference, renewable, scale)",Raghav,2026-09-14,Scholarship,Delivered,,,,all in scholarship item
+REQ-79,Logo redistribution rights,Raghav,2026-09-14,Provider,Delivered,O5,,,approved 14 Oct
+REQ-80,publication_status meaning,Raghav,2026-09-14,API,Delivered,,,,internal flag
+REQ-81,Named NZ campus records; campus per course,Raghav,2026-10-20,Provider,Partly delivered,R23,Website API v3,WP-1.1,see REQ-45
+REQ-82,NZ graduate outcomes,Raghav,2026-10-20,Provider,Open,,,,no NZ source held
+REQ-83,"QS and THE history with bands, ties, approval",Raghav,2026-10-20,Provider,Delivered,R25,,,"rank_display, rank_low/high, is_tied, accepted editions"
