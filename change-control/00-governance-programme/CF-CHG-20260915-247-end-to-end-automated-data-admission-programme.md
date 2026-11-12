@@ -10625,3 +10625,53 @@ Dry run on live (rolled back):
 **Next:**
 - Review the shadow sample against exact page quotes, provider identity and audience. When it passes, act on evidence-proven cases through the existing admission rule (`sch_elig.apply_on`), as the Platform Admin has authorised.
 - Report before and after figures.
+
+## 12 Nov 2026 12:45 AEDT — F-SCH.01: activation deployed (Pilot #1056); shadow validation failed and proof fixed (Pilot #1057); Firecrawl share is the binding limit
+
+**Activation (Pilot #1056, migration `20261113040000`, history md5 `be0cdd4f`, verified live).** These are the Platform Admin decisions 2–5 of 11:50 AEDT. Each change is a control event with its before value, its after value and the decision; there are 11 events.
+- `sch_elig.on` = 1, with `apply_on` left at 0 (shadow).
+- The four built recoveries are on.
+- `scholarship.pilot_only` = false: the legitimacy check now replaces the 30-course minimum, and admission-eligible providers rise from **151 to 1,537**.
+- The flow guard gains an `admission_declining` check.
+
+A session acting under the Platform Admin's identity was refused by the session's permission check. The settings were therefore applied by migration, in review and CI.
+
+**Shadow validation: not passed.** First 200 reads, US$0.037.
+- 194 were silent.
+- On 150 pages the model answered "both" from enrolment conditions (for example "be enrolled in a PhD in…"). The existing proof correctly refused these.
+- Of 5 international proofs, 3 were right: the "(international)" tag twice, and "or an International student".
+- **2 were course names**: "Master of International Business" and "international business honours program".
+- 1 domestic proof was right.
+
+So `apply_on` stays 0.
+
+**Proof fix (Pilot #1057, worker v0.76.0, migration `20261113050000`, verified live):**
+- An international proof must name who may apply. A course name no longer counts.
+- The proofs read so far are queued to be read again.
+- Shadow continues unattended at 40 reads every 10 minutes (reader total so far US$0.052).
+- A follow-up in this session is scheduled for 16:44 AEDT. It will review every proof, check spend against the shadow cap, and activate `apply_on` through a reviewed migration only if no proof is wrong.
+
+**Binding limit found:**
+- Scholarships have a Firecrawl share of 800 credits per Sydney day (`daily_share_scholarships`), out of a platform total of 4,000.
+- It was used up by 12:30 today. Every scholarship read — discovery, listings, recoveries and linked eligibility pages — then waits until midnight.
+- This is a main cause of the bursty admission pattern, and it now caps the widened scope.
+- Raising the share is a cost decision for the Platform Admin.
+
+**Before (11:55) and now (12:44):**
+| Measure | Before | Now |
+|---|---|---|
+| Published scholarships | 1,199 at 65 providers | unchanged |
+| Admission-eligible providers | 151 | 1,537 |
+| International-unresolved cases | 2,234 | unchanged |
+| Open sch Layer 4 interventions | 300 | unchanged |
+| Coverage recoveries done | 0 | 10 |
+
+The 1,293 discovery rows settled as not eligible return on the hourly settle; the dry run counted 881 returning.
+
+**No gain in admitted or published scholarships is claimed yet.**
+
+**Still with the Platform Admin:**
+1. The scholarship Firecrawl share.
+2. The silent-page policy (`sch_elig.silent_resolves`). On today's evidence most pages never state international eligibility.
+3. The value lane: 261 admitted scholarships unpublished for "no stated award value"; the lane is full at 150.
+4. The Torrens name rule.

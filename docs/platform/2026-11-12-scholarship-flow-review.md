@@ -2,7 +2,7 @@
 
 Change control: CF-CHG-20260915-247, item F-SCH.01 (Pilot #1051, worker coverage-sweep v0.75.0, migration `20261113030000`). All figures are live readings from Supabase project `fxcwkweaxjtknorudmwp`, taken 12 Nov 2026 between 09:30 and 10:40 AEDT, read only.
 
-**Status (12 Nov 2026 12:20 AEDT):** Pilot #1051 is merged and deployed (verified against live). The activation of decisions 2–5 (Pilot #1056) is in CI.
+**Status (12 Nov 2026 12:45 AEDT):** Pilot #1051 (reader and flow guard), #1056 (decisions 2–5 activated) and #1057 (stricter proof after the first shadow review) are merged and deployed, all verified against live. The reader is in shadow, and live processing waits on a passing validation.
 
 ## Summary
 
@@ -90,6 +90,11 @@ The same pattern holds for the value lane: 261 admitted scholarships wait unpubl
    - cases have been unresolved for more than 7 days
 
 Spend controls are unchanged. Reader cost goes to the AI spend ledger (lane `scholarship_ai`) and is stopped by the existing credit floor, daily ceiling and lane guard. Firecrawl goes through the scholarship share. The consumer API is untouched. Nothing is dropped.
+
+## Findings after activation
+
+- **Shadow review (first 200 reads):** 194 pages were silent. The model read "both" from enrolment conditions on 150 pages, and the proof correctly refused these. Of 5 international proofs, 2 were course names ("Master of International Business"), so the proof was tightened in worker v0.76.0 before anything was acted on.
+- **Firecrawl share:** scholarships get 800 Firecrawl credits per Sydney day, out of a 4,000 platform total. The share was used up by 12:30, after which every scholarship read waits until midnight. This is a main cause of the bursty admission pattern, and it now caps the widened scope.
 
 ## Decisions for the Platform Admin
 
