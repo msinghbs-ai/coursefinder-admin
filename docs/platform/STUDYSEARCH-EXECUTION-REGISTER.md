@@ -2899,3 +2899,20 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 2. The silent-page policy (`sch_elig.silent_resolves`). On today's evidence most pages never state international eligibility.
 3. The value lane: 261 admitted scholarships unpublished for "no stated award value"; the lane is full at 150.
 4. The Torrens name rule.
+
+## 12 Nov 2026 16:00 AEDT — F-SCH.01: scholarship admission mechanism document committed
+
+**Reference document:** `docs/platform/2026-11-12-scholarship-admission-mechanism.md`. It is the committed copy of the Claude Doc of the same name and covers:
+- the flow and the 23 scheduled scholarship jobs
+- toolset usage and spend
+- how the platform sustains itself
+- every setting that affects scholarships, with the UI page and section where it lives
+- data fields, data gaps, and development requests (committed and pending)
+
+**New gaps recorded in it (all open, no change made):**
+- Firecrawl scholarship reads do not appear in `pipeline.firecrawl_calls`.
+- `security.scholarship_scan_work_v1` still reads `scholarship_min_courses` (30) without the legitimacy switch.
+- Four Scholarships settings are still labelled "PROPOSED" although they are on.
+- The UI page for `pipeline.scholarship_layer_settings` is unconfirmed.
+
+**Eligibility reader:** still in shadow (4 proven international, 9 proven domestic, about 1,100 silent; US$0.13 spent). The 16:44 AEDT review is unchanged.
