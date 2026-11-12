@@ -2,7 +2,7 @@
 
 Change control: CF-CHG-20260915-247, item F-SCH.01 (Pilot #1051, worker coverage-sweep v0.75.0, migration `20261113030000`). All figures are live readings from Supabase project `fxcwkweaxjtknorudmwp`, taken 12 Nov 2026 between 09:30 and 10:40 AEDT, read only.
 
-**Status (12 Nov 2026 11:25 AEDT):** Pilot #1051 is green on CI (12 of 12 checks) and waiting to be merged; it is not deployed. Merging deploys it switched off and in shadow; the flow guard starts reporting within the hour.
+**Status (12 Nov 2026 12:20 AEDT):** Pilot #1051 is merged and deployed (verified against live). The activation of decisions 2–5 (Pilot #1056) is in CI.
 
 ## Summary
 

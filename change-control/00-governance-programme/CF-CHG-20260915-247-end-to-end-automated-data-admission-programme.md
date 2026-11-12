@@ -10592,3 +10592,36 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 7. The value lane.
 
 **Not claimed:** no admission gain until the shadow results are reviewed and the action is switched on. Consumer API not touched (Decision 266). Nothing dropped.
+
+## 12 Nov 2026 12:20 AEDT — F-SCH.01: merged and deployed (Pilot #1051); activation in review (Pilot #1056)
+
+**Merge:** the Platform Admin authorised both merges at 11:50 AEDT; their standing policy is merge on green, except Wix and Zoho consumer API changes. Pilot #1051 was squash-merged as `83663bd9`.
+
+**Deploy-on-merge verified against live:**
+- The migration `20261113030000` history md5 `c6f9d0b7…` equals the file.
+- `pipeline.scholarship_eligibility_reads` and `pipeline.scholarship_flow_checks` exist.
+- The jobs `scholarship-eligibility` (4-59/10) and `scholarship-flow-guard` (:43) are active and catalogued.
+- All 14 settings exist, and both md5-guarded edits are present.
+- No pilot provider stops.
+- `coverage-sweep` answered a test call as `coverage-sweep-worker-v0.75.0`, mode `scholarship_eligibility`, held "sch_elig.on is 0".
+- The flow guard's first run raised 9 cause-level issues (#381–#389): both Layer 4 lanes full, five recoveries switched off with work waiting, 346 providers in a dead-end scope, and 2,278 overdue cases.
+
+**Permission note (so it does not recur):** a session's permission check may refuse a merge, or a settings change made under the Platform Admin's identity.
+- The resolution used here is the authorised route: the Platform Admin's in-session authorisation for the merge, and a migration in review and CI for setting changes.
+- Each setting change is recorded in `admin_control_events` with its before value, its after value and the decision.
+- The standing merge policy is also recorded in the project's working preferences.
+
+**Activation (Pilot #1056, migration `20261113040000`, in CI):** the Platform Admin decisions 2–5 of 11:50 AEDT.
+- **Reader (decision 2):** on in shadow over a bounded first sample of 300 cases.
+- **Recoveries (decision 3):** all four built recoveries on.
+- **Scope (decision 4):** `scholarship.pilot_only` set false, so the legitimacy check replaces the 30-course minimum.
+- **Alerts (decision 5):** a declining-admission check added to the flow guard.
+
+Dry run on live (rolled back):
+- admission-eligible providers rise from 151 to 1,537;
+- 881 of the 1,293 refused providers return to discovery, and 412 fail the legitimacy check;
+- the five recovery-off findings clear.
+
+**Next:**
+- Review the shadow sample against exact page quotes, provider identity and audience. When it passes, act on evidence-proven cases through the existing admission rule (`sch_elig.apply_on`), as the Platform Admin has authorised.
+- Report before and after figures.
