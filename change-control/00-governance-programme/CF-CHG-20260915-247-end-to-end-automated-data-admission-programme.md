@@ -10748,3 +10748,48 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 - **Run times.** 147 runs of `course-description-machine` since deploy (11 Nov ~20:00 AEDT). Longest run 92.3 s, average 57.3 s. None over 105 s, and every run succeeded.
 - **No timeouts.** postgres_logs for the last 24 h show no statement timeout naming course_description_machine (87 statement timeouts elsewhere, none in this job).
 - **Decisions.** 1,368 machine admissions in the last 24 h, and 88 decisions in the last 6 h. 386 first descriptions are waiting in Layer 4, against 2,030 before the source-grounded release.
+
+## 12 Nov 2026 21:00 AEDT — F-SCH follow-up: eligibility proof review, detail-fill audit, developer field contract (Platform Admin 12 Nov 2026 20:19)
+
+**Eligibility reader (still in shadow).**
+- The proof v2 review found 6 of 15 proofs wrong. Five came from a linked general admissions page (Alberta University of the Arts x4, UTS). One "domestic" sentence named onshore international candidates (RMIT).
+- Pilot #1071 adds two refusals: `linked_page_not_scholarship` and `mixed_audience`.
+- Re-evaluated in shadow: 9 domestic, 4 linked pages refused, 1 mixed audience, 3 changed since. No international proof would admit now.
+- The reader stays in shadow.
+- **Gap:** a correctly proven record that was withdrawn earlier (Sydney Bowel Cancer Translational Research Scholarship) is held as `changed_since` and needs a way back.
+
+**Detail fill audit (Pilot #1072, #1073).**
+- 10 sampled descriptions matched their stored evidence.
+- Nationality criteria now need nationality wording. 25 scholarships' criteria were superseded (kept); 1 of 10 in the sample rested on a phone-code menu.
+- The fill no longer writes a description for a placeholder award under 50, and the 3 such descriptions were reverted.
+- Answer limit raised from 3000 to 4500 tokens (110 of 1,085 reads were cut off).
+
+**Audience audit of published records.**
+- 86 published records rest on a short repeated quote.
+- The v3 re-read confirms international eligibility for 76 of them; none came back domestic-only.
+- The 10 not yet re-read look genuine on inspection (structured "Domestic/international student" fields). Nothing was withdrawn.
+
+**Developer field contract.**
+- Step 1, Pilot #1075 (live, internal, no consumer change): verified award type, sponsor, programme, award code, rolling applications (`scholarship.award_details`, new) and benefits (`scholarship.coverage`). Filled for 1,432 scholarships; on published records, award type 944, benefits 1,006, sponsor 481.
+- Step 2, Pilot #1077 (**draft, held**): additive Website API v2 fields and R24, behind the release gate `api.v2_scholarship_fields_released`.
+- A rolled-back dry run on live gave 55 keys, every existing key unchanged.
+- The developer note draft is `docs/integrations/developer-pack/drafts/scholarship-fields/CHANGE-NOTE-DRAFT.md`.
+- Release waits on the developer communication and release authorisation (standing rule 12 Nov 11:50). Zoho fields follow the same pattern after the website.
+
+**Published records, 16:30 → 20:20 (1,199 → 1,203):**
+
+| Field | 16:30 | 20:20 |
+|---|---|---|
+| Description | 46 | 813 |
+| Application required | 87 | 881 |
+| Application method | 19 | 869 |
+| Award-duration record | 0 | 412 |
+| Payment basis | 552 | 672 |
+| Nationalities | 81 | 150 |
+
+v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard.
+
+**Next executable action:**
+- Proof v3 shadow review, then live only if every proof is right.
+- Re-admission path for withdrawn correct proofs.
+- Release authorisation and developer note for #1077.
