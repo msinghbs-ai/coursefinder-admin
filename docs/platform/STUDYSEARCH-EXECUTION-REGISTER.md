@@ -3041,3 +3041,21 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 - Proof v3 shadow review, then live only if every proof is right.
 - Re-admission path for withdrawn correct proofs.
 - Release authorisation and developer note for #1077.
+
+## 12 Nov 2026 21:45 AEDT — F-SCH: Scholarship Catalogue shows the detail fields with filters (Pilot #1078); API v3 coordination
+
+**Scholarship Catalogue (admin UI only; Platform Admin 12 Nov 2026 20:44: "hold on to API release but continue with data fill and make the column and filter available in ui to see results").**
+- Pilot #1078 (merged on green, deployed 10:11 UTC). Migration `20261113130000` makes six md5-guarded edits of `security.admin_scholarships_page` (live md5 before `a27526af…`, after `c831f9f5…`). The history md5 equals the file md5 (`b54c3018…`).
+- **Filters** (Scholarships › Filters): award type, nationality rule (restricted, any nationality, under review, not stated), how to apply, has description, has benefits, has sponsor, has closing date, detail read.
+- **Detail columns** (new button): award type, sponsor (with programme), benefits, how to apply (with rolling), duration, nationality rule, detail read / no description. The base columns are unchanged.
+- Sorts added: award type, sponsor, nationality, method.
+- Rolled-back dry run against live: 1,202 published, 130 restricted with benefits, 379 without a description.
+- Admin read only. Nothing the website or Zoho reads changed. #1077 stays unmerged.
+
+**API v3 coordination (Platform Admin 21:12 and 21:30).**
+- Pilot #1085 (a v3 with a Zoho copy and a release switch) is parked as a draft. It overlapped with WP-0 (Pilot #1084) and went beyond the build brief (WP-3 and WP-4 wait for D-1 to D-4).
+- WP-1.1 (R23) and WP-1.2 (R24) are being rebuilt as `website_v3_*` on top of #1084 (D-5: "proceed", 21:29). Nothing in v2 is touched.
+
+**Next executable action:**
+- Merge WP-0 (#1084) on green.
+- WP-1.1 and WP-1.2 PR on top of it, then WP-1.3 (R29).

@@ -1,0 +1,104 @@
+# StudySearch API v3 – field definition
+
+Version 0.1, 12 November 2026. Status: release 1 built (Pilot #1085). It is **not released**: both v3 URLs refuse every key until it is released.
+
+Mandate: Platform Admin, 12 Nov 2026 21:12: "API v3 is getting prepared - any new field that needs programing or missing in v2 should defined, added to v3 and be ready for website and zoho".
+
+## 1. What v3 is
+
+- **New addresses beside v2.** The website uses `website-api-v3`. Zoho uses `zoho-api-v3`. Both use the same keys, rate limits and call log as v2; calls are logged as `v3.<action>`.
+- **v2 does not change.** `website-api-v2` and `zoho-api-v2` keep running exactly as they are (Decision 266).
+- **v3 is v2 plus additions.**
+  - Every v2 action, argument, field, filter, error and page shape is the same in v3. Nothing is renamed or removed.
+  - The website and Zoho can switch one screen or one sync at a time.
+  - `api_version` reads `website-v3` or `zoho-v3`.
+- **Null means not held.**
+  - Every field defined for v3 is present on every item from release 1, so the developers build against the final shape once.
+  - A field the platform cannot fill yet is `null`. It fills in as the data is admitted, with no new release needed.
+- **One release switch.**
+  - The release switch is pipeline setting `api.v3_released` (Settings › Pipeline settings › Website API). It is off.
+  - Until it is turned on, both v3 URLs answer `403 V3_NOT_RELEASED`.
+  - Turning it on is the release step. It is taken with the release authorisation and the developer communication, under the standing rule for Wix and Zoho changes.
+- **How it is built.**
+  - Each v3 URL calls one dispatcher: `public.website_v3_call` or `public.zoho_v3_call`.
+  - The dispatcher calls the unchanged v2 function and adds the v3 fields from schema `api_v3`. The v3 answer can therefore never disagree with v2 on a v2 field.
+
+## 2. Fields in v3 release 1 (data held, filled now)
+
+| Entity | Field | Type and values | Source on the platform | Request |
+|---|---|---|---|---|
+| Scholarship | `description` | text | the scholarship description (until now only on `scholarship` detail) | F-SCH developer field contract |
+| Scholarship | `award_type` | `scholarship` · `bursary` · `tuition_waiver` · `fee_discount` · `research_funding` · `grant` · `stipend` · `other` · null | `scholarship.award_details`, from verified passages (F-SCH detail fill) | F-SCH |
+| Scholarship | `sponsor`, `programme`, `award_code` | text · null | `scholarship.award_details` | F-SCH |
+| Scholarship | `benefits[]` | `{type, amount, currency, percentage, is_maximum}` | `scholarship.coverage` (verified detail rows) | F-SCH |
+| Scholarship | `application` | `{method: separate_application · automatic_consideration · nomination · null, url, rolling}` | `scholarship.application_windows`, `award_details` | F-SCH |
+| Scholarship | `award_duration` | `{value, unit}` · null | `scholarship.coverage` | F-SCH |
+| Scholarship | `academic_year` | text · null | `scholarship.scholarships` | F-SCH |
+| Scholarship | `nationality_eligibility_status` | `restricted` · `unrestricted` · `under_review` · `unknown` (an empty list is never `unrestricted`) | nationality readings and criteria; `under_review` while a Layer 4 nationality item is pending | R24 |
+| Scholarship | `excluded_nationality_codes[]`, `nationality_regions[]` | country codes; regions as the source names them (never expanded) | nationality criteria | F-SCH |
+| Provider | `campuses[]` | one item per campus, never merged by city: v2 keys plus `campus_id`, `campus_name`, `course_count` | `catalogue.campuses`, returned courses linked to each campus | R23 |
+| Course | `intakes[].start_date_status` | closed list of 11 values (section 2.1) | course intakes and the intake planner's last decision | R28 |
+| Course | `description_excerpt` | text, cut at a full word (length: setting `api.v3_description_excerpt_chars`, 280) | the served course description | O26 |
+| Reference | `v3` | the closed lists: `start_date_statuses`, `nationality_eligibility_statuses`, `award_types`, `application_methods` | fixed in v3 | — |
+
+### 2.1 `start_date_status` (R28)
+
+The values are `known`, `no_official_calendar`, `month_only`, `not_on_course_page`, `course_page_not_verified`, `next_year_calendar_pending`, `not_yet_read`, `own_calendar`, `conflicting_evidence`, `held_for_review` and `rolling`. Their meanings and what to show visitors are in WEBSITE-DEVELOPER-REQUIREMENTS.md, section "Intake start-date status".
+
+| Status | Live 12 Nov 2026 21:3x (AU active intakes, 24,625) |
+|---|---|
+| no_official_calendar | 10,575 |
+| known | 4,420 |
+| course_page_not_verified | 3,144 |
+| month_only | 2,765 |
+| next_year_calendar_pending | 1,491 |
+| conflicting_evidence | 1,079 |
+| not_yet_read | 779 |
+| own_calendar | 250 |
+| held_for_review | 91 |
+| not_on_course_page | 31 |
+
+## 3. Fields defined in v3, null until the platform holds them
+
+Each of these needs a reader, a register or a data programme before it can be filled. The key is already present (null) on every v3 item. Its type is fixed here, so the website and Zoho can build the display now.
+
+| Entity | Field | Defined type | What must be built first | Item |
+|---|---|---|---|---|
+| Course | `teaching_language` | ISO 639-1 code, e.g. `en` | a course-page reader for the language of instruction | O17 |
+| Course | `study_load` | `full_time` · `part_time` · `both` | an attendance field in the catalogue (the Courses rule keeps full-time on-campus today) | O25 |
+| Course | `post_study_work` | `{scheme, months, basis, source_url}` (485, PSWV, PGWP, OPT) | country rule tables plus the course's level and field code | O27 |
+| Course | `field_of_study_codes` | `[{scheme: ASCED·CIP·NZSCED, code}]` | code crosswalks per country | O28 |
+| Course | `recognition` | `[{scheme: NZQA·DLI·ILEP·CROHO·MQA…, status, source_url}]` | the official registers | O29 |
+| Course | `admission_tests` | `[{test, required: required·optional·test_optional, min_score, quote, source_url}]` | an admission-test reader | O18 |
+| Course | `entry_conditions` | `[{kind: APS·NAWA·UNEDasiss·foundation·entrance_exam, applies_to: country codes, quote, source_url}]` | an AER v2 condition reader | O19 |
+| Course | `application_route` | `{route: UCAS·uni-assist·OUAC·…·direct, url, limited_places}` | country route reference data | O23 |
+| Provider | `logo_dark`, `brand_colour` | logo object as `logo` · `#rrggbb` | brand assets are not held | R11 |
+
+## 4. Later v3 releases (data held, extra programming needed)
+
+These items are candidates for release 2. Each adds a key or filter to v3 only, and each is recorded here before it is built.
+
+| Item | Change in v3 | Notes |
+|---|---|---|
+| O20 | `quote` and `source_url` on `entry_matrix[]` items; `source_url` on `entry.resolution.rows[]` | data held; needs matching each served row to its admitted record |
+| O22 | `has_academic_entry` filter on `search` (optionally `edu_country`) | parity with `has_english` |
+| O16 | `english_waivers[]` by country of previous education | AER v2 reader |
+| O13, O14, O15 | more language tests in `ref` and level-type requirements (CEFR, TOPIK, JLPT…) | reference data and reader |
+| O21 | qualification codes and a list per country of education in `reference` | reference data |
+| Zoho export | v3 columns in the `export` CSV | release 1 serves the v2 CSV; the v3 fields come through `search`, `course(s)`, `provider(s)`, `scholarship(s)` and `sync` |
+| R21 | lighter standard logo copy | waits for the formats Wix accepts |
+
+## 5. Not in v3 by decision
+
+The following stay out of v3:
+
+- R13 and R27: university-level average tuition and costs. There is no sound basis.
+- R14: prototype table shapes.
+
+## 6. Release checklist (when authorised)
+
+1. Measure the v3 timings against v2 on the live project (search, scholarships and sync pages).
+2. Issue the v3 developer guide: the v2 guide plus sections 2 and 3, with an OpenAPI file and a Postman collection.
+3. Record the release authorisation. Set `api.v3_released` = 1 with that reason.
+4. Add the v3 functions to the consumer API baseline and to the G3 list in CLAUDE.md. From release on, v3 is frozen like v2: fields are only added.
+5. Confirm the first website and Zoho calls in Operations › API usage, where they are logged as `v3.<action>`.
