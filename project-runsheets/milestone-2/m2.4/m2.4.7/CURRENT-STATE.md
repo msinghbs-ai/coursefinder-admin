@@ -10775,3 +10775,17 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 **Retired:** the 11 Oct scraper-only rule for single pages, the default second-model confirmation, and the Layer 4 review for unproven or failed AI answers. Prompt version 2 is kept for audit. Obsolete settings and pilot mechanisms are not retired yet.
 
 **Next executable action:** shadow review of proof v2 reads. Then audit the published audience proofs against the boilerplate test. Then a cost per verified field report after two unattended backfill cycles.
+
+### 12 Nov 2026 21:30 AEDT — F-INT: Australian intake dates admitted tonight; start-date reasons recorded for the developer handover (R28)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 19:48: say why an exact commencement is empty (course page, academic calendar, not fetched), with a holder value per reason, recorded for the developer handover; "fasten up data admittance ... either by you directly or by using platform toolset ... data admitted by tonight for australian unis" |
+| Rule B approvals (Decision 275 register) | On the instruction: Bond, UQ, Deakin, Edith Cowan, ACAP, Wollongong, AIM (11 Nov register, Bond and UQ checked against official 2027 calendars); QUT after its calendar was approved tonight. ACU and Southern Cross left out for review |
+| Admitted tonight | 1,329 intakes dated (Bond 250, UQ 227, Deakin 257, Edith Cowan 218, QUT 281, ACAP 17, Wollongong 9, AIM 10, USQ and SCU normal routes 57, other 3). No vocational, pathway or research course dated by Rule B; one date per month per university |
+| Calendars | Official 2027 calendar pages added by hand as calendar sources (found_via manual): QUT (read, approved by calendar-qualify-v1: 22 Feb, 19 Jul, 15 Nov 2027), Western Sydney (2 pages), Murdoch, Griffith (read; no dated start the reader can prove: script-drawn dates, numeric dates without a month name, month-grid PDF). Firecrawl central share raised to 2,050 for the 5 reads and restored to 1,000 (central had spent 1,999 on AER discovery) |
+| Australia now | Universities: 4,215 of 14,164 active intakes have an exact start date (about 2,900 this morning). API courses with a start date 2,467 (1,893 this afternoon); search refresh queue draining |
+| Why the rest are empty (live, all AU intakes) | no_official_calendar 10,137; course_page_not_verified 3,144; month_only 2,887; next_year_calendar_pending 1,490; conflicting_evidence 1,078; not_yet_read 819; own_calendar 230; held_for_review 91; not_on_course_page 32 |
+| Handover | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` R28 and section "Intake start-date status": proposed `intakes[].start_date_status` (closed list, meanings, website display rule, mapping). Consumer API change under G3: awaiting Platform Admin approval; nothing returned yet |
+| Next | Calendar readers for numeric dates (Murdoch), script-drawn pages (Western Sydney) and month-grid PDFs (Griffith); calendars for Alphacrucis, SAE; ACU and Southern Cross review; course-page identity (Adelaide, SCU) |
+| Consumer API | Not touched (Decision 266) |
