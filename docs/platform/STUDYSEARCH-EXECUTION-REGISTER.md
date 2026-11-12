@@ -2979,3 +2979,13 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 | Workstream B | discovery outcomes: 7 universities publish on course pages only (Canterbury, Murdoch, La Trobe, ACU, JCU, Southern Cross, Sunshine Coast; 1,372 courses): their coverage needs v2 course reading with applicant countries; Macquarie's three Academic Entry PDFs failed to fetch; QUT's 23 sources are course pages |
 | Human (Layer 4) | Sydney approve as read; UWA and Adelaide Approve except; UTas pair; UNSW 21 and UQ 5 course links |
 
+## 12 Nov 2026 20:20 AEDT — Decision 276 continued without the Platform Admin ("Proceed without depending on me", 19:09): v2 step 0 complete, step 1 shadow on (Pilot #1067 to #1070, #1068, #1074)
+
+| Item | State |
+|---|---|
+| v2 step 0 | Labelled set and resolver coverage (#1066); independent table completeness module (#1069, countries the table rows name vs countries recorded; WSU complete, a skipped country reported from the page alone); coverage screen counts admitted entry requirements (#1070; dry run: academic_entry 35,689 no_reader to 1,079 admitted) |
+| v2 step 1 | Shadow course-page reader (#1068): prompt `aer-v2-course-v1` in `pipeline.aer_prompt_versions` (trial, pinned to openai/gpt-4.1-mini, sha-256 checked), verifier in `aer-v2.ts`, results in `pipeline.aer_v2_shadow_results`, job `aer-v2-shadow` (:08, :38), US$20 budget and daily share; nothing admitted. Switched on by #1074 (Decision 276 step 1) |
+| Sydney, UNSW, UQ | Rule D1 holds them by recorded rules: Sydney's 178 qualification rows have unresolved applicability (never inferred; a person decides); UNSW and UQ have course labels for a person. Partial machine admission would be new policy and v1 is frozen, so they wait for Layer 4 without blocking v2 |
+| Macquarie | The three official Academic Entry PDFs are refused by mq.edu.au (HTTP 403 again after #1067): bot protection. PDFs are fetched directly only (column proof needs the PDF), so Macquarie needs an uploaded copy or v2's fetch route |
+| Next | shadow report after the first runs (pass rate, applicant-country share, agreement with the labelled set, cost); prompt v2 from its failures; table shadow with the completeness module; own AI lane |
+
