@@ -10578,3 +10578,51 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 **Other items:**
 - Still open: the Website search description field, study level and course code in the lease (C3), the 26 admitted descriptions with generic phrases, and the ledger backfill decision.
 - The QA C1 24-hour check for #1033 is due 12 Nov 20:30.
+
+## 12 Nov 2026 11:25 AEDT — F-SCH.01: scholarship admission flow review; eligibility reader before Layer 4; scholarship flow guard (Pilot #1051)
+
+**Mandate:** Platform Admin, 12 Nov 2026 09:25 AEDT: find why scholarships are admitted slowly and why providers and scholarships are missing; explain the parking on Layer 4; build readers where required; make the platform autonomous and self-sustaining for this in future.
+
+**Findings (live, read only, 09:30–10:40 AEDT; full review in `docs/platform/2026-11-12-scholarship-flow-review.md`):**
+- **Slow admission.** Five built recoveries have stayed switched off with work waiting since the 4 Nov reconciliation:
+  - `sch_cov.recover_listings_on`: 144 suggested listings never read; 472 listing cases not traversed
+  - `sch_cov.recover_register_pages_on`: 19 register pages never read
+  - `sch_cov.recover_stored_reads_on`: refused pages that could be re-read from their stored copy
+  - `retry.scholarship_transient_recover_on`: 68 failed-read Layer 4 reviews
+  - `har.ai_escalate_on`, with no escalation model set
+
+  Admission ran in bursts: five of the last fourteen days had nothing found or admitted.
+- **Parking on Layer 4.** 2,226 cases were refused only for `international_not_stated`. In 1,870 of them no eligibility text was captured at all. Each went straight to a person (`har_sch_generate_v1`), with no second read. The `sch_coverage` lane is at its cap of 150, so about 2,080 cases wait with neither a reader nor a person. The `sch_value` lane is also full at 150, with 261 admitted scholarships unpublished for "no stated award value".
+- **Missing providers.**
+  - The 30-course minimum refuses 1,293 Australian providers. The legitimacy check meant to replace it applies only to the 8 pilot providers while `scholarship.pilot_only` is on.
+  - 306 NZ and CA non-universities are refused by the pilot-only rule.
+  - 180 providers (170 with pages already found) sit in "source not discovered", a state no job can move.
+  - Canada's gap is upstream: 52 of 1,130 providers have active courses.
+- **Pilot report.** The two pilot stops were measurement errors: 7 EIT records were withdrawn after a later re-read, and 2 ICMS records are `international_and_domestic`.
+
+**Built (Pilot #1051, worker coverage-sweep v0.75.0, migration `20261113030000`):**
+1. **Eligibility reader** (mode `scholarship_eligibility`; job `scholarship-eligibility` every 10 minutes; `sch_elig.on`, ships 0).
+   - It asks the stored page who may apply, requiring the exact sentence.
+   - If the page is silent, it reads one linked eligibility or conditions page on the same site, using Firecrawl through the scholarship share.
+   - Reader cost goes to the AI ledger (lane `scholarship_ai`), under the existing floor, ceiling and guard.
+2. **Rule** (`sch_elig.apply_on`, ships 0, shadow): when live, a proven sentence is acted on only by the existing `scholarship_admit_from_provider_page_v1`, or the case is resolved as domestic only. Still-silent cases follow `sch_elig.silent_resolves`, which ships 0 and is a policy decision.
+3. **Layer 4 routing** (`har_sch_generate_v1`, md5-guarded): while the reader is on, an eligibility case goes to a person only after the reader is silent.
+4. **Pilot report** (md5-guarded): the corrected measure.
+5. **Flow guard** (`scholarship_flow_guard_v1`, job `scholarship-flow-guard` hourly, on, reports only): one integration issue per cause — a full lane, a recovery switched off with work waiting, a dead-end scope, an admission stall, or overdue cases — cleared when the cause is gone.
+
+**Verification:**
+- Dry runs on live, rolled back: every edit applied once; 1,604 cases at 66 admission-eligible providers queued in 0.8 s; a second run added none; the record path and ledger work; the guard raised its issues; no pilot provider stops.
+- CI green on PR head `e9bd2a7e`: 12 of 12 checks. `provider-description` failed once on an unrelated fixture tie (`pdesc-reservation-settlement`, newest copy `about` against `overview`) and passed on re-run.
+- Locally, 696 source tests in the 112 specs that read the worker or the edited functions pass.
+- **Status at 12 Nov 2026 11:25 AEDT: not merged and not deployed.** The merge step was refused by the session's permission check (merge without review), so it waits for the Platform Admin to merge or authorise it. Deploy-on-merge then applies the migration and the worker, and the post-deploy check is recorded as a new entry.
+
+**Decisions with the Platform Admin:**
+1. Reader on in shadow.
+2. Act on proven sentences, after the shadow review.
+3. Silent-after-read policy.
+4. The five built recoveries.
+5. Scope: pilot-only off, and the course minimum replaced by the legitimacy check, staged.
+6. Torrens name rule (`sch_cov.legal_name_identity_on`).
+7. The value lane.
+
+**Not claimed:** no admission gain until the shadow results are reviewed and the action is switched on. Consumer API not touched (Decision 266). Nothing dropped.
