@@ -3059,3 +3059,18 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 **Next executable action:**
 - Merge WP-0 (#1084) on green.
 - WP-1.1 and WP-1.2 PR on top of it, then WP-1.3 (R29).
+
+## 12 Nov 2026 22:10 AEDT — Website API v3: R23 and R24 live in v3; v2 drafts closed (D-5)
+
+**Platform Admin, 12 Nov 2026 22:03: "V3 api is getting generated … merge 945 and 954 on v3 and update relevant apiv3 docs".**
+- R23 (provider `campuses[]` one item per campus with `campus_id`, `campus_name`, `course_count`) and R24 (scholarship `nationality_eligibility_status`) are the v3 rebuild of the v2 drafts Pilot #945 and #954. They are in Pilot #1088 (merged on green, `514cb3bd`; Deploy on merge, Deployed UAT and Frontend Build passed).
+- Migration `20261113190000` is applied on live. Its recorded statements equal the file (md5 `80d0fe37…`). It replaces only the six `website_v3_*` wrappers. No v2, `api.*` or consumer table is touched.
+- Live read-back: Monash on v2 returns 8 merged campus items, on v3 9 named campuses with course counts. v3 scholarships return the status (sample: 1 `restricted`, 4 `unknown` of 5). v2 functions are unchanged (md5 `57115d3b…`, `d1792cc7…`).
+- Pilot #945 and #954 closed unmerged (D-5). Admin #386 (v2 Issue 8 for R23/R24) closed as superseded.
+- v3 deployed state recorded in `api-v3/API-V3-FIELD-DEFINITION.md` (0.2), the build brief (1.2), the v3 README and WEBSITE-DEVELOPER-REQUIREMENTS (2.14).
+
+**Open for the Platform Admin:**
+- The deployed `website-api-v3` (#1084) has no release gate: it answers any valid website key. The release-1 design in draft Pilot #1085 adds `api.v3_released`, Zoho v3, dispatchers and O26. Decide which shape v3 keeps. The website has not switched to v3, so v3 stays open (additions only).
+- v3 developer guide (WP-0.4 / WP-6) not yet issued.
+
+**Next executable action:** WP-1.3 R29 (scholarship linked-course paging) in v3.
