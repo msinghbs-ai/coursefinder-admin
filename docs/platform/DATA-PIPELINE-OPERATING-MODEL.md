@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.4 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
+**Version:** 1.5 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -14,6 +14,7 @@
 5. **Replace means retire.** A change that brings a new way of doing something switches the old way off in the same change and records it.
 6. **Everything is registered.** Every job, function, edge function, table, screen and setting is in the component register with its layer, purpose and status.
 7. **Secure by default.** Row-level security on every table, no public execute, pinned search paths, keys stored as hashes, no secrets in the repositories.
+8. **Consumer API versions: the live one is frozen, the next one is open until it goes live (Decision 277).** The version the website reads today (Website API v2) is frozen (G3, Decision 266). New consumer work goes into the next version (Website API v3), a separate copy reading the same data. The next version takes additions freely until the website goes live on it; at go-live it joins the frozen surface and the version after it becomes the open one.
 
 ## 2. The four layers
 
@@ -101,6 +102,18 @@ Text that AI writes from an official page (first: a provider's description, `202
 
 A country is returned by the website API when all of these hold (settings per country): providers loaded and published switch on; at least 60% of courses have a course page, study level and field of study; at least 40% have English (or the language of instruction) and an intake; no open source-gate stop. The gate is checked daily and recorded. The Platform Admin can close it at any time.
 
+### 3.6 Consumer API versions (Decision 277, Platform Admin 12 Nov 2026 21:00)
+
+| Version | State | Changes allowed |
+|---|---|---|
+| Website API v2 (`website-search-v2`, `website_v2_*`, `api.*`, Zoho functions) | Live, frozen (G3) | None without the Platform Admin's recorded approval and a re-baseline |
+| Website API v3 (`website-search-v3`, `public.website_v3_*`) | Open, not yet used by the website | Additions (fields, filters, actions, behaviour), recorded in the developer requirements register and the v3 guide; nothing in v2 touched |
+
+- The Layer 4 admission gate and the country publish gate feed both versions equally; a version decides only what it returns, never what is admitted.
+- **Go-live of v3:** the Platform Admin records the date the website switches. In the same change v3 is added to the frozen surface (CLAUDE.md G3, the consumer API baseline, the `s57` guard). From then v3 follows G3.
+- v2 keeps running until the Platform Admin decides to retire it; a retirement is a paste file, never an applied migration.
+- First v3 addition: R28, `intakes[].start_date_status` (why an intake has no exact start date).
+
 ## 4. Onboarding a new country
 
 | Stage | What is done | Done when |
@@ -180,6 +193,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.5 | 12 Nov 2026 | Principle 8 and 3.6 Consumer API versions: v2 frozen, v3 open to additions until the website goes live on it, then frozen (Decision 277, Platform Admin 12 Nov 2026 21:00). |
 | 1.4 | 12 Nov 2026 | 3.3.1 adds scholarships (F-SCH production redesign: sch-extract-v3 structured extraction, evidence checks, fill of empty unlocked fields) and how G2 and directive §11 divide settings from software-managed extraction heuristics. |
 | 1.3 | 11 Nov 2026 | 3.3.1 adds Automatic admission: the prompt profile's checks again, refused topics, marketing words and words kept for human eyes to a person; figures proved in their passages pass (Pilot #1031). |
 | 1.2 | 11 Nov 2026 | 3.3.1 AI-written text: prompt-based wording maintained on screen, one-click on demand outside the task's own limits, regular scan within them, hand-entered values never replaced (Platform Admin 11 Nov 2026 14:51, 14:57; provider descriptions first). |
