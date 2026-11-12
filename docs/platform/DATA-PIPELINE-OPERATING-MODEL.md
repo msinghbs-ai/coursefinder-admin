@@ -121,7 +121,7 @@ A country is returned by the website API when all of these hold (settings per co
 | Version | State | Changes allowed |
 |---|---|---|
 | Website API v2 (`website-search-v2`, `website_v2_*`, `api.*`, Zoho functions) | Live, frozen (G3) | None without the Platform Admin's recorded approval and a re-baseline |
-| Website API v3 (`website-search-v3`, `public.website_v3_*`) | Open, not yet used by the website | Additions (fields, filters, actions, behaviour), recorded in the developer requirements register and the v3 guide; nothing in v2 touched |
+| Website API v3 (`website-api-v3`, `public.website_v3_*`) | Open, not yet used by the website | Additions (fields, filters, actions, behaviour), recorded in the developer requirements register and the v3 guide; nothing in v2 touched |
 
 - The Layer 4 admission gate and the country publish gate feed both versions equally; a version decides only what it returns, never what is admitted.
 - **Go-live of v3:** the Platform Admin records the date the website switches. In the same change v3 is added to the frozen surface (CLAUDE.md G3, the consumer API baseline, the `s57` guard). From then v3 follows G3.
