@@ -1,6 +1,13 @@
 # StudySearch API v3 – field definition
 
-Version 0.1, 12 November 2026. Status: release 1 built (Pilot #1085). It is **not released**: both v3 URLs refuse every key until it is released.
+Version 0.2, 12 November 2026. Status: release 1 built (Pilot #1085). It is **not released**: both v3 URLs refuse every key until it is released.
+
+> **Deployed state, 12 Nov 2026 22:10 AEDT (read this before section 1).** What is live is the WP-0 copy, not the release-1 design below:
+> - **Live:** edge function `website-api-v3` (version 1, Pilot #1084) and the `public.website_v3_*` functions, which wrap the unchanged v2 functions. R28 `intakes[].start_date_status` (#1084, migration `20261113180000`). R23 provider `campuses[]` one item per campus with `campus_id`, `campus_name`, `course_count`, and R24 scholarship `nationality_eligibility_status` (Pilot #1088, merge `514cb3bd`, migration `20261113190000`; the applied statements equal the file, md5 `80d0fe37…`).
+> - **Not live (draft Pilot #1085):** `zoho-api-v3`, the dispatchers `website_v3_call` / `zoho_v3_call`, schema `api_v3`, O26 and the release switch `api.v3_released` (no setting row on live).
+> - **So, today:** `website-api-v3` has no release gate. It answers any valid website key. The website has not switched to it, so under Decision 277 v3 is still open (additions only) and not yet frozen.
+> - **v2 unchanged:** `api.website_v2_provider_campuses` and `api.website_v2_scholarship_item` are at their 5 Nov definitions (md5 `57115d3b…`, `d1792cc7…`). Monash: v2 returns 8 merged campus items, v3 returns 9 named campuses with course counts.
+> - **Decision for the Platform Admin:** whether v3 keeps the #1084 shape (no gate; go-live is the website switching) or takes #1085's gate and Zoho copy. Until that is decided, sections 1 and 6 below describe #1085, not what is deployed.
 
 Mandate: Platform Admin, 12 Nov 2026 21:12: "API v3 is getting prepared - any new field that needs programing or missing in v2 should defined, added to v3 and be ready for website and zoho".
 
