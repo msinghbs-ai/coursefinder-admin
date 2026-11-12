@@ -10810,3 +10810,62 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 **Next executable action:**
 - Merge WP-0 (#1084) on green.
 - WP-1.1 and WP-1.2 PR on top of it, then WP-1.3 (R29).
+
+## 12 Nov 2026 22:50 AEDT — F-INT and Website API v3: calendar reader v2.4, E16 address variants, Decision 277 and v3 with R28 live
+
+**Asked by:** Platform Admin, 12 Nov 2026 at 20:57 ("proceed with all steps") and 21:00 ("Build R28 in v3 instead of v2? yes"; "keep v3 open to additions until the website goes live on it, then freeze it. record this in operational model and in relevant admin repo docs"). The consumer API notice of 21:30 was checked: this work does not conflict with it, and WP-0 of the v3 build brief is now done.
+
+**Decision 277 recorded (admin #454, plus the v3 naming fix in this entry):**
+- Design reference: Decision 277.
+- Data pipeline operating model v1.5: principle 8 and section 3.6.
+- Agent operating model v1.16: until go-live, a v3 PR merges on green CI.
+- Website developer requirements v2.12: rule 1 now states the versions; R28 is approved and live in v3 only.
+- Pilot CLAUDE.md G3: v3 is outside the frozen surface until the website goes live on it.
+
+**Website API v3 (Pilot #1084, migration 20261113180000; live and verified):**
+- Edge function `website-api-v3`, version 1, verify_jwt false. The live source matches the file.
+- Twelve `public.website_v3_*` functions, one for each of the nine actions. Course, search and sync add `intakes[].start_date_status` through `security.intake_start_date_status_v1`, which returns one of 11 fixed values.
+- Live check: the v3 course answer equals v2 apart from `start_date_status`, and `providers` equals v2.
+- v2 is untouched, and s57 passed.
+- Still open: WP-0.4 (v3 keys and the guide skeleton).
+
+**Calendar reader v2.4 (Pilot #1082; worker v0.81.0 deployed as version 273):**
+- A start in a month-grid calendar now takes its month from the month heading above its row. Spec s537.
+- The Griffith 2027 Academic Calendar PDF was read and approved: Trimester 1 on 1 Mar, Trimester 2 on 12 Jul, Trimester 3 on 1 Nov 2027.
+- Griffith qualified under Decision 275 (6 Rule B dates, no quality reason) and was added to the list on the 20:57 instruction (admin_control_events 36187).
+- 9 Griffith intakes were dated. Most Griffith pages say "February" for Trimester 1, which the calendar starts on 1 March, so those stay held as conflicting evidence.
+
+**Course-page identity, E16 (Pilot #1086 and #1089, migrations 20261113181000 and 20261113182000; live md5 values verified):**
+- **Cause.** `security.course_page_check_v1` and `security.intake_page_wording_v1` found the stored page only by its exact address. They missed:
+  - the trailing-slash variant (Southern Cross, Wollongong: 667 intakes);
+  - the same path on the provider's alias host (Adelaide University, adelaide.edu.au against adelaideuni.edu.au: 374 intakes).
+- **Fix.** New helper `security.course_page_url_variants_v1`. Every identity rule is unchanged.
+- **Speed.** #1089 also fixes a slowdown that #1086 introduced (about 265 ms a check, down to about 50 ms).
+- **Result.** 3,111 held rows were re-planned. The identity check now passes for most of them. The rest stop at their real reason: no single calendar start, month only, or still unproven.
+
+**Calendars not admitted, and why:**
+- **Murdoch.** The teaching-periods page lists more than 100 coded periods. The AI reader returns only the first 20, so S1 (22/02/2027) and S2 (26/07/2027) are never reached. Raising the answer length did not help (setting restored; events 36129, 36130, 36145). Needs a table reader (follow-up).
+- **Western Sydney.** The only dated page is the study-abroad page, which is correctly set aside. The 2027 dateline page draws its dates by script.
+- **Alphacrucis and SAE.** No official dated 2027 calendar is published. SAE publishes only orientation weeks ("1-5 February 2027").
+
+**Australia, start-date status, live at 22:3x:**
+
+| Status | Intakes |
+|---|---|
+| Known | 4,421 |
+| No official calendar | 9,070 |
+| Course page not verified | 3,058, falling as the re-plan runs |
+| Month only | 2,766 |
+| Not yet read | 1,726 |
+| Next year's calendar pending | 1,490 |
+| Conflicting evidence | 1,224 |
+| Own calendar | 250 |
+| Held for review | 91 |
+| Not on course page | 32 |
+
+**Test register:** regenerated; s537, s538 and s539 added.
+
+**Next executable action:**
+- Murdoch table reader.
+- WP-0.4 (v3 keys and the guide skeleton), then WP-1.1.
+- Let the intake planner finish re-planning the E16 rows, and report the dates added.
