@@ -2965,3 +2965,17 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 **Retired:** the 11 Oct scraper-only rule for single pages, the default second-model confirmation, and the Layer 4 review for unproven or failed AI answers. Prompt version 2 is kept for audit. Obsolete settings and pilot mechanisms are not retired yet.
 
 **Next executable action:** shadow review of proof v2 reads. Then audit the published audience proofs against the boilerplate test. Then a cost per verified field report after two unattended backfill cycles.
+
+## 12 Nov 2026 18:30 AEDT — Decision 276 (AER v2 approved with amendments): first releases (Pilot #1065, #1066; admin Decision 276, AER design v0.3)
+
+| Item | State |
+|---|---|
+| Decision 276 | Recorded in the design reference; AER design v0.3 §9 (five amendments, precision gate, v1 frozen) |
+| Throughput | `aer.machine_daily_max` 1,000 (live, verified); review after seven days. Course-page reading kept at 200 a day: measured that v1 course rows name no applicant country, so more reads would not move coverage |
+| v1 freeze | Pilot CLAUDE.md: correctness and security fixes only |
+| v2 step 0, part 1 | Live: `pipeline.aer_labelled_rows_v1` (5,334 labelled rows: country tables 975 person, 165 D1, 107 rejected, 18 left out; course pages 2,850 accepted, 691 rejected) and `security.aer_resolver_coverage_v1` |
+| Coverage baseline (resolver, 20 applicant countries) | 1,072 of 35,338 active international courses have a published minimum for at least one country; IN 714, SG 677, BD 494, TH 481, US 470 … NG 22 |
+| Next (v2 step 0, part 2) | independent table completeness measure; coverage screen `academic_entry` from the resolver measure; own AI lane for AER reads; then step 1 shadow on stored copies |
+| Workstream B | discovery outcomes: 7 universities publish on course pages only (Canterbury, Murdoch, La Trobe, ACU, JCU, Southern Cross, Sunshine Coast; 1,372 courses): their coverage needs v2 course reading with applicant countries; Macquarie's three Academic Entry PDFs failed to fetch; QUT's 23 sources are course pages |
+| Human (Layer 4) | Sydney approve as read; UWA and Adelaide Approve except; UTas pair; UNSW 21 and UQ 5 course links |
+
