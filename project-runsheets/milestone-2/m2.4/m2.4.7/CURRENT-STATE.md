@@ -10789,3 +10789,10 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 | Handover | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` R28 and section "Intake start-date status": proposed `intakes[].start_date_status` (closed list, meanings, website display rule, mapping). Consumer API change under G3: awaiting Platform Admin approval; nothing returned yet |
 | Next | Calendar readers for numeric dates (Murdoch), script-drawn pages (Western Sydney) and month-grid PDFs (Griffith); calendars for Alphacrucis, SAE; ACU and Southern Cross review; course-page identity (Adelaide, SCU) |
 | Consumer API | Not touched (Decision 266) |
+
+## 12 Nov 2026 20:35 AEDT — QA C1 for Pilot #1033 (course-description-machine bounded by its statement): 24-hour check passed
+
+- **Live bodies unchanged.** `course_description_machine_settle_v1` is still `5fa17251727adbb49cb718be889fce54`, and `course_description_machine_consumer_recheck_v1` is still `f4b6bc3e45866782c5f694046d07131f`.
+- **Run times.** 147 runs of `course-description-machine` since deploy (11 Nov ~20:00 AEDT). Longest run 92.3 s, average 57.3 s. None over 105 s, and every run succeeded.
+- **No timeouts.** postgres_logs for the last 24 h show no statement timeout naming course_description_machine (87 statement timeouts elsewhere, none in this job).
+- **Decisions.** 1,368 machine admissions in the last 24 h, and 88 decisions in the last 6 h. 386 first descriptions are waiting in Layer 4, against 2,030 before the source-grounded release.

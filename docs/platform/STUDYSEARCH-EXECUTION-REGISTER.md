@@ -2989,3 +2989,10 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 | Macquarie | The three official Academic Entry PDFs are refused by mq.edu.au (HTTP 403 again after #1067): bot protection. PDFs are fetched directly only (column proof needs the PDF), so Macquarie needs an uploaded copy or v2's fetch route |
 | Next | shadow report after the first runs (pass rate, applicant-country share, agreement with the labelled set, cost); prompt v2 from its failures; table shadow with the completeness module; own AI lane |
 
+
+## 12 Nov 2026 20:35 AEDT — QA C1 for Pilot #1033 (course-description-machine bounded by its statement): 24-hour check passed
+
+- **Live bodies unchanged.** `course_description_machine_settle_v1` is still `5fa17251727adbb49cb718be889fce54`, and `course_description_machine_consumer_recheck_v1` is still `f4b6bc3e45866782c5f694046d07131f`.
+- **Run times.** 147 runs of `course-description-machine` since deploy (11 Nov ~20:00 AEDT). Longest run 92.3 s, average 57.3 s. None over 105 s, and every run succeeded.
+- **No timeouts.** postgres_logs for the last 24 h show no statement timeout naming course_description_machine (87 statement timeouts elsewhere, none in this job).
+- **Decisions.** 1,368 machine admissions in the last 24 h, and 88 decisions in the last 6 h. 386 first descriptions are waiting in Layer 4, against 2,030 before the source-grounded release.
