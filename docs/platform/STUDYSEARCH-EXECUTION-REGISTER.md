@@ -3104,3 +3104,29 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 - v3 developer guide (WP-6) not yet issued.
 
 **Next executable action:** WP-6 v3 developer guide; then check the first `policy-add-tests` runs for OET and CELPIP.
+
+
+## 12 Nov 2026 23:45 AEDT — F-CDESC: AI key weekly limit reached; stranded and refused description reads put back in line
+
+**Platform Admin, 12 Nov 2026 22:05: "dont limit on data admittance make exceptions for it"; 22:11: "Proceed with best solution to conclude the v3 api and data admission".**
+
+**Blocker for every AI reader (needs the Platform Admin):** from 22:41 AEDT OpenRouter refuses every call with `HTTP 403 Key limit exceeded (weekly limit)`. This is the spending limit set on the API key in OpenRouter, not the credit (US$19.55 left). No AI read can admit data until the limit is raised or removed there. Last description admitted: 22:24.
+
+**Done (course descriptions):**
+- Settings, each with its reason (control events): `enrich.course_text_items_per_day` 4,000 → 8,000 (36163); `enrich.course_description_pending_max` 10 → 200 (36179); then `enrich.course_text_items_per_day` 8,000 → **0** as a protective stop at 23:05 (36188), because a refused call is recorded as a failed reading and a failed course is not read again for `gaps.recheck_days` (60).
+- Pilot #1096 (merge `58e373d3`, migration `20261113231000`): 732 first readings held behind the provider's places (28 providers) were made by the earlier prompt and fail today's checks; the promote step skipped them and the gap function never re-read them. They are marked `reread:`. Live: 732 marked, 2 still held, recorded md5 equals the file.
+- Pilot #1100 (merge `47392a88`, migration `20261113241000`): the 3,858 description reads recorded failed by the key-limit refusals are back to `skipped` with `reread:`. Live: 3,858 marked, 0 key-limit failures left, recorded md5 equals the file.
+- Independent QA passed both; CI and deploy on merge green. No function, check or admission rule changed; nothing was admitted by these changes.
+- Pilot #1081 (merge `3a682d6d`, migration `20261113153000`): Course catalogue "Course description" filter and the description shown as wrapped text; live definitions and the recorded migration equal the files.
+
+**Website API v3:** this session built WP-1.6 (O22) as Pilot #1094 and closed it unmerged: the integration session's #1097 delivered the same and is live. Nothing from #1094 was applied.
+
+**State (23:40):** 3,247 descriptions admitted by the machine; 386 wait in Layer 4; 4,590 readings marked to be read again; 6,639 courses never read; daily cap 0.
+
+**Next executable action:** when the key limit is raised, set `enrich.course_text_items_per_day` back to 8,000 with a reason and confirm a description is admitted.
+
+**Follow-ups:**
+- The worker and `enrich_course_text_gaps_v1` should treat a refusal by the AI service itself (key limit, credit) as "stop reading", not as a failed reading of each course.
+- Make the held-first rule permanent: a held first reading from an earlier prompt that no longer passes the checks is read again.
+- Other AI readers (AER, scholarships, enrich fields) use the same key: their owners should check for the same refusals.
+- Still open from earlier: prompt v2 decision, US$15 ledger backfill, CD-R6 retirement.
