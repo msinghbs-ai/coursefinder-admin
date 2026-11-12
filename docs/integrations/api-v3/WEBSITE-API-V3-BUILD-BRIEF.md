@@ -12,7 +12,8 @@
 > - **Already in v3 release 1:** WP-0 (copy, dispatchers, release switch `api.v3_released`), WP-0.3 R28, WP-1.1 R23, WP-1.2 R24, WP-1.7 O26. D-5 is therefore answered (rebuilt in v3; close the v2 draft).
 > - **Update 12 Nov 2026 22:10 AEDT:** WP-0 (Pilot #1084, with R28) and WP-1.1 R23 / WP-1.2 R24 (Pilot #1088, merge `514cb3bd`, migration `20261113190000`) are merged and live on `website-api-v3`. The v2 drafts Pilot #945 and #954 are closed unmerged (D-5); Admin draft #386 (v2 Issue 8 for R23/R24) is closed as superseded. #1085 (Zoho v3, dispatchers, `api.v3_released`, O26) is still a draft, so D-1 is built but not deployed. Next in order: WP-1.3 R29.
 > - **Update 12 Nov 2026 22:50 AEDT:** WP-1.3 R29 (Pilot #1091, merge `90092e42`), WP-1.4 R31 and WP-1.7 O26 (Pilot #1092, merge `e09beb14`) are merged and live. Still to build: WP-1.5 (O20), WP-1.6 (O22), WP-2.1 (OET, CELPIP), WP-6 guide; WP-1.8, WP-3 and the Zoho items wait for their decisions. #1085 is still a draft.
-> - **Still to build in v3:** WP-1.3 R29 paging, WP-1.4 R31, WP-1.5/1.6, WP-2.1 OET/CELPIP, Z1, Z3, Z4; after decisions: R30 (D-3), R32 (D-4), study load and admission tests (D-2).
+> - **Update 12 Nov 2026 23:30 AEDT:** WP-1.5 O20 (Pilot #1093), WP-1.6 O22 (Pilot #1097; duplicate #1094 closed), WP-2.1 OET and CELPIP (Pilot #1099) and the F-SCH scholarship detail fields (Pilot #1098; v2 draft #1077 closed) are merged and live. Remaining without a decision: WP-6 v3 developer guide. Waiting for decisions: WP-1.8 (D-4), WP-3 (D-2, D-3), Zoho items, and whether OET letter grades may be stored.
+> - **Still to build in v3 (as first written):** WP-1.3 R29 paging, WP-1.4 R31, WP-1.5/1.6, WP-2.1 OET/CELPIP, Z1, Z3, Z4; after decisions: R30 (D-3), R32 (D-4), study load and admission tests (D-2).
 > - Live check 12 Nov 2026: no `website_v3_call` or `zoho_v3_call` on the production database yet, and no `api.v3_released` setting row. Release 1 is built but not deployed.
 
 ---
@@ -138,6 +139,7 @@ REQ-02, 05, 07, 08, 16, 39, 53, 60, 61, 62, 63, 64, 69, 70, 71 and repo O31: fie
 
 | Version | Date | Change |
 |---|---|---|
+| 1.4 | 12 Nov 2026 | O20, O22, OET/CELPIP and the F-SCH scholarship fields live (Pilot #1093, #1097, #1099, #1098). |
 | 1.3 | 12 Nov 2026 | R29, R31 and O26 live in v3 (Pilot #1091, #1092). |
 | 1.2 | 12 Nov 2026 | WP-0, R23 and R24 live on `website-api-v3` (Pilot #1084, #1088); v2 drafts #945, #954 and Admin #386 closed (D-5); #1085 still draft. |
 | 1.1 | 12 Nov 2026 | Reconciled with the v3 field definition: D-1 and D-5 settled by the build; built and remaining items listed at the top. |
