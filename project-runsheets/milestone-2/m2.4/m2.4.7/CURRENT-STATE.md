@@ -10726,3 +10726,52 @@ The 1,293 discovery rows settled as not eligible return on the hourly settle; th
 - The UI page for `pipeline.scholarship_layer_settings` is unconfirmed.
 
 **Eligibility reader:** still in shadow (4 proven international, 9 proven domestic, about 1,100 silent; US$0.13 spent). The 16:44 AEDT review is unchanged.
+
+## 12 Nov 2026 17:55 AEDT — F-SCH production redesign release 1 (Platform Admin directive 12 Nov 2026 16:12): one extraction contract, direct official reads, verified detail fill; eligibility reader live, then back to shadow
+
+**Design:** `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0, section 13. Operating model §3.3.1 (v1.4) now covers scholarships.
+
+**Root causes (measured live 16:30):**
+- Scholarship pages were read only through Firecrawl (the 11 Oct 2026 rule). The 800-credit share was spent by 12:30 (749 scrapes, 51 maps), with 1,950 share refusals and 172 per-university refusals. The platform total was 3,942 of 4,000.
+- The AI reader extracted 16 fields. Of 1,199 published scholarships, 46 had a description, 19 an application method and 81 nationalities.
+- Every admitting answer was read a second time by another model.
+- An unproven fact, or a read that failed, after the last model became a Layer 4 review.
+- The 22,335 "failed" AI queue items are 22,133 directory-site pages refused before any spend and 202 old credit waits. They are not extraction failures.
+- Firecrawl scholarship credits are recorded in `pipeline.coverage_vendor_usage`. `pipeline.firecrawl_calls` is the adapter builder's log. There is no accounting discrepancy.
+
+**Released (each merged on green CI, deployed, and applied migration md5 verified against the file):**
+
+| PR | Change |
+|---|---|
+| Pilot #1059 | Worker v0.77.0 and migration `20261113060000`: direct official read first; prompt version 3 `sch-extract-v3` over the page plus its linked terms page; evidence checks on every field; detail fill of empty, unlocked fields; idle backfill from stored copies; no default second model; no Layer 4 case for an unproven fact or a technical failure. The scraper-only test was retired (retirement log). |
+| Pilot #1060 | Eligibility reader live (`sch_elig.apply_on` 1) after the 16:30 shadow review. |
+| Pilot #1061 | Back to shadow. The first live run admitted 8 scholarships (none published) on proofs that did not say this scholarship is open to international students: a course title, the Bond site banner, a UNBC fee instruction, and an NZQA page under a provider whose recorded website is NZQA's. All 8 were withdrawn at 17:14, before the 17:29 publish run. **The 16:30 review was wrong to pass these shapes.** |
+| Pilot #1062 | The detail fill's eligibility conditions are held. A list of who is NOT eligible read as conditions without its heading. The 478 passages written were superseded, not deleted. |
+| Pilot #1063, #1064 | Worker v0.78.0 and migration `20261113064000`: the fastest provider of the same pinned model, and 90 s per version 3 call. Calls with no answer fell from 54% to about 9%. Proof v2 refuses course titles, banners, fee lines, menu tags, search controls and government sites. The 9 international proofs are queued again in shadow. |
+
+**Before (16:30) and now (17:47), 1,199 and 1,201 published scholarships at 65 providers:**
+
+| Field (published records) | Before | Now |
+|---|---|---|
+| Description (80+ characters) | 46 | 241 |
+| Application required or not | 87 | 291 |
+| Application method record | 19 | 233 |
+| Award-duration record | 0 | 92 |
+| Payment basis | 552 | 574 |
+| Nationalities | 81 | 98 |
+
+**Not yet improved:**
+- Admissions and publications are unchanged by this release.
+- No retained admission can be credited to the eligibility reader yet.
+- Through the AI reader: 279 records filled from stored copies, US$0.25 for version 3 (US$1.07 scholarship AI today, guard US$20). No Firecrawl spend (the share was already spent).
+
+**Unresolved causes:**
+1. Eligibility proof v2 needs a new shadow review before going live.
+2. AI audience proofs on published records were not re-audited. 511 published records rest on quotes repeated across a provider's pages. Most are structured "Student type" fields, but navigation tags are possible (the Sydney "(international)" tag appears on 75 pages).
+3. Eligibility conditions need an exclusion representation before they can be filled.
+4. Direct versus Firecrawl reads are not yet counted separately.
+5. Firecrawl share, silent-page policy, value lane and Torrens name rule are still with the Platform Admin.
+
+**Retired:** the 11 Oct scraper-only rule for single pages, the default second-model confirmation, and the Layer 4 review for unproven or failed AI answers. Prompt version 2 is kept for audit. Obsolete settings and pilot mechanisms are not retired yet.
+
+**Next executable action:** shadow review of proof v2 reads. Then audit the published audience proofs against the boilerplate test. Then a cost per verified field report after two unattended backfill cycles.

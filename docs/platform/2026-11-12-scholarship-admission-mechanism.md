@@ -4,6 +4,9 @@ Nov 12, 2026 · Mandeep Singh
 
 > Committed copy of the Claude Doc of the same name, exported 12 Nov 2026 16:00 AEDT. The figures are as read from the live system (Supabase `fxcwkweaxjtknorudmwp`) on that day.
 
+
+> **Superseded in part (12 Nov 2026, evening):** the production engine is now described in `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0, section 13 (F-SCH production redesign release 1). Two statements below are corrected there: scholarship pages are read directly from the official site first and through Firecrawl only when needed; and Firecrawl scholarship credits are recorded in `pipeline.coverage_vendor_usage` (not `pipeline.firecrawl_calls`), so there is no accounting discrepancy (12 Nov: 800 of 800 used, 749 scrapes and 51 maps). The eligibility reader went live and back to shadow the same evening (Pilot #1060, #1061).
+
 ## Summary
 
 Scholarships are admitted by an automated pipeline. It finds each provider's scholarship pages, reads them, and admits a scholarship only when a rule or a person has proof it is the provider's own, currently offered, and open to international students. It then publishes what passes the publishing checks.

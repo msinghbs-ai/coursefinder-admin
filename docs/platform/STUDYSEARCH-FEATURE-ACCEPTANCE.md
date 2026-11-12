@@ -176,6 +176,7 @@ A shared spec, `// Guards: P0 cross-domain operator contract (Platform Admin 10 
 - [ ] **F-SCH.02 Classifier→read→review→admit→publish with reliable scheduled work, no duplicate scholarship or zero-yield plans.**
 - [ ] **F-SCH.03 Existing Admin Coverage/Scholarships/Layer 4 shows provider-level completeness, pending decisions, active switches, spend and reasons; allowed operators can inspect and resume.**
 - [ ] **F-SCH.04 Verified Website/Zoho publication increase beyond 1,144 baseline or durable honest no-source state per provider.**
+- F-SCH production redesign (Platform Admin directive 12 Nov 2026 16:12, acceptance criteria §14 items 1 to 10): release 1 deployed 12 Nov 2026 (Pilot #1059, worker v0.77.0; design `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0 section 13). Not accepted: acceptance needs measured field-completeness and admission gains across providers and two unattended cycles; evidence in the Execution Register.
 
 ### F-DISC — Provider/course lifecycle and source integrity (IQ-00046/47/56 etc.)
 - [ ] **F-DISC.01 Classify source-gone vs temporary timeout vs HTTP 200 empty page vs identity refusal; do not exhaust/retry permanently dead URLs.**

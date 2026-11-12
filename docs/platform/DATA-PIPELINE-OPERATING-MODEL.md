@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.3 (11 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
+**Version:** 1.4 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -85,6 +85,8 @@ Text that AI writes from an official page (first: a provider's description, `202
 | Regular scan | Runs by itself on its schedule and honours every limit of the task (AI ceiling and daily guard, Firecrawl allowance and daily share). |
 | Written by hand | A value entered by hand sets a manual lock; neither Fill, the scan nor the record replaces it. |
 | Visible | AI spend against the ceiling and daily guard, Firecrawl use against allowance and share, progress (admitted in 24 hours, described, waiting, held, written by hand) and the jobs' last runs are shown on the screen that holds the prompt and on the task's own card. |
+
+**Scholarships (F-SCH production redesign, 12 Nov 2026; `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0 section 13).** The same pattern extracts structured facts, not only text: one versioned prompt (`pipeline.scholarship_ai_prompts` version 3, sch-extract-v3) reads one official evidence bundle; every field is kept only when its passage is on the evidence and carries the value; the summary is AI-written text under the rules above (no copied run, no number the evidence does not print); the fill writes only empty, unlocked canonical fields and never admits or publishes. Reconciling G2 with directive §11 ("internal queue sizes, leases, retries, model routing parameters, extraction heuristics and technical thresholds should be software-managed"): extraction heuristics and quality thresholds of the evidence checks stay in code with their reason, while every limit an operator steers (enable or pause, batch, spend, scope, refresh) stays a setting.
 
 ### 3.4 Admission gate (Layer 4, per value)
 
@@ -178,6 +180,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.4 | 12 Nov 2026 | 3.3.1 adds scholarships (F-SCH production redesign: sch-extract-v3 structured extraction, evidence checks, fill of empty unlocked fields) and how G2 and directive §11 divide settings from software-managed extraction heuristics. |
 | 1.3 | 11 Nov 2026 | 3.3.1 adds Automatic admission: the prompt profile's checks again, refused topics, marketing words and words kept for human eyes to a person; figures proved in their passages pass (Pilot #1031). |
 | 1.2 | 11 Nov 2026 | 3.3.1 AI-written text: prompt-based wording maintained on screen, one-click on demand outside the task's own limits, regular scan within them, hand-entered values never replaced (Platform Admin 11 Nov 2026 14:51, 14:57; provider descriptions first). |
 | 1.1 | 15 Oct 2026 | 3.0 Flags (Decision 261, v2.15.282); 4.0 how the provider list is built for new countries (registers first, search fills gaps). |
