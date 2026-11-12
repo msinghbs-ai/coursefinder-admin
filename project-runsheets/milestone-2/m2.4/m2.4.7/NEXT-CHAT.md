@@ -10825,3 +10825,15 @@ v3 reads: 1,789 (US$1.16). Scholarship AI today: US$2.03 against the US$20 guard
 - v3 developer guide (WP-0.4 / WP-6) not yet issued.
 
 **Next executable action:** WP-1.3 R29 (scholarship linked-course paging) in v3.
+
+## 12 Nov 2026 22:50 AEDT — Website API v3: R29, R31 and O26 live in v3
+
+**Platform Admin, 12 Nov 2026 22:15: "Proceed and resolve any conflict".**
+- Pilot #1091 (WP-1.3, R29 scholarship linked-course paging) merged on green (`90092e42`), migration `20261113200000` applied. Pilot #1092 (WP-1.4 R31 scholarships page per provider; WP-1.7 O26 search `description_excerpt`) merged on green after it (`e09beb14`), migration `20261113210000` applied. Deploy on merge passed for both. No merge conflict arose.
+- Each migration replaces only `website_v3_*` functions, md5-guarded. Nothing in v2 is written (`api.website_v2_provider_campuses` md5 still `57115d3b…`).
+- Live read-back: `website_v3_scholarship` returns `linked_courses_total`; the Monash provider item carries `scholarships_page_url` and still 9 named campuses; 50 NZ search items all carry `description_excerpt` (4 filled, longest 239 characters; the rest null because no description is held).
+- Registers updated: WEBSITE-DEVELOPER-REQUIREMENTS 2.15, build brief 1.3, field definition "Deployed state", v3 README.
+
+**Open for the Platform Admin (unchanged):** draft Pilot #1085 (release switch `api.v3_released`, Zoho v3, dispatchers, extra scholarship fields) conflicts with the deployed #1084 design and is not merged; choose which shape v3 keeps. v3 developer guide not yet issued.
+
+**Next executable action:** WP-1.5 (O20) and WP-1.6 (O22), then WP-2.1 (OET, CELPIP), then the WP-6 guide.

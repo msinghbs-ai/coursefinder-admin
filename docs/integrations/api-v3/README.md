@@ -1,6 +1,6 @@
 # Website API v3 – working folder
 
-**Status:** Open (12 Nov 2026, Decision 277). Live on `website-api-v3`: the v2 copy with R28 (Pilot #1084), R23 and R24 (Pilot #1088). The website has not switched to v3. Not live: Zoho v3, the dispatchers, O26 and the release switch `api.v3_released` (draft Pilot #1085). Details: `API-V3-FIELD-DEFINITION.md`, "Deployed state".
+**Status:** Open (12 Nov 2026, Decision 277). Live on `website-api-v3`: the v2 copy with R28 (Pilot #1084), R23 and R24 (Pilot #1088), R29 (Pilot #1091), R31 and O26 (Pilot #1092). The website has not switched to v3. Not live: Zoho v3, the dispatchers and the release switch `api.v3_released` (draft Pilot #1085). Details: `API-V3-FIELD-DEFINITION.md`, "Deployed state".
 
 | File | What it is | Who uses it |
 |---|---|---|
