@@ -73,6 +73,8 @@ Each of these needs a reader, a register or a data programme before it can be fi
 | Course | `entry_conditions` | `[{kind: APS·NAWA·UNEDasiss·foundation·entrance_exam, applies_to: country codes, quote, source_url}]` | an AER v2 condition reader | O19 |
 | Course | `application_route` | `{route: UCAS·uni-assist·OUAC·…·direct, url, limited_places}` | country route reference data | O23 |
 | Provider | `logo_dark`, `brand_colour` | logo object as `logo` · `#rrggbb` | brand assets are not held | R11 |
+| Provider | `accreditations[]` | `[{body: AACSB·EQUIS·AMBA, scope, source_url, checked_at}]` | a provider accreditation table from each body's official list (decision D-3) | R30 |
+| Provider | `campuses[].is_primary`, `campuses[].primary_basis` | boolean · null; `registered_address` · `city_match` · `manual` · null | a primary-campus table, rule and manual override (decision D-4); registered head office matches one campus for about 31 of 45 AU universities | R32 |
 
 ## 4. Later v3 releases (data held, extra programming needed)
 
@@ -87,6 +89,11 @@ These items are candidates for release 2. Each adds a key or filter to v3 only, 
 | O21 | qualification codes and a list per country of education in `reference` | reference data |
 | Zoho export | v3 columns in the `export` CSV | release 1 serves the v2 CSV; the v3 fields come through `search`, `course(s)`, `provider(s)`, `scholarship(s)` and `sync` |
 | R21 | lighter standard logo copy | waits for the formats Wix accepts |
+| R29 | `scholarship`: `courses_page`, `courses_page_size` (1–200), `linked_courses_total`; no paging = first 200 as v2 | 176 of 1,053 linked scholarships exceed 200 (max 563) |
+| R31 | provider `scholarships_page_url`, `scholarships_last_reviewed_at` | data held in `pipeline.scholarship_listing_pages` |
+| Z1 | Zoho `search` items: scholarship summary (top 5: id, name, amount_type, amount_value, currency) | Divya, 3 Nov 2026 (REQ-31) |
+| Z3 | Zoho `export` and `sync` countries beyond AU (setting `zoho.sync_countries`) | Divya, 3 Nov 2026 (REQ-35); setting, released with v3 |
+| Z4 | Zoho `course`: `edu_country`, as website `course` | REQ-28 |
 
 ## 5. Not in v3 by decision
 
