@@ -1,6 +1,8 @@
-# StudySearch – Website and Zoho API v3: field contract
+# StudySearch – Website and Zoho API v3: field contract (superseded by the v3 build brief)
 
-**Version:** 0.1 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 277 (API v3 beside a frozen v2), 266 (consumer API frozen)
+> **Superseded, not a build instruction (12 Nov 2026 21:35).** The Website API v3 build is owned by the integration session and follows `docs/integrations/api-v3/WEBSITE-API-V3-BUILD-BRIEF.md` (admin PR #457, consumer request consolidation; register items R29–R33). This note was written in parallel at 21:13 and is kept only as a cross-reference of the R/O items. Where the two differ, the brief decides. In particular: Zoho gets new fields only after Platform Admin decision **D-1**; study load, admission tests, accreditations and qualification lists (the "Defined" rows below) wait for decisions **D-2 to D-4** and are not built or returned until decided; the search excerpt is the brief's `description_excerpt`.
+
+**Version:** 0.2 (12 Nov 2026; superseded by `api-v3/WEBSITE-API-V3-BUILD-BRIEF.md`) · **Change control:** CF-247 · **Decisions:** 277 (API v3 beside a frozen v2), 266 (consumer API frozen)
 **Asked by:** Platform Admin, 12 Nov 2026 21:13: "API v3 is getting prepared - any new field that needs programming or missing in v2 should defined, added to v3 and be ready for website and zoho, refer to developer requriements in admin repo".
 **Inputs:** `WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.11 (R23, R24, R28, O13–O31), `2026-11-12-destination-sources-aer-api-gap-review.md`, `2026-11-12-destination-sources-course-api-gap-review.md`, the F-SCH developer field contract (Pilot #1077, held under the v2 freeze).
 
@@ -84,4 +86,5 @@ Held PRs this contract absorbs (they were prepared for v2, which is now frozen):
 
 | Version | Date | Change |
 |---|---|---|
+| 0.2 | 12 Nov 2026 | Superseded by the v3 build brief (integration session, admin PR #457; Platform Admin notice 21:30). Requirements register edits of 0.1 withdrawn so the brief's register change (R29–R33) applies cleanly. |
 | 0.1 | 12 Nov 2026 | First issue: every field missing from v2 defined for v3 (Held or Defined), for the website and Zoho (Platform Admin 21:13). |

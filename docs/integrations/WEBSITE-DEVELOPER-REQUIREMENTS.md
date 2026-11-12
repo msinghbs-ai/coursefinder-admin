@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 2.12 (12 Nov 2026; v3 field contract `API-V3-FIELD-CONTRACT.md` 0.1: every field missing from v2 defined for v3, website and Zoho; 2.11 Decision 277: Website API v3 beside a frozen v2, v3 open to additions until the website goes live on it; R28 approved and built in v3)
+**Version:** 2.11 (12 Nov 2026; Decision 277: Website API v3 beside a frozen v2, v3 open to additions until the website goes live on it; R28 approved and built in v3)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -11,7 +11,6 @@ This page is the single list of what the website developer has asked for, what t
 ## Rules for any change the website reads
 
 1. **Additive only.** `website-search-v2` keeps every field, filter and action it has. New fields and filters are added; nothing is renamed or removed. A breaking change needs a new contract (Version 3) and a Platform Admin decision.
-   **v3 fields (Platform Admin 12 Nov 2026 21:13):** every field missing from v2 (R23, R24, R28, O13–O30, F-SCH scholarship fields) is defined for v3, for the website and Zoho, in `API-V3-FIELD-CONTRACT.md`: Held fields are returned from v3.0, Defined fields return null until their data programme fills them.
    **Versions (Decision 277, Platform Admin 12 Nov 2026 21:00):** Website API v2 is frozen (G3): nothing is added to it either. New work goes into **Website API v3** (`website-search-v3`, `public.website_v3_*`), a separate copy of v2 reading the same data with the same keys. v3 takes additions freely until the website goes live on it; at go-live the Platform Admin records the date and v3 joins the frozen surface in the same change. Each request below says which version returns it.
 2. **The provider Published switch is the control.** A provider switched off or archived is not returned by any action, with its courses, campuses and scholarships (`security.provider_hidden_v1`).
 3. **Nothing is inferred.** null means not held. No defaults, no estimates, no currency conversion.
@@ -164,7 +163,6 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
-| 2.12 | 12 Nov 2026 | v3 field contract 0.1 (Platform Admin 21:13): every field missing from v2 defined for v3 for the website and Zoho; held R23/R24 (Pilot #945, #954) and F-SCH scholarship fields (Pilot #1077) are built in v3, not v2. |
 | 2.11 | 12 Nov 2026 | Decision 277 (Platform Admin 21:00): Website API v3 is a separate copy beside the frozen v2, open to additions until the website goes live on it, then frozen; rule 1 states the versions; R28 approved and built in v3 only. |
 | 2.10 | 12 Nov 2026 | Destination data sources reviewed against Website API v2 for course fields other than academic entry: O25–O31 added (study load, description on search items, post-study work rights, field-of-study codes by scheme, recognition flags, study-area outcomes, coverage of existing fields); review `2026-11-12-destination-sources-course-api-gap-review.md` |
 | 2.9 | 12 Nov 2026 | Destination data sources reviewed against Website API v2 for academic entry: O13–O24 added (local-language and more English tests, level-type requirements, English waivers, teaching language, admission tests, non-grade entry conditions, quote and source link on `entry_matrix[]`, qualification codes, academic-entry search filter, application route, other 25 destinations). Review `docs/integrations/2026-11-12-destination-sources-aer-api-gap-review.md`. No API change. |
