@@ -1,6 +1,6 @@
 # StudySearch – Consumer developer requirements register (website and Zoho)
 
-**Version:** 2.17 (12 Nov 2026; O20, O22, the F-SCH scholarship fields and OET/CELPIP live; R28 live in v3 (Pilot #1084); R23, R24, R29, R31 and O26 live in Website API v3; register of record widened to Zoho (Z1–Z12) with the intake and status routine; R23, R24, R28 defined in API v3 release 1)
+**Version:** 2.18 (13 Nov 2026; live review of open website and Zoho items, Z2 and Z12 updated; earlier 2.17: O20, O22, the F-SCH scholarship fields and OET/CELPIP live; R28 live in v3 (Pilot #1084); R23, R24, R29, R31 and O26 live in Website API v3; register of record widened to Zoho (Z1–Z12) with the intake and status routine; R23, R24, R28 defined in API v3 release 1)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -64,8 +64,8 @@ Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consol
 
 | # | Request (who, date; REQ) | Status (12 Nov 2026) | Where it is returned / next step |
 |---|---|---|---|
-| Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Queued for Zoho API v3** | v3 `search` items: top-5 scholarship summary |
-| Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data first.** Export carries IELTS and PTE only; OET and CELPIP not held (website O13) | v3 export columns once the data is admitted |
+| Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Queued for Zoho API v3** (not deployed on 13 Nov 2026: no `zoho-api-v3` edge function or `zoho_v3_call`; draft Pilot #1085) | v3 `search` items: top-5 scholarship summary |
+| Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data partly held, export unchanged.** Live 13 Nov 2026: CELPIP on 80 courses, OET on 0 (letter grades not converted; decision open, O14); TOEFL iBT, CAE and DET are held but the Zoho export still carries IELTS and PTE only | Zoho v3 export columns (needs `zoho-api-v3`, not deployed on 13 Nov 2026) |
 | Z3 | Provider and course export beyond Australia (Divya, 3 Nov; REQ-35) | **Setting change, released with v3.** `zoho.sync_countries` is `["AU"]` | Setting; consumer change, held for comms |
 | Z4 | Academic entry by student country on Zoho course detail (Divya; REQ-28) | **Queued for Zoho API v3** (website has `edu_country` since 28 Oct) | v3 Zoho `course` `edu_country` |
 | Z5 | How a scholarship is matched to a course (Divya, 3 Nov; REQ-30) | **Answer only** (v3 guide field dictionary, R33) | Reply to Divya |
@@ -75,7 +75,7 @@ Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consol
 | Z9 | Receiving sponsorship yes/no (Divya; REQ-13) | **Open, not held** | Platform data |
 | Z10 | Institute representatives (Divya; REQ-22) | **Partly delivered**: provider contacts on Zoho detail (31 contacts at 11 providers) | Platform data coverage |
 | Z11 | State missing for NZ and CA courses (Saurabh; REQ-58) | **Open, data work** | Platform data |
-| Z12 | Ten-provider check before production; university groups (Sujata, Saurabh; REQ-59, REQ-77) | **Open.** Groups: IRU renamed 2050 Alliance on 27 May 2026 (adds ACU and VU); data fix awaiting Platform Admin approval | Data fix, then tell Raghav and Divya |
+| Z12 | Ten-provider check before production; university groups (Sujata, Saurabh; REQ-59, REQ-77) | **Open.** Groups: IRU renamed 2050 Alliance on 27 May 2026 (adds ACU and VU); live 13 Nov 2026 still `au_iru` with 7 members; data fix awaiting Platform Admin approval | Data fix, then tell Raghav and Divya |
 
 ## How requests are taken in and reported (Platform Admin, 12 Nov 2026)
 
@@ -196,6 +196,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.18 | 13 Nov 2026 | Review of open website and Zoho items against live (Platform Admin 13 Nov 09:17). Confirmed on `website-api-v3`: R23 (Monash 9 named campuses, v2 8), R24 (status on every scholarship item), R28 (`start_date_status` on search intakes), R29 (563-course scholarship: page 2 returns 200, total 563; 175 scholarships over 200), R31 (Monash page link and review date), O20 (in the v3 course function), O22 (4,708 AU courses with `has_academic_entry`), O26 (13 of the first 50 AU search items carry an excerpt), the F-SCH scholarship fields. v2 functions unchanged (md5 `57115d3b…`, `d1792cc7…`). Not deployed: `zoho-api-v3`, dispatchers, `api.v3_released`; `website-api-v3` has no release gate. OET held on 0 courses, CELPIP on 80. IRU still 7 members. Z1, Z2, Z12 updated. |
 | 2.17 | 12 Nov 2026 | Live in Website API v3: O20 entry row sources (Pilot #1093), O22 `has_academic_entry` filter (Pilot #1097), and the F-SCH scholarship detail fields `description`, `award_type`, `sponsor`, `programme`, `award_code`, `benefits[]`, `application`, `award_duration`, `academic_year`, `excluded_nationality_codes[]`, `nationality_regions[]` (Pilot #1098, merge `a71109d8`, migration `20261113240000`; the v2 draft Pilot #1077 closed unmerged). O14: OET and CELPIP are English tests (Pilot #1099), as data in v2 and v3. v2 functions unchanged. |
 | 2.16 | 12 Nov 2026 | R28 live in Website API v3 (Pilot #1084, the v3 copy and R28, build brief WP-0.1 to WP-0.3); the v3 name is `website-api-v3` throughout. |
 | 2.15 | 12 Nov 2026 | R29 (Pilot #1091), R31 and O26 (Pilot #1092) live in Website API v3; read back on live; v2 unchanged. |
