@@ -1,6 +1,6 @@
 # AER design v2: a prompt-led reader with a strict verifier (proposal)
 
-**Version:** 0.1, proposed, 12 Nov 2026 · **Change control:** CF-247 (SS-017 follow-on) · **Status:** for Platform Admin decision; nothing is built or switched on by this document
+**Version:** 0.2, proposed, 12 Nov 2026 (0.2 adds country packs §3.9, the lean job set and Fill on demand §3.10, success measures §3.11, lessons from descriptions §1.1) · **Change control:** CF-247 (SS-017 follow-on) · **Status:** for Platform Admin decision; nothing is built or switched on by this document
 **Reads with:** `2026-11-12-aer-admission-mechanism.md` (how it works today, with live figures), `AER-TECHNICAL-DESIGN.md` v1.2 (design of record), `DATA-PIPELINE-OPERATING-MODEL.md` §3.3.1 (AI-written text), `PROVIDER-DESCRIPTIONS-RUNBOOK.md` (the pattern this follows)
 
 ## 1. Why change
@@ -19,6 +19,18 @@ AER works, but it has grown by adding a rule or reader each time a page broke th
 | Layer 4 AER items waiting | 568 |
 
 Provider and course descriptions had the same shape: many hand rules, a low pass rate, and copying. They improved sharply once the rules were replaced with a **prompt kept in Settings plus a strict, small verifier** (F-PDESC: from about a third of AI answers passing to 14 of 18 on the first prompt version, then 107 automatic admissions in three hours). AER is a better fit for that pattern than descriptions are, because its answers are short, structured and checkable against the page.
+
+### 1.1 What descriptions taught us, applied to AER
+
+| Descriptions (F-PDESC, course text) | AER v2 |
+| --- | --- |
+| Hand-written readers and lists scrapped, not patched | 38 list settings and three layout readers retired once v2 passes shadow (§4) |
+| One prompt in Settings, edited by the Platform Admin with a reason | One AER prompt card on AI & OpenRouter, versioned |
+| Small verifier: canonical quote on the page, numbers in quotes | Same verifier, plus reference codes and completeness (§3.4) |
+| Automatic admission once the verifier passes | Same, with the 5% audit and the daily brake (§3.5) |
+| Self-heal: a new prompt version re-reads once | Same (§3.7) |
+| Fill description on demand | Fill entry requirements on demand (§3.10) |
+| Started with a short prompt and improved by version (about a third passing, then 14 of 18 on the first version) | Start with a short prompt; each version is trialled on the labelled set |
 
 ## 2. Principles
 
@@ -116,6 +128,61 @@ The verifier is the only gate. It does not interpret wording; it checks:
 - **Own AI lane.** Give course entry reads their own AI lane and guard, so cost per admitted requirement is reported.
 - **One live panel.** The Data Delivery AER panel and Entry requirements › Sources show the prompt version, admissions, holds by reason, examples collected, and the last trial.
 
+### 3.9 Country packs: how v2 adapts across countries
+
+A country pack is reference data, not code. It is held in the existing reference tables (countries, qualifications, levels, grading schemes) and edited on a reference screen with a reason. The prompt receives the pack for the applicant country and the provider country as variables.
+
+| Pack field | Example (applicant country India) | Example (applicant country Germany) |
+| --- | --- | --- |
+| Qualifications and aliases | CBSE Class XII, ISC, state boards (HSC) | Abitur (Allgemeine Hochschulreife), Fachhochschulreife |
+| Grading scheme and direction | percentage, higher is better | 1.0–4.0, lower is better |
+| National rank or score name | none | none |
+| Levels | Class XII, bachelor, master | Abitur, Bachelor, Master |
+| Common route words | direct entry, foundation | direct entry, Studienkolleg |
+| Languages pages are written in | en | de, en |
+
+Rules:
+
+- **Values stay as printed.** The model records the minimum and scale exactly as printed. It never converts a grade between countries. An equivalence (for example "IB 30 or ATAR 80") is recorded only when the page prints it.
+- **Pages in other languages.** They are read in their own language; quotes stay in the original language, and the verifier matches the printed text.
+- **A new country.** When reads meet a country with no pack, the model drafts one from the quotes it has seen (qualification names, scale, levels). The draft shows on the reference screen; the Platform Admin accepts it once. Until then, rows for that country are held, not guessed. No code change and no list setting is needed.
+- **Provider country.** Pages differ by where the provider is (an Australian page states ATAR equivalents; a UK page states A-level offers). The provider-country pack tells the model which local terms to expect, for example ATAR, NCEA, UCAS tariff or a Canadian provincial average.
+
+### 3.10 A lean, self-sustaining job set
+
+Today there are eight AER jobs, each with its own rules and recovery path. v2 keeps five, all catalogued (G1), each reading its batch size from Settings (G2).
+
+| v2 job | Does | Replaces today |
+| --- | --- | --- |
+| `aer-find` | Ranks candidate pages per provider; routes to table read or course read | `aer-source-discover`, `aer-source-stored-find` |
+| `aer-read` | Reads pages that are new, have a changed content hash, or were read under an older prompt version | `aer-scheduled-read`, `entry-matrix-read`, `aer-replay` |
+| `aer-admit` | Verifies and admits, or sends to Layer 4 | `aer-machine-admission`, `aer-reconcile` |
+| `aer-improve` | Weekly: clusters Layer 4 edits and rejections, drafts a prompt change, runs the shadow trial | new |
+| `aer-report` | Updates coverage `academic_entry`, the gap queue and the Monday line | `aer-outcome-register` |
+
+What keeps it running without a person:
+
+- **Re-read only on change.** A stored copy's content hash decides whether a page is read again; an unchanged page costs nothing.
+- **Gap-driven.** The standing gap queue asks for academic entry for every eligible course without it, so new providers and courses are picked up without being switched on one by one.
+- **Fill on demand.** A "Fill entry requirements" action on the Course detail blade and on a provider runs find, read and verify straight away, as Fill description does. The result goes through the same verifier and admission rule.
+- **Budgets, not lists.** Spend is bounded by the AI lane guard and the existing Firecrawl share; there are no provider allowlists.
+
+### 3.11 Success measures
+
+Shown on the Data Delivery AER panel and in the Monday line:
+
+| Measure | Today (12 Nov) | Direction |
+| --- | --- | --- |
+| Eligible courses with admitted academic entry | 780 of 29,533 | rising every week |
+| Providers with admitted requirements (any scope) | 16 tables | rising every week |
+| Verifier pass rate (current prompt version) | — | at least 70% on course pages before activation |
+| Layer 4 AER items waiting | 568 | falling; only changes to values and new aliases |
+| Cost per admitted requirement | not reported | reported (own AI lane) |
+| Hand-kept list settings | 38 | 0 after step 5 |
+| AER jobs | 8 | 5 |
+
+The 70% figure is a proposed gate for the Platform Admin to confirm, not a measured value.
+
 ## 4. What v2 removes (housekeeping, after validation)
 
 | Retire | Why |
@@ -165,4 +232,7 @@ On a new "Academic entry" section, plus the AI & OpenRouter prompt card:
 
 1. Approve the v2 direction and step 0–1 (shadow only, no admission change).
 2. Raise the course machine-admission daily maximum now (`aer.machine_daily_max` 300) while v2 is built: it caps admissions of reads that already pass today's rule.
-3. Later: qualification rows in the consumer API (Decision 266 approval).
+3. Approve country packs (§3.9) as the only place country-specific wording, grading schemes and qualification names live, with model-drafted packs accepted by the Platform Admin.
+4. Approve the five-job set and Fill entry requirements on demand (§3.10).
+5. Confirm the activation gate for course pages (proposed: verifier pass rate at least 70% and no new false admissions on the labelled set).
+6. Later: qualification rows in the consumer API (Decision 266 approval).
