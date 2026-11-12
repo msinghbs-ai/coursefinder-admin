@@ -47,3 +47,33 @@ The recheck now clears it (`har_aer_recheck_v1(395)`: cleared true). It closes a
 - Admitted from the grids: 0 so far. Grid reads stay with a person until `aer.grid_machine_admission_on` (decision 1: shadow validation first). The Sydney item is expected to be approvable as read after the #1054 re-read; UQ after its 5 course links.
 - Auckland: its later pages hold the grid proof (prose rows, a free-text column); reader next.
 - The database tool's confirmation question went unanswered twice (a rolled-back DDL or delete in a dry run asks for confirmation); the work continued and the dry runs are repeated.
+
+## Update 12 Nov 2026 16:20 AEDT (Pilot #1055, #1058 merged on green and verified live; worker v0.76.0 from main)
+| University | Rows read (+ qualification rows) | Dropped | Layer 4 state |
+|---|---:|---:|---|
+| Sydney | 1,780 (+178) | 0 | complete: approvable as read (all rows linked by CRICOS) |
+| UNSW | 1,932 (+260) | 18 N/A only | 1,310 rows linked; 21 course labels wait for a person (622 rows) |
+| UQ | 1,214 (+162) | 28 N/A only | 5 course labels wait for a person (113 rows, 15 qualification rows) |
+| UWA | 194 | 0 (was 8, plus 41 band, 2 duplicate groups) | Approve except: 8 subject rows read as courses |
+| Adelaide | 40 (+1) | 0 | Approve except: 1 row |
+| Charles Darwin | 45 | 4 (was 12) | held: band not in quote |
+| Charles Sturt | 7 | 2 (was 16) | held: grade not in quote |
+| Federation | 100 (was 77) | 6 | held |
+| Curtin | 34 (+1) | 1 | held: NZ "comparable ATAR" (no band printed) |
+| UTS (two sources) | 40, 40 | 5, 3 | held |
+| Wollongong | 222 (+12) | 27 | held: header-row quotes (table-aware reader needed) |
+| Victoria University | queued | | |
+
+Root causes fixed today: course streams in the identity; ATAR as a course fact; one PDF per worker call; course link reads the stored decision first (1,950 rows recorded in 3.1 s, was 12.6 s, against the 8 s API limit).
+
+## Coverage review (AU and NZ universities with courses: 60; 11 with active AER, 3,568 of 13,562 courses)
+| Lever | Courses reached | Owner |
+|---|---:|---|
+| 1. Layer 4 decisions now: approve Sydney; Approve except UWA and Adelaide; UTas pair; link UQ's 5 and UNSW's 21 course labels | Sydney 655, UNSW 667, UQ 383 (+1,705, to about 39%); about 5,700 minimums | Platform Admin / reviewers |
+| 2. Grid machine admission (`aer.grid_machine_admission_on`) after Sydney is validated against its PDF | later grid reads without a person | Platform Admin decision |
+| 3. AI course suggestions (pinned, qualified model; suggest only) | fewer manual links (UNSW 21, UQ 5, future grids) | engineering |
+| 4. Source discovery: overview pages read with no rows (Newcastle, Griffith, VUW, Deakin, Torrens, Bond, ECU, UNE, CQU, USQ, SAE) | about 2,180 | engineering (discovery campaign) |
+| 5. Sources never read (QUT 23 sources, Macquarie 3) | about 670 | engineering |
+| 6. No source (Canterbury, Murdoch, La Trobe, Southern Cross, ACU, Sunshine Coast, JCU, others) | about 1,400 | engineering (discovery campaign) |
+| 7. Reader: table-aware rows (Wollongong, band columns at CDU and Curtin); subjects never read as courses (UWA 8; 76 older labels) | the held tables above | engineering |
+| 8. Auckland: prose rows and a free-text column in the grid | 458 | engineering |
