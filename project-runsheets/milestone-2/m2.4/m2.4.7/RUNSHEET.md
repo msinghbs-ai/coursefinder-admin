@@ -11478,3 +11478,48 @@ The 150 `sch_value` interventions are capped by `har.open_max_per_lane` (150).
 - Follow the 21 pending Canadian universities and the VUW and Notre Dame reads to admission.
 - Confirm the 55 value interventions close after re-classification.
 - Close the two on-demand requests with actual use.
+
+## 13 Nov 2026 22:35 AEDT — S2-Scholarship follow-up: on-demand Firecrawl closed, Canadian universities all searched
+
+**On-demand requests closed** (`security.on_demand_close_v1`).
+
+| Request | Providers | Firecrawl actual | Estimate |
+|---|---|---|---|
+| `d2beb7cb` | 21 | 3 credits | 3,500 |
+| `054a0634` | 316 | 366 credits (218 site maps, 148 page scrapes) | 3,000 |
+
+- Most candidate pages were read without Firecrawl.
+- OpenRouter spend across all lanes in the window: US$7.42.
+- Credit left: Firecrawl 81,193 on plan (84,952 before, all sessions), OpenRouter US$49.99.
+
+**Measured 11:32 UTC** (snapshot 11:29 UTC; earlier figures from 06:31 UTC):
+- Published scholarships: **1,334** at 69 providers (was 1,327). Active: 1,707.
+- Canadian classified universities: **none left unsearched** (was 21 pending).
+
+  | State | Universities |
+  |---|---|
+  | Published | 12 |
+  | Pages read, not proven | 32 |
+  | Source found, still being read | 26 |
+  | Searched, none found | 6 |
+  | Admitted, not published | 2 |
+  | No website | 17 |
+
+  Candidate pages found / read: **5,642 / 3,005** (was 3,379 / 2,265). Scholarships active / published: **124 / 91** (was 116 / 86).
+- Scholarship AI queue: 3,961 items, working through the newly read pages.
+
+**Named providers:**
+- **VUW:** all 60 pages read, 0 admitted. Next: traverse the listing pages.
+- **Notre Dame:** 12 pages, 9 read, 0 admitted. The 6 ownership-conflict cases are still open.
+- **CDU:** 3 active, 0 published. Its scholarship database app (`stapps.cdu.edu.au/apex/f?p=1000:600`) is recorded as a *suggested* listing source. Suggested sources are confirmed by a person ("Use suggested" in Coverage). A Claude session does not confirm them.
+
+**Layer 4 value cases:** none closed yet; all 150 still open. They are at three stages:
+
+| Stage | Cases |
+|---|---|
+| Classified `published_verified`; qualify to clear at their next automatic recheck (12:44 UTC) | 37 |
+| Scholarship published, but the case was last classified 12 Nov 17:29 UTC; waiting on reclassification | 18 |
+| Still lack a stated value; reviewer | 94 |
+| Qualifies to clear but still unpublished; waiting on its recheck (15:44 UTC) | 1 |
+
+**International eligibility and AI reviews:** 144 international-unresolved cases and 89 AI reviews remain with reviewers.
