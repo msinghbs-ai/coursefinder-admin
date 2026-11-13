@@ -11052,3 +11052,63 @@ Scholarship AI spend today: US$2.02.
 - The check itself still lets a ten-word copy run through the course title pass on a fresh reading (the recovery plan does not). To be closed with prompt v2.
 
 **Next executable action:** prompt v2 with its validator changes (stricter copy test in the check, provider-name strip for trading names, sentence and length limits stated in the prompt), tested on stored held readings before any new spend; then REQ-52 and the REQ-53/58 data corrections.
+
+## 13 Nov 2026 12:45 AEDT — S2-Intakes: planner time-out fixed at source; NZ calendars read; Canterbury 2027 calendar approved
+
+**Platform Admin, 13 Nov 2026 11:02 (S2-Intakes directive):** continuous, source-backed intake coverage. Massey and Canterbury are in the developer acceptance checks. Fix technical blockers at their source.
+
+**Baseline (11:10 AEDT, active courses and active intakes):**
+
+| Country | Courses | With an intake | Intakes | With year | Exact start | With deadline |
+|---|---|---|---|---|---|---|
+| AU | 25,380 | 9,492 | 24,228 | 4,701 | 4,469 | 68 |
+| NZ | 6,495 | 2,217 | 4,258 | 82 | 82 | 28 |
+| CA | 3,814 | 1,683 | 2,955 | 0 | 0 | 250 |
+
+- **NZ start status:** no official calendar 3,262; not yet read 435; month only 200; conflicting 191; known 82.
+- **Held for no calendar, by university:** Auckland 534, Canterbury 365, AUT 311, SIT 293, EIT 195, Lincoln 186, VUW 145, Wintec 135, Massey 53. Waikato has 209, all not yet read.
+
+**Found:**
+- **`intake-dates-apply` timed out** at 23:26 and 00:26 UTC. Lowering the batch from 200 to 120 (control event 37784) did not help: batch size was not the cause.
+  - A plan of 6 rows took 88 s. Of that, 67 s went to `security.intake_wording_fp_v1`: 14,653 calls at about 4.3 ms each, while the planner checks which decided rows have changed inputs.
+- **The deterministic dated parser (`provider-policy-v0.2.5`) reads application due-date tables as teaching starts** (Massey and Auckland due-date pages).
+- **The AI calendar reader read Canterbury's add/drop and refund dates as application deadlines** (2026 periods).
+- Neither error reached the catalogue. All three readings were rejected with a decision note.
+
+**Done:**
+- **Pilot #1112, migration `20261113302500`, deployed:**
+  - `security.intake_page_wording_v1` and `security.intake_wording_fp_v1` rewritten in PL/pgSQL with the same signatures, owner, grants and results. Live bodies equal the file (`099cc64f…`, `e7fd42a7…`).
+  - 2,000 calls: 8.6 s → 0.8 s. Plan of 20 rows: 88 s → 20 s.
+  - Identical wording for 6,000 random intakes and identical fingerprints for 8,035, so nothing is re-planned because of the change.
+  - New spec `cf-247-s540`.
+- **Scheduled run:** 01:26 UTC succeeded at 200 rows in 97 s. Batch set to 150 for headroom (control events 38575 and 41057). F-INT.08 asks for two uninterrupted cycles; this is the first.
+- **Official calendar sources added (found_via manual):**
+  - Massey: key dates; admission due dates.
+  - Canterbury: 2027 vacation-dates PDF; key university dates; enrolment dates.
+  - Auckland: 2027 closing dates; academic dates. The 2026 key-dates PDF returns 404 and is marked failed.
+  - AUT: important dates.
+  - VUW: 2027 dates PDF.
+- **Canterbury 2027 main teaching calendar approved by machine** (calendar-qualify-v1): Semester One from 22 Feb 2027, Semester Two from 19 Jul 2027, each with the year quoted.
+  - A dry run of the planner on all Canterbury courses: 150 intakes get an exact 2027 start (148 Semester One, 2 Semester Two).
+  - Held with their real reason: 110 "starts sooner in another month"; 82 "the course page names no study period"; 12 "no stored wording"; 5 "E16 unproven".
+  - These are admitted at the scheduled pace, 25 a university a round.
+
+**Measured after (12:30 AEDT):**
+- NZ exact start 82 → 83 (+1, Canterbury) and AU deadline 68 → 69 (+1). Every other figure is unchanged.
+- No AER rows, cron successes or PRs are counted.
+- AI use: about 8 calendar reads (gpt-4.1-mini). Firecrawl: none beyond the scheduled `provider-facts` fallback.
+
+**Not done:**
+- **Massey:** the key-dates reading (S1 2027 22 Feb, S2 2027 12 Jul) is held by the machine rule `blocked_word` ("exam" on the page). A person's approval is needed; it is not bypassed.
+- **Auckland, AUT and VUW:** no dated 2027 start read yet. Auckland's academic-dates page has no values; AUT's year is not printed; VUW's quote was not on the page.
+- **Lincoln:** only 2026 key dates are published.
+- **Deadlines** (`application_deadline_status`, audience) and API v3 intake provenance: not started. They need coordination with the v3 owner.
+- Admin UI columns and filters (F-INT.07/.08): not started.
+
+**Open for the Platform Admin:**
+- Approve or reject the Massey 2027 key-dates reading (proposal `ed932822`). The page also lists exam periods; the two semester starts are quoted from it.
+
+**Next executable action:**
+- Watch the 02:26 UTC cycle (the second uninterrupted cycle) and Canterbury admission.
+- Then Auckland and VUW calendar sources that print the year.
+- Then propose `application_deadline_status` for v3 to the integration owner.
