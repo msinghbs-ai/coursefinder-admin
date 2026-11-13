@@ -11251,3 +11251,71 @@ Scholarship Layer 4 pending: 0.
 **Not done:** prompt v2; v3 sync/export; the eight course requests beyond the 11:50 record; Admin UI filters for them.
 
 **Next executable action:** build the v3 course sync store beside the v2 one (own sequence, changed/removed by content hash, all three countries), then prompt v2 against stored held readings.
+
+## 13 Nov 2026 14:35 AEDT — S2-Intakes: Massey calendar qualified by a rule fix; Canterbury and Massey dates admitted and delivered; planner stable
+
+**Platform Admin decision, 13 Nov 2026 13:03:**
+- Approve Massey's 2027 teaching-calendar facts (proposal `ed932822`) through the existing qualification safeguards.
+- Correct the qualifier rather than reject a teaching calendar that also lists exam periods.
+- Process Massey's courses, finish Canterbury, verify the planner, and report actual admissions and consumer read-back.
+
+**Found:**
+- **Massey's page was refused twice:**
+  - `blocked_word`: "exam" is in the page address.
+  - `year_not_proved`: the year is printed in each table's heading ("Semester One 2027"), not in the row. The table parser used that year but kept no proof of it.
+  - The AI reader could not read the page either: its quotes did not match the stored table cells (US$0.0034, no values).
+- **Canterbury was not advancing because of fairness, not a fault:** the scheduled planner gave it 6 rows an hour (25 a university a round, behind the AU pilot share).
+
+**Done:**
+- **Pilot #1116** (merge `dba551e6`; `deploy-on-merge` applied migration `20261113313000` and deployed `coverage-sweep` version 276, whose live `policy.ts` equals the repository):
+  - **Parser:** a start keeps its heading as `year_quote` only when that heading names the same period. "Trimester dates 2027" gives no proof, and deadlines get none.
+  - **Qualifier:** two new settings, `central.calendar_qualify_shared_event_words` (`exam`) and `central.calendar_qualify_teaching_start_words`.
+    - A shared event word no longer refuses a page whose every in-window start is quoted with teaching-start wording.
+    - Orientation, exam, enrolment, application, add/drop and refund dates are still never starts.
+  - Rolled-back trial before release: all 112 proposed readings kept their verdict. Live qualifier body `accbbc53…`. New spec `s541`.
+- **Massey:**
+  - The stored copy was read again (no fetch) and each start now quotes "Semester One 2027" / "Semester Two 2027".
+  - Machine approval at 03:25 UTC: Semester One 2027 from 22 Feb, Semester Two 2027 from 12 Jul.
+- **Planner:** clean runs at 01:26 (200 rows, 97 s), 02:26 (150 rows, 80 s) and 03:26 (150 rows, 85 s). The batch stays 150.
+- **On demand** (database-only planner runs for Canterbury and Massey, opened and closed under v1.17):
+  - Canterbury request `244a393d`: no Firecrawl, no AI.
+  - Massey request `23f05b20`: one AI calendar read, US$0.0034.
+
+**Measured after (14:30 AEDT):**
+
+| | Intakes | Predicted fills | Retained exact starts | Website v3 | Zoho v3 |
+|---|---|---|---|---|---|
+| Canterbury | 365 | 150 | **151** (149 × 22 Feb 2027, 2 × 19 Jul 2027) | 151 of 151 courses | 151 of 151 |
+| Massey | 53 | about 53 (the Platform Admin's count of held intakes) | **11** (10 × 22 Feb 2027, 1 × 12 Jul 2027) | 11 of 11 | 11 of 11 |
+
+- **NZ:** exact start 82 → 244 and intakes with a year 82 → 244. Courses with an exact start: 211.
+- **AU and CA:** unchanged (AU exact 4,469; deadline 69). No AU dates were filled in these runs.
+- **Events since 11:10 AEDT:** 162 filled, 0 withdrawn or corrected.
+
+**Held, by the rule that holds them:**
+- **Canterbury (214):**
+  - 110 July intakes: "the named period starts sooner in another month (2027-02-22): a later year's start in this month is not taken". The pages say "Start in Semester 1 or 2 (February or July)", and July 2026 has passed.
+  - 82: the course page names no study period (month only).
+  - 12: no stored intake wording.
+  - 5: E16 page not proved.
+  - 5: a page date that is past or not on the calendar.
+- **Massey (42):**
+  - 25 month only (24 name no study period).
+  - 9 conflicting evidence (6 by the same later-year rule; 2 "period does not start in this month").
+  - 4 held for review.
+  - 4 not yet read.
+  - Massey's predicted 53 was the count of held intakes, not of fillable ones.
+
+**Finding:** 10 intake rows (Massey 9, Otago 1) have, as their only page wording, an application closing date ("Applications close on 19 February"). Their intake month probably came from a deadline. None was dated. Correcting or withdrawing them needs a reader fix; it was not done.
+
+**Not done:**
+- The deadline status field (`application_deadline_status`) and source provenance in v3: not started (coordination with the v3 owner).
+- Admin UI optional columns and filters (F-INT.07/.08): not started.
+
+**Open for the Platform Admin:**
+- The "later year's start in the same month" rule holds 116 Canterbury and Massey July intakes whose pages name Semester 2 and whose next July start is 2027. Allowing the next year's start when the page names the period would date them. That is a change to an intake rule and is not taken.
+
+**Next executable action:**
+- Admin UI columns and filters in the existing Intake Run & Validate and Course Catalogue.
+- The application-close intake rows.
+- The v3 deadline status proposal to the integration owner.
