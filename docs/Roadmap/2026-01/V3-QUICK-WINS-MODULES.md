@@ -98,9 +98,18 @@ Recommended first package: recognition, dictionary, city population and shared i
 
 ## Copy into each new Claude chat
 
+Select the roadmap item ID from the [milestone register](ROADMAP-MILESTONES.csv). Use RM1A for the Australian recognition and ASCED scope, RM4A for New Zealand recognition and RM0B for the v3 dictionary. [Human engagement register](ROADMAP-ENGAGEMENT-REGISTER.md)
+
 ```text
 Own only [MODULE NAME] in StudySearch. Read the current operating model,
 Admin Quick Start and your module brief in docs/Roadmap/2026-01/V3-QUICK-WINS-MODULES.md.
+Roadmap item: [RM ITEM ID]. Before replying to each substantive human interaction,
+follow the roadmap engagement rule in the operating model and append one verified
+row to docs/Roadmap/2026-01/ROADMAP-ENGAGEMENTS.csv on Admin main. Record
+Melbourne timestamp, item, activity, human minutes (15 minimum, 15 if unreported),
+topic, outcome and next action. A prompt request is Planning. A separate human
+request directing implementation is Development. Count each engagement once and
+exclude machine, CI and waiting time. Reuse the original ID on retries.
 Reconcile the listed R/O/REQ IDs with current main, the existing F-subtask,
 open PRs and targeted read-only live evidence. Start with the first bounded
 deliverable. Produce the database reuse/gap, exact keys and field types,

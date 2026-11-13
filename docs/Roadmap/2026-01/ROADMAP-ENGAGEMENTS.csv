@@ -1,0 +1,2 @@
+engagement_id,occurred_at,roadmap_item,milestone,module,activity,human_minutes,time_basis,session,topic,outcome,next_action,references,related_items,supersedes_id
+20261113T124016+1100-chatgpt-rm0a-setup,2026-11-13T12:40:16+11:00,RM0A,RM0,Roadmap governance,Planning,15,minimum,ChatGPT Work,Set up milestone tracking and human engagement logging,Recorded the 15-minute policy and created the register and workbook,Use the updated prompts for the next roadmap engagement,ROADMAP-ENGAGEMENT-REGISTER.md,,

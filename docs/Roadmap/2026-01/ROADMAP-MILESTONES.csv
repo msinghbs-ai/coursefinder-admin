@@ -1,0 +1,34 @@
+roadmap_item,parent_milestone,title,module,status,owner,references,next_action
+RM0,,Shared platform,Milestone,In progress,,,Follow the release scope and sequence in the destination roadmap.
+RM0A,RM0,Engagement register and operating model,Roadmap governance,Delivered,Integration Controller,,Use the logging rule for each subsequent human engagement.
+RM0B,RM0,API v3 field dictionary,RM-v3-Dictionary,Roadmapped,RM-v3-Dictionary,R33 / REQ-76,Check the deployed Website and Zoho v3 contracts and document sync/export differences.
+RM1,,Australia,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,"Project source-backed CRICOS recognition, then verify AU ASCED classification."
+RM1B,RM1,Australian city population,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67 / REQ-68,Confirm official data rights and campus-to-geography mappings.
+RM1C,RM1,Australian application routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O23,Qualify first-party application route references.
+RM1D,RM1,Australian careers dataset,RM-Careers,Roadmapped,RM-Careers,O38 / REQ-68,Confirm reuse terms and select one official edition.
+RM1E,RM1,Provider primary campus,RM-Campuses,Decision pending,RM-Campuses,R32 / REQ-75 / D-4,Confirm approved main-campus selection policy.
+RM1F,RM1,Business school accreditations,RM-Accreditations,Decision pending,RM-Accreditations,R30 / REQ-57 / D-3,Confirm the decision and publisher rights.
+RM1G,RM1,Course study load and teaching language,S2-CF,Roadmapped,S2-CF,O25 / REQ-52 / O17,Verify existing course and offering scope before proposing additive fields.
+RM2,,Canada,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM2A,RM2,Canadian course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58,Confirm ownership and repair source-backed course-campus associations.
+RM3,,UK,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM4,,New Zealand,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM4A,RM4,New Zealand course recognition,RM-Recognition,Roadmapped,RM-Recognition,O29,Verify NZQA course-registration authority and v3 visibility.
+RM4B,RM4,New Zealand course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58 / REQ-81,Confirm ownership and verify course-campus evidence.
+RM5,,Ireland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM6,,USA,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM7,,Germany,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM8,,Sweden,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM9,,Finland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM10,,Denmark,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM11,,Spain,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM12,,Malta,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM13,,Netherlands,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM14,,France,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM15,,Austria,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM16,,Switzerland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM18,,Hungary,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM21,,Latvia,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM23,,Dubai (UAE),Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM25,,Singapore,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
