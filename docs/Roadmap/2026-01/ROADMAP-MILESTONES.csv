@@ -3,9 +3,9 @@ RM0,,Shared platform,Milestone,In progress,,,Follow the release scope and sequen
 RM0A,RM0,Engagement register and operating model,Roadmap governance,Delivered,Integration Controller,,Both agents log to the CSVs only; Claude regenerates the workbook from them.
 RM0B,RM0,API v3 field dictionary,RM-v3-Dictionary,Roadmapped,RM-v3-Dictionary,R33 / REQ-76,Check the deployed Website and Zoho v3 contracts and document sync/export differences.
 RM1,,Australia,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
-RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,"Project source-backed CRICOS recognition, then verify AU ASCED classification."
-RM1B,RM1,Australian city population,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67 / REQ-68,Confirm official data rights and campus-to-geography mappings.
-RM1C,RM1,Australian application routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O23,Qualify first-party application route references.
+RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,"Build RM1A-1 CRICOS recognition projection on v3 course (S1-RM-Design §4 M1), then RM1A-2 ASCED assignments (M2); F-DISC to reconcile 2,297 active rows with past valid_to."
+RM1B,RM1,Australian city population,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67 / REQ-68,"Register ABS ERP and postcode-to-SUA correspondence with rights, then build destination core M3 (S1-RM-Design)."
+RM1C,RM1,Australian application routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O23,Build policy tables M4 after M3; capture AU direct and TAC route pages with applicant scope (S1-RM-Design).
 RM1D,RM1,Australian careers dataset,RM-Careers,Roadmapped,RM-Careers,O38 / REQ-68,Confirm reuse terms and select one official edition.
 RM1E,RM1,Provider primary campus,RM-Campuses,Decision pending,RM-Campuses,R32 / REQ-75 / D-4,Confirm approved main-campus selection policy.
 RM1F,RM1,Business school accreditations,RM-Accreditations,Decision pending,RM-Accreditations,R30 / REQ-57 / D-3,Confirm the decision and publisher rights.
@@ -14,7 +14,7 @@ RM2,,Canada,Milestone,Roadmapped,,,Follow the release scope and sequence in the 
 RM2A,RM2,Canadian course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58,Confirm ownership and repair source-backed course-campus associations.
 RM3,,UK,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM4,,New Zealand,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
-RM4A,RM4,New Zealand course recognition,RM-Recognition,Roadmapped,RM-Recognition,O29,Verify NZQA course-registration authority and v3 visibility.
+RM4A,RM4,New Zealand course recognition,RM-Recognition,Roadmapped,RM-Recognition,O29,Capture a course-grain NZQF listing and classify nzqa codes before any NZ recognition (S1-RM-Design §7 step 4).
 RM4B,RM4,New Zealand course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58 / REQ-81,Confirm ownership and verify course-campus evidence.
 RM5,,Ireland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM6,,USA,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.

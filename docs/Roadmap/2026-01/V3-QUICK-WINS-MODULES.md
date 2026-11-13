@@ -127,6 +127,7 @@ dependency. Use existing request and execution records.
 ### References
 
 - [Production destination data design](DESTINATION-DATA-DESIGN.md)
+- [S1-RM-Design database design and v3 handoffs (13 Nov 2026)](DESTINATION-DATA-DESIGN.md#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026): verified state, field matrix, proposed DDL, fixtures, acceptance and first slice RM1A-1
 - [Consumer request register](../../integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md) · [Request CSV](../../integrations/CONSUMER-REQUESTS.csv)
 - [API v3 field definition](../../integrations/api-v3/API-V3-FIELD-DEFINITION.md) · [Website v3 implementation](https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/main/supabase/functions/website-api-v3/index.ts) · [Zoho v3 implementation](https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/main/supabase/functions/zoho-api-v3/index.ts)
 - [Course API gap review](../../integrations/2026-11-12-destination-sources-course-api-gap-review.md) · [AER API gap review](../../integrations/2026-11-12-destination-sources-aer-api-gap-review.md)
