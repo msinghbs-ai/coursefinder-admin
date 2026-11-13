@@ -3679,3 +3679,32 @@ Coordination: no shared binding function or worker version was changed by #1127;
 | Qualifies to clear but still unpublished; waiting on its recheck (15:44 UTC) | 1 |
 
 **International eligibility and AI reviews:** 144 international-unresolved cases and 89 AI reviews remain with reviewers.
+
+## 13 Nov 2026 23:55 AEDT — F-OPS.08 Lean AI Input: Phase 0 measured, Phase 1 built in shadow (Pilot #1131, not merged)
+
+**Mandate:** Platform Admin 13 Nov 2026 22:51 "StudySearch — Lean AI Input and Evidence Optimisation". Options recorded: scope C→A, existing evidence A (local conversion; no Firecrawl re-acquisition), models A (qualify MiMo-V2.6-Flash and Mistral Small 4 against Qwen3 per service, after #1128 routes), screenshots selective A, readable WebP without blind clipping, legacy PNG conversion only after reference/readability/retention/saving/rollback checks (logos excluded).
+
+**Phase 0 — DELIVERED** ([baseline](LEAN-AI-INPUT-PHASE0-BASELINE-2026-11-13.md)):
+- The 775 KB `extraction-input.json` files are retired Layer 3 staging copies (last written 1 Oct, no reader). They are **not** an AI cost.
+- AI requests are bounded in code. The scholarship lane, the only one with tokens recorded, runs at p50 1,780 / p95 4,132 / max 7,756 input tokens. The bound is **silent truncation** at 24,000 characters for course text and course fields; tables are flattened.
+- Enrichment spend over 14 days was US$81.04 of US$103.0 across all AI lanes. Share of spend on items that ended without a value: deadline 94%, description 63%, entry 26%. Cost per filled item: deadline US$0.0200, intakes US$0.0133, English US$0.0831.
+- 5,974 pages were sent twice (separate description and deadline calls).
+- Firecrawl: rawHtml plus a full-page screenshot cost 1 credit on 4,670 of 4,689 calls (measured). rawHtml plus markdown has not been measured; local conversion of stored HTML makes it unnecessary for existing evidence.
+
+**Phase 1 — BUILT, VERIFYING** (Pilot [#1131](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1131), worker v0.85.0, migration 20261113400000):
+- Added the `lean-md-v1` structured text (table rows keep their headers, block offsets).
+- Added a high-recall shadow preflight.
+- Every Enrich-fields course-page read is now observed: source length, characters sent, whether it was cut and where, preflight on the sent text and the whole page, input hash and fingerprint. The data goes to `pipeline.ai_input_observations`; the report is `security.ai_input_observation_report_v1`.
+- No request, prompt, model, skip, value, admission, budget, floor or consumer API change.
+- **Open before merge:** CI green on #1131; a rolled-back live rehearsal of migration 20261113400000 (the Supabase tool asked for an approval that went unanswered; nothing was applied).
+
+**Phase 1 acceptance (after deploy):** observations recorded for real reads, then the cut rate, "signal only beyond the cut" and `no_signal_but_filled` (must stay 0 before any skip is proposed) reported per field. Enrichment AI has made no calls since the 08:09 UTC model change ("too much usage"). Production observations therefore start with the next authorised Enrich-fields run; no spend is started by this work.
+
+**Next, under normal controls:**
+1. Phase 1b: send the field's relevant sections in full, with offsets, rather than the first 24,000 characters (split or hold, never cut). Shadow comparison first.
+2. Content/section fingerprint cache: skip only reads whose input, prompt, model and schema are unchanged.
+3. One-pass description plus deadline read: needs requalification of the pinned `cdesc-source-grounded-v1`.
+4. Model qualification after #1128.
+5. Phase 2 selective WebP screenshots in the existing evidence inspector.
+
+No budget, model activation, deletion or merge of unverified work.
