@@ -191,6 +191,8 @@ A shared spec, `// Guards: P0 cross-domain operator contract (Platform Admin 10 
 
 - F-SCH production redesign (Platform Admin directive 12 Nov 2026 16:12, acceptance criteria §14 items 1 to 10): release 1 deployed 12 Nov 2026 (Pilot #1059, worker v0.77.0; design `docs/scholarships/SCHOLARSHIP-MECHANISM.md` v3.0 section 13). Not accepted: acceptance needs measured field-completeness and admission gains across providers and two unattended cycles; evidence in the Execution Register.
 
+- S2-Scholarship progress 13 Nov 2026 13:00 AEDT (not accepted): re-admission guarded and on (Pilot #1108; 0 re-admissions; Sydney Bowel Cancer correctly held as a closed 2019 round); scholarship extraction restarted after a 10-hour picker time-out (Pilot #1114); 43 of 77 long-page cases queued for sectioned recovery (Pilot #1109; new validated fields not yet measured); Admin catalogue delivery columns and detail panel live (Pilot #1113). Published 1,202 / active 1,655, unchanged; Website and Zoho v3 verification and two unattended cycles still open. Evidence: Execution Register 13 Nov 13:00.
+
 ### F-DISC — Provider/course lifecycle and source integrity (IQ-00046/47/56 etc.)
 - [ ] **F-DISC.01 Classify source-gone vs temporary timeout vs HTTP 200 empty page vs identity refusal; do not exhaust/retry permanently dead URLs.**
 - [ ] **F-DISC.02 Provider/country/course archive cascades only under approved housekeeping/locks, preserve evidence and scheduled-job consistency.**
