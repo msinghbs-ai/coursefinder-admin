@@ -11248,3 +11248,56 @@ The 150 `sch_value` interventions are capped by `har.open_max_per_lane` (150).
 | Qualifies to clear but still unpublished; waiting on its recheck (15:44 UTC) | 1 |
 
 **International eligibility and AI reviews:** 144 international-unresolved cases and 89 AI reviews remain with reviewers.
+
+## 14 Nov 2026 00:20 AEDT — S2-Scholarship: value backlog, classification fairness, AI vendor block (directives 13 Nov 23:07 and 23:21; F-SCH.14–.15)
+
+**Released (merged, deployed, history md5 equals each file):**
+- **Pilot #1130** (`20261113371500`, md5 `e81f4707…`): fair coverage classification.
+  - Cause of the 18 stranded value cases: 2,561 providers at 40 an hour was a 64-hour cycle, and the 127 providers with an integration issue went first, so the rest waited about 5 days (oldest 9 Nov).
+  - Selection is now: new providers; then providers with waiting Layer 4 work or older than `sch_cov.max_age_hours` (36); then integration issues; then oldest.
+  - `batch.sch_coverage_classify` 40 → 120. Live function md5 `370ef840…`.
+  - The 16 stranded providers (UBC, Auckland, RMIT, Curtin and others) were re-classified at 12:08 UTC using the scheduler's own function. All 55 published value cases then met their closure condition (`published_verified`).
+- **Pilot #1132** (`20261113373500`, md5 `24a535da…`): AI vendor-block hold and never-decided pages first.
+  - From 11:07 UTC OpenRouter answered HTTP 403 "Key limit exceeded (weekly limit)" on every call, and **1,154** queue items were closed on it. (An earlier report said 2,508; that was an overcount.)
+  - On such a block the lane now drops to one probe call; the first success re-queues what the block closed.
+  - The manual pause (12:15 UTC, control event 47420) is replaced by this automatic hold.
+  - Calls succeeded again from 12:36 UTC, and the first re-queue of 500 items ran.
+
+**Layer 4 value cases (150 by ID):**
+- 55 have their scholarship published and classified `published_verified`. The Layer 4 re-check (`layer4-interventions`, :14/:44) had not reached them: it checks due items oldest first, at most `batch.har_verify` (200) a run, across every lane.
+- At 12:50 UTC I set `next_action_at` to now for the 79 items whose re-check condition is already met:
+  - 56 `sch_value`: the 55 published plus intervention 294, which is held as another edition;
+  - 6 Notre Dame ownership conflicts, whose register PDFs are now candidates on notredame.edu.au;
+  - 17 international-unresolved cases whose state has changed.
+- **Closures are not verified yet.** These items fall due at the 13:14 UTC run; this entry was written at 13:15 UTC. The read-only export (md5 `076c124b…`) ran just before that run and still shows 300 open scholarship interventions. The production database connector disconnected at the same time, so the closed IDs and their downstream state have not been read back. Note also that the re-check takes due items oldest first, at most `batch.har_verify` (200) a run, across every Layer 4 lane. If other lanes fill that limit, scholarship items wait; that would be a fairness fix in the shared Layer 4 tick, coordinated with the Integration Controller.
+
+**The other 95 value cases:**
+- 57 have verified benefits but no amount.
+- 24 have no amount and no stated benefit.
+- 14 are not yet read by the v3 reader.
+- 3 are wrong-source admissions (two Auckland student stories, one Griffith blog), and intervention 294 is a duplicate edition.
+- A single scoped decision for the Platform Admin covers the 57 (options A/B/C; B recommended, 30 records with recognised cost benefits): `docs/scholarships/decisions/D-SCH-VAL-01-unquantified-benefit-awards.md`. No value is invented and publication policy is unchanged.
+
+**Provider coverage (read-only export, about 13:05 UTC 13 Nov):**
+
+| Country | Classified universities | With candidate pages | With published | Active | Published | Layer 4 open | AI reviews |
+|---|---|---|---|---|---|---|---|
+| AU | 40 | 40 | 38 | 1,342 | 1,041 | 185 | 46 |
+| NZ | 8 | 8 | 7 | 190 | 165 | 61 | 17 |
+| CA | 95 | 72 | 12 | 128 | 91 | 28 | 16 |
+
+- All providers: 1,334 published at 69 providers, 1,721 active, 300 Layer 4 open, 88 AI reviews.
+- Canada by state: 35 read but not proven, 23 source found and still being read, 17 with no website on record, 6 searched with none found, 2 admitted but not published, 12 published.
+
+**Named providers:**
+- **VUW:** 79 pages, 65 read, 0 admitted. 54 were queued for AI; never-decided pages now go first.
+- **Notre Dame:** 12 pages, 11 read, 0 admitted. The 6 ownership-conflict cases meet their closure condition; closure is not verified yet.
+- **CDU:** its finder (`stapps.cdu.edu.au/apex/f?p=1000:600`) stays a *suggested* source awaiting human approval in Coverage.
+
+**Not done:**
+- verified closure IDs (the connector is down);
+- Qwen-only extraction (the scholarship model chain still lists gpt-4.1-mini as escalation; coordinating with Models & Services);
+- government/external programme modelling;
+- the 17 Canadian website identities;
+- Website/Zoho v3 read-back;
+- two unattended cycles.
