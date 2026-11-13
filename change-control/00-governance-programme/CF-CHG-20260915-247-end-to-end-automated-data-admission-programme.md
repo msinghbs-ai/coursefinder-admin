@@ -11035,3 +11035,52 @@ Scholarship Layer 4 pending: 0.
 - After the admission backlog drains, measure newly validated fields from the 43 recovery readings.
 - Verify Website v3 scholarship list, detail, nationality and linked-course paging.
 - Record two unattended cycles.
+
+## 13 Nov 2026 13:55 AEDT — S2-CF: size-only description shortening live (#1115), runner audit, admissions measured
+
+**Authority:** Platform Admin S2-CF decision, 13 Nov 2026 12:16 (section 1 conditional approval; sections 3 and 6).
+
+**Released: Pilot #1115** (merge `dd96f36a`, migration `20261113310000_cf247_cdesc_shorten_by_sentence.sql`, file md5 `8a37ea9e…` equals the recorded migration; plan body `3c263a19…` → `2fd1a050b0e70c0ae9298a0d7419b075`, read back live).
+
+- A held description whose only fault is its size is shortened by whole sentences. No sentence is cut inside, nothing is added, no AI call.
+- The first sentence is never set aside.
+- A sentence goes together with later sentences that refer back to it.
+- The choice that fits at once is taken first, then the least loss of supported wording.
+- Never set aside: a sentence about a qualification, registration, recognition, endorsement, pathway, placement or entry condition; a sentence a later kept sentence may refer to. If only such choices are left, the reading stays held.
+- A reading with a failing sentence and a size problem is not shortened (outside the approval).
+- Every existing check applies to the final text. No setting, threshold or admission policy changed.
+- Original text, final text, cause per sentence and the machine decision are recorded with each admission.
+- Independent QA: three rounds, six conditions raised and closed, final verdict PASS at head `1f10712b`. Fixture 20 checks, 12 regressions.
+- Known limits (recorded, non-blocking): the loss measure counts supported words; the protected kinds are a word list; with equal sentences the first four are kept.
+
+**Measured**
+
+| Measure | Value |
+|---|---|
+| Canonical course descriptions, 13:52 AEDT | 4,611 (3,601 at 11:41) |
+| Machine admissions by hour (UTC 22, 23, 00, 01, 02 to :44) | 49, 60, 306, 746, 294 |
+| Of those by subset recovery (no AI spend) | 2, 0, 77, 136, 127 |
+| Shortened and admitted in the first two runs after release | 9 of 26 looked at |
+| Size-held readings in scope (dry run estimate) | about 315 of 1,860 (approval estimated 190) |
+| Task runner `admin-jobs`, 01:00 to 02:44 UTC | 105 runs, 0 failed, longest 55 s |
+| `course-description-machine`, 01:00 to 02:44 UTC | 43 runs, 0 failed, longest 90 s |
+
+**Reconciliation of 354 against 191:** canonical = machine-admitted + 163 older non-machine descriptions. The 09:05 figure of 3,247 was the machine count only (canonical was about 3,410). At 11:41: 3,438 machine + 163 = 3,601. Machine admissions rose by 191; no other source added descriptions.
+
+**Runner audit (for the Integration Controller)**
+
+| Setting | Value | Last change | Callers affected |
+|---|---|---|---|
+| `batch.admin_jobs` | 30 | AER session, 12 Nov 22:41 UTC (10 → 30) | every task slice run by `admin_jobs_tick_v1` |
+| `batch.enrich_fields` | 60 | S2-CF, 13 Nov 00:28 UTC (1200 → 200 → 60, events 37928, 38170) | `enrich_fields_slice_v1`: the standing gap task and all on-demand enrich tasks, AER `entry_requirements` included |
+| `jobs.per_lane_per_tick` | 1000 | 23 Oct | all lanes |
+
+- Slice size is `batch.admin_jobs × batch.enrich_fields / 10`. The pair (30, 1200) timed out (49 of 109 runs); (30, 60) has not failed since 00:28 UTC.
+- Open for the Integration Controller: whether `batch.admin_jobs` returns to 10 with `batch.enrich_fields` restored, or the present pair stays. S2-CF makes no further change to either.
+- No runner failure from 00:28 to 02:44 UTC with no setting changed in that time. The two-cycle validation is not yet complete: hour 01 is the one full hour measured; sustained throughput is not claimed.
+
+**Zoho API v3 (verified by direct call, 13 Nov):** search returns 34,041 courses with the v3 keys (`description_excerpt`, `scholarships_top`); course detail returns `description`, `scholarships`, `entry`. Sync and export are still the v2 pass-through: AU only (23,732 courses), no v3 fields. Not done: v3 sync and export fields, developer guide, field mapping. No consumer migration is claimed.
+
+**Not done:** prompt v2; v3 sync/export; the eight course requests beyond the 11:50 record; Admin UI filters for them.
+
+**Next executable action:** build the v3 course sync store beside the v2 one (own sequence, changed/removed by content hash, all three countries), then prompt v2 against stored held readings.
