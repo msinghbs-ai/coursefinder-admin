@@ -11576,3 +11576,33 @@ The 150 `sch_value` interventions are capped by `har.open_max_per_lane` (150).
 - the 17 Canadian website identities;
 - Website/Zoho v3 read-back;
 - two unattended cycles.
+
+## 14 Nov 2026 01:15 AEDT — S2-Scholarship follow-up (production database connector unavailable; read-only export only)
+
+The production database connector has been down since about 13:15 UTC, so neither scheduled follow-up could read exact IDs, field completeness or the Website/Zoho v3 responses. The only live reading was the read-only coverage evidence export (Pilot workflow run 43438908831, 14:02 UTC, md5 `15428437…`), compared here with the 13:10 UTC run (`076c124b…`).
+
+| Measure | 13:10 UTC | 14:02 UTC |
+|---|---|---|
+| Scholarship Layer 4 interventions open | 300 | **271** (29 closed across the 13:14 and 13:44 runs) |
+| Notre Dame interventions open | 6 | **0** (its 6 ownership conflicts closed) |
+| Published scholarships | 1,334 | **1,346** (+12) |
+| Providers with published scholarships | 69 | **70** |
+| Active scholarships | 1,721 | 1,727 |
+| Candidates admitted | 1,545 | 1,551 |
+| Candidate pages read | 27,572 | 27,712 |
+| AI reviews pending | 88 | 88 |
+
+- **Closures:** 79 interventions met their condition at 12:50 UTC, but only 29 have closed. The rest are probably waiting behind other lanes' older items in the shared Layer 4 re-check (at most `batch.har_verify`, 200 a run, oldest first), but this cannot be confirmed by ID until the connector returns. A fix would need coordinating with the Integration Controller.
+- **Named providers:**
+  - **VUW:** all 79 pages read, 0 admitted.
+  - **Notre Dame:** 11 of 12 pages read, 0 admitted; it is now "read, not proven", with no Layer 4 cases open.
+  - **CDU:** 3 active, 0 published, with 3 interventions (value and international eligibility).
+- **Not verified this run:**
+  - exact closed IDs and their published/served state;
+  - field completeness against the 13:00 baseline;
+  - the outcome of the 43 sectioned-recovery items;
+  - AI tokens and cost since 12:36 UTC;
+  - Website/Zoho v3 read-back;
+  - two unattended cycles.
+
+  All of these need the database connector.
