@@ -4,7 +4,7 @@
 
 | File | Purpose |
 |---|---|
-| [Roadmap_Engagement_Register.xlsx](Roadmap_Engagement_Register.xlsx) | Excel view with milestone totals, a filterable engagement log and instructions for importing the latest rows |
+| [Roadmap_Engagement_Register.xlsx](Roadmap_Engagement_Register.xlsx) | Excel view with milestone totals and a filterable engagement log. Read-only for agents: Claude regenerates it from the CSVs |
 | [ROADMAP-ENGAGEMENTS.csv](ROADMAP-ENGAGEMENTS.csv) | Current engagement ledger. Open directly in Excel for the latest entries. |
 | [ROADMAP-MILESTONES.csv](ROADMAP-MILESTONES.csv) | Milestones and work items with parent, owner, request references, status and next action |
 | [Operating model](../../platform/AGENT-OPERATING-MODEL.md#roadmap-milestones-and-human-engagement-time) | Mandatory logging instruction for every StudySearch roadmap session |
@@ -30,9 +30,9 @@ Corrections are appended with a new ID and `supersedes_id` pointing to the old I
 
 ### Excel maintenance
 
-The CSVs on `main` are the write targets for ChatGPT and Claude. The linked XLSX is a formatted snapshot. To refresh it in Excel, import the two latest CSVs as UTF-8, paste the data rows into the matching tables without changing their headers, and resize the tables to cover all imported rows. The Milestones table takes the first eight columns and preserves the calculated totals columns. The Engagements table takes the first 15 columns and preserves the calculated Counted minutes column. Copy formulas down if Excel did not fill a new row automatically. Ensure `human_minutes` imports as a number. The workbook's milestone totals then recalculate. A parent row rolls up the child entries once, so the grand total comes directly from the Engagements table.
+**Rule (Platform Admin, 13 November 2026):** the two CSVs are the only files ChatGPT and Claude write to. Neither agent edits `Roadmap_Engagement_Register.xlsx` directly. Claude regenerates the workbook from the CSVs on `main` and commits it, when asked and at each milestone review or handover. Between refreshes, the CSV is the current record and the workbook may lag.
 
-The workbook can be rebuilt from both CSVs with the [workbook generator](build-engagement-workbook.mjs) in a Node environment with `@oai/artifact-tool`. From the roadmap directory, run `node build-engagement-workbook.mjs ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv Roadmap_Engagement_Register.xlsx`. For an Excel handover or milestone review, refresh and verify the workbook against the current CSV rows and human-minute total. CSV writes remain the immediate reporting source between XLSX refreshes.
+To regenerate, from this folder run `python3 refresh-engagement-workbook.py Roadmap_Engagement_Register.xlsx ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv` (needs `openpyxl`). It keeps the formatting, fills the tables from the CSVs, keeps Occurred at as Melbourne ISO text, fills the calculated columns down and resizes the tables. Before committing, recalculate the workbook and check its row count and human-minute total match the CSV. The earlier [Node generator](build-engagement-workbook.mjs) depends on a ChatGPT-only library and is kept for reference only.
 
 ### Prompt clause
 

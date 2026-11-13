@@ -1,6 +1,6 @@
 roadmap_item,parent_milestone,title,module,status,owner,references,next_action
 RM0,,Shared platform,Milestone,In progress,,,Follow the release scope and sequence in the destination roadmap.
-RM0A,RM0,Engagement register and operating model,Roadmap governance,Delivered,Integration Controller,,Use the logging rule for each subsequent human engagement.
+RM0A,RM0,Engagement register and operating model,Roadmap governance,Delivered,Integration Controller,,Both agents log to the CSVs only; Claude regenerates the workbook from them.
 RM0B,RM0,API v3 field dictionary,RM-v3-Dictionary,Roadmapped,RM-v3-Dictionary,R33 / REQ-76,Check the deployed Website and Zoho v3 contracts and document sync/export differences.
 RM1,,Australia,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,"Project source-backed CRICOS recognition, then verify AU ASCED classification."
