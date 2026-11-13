@@ -1,6 +1,6 @@
 # StudySearch – Consumer developer requirements register (website and Zoho)
 
-**Version:** 2.22 (13 Nov 2026; S2-Scholarship requirements, backfill/readmission and v3/Admin UI acceptance; prior v2.21: S2-Intakes;  S2-Intakes F-INT developer requests, Website/Zoho v3 date fields and Admin UI acceptance mandate; prior 2.20: each developer request (REQ-01 to REQ-83) has a repo item ( O32–O39 added); `CONSUMER-REQUESTS.csv` is the weekly export of the working sheet with module and status; prior 2.19: S2-CF Course Module requested fields / Website+Zoho v3 / Admin coverage acceptance reconciled; prior 2.18: live review of open website and Zoho items, Z2 and Z12 updated; earlier 2.17: O20, O22, the F-SCH scholarship fields and OET/CELPIP live; R28 live in v3 (Pilot #1084); R23, R24, R29, R31 and O26 live in Website API v3; register of record widened to Zoho (Z1–Z12) with the intake and status routine; R23, R24, R28 defined in API v3 release 1)
+**Version:** 2.23 (13 Nov 2026; S2-CF delivery record: Zoho API v3 live, course coverage measured, description recovery; prior v2.22: S2-Scholarship requirements, backfill/readmission and v3/Admin UI acceptance; prior v2.21: S2-Intakes;  S2-Intakes F-INT developer requests, Website/Zoho v3 date fields and Admin UI acceptance mandate; prior 2.20: each developer request (REQ-01 to REQ-83) has a repo item ( O32–O39 added); `CONSUMER-REQUESTS.csv` is the weekly export of the working sheet with module and status; prior 2.19: S2-CF Course Module requested fields / Website+Zoho v3 / Admin coverage acceptance reconciled; prior 2.18: live review of open website and Zoho items, Z2 and Z12 updated; earlier 2.17: O20, O22, the F-SCH scholarship fields and OET/CELPIP live; R28 live in v3 (Pilot #1084); R23, R24, R29, R31 and O26 live in Website API v3; register of record widened to Zoho (Z1–Z12) with the intake and status routine; R23, R24, R28 defined in API v3 release 1)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -133,16 +133,45 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 
 **No new production authorisation is implied by recording this developer requirement reconciliation.** Code/migrations, new admission policies, spending and consumer go-live remain under existing G1–G4 gates.
 
+### S2-CF delivery record, 13 Nov 2026 11:45 AEDT (measured live, read-only)
+
+**Released today (Pilot):** #1106 course-description recovery and admission throughput; #1107 `zoho-api-v3` (Z1, Z4, R28, O26, v3 scholarship fields); draft #1085 closed with each part accounted for on the PR. Earlier: #1081 Course catalogue description filter and text; #1096 and #1100 stranded and refused reads put back in line.
+
+**Coverage of served courses (34,041 in `search.course_documents`; canonical = Website v3 = Zoho v3 for these fields):**
+
+| Field | AU (23,732) | NZ (6,495) | CA (3,814) | Massey (265) | Canterbury (280) |
+|---|---|---|---|---|---|
+| Description | 2,646 | 377 | 452 | 19 | 9 |
+| Delivery mode | 23,712 | 3,118 | 2,603 | 165 | 195 |
+| Intake | 9,452 | 2,217 | 1,683 | 34 | 205 |
+| English | 16,062 | 2,382 | 2,016 | 23 | 13 |
+| Duration | 23,732 | 2,426 | 1,353 | 165 | 210 |
+| Official course URL | 17,793 | 3,057 | 2,735 | 166 | 217 |
+| State or province | 23,697 | 2,437 | 3,814 | 106 | 58 |
+| Linked campus | 23,701 | 2,498 | 2,209 | 106 | 60 |
+
+| REQ | Delivered 13 Nov | Website v3 / Zoho v3 | Admin UI | Remaining blocker | Next executable action |
+|---|---|---|---|---|---|
+| REQ-21 | `has_academic_entry` filter with `edu_country` on website search (#1097); Zoho `course` `edu_country` (#1107) | Website: live. Zoho: `course` live, search filter not built | Not built | Board, qualification and score filters need the AER matching interface | Agree input names with the AER workstream, then build the search filter on its admitted rows |
+| REQ-36 | Not started | n/a | n/a | The original 30-field list is not in the repository | Obtain the list; reconcile field by field |
+| REQ-48 | Counts above: Massey intake 34 and English 23 of 265; Canterbury English 13 of 280 | As canonical | Catalogue filters exist for intake and English | Low English and Massey intake coverage are data gaps, not API gaps | Run the existing intake and English readers for the two providers on demand; re-measure |
+| REQ-51 | Current counts above replace the historical 14,445 intake figure: 13,352 of 34,041 served courses have an intake | As canonical | Data Delivery funnel exists | Entry matrix and scholarship nationality belong to AER and Scholarships | Per-provider refresh with the owners |
+| REQ-52 | Not built | No `study_load` key on live v3 | Not built | No catalogue field and no reader yet | Add storage beside `catalogue.courses`, a source-backed reader, the v3 key and the catalogue column |
+| REQ-53 | Measured: mode missing AU 20, NZ 3,377, CA 1,211 | As canonical | Column exists; no missing filter | NZ: 3,377 courses have no bound course page | Bind pages for the NZ register-only courses; add a missing-mode filter |
+| REQ-58 | Measured: NZ 4,058 without state; CA has a state on all 3,814 but only 2,209 have a linked campus | As canonical | Not built | CA: 1,605 states do not come from a linked campus and need checking against the rule | Trace the CA state source; derive NZ state from linked campuses only |
+| REQ-61 | Descriptions on served courses 3,601 at 11:41 (3,388 on 12 Nov; the table above was read at 10:55); admission rate up from about 45 to about 350 an hour after #1106 | Website v3 detail and `description_excerpt`; Zoho v3 `search` excerpt | Catalogue column and filter live (#1081) | Prompt v2 not yet built; exact-URL check not yet run | Build prompt v2 on the failure classes recorded in the execution register; audit `official_url` for non-course pages |
+
+
 ## Zoho requests and status (Z1–Z12)
 
 Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consolidation of 12 Nov 2026. Zoho reads `zoho-api-v2` (frozen, Decision 266). New Zoho fields go to `zoho-api-v3` (`api-v3/API-V3-FIELD-DEFINITION.md`), released with the website v3 under the release switch and the comms rule. Delivered Zoho requests are listed in the consolidation CSV and are not repeated here.
 
 | # | Request (who, date; REQ) | Status (12 Nov 2026) | Where it is returned / next step |
 |---|---|---|---|
-| Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Queued for Zoho API v3** (not deployed on 13 Nov 2026: no `zoho-api-v3` edge function or `zoho_v3_call`; draft Pilot #1085) | v3 `search` items: top-5 scholarship summary |
+| Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Live in Zoho API v3** (13 Nov 2026, Pilot #1107): `search` items carry `scholarships_top[]` | `zoho-api-v3` `search`: first five published scholarships (`scholarship_id`, `name`, `amount_type`, `amount_value`, `amount_currency`). Not yet told to Divya; cut-over under the comms rule |
 | Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data partly held, export unchanged.** Live 13 Nov 2026: CELPIP on 80 courses, OET on 0 (letter grades not converted; decision open, O14); TOEFL iBT, CAE and DET are held but the Zoho export still carries IELTS and PTE only | Zoho v3 export columns (needs `zoho-api-v3`, not deployed on 13 Nov 2026) |
 | Z3 | Provider and course export beyond Australia (Divya, 3 Nov; REQ-35) | **Setting change, released with v3.** `zoho.sync_countries` is `["AU"]` | Setting; consumer change, held for comms |
-| Z4 | Academic entry by student country on Zoho course detail (Divya; REQ-28) | **Queued for Zoho API v3** (website has `edu_country` since 28 Oct) | v3 Zoho `course` `edu_country` |
+| Z4 | Academic entry by student country on Zoho course detail (Divya; REQ-28) | **Live in Zoho API v3** (13 Nov 2026, Pilot #1107) | `zoho-api-v3` `course` with `edu_country`: the entry for that country, with `quote` and `source_url` on each row. Not yet told to Divya |
 | Z5 | How a scholarship is matched to a course (Divya, 3 Nov; REQ-30) | **Answer only** (v3 guide field dictionary, R33) | Reply to Divya |
 | Z6 | Five 3 Nov questions already met by v2: level flags, English/intakes/scholarships in search, search by institute name, numeric fields, multi-identifier lookup (REQ-11, 25, 26, 29, 33) | **Delivered; reply owed** | Reply to Divya with field names |
 | Z7 | Study area on scholarships (Divya; REQ-07) | **Open, data work** | Platform data; no API change until held |
@@ -286,6 +315,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.23 | 13 Nov 2026 | S2-CF delivery record added (measured coverage by country and for Massey and Canterbury; per-REQ delivered, blocker and next action). Z1 and Z4 are live in `zoho-api-v3` (Pilot #1107); draft #1085 closed with its parts accounted for. Course-description recovery released (Pilot #1106). |
 | 2.20 | 13 Nov 2026 | Platform Admin 10:13: are the REQ items in the admin repo. Living request list `CONSUMER-REQUESTS.csv` (83 rows, module and status, exported from the working sheet: 34 Delivered, 5 Live in v3, 19 Partly delivered, 15 Open, 8 New field needed, 2 Declined). O32–O39 added so every open request has a repo item. |
 | 2.18 | 13 Nov 2026 | Review of open website and Zoho items against live (Platform Admin 13 Nov 09:17). Confirmed on `website-api-v3`: R23 (Monash 9 named campuses, v2 8), R24 (status on every scholarship item), R28 (`start_date_status` on search intakes), R29 (563-course scholarship: page 2 returns 200, total 563; 175 scholarships over 200), R31 (Monash page link and review date), O20 (in the v3 course function), O22 (4,708 AU courses with `has_academic_entry`), O26 (13 of the first 50 AU search items carry an excerpt), the F-SCH scholarship fields. v2 functions unchanged (md5 `57115d3b…`, `d1792cc7…`). Not deployed: `zoho-api-v3`, dispatchers, `api.v3_released`; `website-api-v3` has no release gate. OET held on 0 courses, CELPIP on 80. IRU still 7 members. Z1, Z2, Z12 updated. |
 | 2.17 | 12 Nov 2026 | Live in Website API v3: O20 entry row sources (Pilot #1093), O22 `has_academic_entry` filter (Pilot #1097), and the F-SCH scholarship detail fields `description`, `award_type`, `sponsor`, `programme`, `award_code`, `benefits[]`, `application`, `award_duration`, `academic_year`, `excluded_nationality_codes[]`, `nationality_regions[]` (Pilot #1098, merge `a71109d8`, migration `20261113240000`; the v2 draft Pilot #1077 closed unmerged). O14: OET and CELPIP are English tests (Pilot #1099), as data in v2 and v3. v2 functions unchanged. |

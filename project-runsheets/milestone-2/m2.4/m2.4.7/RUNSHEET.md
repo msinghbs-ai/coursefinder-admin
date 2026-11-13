@@ -11026,3 +11026,29 @@ Scholarship AI spend today: US$2.02.
 **Next executable action:**
 - Switch on `sch_elig.readmit_on` after one live cycle shows only `readmit_held` for Sydney Bowel Cancer.
 - Plan the 77 terminal backfill failures: a split read for long pages.
+
+## 13 Nov 2026 11:50 AEDT — S2-CF: description recovery and throughput, task runner unblocked, Zoho API v3 live, #1085 closed
+
+**Platform Admin, 13 Nov 2026 10:25 (S2-CF directive):** restore productive description processing, classify held readings, Zoho v3 on current main and close #1085, eight developer requests, report measured outcomes.
+
+**Found (live, read-only):**
+- **Task runner stalled.** `admin-jobs` timed out on 49 of 109 runs from 09:41: `batch.admin_jobs` went 10 to 30 (AER on-demand backlog), which made the Fill the gaps slice 3,600 items. Every lane rolled back with it; 2,800 queued description reads did not move for about two hours.
+- **Admission was the cap, not reading.** The machine check took 2.4 to 6.1 s an item (an unindexed exact-text comparison), with 52 s of settling and recovery every ten minutes: about 45 admissions an hour while 268 an hour arrived.
+- **Held readings (1-in-12 sample of 513, about 6,150 in all).** Readings by the current prompt (271): the existing subset rule could already admit 37 %, never reached; 47 % failed only because a kept sentence points back to one set aside. The recovery step never looked at `copied_sentence` holds.
+- **Failure classes of the latest reading per course without a description (10:40):** not yet read 2,800 queued; incomplete source evidence 2,560 (no proven or correct course page); unsupported sentence 1,442; copied wording 979 (current prompt) plus most of the earlier prompt's 1,686 length and sentence-count holds; sentence count 1,094 and length 1,319 (format only); unsupported claim 597; quote not on page 392; marketing 120; duplicate of another course 84; insufficient facts 66; waiting to be read again 727; superseded 925; technical 308 (208 no answer after three tries, 97 key-limit refusals, 3 other). Identity and manual protections are applied at admission: in the last two hours the machine declined 40, mostly rejected-before, ambiguous binding and thin identity margin.
+
+**Done:**
+- Setting `batch.enrich_fields` 1,200 → 200 → 60 (control events 37928, 38170): a slice is 180 items; the runner has succeeded on every run since 11:29.
+- Pilot #1106 (merge `b3005463`, migration `20261113280000`; independent QA passed; live bodies and recorded md5 equal the files): index for the machine check (0.9 to 1.6 s an item), job every two minutes, the subset plan agrees with the check and sets a pointing-back sentence aside with the one it points to, the copy test also runs on the sentence as written, `copied_sentence` and `generic_phrase` holds are recovered, 97 later key-limit refusals marked to be read again. No check, policy, machine rule or setting changed; nothing is cut for length; no AI call.
+- Pilot #1107 (merge `0adcc7b5`, migration `20261113290000`, edge function `zoho-api-v3` version 1; independent QA passed): Zoho API v3 beside v2. Draft #1085 closed with each part accounted for.
+- Register 2.23 and the v3 field definition updated with the measured coverage and per-REQ status.
+
+**Measured after (11:41):** 191 descriptions admitted since 09:05 (140 on first check, 51 recovered from held readings); 141 in the last hour and about 350 an hour since #1106 went live. Canonical descriptions 3,601 (3,247 at 09:05). 3,546 AI reads since 09:05 for US$5.51 (US$0.00155 a read), model and prompt `cdesc-source-grounded-v1`; credit US$91.27. 1,148 wait for the machine check; 220 queued.
+
+**Not done:** prompt v2; REQ-21 board, qualification and score filters; REQ-36; REQ-52 study load; REQ-53 and REQ-58 data corrections; Admin UI columns and filters for the new fields; developer field dictionary and change notice.
+
+**Open for the Platform Admin:**
+- A reading whose only fault is too many sentences or characters is still held whole (about 190 current-prompt readings). Keeping the leading sentences that fit would admit them; that is a decision to cut and is not taken.
+- The check itself still lets a ten-word copy run through the course title pass on a fresh reading (the recovery plan does not). To be closed with prompt v2.
+
+**Next executable action:** prompt v2 with its validator changes (stricter copy test in the check, provider-name strip for trading names, sentence and length limits stated in the prompt), tested on stored held readings before any new spend; then REQ-52 and the REQ-53/58 data corrections.
