@@ -144,7 +144,7 @@ Reuse the previous capacity model for the first six roadmap destinations as an i
 
 ## S1-RM-Design — database design and v3 delivery handoffs (13 November 2026)
 
-**Status:** design and handoff record for RM0 (chat S1-RM-Design). Nothing in this section has been built or deployed. Proposed objects are marked *proposed*; every other object named here was confirmed in live read-only metadata on 13 November 2026 at about 15:20 AEDT. Prompt: [S1-RM-DESIGN-PROMPT.md](S1-RM-DESIGN-PROMPT.md). Related items: RM1A, RM4A, RM1B, RM1C, RM0B; O29, O28, O38, O23, O27, R30, R32, R33; REQ-52, REQ-57, REQ-58, REQ-67, REQ-68, REQ-75, REQ-76, REQ-81.
+**Status:** design and handoff record for RM0 (chat S1-RM-Design). Slice RM1A-1 was delivered on 13 November 2026 (see §7); everything else in this section is proposed. Proposed objects are marked *proposed*; every other object named here was confirmed in live read-only metadata on 13 November 2026 at about 15:20 AEDT. Prompt: [S1-RM-DESIGN-PROMPT.md](S1-RM-DESIGN-PROMPT.md). Related items: RM1A, RM4A, RM1B, RM1C, RM0B; O29, O28, O38, O23, O27, R30, R32, R33; REQ-52, REQ-57, REQ-58, REQ-67, REQ-68, REQ-75, REQ-76, REQ-81.
 
 ### 1. Verified starting point
 
@@ -472,7 +472,7 @@ The cursor is pinned to `generation`. A cursor from a superseded generation retu
 
 | Order | Slice | Depends on | Owner |
 |---|---|---|---|
-| 1 | **RM1A-1** — M1 projection on Website v3 `course` (merge on green under Decision 277); Zoho v3 `course` held until Divya is notified | Recorded md5 of the three wrappers; developer register entry | RM-Recognition builds; Integration Controller composes wrappers and releases |
+| 1 | **RM1A-1** — M1 projection on Website v3 `course` (merge on green under Decision 277); Zoho v3 `course` held until Divya is notified. **Delivered 13 Nov 2026** (Pilot #1124, migration `20261113333000`): Website v3 only; live read-back 21,633 served / 2,099 held / NZ 6,495 held; Admin Recognition card and Data Delivery panel. Payload uses `evidence_date` and `checked_on` in place of `checked_at` | Recorded md5 of the three wrappers; developer register entry | RM-Recognition builds; Integration Controller composes wrappers and releases |
 | 2 | F-DISC fix for the 2,297 `active`/past-`valid_to` CRICOS rows (clear on reappearance, or end the registration) | L1 CRICOS apply path | F-DISC / L1 owner |
 | 3 | **RM1A-2** — M2 assignments + backfill + projection | Slice 1 released | RM-Recognition; L1 for the apply step |
 | 4 | **RM4A-1** — capture course-grain NZQA/NZQF listing; classify `nzqa` codes by sub-scheme | L1 NZ adapter | RM-Recognition with L1 NZ owner |

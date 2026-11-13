@@ -11335,3 +11335,24 @@ Scholarship Layer 4 pending: 0.
 **Next executable action:**
 - Correct the intakes reader's admission check so a quote that only states an application closing date is not an intake, and correct the 10 rows through the governed path.
 - Then F-INT.07/.08.
+
+## 13 Nov 2026 16:45 AEDT — RM1A-1 (O29): CRICOS course recognition live on Website API v3 course detail (Pilot #1124)
+
+**Trigger:** Platform Admin 13 Nov 2026 15:29 AEDT, chat S1-RM-Design: "step 1 - maintain the design and operational mechanisms". Design: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.1, section S1-RM-Design, §4 M1.
+
+**Delivered and verified:**
+- Pilot #1124 merged on green (2,940-test run on head `1790e2e2`; Decision 277, Website v3 only), squash `a0857af9`. Deploy on merge applied migration `20261113333000`; the history md5 equals the file (`12a2d605ccb5e75a13034a2a660c856a`).
+- Website v3 `course` (both forms) returns `recognition[]`: `{scheme:"CRICOS", code, status:"registered", authority, source_url, evidence_date, checked_on}`. Read back live from the database after deploy: 104270B one item; a held course, an NZ course and a CA course `[]`; an inactive course `NOT_FOUND`.
+- Coverage counted live: AU 23,732 searchable, **21,633 served**, **2,099 held** (registration active with an end date of 1 Oct 2026); NZ 6,495 held (no course-grain NZQA evidence).
+- Unchanged, by md5 after deploy: `website_v2_course(text)` `50d22c3c…`, `zoho_v3_course` `f3e97603…`, `zoho_v3_courses` `e7b05f53…`, `website_v3_course_item_r28` `d7e4ccb0…`. The new functions are not executable by anon.
+- Admin: Recognition card in the course detail summary; Course recognition panel in Layer 2/3 › Operations › Data Delivery (served, held by reason, next action).
+- Timing, 100 AU courses in the database: the recognition step adds about 8 ms a course; v3 `course` measured no slower than v2 `course` on the same set.
+
+**Not done:**
+- An HTTP call to `website-api-v3` with a website key, and a signed-in look at the two Admin views. Neither was made from this session.
+- Zoho v3 `course` (held until the Zoho developer is told). The developer guide (v3 not cut over).
+- The 2,099 held courses: F-DISC to reconcile active CRICOS registrations whose end date has passed.
+
+**Next executable action:**
+- RM1A-2: ASCED field-of-study assignments from stored CRICOS evidence (design §4 M2).
+- F-DISC: reconcile the 2,297 active CRICOS rows with a past end date.
