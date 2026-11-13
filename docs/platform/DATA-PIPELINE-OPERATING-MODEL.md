@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.7 (12 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
+**Version:** 1.8 (13 Nov 2026) · **Change control:** CF-247 · **Decisions:** 260, 261, 277
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -101,7 +101,20 @@ Platform Admin, 12 Nov 2026 21:07: "toolset limit should be waved when doing on 
 | Before | The estimate (Firecrawl units, AI US$) and the credit left on each toolset are shown: on the screen for Run now, and in the Claude session's reply. |
 | After | `security.on_demand_close_v1(id)` records and shows the actual use (Firecrawl units by purpose; AI spend in the window) and the credit left on each toolset; the Claude session reports both. |
 | Allowances | The earlier on-demand allowances (`firecrawl.ondemand_credits_per_day`, `openrouter.ondemand_usd_per_day`) stay on screen for reference and no longer hold a run. |
+| Scope | A request names the Firecrawl purpose groups it covers (`security.on_demand_scope_v1`); scheduled work of the same providers keeps every limit (Pilot #1117). |
+| Target list | `firecrawl.target_only` holds scheduled work only. A spend an open request covers is not refused for a provider off the target list; course page searches of covered providers are picked first and are not cut by the course-search share or the daily picked cap (Pilot #1125). |
 | Built | Pilot #1083 (`20261113153100`): Firecrawl spends and Run now. Phase 2: the AI daily ceiling and lane guards for on-demand AI calls (they need the request passed with the call); until then on-demand AI still meets them. |
+
+### 3.3.3 Evidence first (Platform Admin 13 Nov 2026 15:31)
+
+Platform Admin, 13 Nov 2026 15:31: "We should use firecrawl for maximize crawling and storing the evidence for layer 3 data admission. the attaching to the course, nationality and other AI prompt based enrichment can take place".
+
+| Step | Rule |
+|---|---|
+| 1. Crawl and store | Firecrawl is used to find and store official pages (course page searches, site maps, entry-requirement and scholarship sources) as Layer 3 evidence. Each page is fetched directly first; Firecrawl reads only what a direct read cannot (blocked, needs rendering, PDF). A stored official copy is never fetched again for the same purpose. |
+| 2. Enrich from stored evidence | Course attachment (which page is the course's own), nationality (scholarship and entry-requirement country scope) and the other prompt-based readers run on the stored pages, with a pinned model and a quote for every value. |
+| 3. Admit | Layer 4 gates are unchanged: identity, evidence quotes and study levels are proved, never assumed. |
+| Run | On demand (3.3.2) with an estimate and credit left before and the actual use after; policies (robots.txt, directory sites, the search stop gate, identity) hold. |
 
 ### 3.4 Admission gate (Layer 4, per value)
 
@@ -211,6 +224,7 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.8 | 13 Nov 2026 | 3.3.2 adds Scope (purpose groups, Pilot #1117) and Target list (scheduled only, Pilot #1125); 3.3.3 Evidence first: Firecrawl crawls and stores official pages, AI enrichment runs on the stored evidence, Layer 4 gates unchanged (Platform Admin 13 Nov 2026 15:31). |
 | 1.7 | 12 Nov 2026 | 3.6 Consumer API versions: a held v2 draft moves to v3 and is closed unmerged; one PR per v3 item; reference rows are data in both versions; v3 additions live on 12 Nov listed (Platform Admin 12 Nov 2026 22:03 and 22:37). |
 | 1.6 | 12 Nov 2026 | 3.3.2 On demand and scheduled work: on-demand work (a person or a Claude session) is not held by toolset limits, only by the account; scheduled work obeys every limit; a request shows its estimate and credit left before, and its actual use and credit left after (Platform Admin 12 Nov 2026 21:07; Pilot #1083). |
 | 1.5 | 12 Nov 2026 | Principle 8 and 3.6 Consumer API versions: v2 frozen, v3 open to additions until the website goes live on it, then frozen (Decision 277, Platform Admin 12 Nov 2026 21:00). |
