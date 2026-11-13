@@ -3487,3 +3487,41 @@ Scholarship Layer 4 pending: 0.
 - Follow-up: `tests/fixtures/cdesc-subset` scenario 505 still expects an admission without the first sentence at its own migration level; to be noted or retired under G4.
 
 **Not started:** prompt v2; v3 sync and export fields.
+
+## 13 Nov 2026 16:10 AEDT — S2-Intakes: next-year July matching released (§14); 116 of 116 candidates admitted and delivered
+
+**Platform Admin decision, 13 Nov 2026 14:58** (Intake Process Record §14): match a July / Semester Two offering to the next verified July / Semester Two teaching start (Canterbury 19 Jul 2027, Massey 12 Jul 2027), keeping every protection.
+
+**Root cause:** `security.intake_dates_plan_v3` held an intake when "the named period starts sooner in another month", counting every period the course page names. For "Start In Semester 1 or 2 (February or July)", Semester 1 (22 Feb 2027) held the July intake of Semester 2.
+
+**Done:**
+- **Pilot #1120** (merge `684499b5`; `deploy-on-merge` applied migration `20261113331500`; live body `020a047e…` equals the file). New spec `s542`.
+  - New setting `intake_dates.next_cycle_period_providers`, set to Canterbury and Massey only.
+  - For those two providers, the check counts only named periods that start in the intake month.
+  - A page whose intake wording names other years is held, never rolled into 2027.
+  - Their rows' fingerprint changed so they are looked at again. No other provider is affected.
+- **Rolled-back trials before release:**
+  - All 116 candidates fill. The other 301 Canterbury and Massey rows keep their outcome.
+  - The 10 application-closing-date rows stay unfilled.
+  - 300 rows of 40 other providers (200 held by the same rule) plan identically, fingerprints included.
+- **Planner run on demand** for Canterbury and Massey (request `2257d185`; database only, no Firecrawl, no AI).
+  - Planner events: 116 filled, 161 nothing new, 140 skipped with their existing reasons, 0 withdrawn or corrected.
+- **Scheduled planner:** clean at 04:26 UTC (70 s), the fourth uninterrupted run. The batch stays 150; no global batch change.
+
+**Measured after (16:05 AEDT):**
+
+| | Candidates | Validated (simulation) | Newly admitted | Held | Website v3 | Zoho v3 |
+|---|---|---|---|---|---|---|
+| Canterbury | 110 | 110 | **110** (19 Jul 2027) | 0 | 110/110 courses | 110/110 |
+| Massey | 6 | 6 | **6** (12 Jul 2027) | 0 | 6/6 | 6/6 |
+
+- Canterbury exact starts: 151 → 261 of 365. Massey: 11 → 17 of 53. NZ: 244 → 360.
+- The 10 application-closing-date anomalies are still undated.
+
+**Not done:**
+- Correcting the course-page reader behind the 10 anomalies. They come from the AI course-page reader (Enrich fields `intakes`, key `:ai:`): it takes "Applications close on 12 February" as a February intake.
+- The v3 deadline status and source fields, and the Admin optional columns and filters (F-INT.07/.08).
+
+**Next executable action:**
+- Correct the intakes reader's admission check so a quote that only states an application closing date is not an intake, and correct the 10 rows through the governed path.
+- Then F-INT.07/.08.
