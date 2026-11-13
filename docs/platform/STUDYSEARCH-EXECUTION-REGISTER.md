@@ -3617,3 +3617,20 @@ The 150 `sch_value` interventions are capped by `har.open_max_per_lane` (150).
 - Follow the 21 pending Canadian universities and the VUW and Notre Dame reads to admission.
 - Confirm the 55 value interventions close after re-classification.
 - Close the two on-demand requests with actual use.
+## 13 Nov 2026 17:45 AEDT — S1-AER decisions 1 and 2: course-page search running; stored-page identity settle live (Pilot #1125, #1127)
+
+Platform Admin S1-AER decisions, 13 Nov 2026 (AER v2 design §10, F-AER.07 and F-AER.08). Figures are live measurements from this session.
+
+| Item | Result |
+|---|---|
+| Denominator | 29,393 AER-eligible active courses. The 140-course difference from 29,533 is 140 active courses at 22 providers marked not open to international students (excluded by `security.aer_provider_states_v1`) |
+| F-AER.07 request | `16e44d59` (326 providers, purpose groups course_search and reads) open since 16:13; not restarted, no second request |
+| F-AER.07 spend and yield (17:20) | 3,459 Firecrawl credits; 1,703 searches (753 CRICOS-code, 950 title); 19 pages verified and stored, 208 found and awaiting reading. CRICOS-code stage: 23 pages from 753 searches (3%) |
+| F-AER.07 change | The 1,463 queued CRICOS-code searches of the request moved straight to the title stage (control event `search_stage_skip`, reason recorded); saves about 2,900 credits; no search repeated |
+| F-AER.08 step 1 | Pilot #1127 (migration `20261113361500`): `security.aer_v2_identity_settle_check_v1` and job `aer-v2-identity-settle`. Binds an ambiguous stored page only with its own proof, no person decision or earlier rejection, the provider's own host, a heading that is exactly the course title (no stream, package or other code), E16 and one catalogue course; through the existing binding trigger |
+| Fixture | `pipeline.aer_v2_identity_fixture`, 200 cases, nine strata; gold from a person's Layer 4 decision or an independent blind review (titles, headings, addresses). First version: 4 incorrect, 6 unconfirmed. Released rule: 42 bound, 42 correct, **0 incorrect**; the migration post-check enforces it |
+| Live result (17:40) | 1,032 ambiguous stored pages checked; **339 bound** (335 AER-eligible, 99 providers), 0 refused by the trigger, all still bound; 693 held with reasons (heading not the course title 172+, same-title course 160+, shared page, person decision, host, package) |
+| Downstream | 238 of the 339 entered the AER read queue; 204 course reads queued on demand (about US$0.55) |
+| Not done | AI candidate ranking (step 3): its output may only suggest; held cases needing a person (same-title courses) would become Layer 4 cards. Scope put to the Platform Admin |
+
+Coordination: no shared binding function or worker version was changed by #1127; it uses `security.course_page_check_v1` and the binding trigger as they are. #1125 changed `svc_course_link_search_next` (two passes) and worker v0.84.0 (target-list check).
