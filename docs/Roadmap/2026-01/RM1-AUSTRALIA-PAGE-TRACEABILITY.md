@@ -4,7 +4,27 @@
 **Requested by:** Platform Admin, 13 Nov 2026 16:40 ("check the Australia worksheet and update the roadmap register: design, required fields, UI module, what exists, extra columns or toolset, which layer extracts it, mockups, v3 API for Wix").
 **Builds on:** [Destination data design v1.2](DESTINATION-DATA-DESIGN.md) (RM delivery plan and S1-RM-Design sections) and [V3 quick wins and module briefs](V3-QUICK-WINS-MODULES.md). This page does not change those designs. It traces every row of the Study Square Australia page brief to the item that delivers it.
 **Source brief:** Study Square destination data sources workbook, Australia sheet (10 Nov 2026). The workbook is confidential to Study Square and is **not** stored in this public repo; it is held in the Platform Admin's private project. This page records only our design, the topics, and public official sources.
-**Mockups:** claude.ai artifact "Australia Destination Mockups" (Admin module screens, the review mechanism and the v3 JSON the website reads).
+**Mockups:** [`mockups/australia-destination-mockups.html`](mockups/australia-destination-mockups.html) (open the file in a browser; six views: overview, study rule review, cities and costs, source register, mechanism, Website v3 and page). Also published privately as the claude.ai artifact "Australia Destination Mockups".
+**Next chat:** [`RM1-AUSTRALIA-NEXT-CHAT.md`](RM1-AUSTRALIA-NEXT-CHAT.md).
+
+
+## Summary and findings (13 Nov 2026)
+
+**Summary.** The Australia page brief has nine page sections. Four are already served by StudySearch from live catalogue data (Institutions, Courses, Universities, Scholarships), with coverage, permission and edition gaps. Five are not built on this platform (Visa & money, Cost & work, Work after study, Careers, Cities & weather). The brief marks most of those as loaded, but that refers to Study Square's separate prototype database, not this platform. All five arrive through the planned destination core (RM0C), study rules core (RM0D), the new Destination data Admin module (RM0F) and the `destination` action on Website v3 (RM0E).
+
+**Findings, checked against production on 13 Nov 2026:**
+
+| # | Finding | Effect | Roadmap |
+|---|---|---|---|
+| F1 | No destination, policy, city, climate, living-cost, labour or accreditation tables exist; `pipeline.city_regions` has 0 AU rows | Five page sections have no data path yet | RM0C, RM0D, RM0F, RM1B–RM1I |
+| F2 | Rankings hold QS 2026 and 2027 and THE 2026; THE 2027 (released 30 Sep 2026) is not loaded | Universities section shows last year's THE | **RM1J (new)** |
+| F3 | QILT outcomes are live (3,164 rows) but republishing needs QILT permission (Study Square, 13 Nov) | Live data cannot be shown on the website until permission is recorded | RM1D (gate) |
+| F4 | 20 AU search items have no delivery mode; study load is not held | Page rule "on-campus, full-time only" cannot be applied fully | RM1G |
+| F5 | CELPIP held on 80 courses, OET on 0 (letter grades not read) | Test requirements row partly met | AER / O14 |
+| F6 | TEQSA category (45 / 8 / 137), CRICOS recognition and scholarships (1,202 published) are live | Institutions and Scholarships sections can launch on catalogue data | Delivered |
+| F7 | Study Square rulings (13 Nov): admission tests as a general note; skip the 485 English item; processing time as "about 3–4 weeks"; climate as 30-year normals; Hobart costs from Study Tasmania; accreditations wanted globally | Narrows RM1H and RM1I scope; confirms RM1F | RM1H, RM1I, RM1F |
+| F8 | Website v3 is live but has no release gate; no v3 handover document is issued | Destination fields can be added now and documented once at v3 release | RM0E, RM0B |
+| F9 | The brief's licence and "updated" columns have no home today | Three new source columns: rights mode, cadence, page section | RM0C |
 
 ## 1. What the brief's columns mean in StudySearch
 
