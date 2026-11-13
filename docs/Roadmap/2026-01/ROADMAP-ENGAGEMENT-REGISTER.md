@@ -32,7 +32,7 @@ Corrections are appended with a new ID and `supersedes_id` pointing to the old I
 
 **Rule (Platform Admin, 13 November 2026):** the two CSVs are the only files ChatGPT and Claude write to. Neither agent edits `Roadmap_Engagement_Register.xlsx` directly. Claude regenerates the workbook from the CSVs on `main` and commits it, when asked and at each milestone review or handover. Between refreshes, the CSV is the current record and the workbook may lag.
 
-To regenerate, from this folder run `python3 refresh-engagement-workbook.py Roadmap_Engagement_Register.xlsx ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv` (needs `openpyxl`). It keeps the formatting, fills the tables from the CSVs, keeps Occurred at as Melbourne ISO text, fills the calculated columns down and resizes the tables. Before committing, recalculate the workbook and check its row count and human-minute total match the CSV. The earlier [Node generator](build-engagement-workbook.mjs) depends on a ChatGPT-only library and is kept for reference only.
+To regenerate, from this folder run `python3 refresh-engagement-workbook.py Roadmap_Engagement_Register.xlsx ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv` (needs `openpyxl`). It rebuilds the workbook in the same layout as the StudySearch Requirements Register (Arial 10, grey header in row 1, frozen header row and ID column, filters and dropdowns, no merged cells so horizontal scrolling works in Excel and Google Sheets), keeps Occurred at as Melbourne ISO text and adds the calculated totals. Before committing, recalculate the workbook and check its row count and human-minute total match the CSV. The earlier [Node generator](build-engagement-workbook.mjs) depends on a ChatGPT-only library and is kept for reference only.
 
 ### Prompt clause
 

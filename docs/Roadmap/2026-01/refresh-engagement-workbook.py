@@ -1,31 +1,128 @@
-# Regenerates Roadmap_Engagement_Register.xlsx from the two ledger CSVs, keeping its formatting and formulas.
-# Usage (from this folder): python3 refresh-engagement-workbook.py Roadmap_Engagement_Register.xlsx ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv
-import csv,sys,copy,openpyxl
-from openpyxl.utils import get_column_letter as L
-wbp,mcsv,ecsv=sys.argv[1:4]
-wb=openpyxl.load_workbook(wbp)
-def rows(p):
-    with open(p,newline='',encoding='utf-8-sig') as f: return list(csv.reader(f))[1:]
-def fill(ws,tname,data,ncsv,formula):
-    t=ws.tables[tname]; start=5
-    tmpl=[copy.copy(ws.cell(start,c)._style) for c in range(1,ws.max_column+1)]
-    for r in range(start,ws.max_row+1):
-        for c in range(1,ws.max_column+1): ws.cell(r,c).value=None
-    for i,d in enumerate(data):
-        r=start+i
-        for c,v in enumerate(d[:ncsv],1):
-            cell=ws.cell(r,c); cell._style=copy.copy(tmpl[c-1])
-            if tname=='RoadmapEngagements' and c==7: v=int(v)
-            cell.value=v if v!='' else None
-            if tname=='RoadmapEngagements' and c==2: cell.number_format='@'
-        for c,f in formula(r).items():
-            cell=ws.cell(r,c); cell._style=copy.copy(tmpl[c-1]); cell.value=f
-    last=start+max(len(data),1)-1
-    t.ref=f"A4:{L(ws.max_column)}{last}"
-fill(wb['Milestones'],'RoadmapMilestones',rows(mcsv),8,lambda r:{
- 9:f"=SUMIF('Engagements'!$C$5:$C$10004,A{r},'Engagements'!$P$5:$P$10004)",
- 10:f"=IF(B{r}=\"\",SUMIF('Engagements'!$D$5:$D$10004,A{r},'Engagements'!$P$5:$P$10004),I{r})",
- 11:f"=J{r}/60"})
-fill(wb['Engagements'],'RoadmapEngagements',rows(ecsv),15,lambda r:{
- 16:f"=IF(COUNTIF($O$5:$O$10004,A{r})>0,0,G{r})"})
-wb.save(wbp)
+# Regenerates Roadmap_Engagement_Register.xlsx from the two ledger CSVs.
+# Layout matches the StudySearch Requirements Register: Arial 10, grey header in row 1,
+# frozen header row and ID column, no merged cells (keeps horizontal scrolling working
+# in Excel and Google Sheets), wrapped top-aligned text and dropdowns.
+# Usage (from this folder):
+#   python3 refresh-engagement-workbook.py Roadmap_Engagement_Register.xlsx ROADMAP-MILESTONES.csv ROADMAP-ENGAGEMENTS.csv
+import csv
+import sys
+
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils import get_column_letter as col
+from openpyxl.worksheet.datavalidation import DataValidation
+
+out, milestone_csv, engagement_csv = sys.argv[1:4]
+LAST = 2000  # formula and dropdown range covers rows 2..LAST
+FONT = Font(name="Arial", size=10)
+HEAD_FILL = PatternFill("solid", fgColor="FFF3F3F3")
+TOP = Alignment(wrap_text=True, vertical="top")
+
+ACTIVITIES = ["Planning", "Development", "Review", "Decision", "Acceptance", "Handover"]
+BASES = ["minimum", "reported"]
+STATUSES = ["Roadmapped", "In progress", "Decision pending", "Blocked", "Delivered", "Closed"]
+
+
+def read(path):
+    with open(path, newline="", encoding="utf-8-sig") as f:
+        rows = list(csv.reader(f))
+    return rows[0], rows[1:]
+
+
+def sheet(wb, title, headers, widths, rows, freeze):
+    ws = wb.create_sheet(title)
+    ws.append(headers)
+    for r in rows:
+        ws.append(r)
+    for c, w in enumerate(widths, 1):
+        ws.column_dimensions[col(c)].width = w
+    for row in ws.iter_rows(min_row=1, max_row=max(ws.max_row, 2)):
+        for cell in row:
+            cell.font = FONT
+            cell.alignment = TOP
+    for cell in ws[1]:
+        cell.fill = HEAD_FILL
+    ws.freeze_panes = freeze
+    ws.auto_filter.ref = f"A1:{col(len(headers))}{max(ws.max_row, 2)}"
+    return ws
+
+
+def dropdown(ws, rng, source):
+    dv = DataValidation(type="list", formula1=source, allow_blank=True)
+    dv.add(rng)
+    ws.add_data_validation(dv)
+
+
+m_head, milestones = read(milestone_csv)
+e_head, engagements = read(engagement_csv)
+for r in engagements:
+    r[6] = int(r[6])  # human_minutes as a number; occurred_at stays Melbourne ISO text
+
+wb = Workbook()
+wb.remove(wb.active)
+
+# Milestones: eight CSV fields plus roll-up totals
+mil = sheet(wb, "Milestones",
+            ["Item", "Parent", "Topic", "Module", "Status", "Owner", "References", "Next action",
+             "Direct min", "Roll-up min", "Roll-up hours"],
+            [9, 8, 40, 20, 16, 22, 22, 55, 11, 12, 13], milestones, "B2")
+for r in range(2, len(milestones) + 2):
+    mil[f"I{r}"] = f"=SUMIF(Engagements!$C$2:$C${LAST},A{r},Engagements!$P$2:$P${LAST})"
+    mil[f"J{r}"] = f'=IF(B{r}="",SUMIF(Engagements!$D$2:$D${LAST},A{r},Engagements!$P$2:$P${LAST}),I{r})'
+    mil[f"K{r}"] = f"=J{r}/60"
+    for c in "IJK":
+        mil[f"{c}{r}"].font = FONT
+        mil[f"{c}{r}"].alignment = TOP
+    mil[f"K{r}"].number_format = "0.00"
+dropdown(mil, f"E2:E{LAST}", f"'Dropdown options'!$C$1:$C${len(STATUSES)}")
+
+# Engagements: fifteen CSV fields plus counted minutes (superseded rows count 0)
+eng = sheet(wb, "Engagements",
+            ["Engagement ID", "Occurred at", "Item", "Milestone", "Module", "Activity", "Human minutes",
+             "Time basis", "Session", "Topic", "Outcome", "Next action", "References", "Related items",
+             "Supersedes ID", "Counted minutes"],
+            [34, 22, 8, 10, 18, 12, 10, 10, 12, 36, 50, 40, 32, 14, 30, 10], engagements, "B2")
+for r in range(2, len(engagements) + 2):
+    eng[f"B{r}"].number_format = "@"
+    eng[f"P{r}"] = f"=IF(COUNTIF($O$2:$O${LAST},A{r})>0,0,G{r})"
+    eng[f"P{r}"].font = FONT
+    eng[f"P{r}"].alignment = TOP
+dropdown(eng, f"F2:F{LAST}", f"'Dropdown options'!$A$1:$A${len(ACTIVITIES)}")
+dropdown(eng, f"H2:H{LAST}", f"'Dropdown options'!$B$1:$B${len(BASES)}")
+
+# Summary: totals by activity
+summ = sheet(wb, "Summary", ["Activity", "Counted minutes", "Hours"], [22, 16, 10],
+             [["All engagements"]] + [[a] for a in ACTIVITIES], "A2")
+summ["B2"] = f"=SUM(Engagements!$P$2:$P${LAST})"
+for i in range(3, len(ACTIVITIES) + 3):
+    summ[f"B{i}"] = f"=SUMIF(Engagements!$F$2:$F${LAST},A{i},Engagements!$P$2:$P${LAST})"
+for i in range(2, len(ACTIVITIES) + 3):
+    summ[f"C{i}"] = f"=B{i}/60"
+    summ[f"C{i}"].number_format = "0.00"
+    for c in "BC":
+        summ[f"{c}{i}"].font = FONT
+        summ[f"{c}{i}"].alignment = TOP
+
+# Guide
+sheet(wb, "Guide", ["Topic", "Instruction"], [24, 100], [
+    ["Source of truth", "ROADMAP-ENGAGEMENTS.csv and ROADMAP-MILESTONES.csv on Admin main. ChatGPT and Claude write only to the CSVs."],
+    ["This workbook", "Read-only view regenerated by Claude from the CSVs. Edits made here are not kept."],
+    ["Engagement minimum", "Record the human-reported active duration, minimum 15 minutes. Use 15 when no duration is given."],
+    ["Planning and development", "A prompt request is Planning. A separate human request directing implementation is Development."],
+    ["Time basis", "minimum is the standard allowance; reported comes from the human. Machine and waiting time are excluded."],
+    ["Corrections", "Keep the prior row. Append a corrected row with Supersedes ID set to the old ID; the old row then counts 0."],
+], "A2")
+
+# Dropdown options (same pattern as the Requirements Register)
+opts = wb.create_sheet("Dropdown options")
+for i in range(max(len(ACTIVITIES), len(BASES), len(STATUSES))):
+    opts.append([ACTIVITIES[i] if i < len(ACTIVITIES) else None,
+                 BASES[i] if i < len(BASES) else None,
+                 STATUSES[i] if i < len(STATUSES) else None])
+for row in opts.iter_rows():
+    for cell in row:
+        cell.font = FONT
+for c in "ABC":
+    opts.column_dimensions[c].width = 16
+
+wb.save(out)
