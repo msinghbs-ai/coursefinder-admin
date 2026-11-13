@@ -11084,3 +11084,30 @@ Scholarship Layer 4 pending: 0.
 **Not done:** prompt v2; v3 sync/export; the eight course requests beyond the 11:50 record; Admin UI filters for them.
 
 **Next executable action:** build the v3 course sync store beside the v2 one (own sequence, changed/removed by content hash, all three countries), then prompt v2 against stored held readings.
+
+## 13 Nov 2026 15:10 AEDT — S2-CF check: recovered descriptions missing their opening sentence stopped (#1118); 610 already served await a decision
+
+**Trigger:** scheduled S2-CF check, 14:45 AEDT. 20 descriptions admitted by the subset recovery since 11:30 were read. About half were fragments: the first sentence had been set aside for a fault and the rest does not say what the course is ("Assessment includes written tasks and practical observations …", "Entry requires satisfactory completion of …").
+
+**Released: Pilot #1118** (merge `e1e74b65`, migration `20261113320000_cf247_cdesc_opening_sentence_kept.sql`, file md5 `d01f1a6c…` equals the recorded migration; plan body `2fd1a050…` → `89e86ee2fe13eb582d7cac0f1ed4f7fa`, read back live). A reading whose first sentence was set aside is no longer recovered; it stays held as `opening_sentence_dropped`. No setting, check or admission rule changed. Independent QA: PASS. Fixture 5 checks, 3 regressions.
+
+**Open decision for the Platform Admin:** 610 descriptions admitted this way since 10 Nov are still served (of 1,400 or so subset admissions). About 300 open with a generic word ("Students", "Graduates", "Assessment", "Entry", "The course"). Options: withdraw all 610 through `security.course_description_machine_withdraw_v1` (canonical falls by 610; the readings stay stored and go back to held); withdraw only those that do not name the course; leave them. Nothing has been withdrawn.
+
+**Measured, 15:09 AEDT**
+
+| Measure | Value |
+|---|---|
+| Canonical course descriptions | 4,831 |
+| Of which recovered without their opening sentence | 610 |
+| Machine admissions since 11:30 (settle / subset) at 14:45 | 740 / 450 |
+| Admissions by hour, UTC 00 to 03 (:45) | 261, 622, 279, 119 |
+| Shortened for size and admitted since release | 35 |
+| Task runner `admin-jobs`, 00:30 to 03:45 UTC | 229 runs, 0 failed, longest 88 s |
+| `course-description-machine`, same period | 76 runs, 0 failed, longest 90 s |
+| Description Layer 4 pending | 0 |
+
+- Two full unattended hours (01 and 02 UTC) with no runner failure and no setting change. Admissions per hour are falling as the settled backlog drains (622, then 279), so a sustained rate is not claimed.
+- Not measured in this check: AI cost of description reads and OpenRouter credit.
+- Follow-up: `tests/fixtures/cdesc-subset` scenario 505 still expects an admission without the first sentence at its own migration level; to be noted or retired under G4.
+
+**Not started:** prompt v2; v3 sync and export fields.
