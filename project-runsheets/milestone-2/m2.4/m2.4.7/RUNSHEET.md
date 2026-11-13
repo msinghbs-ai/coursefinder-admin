@@ -11407,3 +11407,74 @@ Scholarship Layer 4 pending: 0.
 **Next executable action:**
 - RM1A-2: ASCED field-of-study assignments from stored CRICOS evidence (design §4 M2).
 - F-DISC: reconcile the 2,297 active CRICOS rows with a past end date.
+
+## 13 Nov 2026 17:35 AEDT — S2-Scholarship provider coverage, evidence and Layer 4 reconciliation (directives 13 Nov 14:50 and 16:01; Developer Requirements v2.26 F-SCH.11–.13)
+
+**Released (all green, merged, deploys succeeded; history md5 equals each file):**
+
+| Change | What it does | Live check |
+|---|---|---|
+| Pilot #1123 (`20261113335000`) | Fixes the version collision in #1119: the value-from-verified-benefits migration had never applied | Applied |
+| Pilot #1121 (`20261113336500`, md5 `75aeb126…`) | **Rebranded domains:** 25 providers' scholarship discovery was still mapping old websites, among them Notre Dame (nd.edu.au), VUW (vuw.ac.nz) and USQ. They now map the catalogue website, and the old host is still allowed.<br>**Canada:** a classified university with an official website is a legitimate scholarship source even before its courses are loaded, so the 56 Canadian universities that have websites were queued for discovery.<br>**Reviews:** 109 technical "AI could not decide" reviews were superseded, and their pages are being read again fresh.<br>**Firecrawl:** the scholarship share went from 800 to 1,500 a day, inside the unchanged 4,000/day total. | VUW and Notre Dame re-mapped. Canadian universities: 30 mapped and 6 searched with no scholarship pages found by 06:23 UTC. Reviews pending: 198 → 89. Share 1,500. |
+| Pilot #1122 | Read-only workflow that exports the dated per-provider coverage evidence CSV | Run at 05:23 UTC: 1,934 providers. The CSV is filed as evidence at `docs/scholarships/evidence/sch-provider-coverage-2026-11-13T0523Z.csv`, md5 `0d5a7f73…`, matching the workflow's md5. |
+| Pilot #1126 (`20261113351500`, md5 `a7bb736c…`) | **All providers:** a new tab in Scholarships › Coverage. It filters by country, universities or other providers, state (9 dispositions) and with or without published scholarships. It shows a provider funnel, and each provider's next action and next retry. It reads a snapshot that is rebuilt after each full hourly classification (21.7 s).<br>**Student nationality:** a new Catalogue filter. It matches a proven rule that names the country, or a rule proven open to all, and never one that excludes the country. "Not stated" scholarships appear only when "Also not stated" is chosen. | Snapshot built at 06:29 UTC with 1,934 rows. Rolled-back run: India 37 published, 107 countries listed. |
+
+**Firecrawl crawling and evidence storage (operating model 3.3.3, evidence first; Platform Admin "use firecrawl for maximize crawling and storing the evidence").** Two on-demand requests, both scoped to the `scholarships` purpose group and open until 11:21 UTC:
+- `d2beb7cb` covers 21 providers: CDU, the re-mapped providers and the fresh re-reads. Estimate 3,500 credits (at most 12,000) and US$5.
+- `054a0634` covers 316 providers queued for discovery, including the Canadian universities. Estimate 3,000 credits (at most 9,000) and US$4.
+- Credit left before: Firecrawl 84,952, OpenRouter US$57.54. At 06:27 UTC: Firecrawl 83,665 (account-wide, all sessions), OpenRouter US$56.23. Scholarship AI spend since the requests opened: US$0.83.
+- Reads store official pages as Layer 3 evidence. AI enrichment runs on the stored copy. Layer 4 gates are unchanged.
+
+**Before and after.** Before is the audit (≈04:00 UTC) or the 05:23 export; after is 06:31 UTC.
+
+| Measure | Before | After |
+|---|---|---|
+| Published scholarships (distinct IDs, active) | 1,211 (audit) / 1,219 (05:20) | **1,327** |
+| Providers with published scholarships | 68 | **69** |
+| Universities with published: AU / NZ / CA | 38/40, 7/8, 11/95 | 38/40, 7/8, **12/95** |
+| Canadian universities never searched | 73 (56 with websites, 17 without) | **21** pending, plus 17 with no website. 30 mapped, 6 searched with no scholarship pages found |
+| Candidate pages at Canadian universities (found / read) | 2,134 / 2,118 | **3,379 / 2,265** |
+| Published scholarships at Canadian universities | 71 | **86** |
+| VUW candidate pages | 6, all from staff homepages, refused | **60** on wgtn.ac.nz, 32 read |
+| Notre Dame candidate pages | 4 refused, plus 6 ownership conflicts | **12**, 9 read. The 6 ownership-conflict interventions have not cleared yet. |
+| CDU | 131 candidates, 3 active, 0 published | Unchanged |
+| AI reviews pending (Layer 4 "Held scholarship") | 198 | **89** |
+
+Most of the 108 newly published came from #1119 (award value from the reader's verified benefits), applied by #1123 and published by the 05:29 auto-publish.
+
+**Where each named case stands:**
+- **CDU:** the 3 active records fail publication on "no stated award value". One of them, the VC International High Achiever record, was admitted from a student-story page. That is a wrong-source admission, and it stays unpublished. CDU's award pages sit behind its scholarship finder (`/scholarships/scholarships-finder/<code>`), and discovery found only one of them. The next step is to traverse the finder listing.
+- **VUW:** 28 of its 60 pages are still to be read, then the AI reads them.
+- **Notre Dame:** its 6 official international award terms PDFs are now candidates. The ownership-conflict interventions clear once coverage re-classifies them.
+
+**Layer 4, reconciled by stable ID.** My earlier "Scholarship Layer 4 pending: 0" counted only `layer4_review_items`, which holds no scholarship items. The Admin Layer 4 Inbox itself showed 198 "Held scholarship" items, the pending AI reviews.
+
+| Queue | Open now | Owner | What happens next |
+|---|---|---|---|
+| AI reviews (Inbox "Held scholarship") | 89 | Reviewer | Audience, value or name not proven by a quote. They stay with people. |
+| `sch_value` interventions | 150 | Reviewer, plus automatic re-check | 55 of their scholarships are now published (value filled from verified benefits). Each intervention clears when its coverage case re-classifies and the HAR re-check confirms; 15 already qualify. |
+| `sch_coverage` international unresolved | 144 | Reviewer | Candidate pages whose international eligibility is not stated. They stay with people. |
+| `sch_coverage` ownership conflict | 6 | Platform Admin | Notre Dame's register PDFs, now on its own host. They clear on re-classification. |
+
+The 150 `sch_value` interventions are capped by `har.open_max_per_lane` (150).
+
+**Evidence chain (all 1,327 published records):**
+- Every record has an evidence artefact with a content hash and capture time.
+- No record lacks a stored copy; #1121 relinked the 4 that had none.
+- 9 records have a source URL that differs from the evidence URL:
+  - 7 are the same page (a trailing slash or `#overview`);
+  - 2 are verified server redirects whose reader `final_url` equals the evidence URL: Sydney Australia Awards and Melbourne Commerce Global Diversity. Both were re-requested for a fresh capture.
+- Field-level quote verification for every claim, and showing the proof in Scholarship Detail, are **not done**.
+
+**Nationality reconciliation.** On distinct published IDs at 05:20 UTC: 158 restricted + 1,061 not stated = 1,219. The categories are mutually exclusive by construction. The earlier 1,205 against 1,202 came from figures taken minutes apart while publication changed.
+
+**Not done:**
+- per-claim quote audit and evidence proof in Scholarship Detail;
+- CDU finder traversal;
+- Website v3 and Zoho v3 read-back verification;
+- two unattended productive cycles.
+
+**Next executable action:**
+- Follow the 21 pending Canadian universities and the VUW and Notre Dame reads to admission.
+- Confirm the 55 value interventions close after re-classification.
+- Close the two on-demand requests with actual use.
