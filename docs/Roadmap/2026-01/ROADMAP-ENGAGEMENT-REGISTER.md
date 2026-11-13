@@ -9,6 +9,7 @@
 | [ROADMAP-MILESTONES.csv](ROADMAP-MILESTONES.csv) | Milestones and work items with parent, owner, request references, status and next action |
 | [Operating model](../../platform/AGENT-OPERATING-MODEL.md#roadmap-milestones-and-human-engagement-time) | Mandatory logging instruction for every StudySearch roadmap session |
 | [API v3 workstream briefs](V3-QUICK-WINS-MODULES.md) | Module scope and copy-ready session prompt |
+| [RM1 Australia page traceability](RM1-AUSTRALIA-PAGE-TRACEABILITY.md) | Every row of the Australia page brief traced to its RM item, table, layer, toolset, Admin screen and Website v3 field |
 
 ## What counts
 
