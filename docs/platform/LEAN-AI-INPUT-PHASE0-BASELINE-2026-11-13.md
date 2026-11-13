@@ -59,3 +59,29 @@ Acceptance for Phase 1: observations recorded for real reads after deployment; c
 **Release remains conditional:** finish outstanding **#1131** CI checks on its final head and reconcile shared worker version and migration order with **#1128** (Models & Services), which is not independently production-approved. One Integration Controller owns the qualified merge/deploy. After deployment independently verify function checksum and settings, confirm observation is emitted only on actual permitted AI reads, and measure cut and false-negative rates without starting a new paid run solely for instrumentation. Two unattended runs count only when the existing scheduled lane can legitimately operate and net canonical/consumer outputs remain unchanged. The Phase 0 finding that 775 KB retired JSON is not an OpenRouter payload is **closed**; the silent 24,000-character cut and duplicated description/deadline calls remain **unresolved** and require their own regression-proved optimisation.
 
 **Quality qualification:** a shadow preflight returning no_signal and no filled values is not sufficient evidence that suppression is safe, because the existing 24,000-character cut may produce false-negative outputs. Compare against full original evidence and independent positive/negative labelled cases before authorising any F3 skip. No automatic skip in this release. Preserve actual role/grant and migration-lock tests, including concurrent writers, retention, observability failures and rollback.
+
+## 6. Rehearsal and reconciliation status (13 November 2026, 23:59 AEDT)
+
+- **Rehearsal not yet run.** On 13 Nov 2026 the Supabase connector asked for approval twice: at about 23:25 for the first draft, and at 23:50 for the exact migration plus checks after Decision A. Neither prompt was answered within the connector's 120-second limit, so nothing executed. A baseline read just before the second attempt showed `pipeline.ai_input_observations`, `svc_ai_input_observe_v1`, `ai_input_observation_report_v1` and the three `reading.input_observ*` settings **absent**, with 1,417 settings rows and 231,948 `field_enrich_items` rows (last updated 12:34 UTC). The gate was not bypassed.
+- **Prepared rehearsal (final head):**
+  1. `BEGIN`.
+  2. The exact migration `20261113400000`, md5 `df7a7055cfc8ab2940ab74eaf49614d8`.
+  3. The same file again, as an idempotence check.
+  4. Checks:
+     - columns, indexes, RLS and purpose comment;
+     - security-definer status and ACLs (anon/authenticated denied, service_role allowed);
+     - setting values, ranges and `used_by`;
+     - the writer: bad preflight value stored as null, bad UUID stored as null, an empty row skipped, `[]` and non-array input;
+     - bounded purge of an expired row;
+     - report output;
+     - function-definition md5s;
+     - unchanged settings count and `field_enrich_items` count and last update.
+  5. A forced exception (`REHEARSAL_RESULT …`) aborts the transaction, so nothing can commit.
+  6. A separate read confirms that no objects or rows remain.
+  - Not covered by one transaction: **concurrent writers**. These stay with the CI database fixtures and the post-deploy check.
+- **Reconciliation with #1128:**
+  - #1128 now uses worker v0.85.0 and v0.86.0, so #1131 is renumbered **v0.87.0**. It is rebased on main `cba5f8f1` (Pilot head `c60a316b`). Whichever PR merges second rebases on the single `WORKER` line.
+  - Migration order: #1128 uses `20261113377000`–`20261113390000`; #1131 uses `20261113400000`. They touch different objects, and neither depends on the other.
+- **CI:** all 12 checks passed on the previous head `f8590558`. CI is re-running on `c60a316b` (only the version renumber changed).
+- **Not merged, not deployed.** Merge and deploy wait for the rehearsal result and green CI on the final head, under the Integration Controller.
+- **F3 skip qualification (Platform Admin, 13 Nov):** no automatic skip. Before any F3 skip is proposed, the false-negative check must use the **full original evidence** and **independently labelled** positive and negative cases, not the reader's own outcomes on 24,000-character-cut text.

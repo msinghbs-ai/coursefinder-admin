@@ -3708,3 +3708,9 @@ Coordination: no shared binding function or worker version was changed by #1127;
 5. Phase 2 selective WebP screenshots in the existing evidence inspector.
 
 No budget, model activation, deletion or merge of unverified work.
+
+## 13 Nov 2026 23:59 AEDT — F-OPS.08 Lean AI Input Phase 1: Decision A received; rehearsal BLOCKED on connector approval; #1131 reconciled with #1128
+
+- **BLOCKED:** the Supabase connector's approval prompt for the rolled-back rehearsal went unanswered within 120 s (twice). Nothing executed, and a baseline read confirms no objects were created. The full prepared check list is in [baseline §6](LEAN-AI-INPUT-PHASE0-BASELINE-2026-11-13.md#6-rehearsal-and-reconciliation-status-13-november-2026-2359-aedt).
+- **DELIVERED:** #1131 rebased on main `cba5f8f1` and renumbered worker **v0.87.0** (after #1128's v0.85.0 and v0.86.0). Migration order checked: #1131's `20261113400000` comes after #1128's `…377000–…390000`, with no shared objects. Local contracts (new spec, s42, s57, s120, on-demand) pass. CI passed on the previous head and is re-running on `c60a316b`.
+- **Next:** run the rehearsal when the prompt can be approved; then merge and deploy under the Integration Controller; then verify the deployed function checksum and settings. Observations are measured only on the next legitimately authorised Enrich-fields cycles, with no paid run started for instrumentation. Phase 1b (source-aware section selection with headers, context and offsets) follows Phase 1 verification.
