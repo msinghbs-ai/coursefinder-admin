@@ -1,6 +1,6 @@
 # StudySearch – Consumer developer requirements register (website and Zoho)
 
-**Version:** 2.28 (13 Nov 2026; O29 RM1A-1: CRICOS course recognition live on Website API v3 course detail; prior v2.27: S2-Intakes July 116/116 independently confirmed; full history below)
+**Version:** 2.29 (13 Nov 2026; Platform Admin 16:35: Website v3 and Zoho v3 both still in development, no v3 handover document released yet; prior v2.28; full history below)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -360,6 +360,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.29 | 13 Nov 2026 | Platform Admin 16:35: Website v3 and Zoho v3 are both under development; no v3 handover document is released to either developer yet. Roadmap fields are recorded here and in the v3 field definition as built; the developer guide and Zoho pack are issued once at v3 release (R33). RM delivery plan: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.2. |
 | 2.28 | 13 Nov 2026 | O29 RM1A-1 (Admin destination data design v1.1, S1-RM-Design): CRICOS `recognition[]` on Website API v3 `course` (Pilot #1124, migration `20261113333000`); Admin course Recognition card and Data Delivery panel. Not yet in the developer guide (v3 not cut over); Zoho v3 follows after notice. |
 | 2.25 | 13 Nov 2026 | S2-Intakes: Massey's 2027 calendar qualified after the calendar qualifier and table parser fixes (Pilot #1116, Platform Admin decision 13:03); Canterbury 151 and Massey 11 exact starts admitted and read back on Website v3 and Zoho v3; REQ-48 and REQ-69 status updated. No API change. |
 | 2.23 | 13 Nov 2026 | S2-CF delivery record added (measured coverage by country and for Massey and Canterbury; per-REQ delivered, blocker and next action). Z1 and Z4 are live in `zoho-api-v3` (Pilot #1107); draft #1085 closed with its parts accounted for. Course-description recovery released (Pilot #1106). |

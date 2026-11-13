@@ -1,23 +1,38 @@
 roadmap_item,parent_milestone,title,module,status,owner,references,next_action
 RM0,,Shared platform,Milestone,In progress,,,Follow the release scope and sequence in the destination roadmap.
 RM0A,RM0,Engagement register and operating model,Roadmap governance,Delivered,Integration Controller,,Both agents log to the CSVs only; Claude regenerates the workbook from them.
-RM0B,RM0,API v3 field dictionary,RM-v3-Dictionary,Roadmapped,RM-v3-Dictionary,R33 / REQ-76,Check the deployed Website and Zoho v3 contracts and document sync/export differences.
+RM0B,RM0,API v3 field dictionary,RM-v3-Dictionary,Roadmapped,RM-v3-Dictionary,R33 / REQ-76,"Both v3 APIs are still in development: issue the dictionary and handover documents once, at v3 release."
+RM0C,RM0,Destination core schema and dataset editions,RM-Cities,Roadmapped,RM-Cities,O38,"Build destination schema, editions, localities and publication generations (design M3)."
+RM0D,RM0,"Study rules core (rules, versions, applicability)",RM-Study-Rules,Roadmapped,RM-Study-Rules,O23 / O27,Build policy tables and activation job after RM0C (design M4).
+RM0E,RM0,Destination action on API v3,Integration Controller,Roadmapped,Integration Controller,O38 / O23,Add after the first published generation (design M5).
+RM0F,RM0,Destination data Admin module,RM-Study-Rules,Roadmapped,RM-Study-Rules / RM-Cities,,"Build one module with Study rules, Cities and costs and Careers tabs; Study rules tab first."
 RM1,,Australia,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
-RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,In progress,RM-Recognition,O29 / O28,"RM1A-1 delivered 13 Nov (Pilot #1124: CRICOS recognition on Website v3 course; 21,633 served, 2,099 held). Next: RM1A-2 ASCED assignments (M2); F-DISC to reconcile held rows; Zoho v3 course after developer notice."
+RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,In progress,RM-Recognition,O29 / O28,"RM1A-1 delivered 13 Nov (Pilot #1124). Next: RM1A-2 ASCED assignments; RM1A-3 reconcile 2,297 active CRICOS rows with a past end date."
 RM1B,RM1,Australian city population,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67 / REQ-68,"Register ABS ERP and postcode-to-SUA correspondence with rights, then build destination core M3 (S1-RM-Design)."
 RM1C,RM1,Australian application routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O23,Build policy tables M4 after M3; capture AU direct and TAC route pages with applicant scope (S1-RM-Design).
 RM1D,RM1,Australian careers dataset,RM-Careers,Roadmapped,RM-Careers,O38 / REQ-68,Confirm reuse terms and select one official edition.
 RM1E,RM1,Provider primary campus,RM-Campuses,Decision pending,RM-Campuses,R32 / REQ-75 / D-4,Confirm approved main-campus selection policy.
 RM1F,RM1,Business school accreditations,RM-Accreditations,Decision pending,RM-Accreditations,R30 / REQ-57 / D-3,Confirm the decision and publisher rights.
 RM1G,RM1,Course study load and teaching language,S2-CF,Roadmapped,S2-CF,O25 / REQ-52 / O17,Verify existing course and offering scope before proposing additive fields.
+RM1H,RM1,Australian study rules beyond routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O27 / O38,Capture Home Affairs and Fair Work pages after RM1C.
+RM1I,RM1,Australian climate and living costs,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67,Load BOM normals and scoped student budgets after RM1B.
 RM2,,Canada,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM2A,RM2,Canadian course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58,Confirm ownership and repair source-backed course-campus associations.
+RM2B,RM2,Canadian programme recognition and CIP codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,Scope after RM1A-2; keep provider DLI separate from programme PGWP.
+RM2C,RM2,Canadian destination modules,RM-Study-Rules,Roadmapped,RM-Study-Rules / RM-Cities / RM-Careers,O23 / O27 / O38,"Start after RM0C, RM0D and RM0F."
 RM3,,UK,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM3A,RM3,UK catalogue adapter,F-DISC,Roadmapped,F-DISC,O29,Stage sponsor register and provider identity.
+RM3B,RM3,UK destination modules,RM-Study-Rules,Roadmapped,RM-Study-Rules / RM-Cities / RM-Careers,O23 / O27,Start after RM3A and RM0F.
 RM4,,New Zealand,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM4A,RM4,New Zealand course recognition,RM-Recognition,Roadmapped,RM-Recognition,O29,Capture a course-grain NZQF listing and classify nzqa codes before any NZ recognition (S1-RM-Design §7 step 4).
 RM4B,RM4,New Zealand course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58 / REQ-81,Confirm ownership and verify course-campus evidence.
+RM4C,RM4,New Zealand NZSCED codes and destination modules,RM-Recognition,Roadmapped,RM-Recognition / RM-Study-Rules,O28 / O27,Start after RM4A and RM0F.
 RM5,,Ireland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM5A,RM5,Ireland catalogue adapter,F-DISC,Roadmapped,F-DISC,O29,"Stage QQI/IRQ, TrustEd and ILEP sources."
+RM5B,RM5,Ireland destination modules,RM-Study-Rules,Roadmapped,RM-Study-Rules / RM-Cities / RM-Careers,O23 / O27,Start after RM5A and RM0F.
 RM6,,USA,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
+RM6A,RM6,USA catalogue adapter,F-DISC,Roadmapped,F-DISC,O29,"Stage SEVP, DAPIP and IPEDS sources."
+RM6B,RM6,USA destination modules and CIP codes,RM-Study-Rules,Roadmapped,RM-Study-Rules / RM-Cities / RM-Careers,O28 / O27,Start after RM6A and RM0F.
 RM7,,Germany,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM8,,Sweden,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM9,,Finland,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.

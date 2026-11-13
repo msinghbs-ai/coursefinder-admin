@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.1 · 13 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.1 adds the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.2 · 13 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.2 adds the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 added the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -481,6 +481,79 @@ The cursor is pinned to `generation`. A cursor from a superseded generation retu
 | 7 | M5 destination action and developer pack rows | First published generation | Integration Controller; RM-v3-Dictionary for R33 |
 
 Out of scope here: R30/R32 remain behind D-3/D-4. Study load and teaching language stay with S2-CF, admissions with AER, deadlines with S2-Intakes and awards with S2-Scholarship. UK, Ireland and USA catalogue identities follow their RM3/RM5/RM6 adapter milestones. Their recognition schemes reuse the same projection once the adapter proves course grain.
+
+## RM delivery plan — database design, source data and Admin module by roadmap item (13 November 2026)
+
+**Status:** plan (Platform Admin, 13 Nov 2026 16:35 AEDT, chat S1-RM-Design). Only RM1A-1 is built. Everything else below is planned work and uses the proposed objects in the S1-RM-Design section above.
+
+**Consumer release position (Platform Admin, 13 Nov 2026 16:35):** Website v3 and Zoho v3 are both still under development. No v3 handover document is released to either developer yet. Roadmap fields are added to v3 as they are built and are recorded in the developer register and the v3 field definition. The handover documents (developer guide and Zoho pack, R33) are issued once, when v3 is ready to release. v2 stays frozen.
+
+### How to read the plan
+
+| Column | Meaning |
+|---|---|
+| Database | **Reuse** = existing tables only. **Extend** = one additive table or column. **New** = new tables in the proposed `destination` schema. |
+| Source data | How the data arrives: **L1 register** (existing Layer 1 register adapter path), **Dataset ETL** (dataset registry → edition candidate → accepted edition, as QILT and PRISMS do today), **Page capture** (stored official page through the existing evidence path, reviewed by a person), **None** (already held). |
+| Admin module | Where an operator sees and controls it. **Existing** screens are extended. **New** means a new module is needed. |
+
+### Shared platform (RM0)
+
+| RM | Item | Database | Source data | Admin module | Depends on |
+|---|---|---|---|---|---|
+| RM0B | v3 field dictionary and handover documents | None | None | None | Issued at v3 release, not before |
+| RM0C *(new)* | Destination core: schema, dataset editions, localities, publication generations (design M3 core) | **New** `destination.dataset_edition`, `locality`, `campus_locality`, `city_observation`, `publication_generation` | Dataset ETL framework: one shared edition-load job registered in Task manager and Automations | Existing **Rankings & statistics** (dataset cards and edition picker) and **Layer 1 › Sources** | — |
+| RM0D *(new)* | Study rules core: rules, versions, applicability, activation job (design M4 core) | **New** `destination.policy_rule`, `policy_version`, `policy_applicability` | Page capture with person review; daily activation/expiry job (catalogued) | **New** Destination data module (RM0F) | RM0C |
+| RM0E *(new)* | `destination` action on Website v3; Zoho v3 when a use is confirmed (design M5) | Read functions only | None | Existing **Operations › API usage** | First published generation |
+| RM0F *(new)* | **Destination data** Admin module | None (reads RM0C/RM0D) | None | **New**, one module with three tabs: **Study rules** (add, edit, review, approve, schedule, withdraw a rule version, with evidence), **Cities and costs** (localities, campus mappings, observations by edition), **Careers** (editions and coverage). Held items go to the existing Layer 4 Inbox. Coverage goes to existing Data Delivery. | RM0C, RM0D |
+
+Why one new module: study rules are effective-dated records that a person must review and approve, and nothing in the current Admin edits that kind of record. City and careers data are read-mostly, so they sit as tabs in the same module instead of becoming separate screens.
+
+### Australia (RM1)
+
+| RM | Item | Database | Source data | Admin module | Depends on |
+|---|---|---|---|---|---|
+| RM1A-1 | CRICOS course recognition | Reuse | None (held) | Existing Course detail, Data Delivery | **Delivered 13 Nov** |
+| RM1A-2 | ASCED field-of-study codes | **Extend** `catalogue.course_classification_assignments` | L1 register: apply step re-reads the stored CRICOS file (no new fetch) | Existing Course detail, Data Delivery | — |
+| RM1A-3 *(new)* | Reconcile 2,297 active CRICOS registrations with a past end date | Reuse | L1 register (F-DISC fix in the CRICOS apply path) | Existing Layer 1 › Sources, Data Delivery | — |
+| RM1B | City population | New (RM0C) | Dataset ETL: ABS regional population (ERP) and ABS postcode-to-urban-area correspondence | Destination data › Cities and costs; Layer 4 for ambiguous campus mappings | RM0C; source rights approval |
+| RM1C | Application routes | New (RM0D) | Page capture: provider and admissions-centre pages | Destination data › Study rules | RM0D |
+| RM1D | Careers dataset | **New** `destination.stat_dimension_member`, `stat_crosswalk`, `labour_observation` | Dataset ETL: one Jobs and Skills Australia edition | Destination data › Careers | RM0C; REQ-68 reuse terms |
+| RM1E | Provider primary campus | **Extend** primary-campus assertion table | Rule job over held registered addresses, plus manual override | Existing Provider detail | Decision D-4 |
+| RM1F | Business school accreditations | **Extend** accreditation assertion table | Page capture or accreditor list (rights first) | Existing Provider detail | Decision D-3 |
+| RM1G | Study load and teaching language | Extend only if the course model lacks it (S2-CF decides) | Course-page reader (S2-CF) | Existing Course catalogue and detail | S2-CF |
+| RM1H *(new)* | Study rules beyond routes: visa charges and funds, work rights, dependants, minimum wage, post-study work (O27) | New (RM0D) | Page capture: Home Affairs, Fair Work, legislation | Destination data › Study rules | RM0D, RM1C |
+| RM1I *(new)* | Climate normals and student living costs | New (RM0C, `city_observation` climate and cost types) | Dataset ETL: BOM normals; page capture for institutional budgets | Destination data › Cities and costs | RM1B |
+
+### Canada, UK, New Zealand, Ireland, USA (RM2–RM6)
+
+| RM | Item | Database | Source data | Admin module | Depends on |
+|---|---|---|---|---|---|
+| RM2A | CA course-campus geography | Reuse | Existing pipeline repair | Existing Course catalogue | S2-CF |
+| RM2B *(new)* | CA programme recognition and CIP codes; provider DLI kept separate from programme PGWP | Reuse registrations; Extend (RM1A-2 table) for CIP | L1 register: provincial programme registers; native CIP where published | Existing Course detail, Data Delivery | RM1A-2 |
+| RM2C *(new)* | CA destination modules (study rules incl. PGWP, cities, careers) | New (RM0C/RM0D) | Page capture: IRCC, provinces. Dataset ETL: Statistics Canada, ECCC, Job Bank | Destination data (all tabs) | RM0C, RM0D, RM0F |
+| RM3A *(new)* | GB catalogue adapter (sponsor register, provider identity, courses) | Reuse catalogue; identifiers in existing mapping tables | L1 register: Home Office sponsor register, Discover Uni; provider pages | Existing Layer 1 › Sources, Catalogue | RM3 opened |
+| RM3B *(new)* | GB destination modules | New (RM0C/RM0D) | Page capture: Home Office. Dataset ETL: ONS, Met Office | Destination data | RM3A, RM0F |
+| RM4A | NZ course recognition | Reuse | L1 register: capture a course-level NZQF listing (today's evidence is provider-level) | Existing Course detail, Data Delivery | L1 NZ adapter |
+| RM4B | NZ course-campus geography | Reuse | Existing pipeline repair | Existing Course catalogue | S2-CF |
+| RM4C *(new)* | NZ NZSCED codes and destination modules | Extend (RM1A-2 table); New (RM0C/RM0D) | L1 register for NZSCED. Page capture: Immigration NZ. Dataset ETL: Stats NZ, MBIE | Existing Course detail; Destination data | RM4A, RM0F |
+| RM5A *(new)* | IE catalogue adapter (QQI/IRQ, TrustEd, ILEP) | Reuse catalogue | L1 register | Existing Layer 1 › Sources, Catalogue | RM5 opened |
+| RM5B *(new)* | IE destination modules | New (RM0C/RM0D) | Page capture: Irish Immigration. Dataset ETL: CSO, SOLAS, Met Éireann | Destination data | RM5A, RM0F |
+| RM6A *(new)* | US catalogue adapter (SEVP, DAPIP, IPEDS) | Reuse catalogue | L1 register | Existing Layer 1 › Sources, Catalogue | RM6 opened |
+| RM6B *(new)* | US destination modules and CIP codes | Extend (RM1A-2 table); New (RM0C/RM0D) | Page capture: State, DHS, USCIS. Dataset ETL: BLS, NOAA, IPEDS | Destination data | RM6A, RM0F |
+
+### Build order
+
+| Wave | Items | Outcome |
+|---|---|---|
+| 1 (now) | RM1A-2, RM1A-3 | AU field codes on v3; 2,099 held courses released |
+| 2 | RM0C, then RM1B and RM4A in parallel | Destination schema live with one ABS edition; NZ recognition evidence captured |
+| 3 | RM0D, RM0F (Study rules tab first), RM1C | First reviewed AU application routes, managed from the Admin |
+| 4 | RM0E, RM1D, RM1H, RM1I | `destination` action on v3 with cities, study rules and careers for Australia |
+| 5 | RM2B, RM2C, RM4C | Canada and New Zealand on the shared modules |
+| 6 | RM3A/B, RM5A/B, RM6A/B | UK, Ireland and USA catalogues and modules |
+| At v3 release | RM0B | Field dictionary and both handover documents issued once |
+
+Standing rules that apply to every item: each background job is registered in Automations or Jobs and visible in Task manager; each source is registered and approved in Layer 1 › Sources before its first load; held items state a plain reason in Layer 4; coverage and holds show in Data Delivery; RM1E and RM1F wait for D-4 and D-3; Study load stays with S2-CF, admissions with AER, deadlines with S2-Intakes and awards with S2-Scholarship.
 
 ## Design references
 
