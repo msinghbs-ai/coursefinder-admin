@@ -3251,3 +3251,95 @@ Scholarship AI spend today: US$2.02.
 - Watch the 02:26 UTC cycle (the second uninterrupted cycle) and Canterbury admission.
 - Then Auckland and VUW calendar sources that print the year.
 - Then propose `application_deadline_status` for v3 to the integration owner.
+
+## 13 Nov 2026 13:00 AEDT — S2-Scholarship production delivery (directive 13 Nov 11:13): re-admission guarded and on, extraction restarted, long-page recovery queued, Admin delivery columns live
+
+**Measured result first.**
+- No new admissions or re-admissions came from this work. Published is 1,202 and active is 1,655, the same as at 00:00.
+- Published field counts have not moved since 00:00, for two reasons:
+  - scholarship AI extraction had been stopped since 12 Nov 15:12 UTC (see the next item);
+  - the long-page recovery items have not reached the front of the queue yet.
+- Re-admissions so far: 0.
+
+**Extraction had stopped (live defect, fixed: Pilot #1114, migration `20261113311500`; history md5 equals the file, `fad034b5…`).**
+- No scholarship AI reading completed between 12 Nov 15:12 UTC and 13 Nov 01:41 UTC.
+- The 15:13 backfill queued 8,764 admission items. From 19:00, every worker call failed with a statement timeout, about 1,400 calls in all.
+- The cause: before leasing anything, `svc_scholarship_ai_next` ran the directory-site check on every due item, which took 27 s for 8,981 items.
+- The picker now works on one bounded window of the next due items. The window size is a new setting, `batch.sch_ai_pick_scan`, set to 60. The picker:
+  - checks directory sites and search-off providers once per distinct site and provider, not once per item;
+  - leases only items it has checked.
+- In a rolled-back live run, two picks took 1.9 s and 1.5 s.
+- Live since 01:41 UTC:
+  - every call returns 200;
+  - 239 readings by 01:59, of which 227 succeeded, at US$0.27;
+  - 8,800 items still queued, about 11 hours at the current rate.
+
+**Re-admission safety (Pilot #1108, migration `20261113293700`; md5 `a28ce061…` equals the file).**
+- The review against the 8 conditions found two gaps:
+  - Round currency was not checked. The Sydney Bowel Cancer page shows only a 2019 round, and once restored it would have passed the publication check.
+  - Human decisions were not checked: L4 block decisions, manual locks and refused reviews.
+- New: `security.scholarship_readmit_blocker_v1`. It holds a re-admission when there is a human decision or lock, or when the last round closed more than `sch_elig.readmit_round_stale_days` (365) ago with no open window and no rolling application. Both apply and restore use it.
+- `sch_elig.readmit_on` changed from 0 to 1, with a control event recorded. No manual switch is needed.
+- First live cycle:
+  - Sydney Bowel Cancer was held as `readmit_round_closed` at 01:14 UTC, so it is now a correct negative, not the positive case.
+  - Charles Perkins (an awards list page) and UTS Gullotta (a how-to-apply page) stay withdrawn.
+  - Nothing was restored.
+- No current case meets all 8 conditions, so there is no positive re-admission to report.
+
+**Long-page recovery (Pilot #1109, worker `coverage-sweep-worker-v0.83.0`, migration `20261113294100`; md5 `1538a107…` equals the file).**
+- What it does:
+  - Each failed scholarship gets one sectioned reading of its stored official page: the award's own section (6,000 characters) plus its linked terms page (4,000).
+  - The fields are split across two strict-schema calls, which are merged into one version 3 answer.
+  - The record shows the section offset and sha256, the model, the prompt version and the cost.
+  - The answer goes through the existing checked apply path, which fills only empty canonical fields and never a locked one. It invents nothing.
+- The section sizes are `reading.sch_recovery_*` worker settings.
+- 43 of the 77 long-page cases are queued:
+  - 32 have an ordinary re-read queued first;
+  - 2 are at hidden providers;
+  - 2 no longer show a long-page error.
+- Acceptance is counted in newly validated canonical fields, which have not been measured yet.
+
+**Admin UI (Pilot #1113, migration `20261113304500`; md5 `52866746…` equals the file).**
+- New optional columns and filters in the existing Scholarships Catalogue:
+  - State: published, ready, held, inactive, any;
+  - Round: open, no dates, rolling, closed this cycle, stale round;
+  - Source freshness (stale after `sch_detail.source_stale_days`, 180 days);
+  - Course-link basis: named, every course, derived only, none;
+  - Detail recovery, with its next action;
+  - Website v3: served or held back.
+- The Scholarship Detail drawer has a Data delivery panel.
+- Zoho v3 is shown as "not verified".
+- Live read check: 43 recovery-queued and 97 stale-round published records.
+
+**Published denominator now (1,202):**
+
+| Field | Records |
+|---|---|
+| Description | 822 |
+| Benefits | 1,015 |
+| Close date | 665 |
+| Sponsor | 485 |
+| Detail read | 1,154 |
+| Long page not yet read | 18 |
+
+Course links:
+- 304 come from a page naming the course;
+- 748 are derived only from level and field;
+- 149 have none.
+
+Scholarship Layer 4 pending: 0.
+
+**For the Platform Admin (an existing publication-policy question, not new):** 97 published scholarships have a last round more than a year old. This is REQ-72. The publication check does not test round currency.
+
+**Not done:**
+- Website v3 list, detail and sync verification;
+- Zoho v3 coordination with the S2-CF owner (#1107 is merged);
+- the Developer Requirements register update;
+- two unattended productive cycles.
+
+#1077 was not merged.
+
+**Next executable action:**
+- After the admission backlog drains, measure newly validated fields from the 43 recovery readings.
+- Verify Website v3 scholarship list, detail, nationality and linked-course paging.
+- Record two unattended cycles.
