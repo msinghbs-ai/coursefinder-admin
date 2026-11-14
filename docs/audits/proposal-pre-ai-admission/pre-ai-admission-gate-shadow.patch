@@ -1,0 +1,449 @@
+diff --git a/scripts/admission-harness.mjs b/scripts/admission-harness.mjs
+new file mode 100644
+index 0000000..3785541
+--- /dev/null
++++ b/scripts/admission-harness.mjs
+@@ -0,0 +1,138 @@
++#!/usr/bin/env node
++// PROPOSAL (not deployed): CF-247 pre-AI admission harness for pre-ai-admission-v1
++// (admin docs/audits/studysearch-pre-ai-admission-gate-design.md §6).
++// Validates a sample of stored evidence copies end to end against the storage contract and the shadow admission gates, using the worker's own
++// pure modules, so what it reports is what the worker would decide. READ ONLY: it downloads objects, never writes, deletes, calls AI or Firecrawl.
++//
++//   node --experimental-strip-types scripts/admission-harness.mjs --self-test
++//   node --experimental-strip-types scripts/admission-harness.mjs --manifest sample.json --dir ./objects     (copies already downloaded)
++//   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node --experimental-strip-types scripts/admission-harness.mjs --manifest sample.json --supabase
++//
++// sample.json is the output of query H1 in docs/audits/sql/admission-integrity-checks.sql (one JSON array of manifest rows with a "lane").
++// Exit code 1 means a STORAGE CONTRACT failure (missing object, zero bytes, hash mismatch, path/hash disagreement). Gate rejections are
++// measurements and never fail the run.
++import { readFile, writeFile } from "node:fs/promises";
++import { gunzipSync } from "node:zlib";
++import { createHash } from "node:crypto";
++import path from "node:path";
++import { pathToFileURL } from "node:url";
++
++const argv = process.argv.slice(2);
++const opt = (k, d = null) => { const i = argv.indexOf(`--${k}`); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[i + 1] : d };
++const flag = (k) => argv.includes(`--${k}`);
++const workerDir = path.resolve(opt("worker", "supabase/functions/coverage-sweep"));
++const G = await import(pathToFileURL(path.join(workerDir, "admission-gate.ts")).href);
++
++const sha256 = (buf) => createHash("sha256").update(buf).digest("hex");
++const decode = (row, bytes) => {
++  const raw = row.container === "gzip" || /\.gz$/.test(row.storage_path) ? gunzipSync(bytes) : bytes;
++  return { raw, text: /pdf/.test(row.content_mime) ? "" : raw.toString("utf8") };
++};
++async function fetchObject(row) {
++  if (flag("supabase")) {
++    const base = process.env.SUPABASE_URL, key = process.env.SUPABASE_SERVICE_ROLE_KEY;
++    if (!base || !key) throw Error("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required with --supabase");
++    const r = await fetch(`${base.replace(/\/$/, "")}/storage/v1/object/${row.bucket || "evidence"}/${row.storage_path.split("/").map(encodeURIComponent).join("/")}`, { headers: { authorization: `Bearer ${key}`, apikey: key } });
++    if (!r.ok) return { missing: true, status: r.status };
++    return { bytes: Buffer.from(await r.arrayBuffer()) };
++  }
++  const dir = opt("dir"); if (!dir) throw Error("--dir or --supabase is required with --manifest");
++  try { return { bytes: await readFile(path.join(dir, row.storage_path)) } } catch { return { missing: true, status: 404 } }
++}
++
++async function runManifest() {
++  const rows = JSON.parse(await readFile(opt("manifest"), "utf8"));
++  const out = [], tally = { rows: rows.length, contract_fail: 0, missing: 0, admit: 0, would_reject: 0, would_park: 0, tokens_saved_estimate: 0 }, byReason = {};
++  for (const row of rows) {
++    const rec = { evidence_id: row.evidence_id, storage_path: row.storage_path, lane: row.lane };
++    const o = await fetchObject(row);
++    if (o.missing) { rec.contract = { ok: false, problems: ["object_missing"], status: o.status }; tally.contract_fail++; tally.missing++; out.push(rec); continue }
++    const stored = o.bytes.length, { raw, text } = decode(row, o.bytes), computed = sha256(raw);
++    const m = { ...row, stored_bytes: stored, content_bytes: raw.length };
++    rec.contract = G.checkManifest(m, computed);
++    if (!rec.contract.ok) tally.contract_fail++;
++    if (text && row.lane) {
++      const d = await G.admit({ lane: row.lane, html: text, url: row.final_url || row.source_url, manifest: m, computed_sha: computed,
++        prompt_key: row.prompt_key || "harness", model: row.model || "harness", schema_key: row.schema_key || row.lane }, { budget_chars: Number(row.budget_chars) || undefined });
++      rec.gate = { would: d.would, reasons: d.reasons.map((r) => r.code), sent_chars: d.sent_chars, tokens_saved_estimate: d.tokens_saved_estimate, signals: { main_chars: d.signals.main_chars, scholarship: d.signals.scholarship?.score, preflight: d.signals.preflight, leak: d.signals.leak } };
++      tally[d.would === "admit" ? "admit" : d.would === "park" ? "would_park" : "would_reject"]++; tally.tokens_saved_estimate += d.tokens_saved_estimate;
++      for (const r of d.reasons) byReason[r.code] = (byReason[r.code] || 0) + 1;
++    }
++    out.push(rec);
++  }
++  const report = { harness: "admission-harness", gate: G.ADMISSION_GATE, at: new Date().toISOString(), tally, by_reason: byReason, rows: out };
++  if (opt("out")) await writeFile(opt("out"), JSON.stringify(report, null, 2));
++  console.log(JSON.stringify({ tally, by_reason: byReason }, null, 2));
++  for (const r of out.filter((x) => !x.contract?.ok)) console.log(`CONTRACT FAIL ${r.storage_path}: ${(r.contract?.problems || []).join(",")}`);
++  process.exit(tally.contract_fail ? 1 : 0);
++}
++
++// ---------- self-test: fixed fixtures, one per reason, plus admit cases ----------
++async function selfTest() {
++  const page = (title, body, h1 = title) => `<!doctype html><html><head><title>${title}</title></head><body><nav>Home Study Research</nav><main><h1>${h1}</h1>${body}</main><footer>Privacy</footer></body></html>`;
++  const para = (s, n = 1) => `<p>${s}</p>`.repeat(n);
++  const course = page("Master of Data Science | Example University",
++    "<h2>Overview</h2>" + para("This two-year course builds skills in statistics, machine learning and data engineering for industry roles.", 6) +
++    "<h2>Entry requirements</h2>" + para("A bachelor degree in any discipline with a minimum GPA of 4.5 on a 7-point scale.") +
++    "<h3>English language requirements</h3>" + para("IELTS Academic 6.5 overall with no band below 6.0.") +
++    "<h2>Fees</h2><table><thead><tr><th>Student</th><th>Annual fee</th></tr></thead><tbody><tr><td>International</td><td>AUD 48,000</td></tr></tbody></table>");
++  const award = page("Global Excellence Scholarship | Example University",
++    para("The Global Excellence Scholarship offers a 25% reduction in tuition fees for international students commencing a coursework degree.") +
++    "<h2>Eligibility</h2>" + para("Applicants must be international students holding an offer for full-time study.") +
++    "<h2>How to apply</h2>" + para("You are automatically considered when you apply for admission. Applications close 30 November.") );
++  const news = page("Campus news | Example University", para("Our rowing team won the regional regatta this weekend and the library opens late during exams.", 8));
++  const listing = page("Scholarships", Array.from({ length: 20 }, (_, i) => `<li><a href="/scholarships/award-${i}">Award ${i}</a></li>`).join(""));
++  const thin = page("Scholarship", "<p>Loading…</p>");
++  const captcha = page("Just a moment...", "<p>Verify you are human by completing the action below. cf-chl</p>");
++  const notFound = page("Page not found | Example University", para("Sorry, the page you are looking for could not be found. Try the search.", 3));
++  const leaky = page("Bachelor of Arts", "<h2>Entry requirements</h2>" + para("ATAR 70 or equivalent. IELTS 6.5.") + `<p>${"QUJDRA".repeat(60)}</p>`);
++  const sha = (s) => sha256(Buffer.from(s, "utf8"));
++  const manifest = (html, extra = {}) => ({ evidence_id: "00000000-0000-0000-0000-000000000000", bucket: "evidence", storage_path: `layer2/AU/coverage/p/c/${sha(html)}.html.gz`, container: "gzip",
++    content_mime: "text/html", content_sha256: sha(html), stored_bytes: 100, content_bytes: Buffer.byteLength(html), source_url: "https://example.edu/x", page_status: 200, captured_at: new Date().toISOString(), ...extra });
++  const base = { url: "https://example.edu/x", prompt_key: "p", model: "m", schema_key: "s" };
++  const cases = [
++    ["course page admitted to the AER read", { ...base, lane: "aer", html: course, manifest: manifest(course), computed_sha: sha(course) }, "admit", []],
++    ["award page admitted to the scholarship read", { ...base, lane: "scholarship", html: award, url: "https://example.edu/scholarships/global" }, "admit", []],
++    ["fee table admitted to the fee read", { ...base, lane: "tuition_fees", html: course }, "admit", []],
++    ["news page: scholarship score too low", { ...base, lane: "scholarship", html: news }, "reject", ["scholarship_low_signal"]],
++    ["listing page routed away from a single-award read", { ...base, lane: "scholarship", html: listing, url: "https://example.edu/scholarships" }, "reject", ["scholarship_listing"]],
++    ["near-empty copy is thin", { ...base, lane: "scholarship", html: thin }, "reject", ["thin_page"]],
++    ["challenge page is a soft block", { ...base, lane: "scholarship", html: captcha }, "reject", ["soft_block"]],
++    ["200 page that says not found", { ...base, lane: "aer", html: notFound }, "reject", ["soft_not_found"]],
++    ["news page has no AER signal", { ...base, lane: "aer", html: news }, "reject", ["aer_no_signal"]],
++    ["base64 run in the sent text is a prompt leak", { ...base, lane: "aer", html: leaky }, "reject", ["prompt_leak"]],
++    ["hash mismatch fails the storage contract", { ...base, lane: "aer", html: course, manifest: manifest(course), computed_sha: "0".repeat(64) }, "reject", ["manifest_invalid"]],
++    ["404 page status fails before any read", { ...base, lane: "aer", html: course, manifest: manifest(course, { page_status: 404 }), computed_sha: sha(course) }, "reject", ["page_not_ok"]],
++  ];
++  let failed = 0;
++  for (const [name, input, want, reasons] of cases) {
++    const d = await G.admit(input, {});
++    const codes = d.reasons.map((r) => r.code);
++    const ok = d.would === want && reasons.every((r) => codes.includes(r)) && d.decision === "admit" && (want === "admit" ? d.shadow === false : d.shadow === true);
++    if (!ok) failed++;
++    console.log(`${ok ? "PASS" : "FAIL"}  ${name}: would ${d.would} [${codes.join(",")}] decision ${d.decision}${d.shadow ? " (shadow)" : ""}`);
++  }
++  // enforcement is per reason and explicit
++  const enforced = await G.admit({ ...base, lane: "scholarship", html: thin }, { enforce: { thin_page: true } });
++  const eok = enforced.decision === "reject" && enforced.shadow === false && enforced.tokens_saved_estimate >= 0;
++  if (!eok) failed++; console.log(`${eok ? "PASS" : "FAIL"}  enforce thin_page: decision ${enforced.decision}`);
++  // duplicate input parks (reuse), it does not reject
++  const first = await G.admit({ ...base, lane: "aer", html: course });
++  const dup = await G.admit({ ...base, lane: "aer", html: course, seen_fingerprints: new Set([first.fingerprint]) }, { enforce: { duplicate_input: true } });
++  const dok = dup.decision === "park" && dup.reasons.some((r) => r.code === "duplicate_input");
++  if (!dok) failed++; console.log(`${dok ? "PASS" : "FAIL"}  duplicate input parks for reuse: decision ${dup.decision}`);
++  // over budget splits/parks, never cuts: the sent text is the full selection
++  const big = await G.admit({ ...base, lane: "course_overview", html: course }, { budget_chars: 50 });
++  const bok = big.would === "park" && big.sent_chars > 50;
++  if (!bok) failed++; console.log(`${bok ? "PASS" : "FAIL"}  over budget parks with reason (sent ${big.sent_chars} > 50, not cut)`);
++  // every selected line is a labelled block line: proximity and offsets survive
++  const { seg } = G.segment(course, null, ["aer"]);
++  const lok = seg.text.aer.split("\n").every((l) => /^\[B\d+ @(\d+|data)\] /.test(l)) && seg.by_lane.aer.block_ids.length > 0;
++  if (!lok) failed++; console.log(`${lok ? "PASS" : "FAIL"}  AER segment keeps [B#] block labels (${seg.by_lane.aer.block_ids.length} blocks)`);
++  console.log(failed ? `\n${failed} FAILED` : `\nall ${cases.length + 4} checks passed`);
++  process.exit(failed ? 1 : 0);
++}
++
++if (flag("self-test")) await selfTest();
++else if (opt("manifest")) await runManifest();
++else { console.error("usage: --self-test | --manifest <file> (--dir <dir> | --supabase) [--out report.json] [--worker <coverage-sweep dir>]"); process.exit(2) }
+diff --git a/supabase/functions/coverage-sweep/admission-gate.ts b/supabase/functions/coverage-sweep/admission-gate.ts
+new file mode 100644
+index 0000000..7e8d80a
+--- /dev/null
++++ b/supabase/functions/coverage-sweep/admission-gate.ts
+@@ -0,0 +1,207 @@
++// PROPOSAL (not deployed): CF-247 pre-AI admission and enrichment gate, pre-ai-admission-v1.
++// Design: admin docs/audits/studysearch-pre-ai-admission-gate-design.md (14 Nov 2026), built on SHARED-SOURCE-TO-PUBLISHED-ENRICHMENT-DESIGN.md §11
++// (F2 section slicer, F3 high-recall negative filter, F4 content cache, F5 split/park, never truncate, F6 observability).
++//
++// It sits between a stored evidence copy and one paid AI read and answers one question: should this read be sent? It changes nothing by itself:
++//   * it reuses the platform's one block contract (lean-input.ts leanText lean-md-v1 → aer-v2.ts aerV3Blocks lean-blocks-v1 → lean-sections.ts
++//     selectSections) and its existing page checks (firecrawl.ts readOutcome soft-block words, scholarship.ts isListingPage, fees.ts hasFeeAmount);
++//   * every decision is SHADOW unless the caller passes enforce=true for that reason code, and the caller only does that when the Platform Admin has
++//     switched the reason's setting on after its false-negative rate was measured (CLAUDE.md: a passing qualification never switches anything on);
++//   * every threshold comes from the caller's settings (G2); the defaults below are only used when a setting is absent and are the same numbers the
++//     worker already uses for the same purpose (300 characters of main text = readDirect "read"; 200 = the least text that can carry a sentence).
++// Pure functions only (no network, no storage, no database), so a contract spec and the CLI harness can run them.
++// Page content is data: nothing here follows an instruction found on a page.
++import { leanText, preflight, sha256Hex, type LeanText } from "./lean-input.ts";
++import { aerV3Blocks, type AerBlocks } from "./aer-v2.ts";
++import { selectSections, SECTION_DEFAULTS, type SectionOptions } from "./lean-sections.ts";
++import { mainText, isListingPage } from "./scholarship.ts";
++import { hasFeeAmount } from "./fees.ts";
++
++export const ADMISSION_GATE = "pre-ai-admission-v1";  // never edited in place once released: a different rule set is a new version
++
++// ---------- 1. Storage contract: one manifest per stored copy ----------
++// The manifest is not a new file in storage: it is the pipeline.evidence_artifacts row plus what the reader measured when it opened the copy.
++// One raw copy per page stays the source of truth (content-addressed, gzip). A derived lean-md-v1 sidecar is optional and versioned (§11 F1/F2).
++export type ArtifactManifest = {
++  evidence_id: string | null;          // pipeline.evidence_artifacts.id (null only for a read not yet registered)
++  bucket: "evidence";
++  storage_path: string;                // e.g. layer2/AU/coverage/<provider>/<course>/<sha>.html.gz
++  container: "gzip" | "none";          // how the object is stored (objects are application/gzip; evidence_artifacts.mime_type names the content)
++  content_mime: "text/html" | "text/markdown" | "text/plain" | "application/pdf" | "application/json";
++  content_sha256: string;              // SHA-256 of the decompressed content bytes, as the worker computes it (evidence_artifacts.content_hash)
++  stored_bytes: number;                // storage.objects metadata size (compressed)
++  content_bytes?: number | null;       // decompressed size, when the reader opened the copy
++  source_url: string;
++  final_url?: string | null;
++  fetched_via?: "direct" | "firecrawl" | "upload" | null;
++  http_status?: number | null;         // transport status of the fetch (direct) or of the Firecrawl API call
++  page_status?: number | null;         // the page's own status (Firecrawl data.metadata.statusCode; equals http_status for a direct read)
++  captured_at: string;                 // ISO time
++  sidecar?: { converter: string; storage_path: string; content_sha256: string; of_sha256: string } | null;
++};
++export type ManifestProblem =
++  | "missing_field" | "zero_bytes" | "hash_format" | "hash_mismatch" | "path_hash_disagrees" | "page_not_ok" | "page_status_unknown"
++  | "sidecar_of_other_copy" | "content_mime_unknown";
++const HEX64 = /^[0-9a-f]{64}$/;
++const MIMES = new Set(["text/html", "text/markdown", "text/plain", "application/pdf", "application/json"]);
++
++// Strict structural check of a manifest. computedSha is the reader's own SHA-256 of the decompressed bytes (pass it whenever the copy was opened).
++// "page_status_unknown" is a warning, not a failure: most Firecrawl read paths do not record the page's own status today (audit finding S3).
++export function checkManifest(m: Partial<ArtifactManifest>, computedSha?: string | null): { ok: boolean; problems: ManifestProblem[]; warnings: ManifestProblem[] } {
++  const problems: ManifestProblem[] = [], warnings: ManifestProblem[] = [];
++  for (const k of ["bucket", "storage_path", "container", "content_mime", "content_sha256", "stored_bytes", "source_url", "captured_at"] as const)
++    if (m[k] === undefined || m[k] === null || m[k] === "") { problems.push("missing_field"); break }
++  if (m.content_mime && !MIMES.has(m.content_mime)) problems.push("content_mime_unknown");
++  if (typeof m.stored_bytes === "number" && m.stored_bytes <= 0) problems.push("zero_bytes");
++  if (m.content_bytes !== undefined && m.content_bytes !== null && m.content_bytes <= 0) problems.push("zero_bytes");
++  if (m.content_sha256 && !HEX64.test(m.content_sha256)) problems.push("hash_format");
++  if (computedSha && m.content_sha256 && computedSha !== m.content_sha256) problems.push("hash_mismatch");
++  const inPath = String(m.storage_path || "").match(/([0-9a-f]{64})\.[a-z.]+$/)?.[1];
++  if (inPath && m.content_sha256 && inPath !== m.content_sha256) problems.push("path_hash_disagrees");
++  const ps = m.page_status ?? null;
++  if (ps === null) warnings.push("page_status_unknown"); else if (ps < 200 || ps > 299) problems.push("page_not_ok");
++  if (m.sidecar && m.content_sha256 && m.sidecar.of_sha256 !== m.content_sha256) problems.push("sidecar_of_other_copy");
++  return { ok: problems.length === 0, problems: [...new Set(problems)], warnings };
++}
++
++// ---------- 2. Stage A: sanitise and section (deterministic, local) ----------
++export type Lane = "aer" | "scholarship" | "tuition_fees" | "course_overview" | "course_fields";
++// the lean-sections field each lane is selected by (lane "course_fields" asks several fields; each is selected and the union is kept)
++const LANE_FIELDS: Record<Lane, string[]> = {
++  aer: ["entry_requirements", "english"],
++  scholarship: [],                                   // a scholarship page is read whole (one award page); its gate is page-level
++  tuition_fees: ["fees"],
++  course_overview: ["description"],
++  course_fields: ["duration", "campus", "delivery", "intakes", "international"],
++};
++// residue that must never reach a prompt: markup, script/style bodies, long base64 runs, data URIs, JSON blobs
++const LEAK = {
++  markup: /<\/?(?:div|span|script|style|table|tr|td|a|img|iframe|meta|link|svg|path|button|input|form|noscript)\b[^>]*>/gi,
++  base64: /[A-Za-z0-9+/]{240,}={0,2}/g,
++  data_uri: /data:[a-z]+\/[a-z0-9.+-]+;base64,/gi,
++  json_blob: /\{\s*"[^"]{1,40}"\s*:\s*(?:"[^"]*"|\d+|true|false|null|\{|\[)(?:[^{}]|\{[^{}]*\}){200,}\}/g,
++};
++export type LeakReport = { markup: number; base64: number; data_uri: number; json_blob: number; clean: boolean };
++export function leakCheck(text: string): LeakReport {
++  const n = (re: RegExp) => (String(text || "").match(re) || []).length;
++  const r = { markup: n(LEAK.markup), base64: n(LEAK.base64), data_uri: n(LEAK.data_uri), json_blob: n(LEAK.json_blob) };
++  return { ...r, clean: r.markup + r.base64 + r.data_uri + r.json_blob === 0 };
++}
++
++export type Segments = { input: string; lean_chars: number; blocks: number; by_lane: Record<string, { block_ids: string[]; chars: number; no_selection: boolean }>; text: Record<string, string> };
++// One page as typed segments. The labelled [B<n> @<offset>] lines are kept unchanged, so every quote still resolves to its block and its offset in the
++// stored copy (AER v3 exact_block / lead_in_block proximity, §11 F2 "preserve exact spans and offsets").
++export function segment(html: string, data: string | null, lanes: Lane[], opt: SectionOptions = SECTION_DEFAULTS): { lean: LeanText; blocks: AerBlocks; seg: Segments } {
++  const lean = leanText(html), blocks = aerV3Blocks(lean, data);
++  const by_lane: Segments["by_lane"] = {}, text: Record<string, string> = {};
++  for (const lane of lanes) {
++    const fields = LANE_FIELDS[lane];
++    if (!fields.length) { by_lane[lane] = { block_ids: blocks.blocks.map((b) => `B${b.n}`), chars: blocks.text.length, no_selection: false }; text[lane] = blocks.text; continue }
++    const ids = new Set<string>();
++    for (const f of fields) for (const id of selectSections(blocks, f, opt).block_ids) ids.add(id);
++    const keep = blocks.blocks.filter((b) => ids.has(`B${b.n}`)), lines = blocks.text.split("\n");
++    const t = blocks.blocks.map((b, i) => (ids.has(`B${b.n}`) ? lines[i] : null)).filter((x): x is string => x !== null).join("\n");
++    // no selection is reported, never acted on: the page is then read whole (lean-sections-v1 rule)
++    by_lane[lane] = { block_ids: keep.map((b) => `B${b.n}`), chars: t.length, no_selection: keep.filter((b) => b.kind !== "data").length === 0 };
++    text[lane] = by_lane[lane].no_selection ? blocks.text : t;
++  }
++  return { lean, blocks, seg: { input: blocks.input, lean_chars: lean.text.length, blocks: blocks.blocks.length, by_lane, text } };
++}
++
++// ---------- 3. Stage B: admission gates ----------
++export type Reason =
++  | "manifest_invalid" | "page_not_ok" | "soft_block" | "soft_not_found" | "thin_page" | "prompt_leak" | "over_budget_split"
++  | "aer_no_signal" | "scholarship_listing" | "scholarship_low_signal" | "fees_no_amount" | "duplicate_input";
++export type GateSettings = {
++  min_main_chars?: number;            // admission.min_main_chars (default 300: readDirect's "read" floor)
++  sch_min_score?: number;             // admission.scholarship_min_score (default 2 of 6)
++  budget_chars?: number;              // the read's own input limit (enrich.page_chars, reading.aer_v2_page_chars, ...): over it → split or park, never cut
++  enforce?: Partial<Record<Reason, boolean>>;  // admission.enforce.<reason>: off by default; only a measured reason is ever switched on
++};
++export type Decision = {
++  gate: string; lane: Lane; decision: "admit" | "reject" | "park"; shadow: boolean;
++  would: "admit" | "reject" | "park";              // what the gate would do with every reason enforced
++  reasons: { code: Reason; detail: string }[];
++  signals: Record<string, unknown>;
++  sent_chars: number; tokens_saved_estimate: number; // chars/4, an estimate only: real tokens come from the model's usage block
++  input_sha256: string; fingerprint: string | null;
++};
++const SOFT_BLOCK = /captcha|cf-chl|access denied|are you a robot|verify you are human|request unsuccessful|incapsula/i;  // firecrawl.ts readOutcome
++const SOFT_404 = /\b(page (?:not found|cannot be found|could not be found|doesn'?t exist|does not exist|no longer exists)|404 (?:error|not found)|error 404|we can'?t find (?:the|that|this) page|sorry,? (?:the|this) page)\b/i;
++const titleOf = (h: string) => (h.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").replace(/\s+/g, " ").trim();
++const h1Of = (h: string) => (h.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
++
++// deterministic scholarship signals, 0–6. Reported with every decision so the threshold can be tuned from data, never guessed.
++export function scholarshipScore(html: string, text: string): { score: number; parts: Record<string, boolean> } {
++  const head = `${titleOf(html)} ${h1Of(html)}`;
++  const parts = {
++    award_in_title: /\b(scholarships?|burs(?:ary|aries)|awards?|grants?|stipends?|prizes?|fee (?:waiver|discount|reduction|remission))\b/i.test(head),
++    award_in_body: /\b(scholarships?|burs(?:ary|aries)|stipends?|tuition (?:waiver|discount)|fee (?:waiver|discount|reduction|remission))\b/i.test(text),
++    value: /(?:[$£€]\s?\d|\b(?:AUD|NZD|CAD|USD)\s?\d|\b\d{1,3}\s?%|\bfull tuition\b|\btuition fees? (?:covered|paid)\b)/i.test(text),
++    eligibility: /\b(eligib\w*|who can apply|criteria|you must|applicants? must|open to)\b/i.test(text),
++    application: /\b(how to apply|apply (?:now|by|online)|applications? (?:open|close)|closing date|deadline|automatic(?:ally)? considered)\b/i.test(text),
++    audience: /\b(international (?:students?|applicants?)|domestic (?:students?|applicants?)|citizens?|permanent residents?|student visa)\b/i.test(text),
++  };
++  return { score: Object.values(parts).filter(Boolean).length, parts };
++}
++
++export type GateInput = {
++  lane: Lane; html: string; data?: string | null; url: string; manifest?: Partial<ArtifactManifest> | null; computed_sha?: string | null;
++  prompt_key: string; model: string; schema_key: string;
++  seen_fingerprints?: Set<string> | null;           // fingerprints already answered (F4 content cache); the caller supplies them
++};
++export async function admit(g: GateInput, s: GateSettings = {}): Promise<Decision> {
++  const reasons: Decision["reasons"] = [], signals: Record<string, unknown> = {};
++  const minMain = s.min_main_chars ?? 300, schMin = s.sch_min_score ?? 2;
++  if (g.manifest) {
++    const mc = checkManifest(g.manifest, g.computed_sha ?? null); signals.manifest = mc;
++    if (!mc.ok) reasons.push({ code: mc.problems.includes("page_not_ok") && mc.problems.length === 1 ? "page_not_ok" : "manifest_invalid", detail: mc.problems.join(",") });
++  }
++  const main = mainText(g.html), head = `${titleOf(g.html)} ${h1Of(g.html)}`;
++  signals.main_chars = main.length;
++  if (SOFT_BLOCK.test(g.html.slice(0, 20000)) && main.length < 4000) reasons.push({ code: "soft_block", detail: "challenge or access-denied page" });
++  if (SOFT_404.test(head) || (main.length < 1500 && SOFT_404.test(main.slice(0, 600)))) reasons.push({ code: "soft_not_found", detail: `page says it is not found: ${head.slice(0, 80)}` });
++  if (main.length < minMain) reasons.push({ code: "thin_page", detail: `${main.length} characters of main text, under ${minMain}` });
++
++  const { seg } = segment(g.html, g.data ?? null, [g.lane]);
++  const sent = seg.text[g.lane] || "";
++  signals.segment = seg.by_lane[g.lane];
++  const leak = leakCheck(sent); signals.leak = leak;
++  if (!leak.clean) reasons.push({ code: "prompt_leak", detail: `markup ${leak.markup}, base64 ${leak.base64}, data URI ${leak.data_uri}, JSON ${leak.json_blob}` });
++  if (s.budget_chars && sent.length > s.budget_chars) reasons.push({ code: "over_budget_split", detail: `${sent.length} characters over the read's ${s.budget_chars}: split or park with this reason, never cut` });
++
++  if (g.lane === "aer") {
++    // the selected text decides; the whole page is recorded beside it, so a signal only outside the selection shows as a possible selector miss
++    const p = { entry: preflight("entry_requirements", sent), english: preflight("english", sent), entry_full: preflight("entry_requirements", main), english_full: preflight("english", main) };
++    signals.preflight = p;
++    // high recall only (§11 F3): "unknown" is admitted; only no signal on BOTH fields is a candidate, and only in shadow until measured
++    if (p.entry === "no_signal" && p.english === "no_signal") reasons.push({ code: "aer_no_signal", detail: "no entry-requirement or English signal in the selected text" });
++  }
++  if (g.lane === "scholarship") {
++    const sc = scholarshipScore(g.html, main); signals.scholarship = sc;
++    if (isListingPage(g.html, g.url, titleOf(g.html) || null)) reasons.push({ code: "scholarship_listing", detail: "a listing of awards: route to listing traversal, not to a single-award read" });
++    if (sc.score < schMin) reasons.push({ code: "scholarship_low_signal", detail: `score ${sc.score} of 6, under ${schMin}` });
++  }
++  if (g.lane === "tuition_fees" && !hasFeeAmount(sent) && !hasFeeAmount(main)) reasons.push({ code: "fees_no_amount", detail: "no currency amount on the page (the fee reader's own rule)" });
++
++  const input_sha256 = await sha256Hex(sent);
++  const fingerprint = await sha256Hex([ADMISSION_GATE, input_sha256, g.lane, g.prompt_key, g.model, g.schema_key].join("␟"));
++  if (g.seen_fingerprints?.has(fingerprint)) reasons.push({ code: "duplicate_input", detail: "the same input, prompt, model and schema were already answered: reuse that answer" });
++
++  const PARK = new Set<Reason>(["over_budget_split", "duplicate_input"]);
++  const would: Decision["would"] = reasons.length === 0 ? "admit" : reasons.every((r) => PARK.has(r.code)) ? "park" : "reject";
++  const enforced = reasons.filter((r) => s.enforce?.[r.code] === true);
++  const decision: Decision["decision"] = enforced.length === 0 ? "admit" : enforced.every((r) => PARK.has(r.code)) ? "park" : "reject";
++  return { gate: ADMISSION_GATE, lane: g.lane, decision, shadow: enforced.length === 0 && reasons.length > 0, would, reasons, signals,
++    sent_chars: sent.length, tokens_saved_estimate: would === "admit" ? 0 : Math.round(sent.length / 4), input_sha256, fingerprint };
++}
++
++// ---------- 4. Stage C: the record a decision leaves (written beside the read, never instead of it) ----------
++// public.svc_pre_ai_admission_record_v1(p_rows jsonb) → pipeline.pre_ai_admission_decisions. A rejected read is never silent: it carries its reason
++// codes, the estimated tokens it saved and the evidence it was judged on, and its item goes to state 'rejected_admission' only when enforced.
++export function decisionRow(d: Decision, ctx: { lane_item: string; item_id: string | number; evidence_id: string | null; storage_path: string | null; worker: string }) {
++  return { gate: d.gate, lane: d.lane, lane_item: ctx.lane_item, item_id: String(ctx.item_id), evidence_id: ctx.evidence_id, storage_path: ctx.storage_path,
++    decision: d.decision, would: d.would, shadow: d.shadow, reason_codes: d.reasons.map((r) => r.code), reasons: d.reasons,
++    sent_chars: d.sent_chars, tokens_saved_estimate: d.tokens_saved_estimate, input_sha256: d.input_sha256, fingerprint: d.fingerprint,
++    signals: d.signals, worker: ctx.worker.slice(0, 60) };
++}
+diff --git a/supabase/functions/coverage-sweep/index.ts b/supabase/functions/coverage-sweep/index.ts
+index ea0af3f..fa89bc2 100644
+--- a/supabase/functions/coverage-sweep/index.ts
++++ b/supabase/functions/coverage-sweep/index.ts
+@@ -38,6 +38,7 @@ import { RECOVERY_VARIANT, SCH_EXTRACT_CONTRACT, awardSection, checkScholarshipD
+ import { awardSections, mapOutcome, nextPage, pagingState, redirectOutcome, sectionCode, sectionHtml, statedTotal } from "./catalogue.ts";
+ import { COURSE_TEXT_FIELDS, cdescRequest, cdescResults, cdescSpans, cdescUser, courseTextAnswer, courseTextAnswerLimit, courseTextLength, courseTextPage, courseTextRequest, courseTextResults, courseTextUser, COURSE_TEXT_PROMPT_VERSION, CDESC_PROMPT_VERSION } from "./course-text.ts";
+ import { leanText, observation, sha256Hex } from "./lean-input.ts";
++import { ADMISSION_GATE, admit, decisionRow, type GateSettings, type Reason } from "./admission-gate.ts";  // PROPOSAL: pre-AI admission gate, shadow
+ import { BLOCK_INPUT, LEAN_SECTIONS, blockPlain, holds, selectSections } from "./lean-sections.ts";
+ import { DESCRIPTION_ANSWER_KEY, DESCRIPTION_PROMPT_VERSION, promptRequest, promptSentences, DESCRIPTION_WORKER_PROTOCOL, aboutLinks, aboutPageCheck, descriptionAnswer, descriptionClaimCheck, descriptionCostQuote, descriptionPageText, descriptionIdentitySeen, descriptionRequest, descriptionSourceIdentity, type IdentityTrace, ownHost, providerDescriptionSentences } from "./description.ts";
+ const SCH_VERSION = "scholarship-sweep-v0.7.3"; // v0.7.3 (11 Oct 2026, Platform Admin bugs 11/10-6): a "while places last" condition is not an ended scholarship; an amount the student pays (deposit, bond, fee) is never the award and a "valued at" amount counts; courses listed after "one of the following courses" are read. v0.7.2 (11 Oct 2026): course titles end at bullets (•, ⦁) and at the next capitalised word or sentence. v0.7.1 (11 Oct 2026): courses named after "excluding" are exclusions; course titles keep their bracketed specialisation; numeric dates read in the provider country's day/month order; date proofs start at their label. v0.7.0 (11 Oct 2026): application open and close dates (with rounds), study start, courses the page names, and the sentence behind each level and field. v0.6.3 (11 Oct 2026): academic-result percentages (CWA, WAM, ATAR) are not award values; the value text is a whole sentence. v0.6.2: Firecrawl cap and reserve read from Layer 2 settings; v0.6.1: // v0.6.1: numeric character references in titles decoded; // v0.6.0 (Decision 250): amounts in the provider country's currency; NZ and Canadian domestic wording
+@@ -2070,12 +2071,18 @@ async function handle(req: Request): Promise<Response> {
+       const items: any[] = await rpc("svc_scholarship_ai_next", { p_limit: Math.min(Number(body.limit || 8), 12) });
+       const schTokens = answerLimit(ws, "scholarship_page");
+       const tally: Record<string, number> = {}; let cost = 0;
++      // PROPOSAL (pre-ai-admission-v1, admin docs/audits/studysearch-pre-ai-admission-gate-design.md §4): each read is judged before it is sent and the
++      // decision recorded (public.svc_pre_ai_admission_record_v1). Off unless admission.gate_on; with every admission.enforce.<reason> at 0 nothing changes.
++      const GATE_ON = wsNum("admission.gate_on", 0) > 0, admissions: unknown[] = [];
++      const gateSettings: GateSettings = { min_main_chars: wsNum("admission.min_main_chars", 300), sch_min_score: wsNum("admission.scholarship_min_score", 2),
++        enforce: Object.fromEntries(Object.keys(ws).filter((k) => k.startsWith("admission.enforce.")).map((k) => [k.slice(18), Number(ws[k]) >= 1])) as Partial<Record<Reason, boolean>> };
+       await pool(items, 4, async (it) => {
+         const t1 = Date.now();
+         const rec = (x: Record<string, unknown>) => rpc("svc_scholarship_ai_record", { p_queue_id: it.queue_id, p_answer: null, p_checks: null, p_verdict: null, p_cost: 0, p_tokens_in: null, p_tokens_out: null, p_seconds: (Date.now() - t1) / 1000, p_error: null, p_storage_path: null, p_sha256: null, p_final_url: null, p_rule_facts: null, p_retry: false, ...x });
+         // v0.78.0: a version 3 read may take up to SCH_V3_TIMEOUT_MS, so it starts only early in the call (the rest wait, no try used)
+         if (Date.now() - t0 > BUDGET_MS - (Number(it.prompt_version || 0) >= 3 ? SCH_V3_TIMEOUT_MS : 25000)) { await rec({ p_retry: true }); tally.later = (tally.later || 0) + 1; return }
+         let html = "", finalUrl = it.url, path: string | null = null, sha: string | null = null, ruleFacts: Record<string, unknown> | null = null;
++        let spent = 0;  // PROPOSAL: what this item's calls cost, kept for the catch (a record time-out after a paid answer recorded 0: audit A4)
+         try {
+           if (it.storage_path) html = await storedHtml(it.storage_path);
+           else {
+@@ -2096,6 +2103,14 @@ async function handle(req: Request): Promise<Response> {
+             }
+           }
+           if (!html) { await rec({ p_error: "the page could not be read", p_final_url: finalUrl }); tally.unread = (tally.unread || 0) + 1; return }
++          if (GATE_ON) {
++            const dec = await admit({ lane: "scholarship", html, url: finalUrl, prompt_key: `scholarship-prompt-v${it.prompt_version}`, model: String(it.model || ""), schema_key: SCH_EXTRACT_CONTRACT }, gateSettings);
++            admissions.push(decisionRow(dec, { lane_item: "scholarship_ai_queue", item_id: it.queue_id, evidence_id: it.evidence_id ?? null, storage_path: it.storage_path || path, worker: WORKER }));
++            if (dec.decision !== "admit") {  // only when the Platform Admin has switched this reason on; nothing is spent
++              await rec({ p_error: `rejected_admission: ${dec.reasons.map((r) => r.code).join(",")}`.slice(0, 400), p_storage_path: path, p_sha256: sha, p_final_url: finalUrl, p_rule_facts: ruleFacts });
++              tally.rejected_admission = (tally.rejected_admission || 0) + 1; return;
++            }
++          }
+           // v0.83.0: a long-page recovery item reads the award's own section of the stored page (sch-extract.ts awardSection) instead of its first 14,000 characters
+           const recovery = it.recovery === RECOVERY_VARIANT && Number(it.prompt_version || 0) >= 3;
+           const section = recovery ? awardSection(mainText(html), it.scholarship_name || null, wsNum("reading.sch_recovery_section_chars", 6000)) : null;
+@@ -2125,7 +2140,7 @@ async function handle(req: Request): Promise<Response> {
+             const [pa, pb] = await Promise.all([
+               ask(scholarshipExtractPartRequest(it.model, it.prompt, bundleIn, "a", schTokens), "scholarship_page_part_a"),
+               ask(scholarshipExtractPartRequest(it.model, it.prompt, bundleIn, "b", schTokens), "scholarship_page_part_b")]);
+-            c1 = pa.cost + pb.cost; cost += c1;
++            c1 = pa.cost + pb.cost; cost += c1; spent = c1;
+             for (const [x, nm] of [[pa, "part a"], [pb, "part b"]] as const) {
+               if (!x.r.ok) throw readError(`recovery ${nm}: HTTP ${x.r.status}: ${JSON.stringify(x.d?.error || x.d).slice(0, 160)}`, c1);
+               if (x.d?.model && !String(x.d.model).startsWith(it.model)) throw readError(`recovery ${nm}: returned model ${x.d.model}, not ${it.model}`, c1);
+@@ -2137,7 +2152,7 @@ async function handle(req: Request): Promise<Response> {
+           } else {
+             const reqBody = v3 ? scholarshipExtractRequest(it.model, it.prompt, bundleIn, schTokens)
+                                : scholarshipAiRequest(it.model, it.prompt, { provider: it.provider || "", url: finalUrl, title, h1, text }, schTokens);
+-            const x = await ask(reqBody, "scholarship_page"); c1 = x.cost; cost += c1;
++            const x = await ask(reqBody, "scholarship_page"); c1 = x.cost; cost += c1; spent = c1;
+             if (!x.r.ok) throw readError(`HTTP ${x.r.status}: ${JSON.stringify(x.d?.error || x.d).slice(0, 200)}`, c1);
+             if (x.d?.model && !String(x.d.model).startsWith(it.model)) throw readError(`returned model ${x.d.model}, not ${it.model}`, c1);
+             if (!x.ans.ok) throw readError(x.ans.error, c1);
+@@ -2158,11 +2173,12 @@ async function handle(req: Request): Promise<Response> {
+                       p_storage_path: path, p_sha256: sha, p_final_url: finalUrl, p_rule_facts: ruleFacts });
+           tally[verdict] = (tally[verdict] || 0) + 1;
+         } catch (e) {
+-          await rec({ p_error: (e instanceof Error ? e.message : String(e)).slice(0, 400), p_cost: errorCost(e), p_storage_path: path, p_sha256: sha, p_final_url: finalUrl, p_rule_facts: ruleFacts });  // v0.54.0 (W32): cost recorded on a failed read
++          await rec({ p_error: (e instanceof Error ? e.message : String(e)).slice(0, 400), p_cost: errorCost(e) || spent, p_storage_path: path, p_sha256: sha, p_final_url: finalUrl, p_rule_facts: ruleFacts });  // v0.54.0 (W32): cost recorded on a failed read; PROPOSAL: also when the record itself failed after a paid answer
+           tally.error = (tally.error || 0) + 1;
+         }
+       });
+-      return j({ ok: true, mode, items: items.length, tally, cost_usd: cost, ms: Date.now() - t0, workerVersion: VERSION, worker: WORKER });
++      const admitted = admissions.length ? await rpc("svc_pre_ai_admission_record_v1", { p_rows: noNul(admissions) }).catch((e) => ({ error: (e instanceof Error ? e.message : String(e)).slice(0, 200) })) : null;  // never fails the call
++      return j({ ok: true, mode, items: items.length, tally, cost_usd: cost, ms: Date.now() - t0, workerVersion: VERSION, worker: WORKER, ...(GATE_ON ? { admission: { gate: ADMISSION_GATE, judged: admissions.length, recorded: admitted } } : {}) });
+     }
+     // v0.34.0 (20 Oct 2026, Platform Admin "NZQA Code signatory (Recommended)"): New Zealand providers that enrol international students. Each
+     // provider page NZQA publishes (stored by the Layer 1 NZQA reader in its batch files) says whether the organisation is a signatory to the
+diff --git a/tests/uat/cf-247-s173-reader-answer-limits-contract.spec.mjs b/tests/uat/cf-247-s173-reader-answer-limits-contract.spec.mjs
+index 8b82d19..d6fcc2c 100644
+--- a/tests/uat/cf-247-s173-reader-answer-limits-contract.spec.mjs
++++ b/tests/uat/cf-247-s173-reader-answer-limits-contract.spec.mjs
+@@ -83,7 +83,7 @@ test('worker v0.54.0: every reader takes its limit from its setting, reads its a
+   expect(worker).toContain('centralAiRequest(it.model, it.kind, { provider: it.provider || "", url: it.url, text }, centralTokens)')
+   expect(worker).toContain('aiMatchRequest(it, matchTokens)')
+   expect(worker).toContain('course_page: it.course_page === true }, text, feeTokens)')
+-  expect(worker).toContain('p_cost: errorCost(e), p_storage_path: path')  // scholarship page failure
++  expect(worker).toContain('p_cost: errorCost(e) || spent, p_storage_path: path')  // scholarship page failure (also a record that failed after a paid answer)
+   expect((worker.match(/await rec\(\{ p_error: \(e instanceof Error \? e\.message : String\(e\)\)\.slice\(0, 400\), p_cost: errorCost\(e\) \}\)/g) || []).length).toBe(2)  // central and fee failures
+   // adapter proposal: the two-step ladder from settings
+   expect(worker).toContain('const firstTokens = answerLimit(ws, "adapter_proposal"), retryTokens = answerLimit(ws, "adapter_proposal_retry");')

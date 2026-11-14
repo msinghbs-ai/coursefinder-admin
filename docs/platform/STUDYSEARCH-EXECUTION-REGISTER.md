@@ -3930,3 +3930,82 @@ The 12:35 entry above named a follow-up change that would switch `aerV3Blocks` (
   - headings are written `## `, list items `- `, and every table row carries its column headers.
 - **Platform Admin coordination rule (14 Nov 2026 14:34):** this output format and the block map are not changed without flagging it first. The Admin's note gave the format as "[B# @start-end]"; the live contract has a start offset only. The two-offset form was #1136's earlier draft and was not adopted.
 - **Still in force:** `aer.v2_shadow_on` stays 0, and no live AI or Firecrawl admission run is triggered until Lean AI finishes its shadow recording check.
+### 14 Nov 2026 15:25 AEDT — Lean AI Input Phase 1b step 1: run b complete; step 2 bundle opened (Pilot PR #1139)
+- Run phase1b-step1b-2026-11-14 drained on request (Platform Admin 14 Nov 2026 14:32) by sending recall batches directly: 2,800 of 2,800 done at 04:01Z, 0 AI and 0 Firecrawl calls. Report: docs/platform/LEAN-AI-INPUT-PHASE1B-RECALL-REPORT-2026-11-14.md.
+- On the 2,326 cases where the value is in the reader's text: current 24k cut 0.9635, converted page 0.9854, selection 0.9553. Beyond the cut: 85 values, 80 held by the selection, 85 by the converted page. Fees 0.9961 and intakes 0.9956 meet the gate; entry requirements 0.938, below it. Delivery and campus adapter labels are noisy.
+- Converter misses on score lines are referred to S1-AER (aer-v2.ts `aerV3Blocks`, not changed here).
+- Batches of 120 fee cases exceeded the edge CPU-time limit; batches of 40 ran cleanly.
+- Step 2 bundle (PR #1139, worker v0.92.0): shadow selection beside live reads, lean-sections-v2, selector sizes as settings, observe switch fix, batch 40, run c seed. Rolled-back rehearsal PASS (txid 17223165, aborted). Held before merge for the Platform Admin's review. No AI, no Firecrawl, no prompt, model, admission or consumer API change.
+
+## 14 Nov 2026 13:23 AEDT — F-OPS.08 v2.16.0 Models & services: #1128 MERGED and DEPLOYED (worker v0.90.0)
+- Pilot PR #1128 squash-merged 13:19 AEDT as `1aa02eda` after 14/14 checks on `d0c92c60`. Merged with main through #1131, #1135, #1136 and #1137; worker `coverage-sweep-worker-v0.90.0` (route cascades with Lean AI Input observation).
+- Two migration bodies were rebased onto live before merge: `public.svc_scholarship_ai_next` keeps #1132's never-decided-pages-first ordering, and `security.aer_v2_shadow_hold_v1` keeps #1137's version settings. Without that, the first would have silently undone #1132, and the second would have been refused by its own guard at deploy.
+- Deploy on merge attempt 1: `20261113377000` applied; `20261113378000` hit a 3 s lock timeout on `pipeline.platform_toolset_settings` and rolled back. Attempt 2 (13:23) applied `378000`, `379000`, `380000` and `390000` and deployed `coverage-sweep` and `layer3-provider-control`.
+- Verified live: 5/5 migrations recorded with matching history md5; 29/29 replaced functions at their tested after-md5; per-call records arriving from worker v0.90.0. Ceiling still US$14, OpenRouter mode Observe, no route switched on.
+- Spend at the time: US$34.75 balance (13:15), about US$27/day (course fields and scholarships about half each); runway about 30 hours. Scholarship AI is running (paused manual hold replaced by #1132's vendor hold at 12:34 UTC 13 Nov). Top-up, Stop mode or a scholarship pause is the Platform Admin's decision.
+
+## 14 Nov 2026 15:55 AEDT — F-OPS.08 v2.16.1: AI page limits banner, held reasons, failed calls (Pilot #1140, aa34395f) — DELIVERED
+- Live check of v2.16.0 (Platform Admin signed in): Off services render neutral; the Observe banner copy matches the release note. The switch on Operations diagnosis opens an unsaved draft, which the page blocks ("Not qualified for this service"); it was cancelled. The server refusal holds for all five off services (rule and qualification data checked, not called). Nothing was changed; no `ai_models` control event.
+- Gaps found and fixed (screen only; no worker, SQL or setting change): the five services switched off until a model is qualified were listed in a red "no allowed model" alert, and their rows said "In use today: Qwen3 30B". They are now Off, with "It cannot be switched on yet: no model in its cascade is qualified for it".
+- Added: a limits banner above the four panes (Limits enforced / Limits not enforced, today's spend, services held or that would be held); reasons in words under every service that is not running; "Last call failed" on running rows; on Recent usage, a failed-calls count on the card with the rate and kinds, failures highlighted and the failed attempts open.
+- Release v2.16.1 (package 0.1.423): notes, changelog, Platform guide, Platform Admin SOP v2.39 and Operator SOP v2.22. The SOP mirror in `docs/sops/` is refreshed from `aa34395f`; it was still at v2.15.494, so v2.16.0's SOP changes arrive with this one.
+- Checks: 33/33 UI, phone and phone-screens; 57/57 release, guide, SOP and governance; 136/136 other affected specs; PR CI 12/12; post-merge Release History Contract, Release Currentness Deployed, Pilot Frontend Build and StudySearch Deployed UAT all green.
+- Live after deploy: title v2.16.1; banner first ("Limits not enforced … No service would be held now"); red alert gone; five Off rows show their reasons with no "In use today". Recent usage: 25 of 381 attempts failed in 24 h (7%: 17 empty answers, 8 cut short). Course page matching's last call failed (empty answer). At 375 px nothing scrolls sideways.
+- Watch: the first live load of the page hit a database time-out on `admin_ai_overview_v1`; Try again loaded in 4 s.
+- Open: the remote branch `cf247-ai-models-services-ui` could not be deleted from the session (proxy 403); delete it on GitHub, as its content is on main.
+
+## 14 Nov 2026 16:20 AEDT — S1-AER: prompt v3 benchmark on the AI evaluation framework; lean-md-v2 keeps score lines (Pilot #1141, worker v0.93.0, MERGED and DEPLOYED)
+
+Platform Admin decisions, 14 Nov 2026:
+- option 1: build the benchmark on the #1128 framework;
+- option 1 again: re-draw the set from trusted labels only, keep the ground-truth trigger intact, and measure the unlabelled probes on the paused shadow reader.
+
+Lean AI Run B audit (15:45): score lines were lost in conversion.
+
+**Deployed and checked on live**
+- **Migration:** `20261114081500` applied; history md5 `1a3984dc` matches the file.
+- **Worker:** v0.93.0 answers with status 200.
+- **Set:** set 5 (family entry_requirements), 50 person-decided examples across 31 providers.
+
+| Stratum | Cases | What it covers |
+|---|---|---|
+| T1 | 8 | Country tables |
+| T2 | 6 | Band tables |
+| T3 | 10 | Multi-row pages |
+| T4 | 12 | Course-specific pages |
+| T5 | 8 | Person rejections (3 providers, all there are) |
+| T6 | 6 | Long pages |
+
+- **Gold rows:** frozen in `pipeline.aer_v3_eval_gold`: 244 accepted, 12 rejected.
+- **Candidates:** three instruction versions of `aer-v2-course-v3`: Qwen3 30B, Mistral Small 3.2 and MiMo-V2.6-Flash. Status `candidate`; the text md5 matches the prompt rows; no GPT-4.1 mini.
+- **Proposals:** three, status `proposed`. **No evaluation run exists.**
+- **Qualifications:** unchanged (Qwen3 30B and Mistral Small 3.2 unqualified). A scored run writes evidence as `pending` at most.
+
+**Scoring** (`security.ai_eval_score_v1`, md5-guarded edit, rolled-back trial on live before merge)
+- An example is right when the passed v3 records find its accepted gold rows (`ai_eval.aer_v3_min_recall_pct` 100) and reproduce no rejected row.
+- A reproduced rejected row is a false positive.
+- In the trial, a perfect answer scored all right with 0 false positives; an answer reproducing rejected rows gave 11 false positives.
+
+**Gates.** Every switch is off:
+- `aer.v2_shadow_on` 0;
+- `ai_eval.offline_runs_on` 0;
+- `ai_eval.aer_v3_runs_on` 0;
+- the cap `ai_eval.aer_v3_max_usd` is US$2.00.
+
+Both leases report "ai_eval.offline_runs_on is 0". The generic lease never takes an AER v3 run. No job fires worker mode `aer_v3_eval`.
+
+**Probes.** `aer.v2_shadow_probe_courses` lists 28 unlabelled courses (gate_incomplete, the v2 trial's courses, candidate negatives). The shadow sample keeps them at their own rank. The sample was not rebuilt (last refreshed 14 Nov 01:11 UTC), so the 1,912-page order is unchanged. The shadow results are unchanged at 893 rows.
+
+**One evaluation path.** `pipeline.aer_v2_eval_cases` and `pipeline.aer_v2_eval_plans` are `retiring` (retire_after 28 Nov 2026) and the plan is closed. Test `cf-247-aer-v2-eval-set-contract` is retired; the new design is guarded by `cf-247-aer-v3-eval-framework-contract`.
+
+**lean-md-v2** (`lean-input.ts`; the `[B<n> @<source_at>]` line format and the block map are unchanged; input `lean-blocks-v1/lean-md-v2`)
+- **Region:** the page today's reader sends. `<aside>` key-facts panels and content outside `<main>` are kept (Run B Curtin cases lost about a third of the reader's text).
+- **Entities:** numeric character references are decoded.
+- **Score lines:** a value-only line is kept with the score label beside it, for example "70 Guaranteed ATAR or equivalent" and "Lowest rank to receive an offer 58.25 65.05".
+- **Guard:** `cf-247-lean-md-v2-score-lines-contract`.
+- **Not converter losses:** the table cases (the gold is a flattened table) and gold carrying raw `&#8211;` belong to the Lean AI matcher and labels.
+- **Not checked against real HTML:** this session cannot reach the evidence store, and the live-page fetch was not approved in time. Lean AI's next recall run is the first measurement.
+
+**Still open**
+- The benchmark run (150 calls, at most 300, at most US$2.00) waits for Lean AI's shadow check and the Platform Admin's sign-off, followed by an on-demand request.
+- A v3 shadow trial version is added only once a model is qualified, because its provider pins depend on which model that is.
