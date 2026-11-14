@@ -1,0 +1,345 @@
+<title>Australia Destination Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an operator console — left nav rail, working pane; mockup frames sit inside a plain documentation page. */
+:root{
+  --bg:#f3f5f4; --panel:#ffffff; --ink:#18211d; --muted:#5d6b64; --line:#d6ddd9;
+  --accent:#0b6e5f; --accent-soft:#e1f0ec; --ok:#2f7d3b; --ok-soft:#e3f2e4;
+  --warn:#9a6200; --warn-soft:#fbefd8; --bad:#b3261e; --bad-soft:#fbe4e2; --idle:#6a7470; --idle-soft:#eceeed;
+  --code-bg:#f7f8f7;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --panel:#18201d; --ink:#e4ebe7; --muted:#9aa9a2; --line:#2c3833;
+  --accent:#4fc3ad; --accent-soft:#183a33; --ok:#7fd08a; --ok-soft:#1c3320;
+  --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#f2948d; --bad-soft:#3d1c1a; --idle:#a3aca8; --idle-soft:#242c29;
+  --code-bg:#141a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --panel:#18201d; --ink:#e4ebe7; --muted:#9aa9a2; --line:#2c3833;
+  --accent:#4fc3ad; --accent-soft:#183a33; --ok:#7fd08a; --ok-soft:#1c3320;
+  --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#f2948d; --bad-soft:#3d1c1a; --idle:#a3aca8; --idle-soft:#242c29;
+  --code-bg:#141a18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:.01em}
+h1{font-size:30px} h2{font-size:21px} h3{font-size:16px}
+p{margin:0;max-width:72ch}
+.lead{color:var(--muted)}
+.eyebrow{font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+header{display:grid;gap:8px}
+.note{font-size:13px;color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line)}
+.tabs button{font:500 14px var(--f-body);background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);padding:10px 12px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.view{display:grid;gap:16px}
+.frame{border:1px solid var(--line);border-radius:6px;background:var(--panel);overflow:hidden}
+.frame-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);font:12px var(--f-mono);color:var(--muted);flex-wrap:wrap}
+.crumbs b{color:var(--ink);font-weight:500}
+.console{display:grid;grid-template-columns:190px 1fr;min-height:420px}
+.rail{border-right:1px solid var(--line);padding:12px 10px;display:grid;align-content:start;gap:2px;font-size:13px}
+.rail .grp{font:500 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 8px 4px}
+.rail a{color:var(--ink);text-decoration:none;padding:5px 8px;border-radius:4px}
+.rail a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.rail a.new::after{content:"new";font:500 10px var(--f-mono);margin-left:6px;color:var(--accent)}
+.pane{padding:16px;display:grid;gap:14px;align-content:start;min-width:0}
+.pane-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sel{font:13px var(--f-body);border:1px solid var(--line);border-radius:4px;padding:5px 8px;background:var(--panel);color:var(--ink)}
+.btn{font:500 13px var(--f-body);border:1px solid var(--line);border-radius:4px;padding:6px 10px;background:var(--panel);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.btn.danger{color:var(--bad)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th{text-align:left;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.chip{display:inline-block;font:500 11.5px var(--f-mono);padding:2px 7px;border-radius:3px;white-space:nowrap}
+.c-ok{background:var(--ok-soft);color:var(--ok)} .c-warn{background:var(--warn-soft);color:var(--warn)}
+.c-bad{background:var(--bad-soft);color:var(--bad)} .c-idle{background:var(--idle-soft);color:var(--idle)}
+.c-acc{background:var(--accent-soft);color:var(--accent)}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px}
+.card{border:1px solid var(--line);border-radius:5px;padding:12px;display:grid;gap:10px;min-width:0}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;font-size:13px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.timeline{display:grid;gap:0;font-size:13px}
+.tl{display:grid;grid-template-columns:14px 1fr;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.tl:last-child{border-bottom:0}
+.dot{width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--idle)}
+.dot.cur{background:var(--ok)} .dot.sch{background:var(--accent)} .dot.rev{background:var(--warn)}
+.quote{border-left:3px solid var(--line);padding:4px 10px;color:var(--muted);font-size:13px}
+pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto;font:12.5px/1.5 var(--f-mono);color:var(--ink)}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.step{border:1px solid var(--line);border-radius:5px;padding:10px;background:var(--panel);display:grid;gap:4px;align-content:start;min-width:0}
+.step .n{font:500 11px var(--f-mono);color:var(--accent)}
+.step b{font-size:13.5px}
+.step span{font-size:12.5px;color:var(--muted)}
+.site{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:14px}
+.site-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fact{border:1px solid var(--line);border-radius:5px;padding:12px;display:grid;gap:4px;min-width:0}
+.fact .big{font:600 22px var(--f-display)}
+.fact .src{font-size:12px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:12.5px;color:var(--muted);align-items:center}
+@media (max-width:820px){
+  .console{grid-template-columns:1fr} .rail{border-right:0;border-bottom:1px solid var(--line);grid-auto-flow:row}
+  .split{grid-template-columns:1fr} .flow{grid-template-columns:repeat(2,minmax(0,1fr))} .site-grid{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">StudySearch · RM1 Australia · proposed design</span>
+  <h1>Australia destination page: Admin and Website v3 mockups</h1>
+  <p class="lead">How each part of the Australia page brief is captured, reviewed and served. Screens are mockups for RM0F (Destination data module) and RM0E (v3 destination action). Values shown are examples, not approved data.</p>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Mockup views">
+  <button role="tab" id="t-overview" aria-controls="overview" aria-selected="true">1 · Overview</button>
+  <button role="tab" id="t-rules" aria-controls="rules" aria-selected="false">2 · Study rule review</button>
+  <button role="tab" id="t-cities" aria-controls="cities" aria-selected="false">3 · Cities and costs</button>
+  <button role="tab" id="t-sources" aria-controls="sources" aria-selected="false">4 · Source register</button>
+  <button role="tab" id="t-flow" aria-controls="flow" aria-selected="false">5 · Mechanism</button>
+  <button role="tab" id="t-v3" aria-controls="v3" aria-selected="false">6 · Website v3 and page</button>
+</nav>
+
+<!-- 1 OVERVIEW -->
+<section class="view" id="overview" role="tabpanel" aria-labelledby="t-overview">
+  <p>Destination data › Overview shows one row per page section of the brief. Status comes from published items, holds and review dates. This is the operator's "is the Australia page complete?" view.</p>
+  <div class="frame">
+    <div class="frame-bar"><span class="crumbs">Catalogue › <b>Destination data</b> › Overview</span></div>
+    <div class="console">
+      <div class="rail" aria-label="Admin navigation (mockup)">
+        <div class="grp">Catalogue</div>
+        <a href="#overview">Courses</a><a href="#overview">Providers</a><a href="#overview">Scholarships</a><a href="#overview">Entry requirements</a><a href="#overview">Rankings &amp; statistics</a>
+        <a class="on new" href="#overview">Destination data</a>
+        <div class="grp">Data pipeline</div>
+        <a href="#overview">Layer 1 Register</a><a href="#overview">Layer 4 Review</a>
+        <div class="grp">Operations</div>
+        <a href="#overview">Data Delivery</a><a href="#overview">Toolsets and limits</a>
+      </div>
+      <div class="pane">
+        <div class="pane-head">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <label for="cty" class="note">Country</label>
+            <select id="cty" class="sel"><option>Australia (AU)</option><option>Canada (CA)</option><option>New Zealand (NZ)</option></select>
+            <span class="chip c-acc">Generation 4 published</span>
+          </div>
+          <div style="display:flex;gap:6px"><button class="btn" type="button">Open Layer 4 holds (6)</button></div>
+        </div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Page section</th><th>Items</th><th>Published</th><th>Held</th><th>Next review</th><th>Status</th><th>Delivered by</th></tr></thead>
+          <tbody>
+            <tr><td>Institutions</td><td>CRICOS, TEQSA, primary campus</td><td>2 of 3</td><td>0</td><td>daily register</td><td><span class="chip c-ok">available</span></td><td class="mono">RM1A · RM1E</td></tr>
+            <tr><td>Courses</td><td>Fees, English, entry, intakes, study load</td><td>4 of 5</td><td>20</td><td>each intake</td><td><span class="chip c-warn">partly</span></td><td class="mono">S2 lanes · RM1G</td></tr>
+            <tr><td>Universities</td><td>QILT, rankings, accreditations</td><td>2 of 3</td><td>0</td><td>yearly</td><td><span class="chip c-warn">permission</span></td><td class="mono">RM1D · RM1J · RM1F</td></tr>
+            <tr><td>Scholarships</td><td>University and government awards</td><td>1 of 1</td><td>0</td><td>each intake</td><td><span class="chip c-ok">available</span></td><td class="mono">S2-Scholarship</td></tr>
+            <tr><td>Visa &amp; money</td><td>Route, CoE, visa, funds, charge, processing, dependants</td><td>0 of 9</td><td>3</td><td>—</td><td><span class="chip c-idle">not built</span></td><td class="mono">RM1C · RM1H</td></tr>
+            <tr><td>Cost &amp; work</td><td>Work hours, minimum wage</td><td>0 of 2</td><td>0</td><td>—</td><td><span class="chip c-idle">not built</span></td><td class="mono">RM1H</td></tr>
+            <tr><td>Work after study</td><td>485 length, India ECTA, regional</td><td>0 of 3</td><td>0</td><td>—</td><td><span class="chip c-idle">not built</span></td><td class="mono">RM1H</td></tr>
+            <tr><td>Careers</td><td>OSCA, shortage, projections, NERO, earnings</td><td>0 of 6</td><td>0</td><td>—</td><td><span class="chip c-idle">not built</span></td><td class="mono">RM1D</td></tr>
+            <tr><td>Cities &amp; weather</td><td>Population, climate, living costs (8 cities)</td><td>0 of 17</td><td>0</td><td>—</td><td><span class="chip c-idle">not built</span></td><td class="mono">RM1B · RM1I</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note">"Published" counts brief items with an approved, current version. Held items open in Layer 4 with a plain reason.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 RULES -->
+<section class="view" id="rules" role="tabpanel" aria-labelledby="t-rules" hidden>
+  <p>Destination data › Study rules. Every visa, work and post-study rule is an effective-dated version. The capture step proposes a typed value with the quote it came from; a person approves and schedules it. Nothing becomes current on its own.</p>
+  <div class="frame">
+    <div class="frame-bar"><span class="crumbs">Destination data › Australia › Study rules › <b>Work while studying</b></span><span class="chip c-warn">1 version to review</span></div>
+    <div class="pane">
+      <div class="split">
+        <div class="card">
+          <h3>Proposed version (from page capture)</h3>
+          <dl class="kv">
+            <dt>Rule key</dt><dd class="mono">au.student500.work_hours</dd>
+            <dt>Page section</dt><dd>Cost &amp; work</dd>
+            <dt>Typed value</dt><dd class="mono">{"hours":48,"per":"fortnight","applies":"in_session"}</dd>
+            <dt>Conditions</dt><dd class="mono">research master's, PhD → unlimited; course breaks → unlimited</dd>
+            <dt>Effective from</dt><dd><input class="sel" id="eff" type="date" value="2026-11-20" aria-label="Effective from"></dd>
+            <dt>Source</dt><dd>Study Australia · Student visa (subclass 500) <span class="chip c-acc">rights: check terms</span></dd>
+            <dt>Captured</dt><dd class="mono">13 Nov 2026 · page hash 4f1c… · direct fetch</dd>
+            <dt>Proposed by</dt><dd class="mono">OpenRouter · pinned model · 0.4¢</dd>
+          </dl>
+          <div class="quote">"…can work up to 48 hours per fortnight when your course is in session, and unlimited hours during course breaks…"</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn primary" type="button">Approve and schedule</button>
+            <button class="btn" type="button">Edit value</button>
+            <button class="btn danger" type="button">Reject with reason</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Version timeline</h3>
+          <div class="timeline">
+            <div class="tl"><span class="dot rev"></span><div><b>v3 · under review</b><br><span class="note">48 h / fortnight in session · captured 13 Nov 2026</span></div></div>
+            <div class="tl"><span class="dot cur"></span><div><b>v2 · current</b><br><span class="note">48 h / fortnight in session · from 1 Jul 2023 · checked 10 Nov 2026</span></div></div>
+            <div class="tl"><span class="dot"></span><div><b>v1 · superseded</b><br><span class="note">unlimited (temporary relaxation) · until 30 Jun 2023</span></div></div>
+          </div>
+          <p class="note">Same value as v2: approving v3 only refreshes "last checked" and the review date; the website sees no change. A changed value goes live on its effective date.</p>
+          <h3>Other Australian rules</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Topic</th><th>Section</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Visa application charge</td><td>Visa &amp; money</td><td><span class="chip c-idle">to capture</span></td></tr>
+              <tr><td>Financial capacity</td><td>Visa &amp; money</td><td><span class="chip c-idle">to capture</span></td></tr>
+              <tr><td>Processing time (expires monthly)</td><td>Visa &amp; money</td><td><span class="chip c-idle">to capture</span></td></tr>
+              <tr><td>Dependants from 2 Oct 2026</td><td>Visa &amp; money</td><td><span class="chip c-idle">to capture</span></td></tr>
+              <tr><td>Minimum wage</td><td>Cost &amp; work</td><td><span class="chip c-idle">to capture</span></td></tr>
+              <tr><td>Post-study work (485) by qualification</td><td>Work after study</td><td><span class="chip c-idle">to capture</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 CITIES -->
+<section class="view" id="cities" role="tabpanel" aria-labelledby="t-cities" hidden>
+  <p>Destination data › Cities and costs. Campuses map to an official locality; climate comes from a published 30-year baseline and costs from a scoped student budget. Ambiguous campus matches go to Layer 4.</p>
+  <div class="frame">
+    <div class="frame-bar"><span class="crumbs">Destination data › Australia › <b>Cities and costs</b></span>
+      <label for="ed" class="note">Edition</label><select id="ed" class="sel"><option>BOM normals 1991–2020</option><option>ABS ERP 2025</option></select></div>
+    <div class="pane">
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>City</th><th>Campuses mapped</th><th>Summer avg max</th><th>Winter avg max</th><th>Annual rain</th><th>Living cost (student)</th><th>Cost source</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Sydney</td><td>212 of 214</td><td>26.0 °C</td><td>17.0 °C</td><td>1,150 mm</td><td>A$ 520–720 / wk</td><td>University budget</td><td><span class="chip c-warn">2 to confirm</span></td></tr>
+          <tr><td>Melbourne</td><td>188 of 188</td><td>25.5 °C</td><td>14.5 °C</td><td>650 mm</td><td>A$ 480–690 / wk</td><td>University budget</td><td><span class="chip c-ok">ready</span></td></tr>
+          <tr><td>Hobart</td><td>9 of 9</td><td>21.5 °C</td><td>12.5 °C</td><td>610 mm</td><td>—</td><td>Study Tasmania (new link)</td><td><span class="chip c-warn">cost to capture</span></td></tr>
+          <tr><td>Darwin</td><td>11 of 12</td><td>32.5 °C</td><td>30.5 °C</td><td>1,700 mm</td><td>A$ 450–650 / wk</td><td>University fees page</td><td><span class="chip c-warn">1 to confirm</span></td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Example figures only. Each climate value carries station ID, baseline period and season; each cost carries basket, low/high, currency and interval. Visa "financial capacity" is a study rule, not a city cost.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 SOURCES -->
+<section class="view" id="sources" role="tabpanel" aria-labelledby="t-sources" hidden>
+  <p>Layer 1 › Sources gains three columns so each brief row's licence and update cadence become controls: rights mode decides what the website may show, cadence drives the check job, page section links the source to its part of the page.</p>
+  <div class="frame">
+    <div class="frame-bar"><span class="crumbs">Layer 1 Register › <b>Sources</b> · filter: AU, destination</span></div>
+    <div class="pane">
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Source</th><th>Owner</th><th>Page section <span class="chip c-acc">new</span></th><th>Rights mode <span class="chip c-acc">new</span></th><th>Cadence <span class="chip c-acc">new</span></th><th>How it arrives</th><th>Approved</th></tr></thead>
+        <tbody>
+          <tr><td>CRICOS register</td><td>Australian Government</td><td>Institutions</td><td><span class="chip c-warn">check terms</span></td><td>daily</td><td>L1 register</td><td><span class="chip c-ok">yes</span></td></tr>
+          <tr><td>QILT SES and GOS</td><td>QILT</td><td>Universities</td><td><span class="chip c-bad">permission required</span></td><td>yearly</td><td>Dataset ETL</td><td><span class="chip c-warn">publish held</span></td></tr>
+          <tr><td>THE World University Rankings</td><td>Times Higher Education</td><td>Universities</td><td><span class="chip c-warn">check terms</span></td><td>yearly</td><td>Ranking import</td><td><span class="chip c-ok">yes</span></td></tr>
+          <tr><td>Student visa (subclass 500)</td><td>Home Affairs</td><td>Visa &amp; money</td><td><span class="chip c-warn">check terms</span></td><td>daily change check</td><td>Page capture</td><td><span class="chip c-idle">to register</span></td></tr>
+          <tr><td>Minimum wages</td><td>Fair Work Ombudsman</td><td>Cost &amp; work</td><td><span class="chip c-warn">check terms</span></td><td>yearly (1 Jul)</td><td>Page capture</td><td><span class="chip c-idle">to register</span></td></tr>
+          <tr><td>Occupation Shortage List</td><td>Jobs and Skills Australia</td><td>Careers</td><td><span class="chip c-ok">open, attribute</span></td><td>yearly</td><td>Dataset ETL</td><td><span class="chip c-idle">to register</span></td></tr>
+          <tr><td>Climate averages</td><td>Bureau of Meteorology</td><td>Cities &amp; weather</td><td><span class="chip c-warn">check terms</span></td><td>rarely</td><td>Dataset ETL</td><td><span class="chip c-idle">to register</span></td></tr>
+          <tr><td>Cost of living pages</td><td>Universities, Study Tasmania</td><td>Cities &amp; weather</td><td><span class="chip c-idle">link and credit</span></td><td>yearly</td><td>Page capture</td><td><span class="chip c-idle">to register</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="legend"><span class="chip c-ok">open, attribute</span> value shown with credit <span class="chip c-warn">check terms</span> value shown once terms confirmed <span class="chip c-idle">link and credit</span> website gets the link, not the figure <span class="chip c-bad">permission required</span> nothing published until written permission</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FLOW -->
+<section class="view" id="flow" role="tabpanel" aria-labelledby="t-flow" hidden>
+  <p>One mechanism for every row. The route in step 2 depends on the kind of source; everything after it is shared.</p>
+  <div class="flow">
+    <div class="step"><span class="n">Step 1</span><b>Register source</b><span>Layer 1 › Sources: URL, owner, rights mode, cadence, page section. Platform Admin approves.</span></div>
+    <div class="step"><span class="n">Step 2</span><b>Fetch</b><span>Register file (L1) · statistical edition (Dataset ETL) · policy page (page capture; Firecrawl only if direct fetch fails).</span></div>
+    <div class="step"><span class="n">Step 3</span><b>Propose</b><span>Parser for files. For pages, a pinned OpenRouter model proposes the typed value and the exact quote. Unchanged page hash skips this.</span></div>
+    <div class="step"><span class="n">Step 4</span><b>Validate</b><span>Units, currency, dates, overlap with current version, count change. Failures held with a plain reason.</span></div>
+    <div class="step"><span class="n">Step 5</span><b>Review in Layer 4</b><span>A person approves and schedules, edits, or rejects. Activation is its own step.</span></div>
+    <div class="step"><span class="n">Step 6</span><b>Publish</b><span>New publication generation; Website v3 destination action reads it; Data Delivery shows coverage.</span></div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Layer</th><th>Brief rows it carries</th><th>Toolset</th><th>Existing or new</th></tr></thead>
+    <tbody>
+      <tr><td>L1 register adapter</td><td>Institutions, CRICOS, TEQSA</td><td>Direct download</td><td>Existing</td></tr>
+      <tr><td>Dataset ETL</td><td>QILT, rankings, JSA careers, ABS population, BOM climate</td><td>Direct file/API; parser per publisher</td><td>Existing for QILT/PRISMS/rankings; generalised in RM0C</td></tr>
+      <tr><td>Page capture</td><td>Visa, funds, charge, processing, dependants, work hours, wage, 485, application route, living costs</td><td>Direct fetch → Firecrawl fallback; OpenRouter pinned model</td><td>Evidence path existing; rule versions new (RM0D)</td></tr>
+      <tr><td>L2/L3 enrichment</td><td>Course fees, English, entry, intakes, study mode/load</td><td>University adapters and readers</td><td>Existing (S2 lanes)</td></tr>
+      <tr><td>L4 review</td><td>All rule versions, ambiguous mappings, rights holds</td><td>Person</td><td>Existing inbox, new item types</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 6 V3 -->
+<section class="view" id="v3" role="tabpanel" aria-labelledby="t-v3" hidden>
+  <p>What the Wix site calls and how it lands on the page. Catalogue sections use the existing v3 actions; the new <span class="mono">destination</span> action serves study rules, careers and cities, paged and pinned to a publication generation.</p>
+  <div class="split">
+    <div class="card">
+      <h3>Request and response</h3>
+<pre>POST website-api-v3
+{"action":"destination","country_code":"AU",
+ "module":"study_rules","section":"cost_work"}
+
+{"module":"study_rules","generation":4,
+ "items":[{
+   "rule_key":"au.student500.work_hours",
+   "topic":"work_hours","section":"cost_work",
+   "title":"Work while studying",
+   "value":{"hours":48,"per":"fortnight",
+            "applies":"in_session"},
+   "conditions":{"any":[
+     {"study_level":"research_masters","hours":"unlimited"},
+     {"study_level":"phd","hours":"unlimited"}]},
+   "effective_from":"2023-07-01","effective_to":null,
+   "status":"available",
+   "source":{"publisher":"Australian Government",
+     "url":"https://www.studyaustralia.gov.au/…"},
+   "last_checked":"2026-11-13","review_due":"2026-12-13"}],
+ "next_cursor":null,"api_version":"website-v3"}</pre>
+      <p class="note">A source with "link and credit" rights returns the title and link with <span class="mono">value: null</span>. Expired, withdrawn and draft versions never appear.</p>
+    </div>
+    <div class="card">
+      <h3>How the website shows it (Study in Australia page)</h3>
+      <div class="site">
+        <span class="eyebrow">Cost &amp; work</span>
+        <div class="site-grid">
+          <div class="fact"><span class="note">Work while studying</span><span class="big">48 h</span><span>per fortnight in session; unlimited in breaks</span><span class="src">Australian Government · checked 13 Nov 2026</span></div>
+          <div class="fact"><span class="note">Minimum wage</span><span class="big">—</span><span>shown once approved</span><span class="src">Fair Work Ombudsman</span></div>
+          <div class="fact"><span class="note">Visa processing</span><span class="big">3–4 wks</span><span>varies by application</span><span class="src">Home Affairs · editorial note</span></div>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Page section</th><th>v3 action</th><th>Fields</th></tr></thead>
+        <tbody>
+          <tr><td>Institutions</td><td class="mono">providers</td><td class="mono">institution_type, campuses[], accreditations[]</td></tr>
+          <tr><td>Courses</td><td class="mono">search / course</td><td class="mono">study_load, delivery_modes, english_requirements</td></tr>
+          <tr><td>Universities</td><td class="mono">provider / rankings</td><td class="mono">outcomes, rankings</td></tr>
+          <tr><td>Visa, work, post-study</td><td class="mono">destination · study_rules</td><td class="mono">topic, value, conditions, source</td></tr>
+          <tr><td>Careers</td><td class="mono">destination · careers</td><td class="mono">metric, occupation, value, edition</td></tr>
+          <tr><td>Cities</td><td class="mono">destination · cities</td><td class="mono">locality, climate, living_cost</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<p class="note">Design record: RM1-AUSTRALIA-PAGE-TRACEABILITY.md in the admin repo (roadmap folder). Mockup only; nothing here is built except the catalogue rows marked available.</p>
+</div>
+
+<script>
+(function(){
+  const tabs=[...document.querySelectorAll('[role="tab"]')];
+  function show(id){
+    tabs.forEach(t=>{const on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;});
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>{const id=t.getAttribute('aria-controls');show(id);try{history.replaceState(null,'','#'+id)}catch(e){}}));
+  function fromHash(){const h=(location.hash||'').slice(1);if(tabs.some(t=>t.getAttribute('aria-controls')===h))show(h)}
+  window.addEventListener('hashchange',fromHash);fromHash();
+  document.querySelectorAll('.rail a').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
+})();
+</script>

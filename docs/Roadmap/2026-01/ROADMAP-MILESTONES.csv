@@ -10,12 +10,14 @@ RM1,,Australia,Milestone,Roadmapped,,,Follow the release scope and sequence in t
 RM1A,RM1,Australian course recognition and ASCED codes,RM-Recognition,In progress,RM-Recognition,O29 / O28,"RM1A-1 delivered 13 Nov (Pilot #1124). Next: RM1A-2 ASCED assignments; RM1A-3 reconcile 2,297 active CRICOS rows with a past end date."
 RM1B,RM1,Australian city population,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67 / REQ-68,"Register ABS ERP and postcode-to-SUA correspondence with rights, then build destination core M3 (S1-RM-Design)."
 RM1C,RM1,Australian application routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O23,Build policy tables M4 after M3; capture AU direct and TAC route pages with applicant scope (S1-RM-Design).
-RM1D,RM1,Australian careers dataset,RM-Careers,Roadmapped,RM-Careers,O38 / REQ-68,Confirm reuse terms and select one official edition.
+RM1D,RM1,Australian careers dataset,RM-Careers,Roadmapped,RM-Careers,O38 / REQ-68,Confirm reuse terms and select one official edition. QILT republishing permission (REQ-68) gates the live outcomes rows on the AU page (RM1-AUSTRALIA-PAGE-TRACEABILITY §6).
 RM1E,RM1,Provider primary campus,RM-Campuses,Decision pending,RM-Campuses,R32 / REQ-75 / D-4,Confirm approved main-campus selection policy.
 RM1F,RM1,Business school accreditations,RM-Accreditations,Decision pending,RM-Accreditations,R30 / REQ-57 / D-3,Confirm the decision and publisher rights.
 RM1G,RM1,Course study load and teaching language,S2-CF,Roadmapped,S2-CF,O25 / REQ-52 / O17,Verify existing course and offering scope before proposing additive fields.
-RM1H,RM1,Australian study rules beyond routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O27 / O38,Capture Home Affairs and Fair Work pages after RM1C.
+RM1H,RM1,Australian study rules beyond routes,RM-Study-Rules,Roadmapped,RM-Study-Rules,O27 / O38,"Capture Home Affairs and Fair Work pages after RM1C. Scope per RM1-AUSTRALIA-PAGE-TRACEABILITY §3: processing-time snapshots with expiry, admission-tests general note; 485 English item excluded."
 RM1I,RM1,Australian climate and living costs,RM-Cities,Roadmapped,RM-Cities,O38 / REQ-67,Load BOM normals and scoped student budgets after RM1B.
+RM1J,RM1,Ranking edition refresh (THE 2027),RM-Rankings,Roadmapped,Ranking import owner,RM1-AUSTRALIA-PAGE-TRACEABILITY §3 row 8,Import THE 2027 through the existing ranking import and accept the edition; v3 rankings read-back.
+RM1K,RM1,Australia page acceptance fixtures,Integration Controller,Roadmapped,Integration Controller,RM1-AUSTRALIA-PAGE-TRACEABILITY,"One golden fixture per brief row, checked on Admin and Website v3, before the AU page is called complete."
 RM2,,Canada,Milestone,Roadmapped,,,Follow the release scope and sequence in the destination roadmap.
 RM2A,RM2,Canadian course-campus geography,RM-Campuses,Roadmapped,S2-CF / RM-Campuses,REQ-58,Confirm ownership and repair source-backed course-campus associations.
 RM2B,RM2,Canadian programme recognition and CIP codes,RM-Recognition,Roadmapped,RM-Recognition,O29 / O28,Scope after RM1A-2; keep provider DLI separate from programme PGWP.
