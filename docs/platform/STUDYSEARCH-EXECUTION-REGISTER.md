@@ -4017,3 +4017,48 @@ Both leases report "ai_eval.offline_runs_on is 0". The generic lease never takes
 - Curtin and Swinburne converted recall 1.0000 (AER v3 reads the whole block page). The selector misses 54 Swinburne score lines (follow-up: lean-sections-v3).
 - Shadow check: deployed, 0 live observations (no Enrich reads under containment).
 - Report: docs/platform/LEAN-AI-INPUT-PHASE1B-RECALL-REPORT-2026-11-14.md (update section).
+
+## 14 Nov 2026 19:05 AEDT — S1-AER: AER v3 50-case benchmark COMPLETE (set 5, runs 6–8); no model qualifies; settings restored
+
+Platform Admin authorities: 14 Nov 2026 17:21 (run the bounded benchmark on stored pages) and option 1 (raise `reading.aer_v2_page_chars` to 140,000 for the benchmark, restore 60,000 when it completes, US$2.00 cap, no GPT-4.1 mini, `aer.v2_shadow_on` 0, 1,912-page queue untouched).
+
+**Delivered on the way**
+- Pilot #1142 (worker v0.94.0): each failed quote records where it is on the page (diagnostic only).
+- Pilot #1146 (worker v0.96.0, renumbered after Lean AI #1144 took v0.95.0): each benchmark wait is bounded by the time the worker call has left, a late start is skipped, and a cut reply is recorded as a timeout. Under v0.94.0 a cut reply was recorded as "no_answer (no choices)" and a late slow call lost a whole round.
+- Run 8 answers that recorded the worker's time budget rather than the model (14 "no choices" under the old worker, 4 short-window timeouts) were cleared and asked again; copies in control event 49488.
+
+**Scorecard (50 examples each; 244 accepted gold rows, 12 person-rejected rows)**
+
+| Measure | MiMo-V2.6-Flash (run 6) | Mistral Small 3.2 (run 7) | Qwen3 30B (run 8) |
+|---|---|---|---|
+| Complete responses | 42 / 50 | 42 / 50 | 21 / 50 |
+| Not complete | 7 empty reply, 1 truncated | 8 empty reply | 29 timeouts (19 with the full 90 s) |
+| Strict JSON (complete bodies parsed) | 42 / 43 | 42 / 42 | 21 / 21 |
+| Records returned | 237 | 166 | 100 |
+| Quote on the page (exact quote found) | 230 / 237 (97%) | 162 / 166 (98%) | 99 / 100 |
+| Verifier pass rate | 168 / 237 (71%) | 106 / 166 (64%) | 53 / 100 (53%) |
+| Gold rows found (verified record, quote-matched) | 58 / 244 (23.8%) | 29 / 244 (11.9%) | 11 / 244 (4.5%) |
+| Gold rows found (same minimum and country, verified) | 114 / 244 (46.7%) | 69 / 244 (28.3%) | 34 / 244 (13.9%) |
+| Examples right (framework accuracy) | 15 (30%) | 15 (30%) | 1 (2%) |
+| False admissions (person-rejected row reproduced) | 4 of 12 | 2 of 12 | 1 of 12 |
+| Source integrity (framework) | 53.9% | 77.8% | 0% |
+| Reply time (median of rounds / slowest) | 3.0 s / 5.9 s | 5.2 s / 31.2 s | 4.3 s / 22.1 s (completed calls only) |
+| Tokens in / out | 494,433 / 75,678 | 608,805 / 35,223 | 170,518 / 25,211 |
+| Traced cost | US$0.088 | US$0.063 | US$0.031 |
+| US$ per accepted requirement (verified gold row) | US$0.0015 | US$0.0022 | US$0.0028 |
+
+**Multi-block quotes:** yes, for Mistral. 8 of its failed records quote text that spans the cited block and its neighbour (adjacent blocks) and fail the single-block check; 13 more quote text that is wholly in a different block from the one cited; 1 runs across blocks elsewhere. MiMo: 0 spanning, 1 wrong block. Qwen: 0 spanning, 1 wrong block. MiMo's failures are mostly `lead_in_too_far` (48 of 69): the quote is on the page, the lead-in is further away than the proximity rule allows.
+
+**Findings**
+- No candidate meets the 100% recall bar. All three qualifications are `pending` (evidence recorded; nothing qualified, nothing switched on). The Qwen3 30B row for this route now holds prompt v3 evidence (it was `unqualified` for prompt v1).
+- Qwen3 30B does not finish within the platform's 90 s per-call limit on 29 of 50 pages: all 19 calls given the full 89–90 s timed out, as did 10 with a shorter window (12,000 output tokens allowed).
+- Country tables (T1) score near zero on the quote match (2 of 110 for MiMo) while the readings are largely right: the frozen gold quotes are flattened table rows ("Bachelor degrees | 85% | Minimum average of 90."), the models quote the qualification line ("Sri Lanka A Levels: Minimum of C in 2 A Level subjects"). Matching on minimum and country doubles MiMo's found rows (58 → 114). The quote-match rule for table gold is a scoring decision for the Platform Admin.
+- MiMo reproduces 4 of 12 person-rejected rows: the highest recall comes with the most false admissions.
+- Runs 6 and 7's "empty reply" answers were recorded under the old worker and are probably cut replies too; they were not asked again.
+
+**Restored and closed (08:05 UTC)**
+- `reading.aer_v2_page_chars` 140,000 → 60,000; `ai_eval.aer_v3_runs_on` 1 → 0; `ai_eval.offline_runs_on` 1 → 0 (control event 49546). `aer.v2_shadow_on` stayed 0 throughout. The lease now refuses ("ai_eval.offline_runs_on is 0").
+- 1,912-page shadow queue untouched (last shadow result 13 Nov 12:59 UTC).
+- On-demand request `a7562d47` closed: estimate US$0.89 (max US$2.00); benchmark traced spend US$0.18; Firecrawl 0. OpenRouter balance US$34.47 → US$33.32 across all lanes in the window (scheduled services included).
+
+**Open for the Platform Admin:** whether to change the table-row quote match before any re-run; whether MiMo or Mistral goes forward to a revised prompt (MiMo: recall and cost; Mistral: fewer false admissions and better source integrity, but wrong-block citations).
