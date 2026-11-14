@@ -3918,3 +3918,15 @@ Platform Admin instruction, 14 Nov 2026:
 - CI 12/12 green; deploy-on-merge success; run b records carry worker v0.91.0.
 - First 120 run b cases (entry requirements, person-accepted), same cases as run a: converted page 117 (run a 96), selection 114 (run a 95); page, current-cut and first-cut flags identical; 7 values beyond the 24,000-character cut, all 7 held by the selection.
 - No AI, no Firecrawl. Phase 1b step 2 stays on hold until the Platform Admin reviews the full report (check-in 05:20Z).
+
+## 14 Nov 2026 14:45 AEDT — AER v2: block contract settled; the 12:35 follow-up is withdrawn
+
+The 12:35 entry above named a follow-up change that would switch `aerV3Blocks` (Pilot #1137) to #1136's own block renderer. **That follow-up is withdrawn.**
+
+- **What happened instead:** #1136 and #1138 (main `c4ffa31e`, worker v0.91.0) adopted `aerV3Blocks` as the platform's one `[B#]` block contract (`AER_V3_INPUT` `lean-blocks-v1`). `lean-sections.ts` selects from it and defines no block format of its own.
+- **The contract as it stands on main, unchanged since #1137:**
+  - each block is one line, `[B<n> @<source_at>] <block>`, carrying one source offset (the block's start);
+  - page data lines come first, as `@data`;
+  - headings are written `## `, list items `- `, and every table row carries its column headers.
+- **Platform Admin coordination rule (14 Nov 2026 14:34):** this output format and the block map are not changed without flagging it first. The Admin's note gave the format as "[B# @start-end]"; the live contract has a start offset only. The two-offset form was #1136's earlier draft and was not adopted.
+- **Still in force:** `aer.v2_shadow_on` stays 0, and no live AI or Firecrawl admission run is triggered until Lean AI finishes its shadow recording check.
