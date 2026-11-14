@@ -3813,3 +3813,24 @@ The production database connector has been down since about 13:15 UTC, so neithe
   3. Check the settings.
   4. Check the deployed worker version v0.87.0.
   5. Measure on the next legitimately authorised Enrich-fields cycles. No paid run is started for instrumentation.
+
+## 14 Nov 2026 12:25 AEDT — F-OPS.08 Lean AI Input: Phase 1 DEPLOYED and verified; Phase 1b step 1 built, rehearsed and green (Pilot #1136), merge awaiting permission
+
+- **DELIVERED / VERIFIED (Phase 1, Pilot #1131):** merged as `f646fbe4` (Platform Admin option A, 14 Nov 2026 11:37).
+  - Deploy-on-merge applied `20261113400000` ("history md5 df7a7055 matches the file") and deployed `coverage-sweep`.
+  - Independent check:
+    - live `svc_ai_input_observe_v1` md5 `3f6d4ed98c8055bdbd18adae4e09edf0` and `ai_input_observation_report_v1` md5 `e23e4bd5ceb9f254f7887a3f7bb67f3e`, both equal to the rehearsal;
+    - the 3 settings are present (observe on 1, retention 30 days, purge 2,000), and the worker sees the switch;
+    - ACLs hold: service role only;
+    - deployed `coverage-sweep` (version 278) is byte-identical to main in all 33 files, and is worker **v0.87.0**.
+  - Observations: 0 rows so far. No Enrich-fields run has happened since; none was started for measurement.
+- **BUILT, REHEARSED, GREEN (Phase 1b step 1, Pilot [#1136](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1136), worker v0.88.0, migration `20261114010000`):**
+  - **`lean-blocks-v1`:** numbered `[B#]` blocks with source offsets and heading paths. Tables stay whole with caption and header row. `blockMap` serves verifiers and the AER v2 50-case harness.
+  - **`lean-sections-v1`:** high-recall section selector.
+  - **Worker mode `lean_sections_eval`:** stored copies only, no AI, no scraper credit.
+  - **2,800 labelled cases,** all independent of the AI reader: 400 Layer 4 accepted AER rows, plus 400 adapter readings for each of six fields.
+  - Read-only recall report; job `lean-sections-eval` is catalogued.
+  - Rehearsal PASS: txid 17161597 aborted, nothing persisted. Evidence is in `docs/evidence/lean-ai-input/LEAN-SECTIONS-REHEARSAL.md` on the PR branch.
+  - CI 12/12 on `79a75fdd`. The PR merges cleanly onto main `6000aa03`, which only changed AER v2 sample-table files.
+- **BLOCKED:** the squash merge of #1136 was refused by the session's permission control. It was not bypassed and is waiting on the Platform Admin.
+- **#1128:** stays unmerged until it is rebased to worker **v0.89.0** or later (main will be v0.88.0 once #1136 lands) and its prompt export and call-path lines are regenerated.
