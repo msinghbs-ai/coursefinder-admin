@@ -3890,3 +3890,23 @@ Platform Admin instruction, 14 Nov 2026:
   - keep the v3 verifier, which checks quotes inside a cited block and works the same on a whole-table block;
   - record the input format on the three evaluation versions.
 - That change waits for #1136 to merge. The evaluation is already gated on Phase 1b being ready, so the order is unchanged.
+
+## 14 Nov 2026 13:10 AEDT — F-OPS.08 Lean AI Input Phase 1b step 1: #1136 MERGED and DEPLOYED; recall check running; matcher artefact found
+
+- **DELIVERED:**
+  - #1136 rebased onto main `a583335f` (#1137, S1-AER, worker v0.88.0). Reconciled to the one `[B#]` contract: the selector uses `aer-v2.ts aerV3Blocks` (`AER_V3_INPUT` "lean-blocks-v1") and has no block format of its own. The duplicate converter that had reused the name `lean-blocks-v1` was removed.
+  - Worker renumbered **v0.89.0**; migration renamed **`20261114031500`**.
+  - Rolled-back rehearsal re-run on the final text: PASS (md5 `3ed1b03e`, txid 17172230 aborted, nothing persisted).
+  - CI 12/12 on `42c2ab9d`; squash-merged as **`6ca4ae25`** (Platform Admin 12:27 and 12:48).
+- **VERIFIED:**
+  - Deploy-on-merge: "20261114031500 … history md5 3ed1b03e matches the file".
+  - `coverage-sweep` version 280 is byte-identical to main in 34 of 34 files, worker v0.89.0.
+  - 2,800 cases seeded; 3 settings; job `lean-sections-eval` (every 5 minutes) catalogued and active.
+  - First call (02:00 UTC): 120 cases in 16.4 s, `ai_calls` 0, no errors. The full set needs about 2 hours.
+- **FINDING (measurement):**
+  - On the first 120 accepted AER rows: converted-page recall 0.80, selection recall 0.79, current-reader-text recall 1.00, first-cut recall 0.94.
+  - The 7 values beyond the cut were all in the selection except 1.
+  - The gap is an **artefact of the recall matcher**, not converter loss. Every missed quote spans adjacent blocks (lead-in plus paragraph, or sentence plus list), and the check compares against the rendered text, where the `[B# @offset]` prefix between blocks breaks the match.
+  - Fix: compare against the block text without prefixes. It touches `lean-sections.ts` only, and needs Platform Admin sequencing with #1128.
+  - Until fixed, selection and converted-page recall are **lower bounds**. Page, current-cut and beyond-cut figures are valid.
+- **HELD:** Phase 1b step 2 (Platform Admin, 12:27). #1128 is unmerged; on its final sync it takes worker **v0.90.0** or later.
