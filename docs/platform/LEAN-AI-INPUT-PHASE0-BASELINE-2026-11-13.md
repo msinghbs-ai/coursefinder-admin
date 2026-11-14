@@ -85,3 +85,30 @@ Acceptance for Phase 1: observations recorded for real reads after deployment; c
 - **CI:** all 12 checks passed on the previous head `f8590558`. CI is re-running on `c60a316b` (only the version renumber changed).
 - **Not merged, not deployed.** Merge and deploy wait for the rehearsal result and green CI on the final head, under the Integration Controller.
 - **F3 skip qualification (Platform Admin, 13 Nov):** no automatic skip. Before any F3 skip is proposed, the false-negative check must use the **full original evidence** and **independently labelled** positive and negative cases, not the reader's own outcomes on 24,000-character-cut text.
+
+## 7. Rehearsal result: PASS (14 November 2026, 10:46 AEDT)
+
+- **Rehearsal PASS. Nothing persisted.** The exact migration `20261113400000` (md5 `df7a7055…`, proven inside the transaction from `current_query()`) was applied twice, then checked. Areas checked: schema, ACLs, the definer role gate, settings, idempotence, input validation, bounded purge, the report, and that canonical and reader data were unchanged. The transaction was forced to abort (txid 17137876, `txid_status` = aborted).
+- **Independent read afterwards:** no tables, functions, settings or temp tables remain. Settings count and md5 (1,417, `1d999f1c…`) and table and function counts equal the pre-run baseline.
+- **No external side effects.** The 8 `pg_net` responses in that window were all created before the transaction began.
+- **Evidence** (Pilot PR branch): `docs/evidence/lean-ai-input/PR1131-REHEARSAL.md`, `pr1131-rehearsal.sql` (md5 `31622f7b…`) and `pr1131-rehearsal-result.json`.
+- **Expected post-deploy definition md5:**
+  - `svc_ai_input_observe_v1`: `3f6d4ed98c8055bdbd18adae4e09edf0`
+  - `ai_input_observation_report_v1`: `e23e4bd5ceb9f254f7887a3f7bb67f3e`
+- **Final CI:** 12/12 green on the successor head `73910af8`. That commit adds only evidence files; there is no code or migration change since `c60a316b`.
+  - `provider-description` failed once on a fixture ordering flip (`p2 …/overview` vs `…/about`), unrelated to #1131.
+  - It passed on re-run, attempt 2. `test-evidence` then passed.
+  - The same workflow passed on main `eaf7da54` and on `c60a316b`.
+- **Reconciled against actual main `eaf7da54`, not just by renumbering:**
+  - #1128 is not merged, so main has worker v0.84.0 and no `ai_invocations`. #1131 refers to #1128 only in comment text.
+  - Main moved only in AER v2 files since #1131's base, and #1131 merges into main cleanly.
+  - Deploy applies **added** migration files only (`deploy-on-merge.yml`, `--diff-filter=A`), so the timestamp order relative to #1128 has no effect on applying either PR.
+  - A trial merge of #1128 onto #1131 (discarded) conflicts only on:
+    - the `WORKER` line (resolution: v0.87.0 current, with v0.86.0, v0.85.0 and v0.84.0 kept as "was" lines);
+    - the on-demand spec version line (take #1128's regex);
+    - the generated test register.
+
+    The enrichment code merged cleanly. On the combined tree, 2 non-browser failures remained, both in #1128's own generated files. After `node scripts/ai-prompts-export.mjs`, only the line numbers in `AI-CALL-PATHS-2026-11-13.md` remain stale.
+  - **If #1131 merges first,** #1128 must rebase, renumber to **v0.88.0** or later, and regenerate its prompt export and call-path line numbers.
+- **Purge concurrency:** no row can expire until 30 days after deploy, so concurrent purges cannot collide before then. At worst, a collision drops one batch of observations and never a read. Making the purge subquery `FOR UPDATE SKIP LOCKED` is queued as a follow-up, due before day 30 and rehearsed the same way.
+- **Merge: BLOCKED.** The Integration Controller's squash merge of #1131 at head `73910af8` was refused by the session's permission control. It was not bypassed and is waiting on the Platform Admin. Nothing is deployed.

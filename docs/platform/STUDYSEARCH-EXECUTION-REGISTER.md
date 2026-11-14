@@ -3797,3 +3797,19 @@ The production database connector has been down since about 13:15 UTC, so neithe
   - two unattended cycles.
 
   All of these need the database connector.
+
+## 14 Nov 2026 11:25 AEDT — F-OPS.08 Lean AI Input Phase 1: rehearsal PASS; final CI green; merge BLOCKED by session permission
+
+- **DELIVERED:**
+  - Rolled-back rehearsal of #1131 on Pilot: **PASS**. All checks passed. txid 17137876 aborted, and nothing persisted (independent read).
+  - Evidence is in the PR branch `docs/evidence/lean-ai-input/` (script, raw result, report), and in [baseline §7](LEAN-AI-INPUT-PHASE0-BASELINE-2026-11-13.md#7-rehearsal-result-pass-14-november-2026-1046-aedt).
+- **VERIFIED:**
+  - Final-head CI 12/12 on `73910af8`, after one flaky provider-description fixture re-run unrelated to #1131.
+  - Reconciled against actual main `eaf7da54`. #1128 is unmerged, and there is no runtime dependency. If #1131 lands first, #1128 renumbers to v0.88.0 or later and regenerates its prompt export and call-path lines.
+- **BLOCKED:** the squash merge was refused by the session's permission control. The Platform Admin decides how to proceed. Nothing is deployed and nothing changed on live.
+- **Next after merge:**
+  1. Check the deploy log.
+  2. Check that the live definition md5 equals the rehearsal values (`3f6d4ed9…`, `e23e4bd5…`).
+  3. Check the settings.
+  4. Check the deployed worker version v0.87.0.
+  5. Measure on the next legitimately authorised Enrich-fields cycles. No paid run is started for instrumentation.
