@@ -4135,3 +4135,44 @@ Platform Admin, 15 Nov 2026 00:23: one focused production release (worker v1.0.0
 2. `layer4.drain_on` = 1, after reviewing the recorded verdicts (`public.admin_layer4_drain_v1`). Reads again spend Firecrawl credits under the scheduled shares.
 3. `reading.markdown_input` = 1, preferably after a qualification run on stored pages, as for the Lean AI input. The markdown exists only for pages read since v0.99.0.
 4. Course pages stay whole page until the test read of side-panel entry bands.
+
+## 15 Nov 2026 09:20 AEDT — Worker v1.0.1: Layer 4 drain verdicts, side panels kept (Pilot #1151 5b277511) — DELIVERED, activation with the Platform Admin
+Platform Admin, 15 Nov 2026 07:53, after the read-only diagnostic of v1.0.0: keep Course pages whole page permanently; leave `layer4.drain_on` off until one small fix (worker v1.0.1).
+- **Why:** under the v1.0.0 rules, 1,270 of 1,302 "page gone" verdicts were `official_course_url` reviews. Their failed page check (`page_refused`, `identity_mismatch`, `identity_refused`) is the reason a person was asked to choose the course's page. Switching on would have sent them back to Layer 2 unanswered, and read 210 of them again for nothing.
+
+**What shipped**
+- **Drain verdict rules** (migration `20261115080000`, md5-guarded replacement of `security.layer4_drain_tick_v1`):
+  - `official_course_url` joins the reviews a person decides: always left for a person, never returned or read again.
+  - Page gone only for 404 or 410, or a 5xx still there after the job's own read again.
+  - A page that exists but is refused, blocked or not this course needs a person (403 and the other refusals, `page_refused`, `not_course_page`, `identity_mismatch`, `identity_refused`, `refused_host`, `robots_disallowed`).
+  - One verdict function, `security.layer4_drain_judge_v1`, used by the job and once by the migration to re-judge the 2,513 verdicts already recorded (records only).
+- **`mainText()` keeps `<aside>`**, as lean-md-v2 does. Side-panel fees and intake dates (Unitec, UFV) now reach the course fields reader, the scholarship readers and the other `mainText` readers. Navigation, header and footer are still dropped.
+- **Unchanged:** no ALTER, nothing written to `platform_toolset_settings`, no spec added or changed (register regenerated with no diff; `ai-prompts.json` regenerated for the worker name only).
+
+**Checks**
+- Before merge: the migration was run on a throwaway local Postgres 16 against the v1.0.0 function (md5 matching live), covering nine cases. With the switch on locally, a 404 fee item returned to Layer 2, a 503 was read once and then counted gone, and URL reviews were not touched.
+- PR #1151 passed 13/13 checks. The first CI run caught a stale `ai-prompts.json`, which was regenerated.
+
+**Verified on live**
+- Migration applied 21:37:02 UTC; history md5 `cb232835` matches the file. The tick function md5 `cdb15831` matches the local build. `coverage-sweep-worker-v1.0.1` deployed at 21:37:04 with the new `mainText`.
+- Deploy on merge, Frontend Build and Deployed UAT passed.
+- Verdicts for the 2,513 pending items older than 7 days:
+
+| Verdict | v1.0.0 | v1.0.1 |
+|---|---|---|
+| Left for a person | about 365 | 2,371 (1,974 are `official_course_url`) |
+| Read again | 313 | 105 (all fee items: 101 `provider_current_tuition_validation`, 4 `provider_current_tuition`) |
+| Needs a person | about 220 | 36 |
+| Page gone | 1,302 | 1 (a fee item whose page answers 404) |
+
+- About 28 were expected to stay "page gone", but all of the genuine 404s were `official_course_url` reviews, which now go to a person.
+- The 21:37 and 22:07 UTC runs both succeeded and judged nothing new. Every item old enough already had its verdict from the migration, and its next look is 24 hours after its first verdict.
+- **Unchanged:** `layer4.drain_on` 0, `reading.markdown_input` 0, `health.ai_reorder_on` 0, `aer.v2_shadow_on` 0, nothing applied, 6,010 pending.
+
+**For the Platform Admin (Settings › Pipeline settings, each with a reason)**
+1. `layer4.drain_on` = 1: ready. Nothing moves until each item's next look comes due:
+   - the 404 item at 15:07 UTC 15 Nov;
+   - the 105 reads again from 19:07 to 21:07 UTC 15 Nov, at about 120 Firecrawl credits.
+   - Three of the 105 pages have already used the course reader's 3 read attempts, so a read again will not be taken. They become dead letters after three cycles and raise a notice.
+2. `reading.markdown_input` = 1: safe to switch on because a page without stored markdown is converted from HTML as before. Only 120 stored pages (119 courses, read since v0.99.0) have markdown so far, and no qualification run has compared the two inputs.
+3. Course pages stay whole page permanently (Platform Admin 15 Nov 07:53).
