@@ -4176,3 +4176,30 @@ Platform Admin, 15 Nov 2026 07:53, after the read-only diagnostic of v1.0.0: kee
    - Three of the 105 pages have already used the course reader's 3 read attempts, so a read again will not be taken. They become dead letters after three cycles and raise a notice.
 2. `reading.markdown_input` = 1: safe to switch on because a page without stored markdown is converted from HTML as before. Only 120 stored pages (119 courses, read since v0.99.0) have markdown so far, and no qualification run has compared the two inputs.
 3. Course pages stay whole page permanently (Platform Admin 15 Nov 07:53).
+
+## 15 Nov 2026 10:10 AEDT — Worker v1.0.1 activation: OpenRouter Stop, three switches on, one-page live check — DONE
+Platform Admin, 15 Nov 2026 09:35: clean up, switch OpenRouter to Stop before anything acts, switch on the v1.0.1 switches, run one Run now and check the first active drain run. No code PR.
+
+**Switches (live, each with a reason; Platform Admin session)**
+
+| Setting | Value | Saved (UTC) |
+|---|---|---|
+| OpenRouter limits | Stop (was Observe); US$14.00 daily ceiling, US$4.32 spent at the time | 22:45:20 |
+| `health.ai_reorder_on` | 1 | 22:48:24 |
+| `layer4.drain_on` | 1 | 22:48:55 |
+| `reading.markdown_input` | 1 | 22:49:24 |
+| `aer.v2_shadow_on` | 0, unchanged; paused queues unchanged | — |
+
+- **Models:** every active route has one qualified model, Qwen3 30B. MiMo-V2.6-Flash and Mistral Small 3.2 are not qualified on any active route; on the AER v2 trial their benchmark runs 6 and 7 (30% accuracy, 4 and 2 false positives) do not meet the criteria. Nothing was qualified or added to a cascade, so `health.ai_reorder_on` changes nothing until a service has a second qualified model.
+- **Format profiles:** version 1, unchanged. Page HTML and markdown (rawHtml + markdown, whole page) serves 13 lanes including every course page and course list read; AER hub page rawHtml + markdown; Register links links + markdown; no profile pairs links with rawHtml.
+
+**One-page live check** (on-demand request `50b9c7d1`, opened, scoped to reads and central, closed)
+- Read with AI on Unitec, Postgraduate Certificate in Creative Practice (Level 8), course `fee1d6db`, at 22:57:43.
+- Page read at 23:00:37 by direct fetch (free; Firecrawl is only used when a direct fetch is blocked), HTTP 200, identity by title and level, evidence `947fbb2e`. Firecrawl was not called, so no markdown copy was saved and the readers used the stored HTML, as designed for pages without markdown.
+- AI fields (`course_other_fields`, Qwen3 30B, one call, 3,048 ms, US$0.000248): delivery filled as blended with its quote; duration skipped, not stated on the page.
+- Fee reader (Qwen3 30B, US$0.000469): one row, domestic NZD 4,700 a year for 2027, from the side-panel text "Domestic/NZ students $4,700 (Approximate fees only …)".
+- Actual use: 0 Firecrawl credits, US$0.0007 OpenRouter (estimate 1 credit, US$0.02). OpenRouter balance US$30.04.
+
+**First active drain run:** 23:07 UTC succeeded with `layer4.drain_on` 1: nothing due, so nothing judged or applied, no errors. The first actions are due from 15:07 UTC 15 Nov (the 404 item), then the 105 reads again from 19:07 to 21:07 UTC. `ai-model-health` runs succeeded; no model in cooldown.
+
+**Clean-up:** the local working copies are on main. Removed 194 clean Pilot worktrees, 322 Pilot branches already on GitHub, and the extra admin copies. Kept five Pilot worktrees holding uncommitted or unpushed work (`wt-a3`, `wt-agent-c`, `wt-agent-i2`, `wt-b2`, `wt-qa-990`) and branch `cf247-w31-int`. Two agent worktrees inside an extra admin copy had uncommitted files that were deleted with it; every committed branch of that copy was on GitHub. Pilot has no open PRs and main is green. The remote branch `cf247-ai-models-services-ui` (fully inside merged #1128) could not be deleted from this session (ref deletion blocked); delete it on GitHub.
