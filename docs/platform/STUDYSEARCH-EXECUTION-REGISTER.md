@@ -3834,3 +3834,59 @@ The production database connector has been down since about 13:15 UTC, so neithe
   - CI 12/12 on `79a75fdd`. The PR merges cleanly onto main `6000aa03`, which only changed AER v2 sample-table files.
 - **BLOCKED:** the squash merge of #1136 was refused by the session's permission control. It was not bypassed and is waiting on the Platform Admin.
 - **#1128:** stays unmerged until it is rebased to worker **v0.89.0** or later (main will be v0.88.0 once #1136 lands) and its prompt export and call-path lines are regenerated.
+
+## 14 Nov 2026 12:35 AEDT — AER v2: page selector fixed; prompt v3 and the 50-case evaluation set prepared (Pilot #1135, #1137)
+
+Platform Admin instruction, 14 Nov 2026:
+- keep AER v2 paused (`aer.v2_shadow_on` 0), the 1,912-page queue and its retries untouched, and no GPT-4.1 mini;
+- before any paid 50-case evaluation, complete items 1 to 3 below and record the call count and maximum spend.
+
+**State:** all three items are merged and deployed. The reader is still paused: `security.aer_v2_shadow_hold_v1` returns "switched off" and the trial version is `aer-v2-course-v2`. `pipeline.aer_v2_shadow_results` is unchanged at 893 rows. No paid call has been made.
+
+**1. Page selector (Pilot #1135, migration `20261114001500`, deployed and checked on live)**
+- `security.aer_v2_shadow_candidates_v1` now reads a stored ranked sample, `pipeline.aer_v2_sample`.
+- The existing `aer-v2-shadow` job rebuilds the sample when it is older than `aer.v2_sample_refresh_minutes` (60). The rebuild takes 5.6 s, inside the job.
+- Speed on live: 157 ms for 40 courses, against 8.9 s before (statement timeout on worker call 700433).
+- Same courses: the list is identical, 3,993 courses with the same order, priority, country and page (md5 `43bbe0a8…`).
+- Lanes: 1,911 gate_incomplete, 1,440 decided, 649 priority.
+
+**2. Prompt v3 and verifier (Pilot #1137, migration `20261114011500`, worker v0.88.0, deployed)**
+- Answer contract `aer-v2-answer-v3`:
+  - `exact_quote` cites one block and must contain the minimum;
+  - `lead_in_quote` is separate and must pass the ordered proximity rule: before the statement, at most `reading.aer_v3_lead_in_max_blocks` (3) blocks above it, and no heading between them.
+- The prompt `aer-v2-course-v3` (sha-256 `2efde37e…`, checked on live) is held as three **evaluation** versions. The shadow reader never picks an evaluation version.
+
+| Version | Model | Providers (in order) |
+|---|---|---|
+| Qwen3 30B | `qwen/qwen3-30b-a3b-instruct-2507` | siliconflow/fp8, nebius/fp8 |
+| Mistral Small 3.2 | `mistralai/mistral-small-3.2-24b-instruct` | parasail/bf16, deepinfra/fp8 |
+| MiMo-V2.6-Flash (reasoning off) | `xiaomi/mimo-v2.6-flash` | xiaomi/fp8, gmicloud/bf16 |
+
+- Every request sets `require_parameters` and `allow_fallbacks` false.
+
+**3. Evaluation set and plan (Pilot #1137, migration `20261114021500`)**
+- `pipeline.aer_v2_eval_cases`, set `aer-v2-eval-50-v1`: 50 cases across 24 providers, each frozen to its stored page.
+
+| Stratum | Cases | What it covers |
+|---|---|---|
+| S3 | 8 | v2 trial courses |
+| S1 | 14 | gate_incomplete |
+| S2 | 10 | Rows a person decided (only 3 providers have these) |
+| S4 | 7 | Six or more rows |
+| S5 | 5 | Long pages |
+| S6 | 6 | Candidate negatives |
+
+- `pipeline.aer_v2_eval_plans` records the run as **proposed**:
+  - **150 calls**, at most **300** with one retry of a call that returned no answer;
+  - **maximum spend US$2.00**: the worst case is US$0.89 a pass, US$1.79 with retries, and the basis is in the row.
+- There is no runner. A run needs Phase 1b ready, the Platform Admin's approval of the plan, and an on-demand request.
+
+**Coordination with Lean AI Phase 1b (Pilot #1136, open, other session). Action needed before the evaluation.**
+- **Worker number:** #1137 took worker **v0.88.0** first. #1136 now conflicts with main (`index.ts`, worker number) and must be renumbered to **v0.89.0**; #1128 then follows at v0.90.0 or later.
+- **Block format:** #1136 defines the Phase 1b `[B#]` format in `lean-sections.ts` (`leanBlocks`, `renderBlocks`: `[B12 @start-end]`, each table whole as one Markdown block with its header row). #1137's `aerV3Blocks` renders one line per `lean-md-v1` block (`[B12 @start]`, one table row per line with its column headers).
+- **Same name, different format:** both use the input name `lean-blocks-v1`.
+- **Before any evaluation call,** a follow-up change will:
+  - switch `aerV3Blocks` to #1136's `leanBlocks` and `renderBlocks`;
+  - keep the v3 verifier, which checks quotes inside a cited block and works the same on a whole-table block;
+  - record the input format on the three evaluation versions.
+- That change waits for #1136 to merge. The evaluation is already gated on Phase 1b being ready, so the order is unchanged.
