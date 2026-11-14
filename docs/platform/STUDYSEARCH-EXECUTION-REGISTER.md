@@ -4105,3 +4105,33 @@ Platform Admin, 14 Nov 2026 19:19: Firecrawl scraping and crawling format profil
 - One test read on a stored course page, to confirm rawHtml keeps the side-panel entry bands with onlyMainContent true, before Course pages switch to main content only.
 - WebP conversion of screenshots waits for its own checks.
 - Crawl runs are a separate feature.
+
+## 15 Nov 2026 02:10 AEDT — Worker v1.0.0: autonomous pipeline (Pilot #1150 eaae12d7) — DELIVERED, activation pending
+Platform Admin, 15 Nov 2026 00:23: one focused production release (worker v1.0.0) for an autonomous, self-sustaining, self-improving pipeline. The instruction set no new specs, no mock-ups, no SQL rehearsal loops on live, no ALTER of `platform_toolset_settings`, and no change to route switches, `aer.v2_shadow_on`, Observe/Stop or ceilings before v1.0.0 is green.
+- Step 1: #1143 (scholarship 8 s commit limit) was already on main (`608cad42`), so nothing was carried over.
+
+**What shipped (each acting part ships off or observing)**
+- **Markdown input** (`reading.markdown_input`, 0): the course fields, scholarship AI and AER v2 trial readers take Firecrawl's stored markdown (`<name>.md.gz`) through `leanTextFromMarkdown` (fc-md-v1). With the switch at 0, or when the markdown file is missing, they convert the stored HTML as before. Quotes are checked on the same text the model was given.
+- **Self-improving cascade** (`health.ai_reorder_on`, 0):
+  - Job `ai-model-health` runs every 10 minutes and keeps each service's models' rolling attempts, failure rate, empty and time-out rates, median time and cost in `pipeline.ai_model_health`. Attempt times go to the new `pipeline.ai_attempt_times`.
+  - A model at or above `health.ai_fail_rate_pct` (50%, on at least 10 attempts in 60 minutes) cools for 30 minutes and raises an `openrouter:model_degraded` notice.
+  - With the switch on, the worker asks cooling models after the healthy ones of the same cascade; it never adds or removes a model.
+  - Empty, cut and non-JSON answers, errors and time-outs already fail over (v0.86.0).
+- **Self-healing Layer 4** (`layer4.drain_on`, 0):
+  - Job `layer4-drain` runs at :07 and :37 and records a verdict for pending items older than 7 days, 200 a run: superseded by a newer item, page gone, read again, needs a person, or left for a person (reviews with their own trigger and AER items).
+  - With the switch on it acts: reads again up to 3 times, waiting 24, 48 then 96 hours, after which the item becomes a dead letter and raises a notice.
+- **Migration `20261115003000`:** new tables (with row-level security), 11 settings rows inserted, md5-guarded edits of `svc_ai_model_answered_v1` and `platform_notices_v1`, both jobs catalogued, no ALTER of an existing table.
+- **Checks:** before deploy, the migration and every function body were compiled and run on a throwaway local Postgres 16 (nothing on live). Specs were not new: worker version floors written as v0.x now accept v1.x, four assertions follow the changed lines, and the register was regenerated. PR #1150 passed 13/13 checks; main's Deploy on merge, Deployed UAT and Frontend Build passed.
+
+**Verified on live (14:39–15:08 UTC)**
+- Migration applied; history md5 `33a35620` matches the file. `coverage-sweep` deployed.
+- Worker v1.0.0 answering: 162 attempts within 9 minutes of the deploy, each with its time recorded.
+- `ai-model-health` succeeded at 14:40, 14:50 and 15:00. Course matching: 712 attempts, failure rate 0.8%, median 4.2 s. No model in cooldown.
+- `layer4-drain` succeeded at 15:07 and judged 200 items: 27 page gone, 1 read again, 2 needs a person, 170 left for a person. It applied nothing; 6,010 pending, unchanged.
+- **Unchanged:** all three switches 0, `aer.v2_shadow_on` 0, OpenRouter Observe, no route switch, ceiling or cap.
+
+**For the Platform Admin to switch on (Settings › Pipeline settings, each with a reason)**
+1. `health.ai_reorder_on` = 1, after a day of `ai-model-health` readings. Cascades with only one qualified model are not affected until a second model is qualified.
+2. `layer4.drain_on` = 1, after reviewing the recorded verdicts (`public.admin_layer4_drain_v1`). Reads again spend Firecrawl credits under the scheduled shares.
+3. `reading.markdown_input` = 1, preferably after a qualification run on stored pages, as for the Lean AI input. The markdown exists only for pages read since v0.99.0.
+4. Course pages stay whole page until the test read of side-panel entry bands.
