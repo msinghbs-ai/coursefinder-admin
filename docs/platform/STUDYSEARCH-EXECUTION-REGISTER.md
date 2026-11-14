@@ -4062,3 +4062,9 @@ Platform Admin authorities: 14 Nov 2026 17:21 (run the bounded benchmark on stor
 - On-demand request `a7562d47` closed: estimate US$0.89 (max US$2.00); benchmark traced spend US$0.18; Firecrawl 0. OpenRouter balance US$34.47 → US$33.32 across all lanes in the window (scheduled services included).
 
 **Open for the Platform Admin:** whether to change the table-row quote match before any re-run; whether MiMo or Mistral goes forward to a revised prompt (MiMo: recall and cost; Mistral: fewer false admissions and better source integrity, but wrong-block citations).
+
+### 14 Nov 2026 19:45 AEDT — Lean AI Input Phase 1b-3: fees and intakes qualification run (Pilot PR #1144)
+- PR #1144 (worker v0.95.0, after #1142 took v0.94.0) squash-merged as 0f26b9ca. CI 13/13. Rolled-back rehearsal PASS (txid 17262484). Deploy verified: history md5 cef0eab4 = file; 685 cases seeded; ships off. Includes lean-sections-v3 (entry score lines).
+- Run under on-demand request 0ffb47ab (07:21–08:44Z). US$0.6763 spent of the US$2.00 ceiling; recorded = traced (1,161 calls). Switch off again. Nothing admitted. No Firecrawl.
+- Result: neither field qualifies. Fees found 180 vs 194, intakes 150 vs 153. Most losses are cross-block quotes failing the labelled-text check (43 of 47 fee losses). Candidate input tokens are 19–24% lower. Options A/B for a candidate v2 are in docs/platform/LEAN-AI-INPUT-PHASE1B-3-QUALIFICATION-PLAN-FEES-INTAKES.md (Result).
+- Running more than about 4 worker calls at once hit the edge compute limit (546). The job's own guard waits on pg_net responses that are sometimes not recorded, which slows a run to about 5 pages a minute.

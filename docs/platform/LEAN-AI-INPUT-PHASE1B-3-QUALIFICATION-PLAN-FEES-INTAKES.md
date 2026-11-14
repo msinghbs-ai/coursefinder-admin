@@ -56,3 +56,29 @@ Rates fitted from 364 live calls on the pinned model, 14 Nov 2026: about **US$0.
 ## 6. Out of scope
 
 Entry requirements, delivery and campus (below the gate, or labels need cleaning); scholarship pages (not covered by the selector); any activation (1b-4).
+
+## Result, 14 Nov 2026 19:45 AEDT (run phase1b-3-fees-intakes-2026-11-14; Pilot PR #1144, worker v0.95.0)
+
+Approved by the Platform Admin 14 Nov 2026 17:20. On-demand request `0ffb47ab-4c67-45d5-9960-e4f779fb566d`, opened 07:21Z and closed 08:44Z. The switch is off again.
+
+- **Spend:** US$0.6763 recorded = US$0.6763 traced, over 1,161 calls on the pinned qwen/qwen3-30b-a3b-instruct-2507. The ceiling was US$2.00. No Firecrawl, nothing admitted.
+- **Pages:** 597 read. 87 intakes negatives were set aside as not clean (the page shows a start-date signal). 1 fee positive ran out of time twice.
+
+| Field | Set | Pages | Baseline found | Candidate found | Lost / won | Candidate quotes in text | Median input tokens (base → candidate) | Valid answers |
+|---|---|---|---|---|---|---|---|---|
+| Fees | positive | 256 | 194 | 180 | 47 / 33 | 186 / 208 | 5,281 → 4,013 (−24%) | 100% |
+| Fees | negative | 100 | 74 pages with a value | 79 | — | 64 / 79 | 4,619 → 4,036 | 100% |
+| Intakes | positive | 228 | 153 | 150 | 11 / 8 | 152 / 226 | 3,638 → 2,932 (−19%) | 100% |
+| Intakes | negative (clean) | 13 | 1 page with a value | 0 | — | — | 835 → 1,088 | 100% |
+
+**Verdict: neither field qualifies.** Both fail "no loss" and "quotes in text". Fees also fails "no new false values" (79 against 74). Nothing is switched on.
+
+**Why:**
+1. **Quotes across blocks.** With the page sent as labelled `[B#]` lines, the model quotes real page words that run across two or more blocks (list items, table rows). The candidate's quote check is against the labelled text, so those quotes fail. For fees the existing reader rule then drops the row: 43 of the 47 lost fee cases are rows dropped this way with the right amount. For intakes the value is usually right but the quote fails (74 of 226).
+2. **Weak fee negatives.** The fee negatives (pages the fee reader once read with no row found) are not clean: today's baseline finds a fee on 74 of them. That criterion needs person-confirmed negatives before it can gate anything.
+3. **Labelled months vs semesters.** The intakes judge counts a value such as "Semester 1, Semester 2" as not finding a labelled "February, July". This affects both arms equally.
+
+**Options for a candidate v2 (each about US$0.6 to re-run, Platform Admin to choose):**
+- **A.** Send the selection as plain text (no `[B#]` labels; offsets kept on our side) for readers that do not cite blocks (fees, intakes). Quotes validate as they do today.
+- **B.** Keep the labels but validate quotes against the blocks' joined words, the same way the recall matcher does.
+- Either way, take fee negatives from person-confirmed "not stated" decisions.
