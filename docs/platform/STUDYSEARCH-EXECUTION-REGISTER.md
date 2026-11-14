@@ -3919,6 +3919,13 @@ Platform Admin instruction, 14 Nov 2026:
 - First 120 run b cases (entry requirements, person-accepted), same cases as run a: converted page 117 (run a 96), selection 114 (run a 95); page, current-cut and first-cut flags identical; 7 values beyond the 24,000-character cut, all 7 held by the selection.
 - No AI, no Firecrawl. Phase 1b step 2 stays on hold until the Platform Admin reviews the full report (check-in 05:20Z).
 
+### 14 Nov 2026 15:25 AEDT — Lean AI Input Phase 1b step 1: run b complete; step 2 bundle opened (Pilot PR #1139)
+- Run phase1b-step1b-2026-11-14 drained on request (Platform Admin 14 Nov 2026 14:32) by sending recall batches directly: 2,800 of 2,800 done at 04:01Z, 0 AI and 0 Firecrawl calls. Report: docs/platform/LEAN-AI-INPUT-PHASE1B-RECALL-REPORT-2026-11-14.md.
+- On the 2,326 cases where the value is in the reader's text: current 24k cut 0.9635, converted page 0.9854, selection 0.9553. Beyond the cut: 85 values, 80 held by the selection, 85 by the converted page. Fees 0.9961 and intakes 0.9956 meet the gate; entry requirements 0.938, below it. Delivery and campus adapter labels are noisy.
+- Converter misses on score lines are referred to S1-AER (aer-v2.ts `aerV3Blocks`, not changed here).
+- Batches of 120 fee cases exceeded the edge CPU-time limit; batches of 40 ran cleanly.
+- Step 2 bundle (PR #1139, worker v0.92.0): shadow selection beside live reads, lean-sections-v2, selector sizes as settings, observe switch fix, batch 40, run c seed. Rolled-back rehearsal PASS (txid 17223165, aborted). Held before merge for the Platform Admin's review. No AI, no Firecrawl, no prompt, model, admission or consumer API change.
+
 ## 14 Nov 2026 13:23 AEDT — F-OPS.08 v2.16.0 Models & services: #1128 MERGED and DEPLOYED (worker v0.90.0)
 - Pilot PR #1128 squash-merged 13:19 AEDT as `1aa02eda` after 14/14 checks on `d0c92c60`. Merged with main through #1131, #1135, #1136 and #1137; worker `coverage-sweep-worker-v0.90.0` (route cascades with Lean AI Input observation).
 - Two migration bodies were rebased onto live before merge: `public.svc_scholarship_ai_next` keeps #1132's never-decided-pages-first ordering, and `security.aer_v2_shadow_hold_v1` keeps #1137's version settings. Without that, the first would have silently undone #1132, and the second would have been refused by its own guard at deploy.

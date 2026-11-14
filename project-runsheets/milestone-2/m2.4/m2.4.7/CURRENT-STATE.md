@@ -11604,3 +11604,19 @@ The production database connector has been down since about 13:15 UTC, so neithe
   - two unattended cycles.
 
   All of these need the database connector.
+
+## 14 Nov 2026 15:15 AEDT — CI path-filter audit: all three PR workflows stay ungated (no change made)
+
+A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workflow files only) was audited against `coursefinder-pilot` `main` at `c4ffa31` (#1138) and **not taken forward**. Nothing changed in `coursefinder-pilot`: no workflow edit, no branch pushed, no PR opened.
+
+**Decision:** `test-evidence.yml`, `pim-build.yml` and `provider-description-integration.yml` stay ungated, so the evidence gate keeps failing closed.
+
+| Workflow | Why it stays ungated |
+|---|---|
+| `test-evidence.yml` | 510 of the 665 specs read `supabase/migrations` and 174 read `supabase/functions`, including the central guards `s32`, `s42`, `s57` and `s120`. Gating would let migration-only or worker-only PRs skip them. The final `test-evidence` job also fails closed on any shard that does not succeed. Docs-only PRs already skip the suite through the existing reuse path. |
+| `pim-build.yml` | `build-and-smoke` is a required check in `scripts/test-evidence-classes.json`. The readiness report counts a skipped required check as a fail unless the workflow has trigger-level `paths:`, and spec `s400` asserts it has none. A job-level skip would block every PR it applied to. |
+| `provider-description-integration.yml` | The parity check reads the run-level result. A skipped job inside a successful run would be recorded as `success` in the immutable evidence bundle. Trigger-level `paths:` would rarely skip anything, because its inputs cut across the repo (all migrations, `supabase/held`, functions, `src`, its fixtures and specs). |
+
+**Approved way to speed up CI (no workflow edits):** raise the `TEST_EVIDENCE_SHARDS` repository variable (supported range 1–16, default 6) with Platform Admin sign-off, and run the targeted specs locally before pushing. Anything that gates by path needs a separate, signed-off change to the readiness scripts and `s400`.
+
+**Reference:** project note `claude/ci-path-filter-findings-2026-11-14.md`.
