@@ -3910,3 +3910,11 @@ Platform Admin instruction, 14 Nov 2026:
   - Fix: compare against the block text without prefixes. It touches `lean-sections.ts` only, and needs Platform Admin sequencing with #1128.
   - Until fixed, selection and converted-page recall are **lower bounds**. Page, current-cut and beyond-cut figures are valid.
 - **HELD:** Phase 1b step 2 (Platform Admin, 12:27). #1128 is unmerged; on its final sync it takes worker **v0.90.0** or later.
+
+### 14 Nov 2026 14:20 AEDT — Lean AI Input Phase 1b step 1: recall matcher fixed (Pilot PR #1138, c4ffa31e)
+- Approved by the Platform Admin 14 Nov 2026 13:25 (option A). Synced onto main after #1128; worker `coverage-sweep-worker-v0.91.0`.
+- Fix: the offline recall check now compares each labelled value against the blocks' words without their `[B# @offset]` labels, so a quote across adjacent blocks counts. What a reader would be sent is unchanged.
+- Migration `20261114051500`: run a (`phase1b-step1-2026-11-14`) keeps its 1,320 done cases as recorded and its 1,480 unread cases are closed as superseded (update only). The same 2,800 cases run again as `phase1b-step1b-2026-11-14`. Rolled-back rehearsal PASS (txid 17191547, aborted). Live history md5 `b94bd34e` matches the file.
+- CI 12/12 green; deploy-on-merge success; run b records carry worker v0.91.0.
+- First 120 run b cases (entry requirements, person-accepted), same cases as run a: converted page 117 (run a 96), selection 114 (run a 95); page, current-cut and first-cut flags identical; 7 values beyond the 24,000-character cut, all 7 held by the selection.
+- No AI, no Firecrawl. Phase 1b step 2 stays on hold until the Platform Admin reviews the full report (check-in 05:20Z).
