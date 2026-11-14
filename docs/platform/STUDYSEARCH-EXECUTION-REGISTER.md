@@ -4009,3 +4009,11 @@ Both leases report "ai_eval.offline_runs_on is 0". The generic lease never takes
 **Still open**
 - The benchmark run (150 calls, at most 300, at most US$2.00) waits for Lean AI's shadow check and the Platform Admin's sign-off, followed by an on-demand request.
 - A v3 shadow trial version is added only once a model is qualified, because its provider pins depend on which model that is.
+
+### 14 Nov 2026 17:20 AEDT — Lean AI Input Phase 1b: PR #1139 merged; runs C and D on lean-md-v2; Curtin and Swinburne
+- PR #1139 squash-merged as ec0432f7 after rebasing onto #1140 (test register only). Deploy verified: migration 20261114071500 history md5 00c18a78 = file; observation insert d191e191 as rehearsed; batch.lean_sections_eval 40.
+- #1141 (S1-AER, worker v0.93.0, lean-md-v2) deployed 05:22:47Z during run C. Run D re-checks the same 2,800 cases on v0.93.0. A Curtin/Swinburne set (1,079 person-accepted entry labels) was added. All drained directly in batches of 20–40: 6,679 cases, 0 errors, 0 AI and 0 Firecrawl calls.
+- Run D: converted page 0.9957, selection 0.9703, 85 of 85 beyond-cut values held. Person-accepted entry selection 0.9375 → 0.9525 → 0.9650 (B → C → D); converter misses 9 → 3.
+- Curtin and Swinburne converted recall 1.0000 (AER v3 reads the whole block page). The selector misses 54 Swinburne score lines (follow-up: lean-sections-v3).
+- Shadow check: deployed, 0 live observations (no Enrich reads under containment).
+- Report: docs/platform/LEAN-AI-INPUT-PHASE1B-RECALL-REPORT-2026-11-14.md (update section).
