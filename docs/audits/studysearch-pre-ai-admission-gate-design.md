@@ -1,6 +1,6 @@
 # Pre-AI admission and enrichment gate: design proposal (pre-ai-admission-v1)
 
-**Date:** 14 November 2026 (AEDT) · **Status:** proposal for Platform Admin review. Nothing is merged, deployed or switched on.
+**Date:** 14 November 2026 (AEDT) · **Status:** design direction approved (Decision 278, §9). Nothing is merged, deployed or switched on.
 **Evidence:** [`studysearch-ingestion-validation-report.md`](studysearch-ingestion-validation-report.md) (findings R1–R9, §4).
 **Builds on:** `SHARED-SOURCE-TO-PUBLISHED-ENRICHMENT-DESIGN.md` §11 (F2 slicer, F3 high-recall negative filter, F4 content cache, F5 split or park, F6 observability) and the Lean AI Input Phase 1/1b designs.
 **Does not add:** an orchestration engine, a dashboard, a new job family, a new block format, a consumer API shape (G3), an AER v1 reader (Decision 276) or an automatic switch-on.
@@ -209,11 +209,11 @@ The diff is `pre-ai-admission-gate-shadow.patch` (copy in [`proposal-pre-ai-admi
 4. **Extend shadow to `enrich_ai` and `aer_v2_shadow`** after the Lean AI Phase 1 observations exist (report R9). There the gate's `over_budget_split` replaces the silent 24,000 cut only together with the split reader (Phase 1b-3/1b-4, separate approvals).
 5. **`aer_no_signal` and `scholarship_low_signal` stay measurement-only** until labelled false-negative sets show they are safe.
 
-## 9. Decisions needed from the Platform Admin
+## 9. Decisions (Platform Admin, 14 November 2026, 16:10 AEDT; recorded as Decision 278 in the Design Reference)
 
-| # | Decision | Recommendation |
+| # | Decision | Answer |
 |---|---|---|
-| D1 | Keep `evidence_artifacts` as the manifest and the raw copy as the only stored artifact (sidecar optional), instead of three files per URL | Yes: avoids a second source of truth |
-| D2 | Scholarship keyword score: measure only, not a gate | Yes: the data shows it would not separate the 30% |
-| D3 | Shadow first on `scholarship_ai`, after #1139 merges | Yes |
-| D4 | Fold the R5 cost fix into the same release | Yes: trivial, and it improves F6 accuracy at once |
+| D1 | Storage contract | **Keep the record as the manifest.** The raw copy stays the only stored artifact (sidecar optional); no three files per URL and no `READY_FOR_ENRICHMENT` state |
+| D2 | Scholarship keyword score | **Measure only.** Recorded with every decision, never used to stop a read |
+| D3 | Next step | **Bundle after #1139:** one Pilot PR with the patch, numbered migration, contract spec, test register, worker version and rolled-back rehearsal |
+| D4 | Fold the R5 cost fix into the same release | Included in the D3 bundle (it is already in the patch) |
