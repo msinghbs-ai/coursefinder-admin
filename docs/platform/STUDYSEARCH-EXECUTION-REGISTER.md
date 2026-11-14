@@ -4068,3 +4068,40 @@ Platform Admin authorities: 14 Nov 2026 17:21 (run the bounded benchmark on stor
 - Run under on-demand request 0ffb47ab (07:21–08:44Z). US$0.6763 spent of the US$2.00 ceiling; recorded = traced (1,161 calls). Switch off again. Nothing admitted. No Firecrawl.
 - Result: neither field qualifies. Fees found 180 vs 194, intakes 150 vs 153. Most losses are cross-block quotes failing the labelled-text check (43 of 47 fee losses). Candidate input tokens are 19–24% lower. Options A/B for a candidate v2 are in docs/platform/LEAN-AI-INPUT-PHASE1B-3-QUALIFICATION-PLAN-FEES-INTAKES.md (Result).
 - Running more than about 4 worker calls at once hit the edge compute limit (546). The job's own guard waits on pg_net responses that are sometimes not recorded, which slows a run to about 5 pages a minute.
+
+## 14 Nov 2026 (AEDT, to 00:20 15 Nov) — F-OPS.08 v2.16.2: Firecrawl format profiles (Pilot #1148 083dba69, fix #1149 16fa628e; worker v0.99.0) — DELIVERED
+Platform Admin, 14 Nov 2026 19:19: Firecrawl scraping and crawling format profiles inside the existing scraper settings. Answers: screenshots off by default and kept as received; crawl settings checked only, no crawl runs; mock-up first. Mock-up accepted 20:13. Course pages stay whole page until a test read shows rawHtml keeps the side-panel entry bands.
+
+**What shipped**
+- **Screen:** Models & services › Services & limits › Firecrawl › Format profiles. It is a card under the Firecrawl card; there is no new page or second settings editor.
+  - Profiles with formats, main content only, tags, copy age, wait, time allowed, actions and crawl options.
+  - A request preview for a scheduled read and for Run now.
+  - The profile each lane uses (AER v1 lanes fixed on their own request), university overrides, and the screenshot size limit.
+  - Saved with a reason as a new version; a stale save is refused. Pipeline Operator and above read it; the Platform Admin changes it.
+- **Never sent:** json, summary, question, highlights, onlyCleanContent. They are refused by the screen and by `security.fc_scrape_profiles_check_v1`, and the worker client drops them again.
+- **Worker v0.99.0:** every scrape through `fcClient` applies its lane's profile.
+  - AER v1 lanes, adapter capture and the probe send their own request; so does a lane not in the map, or any lane when the saved set fails the check.
+  - On-demand reads ask for a fresh page (maxAge 0).
+  - Course reads, Run now reads and About pages keep markdown beside the stored HTML, and the same evidence row records files, profile, version, formats, copy age, cache state, page status, credits and scrape id (`svc_evidence_formats_attach_v1`).
+- **Seeds:** today's requests, with markdown added to page reads (rawHtml and markdown in one 1-credit call). Screenshots are off.
+- **Numbering:** worker v0.99.0, after R7 #1145 (v0.98.0, which another session merged after resolving its clash with #1147 v0.97.0) and R5 #1143. Migration `20261114201500`, after R7's `20261114193000`. The spec is s545, because #1147 took s544.
+
+**Deploy incident and fix**
+- **What failed:** Deploy on merge of #1148 refused `20261114201500` and rolled it back in full. Its post-check, and `admin_fc_profiles_read_v1`, used `max(jsonb)`, which does not exist. plpgsql bodies are only checked when they run, so neither CI nor the first rehearsal (which did not run those two bodies) caught it.
+- **Effect:** the v2.16.2 screen was live with no database function, so the card showed "could not be loaded" and main was red, for about 10 minutes. The worker and data were unchanged.
+- **Second finding:** a rehearsal hit the 3 s lock timeout on the `ALTER` of the `pipeline.platform_toolset_settings` kind check, behind the minute jobs. The kind check is no longer changed. The three sets are kind text, and `admin_toolsets_write` refuses them by key.
+- **Fix #1149:** both bodies use `jsonb_object_agg`. The spec now fails on `max(case when key`, a top-level `alter table` or `drop constraint` in the file.
+- **Rehearsal of the corrected file:** the whole file, rolled back, as a Platform Admin. Read: version 1, no problems. Save: version 2. json refused; stale save refused; generic editor refused. Nothing was left behind.
+- **Applied:** with Database apply migration from the fix commit; history md5 `85ad60a6` matches the file. `coverage-sweep` deployed with Deploy edge functions from `083dba69`. Main is green after #1149: Deploy on merge, Deployed UAT and Frontend Build all succeeded.
+
+**Verified on live**
+- **Screen:** the title and pill show v2.16.2. The card loads version 1 with five profiles and 22 lanes, and no alert. The preview shows rawHtml + markdown, onlyMainContent false, maxAge 172800000.
+- **Requests:** within two minutes of the deploy, course_read and scholarship_read requests asked for `["rawHtml","markdown"]` with maxAge 172800000; provider_facts_read asked for markdown only (its own request, as before).
+- **Evidence:** new course-read rows (13:10Z) record profile page_html, version 1, formats rawHtml + markdown, cache_state hit or miss, cached_at, page_status 200 and credits_used 1. The `.md.gz` is stored beside the `.html.gz` under the same name (for example 68 KB HTML and 24 KB markdown).
+- **Settings untouched:** `aer.v2_shadow_on` is still 0 and OpenRouter is still in Observe. No route switch, ceiling or paused queue was changed.
+- **Watch:** scholarship_read Firecrawl reads were already running before this release (30 in the 5 minutes before the deploy). They now carry markdown; this release did not change which scholarship work runs.
+
+**Open**
+- One test read on a stored course page, to confirm rawHtml keeps the side-panel entry bands with onlyMainContent true, before Course pages switch to main content only.
+- WebP conversion of screenshots waits for its own checks.
+- Crawl runs are a separate feature.
