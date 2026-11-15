@@ -4240,3 +4240,49 @@ Follows the v1.0.1 activation above (OpenRouter Stop, the three v1.0.1 switches 
 
 **Open**
 - The remote branch `cf247-ai-models-services-ui` still has to be deleted on GitHub, because ref deletion is blocked from Claude sessions.
+
+## 15 Nov 2026 13:40 AEDT — Entry readers switched on; OpenRouter key limit found; worker v1.0.3 (Pilot #1153 31729e28) — DONE, re-queue awaiting approval
+Follows the v1.0.2 entry above.
+
+**Entry readers on (Platform Admin 15 Nov 2026 12:10)**
+- Course entry requirements and entry requirement matrices were qualified on Qwen3 30B. The recorded evidence is "Platform Admin decision 15 Nov 2026 12:10 AEDT … not benchmarked". Both were switched on, single-model.
+- `aer.schedule_daily_max` was 0, which blocked the AER schedule; it is now 15000.
+- The AER tick, `scholarship-coverage-classify` and `scholarship-auto-publish` were run once.
+- `aer.v2_shadow_on` stays 0.
+
+**What the first batch showed**
+- From 01:25 UTC almost every AI call was refused with 403 "Key limit exceeded (weekly limit) … $70.01 of $70.00 used". The refusal came from the OpenRouter key's own weekly limit, not from our US$14 ceiling.
+- The same refusal ran from 12 Nov 11:17 UTC, when the limit was US$50, then US$70.
+- The worker recorded each refusal as a failure of the item: 8,775 items (8,235 courses) were closed as failed or skipped since 12 Nov, and a healthy model was put in a false cooldown.
+- Neither the spend guard nor Health read the key's limit.
+
+**Worker v1.0.3 (Platform Admin 15 Nov 2026 12:53)**
+- A 402/403 key or budget limit refusal is an account stop:
+  - no other model is asked;
+  - the worker call stops asking;
+  - the stopped items go back to their queue as waiting, with their try given back (`svc_ai_key_limit_release_v1`);
+  - the refused attempts are kept apart from the model's attempts (`pipeline.ai_key_limit_attempts`), so they never cause a cooldown.
+- Job `openrouter-balance` also reads `GET /api/v1/key` (`pipeline.openrouter_key_observations`), and a refusal is recorded at once.
+- `security.ai_route_v1` holds every AI service with `held_kind key_limit`, on-demand included, while the key has no room. The route reports `room_usd`, the lower of the daily ceiling still free and the key's room.
+- Health raises `budgets:openrouter_key`: critical while the key has no room, and a warning when the key's limit is below the daily ceiling over its period (weekly: 7 × US$14 = US$98) or when the key has not been read.
+
+**Verified on live**
+- PR #1153 passed 13/13 checks. Deploy on merge applied migration `20261115140000` (history name `cf247_v1_0_3_openrouter_key_limit`) and deployed `coverage-sweep-worker-v1.0.3`.
+- The first key reading at 02:35 UTC returned a weekly limit of US$70, US$70.01 used, resetting 16 Nov 00:00 UTC.
+- Every AI route is held (`key_limit`), and Health shows the critical issue.
+- No item has failed since the deploy.
+- **Unchanged:** OpenRouter Stop at US$14/day, `layer4.drain_on` 1, `reading.markdown_input` 1, `health.ai_reorder_on` 1, `aer.v2_shadow_on` 0, the whole-page course profile, and every route and cap.
+- `provider-calendar-intakes`, `provider-calendar-defaults`, `coverage-discover` and `coverage-discover-2` stay off.
+
+**Re-queue (not run; awaiting Platform Admin approval)**
+- On-demand request `7d90b616` was opened for the estimate only and scoped to no purpose group, so nothing is exempt from a limit. It expires 15 Nov 08:37 UTC.
+- Of the items the key limit closed, 3,805 have no newer item for the same course and field (3,759 courses, 342 providers):
+  - descriptions 3,651;
+  - entry requirements 121;
+  - other fields 33.
+- Estimate: US$2.31 (p90 US$3.42), about 20.5 million tokens, no Firecrawl, about 4 to 12 hours. It fits within the route caps and the daily ceiling.
+- The other 5,038 already have a newer item and are not included.
+- The credit left on the account is US$29.99. The key must be raised (to US$100 as planned) or reset first.
+
+**Open**
+- The remote branch `cf247-ai-models-services-ui` still has to be deleted on GitHub.
