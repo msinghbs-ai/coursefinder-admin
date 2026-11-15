@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 09:25 AEDT, by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 10:15 AEDT (section 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -62,8 +62,8 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Item | State |
 |---|---|
 | Pilot #1162, API v3 field dictionary sync (REQ-76) | Open |
-| Move Pilot `docs/paste/` (41 files) to this repository | Not started: 18 specs and 7 database fixture folders read the files, so it needs a decision on where those guards run (see `docs/paste/README.md`) |
-| Audit and scope documents named in Pilot migrations as project documents (`claude/cron-governance-audit-2026-11-15.md`, `claude/ui-ux-settings-audit-2026-11-15.md`, `claude/rollup-scheduler-pr1-scope.md`) | Not in either repository and not readable from the Course Module session's project; the session that holds them commits them to `docs/platform/` (UI audit: `docs/platform/ui-audit/`) |
+| Split Pilot `docs/paste/` (41 files) | **Approved, Platform Admin 16 Nov 2026 10:10 (option 1).** After the PR 2 cutover (Tue 17 Nov 22:30 AEDT) is verified: the SQL files that specs or database fixtures read or run move to Pilot `tests/fixtures/` (all 18 guard specs keep their assertions, no cross-repository CI); every file a person runs moves to this repository's `docs/paste/` only; a Pilot guard then refuses any new `PASTE-*.sql` in Pilot. Queued for Wed 18 Nov 2026 09:15 AEDT, separate from the PR 3 queue. Never create a new `PASTE-*.sql` in Pilot. |
+| Audit and scope documents `ui-ux-settings-audit-2026-11-15.md`, `cron-governance-audit-2026-11-15.md`, `rollup-scheduler-pr1-scope.md` | **Not found anywhere reachable (searched 16 Nov 2026 10:15 AEDT):** not in either repository on any branch (Pilot 1,378 branches, admin 549), not in the Course Module session's workspace or project. Pilot migrations and PRs #1157, #1159, #1163 and #1165 cite them as "project doc claude/…", so they sit in another session's project. That session commits them to `docs/platform/` (UI audit to `docs/platform/ui-audit/`), unchanged. They are not rewritten from the PR summaries. |
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
