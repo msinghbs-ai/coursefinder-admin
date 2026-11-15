@@ -4286,3 +4286,53 @@ Follows the v1.0.2 entry above.
 
 **Open**
 - The remote branch `cf247-ai-models-services-ui` still has to be deleted on GitHub.
+
+## 15 Nov 2026 16:05 AEDT — Recovery run, throughput release worker v1.0.4 (Pilot #1153 follow-up, #1154 3c18ed94) — DONE
+Follows the v1.0.3 entry above.
+
+**Recovery of the key-limit items (Platform Admin 15 Nov 2026 13:42, approved)**
+- 3,803 items went back through the platform's own Retry failed action as 127 tasks:
+  - 3,650 descriptions;
+  - 121 entry requirements;
+  - 32 other fields.
+- 229 superseded items in those tasks were marked superseded rather than re-read (`admin_control_events` data fix 50071). The 2 campus-list items are left out by the retry rule.
+- The OpenRouter key limit was raised to US$100 by the Platform Admin, and the hold lifted at 14:19:55 AEDT.
+- Edge CPU cut-offs (HTTP 546) stopped 84 calls in the first 15 minutes, 630 items failed "no answer could be recorded after 3 tries", and about US$0.61 of answers was paid but not recorded.
+- `enrich.ai_items_per_call` was lowered 30 → 10 at 14:35 and 10 → 5 at 15:48 (Platform Admin), with reasons recorded. Cut-offs since then come only as instance-wide bursts.
+- The 633 failed items were retried at 15:58 through Retry failed (46 tasks), after v1.0.4 was live.
+
+**Front of the funnel (Platform Admin 15 Nov 2026 15:14)**
+- `coverage-discover` and `coverage-discover-2` were resumed through `admin_automation_control`, and `jobs.held_off` was cleared. Both had been held off since the Firecrawl window ended on 3 Nov.
+- `provider-calendar-intakes` and `provider-calendar-defaults` were **not** switched on. Both are retiring in the component register (replaced by "Intakes from the course's own page only", 20261022042000), and the platform refuses to resume a retiring job (UR-07).
+- Provider descriptions: 117 providers held for a transient or re-askable reason were filled on demand (`admin_provider_description_fill_v1`):
+  - quote_not_on_page, first_sentence_no_name, unsupported_sentence or sentence_count;
+  - home_not_read or about_not_read.
+
+  The identity, host-conflict, sub-unit and no-About-page holds stay; they need a person.
+
+**Entry requirements**
+- The rule asked for already runs: aer-machine-v1 (`aer.machine_mode` 2, validation passed 11 Nov). It has machine-admitted 8,521 complete, quote-proved reads.
+- A one-off promotion pass with that rule admitted 90 of the 2,659 waiting first reads.
+- The rest are exceptions under the same rule:
+  - gate_incomplete (mostly): the reader dropped printed requirements whose quote was not on the page, so the read is incomplete;
+  - audit samples (5%);
+  - all_rows_held;
+  - no bound page;
+  - identity not admitted.
+- No rule was changed (AER v1 is frozen, Decision 276).
+
+**Worker v1.0.4 (Pilot #1154, merged 3c18ed94, migration 20261115160000)**
+- The course description prompt is `cdesc-source-grounded-v2`, sha-256 `646b53c7683709bd991187ec4f87813c197c6ddee7c9fd20bede6356f4de226f` (v1 `e1fcd3e1…` kept).
+  - Every sentence is backed by the spans it cites.
+  - No unquoted proper noun, place, campus, organisation, accreditation, ranking, figure or date.
+  - No unstated outcomes.
+  - A concise paraphrase.
+- The database releases v2, so the gap queue reads held old-prompt readings once more: about 7,659 courses, about US$9 within the US$5/day description cap. Approved by the Platform Admin 15 Nov 2026 15:46, "Yes, v2 + re-read wave".
+- An answer from the route's first model that the database description check would hold is asked once of the route's next model (`svc_course_description_check_v1`). It is kept only if it passes.
+- No route, cascade, cap, ceiling, switch or setting was changed by the migration (post-check).
+- Verified live: the released version is `cdesc-source-grounded-v2`, and `coverage-sweep-worker-v1.0.4` is answering. PR #1154 passed 13/13 checks.
+- **Unchanged:** OpenRouter Stop at US$14/day, `layer4.drain_on` 1, `reading.markdown_input` 1, `health.ai_reorder_on` 1, `aer.v2_shadow_on` 0, and the whole-page course profile.
+
+**Notes**
+- The pipeline runs in the Supabase edge function `coverage-sweep`. The Cloudflare Worker serves only the admin site.
+- Only 7 of 23,871 bound course pages have saved markdown (kept since 14 Nov), so nearly all reads convert the stored HTML.
