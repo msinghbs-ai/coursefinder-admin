@@ -4203,3 +4203,40 @@ Platform Admin, 15 Nov 2026 09:35: clean up, switch OpenRouter to Stop before an
 **First active drain run:** 23:07 UTC succeeded with `layer4.drain_on` 1: nothing due, so nothing judged or applied, no errors. The first actions are due from 15:07 UTC 15 Nov (the 404 item), then the 105 reads again from 19:07 to 21:07 UTC. `ai-model-health` runs succeeded; no model in cooldown.
 
 **Clean-up:** the local working copies are on main. Removed 194 clean Pilot worktrees, 322 Pilot branches already on GitHub, and the extra admin copies. Kept five Pilot worktrees holding uncommitted or unpushed work (`wt-a3`, `wt-agent-c`, `wt-agent-i2`, `wt-b2`, `wt-qa-990`) and branch `cf247-w31-int`. Two agent worktrees inside an extra admin copy had uncommitted files that were deleted with it; every committed branch of that copy was on GitHub. Pilot has no open PRs and main is green. The remote branch `cf247-ai-models-services-ui` (fully inside merged #1128) could not be deleted from this session (ref deletion blocked); delete it on GitHub.
+
+## 15 Nov 2026 12:05 AEDT — Fallback models, admitted-record audit, worker v1.0.2 defect fixes (Pilot #1152 095fa24e) — DONE
+Follows the v1.0.1 activation above (OpenRouter Stop, the three v1.0.1 switches on).
+
+**Fallback models (Platform Admin 15 Nov 2026 10:18: failover-only routes; entry readers stay off)**
+- Mistral Small 3.2 and MiMo-V2.6-Flash were recorded as qualified on course matching, course description, other course fields and fees. The recorded evidence is "Platform Admin decision 15 Nov 2026 10:18 AEDT: technical-failure fallback after Qwen3 30B only; no benchmark on this prompt yet".
+- Those four cascades are now Qwen3 30B → Mistral Small 3.2 → MiMo-V2.6-Flash. Caps and switches are unchanged, and `security.ai_route_v1` hands out all three models.
+- Scholarship extraction stays single-model, because its cascade also decides unproven facts. The course entry reader, entry matrices and AER v2 shadow stay off: no model is qualified for them, and the AER v2 benchmarks failed the criteria.
+- Nothing was paused to unpause: scholarship AI was on (5 calls at once) and its queues had run through their backlog.
+
+**Audit of admitted records (read-only, last 24 hours)**
+- Entry requirements (259 rows), course descriptions (1,058) and the 3 catalogue fees were clean.
+- Five defects were found, and all five are fixed in v1.0.2 (below).
+- Correction to the audit: the website scholarship list serves closed scholarships unless the website asks for `open_only`; it does not hide them by default.
+
+**Worker v1.0.2 (Platform Admin 15 Nov 2026 11:22; expired scholarships: "Withdraw all closed ones")**
+
+| # | Defect | Fix |
+|---|---|---|
+| 5 | Job `scholarship-coverage-classify` failed every run ("record r is not assigned yet") | The provider query aliased `scholarship_ai_reviews` as `r`, the function's record variable; the alias was renamed (md5-guarded edit). |
+| 1 | Closed, sandbox, winners and newsletter scholarships published | Publishing checks add "applications have closed" and a page check (test or sandbox address, winners or recipients page, news item). Auto-publish first withdraws every closed published scholarship (`scholarship_expire_v1`, no Layer 4 hold), and publishes it again once a recheck finds a current date. Both website endpoints return published scholarships only, so no consumer API object changed. |
+| 4 | Fee reader read application, audit and confirmation fees as tuition | One-off charges are left out unless they name tuition; the fee prompt says so. |
+| 2 | Delivery mode not stated by its quote | A delivery mode is kept only when its quote states it. |
+| 3 | Level set from a title that names no award | A level from the title alone must be named by the title. |
+
+**Verified on live**
+- Migration `20261115120000` was applied at 01:01 UTC; its history md5 `594ff000` matches the file. Worker `coverage-sweep-worker-v1.0.2` is deployed with the new checks.
+- PR #1152 passed 13/13 checks after a call-paths line remap. Deploy on merge, Frontend Build and Deployed UAT passed.
+- Scholarships: 586 closed ones (batch `auto-expire`) and 1 winners news item (batch `v1.0.2 page check`) were withdrawn. 973 remain published, with none closed or off-page. The audit's 16 are all withdrawn, and the single lookup returns NOT_FOUND for them.
+- Layer 4: the three one-off fee reviews (CNA: Academic Audit Fee twice, Confirmation Fee) are rejected.
+- Courses: the delivery mode of Bachelor of Global Studies (VUW) is cleared, because its quote stated distance or online study. Te Hono ki Toi (Poutiriao) (EIT) is set to Masters, because its page is the Master of Professional Creative Practice. Both courses are unpublished.
+- Each change is logged in `admin_control_events` (area `data_fix`).
+- `scholarship-coverage-classify` was run on the Platform Admin's request at 01:04 UTC and succeeded: 120 providers, 320 cases, 10 reports, 0 report errors.
+- **Unchanged:** OpenRouter on Stop, `layer4.drain_on` 1, `reading.markdown_input` 1, `health.ai_reorder_on` 1, `aer.v2_shadow_on` 0. No setting, ceiling or route switch was changed by the migration (post-check).
+
+**Open**
+- The remote branch `cf247-ai-models-services-ui` still has to be deleted on GitHub, because ref deletion is blocked from Claude sessions.
