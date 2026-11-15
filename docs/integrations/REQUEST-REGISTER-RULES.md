@@ -1,6 +1,6 @@
 # Request register – rules for any agent or chat
 
-**Version:** 1.0 (15 Nov 2026) · **Owner:** Platform Admin · **Change control:** CF-247
+**Version:** 1.1 (15 Nov 2026; Google Drive copy and two-way sync) · **Owner:** Platform Admin · **Change control:** CF-247
 
 Platform Admin, 15 Nov 2026: work on the request register may come from other LLMs and chats (ChatGPT, Codex, other Claude chats). Every change must record when it was made, by which tool and in which chat, and follow the same rules.
 
@@ -48,3 +48,18 @@ This repo is **public**.
    - it still has 16 columns on every row;
    - every `req_id` is unique;
    - every `status` and `module` value is from the lists above.
+
+## Google Drive copy and two-way sync (Platform Admin, 15 Nov 2026)
+
+Some agents can write to Google Drive but not GitHub. They edit the Drive copy instead:
+
+- **Drive copy:** Google Sheet "CONSUMER-REQUESTS (GitHub sync)", tab "Requests" (same 16 columns), in the Platform Admin's Drive folder "Project - CourseFinder PIM › Monitoring". Its "Rules" tab repeats these rules; its "Sync log" tab records every sync.
+- **Who writes where:** an agent that can write to GitHub uses a PR on this CSV. An agent that can only write to Drive edits the Drive copy. Both follow the same rules and stamp `updated_at`, `updated_by` and `chat_name`.
+- **Sync:** a scheduled Claude task ("Request register GitHub ↔ Drive sync") runs every 2 hours, 7 am to 11 pm Melbourne.
+  - Rows are matched by `req_id`, and the copy with the later `updated_at` wins.
+  - Rows that are new on either side are added to the other.
+  - Nothing is ever deleted.
+  - A row that differs without a newer `updated_at` is not synced; it is reported as a conflict.
+  - Drive changes reach GitHub through a PR on `docs/requests-drive-sync-YYYY-MM-DD-HHMM`. The PR is merged once checks pass, because it is documentation only.
+  - Rows with invalid status or module values, email addresses, keys or confidential Study Square text are held back and reported.
+- **Drive copy formatting:** formatting may be changed freely; column names and order may not.
