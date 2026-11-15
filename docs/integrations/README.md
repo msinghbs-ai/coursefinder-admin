@@ -11,6 +11,8 @@ Use this file to identify the current developer handover. Do not infer currentne
 
 **All consumer requests, website and Zoho (register of record):** `WEBSITE-DEVELOPER-REQUIREMENTS.md` — R, O and Z items, status, and the weekly intake and reporting routine.
 
+**Request list (REQ-nn) and rules for any agent or chat updating it:** `CONSUMER-REQUESTS.csv` and `REQUEST-REGISTER-RULES.md` (15 Nov 2026; every change records `updated_at`, `updated_by` and `chat_name`).
+
 **Requirements register:** `WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.5, 15 Oct 2026, developer pack issued, v1 marked for retirement): every website request, its status and the open work.
 
 **Send to the developer (current, issue 3, 16 October 2026):** `developer-pack/` — `StudySearch-Website-API-v2-Developer-Guide` (.docx and .pdf; master .md), `StudySearch-Website-API-v2.openapi.json`, `StudySearch-Website-API-v2.postman_collection.json` (address `website-api-v2`). Rebuild with `developer-pack/build.sh`. The key goes separately by a secure channel. File names carry the API version (Platform Admin, 16 Oct 2026 12:05).
