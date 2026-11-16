@@ -138,3 +138,47 @@ The Platform Admin approves them from one list (scale, minimum, maximum, directi
 **API v3 (in PR D, if scales are approved by then):** `min_grade_normalised` and `normalisation_basis` beside `min_grade` and `scale` on v3 entry rows. Null means not held. The field dictionary is re-synced for the new fields.
 
 **Destination drafts:** one small AU draft edition per domain (study rules, city profiles, career outcomes) from official sources, loaded with `security.destination_import_v1`. Terms are `pending` and status `draft`. The publication guard must refuse to publish them.
+
+## 7. Daily admittance telemetry (Platform Admin 16 Nov 2026 20:17; Pilot #1183, migration `20261116170000`)
+
+**Contract (the single source for reporting live admittance to the developers):**
+- **Where it is recorded:** `pipeline.field_coverage_daily`, one row per day (Melbourne date), country and field, with `total` and `filled`.
+  - `security.field_coverage_record_v1` writes it inside the existing `platform-health` job. That check runs every 3 hours, and the last value of a day stands. 120 days are kept.
+  - **No new job, table or column.** The rollup scheduler (PR 1) is not involved.
+- **What is counted:** `security.api_v3_field_coverage_v1()`, with indexed aggregates only. "Admitted" means:
+
+  | Field | REQ | Eligible (denominator) | Admitted |
+  |---|---|---|---|
+  | `v3_study_load` | REQ-52 | active courses | `study_load` held |
+  | `v3_empty_reason` | REQ-53 | active courses with no campus | `empty_reason_code` held |
+  | `v3_campus_primary` | REQ-75 (D-4) | providers with an active campus | one campus marked primary |
+  | `v3_accreditations` | REQ-57 (D-3) | providers with active courses | an active AACSB, EQUIS or AMBA accreditation |
+  | `v3_grade_normalised` | REQ-19 | active entry matrix rows | 0 until PR E adds its normalisation table; PR E replaces this line |
+  | `v3_destination` | REQ-65, 67, 68 | destination rows (AU) | rows in a published edition with approved terms |
+  | `p_entry_matrix` | core | providers with active courses | an active entry matrix row |
+  | `p_registrations` | core | providers with active courses | a regulator registration |
+
+  Existing fields (`official_url`, `description`, `academic_entry`, `english`, `intakes`, `provider_tuition`, `registered_tuition`) keep their own definitions (`pipeline.course_attribute_coverage`, state `admitted`).
+- **Daily gain:** `security.api_v3_daily_admittance_v1(date)` returns `admitted`, `yesterday_admitted`, `daily_admitted_gain` (today minus yesterday), `eligible` and `pct`, per field, with REQ ids.
+- **Sheet:** the tab `API_v3_Daily_Admittance` in `StudySearch_Pipeline_Telemetry_Live` keeps one row per field per day as history. The 08:05 refresh task appends to it, and its summary feeds the 08:15 report.
+- **Cost:** the new counts take 1.1 s, and the whole recording pass takes 1.06 to 2.8 s. Dry run, 16 Nov.
+- **Gain for the new fields** first appears on 17 Nov, once there is a 16 Nov row to compare.
+
+**Baseline, 16 Nov 2026 20:49 AEDT (live, read only):**
+
+| Field / table | REQ | Admitted | Eligible | Complete | Gain, last 24 h | Next scheduled fill |
+|---|---|---|---|---|---|---|
+| `courses.study_load` | REQ-52 | 0 | 35,700 active courses | 0.0% | 0 | PR B, Tue ~11:30 (about 2,671 with stated evidence) |
+| `courses.empty_reason_code` | REQ-53 | 0 | 5,639 courses with no campus (AU 31, CA 1,604, NZ 4,004) | 0.0% | 0 | PR A, Tue 09:45 |
+| `campuses.is_primary` | REQ-75 (D-4) | 0 | 1,692 providers with an active campus | 0.0% | 0 | PR A, Tue 09:45 (about 381 by registered head office) |
+| `provider_accreditations` | REQ-57 (D-3) | 0 | 1,882 providers | 0.0% | 0 | PR C, Wed 13:30 |
+| `grade_scale_conversions` (normalised entry rows) | REQ-19 | 0 | 5,542 active matrix rows (4,314 single numbers) | 0.0% | 0 | PR E, Tue 13:15 (draft scales); values after your approval, PR D Wed |
+| `destination.*` | REQ-65, 67, 68 | 0 published | 0 rows | — | 0 | PR E, Tue 13:15 (AU drafts, unpublished until REQ-68) |
+| `ref.api_field_dictionary` | REQ-76 | 1,923 current | 1,923 fields | 100% | +1,923 (loaded 16 Nov) | re-sync in PR D |
+| `official_course_url` | core | 23,983 | 35,700 | 67.2% | +3 | continuous |
+| `course_descriptions` | core | 14,217 | 35,700 | 39.8% | +3,352 | continuous (prompt v3) |
+| `course_entry_requirements` (admitted academic entry) | core | 1,326 | 35,700 | 3.7% | 0 | AER v1 off; round 3 Tue 07:30 decides v2 |
+| `course_entry_requirements` (courses with any row) | core | 11,687 | 35,700 | 32.7% | — | as above |
+| `entry_matrices` (providers) | core | 22 | 1,882 | 1.2% | 0 | AER v1 off |
+| `course_fees`: provider tuition / registered tuition | core | 10,790 / 25,200 | 35,700 / 25,380 | 30.2% / 99.3% | 0 / 0 | continuous |
+| `provider_registrations` (providers) | core | 1,882 | 1,882 | 100% | 0 (3,103 registrations) | continuous |

@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 20:50 AEDT (Pilot #1181 finder fix, #1182 Course page needed settle, #1183 API v3 daily admittance telemetry; Layer 4 quick wins and the paths taken; Tue A/B gates; sections 3 and 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -16,7 +16,7 @@
 | Question | Source of truth | How to get it exactly |
 |---|---|---|
 | Live schema (tables, functions, policies) | The live database | Pilot workflow "Database schema dump" (branch `db-schema-dump/<run id>`, md5 per file); one function: workflow "Database function snapshot". Checked-in migrations are not complete: at least one live function has no migration file. |
-| Migrations applied | `supabase_migrations.schema_migrations` | Compare its newest version with the newest file in Pilot `supabase/migrations/` |
+| Migrations applied | 2,045 (20:45 AEDT) |
 | Scheduled jobs and dispatchers | `cron.job`, `pipeline.automation_catalogue`, `pipeline.rollup_targets`, `pipeline.admission_rules` | Read live; shadow reports: `security.rollup_shadow_report_v1(days)`, `security.admission_rule_shadow_report_v1(hours)` |
 | Components and what is retiring | `pipeline.component_register` | Pilot branch `component-register-snapshot` (daily); `docs/platform/COMPONENT-REGISTER.md` is an older copy (15 Oct 2026) |
 | UI routes, tabs, sub-tabs, folds, drawers | `docs/UI-MAP.md` (generated) | Pilot `node scripts/ui-map.mjs --mirror <this repo>`; guarded by spec `s557` |
@@ -34,12 +34,12 @@
 
 | Measure | Value |
 |---|---|
-| Visible release | v2.16.14 (package 0.1.436); Pilot `main` 43870562 (16 Nov 18:02 AEDT); worker coverage-sweep v1.0.6 |
-| Newest migration applied live | `20261116143000` (Pilot #1180, Layer 4 rule `l4-link-refusal-v1` and reconcile window; read 18:49 AEDT). Before it: `20261116130000` (#1179), `20261116120000` (#1178) and `20261116110000` (#1162) |
+| Visible release | v2.16.14 (package 0.1.436); Pilot `main` ee7fb575 (16 Nov 20:40 AEDT); worker coverage-sweep v1.0.6 |
+| Newest migration applied live | `20261116170000` (Pilot #1183, API v3 daily admittance; read 20:45 AEDT). Before it: `20261116160000` (#1182), `20261116150000` (#1181), `20261116143000` (#1180) |
 | Migrations applied | 2,042 (18:49 AEDT) |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
-| Tests | 684 specs, 3,232 tests (3,140 local, 92 deployed track; 18:08 AEDT) |
+| Tests | 688 specs, 3,246 tests (3,154 local, 92 deployed track; 20:50 AEDT) |
 | UI | 20 pages, 48 tabs, 17 sub-tab bars, 178 folds, 39 drawers and dialogs |
 
 ## 4. Dispatchers, pending cutovers and pending paste files
@@ -187,7 +187,31 @@ Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
 - **Tonight (PR 3, 23:15):** each field is declared as a lane in `pipeline.field_execution_registry`, disabled, with zero new cron jobs.
 - **Expected from the deterministic steps:** primary campus on 381 providers (registered head office matches exactly one campus); a campus-null reason on 5,639 courses; study load on about 2,671 courses from stated "full-time"/"part-time" evidence.
 - **Corrections to the brief:** `catalogue.provider_registrations` holds 3,103 regulator registrations (CRICOS, IRCC DLI, NZQA), not 36,075, and none is a business-school accreditation: AACSB, EQUIS and AMBA come from each body's official list. There are 4,341 active campuses (not 3,880).
-- **Decisions open:** D-4 rule confirmation; single-campus providers (824); REQ-19 common grade scale (AER session owns the table); REQ-65/67 scope and REQ-68 terms (destination); Pilot #1162 (field dictionary, v3 integration session) needs a new migration version and its paste file moved to admin.
+- **Decisions (16 Nov 16:52):** D-4 confirmed; 824 single-campus providers not marked; REQ-19 owned here (position on the qualification's own scale); destination drafts unpublished; Pilot #1162 merged. Plan section 5.
+- **Daily admittance telemetry (Pilot #1183, 20:40 AEDT):** every API v3 and request-register field is recorded daily in `pipeline.field_coverage_daily` through the existing `platform-health` writer (no new job). `security.api_v3_daily_admittance_v1()` gives admitted, yesterday, daily gain, eligible and share per field. The sheet tab `API_v3_Daily_Admittance` is filled by the 08:05 task. Contract and the 16 Nov baseline: plan section 7.
+
+### Layer 4 quick wins and pre-authorised gates (Platform Admin 16 Nov 2026 20:14)
+
+| Item | Path taken | Result (live) |
+|---|---|---|
+| Official-URL finder false positives (from #1177 / #1180) | Fix shipped: Pilot #1181, migration `20261116150000`, md5-guarded edit of `security.course_page_check_v1` | **Campus:** a campus named like the provider is no longer "another campus" (all 26 such refusals).<br>**Sibling:** an address whose remaining words name this course is no longer a sibling's (double degrees, Dean's Scholar).<br>Re-check of the 1,868 refusals on record: 26 campus and 268 sibling no longer refuse; **none is accepted** by the fix alone.<br>Durham "Dental Assisting" and Wollongong BSc–BA stay refused: a near-duplicate course record holds the page. |
+| A. Course page needed (2,058 asked; 2,113 open at 20:40) | **Path B.** No batch setting clears the list; each entry needs a person's choice or a paid search. Rule `cpn-settle-v1` (Pilot #1182) settles only entries whose outcome is on record. | One pass: **242 settled** (236 confirmed no page, 6 page already held); open **2,113 → 1,871**. The rest (including 454 with a bound page waiting) goes to the Phase 5 grid. |
+| B. Course link same-domain alias duplicates | **Path B (fewer than 100):** 5 strict matches (31 on a loose pattern) among 1,328 open course-link items | No custom rule; left for the Phase 5 grid. Separately, 229 open items propose the page already held: a Layer 4 rule candidate. |
+| Tue 07:30 AEDT, AER round 3 | Gate written into the scheduled task | **Pass** (100% source integrity, at most 10 error points, 0 false positives): qualify Mistral Small 3.2 on the v2 shadow and re-read the held items through the admission rule (audit samples stay with a person).<br>**Fail:** stay off, no further spend, failure buckets logged. |
+| Tue 13:15 AEDT, PR E | Written into the scheduled task | About 20 official scales as drafts and AU destination drafts (unpublished). An approval table comes to the Platform Admin before Wed 13:30. |
+
+Layer 4 pending at 20:49 AEDT: **4,902**.
+
+| Kind | Pending |
+|---|---|
+| `course_entry_first_read` | 2,578 |
+| `official_course_url` | 1,328 |
+| `course_description_first_read` | 613 |
+| `provider_current_tuition_validation` | 146 |
+| `provider_description` | 88 |
+| `entry_matrix_first_run` | 77 |
+| `no_page_first_run` | 55 |
+| other | 17 |
 
 ### Cloudflare Worker Boost and production launch rehearsal (16 Nov 2026 20:31–21:05 AEDT)
 
