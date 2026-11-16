@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 23:20 AEDT (PR 1 fix live 23:14 AEDT, Pilot #1187; fresh 24-hour shadow from 23:15 AEDT; cutover review Tue 17 Nov 23:20 AEDT; Boost test rebuild from the schema dump running, run 43863252704; sections 4 and 5), 16 Nov 2026 22:50 AEDT (PR 1 no longer blocks PR 3 or PR 2; PR 1 fix and new shadow, cutover Tue 22:30; section 4), 16 Nov 2026 22:50 AEDT (PR 1 cutover held: shadow fails the no-tick-over-budget criterion; section 4), 16 Nov 2026 21:25 AEDT (Boost setup steps 1 to 4: test project `coursefinder-boost-test` created; rebuild workflow waits for one secret; bucket paste file; sections 4 and 5), 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 20:50 AEDT (Pilot #1181 finder fix, #1182 Course page needed settle, #1183 API v3 daily admittance telemetry; Layer 4 quick wins and the paths taken; Tue A/B gates; sections 3 and 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 23:45 AEDT (PR 2 cut over live 23:31 AEDT by S2 - SS Build under the Platform Admin's override of 21:23, Pilot #1185; PR 3 built in shadow as Pilot #1188, not merged: its live rehearsal waits for an approval; API v3 PR A/B fills live 21:50; sections 3 to 5), 16 Nov 2026 23:20 AEDT (PR 1 fix live 23:14 AEDT, Pilot #1187; fresh 24-hour shadow from 23:15 AEDT; cutover review Tue 17 Nov 23:20 AEDT; Boost test rebuild from the schema dump running, run 43863252704; sections 4 and 5), 16 Nov 2026 22:50 AEDT (PR 1 no longer blocks PR 3 or PR 2; PR 1 fix and new shadow, cutover Tue 22:30; section 4), 16 Nov 2026 22:50 AEDT (PR 1 cutover held: shadow fails the no-tick-over-budget criterion; section 4), 16 Nov 2026 21:25 AEDT (Boost setup steps 1 to 4: test project `coursefinder-boost-test` created; rebuild workflow waits for one secret; bucket paste file; sections 4 and 5), 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 20:50 AEDT (Pilot #1181 finder fix, #1182 Course page needed settle, #1183 API v3 daily admittance telemetry; Layer 4 quick wins and the paths taken; Tue A/B gates; sections 3 and 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -35,11 +35,11 @@
 | Measure | Value |
 |---|---|
 | Visible release | v2.16.14 (package 0.1.436); Pilot `main` ee7fb575 (16 Nov 20:40 AEDT); worker coverage-sweep v1.0.6 |
-| Newest migration applied live | `20261116170000` (Pilot #1183, API v3 daily admittance; read 20:45 AEDT). Before it: `20261116160000` (#1182), `20261116150000` (#1181), `20261116143000` (#1180) |
+| Newest migration applied live | `20261116210000` (Pilot #1187, PR 1 fix; read 23:33 AEDT). `20261116190000` (Pilot #1185, PR 2 cutover) was applied after it at 23:31 AEDT (a lower version applied later; the deploy applies any version not yet in the history). `20261116180000` (#1184, API v3 PR A/B fill rules) 21:33 AEDT. Earlier: `20261116170000` (Pilot #1183, API v3 daily admittance; read 20:45 AEDT). Before it: `20261116160000` (#1182), `20261116150000` (#1181), `20261116143000` (#1180) |
 | Migrations applied | 2,042 (18:49 AEDT) |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
-| Tests | 688 specs, 3,246 tests (3,154 local, 92 deployed track; 20:50 AEDT) |
+| Tests | 693 specs, 3,267 tests (3,175 local, 92 deployed track; 23:45 AEDT, Pilot main `3fa05b38` plus PR 3's `s567` from open #1188) |
 | UI | 20 pages, 48 tabs, 17 sub-tab bars, 178 folds, 39 drawers and dialogs |
 
 ## 4. Dispatchers, pending cutovers and pending paste files
@@ -49,8 +49,8 @@ Rule: Pilot `CLAUDE.md`, "Cron dispatchers" (register each legacy job byte for b
 | Dispatcher | Jobs | State as read | Shadow since | Next step | Owner |
 |---|---|---|---|---|---|
 | Consolidation PR 1, `rollup-scheduler` | 25 report and cache targets (`pipeline.rollup_targets`; `layer2-onboarding-snapshot` stays on its own job) | **Shadow, fix live (16 Nov 2026 23:14 AEDT, Pilot #1187, migration `20261116210000`, main `396abc5f`)**. Read back live: tick md5 `36a8d4f314788d4a292bac677b568858`, shadow report md5 `465b6b4fa6cf9365f94036fb2adf77cf`; `housekeeping-daily` runs `select security.housekeeping_daily_v1(); select security.rollup_runs_trim_v1();`; `layer2-onboarding-snapshot` target disabled; 25 enabled targets, none live; 26 legacy jobs unchanged and active; no consumer API drift flag raised. The held 22:35 review (20 of 1,427 ticks over 60 s, all after the dispatch loop) is what the fix answers | **Fresh 24-hour shadow from 16 Nov 2026 23:15 AEDT** (first tick under the fix) | **Cutover review Tue 17 Nov 2026 23:20 AEDT** (scheduled), once the full 24-hour cycle ends at 23:15. Acceptance: all_match over 25 targets; no tick over 60 s since the fix; lag within one tick; no tick failure. The 22:44 target of 22:30 falls 45 minutes inside the cycle: the cutover waits for the full cycle unless the Platform Admin accepts the shorter window | The session that prepared PR 1. Do not touch from another session. |
-| Consolidation PR 2, `admission-rule-runner` (lanes `-b`, `-c`) | 20 admission rules (`pipeline.admission_rules`) | **Shadow**: 20 of 20 in shadow; 574 due-records since start; legacy jobs still running | 15 Nov 2026 23:29 AEDT | **Cutover Tue 17 Nov 2026 22:30 AEDT** | The session that prepared PR 2. Do not touch from another session. |
-| Consolidation PR 3, `pipeline.field_execution_registry` and `coverage-lane-dispatch` | Not scoped yet (the `calendar-reread` worker lane is named for it) | **Not built** | — | **Pulled forward 24 hours (Platform Admin 16 Nov 2026 10:59, for the 20 Nov delivery):** scope, build and merge in shadow from **Mon 16 Nov 23:15 AEDT**, once the PR 1 cutover is verified live. PR 2 and its 22:30 Tue cutover are not touched. Cutover no sooner than 24 hours after its shadow starts, and only after the PR 2 cutover is verified | Course Module session (S2-CF) |
+| Consolidation PR 2, `admission-rule-runner` (lanes `-b`, `-c`) | 20 admission rules (`pipeline.admission_rules`) | **Live since 16 Nov 2026 23:31 AEDT** (Pilot #1185, migration `20261116190000`, main `3fa05b38`), cut over by S2 - SS Build under the Platform Admin's override of 16 Nov 21:23. Gate read 23:30 AEDT: shadow window 24.0 h, all 20 match, 0 minutes over capacity, 20 legacy jobs active with the registered md5 and schedule. Read back 23:33–23:36: 20 live, 20 legacy jobs off (`active = false`), 20 retiring (retire after 30 Nov 2026), 3 runner lanes on, 21 control events; first live runs 6 succeeded, 0 failed; G3 drift [] (75/48) | 15 Nov 2026 23:29 AEDT | **Done.** The other session's Tue 17 Nov 22:30 slot finds it cut over (the Platform Admin cancels it). `cron.unschedule` paste file `PASTE-20261116-admission-rule-legacy-unschedule.sql` on or after 1 Dec 2026 | S2 - SS Build (cutover); the session that prepared PR 2 |
+| Consolidation PR 3, `pipeline.field_execution_registry` and `coverage-lane-dispatch` (lanes `-b`, `-c`) | 14 coverage worker lanes (course-link-search-worker, coverage-ai-match, coverage-find-site, coverage-reextract, coverage-reidentify, provider-contact-page, provider-facts, companion-read, course-list-read, credential-read, policy-add-tests, programme-discover, programme-read, source-find), plus 7 API v3 field lanes declared disabled and never dispatched | **Built, not merged:** Pilot #1188, migration `20261116220000`, spec `s567`. Not live. The rolled-back live rehearsal was refused twice (23:24 and 23:27 AEDT) because the Supabase confirmation prompt was cancelled automatically; nothing ran. Left out: `calendar-reread` (S2-Intakes), `coverage-read` and `coverage-read-2` (30-second schedules), Scholarships, Layer 2 reading, upkeep and report jobs | — | Rehearse (Platform Admin approves the prompt), merge on green CI, then a 24-hour shadow; cutover no sooner than 24 hours after the shadow starts, and after PR 1 (Tue 22:30) is verified | S2 - SS Build |
 
 **Platform Admin 16 Nov 2026 22:44 AEDT, dispatcher order changed:**
 - **PR 1 does not block PR 3 or PR 2.** PR 3 (from 23:15 AEDT tonight) and PR 2 (Pilot #1185, merge after 23:28 AEDT tonight) proceed independently of PR 1.
@@ -67,6 +67,7 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 |---|---|
 | `docs/paste/PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 |
 | `docs/paste/PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 |
+| `docs/paste/PASTE-20261116-admission-rule-legacy-unschedule.sql` (the 20 legacy admission rule jobs, PR 2; guarded) | 1 Dec 2026 |
 | `docs/paste/PASTE-20261116-staging-boost-bucket.sql` (private Boost bucket, idempotent) | Any time (Boost setup step 2) |
 | `docs/paste/PASTE-20261116-api-field-dictionary-number-arrays.sql` | Any time (Pilot `20261116110000` is live); then a small migration loads the 2 held fields |
 | `docs/paste/PASTE-20261116-l4-lift-false-link-refusals.sql` | Any time: lifts 59 false course-link refusals of live pages verified valid (Layer 4 report §7.3); stops unless exactly 59 rows match |
@@ -87,11 +88,11 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | When (AEDT) | Work |
 |---|---|
 | Tue 17 Nov 23:20 | PR 1 cutover review, after the fixed 24-hour shadow (fix live Mon 16 Nov 23:14) |
-| Mon 16 Nov 23:15 | PR 3 scope, build and merge in shadow |
-| Tue 17 Nov 22:30 | PR 2 cutover (unchanged) |
+| Mon 16 Nov 23:15 | PR 3 scope, build and merge in shadow: **built (Pilot #1188); merge waits for its live rehearsal** |
+| ~~Tue 17 Nov 22:30~~ | PR 2 cutover: **done Mon 16 Nov 23:31 AEDT** (Platform Admin override 21:23) |
 | Wed 18 Nov 09:15 | Pilot paste-file split (option 1) |
 | Daily 08:05 | Telemetry tabs refresh (`Model_Tier_&_Token_Efficiency`, `Layer_Lifecycle_Funnel`) before the 08:15 report |
-| Tue 17 Nov 09:45 | **API v3 data PR A** (primary campus by registered head office, campus-null reasons) then **PR B** (study load from stated evidence); plan below |
+| ~~Tue 17 Nov 09:45~~ | API v3 data PR A and PR B: **done Mon 16 Nov 21:50 AEDT** (Pilot #1184; counts in section 5) |
 | Wed 18 Nov 09:30 | **Phase 5 before Phase 4:** Review & Evidence DataGrid, first slice on Layer 4 › Inbox, with shared views `AER Audit Samples`, `Official URLs`, `Provider Blockers`, personal views and the quote-versus-value drawer. Phase 4 (Dispatcher Panels) follows Phase 5 |
 | Tue 17 Nov 07:30 | **AER benchmark round 3** (long-page sections on; Mistral, MiMo, Gemini 2.5 Flash; same set and limits). Qualifying is a separate Platform Admin step |
 | Tue 17 Nov 13:15 | **PR E:** grade scales (REQ-19, scale decided 16 Nov 16:52) and destination draft editions; plan section 6 |
@@ -194,7 +195,12 @@ Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
 
 - **Plan:** [`docs/platform/API-V3-DATA-ADMISSION-PLAN-2026-11-17.md`](platform/API-V3-DATA-ADMISSION-PLAN-2026-11-17.md) (REQ-19, -52, -53, -57, -65, -67, -75, -76).
 - **Schema is live, data is not:** `study_load`, `empty_reason_code`, `campuses.is_primary`, `catalogue.provider_accreditations`, `ref.grade_scale_conversions`, `destination.*` and `ref.api_field_dictionary` exist (migration `20261115190000`); all hold 0 rows or values.
-- **Tonight (PR 3, 23:15):** each field is declared as a lane in `pipeline.field_execution_registry`, disabled, with zero new cron jobs.
+- **PR 3 (Pilot #1188, built 23:25, not merged):** each field is declared as a lane in `pipeline.field_execution_registry`, disabled, with zero new cron jobs.
+- **PR A and PR B filled live (Pilot #1184, migration `20261116180000`; run 16 Nov 21:50 AEDT on the Platform Admin's instruction), 8,516 values:**
+  - primary campus on **356** providers (basis `cricos_head_office`; 7 with several matches and 1,193 with no match stay null; telemetry counts 354, because 2 of them have no active course);
+  - campus-null reason on **5,639** courses (not published 5,104, online only 395, pending extraction 104, not on the register 29, source unavailable 7);
+  - study load on **2,521** courses from stated evidence (full time 1,413, part time 183, both 925).
+  - `updated_at` was not touched by the fills; G3 drift [].
 - **Expected from the deterministic steps:** primary campus on 381 providers (registered head office matches exactly one campus); a campus-null reason on 5,639 courses; study load on about 2,671 courses from stated "full-time"/"part-time" evidence.
 - **Corrections to the brief:** `catalogue.provider_registrations` holds 3,103 regulator registrations (CRICOS, IRCC DLI, NZQA), not 36,075, and none is a business-school accreditation: AACSB, EQUIS and AMBA come from each body's official list. There are 4,341 active campuses (not 3,880).
 - **Decisions (16 Nov 16:52):** D-4 confirmed; 824 single-campus providers not marked; REQ-19 owned here (position on the qualification's own scale); destination drafts unpublished; Pilot #1162 merged. Plan section 5.
@@ -210,7 +216,9 @@ Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
 | Tue 07:30 AEDT, AER round 3 | Gate written into the scheduled task | **Pass** (100% source integrity, at most 10 error points, 0 false positives): qualify Mistral Small 3.2 on the v2 shadow and re-read the held items through the admission rule (audit samples stay with a person).<br>**Fail:** stay off, no further spend, failure buckets logged. |
 | Tue 13:15 AEDT, PR E | Written into the scheduled task | About 20 official scales as drafts and AU destination drafts (unpublished). An approval table comes to the Platform Admin before Wed 13:30. |
 
-Layer 4 pending at 20:49 AEDT: **4,902**.
+Layer 4 pending at 20:49 AEDT: **4,902**; at 23:36 AEDT: **4,904**.
+
+**229 identical-URL course-link items (Platform Admin 21:03, rule if 150 or more): Path B.** All 196 unclaimed items are housekeeping H13 old-year addresses (187) or E16 two-page cases (9), genuine questions under the 4 Nov decision (migration `20261104570000`). No rule; nothing run.
 
 | Kind | Pending |
 |---|---|
