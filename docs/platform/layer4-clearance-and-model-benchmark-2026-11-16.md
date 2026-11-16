@@ -159,3 +159,25 @@ Round 1 for reference (set 5, longer pages allowed): MiMo 30%, Mistral 30%, Qwen
 6. **Do not claim what the platform's own rule does not.** The 29 "proposed equals stored" URL items look settled, but `security.layer4_resolution_v1` does not treat them as active, so they stay.
 7. **Lease timing.** A partial worker call holds a 30-minute lease, so four models over 200 answers took about 75 minutes of wall time. Plan the run window around the leases.
 8. **Only catalogue-allowed, individually pinned models.** No `auto` routing and no provider fallback across models, so each result is bound to one model.
+
+## 6. Decision and follow-up (Platform Admin, Mon 16 Nov 2026 16:52)
+
+**Asked:** pin Mistral Small 3.2, with MiMo v2.6 Flash as fallback, as the qualified AER route; drop Qwen3 30B; fix the 60,000-character truncation; clear the 2,090 held AER items.
+
+**Raised before building:**
+- No model passed the gate (§4). Mistral's source integrity is 83.3% (the gate needs 100%) and its error rate is 30 points (at most 10). MiMo's integrity is 50%.
+- A fallback across models breaks the per-result binding (lesson 8).
+- Qwen3 30B is the only qualified model on the two live AER v1 entry routes. Over 48 hours it gave 1,357 answers and 726 failed attempts on `course_entry_requirements`.
+- 2,484 of the 2,578 pending `course_entry_first_read` items came from gpt-4.1-mini (29 Oct to 13 Nov), not Qwen. The 488 audit-sample items stay with a person by rule.
+- Page length is not stored with the evidence, so the share of held items on long pages cannot be measured in SQL.
+
+**Decision:** "Stop Qwen, shadow Mistral". In order:
+
+| Step | Change | State |
+|---|---|---|
+| 1 | Pilot #1178, migration `20261116120000`:<br>• `course_entry_requirements` and `entry_matrices` switched off.<br>• Qwen3 30B unqualified on both and on the v2 shadow.<br>• `entry_requirements_v2_shadow` cascade = Mistral Small 3.2 alone (`pending`, provisional); route and `aer.v2_shadow_on` stay off.<br>• 7 log entries. | Merged 16 Nov 17:49 AEDT. Read back: all three routes held `off`; no entry-reading AI call since. Rolled-back dry run first; G3 unchanged. |
+| 2 | Pilot #1179, worker v1.0.6 and migration `20261116130000`:<br>• A page over `reading.aer_v2_page_chars` sends only its entry requirement sections (`lean-sections-v3`), with the page's own block numbers, when `reading.aer_v2_long_page_sections_on` = 1.<br>• The answer is verified against the whole page. A page is never cut. | Merged 16 Nov 18:02 AEDT; worker v1.0.6 live from 18:05; the switch is 0. |
+| 3 | Round 3 on the frozen set 5, under the same limits, with the long-page switch on: Mistral, MiMo, Gemini 2.5 Flash, each pinned. | Scheduled Tue 17 Nov 07:30 AEDT. |
+| 4 | Only if Mistral passes the gate: the Platform Admin qualifies it, switches the shadow on, and the held items are re-read through the normal admission rule. | Proposal only. Nothing switches on by itself. |
+
+AER v1 entry reading waits for a qualified model. The AER v1 prompt (`course-entry-v1`) has no benchmark with Mistral, so it cannot be qualified from round 2.

@@ -1,7 +1,7 @@
 # API v3 data admission: field lanes and 48-hour backend plan (17–18 Nov 2026)
 
 **Requested by:** the Platform Admin, 16 Nov 2026 16:26 AEDT (target: data admission delivery on 20 Nov 2026).
-**Owner:** Course Module session (S2-CF). **Change control:** CF-247. **Register:** `docs/integrations/CONSUMER-REQUESTS.csv` (REQ-19, -52, -53, -57, -65, -67, -75, -76).
+**Owner:** S2 - SS Build session (PRs A to E, #1162, AER route and REQ-19, consolidated by the Platform Admin 16 Nov 2026 16:52). **Change control:** CF-247. **Register:** `docs/integrations/CONSUMER-REQUESTS.csv` (REQ-19, -52, -53, -57, -65, -67, -75, -76).
 **Measured:** read only, project `fxcwkweaxjtknorudmwp`, 16 Nov 2026 16:27–16:40 AEDT (`set transaction read only`, 20 s limit).
 **Unchanged:** PR 1 cutover (Mon 16 Nov 22:30), PR 2 cutover (Tue 17 Nov 22:30), the paste-file split (Wed 09:15) and Phase 5 (Wed 09:30).
 
@@ -15,9 +15,9 @@ The schema for every field is already live (`20261115190000_api_v3_additive_sche
 | `empty_reason_code` (REQ-53) | `catalogue.courses.empty_reason_code` | 0 | `not_published_by_provider` · `not_listed_on_register` · `online_only_no_campus` · `pending_extraction` · `source_unavailable` | S2-CF |
 | `campuses.is_primary` (REQ-75, R32, D-4) | `catalogue.campuses.is_primary`, `primary_basis` (at most one per provider) | 0 of 4,341 active campuses | basis `cricos_head_office` · `provider_stated` · `highest_course_count` · `manual` | S2-CF |
 | `provider_accreditations` (REQ-57, R30, D-3) | `catalogue.provider_accreditations` | 0 | body `AACSB` · `EQUIS` · `AMBA`; status `active` · `expired` · `revoked` · `under_review` | S2-CF |
-| `grade_scale_conversions` (REQ-18, -19, -28) | `ref.grade_scale_conversions` | 0 | normalised 0–100 per country, qualification and scale | **AER session** |
+| `grade_scale_conversions` (REQ-18, -19, -28) | `ref.grade_scale_conversions` | 0 | normalised 0–100 per country, qualification and scale | **This session** (since 16 Nov 16:52; PR E, section 6) |
 | `destination.*` (REQ-65, -67, -68) | `destination.editions`, `study_rules`, `city_profiles`, `career_outcomes` | 0 editions | edition status `draft` → `published`; terms `approved` · `pending` · `restricted` | Data and reference (scope decision open) |
-| `ref.api_field_dictionary` (REQ-76, R33) | `ref.api_field_dictionary` | 0 | built by Pilot #1162 (open): 1,923 fields | **v3 integration session** (#1162) |
+| `ref.api_field_dictionary` (REQ-76, R33) | `ref.api_field_dictionary` | 1,923 (16 Nov) | loaded by Pilot #1162 (merged, migration `20261116110000`); 2 fields held for the paste file | **This session** (took over #1162) |
 
 ### What the data supports (measured)
 
@@ -41,9 +41,9 @@ PR 3 (Mon 16 Nov from 23:15) registers each field below as a declared lane: fiel
 | `course_empty_reason` | Deterministic SQL | No | `security.course_empty_reason_apply_v1()` | PR A merged |
 | `course_study_load` | Staged-attribute derivation, then targeted fallback | Stage 2 only | `security.course_study_load_stage1_v1()`; stage 2 through the existing `enrich_ai` reader | PR B merged |
 | `provider_accreditations` | Reference list, then targeted extraction | Extraction only | `security.provider_accreditation_apply_v1(list)` | PR C merged |
-| `grade_scale_conversions` | Reference seed | No | (AER session) | REQ-19 decision and AER owner |
-| `destination_editions` | Reference seed, published only with approved terms | No | (data and reference) | REQ-65/67 scope and REQ-68 terms |
-| `api_field_dictionary` | Reference sync | No | `security.api_field_dictionary_sync_v1` (#1162) | #1162 merged |
+| `grade_scale_conversions` | Deterministic SQL over a reference seed | No | `security.entry_grade_normalise_v1` (PR E) | scales approved by the Platform Admin |
+| `destination_editions` | Reference seed, draft; published only with approved terms | No | `security.destination_import_v1` (PR E, drafts) | REQ-68 terms for publication |
+| `api_field_dictionary` | Reference sync | No | `security.api_field_dictionary_sync_v1` (#1162, merged) | re-sync with PR D fields |
 
 ## 3. 48-hour sequence
 
@@ -83,10 +83,58 @@ Each PR's rolled-back live dry run (`begin … raise exception`, 20 s per statem
   A course with a campus has no code. The code is recomputed when the page state changes.
 - **Study load.** Only from stated evidence (REQ-52): "full-time" → `full_time`, "part-time" → `part_time`, both → `both`. Never from delivery mode, a timetable or the CRICOS listing alone.
 
-## 5. Decisions needed
+## 5. Decisions (Platform Admin, Mon 16 Nov 2026 16:52)
 
-1. **D-4:** confirm the primary-campus rule in section 4 (exact registered head-office match, or manual; else null).
-2. **Single-campus providers (824):** mark their only campus as primary? The live CHECK has no basis for "only campus", so this needs a new basis value. A CHECK change is a paste file, so the recommendation is no for 20 Nov.
-3. **REQ-19 / D-2 (grade scales):** the common scale is undecided, and `ref.grade_scale_conversions` belongs to the AER session. It is registered as a lane only; no rows until the AER owner seeds it under the decided scale.
-4. **REQ-65 / -67 / -68 (destination):** scope, and Study Square's terms of use, are open. Editions can be seeded as `draft` from the 12 Nov destination source reviews, but are published only when `terms_status = approved`.
-5. **REQ-76 (field dictionary):** Pilot #1162 belongs to the v3 integration session. Before it merges, it needs a migration version later than `20261116100000`, and its paste file moved to admin `docs/paste/` (two-repository rule).
+All API v3 and AER items for 20 Nov are consolidated in this session (S2 - SS Build): PRs A to D, Pilot #1162, the AER route and REQ-19.
+
+1. **D-4, confirmed.** `is_primary` is true only on an exact registered head-office match to exactly one active campus (`primary_basis cricos_head_office`), or `manual`; otherwise null. PR A, Tue 09:45, about 381 providers.
+2. **Single-campus providers (824): no** for 20 Nov. No new basis value and no paste file.
+3. **REQ-19 owned here; common scale decided:** `normalised_0_100` is the **position on the qualification's own official scale**. 0 is the scale's minimum and 100 its maximum, flipped where lower is better. It is not an equivalence or ATAR claim. Schema and rules are in section 6 (PR E).
+4. **Destination (REQ-65/67/68):** seed **draft** editions now, so the pipeline and the v3 schema are proven. They stay unpublished until Study Square approves terms. The publication guard (Pilot #1161) refuses anything else.
+5. **Field dictionary (#1162): taken over and merged** (Pilot #1162, 16 Nov 2026 17:05 AEDT).
+   - Migration re-versioned to `20261116110000`; the live head was `20261116100000`, so the old version would never have applied.
+   - Paste file moved to admin `docs/paste/`.
+   - Rolled-back live rehearsal: function bodies byte-identical, G3 unchanged.
+   - Live read-back: 1,923 rows (759 website, 1,164 Zoho), function md5s match the file.
+   - Drift against the live reference action shows only the two documented exceptions: `contract_version`, which the edge function strips, and `ranking_systems[].editions`, held for the paste file.
+6. **AER route:** see `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md` §6 (Qwen3 30B stopped on AER v1 entry reading; Mistral Small 3.2 provisional on the v2 shadow; long-page section reading; round 3).
+
+## 6. PR E: grade scales (REQ-19) and destination draft editions (Tue 17 Nov, 13:15 AEDT)
+
+**Live, 16 Nov (read only):**
+- `catalogue.provider_entry_matrix`: 5,542 active rows, 22 providers, 521 qualification names.
+  - 4,314 rows hold one number with a stated scale. The 25 largest qualification names hold 1,921 of them.
+  - Scale labels: `points` 4,262, `none` 492, `percentage` 425, `gpa` 196, `letter` 139, `aggregate` 23, `rank` 5.
+  - `points` covers different native scales (HKDSE, SAT out of 1600, Abitur 1.0 to 4.0 where lower is better), so a value is normalised per qualification, never per label.
+- `catalogue.course_entry_requirements`: 36,288 rows with no grade scale, so they are out of scope for now.
+- `ref.grade_scale_conversions` exists (country, qualification, board, scale, raw band, `normalized_0_100`) and is empty. Nothing reads it.
+
+**Schema (additive; v3 surface, not frozen; G3 untouched):**
+
+| Object | Purpose |
+|---|---|
+| `ref.qualification_scales` (new) | One official scale per qualification and board. Holds the scale code, minimum, maximum, `higher_is_better`, pass value, step, `source_url` (required), the source title and when it was checked. Status `draft` · `approved` · `retired`, with who approved it. |
+| `ref.qualification_aliases` (new) | Maps each printed matrix qualification name (for example "Hong Kong - HKDSE", "HKDSE") to one qualification code. Basis `exact_name` or `manual`; approved before use. |
+| `ref.grade_scale_conversions` (existing) | Band scales only (letter, division, level grades): one row per printed band, giving its position. A unique key on country, qualification, board, scale, band. |
+| `catalogue.entry_grade_normalisations` (new) | Beside the matrix, keyed by matrix row. Holds the qualification code, scale, raw value, `normalised_0_100`, basis (`linear_scale` · `band_table`) and rule version `grade-norm-v1`, or a reason code when null. |
+
+**Rule (`security.entry_grade_normalise_v1`, deterministic, zero AI, idempotent, writes only changes; lane `grade_scale_conversions`, no new cron job):** a value is written only when all of these hold:
+1. The printed qualification name has an exact, approved alias.
+2. Its scale is `approved` and has an official `source_url`.
+3. The row's scale is stated (not `none`).
+4. `min_grade` is one number, or an exact band label of an approved band table.
+5. The number lies within the scale's minimum and maximum.
+
+The value is `(v - min) / (max - min) x 100`, or `(max - v) / (max - min) x 100` where lower is better, rounded to one decimal. When any condition fails, the value is null with a reason: `no_alias`, `scale_not_approved`, `scale_not_stated`, `not_single_number`, `out_of_range` or `band_not_found`.
+
+**Seed:** the scales of the largest matrix qualifications, each from its issuing body's official page, as `draft`:
+- HKDSE, STPM, CBSE, ISC, SAT, ACT, Abitur;
+- Sri Lanka and Singapore A Levels, South Africa NSC, French Baccalaureat;
+- CSAT, Gaokao, Vietnam HSGC, Kenya KCSE;
+- Norway, Sweden, UEC, British Columbia, Matrikulasi.
+
+The Platform Admin approves them from one list (scale, minimum, maximum, direction, source). Nothing is normalised from a draft scale.
+
+**API v3 (in PR D, if scales are approved by then):** `min_grade_normalised` and `normalisation_basis` beside `min_grade` and `scale` on v3 entry rows. Null means not held. The field dictionary is re-synced for the new fields.
+
+**Destination drafts:** one small AU draft edition per domain (study rules, city profiles, career outcomes) from official sources, loaded with `security.destination_import_v1`. Terms are `pending` and status `draft`. The publication guard must refuse to publish them.
