@@ -232,6 +232,10 @@ Design, decisions, results and setup checklist: `docs/platform/CF-WORKER-BOOST-A
   - **Rebuild:** `.github/workflows/boost-test-rebuild.yml` (here) replays the 2,043 live migrations read-only from production onto it, then runs G3, point 3 and the 50-item shadow check. It needs `SUPABASE_ACCESS_TOKEN` set on this repository (today it is on Pilot only), then `gh workflow run boost-test-rebuild.yml -R msinghbs-ai/coursefinder-admin -f test_project_ref=ucdaaqrpgcldnatavmib`.
   - **Point 3 and the shadow-only check on local Postgres 16:** 1,000 rows in 0.011 s. With nothing qualified, 50 verified rows gave 0 admitted and 0 courses changed. Rehearsal 1/2/2; window refusal enforced; nothing left behind.
   - **Bucket:** `docs/paste/PASTE-20261116-staging-boost-bucket.sql` (not run).
+  - **Test project rebuild, run 43851316573 (22:32 AEDT; document §12):** 2,046 migrations exported read-only from production; replay applied 1,004 and failed 1,042.
+    - The first failure (`20260813035800`) needs data that production loaded at run time, and the failures cascade from there. G3 and point 3 could not run there.
+    - **Finding:** production cannot be rebuilt from its migration record. A launch needs a schema dump, the reference data, then the newer migrations.
+    - Proposed: reset the test project and rebuild it from the newest schema dump branch.
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
