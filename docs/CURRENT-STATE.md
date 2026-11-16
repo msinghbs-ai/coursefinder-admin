@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -35,8 +35,8 @@
 | Measure | Value |
 |---|---|
 | Visible release | v2.16.14 (package 0.1.436); Pilot `main` 43870562 (16 Nov 18:02 AEDT); worker coverage-sweep v1.0.6 |
-| Newest migration applied live | `20261116130000` (Pilot #1179, AER long-page switch; read 18:08 AEDT). Before it: `20261116120000` (#1178, AER routes) and `20261116110000` (#1162, field dictionary) |
-| Migrations applied | 2,041 (18:08 AEDT) |
+| Newest migration applied live | `20261116143000` (Pilot #1180, Layer 4 rule `l4-link-refusal-v1` and reconcile window; read 18:49 AEDT). Before it: `20261116130000` (#1179), `20261116120000` (#1178) and `20261116110000` (#1162) |
+| Migrations applied | 2,042 (18:49 AEDT) |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
 | Tests | 684 specs, 3,232 tests (3,140 local, 92 deployed track; 18:08 AEDT) |
@@ -59,6 +59,7 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | `docs/paste/PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 |
 | `docs/paste/PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 |
 | `docs/paste/PASTE-20261116-api-field-dictionary-number-arrays.sql` | Any time (Pilot `20261116110000` is live); then a small migration loads the 2 held fields |
+| `docs/paste/PASTE-20261116-l4-lift-false-link-refusals.sql` | Any time: lifts 59 false course-link refusals of live pages verified valid (Layer 4 report §7.3); stops unless exactly 59 rows match |
 
 ## 5. Open work in the repositories
 
@@ -144,26 +145,26 @@ Read-only queries only (`set transaction read only`, 20 s limit), on project `fx
   - Or let that sentence draw on `VERIFIED_COURSE_FACTS` (title, provider, study level), with the check treating those facts as known in the same way.
   - Only re-ask when the hold is not one of these predictable patterns.
 
-### Layer 4 clearance and AER model benchmark round 2 (16 Nov 2026 14:06–16:40 AEDT)
+### Layer 4 clearance and AER model benchmark round 2 (16 Nov 2026 14:06–19:45 AEDT)
 
 Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
 
 - **Layer 4 waiting:**
-  - 5,172 at 14:20; 5,136 at 16:28 after the reconcile switch (read back).
-  - Owners: `course_entry_first_read` 2,578 (AER session), `official_course_url` 2,196, others 398.
+  - 5,172 at 14:20; 5,136 at 16:28 after the reconcile switch; **4,916 at 19:20** after the official URL resolution (read back). `official_course_url` 1,328.
+  - 651 new items arrived from other work between 16:28 and 18:48.
   - Since 16 Nov, items are decided or superseded faster than they arrive.
 - **Switched on (Platform Admin approval, 15:56):**
   - `layer4.reconcile_supersede_on` = 1 since 16:00 AEDT.
   - Job `layer4-readiness` (:22, :52) supersedes waiting platform-kind items whose course or provider is retired, repeats, and items already decided. It never approves or rejects.
   - 36 retired-course official URL items cleared at 16:27.
-  - Defect: the function only examines the oldest `layer4.reconcile_batch` items, so at 200 it never reached them. That setting is now 3,000 (examines all 2,348 in 1.4 s). A code fix to rotate the window is proposed in report §3.1.
-- **Waiting for one Platform Admin batch decision:** 856 `official_course_url` items the course-link finder refused on negative evidence:
-  - another course's page, 377;
-  - another qualification level, 253;
-  - another award version, 91;
-  - older handbook year, 101;
-  - another campus, 37 (3 of the 859 are retired and settled by the reconcile switch).
-  - Report §3.2 has the options. A rule would be built shadow-first, with a separate activation.
+  - Defect fixed in Pilot #1180 (migration `20261116143000`, live 18:47 AEDT): `layer4.reconcile_batch` (200) now caps items settled; the new `layer4.reconcile_examine_max` (5,000) caps items checked; `pipeline.layer4_reconcile_cursor` continues where the last run stopped, so no settleable item starves.
+- **Official URL batch resolved (Platform Admin 16:47, 18:01, 18:44):** of 856 items, **836 closed and 20 open** (report §7).
+  - 751 closed by rule `l4-link-refusal-v1` through "Refuse this proposal". 28 audit-sample items verified and closed; 4 unproven stay open.
+  - 73 live-link conflicts: 56 verified valid and closed with the live link kept (26 are a finder defect, where the "other campus" named is the provider itself); 1 refused (Lead College 107328J, on the unlink-review list, recommendation keep); 16 unproven stay open.
+  - No link or course record was changed.
+  - #1177 (`20261116110000`) was refused by deploy (the version was taken by #1162) and renumbered as #1180.
+  - **Pending for the Platform Admin:** paste file `PASTE-20261116-l4-lift-false-link-refusals.sql` (59 false finder refusals of verified live pages).
+  - **S2 - SS Build regenerates the test register** for #1176, #1177 and #1180 (spec `s560`).
 - **For the Phase 5 grid (Wed 09:30):**
   - 1,304 other official URL items, grouped by provider;
   - the 488 AER audit sample, which always stays with a person;
