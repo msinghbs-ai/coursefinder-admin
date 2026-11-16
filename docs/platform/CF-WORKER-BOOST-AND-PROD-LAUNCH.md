@@ -191,3 +191,29 @@ The request's "`allowed_admission_models` empty" is `pipeline.boost_model_qualif
 - point 4's result (the replay gaps) and G3 on the rebuilt project wait for the workflow run;
 - the Pilot local suite runs on every Pilot PR already;
 - the bucket paste file.
+
+## 12. Test project rebuild: verification (run 43851316573)
+
+**Run:** `boost-test-rebuild.yml`, run 43851316573, started 16 Nov 2026 21:45 AEDT on main `b565a5cc`, target `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`). Results branch: `boost-test/43851316573`. Status: <!-- FILL: completed / failed, finished at -->.
+
+**Earlier runs:** 43850695718 (21:38) and 43851008439 (21:40) stopped in the safety step before reading anything. Two workflow faults caused this:
+- the jq error hid the API's answer (fixed in #527);
+- the emptiness query lost the quotes around its schema names (fixed in #528).
+
+Neither run touched production or the test project.
+
+| Check | Expected | Result (from the results branch) |
+|---|---|---|
+| Migrations exported from production (read only) | 2,043 or more (live head at the run) | <!-- FILL: exported.txt --> |
+| Replayed onto the test project | all applied, or every failure listed | <!-- FILL: replay.txt; failures.tsv count --> |
+| First replay failures (cause) | none, or gaps for the gap register | <!-- FILL: first rows of failures.tsv, grouped by cause --> |
+| G3 on the rebuilt project | 75 functions, 48 relations, no drift | <!-- FILL: g3.json --> |
+| pg_cron jobs active on the test project | 0 | <!-- FILL: g3.json cron_active --> |
+| 001 and 002 applied to the test project | HTTP 2xx | <!-- FILL: point3.txt --> |
+| Point 3: 1,000 rows in one statement | under 5 s | <!-- FILL: rehearsal-result.json bulk_1000 --> |
+| 50-item shadow-only check (qualification list empty) | 0 admitted, 0 courses changed | <!-- FILL: shadow_50 --> |
+| Rehearsal (one model qualified inside the block) | 1 admitted, 2 shadow, 2 refused; manual lock wins | <!-- FILL: rehearsal --> |
+| `updated_at` touched / outside-window run | 0 / refused | <!-- FILL --> |
+| Left behind on the test project | nothing from 005 (it rolls back) | <!-- FILL --> |
+
+**What it means for the production launch:** <!-- FILL: which gaps stop a clean rebuild of production from its own migration record, and the proposed handling (gap register items). -->
