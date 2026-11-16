@@ -4,6 +4,15 @@
 **Owner:** S2 - SS Build session (PRs A to E, #1162, AER route and REQ-19, consolidated by the Platform Admin 16 Nov 2026 16:52). **Change control:** CF-247. **Register:** `docs/integrations/CONSUMER-REQUESTS.csv` (REQ-19, -52, -53, -57, -65, -67, -75, -76).
 **Measured:** read only, project `fxcwkweaxjtknorudmwp`, 16 Nov 2026 16:27–16:40 AEDT (`set transaction read only`, 20 s limit).
 **Unchanged:** PR 1 cutover (Mon 16 Nov 22:30), PR 2 cutover (Tue 17 Nov 22:30), the paste-file split (Wed 09:15) and Phase 5 (Wed 09:30).
+**Status 16 Nov 2026 23:45 AEDT:** PR A and PR B ran live at 21:50 (Pilot #1184; section 3). PR 2 was cut over at 23:31 by this session under the Platform Admin's override of 21:23 (Pilot #1185). PR 1 is held for its tick-budget fix until Tue 17 Nov 22:30, by its own session. PR 3 is built (Pilot #1188) and its merge waits for the live rehearsal.
+
+**Tuesday 17 Nov:**
+- 07:30 AER round 3;
+- 08:05 telemetry;
+- 13:15 PR E;
+- 22:30 PR 1 cutover, by its own session.
+
+**Wednesday 18 Nov:** 13:30 PR C and PR D. The Tue 09:45 and 11:30 PR A/B slots are done.
 
 ## 1. Where each field stands
 
@@ -58,10 +67,10 @@ Each PR's rolled-back live dry run (`begin … raise exception`, 20 s per statem
 
 | When (AEDT) | PR | What | Expected result (from section 1) |
 |---|---|---|---|
-| Mon 16 Nov 23:15 | PR 3 (dispatcher, shadow) | `pipeline.field_execution_registry` with the lanes above (declared, disabled), plus `coverage-lane-dispatch` for the legacy coverage lanes | 0 rows written to any field |
-| **Tue 17 Nov 09:45** | **PR A** (release v2.16.15) | `security.campus_primary_apply_v1()`: `is_primary` = true, basis `cricos_head_office`, only where the registered head-office street line and postcode match exactly one active campus; a manual override always wins; else `is_primary` stays false. `security.course_empty_reason_apply_v1()`: campus-null reason per course, from its page state (mapping in section 4). Both are idempotent and record each change in `pipeline.admin_control_events` | `is_primary` on **381** providers; `empty_reason_code` on **5,639** courses |
-| **Tue 17 Nov 11:30** | **PR B** (release v2.16.16) | `security.course_study_load_stage1_v1()`: `study_load` from stored readings that state full-time and/or part-time (source `provider_page`, `study_load_evidence_id` = the reading's evidence). Both stated → `both`. Delivery mode is never used. The stage 2 fallback is a lane on the existing `enrich_ai` reader (a study-load question added to the course-other-fields read, no new route), limited by its own setting | about **2,671** courses at stage 1; stage 2 runs on the existing lane under its caps |
-| Tue 17 Nov 22:30 | PR 2 cutover | unchanged | — |
+| Mon 16 Nov 23:15 | PR 3 (dispatcher, shadow) | `pipeline.field_execution_registry` with the lanes above (declared, disabled), plus `coverage-lane-dispatch` for the legacy coverage lanes | 0 rows written to any field. **Built 23:25 as Pilot #1188 (14 worker lanes in shadow, 7 field lanes disabled); merge waits for its live rehearsal.** |
+| **Done Mon 16 Nov 21:50** (planned Tue 09:45) | **PR A** (release v2.16.15) | `security.campus_primary_apply_v1()`: `is_primary` = true, basis `cricos_head_office`, only where the registered head-office street line and postcode match exactly one active campus; a manual override always wins; else `is_primary` stays false. `security.course_empty_reason_apply_v1()`: campus-null reason per course, from its page state (mapping in section 4). Both are idempotent and record each change in `pipeline.admin_control_events` | `is_primary` on **381** providers; `empty_reason_code` on **5,639** courses **Live: 356 providers** (7 several matches and 1,193 no match left null; 354 counted by telemetry, 2 have no active course); **5,639 courses** (not published 5,104, online only 395, pending extraction 104, not on register 29, source unavailable 7) |
+| **Done Mon 16 Nov 21:50** (planned Tue 11:30) | **PR B** (release v2.16.16) | `security.course_study_load_stage1_v1()`: `study_load` from stored readings that state full-time and/or part-time (source `provider_page`, `study_load_evidence_id` = the reading's evidence). Both stated → `both`. Delivery mode is never used. The stage 2 fallback is a lane on the existing `enrich_ai` reader (a study-load question added to the course-other-fields read, no new route), limited by its own setting | about **2,671** courses at stage 1; stage 2 runs on the existing lane under its caps **Live: 2,521 courses** at stage 1 (full time 1,413, part time 183, both 925; all with evidence); stage 2 off |
+| **Done Mon 16 Nov 23:31** (planned Tue 22:30) | PR 2 cutover | Pilot #1185 under the Platform Admin's override of 21:23: 20 rules live, 20 legacy jobs off and retiring, G3 drift [] | — |
 | Wed 18 Nov 09:15 / 09:30 | paste split; Phase 5 | unchanged | — |
 | **Wed 18 Nov 13:30** | **PR C** (release v2.16.17) | Accreditations: the AACSB, EQUIS and AMBA official lists for AU, NZ and CA are read once through the on-demand gate (`security.on_demand_open_v1`, the estimate and credit given to the Platform Admin first). `security.provider_accreditation_apply_v1(list)` matches each listed school to a provider by exact official name or domain only; an unmatched or ambiguous name goes to Layer 4 and is never guessed. `source_url`, `verified_at` and `content_hash` are kept | rows only for exact matches (the AU lists hold tens of schools) |
 | Wed 18 Nov, after PR C | **PR D** (v3 read path) | `website_v3_*` provider and course payloads read `is_primary` / `primary_basis`, `accreditations[]`, `study_load` and `empty_reason_code` (v3 is open to additions until go-live, Decision 277); the v3 contract specs and the field dictionary are re-synced | v3 serves the four fields; v2 unchanged |
