@@ -1,1 +1,4 @@
 .claude/worktrees/
+
+# CF-247 Boost: exported batches, results and harness scratch (never committed; may hold page text)
+staging-boost/
