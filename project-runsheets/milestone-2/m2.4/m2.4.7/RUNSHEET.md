@@ -11705,3 +11705,25 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 
 **Next executable action:**
 - RM1A-3, then Wave 2 (RM0C, RM1B, RM4A) on the consolidated migration baseline after 19 Nov.
+
+## 17 Nov 2026 07:15 AEDT — RM1A-3 (O29): 1,596 CRICOS registrations on the latest register edition restored; 701 departed stay held (Pilot #1190, v2.16.17)
+
+**Trigger:** Platform Admin 17 Nov 2026 06:43 AEDT, chat S1-RM-Design. Design: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.4.
+
+**Delivered and verified:**
+- Finding (read only): the 2,297 active CRICOS registrations with `valid_to` 1 Oct split exactly into 1,596 that the stored 11 Nov edition (plan `d35d2541`) lists as changed rows not yet applied, and 701 it records as departed. The end-date job had counted only rows seen again as listed.
+- Pilot #1190 merged on green (13 checks on head `36e919e9`), squash `5430d822`, release v2.16.17 (package 0.1.439). Deploy on merge applied migration `20261117010000`; the history md5 equals the file (`115842dc5f45aa88907ed00d95f39961`).
+- `security.layer1_register_end_dates_v1` treats a code the latest planned edition carries as a new or changed item as listed. Run 23 (in the migration): 1,635 course registrations restored (1,596 active, 39 inactive), 43 provider registrations restored, 0 ended. No date invented.
+- `recognition[]` after deploy: AU 23,138 of 23,732 searchable courses served (was 21,633); 594 held. 701 registrations still carry the end date. Course 095688K, held before, now returns its CRICOS item on Website v3 and Zoho v3.
+- G3 guard after deploy: 75 functions, 48 tables, no drift. `website_v2_course` and `zoho_v2_course` unchanged by md5. Database checks were read-only selects.
+- Platform state read live: PR 2 `admission-rule-runner` 20 rules live; PR 3 registry 13 worker lanes in shadow and 7 field lanes disabled; PR 1 `rollup-scheduler` 26 targets in shadow.
+- Wave 2 readiness recorded (ABS Regional population 2024-25 by SUA and ASGS Edition 3 correspondence files, CC BY 4.0; NZQCF capture plan for RM4A).
+
+**Not done:**
+- A keyed HTTP call to either v3 endpoint and a signed-in look at the Admin views.
+- The 701 departures: held for the existing register departures approval.
+- 1,953 rows of the 11 Nov edition (1,596 changed, 357 new) still wait to be applied by Layer 1.
+
+**Next executable action:**
+- Platform Admin: three ABS source decisions (design v1.4) and the register departures approval.
+- Wave 2 (RM0C, RM1B, RM4A) on the squashed baseline after Thu 19 Nov 01:30–03:30 AEDT.

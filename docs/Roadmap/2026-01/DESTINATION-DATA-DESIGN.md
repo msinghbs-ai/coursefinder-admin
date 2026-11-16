@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.3 · 16 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.3 adds [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026) and withdraws the M2 table; v1.2 added the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 added the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.4 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.4 adds [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -602,6 +602,65 @@ Standing rules that apply to every item: each background job is registered in Au
 | 5 | RM2B, RM2C, RM4C | Not started |
 | 6 | RM3A/B, RM5A/B, RM6A/B | Not started |
 | Alongside | RM1E (primary campus data live), RM1F (table live, no rows), RM1G (study load live) | Decisions resolved; API exposure and loading remain with their owners |
+
+## Platform state, Wave 1B delivery and Wave 2 readiness (17 November 2026)
+
+**Status:** record for chat S1-RM-Design (Platform Admin, 17 Nov 2026 06:43 AEDT). Every figure below was read from the live database or the repositories on 17 November between 06:45 and 07:15 AEDT, read only.
+
+### Platform state after Pilot #1186
+
+| Item | State | Read live |
+|---|---|---|
+| Consolidation PR 2, `admission-rule-runner` (Pilot #1185) | **Live** | 20 rules, all `live` and enabled. 21 components retire after 30 Nov (the 20 legacy jobs and one other) |
+| Consolidation PR 3, `coverage-lane-dispatch` and `pipeline.field_execution_registry` (Pilot #1188) | **Live, in its 24-hour shadow** | 20 registry rows: 13 worker lanes in `shadow`, 7 API v3 field lanes registered and `disabled` |
+| Consolidation PR 1, `rollup-scheduler` | **In its fixed 24-hour shadow**; cutover review tonight 23:20 AEDT | 26 targets, all `shadow` |
+| Admin UI v2.16.16 (Pilot #1189, package 0.1.438) | **Live** before this change | Now superseded by v2.16.17 (below) |
+| Zoho v3 merge rule | **Settled.** Additive Zoho v3 fields merge on green CI like Website v3. No handover document until v3 release. v2 frozen | G3 guard: 75 functions, 48 tables, no drift |
+
+### Wave 1B, RM1A-3: delivered (Pilot #1190, migration `20261117010000`, v2.16.17)
+
+**What the 2,297 were.** Not expired registrations. The stored 11 November CRICOS edition (plan `d35d2541`) lists 25,199 current course codes: 23,246 unchanged, 1,596 changed, 357 new. It also records 701 departed codes. The end-date job counted a code as listed only once its register row had been seen again. A changed row is not seen again until its slice is applied, so the 1,596 changed codes were end-dated 1 October as if they had left. The 2,297 split exactly.
+
+| Group | Registrations | On searchable courses | Evidence | Outcome |
+|---|---|---|---|---|
+| 1. Verifiable from stored register evidence | 1,596 | 1,505 | Listed in the stored 11 Nov edition as changed rows | **Reconciled.** End date cleared by the job's own "listed again" step |
+| 2. Not on the stored edition | 701 | 594 | Recorded by the plan as departed; departures approval `pending` | **Held.** Not guessed. Released automatically if a later edition lists them; removal waits for the existing register departures approval (Platform Admin, Layer 1 › Sources) |
+
+| Point | Delivered |
+|---|---|
+| Fix | `security.layer1_register_end_dates_v1` treats a code the latest planned edition carries as a new or changed item as listed. No date is invented and no status is set by hand. Run once in the migration, as the daily job runs it |
+| Result (run 23) | 1,635 course registrations restored (1,596 active, 39 inactive); 43 provider registrations restored from `ended`; 0 ended |
+| `recognition[]` after deploy | AU served **23,138** of 23,732 searchable (was 21,633); **594 held**. A previously held course (095688K) now returns its CRICOS item on Website v3 and Zoho v3 |
+| Held reason | Renamed `not_on_latest_register_edition` (was `registration_dates_inconsistent`); Admin card and Data Delivery wording updated |
+| Invariants | Applied migration md5 equals the file (`115842dc…`). G3 guard after deploy: 75 functions, 48 tables, no drift. `website_v2_course` and `zoho_v2_course` unchanged by md5 |
+| No separate re-check lane | The daily CRICOS register job and `layer1-register-end-dates` already re-check every edition, so group 2 needs no new `coverage-lane-dispatch` lane |
+| Still open | 1,953 rows of the 11 Nov edition (1,596 changed, 357 new) are still waiting to be applied by Layer 1, six days after the plan. The 701 departures await approval |
+| Not done | A keyed HTTP call to either v3 endpoint and a signed-in look at the Admin views |
+
+### Wave 2 readiness (builds on the squashed baseline after Thu 19 Nov 01:30–03:30 AEDT)
+
+**RM0C and RM1B (AU city population).** Design M3 stands. Sources to register:
+
+| Dataset | Specification | Reuse terms | Use |
+|---|---|---|---|
+| ABS *Regional population*, 2024-25 | Released 31 March 2026. Estimated resident population at 30 June 2025 by Significant Urban Area (ASGS Edition 3, 2021 boundaries) | ABS website material is CC BY 4.0; attribute the ABS | `destination.city_observation`, measure `erp_persons`, reference date 2025-06-30 |
+| ABS *ASGS Edition 3 (2021) Correspondence Files* (data.gov.au, ABS Geospatial Solutions) | One zip of correspondence files, including Significant Urban Area and non-ABS structures (Postal Areas) | CC BY 4.0 | Campus postcode → Postal Area → SUA share for `destination.campus_locality` |
+| Fallback: ABS *ASGS Edition 3 (2021) Allocation Files* | Mesh Block to SUA and to Postal Area | CC BY 4.0 | Derive the postcode-to-SUA share if the zip has no direct Postal Area to SUA file |
+
+To confirm at first capture, not assumed: that the correspondence zip holds a direct Postal Area 2021 to SUA 2021 file, and the exact SUA table in the 2024-25 data downloads. ASGS Edition 3 covers July 2021 to June 2026 and Postal Areas change with Edition 4, so the boundary vintage is stored on every locality.
+
+**RM4A (NZ course recognition).** Capture plan through the existing Layer 1 NZ adapter:
+
+1. Capture the NZQA qualifications search (NZQCF) per provider: qualification number, title, type, level, status. Store each result page as evidence.
+2. Match to `catalogue.course_registrations` (`scheme='nzqa'`) by qualification number. The 3,894 four-digit codes are the candidates; the 2,559 provider-style codes (for example `AC1062`) and 42 others are classified, not assumed.
+3. Emit `recognition[]` `{scheme:"NZQF", status:"listed"}` only for a matched, current qualification with course-level evidence. Universities' qualifications are approved by Universities New Zealand and still appear on the NZQCF.
+4. Reuse terms: NZQA website material is CC BY 4.0 with written credit. NZQCF qualification details may be cited and used as reference; other or commercial use needs an application to NZQA. Recorded as a management flag; it does not gate admission (standing rule).
+
+### Decisions for the Platform Admin
+
+1. Approve registering the two ABS sources (Regional population 2024-25 and the ASGS Edition 3 correspondence files) under CC BY 4.0 with ABS attribution shown beside every population figure.
+2. Confirm Significant Urban Area as the city geography (not Greater Capital City or LGA), with ERP at 30 June 2025 as the first edition.
+3. Confirm the campus mapping rule: a campus maps to one SUA only when at least 90% of its postcode falls in it; anything else goes to Layer 4.
 
 ## Design references
 
