@@ -115,23 +115,36 @@ def reset():
 
 
 def apply_statements(stmts, label):
-    ok_n, fails = 0, []
-    chunk, size = [], 0
-    def flush(ch):
-        nonlocal ok_n
+    # A batch runs as one transaction: when it fails, it is split in half and each half retried (bisection), so a failing statement costs
+    # about log2(batch) calls instead of one call per statement in the batch (run 43863252704 spent over 3 hours in the per-statement
+    # fallback). Order is kept: the first half is applied before the second.
+    ok_n, fails, calls = 0, [], 0
+    t0 = time.time()
+    def run(ch):
+        nonlocal ok_n, calls
         if not ch: return
+        calls += 1
         ok, r = q(REF, "\n".join(ch))
         if ok: ok_n += len(ch); return
-        for s in ch:  # isolate the failing statement(s)
-            ok1, r1 = q(REF, s)
-            if ok1: ok_n += 1
-            else: fails.append({"statement": s[:300], "error": str(r1)[:400]})
+        if len(ch) == 1:
+            fails.append({"statement": ch[0][:300], "error": str(r)[:400]}); return
+        mid = len(ch) // 2
+        run(ch[:mid]); run(ch[mid:])
+    def save(done):  # rewritten after every batch, so a step time-out still leaves the counts so far
+        json.dump({"statements": len(stmts), "done": done, "applied": ok_n, "failed": len(fails), "calls": calls, "seconds": int(time.time() - t0),
+                   "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
+    chunk, size, done = [], 0, 0
+    save(0)
+    def flush():
+        nonlocal chunk, size, done
+        run(chunk); done += len(chunk); chunk, size = [], 0
+        print(f"  {label}: {done}/{len(stmts)} statements, {ok_n} applied, {len(fails)} failed, {calls} calls, {int(time.time() - t0)} s", flush=True)
+        save(done)
     for s in stmts:
         chunk.append(s); size += len(s)
-        if size > 150_000 or len(chunk) >= 200: flush(chunk); chunk, size = [], 0
-    flush(chunk)
-    json.dump({"applied": ok_n, "failed": len(fails), "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
-    print(f"{label}: {ok_n} statements applied, {len(fails)} failed")
+        if size > 150_000 or len(chunk) >= 200: flush()
+    if chunk: flush()
+    print(f"{label}: {ok_n} statements applied, {len(fails)} failed ({calls} calls, {int(time.time() - t0)} s)", flush=True)
 
 
 def schema(path):
