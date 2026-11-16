@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 11:12 AEDT (sections 4 and 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -29,16 +29,16 @@
 | Paste files waiting to be run | `docs/paste/README.md` | Section 4 below |
 | Task status and evidence | `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md`; consumer requests: `docs/integrations/` | One register; no second tracker |
 
-## 3. Live system as read (16 Nov 2026 09:22 AEDT)
+## 3. Live system as read (16 Nov 2026 09:22 AEDT; release, migration and test rows 12:25 AEDT)
 
 | Measure | Value |
 |---|---|
-| Visible release | v2.16.12 (package 0.1.434), Pilot `main` 8f53f8fd |
-| Newest migration applied live | `20261116070000` (same as the newest file in Pilot `supabase/migrations/`) |
-| Migrations applied | 2,035 |
+| Visible release | v2.16.13 (package 0.1.435), Pilot `main` 6bfadf01 |
+| Newest migration applied live | `20261116080000` (same as the newest file in Pilot `supabase/migrations/`) |
+| Migrations applied | 2,036 |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
-| Tests | 678 specs, 3,212 tests (3,120 local, 92 deployed track) |
+| Tests | 679 specs, 3,215 tests (3,123 local, 92 deployed track) |
 | UI | 20 pages, 48 tabs, 17 sub-tab bars, 178 folds, 39 drawers and dialogs |
 
 ## 4. Dispatchers, pending cutovers and pending paste files
@@ -77,12 +77,13 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Wed 18 Nov 09:15 | Pilot paste-file split (option 1) |
 | Wed 18 Nov 09:30 | **Phase 5 before Phase 4:** Review & Evidence DataGrid, first slice on Layer 4 › Inbox, with shared views `AER Audit Samples`, `Official URLs`, `Provider Blockers`, personal views and the quote-versus-value drawer. Phase 4 (Dispatcher Panels) follows Phase 5 |
 
-### Course description readings: why they stopped (read 16 Nov 2026 11:00–11:09 AEDT, read only)
+### Course description readings (fixed 16 Nov 2026, release v2.16.13, Pilot #1174)
 
-- **OpenRouter is not the cause.** The key reset at 11:00 (US$100 of US$100 left, no key-limit hits today); other services read again from 11:00 (78 scholarship eligibility answers by 11:08). Course description spend today is US$1.64 of its US$10 route cap.
-- **The block is back-pressure.** `security.enrich_course_text_gaps_v1` starts no new description reading while `enrich.course_description_pending_global_max` (1,500) or more first descriptions wait in Layer 4. 1,831 wait, so the last reading was at 02:48 AEDT.
-- **1,167 of the 1,831 are held by a false rejection memory.** The machine rule declines them as `rejected_before_course` ("a person decided against an earlier description"). For every one of them, the earlier items were all `superseded` by the platform (1,421 by `cdesc-prompt-supersede` when v2 was released, 132 by another CF-247 path). None was decided by a person, and none was a v2 reading. All 1,167 waiting items are v2 readings. Earlier prompts: 311 items had only `cdesc-source-grounded-v1` before them; the other 856 had `course-text-v1`/`course-text-v2`, v1 or an unrecorded prompt.
-- **Fix proposed, not applied:** rejection memory counts person decisions only (status `superseded` excluded, in both the course and the page test), with a rule-version bump so the declined items are evaluated again under the other checks. Awaiting Platform Admin go-ahead; it would be checked first in a rolled-back live dry run.
+- **Cause:** new readings pause while 1,500 first descriptions wait in Layer 4 (`enrich.course_description_pending_global_max`); 1,831 waited, 1,167 of them held by a rejection memory that counted platform supersessions as a person's refusal.
+- **Fix:** migration `20261116080000`: the three rejection-memory tests leave out `superseded`; rule `cdesc-machine-v2`, so every waiting item is evaluated again. Dry run rolled back first; consumer API drift none.
+- **As read 12:25 AEDT:** 1,486 waiting (below 1,500 from 12:24); 492 admitted by v2, all read back; 0 still `rejected_before_course`; 1,052 not yet evaluated again (done by about 13:05).
+- **Readings:** resume when `field-gap-queue` next queues them (hourly at :23). The 12:23 run timed out during the re-evaluation load; the 13:23 run is checked at 13:35.
+- **Known:** refreshed declines keep the ledger label `cdesc-machine-v1` (updated in place; their stamp is v2).
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
