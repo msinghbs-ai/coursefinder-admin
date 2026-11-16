@@ -11400,3 +11400,12 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Not done:** the snapshot branch `edge-live-snapshot/43790438840` could not be deleted from this session (GitHub write refused by the proxy); it is never merged and can be deleted by hand.
 
 **Tests:** new spec `cf-247-s559-cdesc-v3-retry-gate-flush-telemetry` (4 tests); `cf-247-cdesc-source-grounded-contract`, `cf-247-ai-models-services-contract` and `s553` updated to v3; test register regenerated (680 specs, 3,219 tests); SOP mirror and UI map for v2.16.14.
+
+## 16 Nov 2026 13:36 AEDT — Course description readings resumed (v3), throttled by the rolling day cap until about 16:23–17:23 AEDT — CHECK, no change
+
+**Read only, 13:35–13:36 AEDT (scheduled follow-up to the Platform Admin's 11:32 request):**
+- `field-gap-queue` 13:23: succeeded (83 s; `done`, 6 items). The 12:23 timeout did not repeat.
+- Description readings since 12:25: 5 (3 with prompt `cdesc-source-grounded-v3`: 1 filled, 2 held); course_description AI calls since 13:23: 3, all answered by qwen3-30b from worker v1.0.5.
+- First descriptions waiting in Layer 4: **15** (limit 1,500); admitted by `cdesc-machine-v2` since 11:53: **892**; items not yet evaluated under the new stamp: 0; machine job failures: 0; consumer API drift flag: none.
+- **Why only 6 were queued:** `security.enrich_course_text_gaps_v1` starts no more than `enrich.course_text_items_per_day` (8,000) standing description readings in any rolling 24 hours, and exactly 8,000 were counted: 6,250 queued on 15 Nov between 16:00 and 17:00 AEDT (the v2 re-read wave), 1,745 between 01:00 and 02:00 today. The 6,250 leave the window between 16:00 and 17:00 today, so the 16:23 or 17:23 run has room for the v3 re-reads (including the 782 superseded v2 descriptions).
+- No setting, job or limit was changed. Raising `enrich.course_text_items_per_day` would bring the v3 re-reads forward by about three hours; it is a Platform Admin decision.
