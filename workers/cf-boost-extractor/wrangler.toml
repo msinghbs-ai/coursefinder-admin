@@ -1,0 +1,16 @@
+# CF-247 Boost extractor (Platform Admin, 16 Nov 2026 20:31). Standalone Worker, Cloudflare Workers free tier.
+# Not deployed by this change. Deploy with `npx wrangler deploy` from this folder after the setup checklist in
+# docs/platform/CF-WORKER-BOOST-AND-PROD-LAUNCH.md (secrets first). Keys are wrangler secrets, never committed.
+name = "cf-boost-extractor"
+main = "src/index.ts"
+compatibility_date = "2026-08-09"
+workers_dev = true
+
+[vars]
+SUPABASE_URL = "https://fxcwkweaxjtknorudmwp.supabase.co"   # production project only; never coursefinder-demo
+BOOST_BUCKET = "staging-boost"
+BOOST_ITEMS_PER_RUN = "12"        # free tier: 50 subrequests a call (storage read + write + up to 6 chain steps an item)
+BOOST_CALL_TIMEOUT_MS = "45000"
+
+# Secrets (set with `npx wrangler secret put <NAME>`):
+#   BOOST_TOKEN, SUPABASE_SERVICE_ROLE_KEY, GOOGLE_AI_STUDIO_KEY, GROQ_API_KEY, MISTRAL_API_KEY, OPENROUTER_API_KEY
