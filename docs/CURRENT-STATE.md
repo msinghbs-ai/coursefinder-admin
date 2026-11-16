@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 10:25 AEDT (section 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 11:12 AEDT (sections 4 and 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -49,7 +49,7 @@ Rule: Pilot `CLAUDE.md`, "Cron dispatchers" (register each legacy job byte for b
 |---|---|---|---|---|---|
 | Consolidation PR 1, `rollup-scheduler` | 26 report and cache targets (`pipeline.rollup_targets`) | **Shadow**: 26 of 26 in shadow; 2,542 due-records in 24 hours, nothing run by it; legacy jobs still running | 15 Nov 2026 22:22 AEDT | **Cutover Mon 16 Nov 2026 22:30 AEDT** | The session that prepared PR 1. Do not touch from another session. |
 | Consolidation PR 2, `admission-rule-runner` (lanes `-b`, `-c`) | 20 admission rules (`pipeline.admission_rules`) | **Shadow**: 20 of 20 in shadow; 574 due-records since start; legacy jobs still running | 15 Nov 2026 23:29 AEDT | **Cutover Tue 17 Nov 2026 22:30 AEDT** | The session that prepared PR 2. Do not touch from another session. |
-| Consolidation PR 3, `pipeline.field_execution_registry` and `coverage-lane-dispatch` | Not scoped yet (the `calendar-reread` worker lane is named for it) | **Not built** | — | Scope and build in shadow after the PR 2 cutover is verified live (from Tue 17 Nov 23:15 AEDT); cutover no sooner than 24 hours after its shadow starts | Course Module session (S2-CF) |
+| Consolidation PR 3, `pipeline.field_execution_registry` and `coverage-lane-dispatch` | Not scoped yet (the `calendar-reread` worker lane is named for it) | **Not built** | — | **Pulled forward 24 hours (Platform Admin 16 Nov 2026 10:59, for the 20 Nov delivery):** scope, build and merge in shadow from **Mon 16 Nov 23:15 AEDT**, once the PR 1 cutover is verified live. PR 2 and its 22:30 Tue cutover are not touched. Cutover no sooner than 24 hours after its shadow starts, and only after the PR 2 cutover is verified | Course Module session (S2-CF) |
 
 Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/README.md`):
 
@@ -66,6 +66,23 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Split Pilot `docs/paste/` (41 files) | **Approved, Platform Admin 16 Nov 2026 10:10 (option 1).** After the PR 2 cutover (Tue 17 Nov 22:30 AEDT) is verified: the SQL files that specs or database fixtures read or run move to Pilot `tests/fixtures/` (all 18 guard specs keep their assertions, no cross-repository CI); every file a person runs moves to this repository's `docs/paste/` only; a Pilot guard then refuses any new `PASTE-*.sql` in Pilot. Queued for Wed 18 Nov 2026 09:15 AEDT, separate from the PR 3 queue. Never create a new `PASTE-*.sql` in Pilot. |
 | UI/UX and settings simplification audit and plan | **Committed 16 Nov 2026 10:25 AEDT:** [`docs/platform/ui-audit/ui-ux-settings-audit-2026-11-15.md`](platform/ui-audit/ui-ux-settings-audit-2026-11-15.md), verbatim as supplied by the Platform Admin (decisions §6, UnoPim specs §7, progress to v2.16.12 §8). Phase 4 (Dispatcher Panels) waits for the PR 1 to 3 cutovers. |
 | `cron-governance-audit-2026-11-15.md`, `rollup-scheduler-pr1-scope.md` | **Not yet in this repository.** The session that wrote them is committing them to `docs/platform/` before it closes (Platform Admin 16 Nov 2026 10:21). Until then, Pilot migrations and PRs #1157 and #1159 cite them as "project doc claude/…". |
+
+### Order of work to the 20 Nov data admission delivery (Platform Admin 16 Nov 2026 10:59)
+
+| When (AEDT) | Work |
+|---|---|
+| Mon 16 Nov 22:30 | PR 1 cutover (unchanged) |
+| Mon 16 Nov 23:15 | PR 3 scope, build and merge in shadow |
+| Tue 17 Nov 22:30 | PR 2 cutover (unchanged) |
+| Wed 18 Nov 09:15 | Pilot paste-file split (option 1) |
+| Wed 18 Nov 09:30 | **Phase 5 before Phase 4:** Review & Evidence DataGrid, first slice on Layer 4 › Inbox, with shared views `AER Audit Samples`, `Official URLs`, `Provider Blockers`, personal views and the quote-versus-value drawer. Phase 4 (Dispatcher Panels) follows Phase 5 |
+
+### Course description readings: why they stopped (read 16 Nov 2026 11:00–11:09 AEDT, read only)
+
+- **OpenRouter is not the cause.** The key reset at 11:00 (US$100 of US$100 left, no key-limit hits today); other services read again from 11:00 (78 scholarship eligibility answers by 11:08). Course description spend today is US$1.64 of its US$10 route cap.
+- **The block is back-pressure.** `security.enrich_course_text_gaps_v1` starts no new description reading while `enrich.course_description_pending_global_max` (1,500) or more first descriptions wait in Layer 4. 1,831 wait, so the last reading was at 02:48 AEDT.
+- **1,167 of the 1,831 are held by a false rejection memory.** The machine rule declines them as `rejected_before_course` ("a person decided against an earlier description"). For every one of them, the earlier items were all `superseded` by the platform (1,421 by `cdesc-prompt-supersede` when v2 was released, 132 by another CF-247 path). None was decided by a person, and none was a v2 reading. All 1,167 waiting items are v2 readings. Earlier prompts: 311 items had only `cdesc-source-grounded-v1` before them; the other 856 had `course-text-v1`/`course-text-v2`, v1 or an unrecorded prompt.
+- **Fix proposed, not applied:** rejection memory counts person decisions only (status `superseded` excluded, in both the course and the page test), with a rule-version bump so the declined items are evaluated again under the other checks. Awaiting Platform Admin go-ahead; it would be checked first in a rolled-back live dry run.
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
