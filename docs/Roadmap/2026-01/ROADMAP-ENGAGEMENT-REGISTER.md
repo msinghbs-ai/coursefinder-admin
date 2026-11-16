@@ -54,3 +54,13 @@ engagement once. Exclude autonomous processing, CI and waiting time.
 ### Example
 
 An RM1A prompt request is one **Planning · 15 min minimum** row. Starting implementation by giving that prompt to Claude is a separate **Development · 15 min minimum** row. A later 35-minute human review is **Review · 35 min reported**. The combined recorded human engagement is **65 minutes**. This example is illustrative. The live ledger records the actual register setup under RM0A.
+
+## Sync mandate (Platform Admin, 16 November 2026 22:42 AEDT)
+
+- **Every substantive human interaction gets one row** in `ROADMAP-ENGAGEMENTS.csv`. Reuse the same `engagement_id` on retries and cross-agent handoffs of the same prompt.
+- **Columns stay as they are in the CSV.** The mandate's `timestamp_aedt` is the `occurred_at` column (Australia/Melbourne) and `primary_rm_id` is the `roadmap_item` column. A sub-slice such as RM1A-2 is logged against its registered item (RM1A) and named in `topic`.
+- **Minutes:** 15 if unspecified, at least 15 when a duration is given. Agent runtime, CI waits, tool calls, idle time and scheduled wait windows are excluded.
+- **Milestones:** change a row in `ROADMAP-MILESTONES.csv` only when its status, owner or next action changes.
+- **Before writing:** `git pull --rebase origin main`, deduplicate by `engagement_id`, append, then verify row count and total `human_minutes`.
+- **Workbook:** rebuild `Roadmap_Engagement_Register.xlsx` from the two CSVs so every tab reconciles with them.
+- **Google Drive:** a session with Drive access updates the mirrored Google Sheet `Roadmap_Engagement_Register` from the CSVs. A GitHub-only session commits the CSVs and workbook to `main` and states the committed row ID and total minutes in its reply.

@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.2 · 13 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.2 adds the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 added the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.3 · 16 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.3 adds [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026) and withdraws the M2 table; v1.2 added the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 added the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -255,6 +255,8 @@ $$;
 Rules: a registration with `status <> 'active'` produces no item (withdrawal removes the assertion at the next read; no cache beyond the existing Worker). A row with `valid_to` in the past is held, not shown. A course with no source URL produces no item. No new index is needed: the composite unique index leads with `course_id`. Rollback: restore the three wrappers from the recorded definitions; drop the two new functions. v2 untouched.
 
 **M2 · RM1A-2 · O28 AU ASCED — verified schema gap**
+
+> **Withdrawn 16 November 2026 (v1.3).** `catalogue.course_field_observations` already holds these codes with source and evidence. RM1A-2 was delivered as a read-only projection with no new table. The text below is kept for history only.
 
 The gap: `primary_field_id` has no per-row source, evidence or scheme edition. It is also written by an AI classifier for other countries and only holds the first CRICOS field. A projection could only infer provenance from country. The smallest additive fix is an assignment table filled from stored register evidence.
 
@@ -545,7 +547,7 @@ Why one new module: study rules are effective-dated records that a person must r
 
 | Wave | Items | Outcome |
 |---|---|---|
-| 1 (now) | RM1A-2, RM1A-3 | AU field codes on v3; 2,099 held courses released |
+| 1 | RM1A-2 (**delivered 16 Nov**, Pilot #1186), RM1A-3 | AU field codes on v3; 2,099 held courses released |
 | 2 | RM0C, then RM1B and RM4A in parallel | Destination schema live with one ABS edition; NZ recognition evidence captured |
 | 3 | RM0D, RM0F (Study rules tab first), RM1C | First reviewed AU application routes, managed from the Admin |
 | 4 | RM0E, RM1D, RM1H, RM1I | `destination` action on v3 with cities, study rules and careers for Australia |
@@ -554,6 +556,52 @@ Why one new module: study rules are effective-dated records that a person must r
 | At v3 release | RM0B | Field dictionary and both handover documents issued once |
 
 Standing rules that apply to every item: each background job is registered in Automations or Jobs and visible in Task manager; each source is registered and approved in Layer 1 › Sources before its first load; held items state a plain reason in Layer 4; coverage and holds show in Data Delivery; RM1E and RM1F wait for D-4 and D-3; Study load stays with S2-CF, admissions with AER, deadlines with S2-Intakes and awards with S2-Scholarship.
+
+## Roadmap alignment and Wave 1 delivery (16 November 2026)
+
+**Status:** record of Platform Admin directions (16 Nov 2026 22:30, 22:32 and 22:42 AEDT, chat S1-RM-Design) and of what was verified live the same evening. "Verified" means read from the live database or the repositories on 16 November. Anything else is recorded as directed or scheduled, not as done.
+
+### Policy and dependencies
+
+| Item | Position | Verified 16 Nov |
+|---|---|---|
+| Zoho v3 merge rule | **Changed.** Website v3 and Zoho v3 are both still in development and no handover document has been issued. Additive Zoho v3 fields now merge on green CI under the same additive and G3 rules as Website v3. No handover document is issued until v3 release (RM0B). v2 stays frozen. | Platform Admin direction. No v3-labelled consumer calls were seen on 13 Nov; not re-counted on 16 Nov |
+| D-4, primary campus | **Resolved.** `catalogue.campuses.is_primary` is live | 356 rows (Pilot #1184) |
+| D-3, accreditations | **Resolved as a decision.** `catalogue.provider_accreditations` exists | Table exists with 0 rows. Loading and publisher rights remain RM1F work |
+| Campus-null reason and study load | Live | `courses.empty_reason_code` 5,639 rows; `courses.study_load` 2,521 rows (Pilot #1184) |
+| Scheduler consolidation (PR 1–3, `pipeline.field_execution_registry`) | In progress | The registry table is **not live yet**. PR 2 cutover is open (Pilot #1185). PR 3 creates the registry. Current state: `docs/CURRENT-STATE.md` |
+| Cloudflare Worker Boost (`workers/cf-boost-extractor/`, this repository) | Available as the stateless Layer 1/4 extraction adapter for RM1A-3, RM4A and the Wave 6 country adapters (UK, IE, US) | Built, **not deployed** (`docs/platform/CF-WORKER-BOOST-AND-PROD-LAUNCH.md`) |
+| Migration consolidation | **Scheduled:** squash the live migration history into one canonical v3 baseline in the quiet window **Thursday 19 Nov 2026, 01:30–03:30 AEDT**, after PR D (Wed 18 Nov 13:30 AEDT). Before it: a dump to the private `staging-boost` Storage bucket and a rehearsal on `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`). Waves 2–6 build on the single baseline. | 2,046 applied migrations before RM1A-2 (2,047 after). The `staging-boost` bucket paste file had not been run as at `docs/CURRENT-STATE.md` |
+| Database checks from Claude sessions | Read-only. No interactive database write prompts. Migrations reach production only through the PR, CI rehearsal and deploy-on-merge path | Followed for RM1A-2 |
+
+### Wave 1, RM1A-2: delivered
+
+**Correction to v1.1 §4 M2.** The "verified schema gap" was wrong. `catalogue.course_field_observations` already records every CRICOS field-of-education code against its source and stored evidence: 26,918 first-field and 1,656 second-field rows, all Australian, all with evidence. It is written by the CRICOS register apply step. **The proposed `catalogue.course_classification_assignments` table is withdrawn.** RM1A-2 is a read-only projection.
+
+| Point | Delivered (Pilot #1186, migration `20261116200000`, release candidate v2.16.15) |
+|---|---|
+| Field | `field_of_study_codes[]` on Website v3 `course` (both forms) and Zoho v3 `course`: `{scheme:"ASCED", level:"narrow", code, name, rank, source_url, evidence_date}` |
+| Source rule | A code is returned only when a current observation holds the 4-digit code the register printed, the linked field is that same ASCED code, the source is active and public, evidence is stored and the course has a CRICOS registration. Rank 1 is the register's first field and equals `study_area`. Rank 2 is its second field |
+| Not inferred | NZ and CA study areas set by the AI classifier have no observation row and return `[]`. No CIP or NZSCED scheme is emitted. `study_area` is unchanged |
+| Zoho v3 | `course` detail also returns `recognition[]` (RM1A-1) under the new merge rule. Zoho `search`, `courses`, `sync` and `export` are unchanged |
+| Live read-back | 23,732 of 23,732 searchable AU courses return a rank-1 code; 1,561 also return a second; 6 have a superseded first-field observation left out. Website and Zoho answers are identical. An NZ course returns `[]` |
+| Invariants | Applied migration md5 equals the file (`a6c9df3c…`). G3 guard after deploy: 75 functions, 48 tables, no drift. `website_v2_course`, `zoho_v2_course`, `zoho_v3_courses` and the R28 item function unchanged by md5 |
+| Admin | Course detail Recognition card shows the codes; Data Delivery panel counts them |
+| Not done | A keyed HTTP call to either v3 endpoint and a signed-in look at the Admin views were not made from this session. Edition ("ASCED 2001") is not returned because the register file does not print it |
+
+### Build order after this change
+
+| Wave | Items | State |
+|---|---|---|
+| 1 | RM1A-2 | **Delivered 16 Nov** |
+| 1 | RM1A-3 (2,297 active CRICOS registrations with a past end date) | Open. Worker Boost is available as the extraction adapter once deployed |
+| — | Migration consolidation, Thu 19 Nov 01:30–03:30 AEDT | Scheduled. Waves 2–6 start from the new baseline |
+| 2 | RM0C, then RM1B and RM4A | Not started |
+| 3 | RM0D, RM0F (Study rules tab), RM1C | Not started |
+| 4 | RM0E, RM1D, RM1H, RM1I | Not started |
+| 5 | RM2B, RM2C, RM4C | Not started |
+| 6 | RM3A/B, RM5A/B, RM6A/B | Not started |
+| Alongside | RM1E (primary campus data live), RM1F (table live, no rows), RM1G (study load live) | Decisions resolved; API exposure and loading remain with their owners |
 
 ## Design references
 

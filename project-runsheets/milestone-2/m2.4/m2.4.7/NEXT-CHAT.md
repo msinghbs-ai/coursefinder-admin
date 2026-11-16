@@ -11633,3 +11633,24 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - First descriptions waiting in Layer 4: **15** (limit 1,500); admitted by `cdesc-machine-v2` since 11:53: **892**; items not yet evaluated under the new stamp: 0; machine job failures: 0; consumer API drift flag: none.
 - **Why only 6 were queued:** `security.enrich_course_text_gaps_v1` starts no more than `enrich.course_text_items_per_day` (8,000) standing description readings in any rolling 24 hours, and exactly 8,000 were counted: 6,250 queued on 15 Nov between 16:00 and 17:00 AEDT (the v2 re-read wave), 1,745 between 01:00 and 02:00 today. The 6,250 leave the window between 16:00 and 17:00 today, so the 16:23 or 17:23 run has room for the v3 re-reads (including the 782 superseded v2 descriptions).
 - No setting, job or limit was changed. Raising `enrich.course_text_items_per_day` would bring the v3 re-reads forward by about three hours; it is a Platform Admin decision.
+
+## 16 Nov 2026 22:55 AEDT — RM1A-2 (O28): ASCED field-of-study codes live on Website and Zoho v3 course detail (Pilot #1186); roadmap aligned to live state
+
+**Trigger:** Platform Admin 16 Nov 2026 22:30, 22:32 and 22:42 AEDT, chat S1-RM-Design. Design: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.3.
+
+**Delivered and verified:**
+- Pilot #1186 merged on green (13 checks on head `3d790442`), squash `8bc23557`, release candidate v2.16.15 (package 0.1.437). Deploy on merge applied migration `20261116200000`; the history md5 equals the file (`a6c9df3cbd83cadce1880883d1990c1a`).
+- Website v3 `course` (both forms) and Zoho v3 `course` return `field_of_study_codes[]`: `{scheme:"ASCED", level:"narrow", code, name, rank, source_url, evidence_date}`, read only from `catalogue.course_field_observations` (CRICOS register evidence). No table was added; the assignment table proposed in design v1.1 is withdrawn.
+- Read back live after deploy: 23,732 of 23,732 searchable AU courses return a rank-1 code, 1,561 a second, 6 have a superseded first-field observation left out. Website and Zoho answers identical. An NZ course returns `[]`. `study_area` unchanged.
+- Zoho v3 `course` also returns `recognition[]` (Platform Admin 16 Nov 22:30: both v3 APIs are pre-cutover, so additive Zoho v3 fields merge on green; no handover document until v3 release).
+- G3 guard after deploy (`security.consumer_api_check_v1`): 75 functions, 48 tables, no drift. `website_v2_course`, `zoho_v2_course`, `zoho_v3_courses` and the R28 item function unchanged by md5. New functions not executable by anon.
+- Database checks were read-only selects. The migration reached production only through the PR, CI rehearsal and deploy on merge.
+- Recorded in design v1.3: D-4 resolved (`campuses.is_primary` 356 rows), D-3 resolved as a decision (`provider_accreditations` exists, 0 rows), `empty_reason_code` 5,639 and `study_load` 2,521 rows live (Pilot #1184), Worker Boost available but not deployed, migration consolidation scheduled Thu 19 Nov 01:30–03:30 AEDT.
+
+**Not done:**
+- A keyed HTTP call to either v3 endpoint and a signed-in look at the Admin views.
+- `pipeline.field_execution_registry` is not live yet (PR 3); recorded as in progress, not as done.
+- RM1A-3: the 2,297 active CRICOS registrations with a past end date.
+
+**Next executable action:**
+- RM1A-3, then Wave 2 (RM0C, RM1B, RM4A) on the consolidated migration baseline after 19 Nov.
