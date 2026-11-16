@@ -45,6 +45,7 @@ jobs:
       DUMP_BRANCH: ${{ inputs.dump_branch }}
       DUMP_HEAD: ${{ inputs.dump_head }}
       EXTRA_VERSIONS: ${{ inputs.extra_versions }}
+      PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
       - name: Pilot baseline files and the production schema dump (public repository)
@@ -59,13 +60,16 @@ jobs:
       - name: 1. Reset the throwaway test project
         run: python3 scripts/boost-rebuild.py reset | tee -a "$GITHUB_STEP_SUMMARY"
       - name: 2. Schema from the dump
+        timeout-minutes: 90  # fixed: CI step limit (a time-out still keeps the results; run 43863252704 ran past the job limit here)
         run: |
           python3 scripts/boost-rebuild.py schema pilot/supabase/live-capture/baseline/roles-apply.sql | tee -a "$GITHUB_STEP_SUMMARY"
           cat pilot/supabase/live-capture/baseline/apply-preamble.sql dump/supabase/live-capture/baseline/schema.sql pilot/supabase/live-capture/baseline/apply-postscript.sql > schema-full.sql
           python3 scripts/boost-rebuild.py schema schema-full.sql | tee -a "$GITHUB_STEP_SUMMARY"
       - name: 3. Reference and configuration data (read only from production)
+        timeout-minutes: 30  # fixed: CI step limit
         run: python3 scripts/boost-rebuild.py data | tee -a "$GITHUB_STEP_SUMMARY"
       - name: 4. Migrations newer than the dump (read only from production)
+        timeout-minutes: 30  # fixed: CI step limit
         run: python3 scripts/boost-rebuild.py newer "$DUMP_HEAD" "$EXTRA_VERSIONS" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: 5. G3, point 3 and the 50-item shadow-only check
         run: |
@@ -86,7 +90,7 @@ jobs:
           print(json.dumps(checks)); print("PASS" if all(checks.values()) else "FAIL")
           PY
       - name: Results to boost-test/<run id>
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}  # also after a step time-out, so partial results are kept
         run: |
           if [ ! -d out ] || [ -z "$(ls -A out 2>/dev/null)" ]; then echo "No results to keep" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; fi
           git config user.name "github-actions[bot]"
