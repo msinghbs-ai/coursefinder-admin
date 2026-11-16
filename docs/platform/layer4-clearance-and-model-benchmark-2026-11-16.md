@@ -1,7 +1,7 @@
 # Layer 4 clearance and model benchmark (16 Nov 2026)
 
-**Asked by:** Platform Admin, Mon 16 Nov 2026 14:06 AEDT (Layer 4 triage and safe clearance; a controlled benchmark of qualified models only). Follow-up instructions 15:56 and 16:00 AEDT.
-**Done by:** the Course Module session (S2-CF), 14:10 to 16:40 AEDT.
+**Asked by:** Platform Admin, Mon 16 Nov 2026 14:06 AEDT (Layer 4 triage and safe clearance; a controlled benchmark of qualified models only). Follow-up instructions 15:56, 16:00, 16:47, 18:01 and 18:44 AEDT.
+**Done by:** the Course Module session (S2-CF), 14:10 to 16:40 AEDT; the official URL resolution (§7) 16:50 to 19:45 AEDT.
 **Live system:** Supabase project `fxcwkweaxjtknorudmwp` only. Every audit query ran `set transaction read only` with `statement_timeout` 20 s.
 **Not touched:** tonight's PR 1 cutover (22:30), the 23:15 PR 3 task, Tuesday's PR 2 cutover (22:30), Wednesday's 09:15 and 09:30 tasks.
 
@@ -12,7 +12,7 @@
 | Layer 4 waiting | **5,172** at 14:20 AEDT; **5,136** at 16:28 AEDT after the reconcile switch (read back). The ~7,057 quoted came from the telemetry sheet and was out of date by the time it was measured. |
 | Created, decided and superseded | 15 Nov: 5,855 created, 3,861 decided, 1,016 superseded. 16 Nov to 14:20: 281 created, 892 decided, 1,205 superseded. Since 16 Nov, items are decided or superseded faster than they arrive. |
 | Cleared by a deterministic rule | **36** items on retired courses. `layer4.reconcile_supersede_on` was set to 1 at 16:00 AEDT on the Platform Admin's approval. A window defect kept the job from reaching them; it was fixed through the setting `layer4.reconcile_batch` and the items were settled at 16:27 AEDT (§3.1). |
-| Clearable as one batch by a policy rule | **859** `official_course_url` items whose candidate page the machine proved wrong (856 once the 3 retired ones are gone). This is the 826 counted earlier plus 33 items whose reasons are worded differently (§3.2). |
+| Official URL batch (§3.2, §7) | **836 of 856 closed** (16 Nov 19:20 AEDT): 751 by rule `l4-link-refusal-v1`, 28 audit-sample items verified, 56 live-link conflicts verified valid (live link kept), 1 refused. **20 left open**: their evidence proves neither way. Layer 4 waiting **4,916** at 19:20 AEDT. |
 | Owned by the AER session | **2,578** `course_entry_first_read` items. 1,604 need a corrected read, not a person; 488 are the 5% audit sample and stay with a person (§3.4). |
 | Model benchmark | Round 2 on the frozen 50-case AER set with four pinned models. **No model qualifies.** Nothing was admitted or switched on. Best value: Mistral Small 3.2. Highest accuracy, tied: Gemini 2.5 Flash and MiMo v2.6 Flash (§4). |
 | Spend | **US$0.459** in answers (estimate $0.60); 0 Firecrawl. On-demand request `ca8dee01` is closed. Both eval switches are back to 0. |
@@ -59,7 +59,7 @@ Every route below either settles an item through an existing machine rule or wai
 
 ### 3.2 For one batch decision: 859 `official_course_url` items the machine proved wrong
 
-In every one of these items the course-link finder found a page and refused to link it, because the page is demonstrably for something else. Only **33 of the 859 courses hold any official page today**. So "close" means: refuse this candidate, add it to the finder's refusal memory, and leave the course without an official page until a better page is found. It never means linking anything.
+In every one of these items the course-link finder found a page and refused to link it, because the page is demonstrably for something else. **177** of the 856 courses hold an active official link. (The first issue of this report said 33; that count used `catalogue.courses.course_url`, not `catalogue.course_links`.) For 73 of them the proposed page *is* the live official link (§7). So "close" means: refuse this candidate, add it to the finder's refusal memory, and leave the course without an official page until a better page is found. It never means linking anything.
 
 | Hold reason (exact wording starts "The page found automatically was not linked: …") | Items | Providers | Hold an official page | Older than 7 days |
 |---|---|---|---|---|
@@ -181,3 +181,53 @@ Round 1 for reference (set 5, longer pages allowed): MiMo 30%, Mistral 30%, Qwen
 | 4 | Only if Mistral passes the gate: the Platform Admin qualifies it, switches the shadow on, and the held items are re-read through the normal admission rule. | Proposal only. Nothing switches on by itself. |
 
 AER v1 entry reading waits for a qualified model. The AER v1 prompt (`course-entry-v1`) has no benchmark with Mistral, so it cannot be qualified from round 2.
+
+## 7. Official URL resolution: all 856 items (Platform Admin 16 Nov 2026 16:47, 18:01 and 18:44 AEDT)
+
+**Asked:** close the 856 wrong-candidate official URL items (report §3.2, option 1). Then resolve the 73 live-link conflicts and the 32 audit-sample items against stored page evidence: refuse a proven wrong proposal; close a proven valid live link without changing it; leave anything unproven open. Any deletion of a refusal record goes to a paste file.
+
+### 7.1 Release
+
+| | |
+|---|---|
+| Pilot #1177 | Merged 16 Nov 18:09 AEDT. **Not applied.** Its version `20261116110000` had been taken an hour earlier by #1162, so deploy on merge refused the file and ran nothing. |
+| Pilot #1180 | The same migration renumbered to **`20261116143000`**. Rolled-back live dry run passed at 18:46 AEDT: the migration ran twice; 8 items closed and 32 marked, with 0 failures; consumer API check unchanged; drift `[]`; file md5 `d467a8517c4bd292eab1bd89fb8bb164`. Merged 18:47 AEDT; deploy succeeded. |
+| Read back | Live history holds `20261116143000` with md5 `d467a8517c4bd292eab1bd89fb8bb164`. `security.layer4_reconcile_v1` body md5 is `641ff18954c6c5006b3f7dacca6cdf1e`. Settings: `layer4.reconcile_batch` 200, `layer4.reconcile_examine_max` 5000, `layer4.link_refusal_rule_on` 1, batch 200, time budget 7 s, audit 5%. |
+| Reconcile fix | `p_limit` (`layer4.reconcile_batch`) now caps items **settled**. `layer4.reconcile_examine_max` caps items **checked**. `pipeline.layer4_reconcile_cursor` continues from where the last run stopped and wraps to the oldest, so no settleable item waits behind items for a person. In the dry run, one run checked 2,304 items. |
+| Test register | **S2 - SS Build regenerates the test register** for #1176, #1177 and #1180 (spec `s560`). This session cannot: Playwright is not installed and package installs are off. |
+
+### 7.2 Outcome by bucket
+
+| Bucket | Items | Outcome | How |
+|---|---|---|---|
+| Rule `l4-link-refusal-v1`: negative evidence, refusal on record, page not the live link | 751 | **Closed** (rejected) | Runs 1 to 4, 168 + 200 + 200 + 183, 0 failures. "Refuse this proposal" under the system automation account. By group: A another course 332, B another level 238, C another award version 74, D older handbook 96, E another campus 11. |
+| 5% audit sample of the rule, confirmed | 28 | **Closed** (rejected) | Run 5. Each stored page title and level was checked against the course record. Each decision's reason records the comparison, for example "stored page *advanced diploma of hospitality management* (ADV) against *Diploma of Hospitality Management* (DIP)". |
+| 5% audit sample, not proven | 4 | **Open** | TAFE Queensland, AD Applied Technologies (Cyber Security): the page is the parent programme. UNSW, Diploma in Science and Technology: the page is the Diploma in Science. Deakin, Master of Construction Management: the page is the Professional version and names the course. Manitoba, MMus: the address says MMus, the title says research MA. |
+| Live-link conflict, verified valid | 56 | **Closed** ("Keep the page we hold"); live link **not changed** | Run 6. The proposed page is already the course's active official page, and the stored check proves it. 26 "another campus" objections name the **provider itself** as the other campus (Durham College 16, University of Calgary 5, The University of Melbourne 4, UNE 1): a finder defect. 30 "another course's address" objections where the page title names this exact course (ACU double degrees 21, Wollongong 6, Durham Dental Assisting, Melbourne MA, Newcastle Electrical Engineering). Read back: 0 links and 0 course records changed; 57 live links still active. |
+| Live-link conflict, refused | 1 | **Closed** (refused); listed for unlink review | Lead College, Graduate Diploma of Management (Learning), CRICOS 107328J. **The evidence conflicts:** the live address `leadcollege.edu.au/courses/graduate-diploma-of-management-learning/` names the course, but the stored copy of that address is titled "Advanced Diploma of Leadership and Management". The page may redirect to another course, or the stored title may be wrong. Recommendation: **keep the link** until someone opens the page. |
+| Live-link conflict, not proven | 16 | **Open** | ACU BA/B Global Studies and Psych Sci/BA (address only, no stored title); Lead College Cert III in Pathology (page is "Pathology Collection"); Wollongong IT/Laws; version cases: Curtin 2 (honours), Flinders 4 (generic PhD and EdD research pages), Monash 2 (honours page for an Advanced course), RMIT 1 (a PDF), TAFE SA 1 (Advanced Networking), Wollongong 2 (graduate entry, fast track). |
+| **Total** | **856** | **836 closed, 20 open** | |
+
+### 7.3 For the Platform Admin
+
+1. **Paste file `docs/paste/PASTE-20261116-l4-lift-false-link-refusals.sql`** (md5 `1ac93dd83ccb7f872bc947f4fa19aec1`).
+   - It deletes the finder's 59 false refusals (56 courses; 3 Wollongong pages are stored with and without a trailing slash) of live pages verified valid.
+   - It stops, changing nothing, unless exactly 59 `binding_check` rows match. Checked read-only at 19:30 AEDT: 59 match.
+   - Until it is run, the finder treats each of these live pages as refused for its course.
+2. **Unlink review list:** 1 course, Lead College 107328J (above). Recommendation: keep.
+3. **Finder defects to fix in the course-link finder:**
+   - **Campus check names the provider itself as "another campus".** 26 false conflicts, and the likely source of more.
+   - **The "another course's address" check misreads double-degree and Dean's Scholar addresses** as the single degree's.
+4. **20 open items** stay in the Inbox for the Phase 5 grid (`Official URLs` view).
+
+### 7.4 Layer 4 counts (read back)
+
+| Time (AEDT) | Waiting | `official_course_url` |
+|---|---|---|
+| 14:20 | 5,172 | 2,196 |
+| 16:28 (36 retired settled) | 5,136 | 2,160 |
+| 18:48 (before the rule; new items had arrived from other work) | 5,787 | — |
+| 19:00 (751 closed by rule) | 5,036 | 1,409 |
+| 19:20 (28 audit and 57 live-link closed) | **4,916** | **1,328** |
+
+The ~4,280 target assumed no new arrivals. 651 items arrived from other work between 16:28 and 18:48.
