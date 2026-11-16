@@ -52,7 +52,8 @@ jobs:
           name=$(curl -sS -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" "$API/$REF" | jq -r '.name // "unknown"')
           if [ "$name" != "coursefinder-boost-test" ]; then echo "::error::Refused: project is named '$name'"; exit 1; fi
           if [ "${{ inputs.require_empty }}" = "true" ]; then
-            jq -n '{query:"select count(*)::int as n from pg_tables where schemaname in ('pipeline','catalogue','security','ref')"}' > q.json
+            eq="select count(*)::int as n from pg_tables where schemaname in ('pipeline', 'catalogue', 'security', 'ref')"
+            jq -n --arg q "$eq" '{query:$q}' > q.json
             code=$(curl -sS -o n.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" || echo 000)
             n=$(jq -r 'if type == "array" then (.[0].n | tostring) else "error" end' n.json 2>/dev/null || echo error)
             echo "::notice::Emptiness check HTTP $code: $(head -c 400 n.json | tr -d '\n')"
