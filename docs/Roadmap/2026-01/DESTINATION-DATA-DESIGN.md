@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.4 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.4 adds [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.5 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.5 records the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -658,9 +658,39 @@ To confirm at first capture, not assumed: that the correspondence zip holds a di
 
 ### Decisions for the Platform Admin
 
+All three were approved on 17 November 2026 at 07:29 AEDT; see [ABS source approvals and Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026).
+
 1. Approve registering the two ABS sources (Regional population 2024-25 and the ASGS Edition 3 correspondence files) under CC BY 4.0 with ABS attribution shown beside every population figure.
 2. Confirm Significant Urban Area as the city geography (not Greater Capital City or LGA), with ERP at 30 June 2025 as the first edition.
 3. Confirm the campus mapping rule: a campus maps to one SUA only when at least 90% of its postcode falls in it; anything else goes to Layer 4.
+
+## ABS source approvals and Wave 2 schema hold (17 November 2026)
+
+Platform Admin, 17 November 2026 07:29 AEDT (S1-RM-Design). This section records decisions only. Nothing was built, registered or deployed by this change.
+
+### Approved for RM1B
+
+| # | Decision | Approved terms | Effect on the design |
+|---|---|---|---|
+| A-1 | Register two ABS sources | ABS *Regional population 2024-25* (reference date 30 June 2025) and ABS *ASGS Edition 3 (2021) Correspondences*, both under CC BY 4.0, with ABS attribution displayed beside every population figure | Both become approved sources for `destination.city_observation` and `destination.campus_locality` (design M3). Attribution is a required part of every delivered population figure, not an optional note |
+| A-2 | City geography | Significant Urban Area (SUA) is the canonical city geography. The first dataset edition is 30 June 2025, on the ASGS Edition 3 boundary vintage | Greater Capital City and LGA are not used as the city key. Each locality and observation stores its dataset edition and boundary vintage |
+| A-3 | Campus mapping rule | A campus maps to an SUA only when at least 90% of its postcode is contained in that SUA. Ambiguous or multi-SUA postcodes go to Layer 4 for review | No population figure is delivered for a campus until it has a mapped SUA or a Layer 4 decision |
+
+Notes:
+
+- The 90% value is an operational threshold. Under G2 it is built as a setting in `pipeline.platform_toolset_settings` (label, range, unit, `used_by`), not written into code.
+- Still confirmed at first capture, not assumed: that the correspondence files include a direct Postal Area 2021 to SUA 2021 file, and the exact SUA table in the 2024-25 data downloads. If there is no direct file, the share is derived from the Mesh Block allocation files, which carry the same ABS CC BY 4.0 terms. Any other source needs a new approval.
+- Source registration rows are data written by a migration, so they ship with the RM0C and RM1B change, not before it.
+
+### Wave 2 schema hold
+
+Wave 2 schema DDL for RM0C, RM1B and RM4A is held until the migration squash on Thursday 19 November 2026, 01:30–03:30 AEDT, has completed and the squashed baseline is confirmed. No Wave 2 migration is opened as a pull request before then. Design, source capture planning and register updates may continue during the hold.
+
+| Item | State | Released when |
+|---|---|---|
+| RM0C destination core schema and dataset editions | Design ready (M3); DDL held | Squash complete and baseline confirmed |
+| RM1B Australian city population | Sources and rules approved (A-1 to A-3); DDL held | After RM0C |
+| RM4A New Zealand course recognition | Capture plan ready; DDL held | Squash complete and baseline confirmed |
 
 ## Design references
 
