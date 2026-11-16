@@ -1,19 +1,19 @@
-# Boost test project rebuild and harness. CF-247 Boost (Platform Admin 16 Nov 2026 21:09; docs/platform/CF-WORKER-BOOST-AND-PROD-LAUNCH.md §8).
-# Rebuilds the parallel test project coursefinder-boost-test from the LIVE migration record, then runs harness point 3 and the 50-item
-# shadow-only check. Production holds 2,043 migrations (supabase_migrations.schema_migrations, each with its statements); Pilot's
-# supabase/migrations holds 696 files (from 10 Oct 2026), so the repository cannot rebuild production.
-#   1. Export: production's schema_migrations, read in pages through the Management API with read_only=true and a 20 s statement limit.
-#      Nothing is written to production.
-#   2. Replay: each migration's statements, in version order, onto the TEST project. After each one every pg_cron job on the test project is
-#      switched off (cron.alter_job active => false), so no replayed job runs there. A failure is recorded and the replay continues.
-#   3. G3: security.consumer_api_check_v1() on the test project (expected 75 functions, 48 relations, no drift).
-#   4. Harness point 3 and the shadow-only check: sql/boost-ingestion 001 and 002 applied to the TEST project, then 005 (one block that always
-#      rolls back and reports through its BOOST_REHEARSAL message).
-#   5. Results go to the never-merged branch boost-test/<run id> (this repository is public: results carry counts, migration names and
-#      error messages, never data rows or secrets).
-# Needs the repository secret SUPABASE_ACCESS_TOKEN (the Supabase management token; today it is set on Coursefinder-Pilot only).
-# Safety: the target must not be production (fxcwkweaxjtknorudmwp) or coursefinder-demo (gfryvshbeptxwbzjomhe) and must be named exactly
-# "coursefinder-boost-test"; with require_empty on it must have no application tables yet.
+# Boost test project rebuild and harness. CF-247 Boost (Platform Admin 16 Nov 2026 21:09 and 22:44; docs/platform/CF-WORKER-BOOST-AND-PROD-LAUNCH.md §8, §12).
+# Route: schema dump, reference data, then newer migrations. Run 43851316573 showed that replaying production's 2,046 migrations cannot
+# rebuild it (from 13 Aug 2026 migrations assume data the pipeline loaded at run time), so the test project is built the way a production
+# launch would be:
+#   1. Reset the throwaway test project: unschedule its cron jobs and drop every application schema (refused unless it is named
+#      coursefinder-boost-test and is neither production nor coursefinder-demo).
+#   2. Schema: Pilot's baseline roles and preamble, the production schema dump of a Pilot db-schema-dump/<run id> branch, then the postscript,
+#      applied statement by statement through the Management API; every failure listed.
+#   3. Reference and configuration data copied from production (read only, 20 s per page): schema ref, roles, settings, catalogues, routes,
+#      prompts, registers (scripts/boost-rebuild.py DATA_TABLES). No catalogue rows, no customer data.
+#   4. Production's migrations newer than the dump (version above dump_head), read only from production; cron jobs on the TEST project are
+#      switched off after each.
+#   5. G3 (75 functions, 48 relations, no drift), then sql/boost-ingestion 001 and 002 and the rolled-back 005 (point 3, the 50-item
+#      shadow-only check, the rehearsal).
+#   6. Results to the never-merged branch boost-test/<run id> (counts, names and error messages only).
+# Nothing is written to production: every production call is a Management API query with read_only=true.
 name: Boost test project rebuild
 on:
   workflow_dispatch:
@@ -22,12 +22,14 @@ on:
         description: "Ref of the throwaway project named coursefinder-boost-test"
         required: true
         default: "ucdaaqrpgcldnatavmib"
-      require_empty:
-        description: "Refuse unless the test project has no application tables (turn off only to resume)"
-        type: boolean
-        default: true
-      start_after:
-        description: "Resume: replay only versions after this one (blank = from the first)"
+      dump_branch:
+        description: "Pilot branch holding the production schema dump (db-schema-dump/<run id>)"
+        required: true
+      dump_head:
+        description: "Production migration head when the dump was taken (14 digits); newer migrations are applied after the dump"
+        required: true
+      extra_versions:
+        description: "Comma-separated versions below dump_head that reached production after the dump (blank = none)"
         required: false
         default: ""
 jobs:
@@ -40,95 +42,60 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       REF: ${{ inputs.test_project_ref }}
       PROD: fxcwkweaxjtknorudmwp
-      START_AFTER: ${{ inputs.start_after }}
-      API: https://api.supabase.com/v1/projects
+      DUMP_BRANCH: ${{ inputs.dump_branch }}
+      DUMP_HEAD: ${{ inputs.dump_head }}
+      EXTRA_VERSIONS: ${{ inputs.extra_versions }}
     steps:
       - uses: actions/checkout@v4
-      - name: Confirm the target is the throwaway test project
-        run: |
-          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then echo "::error::Secret SUPABASE_ACCESS_TOKEN is not set on this repository"; exit 1; fi
-          if ! [[ "$REF" =~ ^[a-z]{20}$ ]]; then echo "::error::Refused: not a project ref"; exit 1; fi
-          if [ "$REF" = "$PROD" ] || [ "$REF" = "gfryvshbeptxwbzjomhe" ]; then echo "::error::Refused: production or coursefinder-demo"; exit 1; fi
-          name=$(curl -sS -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" "$API/$REF" | jq -r '.name // "unknown"')
-          if [ "$name" != "coursefinder-boost-test" ]; then echo "::error::Refused: project is named '$name'"; exit 1; fi
-          if [ "${{ inputs.require_empty }}" = "true" ]; then
-            eq="select count(*)::int as n from pg_tables where schemaname in ('pipeline', 'catalogue', 'security', 'ref')"
-            jq -n --arg q "$eq" '{query:$q}' > q.json
-            code=$(curl -sS -o n.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" || echo 000)
-            n=$(jq -r 'if type == "array" then (.[0].n | tostring) else "error" end' n.json 2>/dev/null || echo error)
-            echo "::notice::Emptiness check HTTP $code: $(head -c 400 n.json | tr -d '\n')"
-            if [ "$n" = "error" ]; then echo "::error::Refused: the test project could not be queried (HTTP $code); see the notice above"; exit 1; fi
-            if [ "$n" != "0" ]; then echo "::error::Refused: the test project is not empty ($n application tables)"; exit 1; fi
-          fi
-          echo "Target confirmed: $REF (coursefinder-boost-test); source: production $PROD, read only" | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: Export the live migration record (read only)
+      - name: Pilot baseline files and the production schema dump (public repository)
         run: |
           set -euo pipefail
-          mkdir -p out/mig; after="${START_AFTER:-0}"; total=0
-          while :; do
-            sql="set statement_timeout = '20s'; select coalesce(json_agg(json_build_object('v', version, 'n', name, 's', statements) order by version), '[]') as page from (select version, name, statements from supabase_migrations.schema_migrations where version > '$after' order by version limit 25) x"
-            jq -n --arg q "$sql" '{query:$q, read_only:true}' > q.json
-            code=$(curl -sS -o page.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$PROD/database/query")
-            if [ "${code:0:1}" != "2" ]; then echo "::error::export HTTP $code: $(head -c 300 page.json)"; exit 1; fi
-            n=$(jq '.[0].page | length' page.json); [ "$n" = "0" ] && break
-            python3 - <<'PY'
-          import json, re
-          rows = json.load(open("page.json"))[0]["page"]
-          for r in rows:
-              name = re.sub(r"[^A-Za-z0-9_]+", "_", r["n"] or "unnamed")
-              with open(f"out/mig/{r['v']}_{name}.sql", "w") as f:
-                  for s in r["s"] or []:
-                      f.write(s.rstrip().rstrip(";") + ";\n")
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then echo "::error::Secret SUPABASE_ACCESS_TOKEN is not set on this repository"; exit 1; fi
+          if ! [[ "$DUMP_BRANCH" =~ ^db-schema-dump/[0-9]+$ ]] || ! [[ "$DUMP_HEAD" =~ ^[0-9]{14}$ ]]; then echo "::error::dump_branch must be db-schema-dump/<run id> and dump_head 14 digits"; exit 1; fi
+          git clone -q --depth 1 https://github.com/msinghbs-ai/Coursefinder-Pilot.git pilot
+          git clone -q --depth 1 -b "$DUMP_BRANCH" https://github.com/msinghbs-ai/Coursefinder-Pilot.git dump
+          (cd dump/supabase/live-capture/baseline && md5sum -c MD5SUMS)
+          echo "Dump: $DUMP_BRANCH ($(wc -c < dump/supabase/live-capture/baseline/schema.sql) bytes); head $DUMP_HEAD" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 1. Reset the throwaway test project
+        run: python3 scripts/boost-rebuild.py reset | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 2. Schema from the dump
+        run: |
+          python3 scripts/boost-rebuild.py schema pilot/supabase/live-capture/baseline/roles-apply.sql | tee -a "$GITHUB_STEP_SUMMARY"
+          cat pilot/supabase/live-capture/baseline/apply-preamble.sql dump/supabase/live-capture/baseline/schema.sql pilot/supabase/live-capture/baseline/apply-postscript.sql > schema-full.sql
+          python3 scripts/boost-rebuild.py schema schema-full.sql | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 3. Reference and configuration data (read only from production)
+        run: python3 scripts/boost-rebuild.py data | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 4. Migrations newer than the dump (read only from production)
+        run: python3 scripts/boost-rebuild.py newer "$DUMP_HEAD" "$EXTRA_VERSIONS" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 5. G3, point 3 and the 50-item shadow-only check
+        run: |
+          python3 scripts/boost-rebuild.py g3 | tee -a "$GITHUB_STEP_SUMMARY"
+          for f in 001_boost_inbound_staging.sql 002_boost_promote.sql 005_rehearsal_rolled_back.sql; do
+            python3 scripts/boost-rebuild.py sqlfile "sql/boost-ingestion/$f" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
+          python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY" out/verdict.txt
+          import json
+          g = json.load(open("out/g3.json")).get("g3") or {}
+          r = json.load(open("out/sql-005_rehearsal_rolled_back.sql.json")).get("rehearsal") or {}
+          checks = {
+            "g3": g.get("drift") == [] and g.get("functions") == 75 and g.get("relations") == 48,
+            "bulk_1000_under_5s": bool(r.get("bulk_1000", {}).get("under_5s")),
+            "shadow_50_none_admitted": r.get("shadow_50", {}).get("result", {}).get("by_state", {}).get("admitted", 0) == 0 and r.get("shadow_50", {}).get("courses_changed") == 0,
+            "rehearsal_1_written_0_touched": r.get("study_load_written") == 1 and r.get("updated_at_touched") == 0,
+            "outside_window_refused": r.get("outside_window") == "refused"}
+          print(json.dumps(checks)); print("PASS" if all(checks.values()) else "FAIL")
           PY
-            after=$(jq -r '.[0].page[-1].v' page.json); total=$((total + n))
-          done
-          echo "Exported $total live migrations; newest $after" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "$total" > out/exported.txt
-      - name: Replay onto the test project (cron jobs switched off after each)
-        run: |
-          set -uo pipefail
-          off="do \$cf\$ begin if to_regclass('cron.job') is not null then perform cron.alter_job(j.jobid, active => false) from cron.job j where j.active; end if; end \$cf\$;"
-          ok=0; bad=0; : > out/failures.tsv
-          for f in $(ls out/mig | sort); do
-            jq -n --rawfile q "out/mig/$f" --arg off "$off" '{query: ($q + "\n" + $off)}' > q.json
-            code=$(curl -sS -o r.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" || echo 000)
-            if [ "${code:0:1}" = "2" ]; then ok=$((ok + 1)); else bad=$((bad + 1)); printf '%s\t%s\t%s\n' "$f" "$code" "$(jq -r '.message // .' r.json 2>/dev/null | tr '\n\t' '  ' | head -c 400)" >> out/failures.tsv; fi
-          done
-          jq -n --arg q "$off" '{query:$q}' > q.json; curl -sS -o /dev/null -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" || true
-          echo "Replayed: $ok applied, $bad failed (failures.tsv)" | tee -a "$GITHUB_STEP_SUMMARY"
-          head -20 out/failures.tsv | cut -c1-300 >> "$GITHUB_STEP_SUMMARY" || true
-          printf 'applied %s\nfailed %s\n' "$ok" "$bad" > out/replay.txt
-      - name: G3 on the rebuilt project
-        run: |
-          q="select json_build_object('g3', (select security.consumer_api_check_v1()), 'cron_active', (select count(*) from cron.job where active), 'cron_jobs', (select count(*) from cron.job), 'functions_security', (select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'security'), 'tables_pipeline', (select count(*) from pg_tables where schemaname = 'pipeline')) as r"
-          jq -n --arg q "$q" '{query:$q}' > q.json
-          curl -sS -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" > out/g3.json || true
-          echo "G3 and counts: $(head -c 600 out/g3.json)" | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: Harness point 3 and the 50-item shadow-only check (test project; 005 always rolls back)
-        run: |
-          for f in 001_boost_inbound_staging.sql 002_boost_promote.sql; do
-            jq -n --rawfile q "sql/boost-ingestion/$f" '{query: ("begin;\n" + $q + "\ncommit;")}' > q.json
-            code=$(curl -sS -o r.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query")
-            echo "$f: HTTP $code $(head -c 300 r.json)" | tee -a out/point3.txt
-          done
-          jq -n --rawfile q "sql/boost-ingestion/005_rehearsal_rolled_back.sql" '{query:$q}' > q.json
-          curl -sS -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" > out/rehearsal.json || true
-          msg=$(jq -r '.message // .' out/rehearsal.json | grep -o 'BOOST_REHEARSAL .*' | sed 's/^BOOST_REHEARSAL //' || true)
-          echo "$msg" > out/rehearsal-result.json
-          echo "Point 3 and shadow-only check: ${msg:-no result, see rehearsal.json}" | tee -a "$GITHUB_STEP_SUMMARY" out/point3.txt
-          echo "$msg" | jq -e '.bulk_1000.under_5s and .shadow_50.courses_changed == 0 and (.shadow_50.result.by_state.admitted // 0) == 0 and .study_load_written == 1 and .updated_at_touched == 0 and .outside_window == "refused"' > /dev/null \
-            && echo "PASS" | tee -a "$GITHUB_STEP_SUMMARY" out/point3.txt || { echo "::error::point 3 or the shadow-only check did not pass"; echo "FAIL" >> out/point3.txt; }
       - name: Results to boost-test/<run id>
         if: ${{ !cancelled() }}
         run: |
-          rm -rf out/mig; rm -f q.json r.json page.json
+          if [ ! -d out ] || [ -z "$(ls -A out 2>/dev/null)" ]; then echo "No results to keep" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           branch="boost-test/${{ github.run_id }}"
-          if [ ! -d out ] || [ -z "$(ls -A out 2>/dev/null)" ]; then echo "No results to keep (the run stopped before the export)" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; fi
-          mkdir -p boost-test && cp -r out/* boost-test/ 2>/dev/null || true
+          rm -rf pilot dump schema-full.sql
+          mkdir -p boost-test && cp -r out/* boost-test/
           git checkout -q -b "$branch"; git add -A boost-test
-          git commit -q -m "Boost test project rebuild results (run ${{ github.run_id }}, target $REF)"
+          git commit -q -m "Boost test project rebuild results (run ${{ github.run_id }}, dump $DUMP_BRANCH, target $REF)"
           git push -q origin "$branch"
           echo "Results branch: $branch" | tee -a "$GITHUB_STEP_SUMMARY"
-          if grep -q FAIL out/point3.txt 2>/dev/null; then exit 1; fi
+          if grep -q FAIL out/verdict.txt 2>/dev/null || [ ! -f out/verdict.txt ]; then exit 1; fi
