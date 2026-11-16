@@ -53,7 +53,10 @@ jobs:
           if [ "$name" != "coursefinder-boost-test" ]; then echo "::error::Refused: project is named '$name'"; exit 1; fi
           if [ "${{ inputs.require_empty }}" = "true" ]; then
             jq -n '{query:"select count(*)::int as n from pg_tables where schemaname in ('pipeline','catalogue','security','ref')"}' > q.json
-            n=$(curl -sS -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" | jq -r '.[0].n // "error"')
+            code=$(curl -sS -o n.json -w '%{http_code}' -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @q.json "$API/$REF/database/query" || echo 000)
+            n=$(jq -r 'if type == "array" then (.[0].n | tostring) else "error" end' n.json 2>/dev/null || echo error)
+            echo "::notice::Emptiness check HTTP $code: $(head -c 400 n.json | tr -d '\n')"
+            if [ "$n" = "error" ]; then echo "::error::Refused: the test project could not be queried (HTTP $code); see the notice above"; exit 1; fi
             if [ "$n" != "0" ]; then echo "::error::Refused: the test project is not empty ($n application tables)"; exit 1; fi
           fi
           echo "Target confirmed: $REF (coursefinder-boost-test); source: production $PROD, read only" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -121,6 +124,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           branch="boost-test/${{ github.run_id }}"
+          if [ ! -d out ] || [ -z "$(ls -A out 2>/dev/null)" ]; then echo "No results to keep (the run stopped before the export)" | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; fi
           mkdir -p boost-test && cp -r out/* boost-test/ 2>/dev/null || true
           git checkout -q -b "$branch"; git add -A boost-test
           git commit -q -m "Boost test project rebuild results (run ${{ github.run_id }}, target $REF)"
