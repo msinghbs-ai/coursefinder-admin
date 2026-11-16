@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 23:45 AEDT (PR 2 cut over live 23:31 AEDT by S2 - SS Build under the Platform Admin's override of 21:23, Pilot #1185; PR 3 built in shadow as Pilot #1188, not merged: its live rehearsal waits for an approval; API v3 PR A/B fills live 21:50; sections 3 to 5), 16 Nov 2026 23:20 AEDT (PR 1 fix live 23:14 AEDT, Pilot #1187; fresh 24-hour shadow from 23:15 AEDT; cutover review Tue 17 Nov 23:20 AEDT; Boost test rebuild from the schema dump running, run 43863252704; sections 4 and 5), 16 Nov 2026 22:50 AEDT (PR 1 no longer blocks PR 3 or PR 2; PR 1 fix and new shadow, cutover Tue 22:30; section 4), 16 Nov 2026 22:50 AEDT (PR 1 cutover held: shadow fails the no-tick-over-budget criterion; section 4), 16 Nov 2026 21:25 AEDT (Boost setup steps 1 to 4: test project `coursefinder-boost-test` created; rebuild workflow waits for one secret; bucket paste file; sections 4 and 5), 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 20:50 AEDT (Pilot #1181 finder fix, #1182 Course page needed settle, #1183 API v3 daily admittance telemetry; Layer 4 quick wins and the paths taken; Tue A/B gates; sections 3 and 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 17 Nov 2026 01:05 AEDT (release v2.16.16 live, Pilot #1189: invite and reset links to the admin sign-in, catalogue CSV export; no migration; Supabase dashboard paste doc pending; sections 3 to 5), 16 Nov 2026 23:45 AEDT (PR 2 cut over live 23:31 AEDT by S2 - SS Build under the Platform Admin's override of 21:23, Pilot #1185; PR 3 built in shadow as Pilot #1188, not merged: its live rehearsal waits for an approval; API v3 PR A/B fills live 21:50; sections 3 to 5), 16 Nov 2026 23:20 AEDT (PR 1 fix live 23:14 AEDT, Pilot #1187; fresh 24-hour shadow from 23:15 AEDT; cutover review Tue 17 Nov 23:20 AEDT; Boost test rebuild from the schema dump running, run 43863252704; sections 4 and 5), 16 Nov 2026 22:50 AEDT (PR 1 no longer blocks PR 3 or PR 2; PR 1 fix and new shadow, cutover Tue 22:30; section 4), 16 Nov 2026 22:50 AEDT (PR 1 cutover held: shadow fails the no-tick-over-budget criterion; section 4), 16 Nov 2026 21:25 AEDT (Boost setup steps 1 to 4: test project `coursefinder-boost-test` created; rebuild workflow waits for one secret; bucket paste file; sections 4 and 5), 21:05 AEDT (Cloudflare Worker Boost built and tested locally, nothing deployed or applied; section 5), 20:50 AEDT (Pilot #1181 finder fix, #1182 Course page needed settle, #1183 API v3 daily admittance telemetry; Layer 4 quick wins and the paths taken; Tue A/B gates; sections 3 and 5), 19:45 AEDT (Pilot #1180 live; official URL resolution of 856 items, Layer 4 4,916, new paste file; sections 3 to 5), 18:10 AEDT (Pilot #1162 field dictionary, #1178 AER routes and #1179 worker v1.0.6 merged; decisions of 16:52 in section 5), 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -34,12 +34,12 @@
 
 | Measure | Value |
 |---|---|
-| Visible release | v2.16.14 (package 0.1.436); Pilot `main` ee7fb575 (16 Nov 20:40 AEDT); worker coverage-sweep v1.0.6 |
+| Visible release | **v2.16.16** (package 0.1.438; Pilot #1189, main `e301578e`, deployed 17 Nov 00:53 AEDT: deploy-on-merge, deployed UAT and release currentness green; edge function `admin-user-management` redeployed). Before it v2.16.15 (#1186). Worker coverage-sweep v1.0.6 |
 | Newest migration applied live | `20261116210000` (Pilot #1187, PR 1 fix; read 23:33 AEDT). `20261116190000` (Pilot #1185, PR 2 cutover) was applied after it at 23:31 AEDT (a lower version applied later; the deploy applies any version not yet in the history). `20261116180000` (#1184, API v3 PR A/B fill rules) 21:33 AEDT. Earlier: `20261116170000` (Pilot #1183, API v3 daily admittance; read 20:45 AEDT). Before it: `20261116160000` (#1182), `20261116150000` (#1181), `20261116143000` (#1180) |
 | Migrations applied | 2,042 (18:49 AEDT) |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
-| Tests | 693 specs, 3,267 tests (3,175 local, 92 deployed track; 23:45 AEDT, Pilot main `3fa05b38` plus PR 3's `s567` from open #1188) |
+| Tests | 695 specs, 3,278 tests (3,186 local, 92 deployed track; 17 Nov 01:05 AEDT, Pilot main `e301578e` plus PR 3's `s567` from open #1188) |
 | UI | 20 pages, 48 tabs, 17 sub-tab bars, 178 folds, 39 drawers and dialogs |
 
 ## 4. Dispatchers, pending cutovers and pending paste files
@@ -68,6 +68,7 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | `docs/paste/PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 |
 | `docs/paste/PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 |
 | `docs/paste/PASTE-20261116-admission-rule-legacy-unschedule.sql` (the 20 legacy admission rule jobs, PR 2; guarded) | 1 Dec 2026 |
+| `docs/paste/PASTE-20261117-supabase-invite-email-template.md` (Supabase dashboard, not SQL: Redirect URLs allow-list, Site URL, Invite user and Reset password templates for v2.16.16) | **Now**, before the next invitation or password reset is sent |
 | `docs/paste/PASTE-20261116-staging-boost-bucket.sql` (private Boost bucket, idempotent) | Any time (Boost setup step 2) |
 | `docs/paste/PASTE-20261116-api-field-dictionary-number-arrays.sql` | Any time (Pilot `20261116110000` is live); then a small migration loads the 2 held fields |
 | `docs/paste/PASTE-20261116-l4-lift-false-link-refusals.sql` | Any time: lifts 59 false course-link refusals of live pages verified valid (Layer 4 report §7.3); stops unless exactly 59 rows match |
@@ -82,6 +83,18 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Split Pilot `docs/paste/` (41 files) | **Approved, Platform Admin 16 Nov 2026 10:10 (option 1).** After the PR 2 cutover (Tue 17 Nov 22:30 AEDT) is verified: the SQL files that specs or database fixtures read or run move to Pilot `tests/fixtures/` (all 18 guard specs keep their assertions, no cross-repository CI); every file a person runs moves to this repository's `docs/paste/` only; a Pilot guard then refuses any new `PASTE-*.sql` in Pilot. Queued for Wed 18 Nov 2026 09:15 AEDT, separate from the PR 3 queue. Never create a new `PASTE-*.sql` in Pilot. |
 | UI/UX and settings simplification audit and plan | **Committed 16 Nov 2026 10:25 AEDT:** [`docs/platform/ui-audit/ui-ux-settings-audit-2026-11-15.md`](platform/ui-audit/ui-ux-settings-audit-2026-11-15.md), verbatim as supplied by the Platform Admin (decisions §6, UnoPim specs §7, progress to v2.16.12 §8). Phase 4 (Dispatcher Panels) waits for the PR 1 to 3 cutovers. |
 | `cron-governance-audit-2026-11-15.md`, `rollup-scheduler-pr1-scope.md` | **Not yet in this repository.** The session that wrote them is committing them to `docs/platform/` before it closes (Platform Admin 16 Nov 2026 10:21). Until then, Pilot migrations and PRs #1157 and #1159 cite them as "project doc claude/…". |
+
+### Release v2.16.16, Admin UI (overnight task, Platform Admin 16 Nov 2026 22:12; Pilot #1189, 17 Nov 00:53 AEDT)
+
+- **Users & roles:**
+  - **Reset password** for another person's account (edge function `admin-user-management`, action `reset_password`). Not for a Platform Admin, your own account, the system account, a disabled account or an open invitation.
+  - **Send invitation** passes `redirectTo` = `https://coursefinder-pilot.techm.workers.dev/` and `data { role, role_code, guide_url, full_name }`.
+  - Links open a set-password screen. The sign-in screen has Forgot password?.
+- **Catalogue lists** (Providers, Courses, Locations, Scholarships, Course readiness): **Export CSV**, visible or all columns, with every filtered row.
+- **Paths taken:** A for invitations (Supabase `inviteUserByEmail`); A for the export (shared `DataTable`).
+- **Not done here:**
+  - Resets are not written to the access history (`user_access_events` action check). Widening it is a migration for a later change.
+  - The Supabase Redirect URLs allow-list and the templates are dashboard settings: see the paste doc in section 4.
 
 ### Order of work to the 20 Nov data admission delivery (Platform Admin 16 Nov 2026 10:59)
 
