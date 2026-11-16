@@ -114,36 +114,46 @@ def reset():
     print(f"reset: {len(app)} schemas dropped; {len(bad)} failures")
 
 
+SESSION_SET = re.compile(r"^\s*(SET\s+(?!LOCAL\b)(\w+)|SELECT\s+pg_catalog\.set_config\('([\w.]+)')", re.I)
+
+
 def apply_statements(stmts, label):
-    # A batch runs as one transaction: when it fails, it is split in half and each half retried (bisection), so a failing statement costs
-    # about log2(batch) calls instead of one call per statement in the batch (run 43863252704 spent over 3 hours in the per-statement
-    # fallback). Order is kept: the first half is applied before the second.
+    # Each batch is one API call, which is its own session. A schema dump sets its session first (check_function_bodies = false,
+    # search_path = '', ...) and relies on it for every later statement: functions come before the tables they read. Run 43885548875
+    # sent those settings in the first batch only, so 557 functions failed their body check and their 556 ALTER FUNCTION and 145
+    # COMMENT statements failed after them. Every call now starts with the session settings in effect before its first statement and
+    # ends with RESET ALL, so nothing carries into later calls on a reused connection.
+    # A failed batch (one transaction) is split in half and each half retried (bisection); order is kept.
+    settings, pre, prefix = {}, [], ""
+    for st in stmts:  # pre[i]: the session settings in effect before statement i
+        pre.append(prefix)
+        m = SESSION_SET.match(st)
+        if m:
+            settings[(m.group(2) or m.group(3)).lower()] = st.strip().rstrip(";") + ";"
+            prefix = "\n".join(settings.values()) + "\n"
     ok_n, fails, calls = 0, [], 0
     t0 = time.time()
-    def run(ch):
+    def run(lo, hi):
         nonlocal ok_n, calls
-        if not ch: return
+        if lo >= hi: return
         calls += 1
-        ok, r = q(REF, "\n".join(ch))
-        if ok: ok_n += len(ch); return
-        if len(ch) == 1:
-            fails.append({"statement": ch[0][:300], "error": str(r)[:400]}); return
-        mid = len(ch) // 2
-        run(ch[:mid]); run(ch[mid:])
+        ok, r = q(REF, pre[lo] + "\n".join(stmts[lo:hi]) + "\nRESET ALL;")
+        if ok: ok_n += hi - lo; return
+        if hi - lo == 1:
+            fails.append({"statement": stmts[lo][:300], "error": str(r)[:400]}); return
+        mid = (lo + hi) // 2
+        run(lo, mid); run(mid, hi)
     def save(done):  # rewritten after every batch, so a step time-out still leaves the counts so far
         json.dump({"statements": len(stmts), "done": done, "applied": ok_n, "failed": len(fails), "calls": calls, "seconds": int(time.time() - t0),
                    "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
-    chunk, size, done = [], 0, 0
     save(0)
-    def flush():
-        nonlocal chunk, size, done
-        run(chunk); done += len(chunk); chunk, size = [], 0
-        print(f"  {label}: {done}/{len(stmts)} statements, {ok_n} applied, {len(fails)} failed, {calls} calls, {int(time.time() - t0)} s", flush=True)
-        save(done)
-    for s in stmts:
-        chunk.append(s); size += len(s)
-        if size > 150_000 or len(chunk) >= 200: flush()
-    if chunk: flush()
+    lo, size = 0, 0
+    for i, st in enumerate(stmts):
+        size += len(st)
+        if size > 150_000 or i + 1 - lo >= 200 or i + 1 == len(stmts):
+            run(lo, i + 1); lo, size = i + 1, 0
+            print(f"  {label}: {lo}/{len(stmts)} statements, {ok_n} applied, {len(fails)} failed, {calls} calls, {int(time.time() - t0)} s", flush=True)
+            save(lo)
     print(f"{label}: {ok_n} statements applied, {len(fails)} failed ({calls} calls, {int(time.time() - t0)} s)", flush=True)
 
 
