@@ -244,3 +244,29 @@ A pg_dump schema creates functions before the tables they read. It relies on its
 **Fix (this change):** every call now starts with the session settings in effect before its first statement and ends with `RESET ALL`, so nothing carries into later calls. Offline test (fake API that refuses a function unless `check_function_bodies = false` is set in the same call; 4,004 statements): all applied except the one bad statement, in **37 calls**, order kept. On the real dump this means about 80 batches instead of thousands of calls.
 
 **Next:** re-run `boost-test-rebuild.yml` with the same inputs once the Platform Admin agrees. Nothing here touched production beyond read-only queries; the test project stays as the run left it (partly built) until the next reset.
+
+### 12.2 Run 43940610220 (Platform Admin approval 17 Nov 2026 06:33): schema complete, verdict FAIL on the steps after it
+
+Main `05c575b5` (includes #537). Same inputs as 12.1. 13 minutes end to end. Results: branch `boost-test/43940610220`.
+
+| Step | Result |
+|---|---|
+| Reset | 17 application schemas dropped, 0 failures |
+| Roles | 7 of 7 |
+| **Schema from the dump** | **15,936 of 15,936 statements applied, 0 failed, 105 API calls, 297 s** (12.1: 3,698 in 90 min). The #537 fix works |
+| Reference and configuration data | 38 tables, 4,748 rows; **9 with an error** (below) |
+| Migrations newer than the dump | 3, **all refused by their own gates** (below) |
+| G3 | **FAIL:** 0 functions and 0 relations in the baseline, 75 drift lines "function added (not in baseline)" |
+| Point 3 and the shadow-only check (005) | **FAIL:** the block stopped at its first insert, so bulk 1,000, shadow-50, the rehearsal and the window check all report false |
+
+**Causes and fixes (this change). None is in Boost itself.**
+
+| Finding | Cause | Fix |
+|---|---|---|
+| 8 tables refused by a foreign key (`ref.countries`, `ref.subdivisions`, `ref.identifier_schemes`, `ref.institution_collections`, `ref.external_study_area_mappings`, `ref.outcome_metrics`, `ref.study_level_source_mappings`, `pipeline.platform_toolset_settings`) | Tables were copied in name order, so a child came before its parent (`countries` before `currencies`, `platform_toolset_settings` before `platform_toolsets`) | Tables are copied parents first, ordered by the test project's foreign keys. A page still waiting for a parent row (a table that refers to itself, or a cycle) is retried in up to three passes. Local test: a parent, child and grandchild chain plus a self-referencing table of 1,200 rows whose children sort before their parents all loaded; 0 writes to "production" |
+| `pipeline.firecrawl_purpose_groups` missing | Production has no such table | Removed from the copy list |
+| G3 0/0 | The baseline table `pipeline.consumer_api_baseline` (123 rows: 75 functions, 48 relations) was not in the copy list | Added |
+| 005 stopped at the provider insert | The real schema keys every provider and course to `pim.entity_registry` (`providers_id_fkey`, `courses_id_fkey`); the local stand-in has no registry | 005 adds the registry rows first where the table exists. Local test on the stand-in with and without the registry and its two foreign keys: bulk 1,000 under 5 s, 0 admitted, 0 courses changed, 1 written, 0 touched, outside window refused; all rolled back |
+| 3 newer migrations refused (`20261116190000` "a rule is already live", `20261116210000` "housekeeping-daily is not the job this change edits", `20261116220000` "0 of 13 coverage lanes match their live legacy job") | They are cutovers and shadows that check production's live cron jobs and state. The test project has no cron jobs by design, and its copied data is already after the cutover | Expected, and outside the verdict. To have the test project match production's schema without replaying them, the next run uses a fresh schema dump (production head now `20261116220000`) |
+
+**Next:** a fresh `db-schema-dump` run on Pilot (read-only production dump, about 14 minutes; the last one held share locks and blocked nothing), then this workflow with that dump, its head and no extra versions. This waits for the Platform Admin.
