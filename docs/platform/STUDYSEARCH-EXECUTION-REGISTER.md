@@ -4366,3 +4366,26 @@ Follows the v1.0.3 entry above.
 **Known:** a refreshed decline keeps its earlier ledger `rule` label (`cdesc-machine-v1`) because the decline row is updated in place; its `policy_stamp` is the v2 stamp, so the evaluation is v2. Admissions carry `cdesc-machine-v2`.
 
 **Tests:** new spec `cf-247-s558-cdesc-rejection-memory-person-only` (3 tests); test register regenerated (679 specs, 3,215 tests); SOP mirror and UI map for v2.16.13.
+
+## 16 Nov 2026 13:20 AEDT — F-CDESC prompt v3, smart retry gate, per-attempt AI ledger flush, telemetry tabs; release v2.16.14 (Pilot #1175 3fd6c994) — DONE
+
+**Request:** Platform Admin 16 Nov 2026 12:36 (decisions at 13:0x: retry gate "gate now as decided"; telemetry "daily 08:05 refresh task").
+
+**Measured before (read only):** 48 hours of held description readings: 3,840 of 5,913 `unsupported_sentence`; the failing sentence was the introducing opener ("The <course> at <provider> is a ...") in at least 2,456 (1,564 of 2,246 under v2). 24 hours of course_description calls: primary 12,259 (US$5.55, first-pass admission 30.9%), Mistral retry 5,905 (US$2.44, rescue 18.6%, 1,095 admitted, US$0.0022 per admitted record against US$0.0017 first-pass). OpenRouter spend missing from the ledger for 15 Nov UTC: US$0.96 of US$10.99.
+
+**Change (worker coverage-sweep v1.0.5, migration `20261116090000`):**
+- Prompt `cdesc-source-grounded-v3` released (approved cutover): v2 plus two lines forbidding the introducing opener and asking the first sentence to start with a substantive fact a cited span prints. `security.cdesc_prompt_version_v1` md5-guarded edit; route label; registry row in shadow, v2 retired there; `CDESC_SYSTEM_V2` kept as sent.
+- Smart retry gate: the second model is asked only for the rules in the new list setting `enrich.cdesc_retry_rules` (`quote_not_on_page`, `identity_margin_thin`; changed with a reason in Settings › Settings › Course description and deadline). Outside the machine rule's policy stamp.
+- Per-attempt ledger flush: each AI attempt is written to `pipeline.ai_invocations` as it completes (refused writes kept for the end-of-call write; a timed-out write is never resent).
+- Decline upsert records `rule = excluded.rule`; 743 declines refreshed under the v2 stamp relabelled `cdesc-machine-v2`.
+- `security.telemetry_model_tier_v1(hours)` and `security.telemetry_layer_funnel_v1(hours)` (read only).
+
+**Rolled-back live dry run:** every guard and post-check passed; consumer API drift none (75 functions, 48 relations).
+
+**Verified live (13:09–13:14):** migration applied (history md5 2eab809f matches the file); released prompt v3; function bodies `cdesc_prompt_version_v1` `46449a87…`, `course_description_machine_admit_v1` `91c6c7d3…`; registry v3 shadow (sha `59ba8f1b…`), v2 retired; retry setting present; 0 v1 labels under the v2 stamp; back-pressure limit 1,500 and machine switch unchanged; no consumer API drift flag. `coverage-sweep` deployed; edge drift check run 43790438840 shows live identical to `main`. First v1.0.5 attempts written as they completed from 13:11. By the existing released-version rule, 400 of the 782 waiting v2 descriptions declined for good were superseded by 13:14 for a v3 re-read; 790 waiting.
+
+**Telemetry:** sheet `StudySearch_Pipeline_Telemetry_Live` has two new tabs, `Model_Tier_&_Token_Efficiency` and `Layer_Lifecycle_Funnel`, filled 16 Nov 01:45–01:52 UTC and documented in `Schema_Dictionary`. A daily scheduled task refreshes them at 08:05 AEDT from the two functions, before the 08:15 report, and sends a six-line summary.
+
+**Not done:** the snapshot branch `edge-live-snapshot/43790438840` could not be deleted from this session (GitHub write refused by the proxy); it is never merged and can be deleted by hand.
+
+**Tests:** new spec `cf-247-s559-cdesc-v3-retry-gate-flush-telemetry` (4 tests); `cf-247-cdesc-source-grounded-contract`, `cf-247-ai-models-services-contract` and `s553` updated to v3; test register regenerated (680 specs, 3,219 tests); SOP mirror and UI map for v2.16.14.
