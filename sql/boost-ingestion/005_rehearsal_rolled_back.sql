@@ -21,10 +21,17 @@ begin
   if v_country is null then
     insert into ref.countries (iso_alpha2, iso_alpha3, name) values ('ZZ', 'ZZZ', 'Boost rehearsal') returning id into v_country;
   end if;
-  insert into catalogue.providers (id, stable_key, canonical_name, country_id) values (gen_random_uuid(), 'boost-rehearsal', 'Boost Rehearsal Institute', v_country)
-    returning id into v_provider;
+  -- the real schema keys every provider and course to a row in pim.entity_registry (providers_id_fkey, courses_id_fkey; run 43940610220);
+  -- the local stand-in has no registry, so the rows are added only where the table exists
+  v_provider := gen_random_uuid();
+  create temp table b_ids on commit drop as select gen_random_uuid() as id, g from generate_series(1, 53) g;
+  if to_regclass('pim.entity_registry') is not null then
+    insert into pim.entity_registry (id, entity_type, stable_key) values (v_provider, 'provider', 'boost-rehearsal');
+    insert into pim.entity_registry (id, entity_type, stable_key) select id, 'course', 'boost-rehearsal-' || g from b_ids;
+  end if;
+  insert into catalogue.providers (id, stable_key, canonical_name, country_id) values (v_provider, 'boost-rehearsal', 'Boost Rehearsal Institute', v_country);
   insert into catalogue.courses (id, stable_key, provider_id, canonical_title, lifecycle_status, updated_at)
-    select gen_random_uuid(), 'boost-rehearsal-' || g, v_provider, 'Rehearsal course ' || g, 'active', now() - interval '3 days' from generate_series(1, 53) g;
+    select id, 'boost-rehearsal-' || g, v_provider, 'Rehearsal course ' || g, 'active', now() - interval '3 days' from b_ids;
   select array_agg(id order by stable_key) into v_ids from catalogue.courses where provider_id = v_provider;
   create temp table b_before on commit drop as select id, study_load, updated_at from catalogue.courses where provider_id = v_provider;
 

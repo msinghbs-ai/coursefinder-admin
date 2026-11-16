@@ -25,7 +25,9 @@ SYSTEM = {"pg_catalog", "information_schema", "pg_toast", "auth", "storage", "re
 DATA_TABLES = ["ref.*", "security.roles", "pipeline.platform_toolset_settings", "pipeline.automation_catalogue", "pipeline.component_register",
                "pipeline.ai_service_routes", "pipeline.ai_model_catalogue", "pipeline.aer_prompt_versions", "pipeline.prompt_templates",
                "pipeline.layer4_field_registry", "pipeline.rollup_targets", "pipeline.admission_rules", "pipeline.admin_job_kinds",
-               "pipeline.platform_toolsets", "pipeline.firecrawl_purpose_groups"]
+               "pipeline.platform_toolsets", "pipeline.consumer_api_baseline"]
+# pipeline.consumer_api_baseline: the G3 baseline (75 functions, 48 relations); without it G3 reports every consumer function as added
+# (run 43940610220). pipeline.firecrawl_purpose_groups was dropped from the list: production has no such table.
 PAGE = 500  # fixed: rows per copied page (request size), not an operational limit
 
 
@@ -174,32 +176,65 @@ def tables_to_copy():
     return names
 
 
+def fk_order(tables):
+    """Parents before children, by the foreign keys on the test project (run 43940610220 loaded ref.countries before ref.currencies)."""
+    ok, r = q(REF, "select conrelid::regclass::text c, confrelid::regclass::text p from pg_constraint where contype = 'f' and conrelid <> confrelid")
+    edges = {t: set() for t in tables}
+    for e in (r if ok else []):
+        if e["c"] in edges and e["p"] in edges: edges[e["c"]].add(e["p"])
+    done, out = set(), []
+    while len(out) < len(tables):
+        ready = [t for t in tables if t not in done and edges[t] <= done]
+        if not ready: ready = [t for t in tables if t not in done][:1]  # a cycle: take the next in list order; the retry passes cover it
+        for t in ready: done.add(t); out.append(t)
+    return out
+
+
 def data():
     guard()
-    report = []
-    for t in tables_to_copy():
-        sch, tab = t.split(".")
+    report, pending = {}, []
+    tables = fk_order(tables_to_copy())
+    for t in tables:
         ok, ex = q(REF, f"select to_regclass('{t}') is not null as e")
         if not ok or not ex[0]["e"]:
-            report.append({"table": t, "rows": 0, "error": "missing on the test project"}); continue
+            report[t] = {"table": t, "rows": 0, "error": "missing on the test project"}; continue
         q(REF, f"truncate {t} cascade")
-        copied, off, err = 0, 0, None
+        report[t] = {"table": t, "rows": 0}
+        off = 0
         while True:
             try:
                 r = prod_read(f"select coalesce(json_agg(x), '[]') j from (select * from {t} order by 1 limit {PAGE} offset {off}) x")
             except RuntimeError as e:
-                err = f"read: {e}"[:300]; break
+                report[t]["error"] = f"read: {e}"[:300]; break
             rows = r[0]["j"]
             if not rows: break
-            payload = json.dumps(rows).replace("$boostdata$", "")
-            ok, res = q(REF, f"insert into {t} overriding system value select * from json_populate_recordset(null::{t}, $boostdata${payload}$boostdata$) on conflict do nothing")
-            if not ok:
-                ok, res = q(REF, f"insert into {t} select * from json_populate_recordset(null::{t}, $boostdata${payload}$boostdata$) on conflict do nothing")
-            if not ok: err = str(res)[:300]; break
-            copied += len(rows); off += PAGE
-        report.append({"table": t, "rows": copied, **({"error": err} if err else {})})
-    json.dump(report, open(f"{OUT}/data.json", "w"), indent=1)
-    print(f"data: {sum(x['rows'] for x in report)} rows in {len(report)} tables; {sum(1 for x in report if 'error' in x)} with an error")
+            ok, res = insert_page(t, rows)
+            if ok: report[t]["rows"] += len(rows)
+            elif "23503" in str(res): pending.append((t, rows, str(res)))  # a parent row not there yet (a self reference or a cycle): retried below
+            else: report[t]["error"] = str(res)[:300]; break
+            off += PAGE
+    for _ in range(3):  # retry the pages that waited for a parent row
+        if not pending: break
+        left = []
+        for t, rows, err in pending:
+            ok, res = insert_page(t, rows)
+            if ok: report[t]["rows"] += len(rows)
+            else: left.append((t, rows, str(res)))
+        if len(left) == len(pending): pending = left; break
+        pending = left
+    for t, rows, err in pending:
+        report[t]["error"] = err[:300]; report[t]["rows_not_loaded"] = report[t].get("rows_not_loaded", 0) + len(rows)
+    out = list(report.values())
+    json.dump(out, open(f"{OUT}/data.json", "w"), indent=1)
+    print(f"data: {sum(x['rows'] for x in out)} rows in {len(out)} tables (parents first); {sum(1 for x in out if 'error' in x)} with an error", flush=True)
+
+
+def insert_page(t, rows):
+    payload = json.dumps(rows).replace("$boostdata$", "")
+    ok, res = q(REF, f"insert into {t} overriding system value select * from json_populate_recordset(null::{t}, $boostdata${payload}$boostdata$) on conflict do nothing")
+    if not ok and "23503" not in str(res):
+        ok, res = q(REF, f"insert into {t} select * from json_populate_recordset(null::{t}, $boostdata${payload}$boostdata$) on conflict do nothing")
+    return ok, res
 
 
 def newer(head, extra=""):
