@@ -194,26 +194,30 @@ The request's "`allowed_admission_models` empty" is `pipeline.boost_model_qualif
 
 ## 12. Test project rebuild: verification (run 43851316573)
 
-**Run:** `boost-test-rebuild.yml`, run 43851316573, started 16 Nov 2026 21:45 AEDT on main `b565a5cc`, target `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`). Results branch: `boost-test/43851316573`. Status: <!-- FILL: completed / failed, finished at -->.
+**Run:** `boost-test-rebuild.yml`, run 43851316573, 16 Nov 2026 21:45–22:32 AEDT, main `b565a5cc`, target `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`). Results: branch `boost-test/43851316573`.
 
-**Earlier runs:** 43850695718 (21:38) and 43851008439 (21:40) stopped in the safety step before reading anything. Two workflow faults caused this:
-- the jq error hid the API's answer (fixed in #527);
-- the emptiness query lost the quotes around its schema names (fixed in #528).
+**Earlier runs:** 43850695718 and 43851008439 stopped in the safety step before reading anything, because of two workflow faults (fixed in #527 and #528).
 
-Neither run touched production or the test project.
-
-| Check | Expected | Result (from the results branch) |
+| Check | Expected | Result |
 |---|---|---|
-| Migrations exported from production (read only) | 2,043 or more (live head at the run) | <!-- FILL: exported.txt --> |
-| Replayed onto the test project | all applied, or every failure listed | <!-- FILL: replay.txt; failures.tsv count --> |
-| First replay failures (cause) | none, or gaps for the gap register | <!-- FILL: first rows of failures.tsv, grouped by cause --> |
-| G3 on the rebuilt project | 75 functions, 48 relations, no drift | <!-- FILL: g3.json --> |
-| pg_cron jobs active on the test project | 0 | <!-- FILL: g3.json cron_active --> |
-| 001 and 002 applied to the test project | HTTP 2xx | <!-- FILL: point3.txt --> |
-| Point 3: 1,000 rows in one statement | under 5 s | <!-- FILL: rehearsal-result.json bulk_1000 --> |
-| 50-item shadow-only check (qualification list empty) | 0 admitted, 0 courses changed | <!-- FILL: shadow_50 --> |
-| Rehearsal (one model qualified inside the block) | 1 admitted, 2 shadow, 2 refused; manual lock wins | <!-- FILL: rehearsal --> |
-| `updated_at` touched / outside-window run | 0 / refused | <!-- FILL --> |
-| Left behind on the test project | nothing from 005 (it rolls back) | <!-- FILL --> |
+| Migrations exported from production (read only) | 2,043 or more | **2,046** (newest `20261116180000`) |
+| Replayed onto the test project | all applied, or every failure listed | **1,004 applied, 1,042 failed** (`failures.tsv`) |
+| First failure | — | `20260813035800_ca_algonquin_source_identity_registration`: *"Algonquin verified IRCC DLI Provider missing"*. The migration checks for data that production loaded at run time, not by a migration. |
+| Failure causes | — | Cascading after the first data-dependent refusals:<br>• "relation does not exist", 346;<br>• "function does not exist", over 150, many of them md5 guards on functions that were never created;<br>• foreign keys to missing data, 14. |
+| G3 on the rebuilt project | 75 functions, 48 relations, no drift | **Not measurable:** `security.consumer_api_check_v1()` was never created |
+| 001 and 002 on the test project | HTTP 2xx | 001 refused (`pipeline.platform_toolset_settings` missing); 002 created |
+| Point 3, shadow-only check, rehearsal | as §11 | **No result on the test project** (the tables did not exist). They pass on local Postgres 16 (§11). |
 
-**What it means for the production launch:** <!-- FILL: which gaps stop a clean rebuild of production from its own migration record, and the proposed handling (gap register items). -->
+**What it means for the production launch.** Production cannot be rebuilt by replaying its own migration record. From 13 Aug 2026 its migrations assume data loaded by the pipeline at run time (providers, sources, registers). A fresh project therefore needs:
+1. the schema from a dump: Pilot's `db-schema-dump` workflow, the same route as `db-baseline-rebuild-test` (10 Oct);
+2. the reference data the migrations expect;
+3. only then, the migrations newer than the dump.
+
+The 2,046-migration replay is not a usable launch path. It is recorded as a gap, not worked around.
+
+**Next (proposed):**
+1. Reset `coursefinder-boost-test`. It is a throwaway project; the reset is gated by name, like `db-baseline-rebuild-test`.
+2. Rebuild it from the newest schema dump branch, then apply the migrations newer than that dump.
+3. Run G3, point 3 and the shadow-only check there.
+
+The workflow change follows when the Platform Admin agrees the route.
