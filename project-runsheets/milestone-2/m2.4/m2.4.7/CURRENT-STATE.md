@@ -11725,3 +11725,31 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: three ABS source decisions (design v1.4) and the register departures approval.
 - Wave 2 (RM0C, RM1B, RM4A) on the squashed baseline after Thu 19 Nov 01:30–03:30 AEDT.
+
+## 17 Nov 2026 08:50 AEDT — Roadmap schema pack before the squash: destination tables extended in place, API v3 destination action live and empty (Pilot #1193 and #1194, v2.16.18)
+
+**Trigger:** Platform Admin 17 Nov 2026 07:39 AEDT, chat S1-RM-Design: ship every remaining roadmap database object before the squash (Thu 19 Nov 01:30 AEDT). Supersedes the Wave 2 schema hold of 07:29 and 07:35. Design: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.6.
+
+**Decision taken with the Platform Admin:** the brief's `destination.study_rules` and `destination.career_outcomes` already existed from Pilot #1155 with a different shape. Chosen: extend in place (no duplicate tables, nothing dropped).
+
+**Done and verified (read only, 08:44 AEDT):**
+- Pilot #1193 merged on green (14 checks) but Deploy on merge refused its migration `20261117030000` before anything ran (a top-level `alter table ... drop not null`). Pilot #1194 reissued it as `20261117040000` with that statement inside the constraint block; merged on green (13 checks); Deploy on merge green; main `63deb84e`.
+- Migration `20261117040000` applied; history md5 `9f6b5a1a…` equals the file; 2,053 applied.
+- New: `destination.localities`, `locality_postcodes`, `locality_metrics`, `rule_applicability` (0 rows, row level security on); `ref.registration_schemes` (18 rows). Extended: `destination.study_rules`, `destination.career_outcomes`.
+- API v3 action `destination` on `website-api-v3` (version 3) and `zoho-api-v3` (version 2): `website_v3_destination` and `zoho_v3_destination` return empty lists; a bad filter returns `INVALID_INPUT`.
+- Admin functions `admin_destination_overview`, `admin_destination_review`, `admin_destination_set_status`; three settings `destination.*`; access history accepts `password_reset_sent`.
+- G3 guard: 75 functions, 48 tables, no drift; v2 course functions' md5 unchanged.
+- Isolated PostgreSQL fixture `destination-schema-pack`: applied twice, 33 checks pass. Specs widened for the new action: `cf-247-zoho-api-v3-contract`, `cf-247-s538-website-api-v3-r28-contract`, `cf-247-api-v3-field-dictionary-contract`.
+
+**Not done:**
+- No destination data is loaded. No loader job exists for localities, postcode shares or locality figures.
+- No Admin screen (RM0F): review and approval are functions only.
+- A keyed HTTP call to the `destination` action and a signed-in call of the Admin functions.
+- The `destination` fields are not in `ref.api_field_dictionary` (listed as pending in the dictionary file).
+- `password_reset_sent` is accepted by the database but the reset action does not write it yet.
+- UK, Ireland and USA adapters: scheme keys registered only.
+
+**Next executable action:**
+- Layer 1 owner: apply the 1,953 waiting rows of the 11 Nov CRICOS edition.
+- Build the ABS load job (first catalogued destination loader) after the squash.
+- Bulk ingestion readiness checklist: `docs/CURRENT-STATE.md` section 5.

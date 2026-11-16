@@ -375,7 +375,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 | O35 | University 'about' descriptions (Raghav, 24 Oct 2026; REQ-60) | **Partly delivered.** 31 of 45 AU universities have one | Fill the other 14 |
 | O36 | Scholarship data quality: 23 value notes that contradict the value, 34 unclassified benefits, 3 'open' with a passed deadline (Raghav, 24 Oct and 2 Nov 2026; REQ-64, REQ-71, REQ-72) | **Open, data work** | Review the notes, re-read the benefits, check the status refresh and its time zone |
 | O37 | Import the prototype's academic entry (about 2,357 courses by CRICOS) and scholarship details (204) (Raghav, 24 Oct 2026; REQ-66) | **Decision needed:** import as proposals or re-read from source | Platform Admin decision |
-| O38 | New reference data: city population, living costs, visa charges by nationality; terms of use for Jobs and Skills Australia, QILT and Home Affairs (Raghav, 24 Oct 2026; REQ-67, REQ-68) | **Decision needed:** scope, and Study Square to confirm permissions | Not held |
+| O38 | New reference data: city population, living costs, visa charges by nationality; terms of use for Jobs and Skills Australia, QILT and Home Affairs (Raghav, 24 Oct 2026; REQ-67, REQ-68) | **Decision needed:** scope, and Study Square to confirm permissions | Not held **17 Nov 2026:** schema and API v3 action `destination` live and empty (Pilot #1194, design v1.6); ABS sources approved (A-1 to A-4); no data loaded |
 | O39 | NZ graduate outcomes for international students, or confirm none exist (Raghav, 20 Oct 2026; REQ-82) | **Open.** Not held for NZ | Confirm a source exists |
 
 ## History

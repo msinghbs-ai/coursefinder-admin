@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.5 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.5 records the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.6 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.6 records the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -685,6 +685,8 @@ Notes:
 
 ### Wave 2 schema hold
 
+> Superseded on 17 November 2026 at 07:39 AEDT: the Platform Admin directed the remaining roadmap schema to ship before the squash. See [Roadmap schema pack before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026). The text below is kept as the record of the earlier instruction.
+
 Wave 2 schema DDL for RM0C, RM1B and RM4A is held until the migration squash on Thursday 19 November 2026, 01:30–03:30 AEDT, has completed and the Platform Admin has confirmed it is complete (restated 07:35 AEDT). No Wave 2 migration is opened as a pull request before then. Design, source capture planning and register updates may continue during the hold.
 
 | Item | State | Released when |
@@ -692,6 +694,84 @@ Wave 2 schema DDL for RM0C, RM1B and RM4A is held until the migration squash on 
 | RM0C destination core schema and dataset editions | Design ready (M3); DDL held | Platform Admin confirms the squash is complete |
 | RM1B Australian city population | Sources and rules approved (A-1 to A-4); DDL held | After RM0C |
 | RM4A New Zealand course recognition | Capture plan ready; DDL held | Platform Admin confirms the squash is complete |
+
+## Roadmap schema pack before the squash (17 November 2026)
+
+Platform Admin, 17 November 2026 07:39 AEDT (S1-RM-Design): ship every remaining roadmap database object before the migration squash on Thursday 19 November 01:30 AEDT. This supersedes the Wave 2 schema hold of 07:29 and 07:35 the same morning.
+
+### Correction to this design
+
+Sections M3 and M4 above (13 November) proposed `destination.dataset_edition`, `locality`, `campus_locality`, `city_observation`, `publication_generation`, `policy_rule`, `policy_version` and `policy_applicability`. Pilot #1155 (15 November) had already created a `destination` schema with `editions`, `study_rules`, `city_profiles` and `career_outcomes`, and Pilot `20261115230000` added an importer and a publication guard on them. Versions 1.3 to 1.5 of this document did not reconcile the two. The M3 and M4 table names are withdrawn. The live model is the one below.
+
+Decision (Platform Admin, 17 November 2026, on the question "replace, duplicate or extend"): **extend in place**. The #1155 tables, importer and guard stay; nothing is duplicated and nothing is dropped.
+
+### What shipped (Pilot #1193 and #1194, migration `20261117040000`, v2.16.18)
+
+Pilot #1193 merged on green CI but its migration (`20261117030000`) was refused by the deploy step before anything ran: the NOT NULL relaxation on `destination.study_rules` was written as a top-level `alter table ... drop not null`, which the deploy step treats as a drop. Pilot #1194 reissued the same migration as `20261117040000` with that statement inside the block that holds the other constraint changes, and added the deploy step's own refusal test to the spec so it is caught before merge. The relaxation removes no column, row or object and the table is empty; it is the change the Platform Admin chose ("extend in place, relaxing the visa-only NOT NULLs").
+
+| Area | Object | State |
+|---|---|---|
+| Localities (RM0C, RM1B, RM1I, RM4C) | `destination.localities`, `destination.locality_postcodes`, `destination.locality_metrics` | New, empty |
+| Study rules (RM0D, RM1C, RM1H, RM2C) | `destination.study_rules` extended: state, rule category, applicant scope, title, summary, threshold, currency, effective dates, row approval, quote, evidence date. Visa-only columns are now optional | Extended, empty |
+| Rule applicability (RM0D) | `destination.rule_applicability` (country, state, locality, provider or course; proven or excluded; evidence) | New, empty |
+| Careers (RM1D) | `destination.career_outcomes` extended: locality, occupation scheme (ANZSCO, NOC, SOC), reference period, dataset edition, attribution, status | Extended, empty |
+| Scheme register (RM2B, RM3, RM4A, RM5, RM6) | `ref.registration_schemes`, 18 rows | New, seeded |
+| API v3 (RM0E) | Action `destination` on `website-api-v3` and `zoho-api-v3`, through `public.website_v3_destination` and `public.zoho_v3_destination` | Live, returns empty lists |
+| Admin (RM0F, database part) | `admin_destination_overview`, `admin_destination_review` (Curator and above), `admin_destination_set_status` (Platform Admin, reason required) | Live; no screen yet |
+| Settings (G2) | `destination.page_size_max` (100), `destination.review_list_max` (200), `destination.postcode_primary_min_share` (0.9, approval A-3) | Live |
+| Admin access history | `security.user_access_events` accepts `password_reset_sent` | Live |
+
+### How the brief was mapped onto the live tables
+
+| Brief field | Live column | Why |
+|---|---|---|
+| `career_outcomes.median_annual_earnings`, `currency_code`, `demand_rating` | Existing `median_salary` (with `salary_period`), `salary_currency`, `job_outlook_rating`. The API returns them under the brief's names | The columns already existed; a second copy would drift |
+| `study_rules.approval_status`, `approved_by`, `approved_at` | New columns on the row. The edition's own status and terms (REQ-68) still apply | A rule is returned only when the row is approved **and** its edition is published |
+| `rule_applicability.entity_id` | `entity_id` plus `entity_code` | A state has no UUID |
+| `localities` | Adds `geography_code` | A load needs the source's own code to be repeatable |
+| Scheme names `NZQA`, `AU_CRICOS`, `ASCED` and so on | Lower-case keys the catalogue already stores (`cricos`, `nzqa`, `mtcu`, `ircc_dli`), with new keys `pgwp`, `uk_qaa`, `uk_ofs`, `ie_qqi`, `us_opeid`, `us_ipeds`, `asced`, `nzsced`, `cip`, `hecos` | Renaming stored values would change what the frozen v2 API reads (G3). The scheme columns are free text with no check constraint, so no table change was needed |
+
+### Rules the read path enforces
+
+- Localities and locality figures: status `approved` or `published`.
+- Study rules: row `approved`, edition `published`, today inside the effective dates.
+- Career outcomes: status `approved` or `published`, edition `published`.
+- Rows of a published edition are fixed (guard of `20261115230000`): approve rows first, then publish the edition. A later change is a new edition.
+
+### Known limits, stated plainly
+
+| Limit | Effect | Next step |
+|---|---|---|
+| No loader function for localities, postcode shares or locality figures | Loading is a service-role upsert on the tables' unique keys; `security.destination_postcode_flags_v1` applies the 90% rule | Build one catalogued load job per dataset (G1) with the first ABS capture |
+| `career_outcomes` is unique on edition, country and occupation | A locality-level figure for the same occupation cannot sit beside the national one in the same edition | Decide the grain before the first sub-national load; the change is a new unique key through a paste file |
+| `destination.city_profiles` (#1155) and `locality_metrics` both can hold population | Two homes for one fact | Use `locality_metrics`; mark `city_profiles` retiring once nothing reads it |
+| The `destination` action is not in `ref.api_field_dictionary` | Its 72 fields per API are listed under `pending_fields` in `docs/api/v3/field-dictionary.json` | Load with the next reviewed dictionary issue (RM0B, at v3 release) |
+| No Admin screen | Review and approval are RPCs only | RM0F screen, Study rules tab first |
+| `password_reset_sent` is accepted but not yet written | The reset action still does not log to the access history | One-line change in `admin-user-management` in the next release |
+| UK, Ireland and USA | Scheme keys are registered; no adapter exists | RM3A, RM5A, RM6A adapters |
+
+### Live verification (read only, 17 November 2026 08:44 AEDT)
+
+| Check | Result |
+|---|---|
+| Pilot #1194 | Merged on green (13 checks); Deploy on merge green; main `63deb84e` |
+| Migration `20261117040000` | Applied; history md5 `9f6b5a1a…` equals the file. `20261117030000` is not in the history. 2,053 migrations applied |
+| New tables | `destination.localities`, `locality_postcodes`, `locality_metrics`, `rule_applicability` present, row level security on, 0 rows. `ref.registration_schemes` 18 rows |
+| `public.website_v3_destination('{}')` | `localities: []`, `study_rules: []`, `career_outcomes: []`, totals 0, page size 100 |
+| `public.zoho_v3_destination` (AU, localities, page size 5) | Same empty lists; filters echoed |
+| Bad filter (`country_code: "AUS"`) | `INVALID_INPUT` |
+| Grants | The two v3 wrappers: service role only. Admin functions: signed-in users (rank checked inside), not anon |
+| Settings | `destination.page_size_max` 100, `destination.review_list_max` 200, `destination.postcode_primary_min_share` 0.9 |
+| Access history | Action check includes `password_reset_sent` |
+| G3 guard | 75 functions, 48 tables, no drift. `website_v2_course(text)` `50d22c3c…` and `zoho_v2_course` `6ee09600…` unchanged |
+| Edge functions | `website-api-v3` version 3 and `zoho-api-v3` version 2, both deployed by this run |
+
+Not done from this session: a keyed HTTP call to the `destination` action on either endpoint, and a signed-in call of the three Admin functions.
+
+### Evidence
+
+- Isolated PostgreSQL 16 fixture `tests/fixtures/destination-schema-pack/run.sh`: the pack applies twice; 33 checks pass (empty read, approval ranks, postcode rule from the setting, published-edition rules, scheme register, access history).
+- Spec `cf-247-rm0-destination-schema-pack-contract`. Three existing specs were widened for the new action and are named in the pull request.
 
 ## Design references
 
