@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 16:45 AEDT (API v3 data admission plan in section 5), 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -77,7 +77,9 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Tue 17 Nov 22:30 | PR 2 cutover (unchanged) |
 | Wed 18 Nov 09:15 | Pilot paste-file split (option 1) |
 | Daily 08:05 | Telemetry tabs refresh (`Model_Tier_&_Token_Efficiency`, `Layer_Lifecycle_Funnel`) before the 08:15 report |
+| Tue 17 Nov 09:45 | **API v3 data PR A** (primary campus by registered head office, campus-null reasons) then **PR B** (study load from stated evidence); plan below |
 | Wed 18 Nov 09:30 | **Phase 5 before Phase 4:** Review & Evidence DataGrid, first slice on Layer 4 › Inbox, with shared views `AER Audit Samples`, `Official URLs`, `Provider Blockers`, personal views and the quote-versus-value drawer. Phase 4 (Dispatcher Panels) follows Phase 5 |
+| Wed 18 Nov 13:30 | **API v3 data PR C** (AACSB/EQUIS/AMBA accreditations from the official lists, on demand) then **PR D** (v3 reads the four fields) |
 
 ### Course descriptions (v2.16.13 and v2.16.14, 16 Nov 2026)
 
@@ -171,6 +173,15 @@ Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
   - 10 of the 50 pages are over `reading.aer_v2_page_chars` (60,000) and fail for every model.
   - Recommended candidate pins: Mistral Small 3.2 first, Gemini 2.5 Flash second. Retire Qwen3 30B from the AER path.
   - Spend $0.459; on-demand `ca8dee01` closed. `ai_eval.offline_runs_on` and `ai_eval.aer_v3_runs_on` are back to 0. Nothing was admitted.
+
+### API v3 data admission: field lanes and 48-hour plan (16 Nov 2026 16:40 AEDT)
+
+- **Plan:** [`docs/platform/API-V3-DATA-ADMISSION-PLAN-2026-11-17.md`](platform/API-V3-DATA-ADMISSION-PLAN-2026-11-17.md) (REQ-19, -52, -53, -57, -65, -67, -75, -76).
+- **Schema is live, data is not:** `study_load`, `empty_reason_code`, `campuses.is_primary`, `catalogue.provider_accreditations`, `ref.grade_scale_conversions`, `destination.*` and `ref.api_field_dictionary` exist (migration `20261115190000`); all hold 0 rows or values.
+- **Tonight (PR 3, 23:15):** each field is declared as a lane in `pipeline.field_execution_registry`, disabled, with zero new cron jobs.
+- **Expected from the deterministic steps:** primary campus on 381 providers (registered head office matches exactly one campus); a campus-null reason on 5,639 courses; study load on about 2,671 courses from stated "full-time"/"part-time" evidence.
+- **Corrections to the brief:** `catalogue.provider_registrations` holds 3,103 regulator registrations (CRICOS, IRCC DLI, NZQA), not 36,075, and none is a business-school accreditation: AACSB, EQUIS and AMBA come from each body's official list. There are 4,341 active campuses (not 3,880).
+- **Decisions open:** D-4 rule confirmation; single-campus providers (824); REQ-19 common grade scale (AER session owns the table); REQ-65/67 scope and REQ-68 terms (destination); Pilot #1162 (field dictionary, v3 integration session) needs a new migration version and its paste file moved to admin.
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
