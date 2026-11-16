@@ -73,6 +73,16 @@ PY
   psql "$TEST_DB_URL" -X -q -c "delete from pipeline.boost_inbound_staging where batch_id = 'harness-bench-1000'"   # test project only
   psql "$TEST_DB_URL" -X -v ON_ERROR_STOP=1 -f "$ROOT/sql/boost-ingestion/004_rehearsal.sql" | tee "$WORK_DIR/point3-rehearsal.txt" | grep -E "NOTICE|q[1-5] |courses \|"
   grep -qE "courses \|\s+1 \|\s+0" "$WORK_DIR/point3-rehearsal.txt" || fail "rehearsal: expected 1 study load written and no updated_at touched"
+  # the 50-item shadow-only check and the bulk load, in one block that always rolls back (005)
+  local r; r=$(psql "$TEST_DB_URL" -X -f "$ROOT/sql/boost-ingestion/005_rehearsal_rolled_back.sql" 2>&1 | grep -o 'BOOST_REHEARSAL .*' | sed 's/^BOOST_REHEARSAL //')
+  echo "005: $r" | tee "$WORK_DIR/point3-005.json"
+  python3 - "$r" <<'PY' || fail "005: shadow-only check or bulk load did not pass"
+import json, sys
+r = json.loads(sys.argv[1])
+ok = r["bulk_1000"]["under_5s"] and r["shadow_50"]["courses_changed"] == 0 and r["shadow_50"]["result"]["by_state"].get("admitted", 0) == 0 \
+     and r["study_load_written"] == 1 and r["updated_at_touched"] == 0 and r["outside_window"] == "refused"
+sys.exit(0 if ok else 1)
+PY
 }
 
 point4() {
