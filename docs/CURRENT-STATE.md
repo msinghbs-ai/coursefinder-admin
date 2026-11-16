@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -24,21 +24,22 @@
 | Admin and operator SOPs | `docs/sops/` (mirror of Pilot `src/guide/sops.js`) | Pilot `node scripts/export-sops.mjs --check-mirror <this repo>/docs/sops` |
 | Tests and what each guards | `docs/platform/TEST-REGISTER.md` (generated) | Pilot `node scripts/test-register.mjs` |
 | Settings and UI simplification plan (decisions, phases, progress) | `docs/platform/ui-audit/ui-ux-settings-audit-2026-11-15.md` | Read §6 to §8; the live counts in it carry their read time |
+| AI spend and yield by service and model tier; page-to-catalogue funnel | Google Sheet `StudySearch_Pipeline_Telemetry_Live`, tabs `Model_Tier_&_Token_Efficiency` and `Layer_Lifecycle_Funnel` (refreshed 08:05 AEDT daily) | `security.telemetry_model_tier_v1(24)`, `security.telemetry_layer_funnel_v1(24)` (read only) |
 | Settings | `pipeline.platform_toolset_settings` | Settings › Settings on the admin screen; never a number in code (G2) |
 | Consumer API (frozen) | Pilot `tests/uat/consumer-api-baseline.json`, spec `s57` | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` before touching anything the website or Zoho reads |
 | Paste files waiting to be run | `docs/paste/README.md` | Section 4 below |
 | Task status and evidence | `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md`; consumer requests: `docs/integrations/` | One register; no second tracker |
 
-## 3. Live system as read (16 Nov 2026 09:22 AEDT; release, migration and test rows 12:25 AEDT)
+## 3. Live system as read (16 Nov 2026 09:22 AEDT; release, migration and test rows 13:14 AEDT)
 
 | Measure | Value |
 |---|---|
-| Visible release | v2.16.13 (package 0.1.435), Pilot `main` 6bfadf01 |
-| Newest migration applied live | `20261116080000` (same as the newest file in Pilot `supabase/migrations/`) |
-| Migrations applied | 2,036 |
+| Visible release | v2.16.14 (package 0.1.436), Pilot `main` 3fd6c994; worker coverage-sweep v1.0.5 |
+| Newest migration applied live | `20261116090000` (same as the newest file in Pilot `supabase/migrations/`) |
+| Migrations applied | 2,037 |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
-| Tests | 679 specs, 3,215 tests (3,123 local, 92 deployed track) |
+| Tests | 680 specs, 3,219 tests (3,127 local, 92 deployed track) |
 | UI | 20 pages, 48 tabs, 17 sub-tab bars, 178 folds, 39 drawers and dialogs |
 
 ## 4. Dispatchers, pending cutovers and pending paste files
@@ -75,15 +76,17 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 | Mon 16 Nov 23:15 | PR 3 scope, build and merge in shadow |
 | Tue 17 Nov 22:30 | PR 2 cutover (unchanged) |
 | Wed 18 Nov 09:15 | Pilot paste-file split (option 1) |
+| Daily 08:05 | Telemetry tabs refresh (`Model_Tier_&_Token_Efficiency`, `Layer_Lifecycle_Funnel`) before the 08:15 report |
 | Wed 18 Nov 09:30 | **Phase 5 before Phase 4:** Review & Evidence DataGrid, first slice on Layer 4 › Inbox, with shared views `AER Audit Samples`, `Official URLs`, `Provider Blockers`, personal views and the quote-versus-value drawer. Phase 4 (Dispatcher Panels) follows Phase 5 |
 
-### Course description readings (fixed 16 Nov 2026, release v2.16.13, Pilot #1174)
+### Course descriptions (v2.16.13 and v2.16.14, 16 Nov 2026)
 
-- **Cause:** new readings pause while 1,500 first descriptions wait in Layer 4 (`enrich.course_description_pending_global_max`); 1,831 waited, 1,167 of them held by a rejection memory that counted platform supersessions as a person's refusal.
-- **Fix:** migration `20261116080000`: the three rejection-memory tests leave out `superseded`; rule `cdesc-machine-v2`, so every waiting item is evaluated again. Dry run rolled back first; consumer API drift none.
-- **As read 12:25 AEDT:** 1,486 waiting (below 1,500 from 12:24); 492 admitted by v2, all read back; 0 still `rejected_before_course`; 1,052 not yet evaluated again (done by about 13:05).
-- **Readings:** resume when `field-gap-queue` next queues them (hourly at :23). The 12:23 run timed out during the re-evaluation load; the 13:23 run is checked at 13:35.
-- **Known:** refreshed declines keep the ledger label `cdesc-machine-v1` (updated in place; their stamp is v2).
+- **Rejection memory (v2.16.13, Pilot #1174):** only a person's decision counts as an earlier refusal; rule `cdesc-machine-v2`. 492 admitted in the first 30 minutes; the waiting count went below the 1,500 back-pressure limit at 12:24.
+- **Prompt v3 (v2.16.14, Pilot #1175):** no introducing opener sentence ("The <course> at <provider> is a ..."). By the existing rule, waiting v2 descriptions declined for good are superseded and read again with v3 (400 of 782 by 13:14; 790 waiting).
+- **Retry gate:** the second model only for `enrich.cdesc_retry_rules` (`quote_not_on_page`, `identity_margin_thin`). Before: Mistral retries rescued 18.6% (1,095 admitted a day). Watch `retry_rescue_rate_pct` and `first_pass_admit_rate_pct` on `Model_Tier_&_Token_Efficiency`; the list is changed with a reason in Settings › Settings › Course description and deadline.
+- **Ledger:** every AI attempt is written as it completes (worker v1.0.5), which closes the HTTP 546 gap found in the check below; the spend the ledger missed is shown daily as `unlogged_546_gap_usd` (US$0.96 for 15 Nov UTC).
+- **Readings:** restart when `field-gap-queue` next queues them (hourly at :23); checked at 13:35.
+- **Next bottleneck:** about half of first descriptions are declined by the machine for page binding (`identity_margin_thin`, `binding_ambiguous`) and wait for a person, which holds the queue near the 1,500 limit. Phase 5 (Layer 4 grid, Wed 09:30) is aimed at them.
 
 ### AI token efficiency check (read only, 16 Nov 2026 12:40 AEDT)
 
