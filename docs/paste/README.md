@@ -10,6 +10,7 @@ Each paste file is added in the same release cycle as the change that prepares i
 |---|---|---|---|
 | `PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 | Pilot migration `20261115200500_cf247_cron_quick_wins` | `b15d3ad9bcde75ea86b18e3f24fca4d0` |
 | `PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 | Pilot migration `20261116010000_cf247_settings_tidy_phase1` | `fdb433eae91edcd5fe4cceb5084e2fea` |
+| `PASTE-20261116-api-field-dictionary-number-arrays.sql` | Any time after Pilot migration `20261116110000` is live; a follow-up migration then loads the 2 held fields | Pilot #1162, migration `20261116110000_cf247_api_field_dictionary_sync` (REQ-76) | `29cf5f3ad8fff63d68bd58bbc2143ff9` |
 
 ## In transition
 
