@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 16:40 AEDT (Layer 4 clearance and AER benchmark round 2 in section 5), 13:36 AEDT (course description readings in section 5), 13:25 AEDT (release v2.16.14: sections 2 to 5), 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -35,8 +35,8 @@
 | Measure | Value |
 |---|---|
 | Visible release | v2.16.14 (package 0.1.436), Pilot `main` 3fd6c994; worker coverage-sweep v1.0.5 |
-| Newest migration applied live | `20261116090000` (same as the newest file in Pilot `supabase/migrations/`) |
-| Migrations applied | 2,037 |
+| Newest migration applied live | `20261116100000` (Pilot #1176, AER v3 benchmark round 2; read 16:28 AEDT, 2,038 applied) |
+| Migrations applied | 2,038 (16:28 AEDT) |
 | Scheduled jobs (`cron.job`) | 191 active, 11 switched off |
 | Components marked retiring | 46 settings, 30 functions, 14 screens, 8 jobs, 5 tables, 1 edge function |
 | Tests | 680 specs, 3,219 tests (3,127 local, 92 deployed track) |
@@ -136,6 +136,41 @@ Read-only queries only (`set transaction read only`, 20 s limit), on project `fx
   - Tell the model not to open with an identity sentence.
   - Or let that sentence draw on `VERIFIED_COURSE_FACTS` (title, provider, study level), with the check treating those facts as known in the same way.
   - Only re-ask when the hold is not one of these predictable patterns.
+
+### Layer 4 clearance and AER model benchmark round 2 (16 Nov 2026 14:06–16:40 AEDT)
+
+Full report: `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md`.
+
+- **Layer 4 waiting:**
+  - 5,172 at 14:20; 5,136 at 16:28 after the reconcile switch (read back).
+  - Owners: `course_entry_first_read` 2,578 (AER session), `official_course_url` 2,196, others 398.
+  - Since 16 Nov, items are decided or superseded faster than they arrive.
+- **Switched on (Platform Admin approval, 15:56):**
+  - `layer4.reconcile_supersede_on` = 1 since 16:00 AEDT.
+  - Job `layer4-readiness` (:22, :52) supersedes waiting platform-kind items whose course or provider is retired, repeats, and items already decided. It never approves or rejects.
+  - 36 retired-course official URL items cleared at 16:27.
+  - Defect: the function only examines the oldest `layer4.reconcile_batch` items, so at 200 it never reached them. That setting is now 3,000 (examines all 2,348 in 1.4 s). A code fix to rotate the window is proposed in report §3.1.
+- **Waiting for one Platform Admin batch decision:** 856 `official_course_url` items the course-link finder refused on negative evidence:
+  - another course's page, 377;
+  - another qualification level, 253;
+  - another award version, 91;
+  - older handbook year, 101;
+  - another campus, 37 (3 of the 859 are retired and settled by the reconcile switch).
+  - Report §3.2 has the options. A rule would be built shadow-first, with a separate activation.
+- **For the Phase 5 grid (Wed 09:30):**
+  - 1,304 other official URL items, grouped by provider;
+  - the 488 AER audit sample, which always stays with a person;
+  - fees 146, provider descriptions 88, no-page samples 55.
+- **For the AER session:** 1,604 quote_not_on_page items need a corrected read (AER v2 prompt v3), not a person.
+- **Benchmark round 2** (runs 17 to 20, frozen 50-case set 5, Pilot #1176 `20261116100000`):
+  - **No model qualifies.** Right answers on the 40 readable cases:
+    - Gemini 2.5 Flash 11 ($0.0317 per right, p50 5.5 s);
+    - MiMo v2.6 Flash 11 ($0.0053);
+    - Mistral Small 3.2 10 ($0.0032; best source integrity, 83%);
+    - Qwen3 30B 2 (18 timeouts).
+  - 10 of the 50 pages are over `reading.aer_v2_page_chars` (60,000) and fail for every model.
+  - Recommended candidate pins: Mistral Small 3.2 first, Gemini 2.5 Flash second. Retire Qwen3 30B from the AER path.
+  - Spend $0.459; on-demand `ca8dee01` closed. `ai_eval.offline_runs_on` and `ai_eval.aer_v3_runs_on` are back to 0. Nothing was admitted.
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
