@@ -2,7 +2,7 @@
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **Rule (Platform Admin, 16 Nov 2026 09:20):** every version bump, migration, or UI or scheduler change updates this page in the same release cycle, with the documents it points to. A fact here carries the time it was read; check the live system before relying on a figure older than a day.
-**Last updated:** 16 Nov 2026 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
+**Last updated:** 16 Nov 2026 12:45 AEDT (AI token efficiency check in section 5), 12:26 AEDT (sections 3 to 5), 09:25 AEDT (rest), by the Course Module session (S2-CF), from Pilot `main` 8f53f8fd (#1173) and a read-only query of project `fxcwkweaxjtknorudmwp`.
 
 ## 1. Start here
 
@@ -84,6 +84,55 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 - **As read 12:25 AEDT:** 1,486 waiting (below 1,500 from 12:24); 492 admitted by v2, all read back; 0 still `rejected_before_course`; 1,052 not yet evaluated again (done by about 13:05).
 - **Readings:** resume when `field-gap-queue` next queues them (hourly at :23). The 12:23 run timed out during the re-evaluation load; the 13:23 run is checked at 13:35.
 - **Known:** refreshed declines keep the ledger label `cdesc-machine-v1` (updated in place; their stamp is v2).
+
+### AI token efficiency check (read only, 16 Nov 2026 12:40 AEDT)
+
+Read-only queries only (`set transaction read only`, 20 s limit), on project `fxcwkweaxjtknorudmwp`, Supabase logs and Pilot `main` 6bfadf0 (worker `coverage-sweep-worker-v1.0.4`). Nothing was changed. The PR 1 cutover (22:30 AEDT) was not touched. Days are UTC days.
+
+**1. Pre-AI gate and duplicate input: not in place for `enrich_ai`**
+- The admission gate (`admission-gate.ts admit`) is called only in mode `scholarship_ai` (index.ts about line 2234). `admission.gate_on` is 0 there: `pipeline.pre_ai_admission_decisions` has 0 rows in 3 days.
+- `enrich_ai` (description, intakes and the other course fields) sends every leased item. Neither the worker nor `public.svc_enrich_ai_next` checks any of these before calling OpenRouter:
+  - (course, field, page content hash, prompt version);
+  - a minimum readable text length;
+  - the page's identity status.
+- Measured over 24 h on `pipeline.field_enrich_items`:
+  - Description: 13,121 paid reads cost $9.01. 2,741 of them re-read a course and page already read in the window (about $1.91). Only 3 of those pairs had the same prompt version: the rest are the one-off re-read when `cdesc-source-grounded-v2` was released (15 Nov 05:00 UTC), and 1,110 of them were held again.
+  - Intakes: 67 items, none with an identity reason.
+- So a gate on (entity, field, hash, prompt version) would save almost nothing day to day. Its value is stopping re-reads that will predictably be held again.
+- The 55.7% `DUPLICATE_HASH` and 73% `IDENTITY_MISMATCH` figures could not be reproduced from these tables. The query behind them is needed before building the gate on them.
+
+**2. Prompt caching and `cached_tokens`: not used and not recorded**
+- The course description request (`course-text.ts cdescRequest`) puts the static system prompt (`CDESC_SYSTEM`, about 2.5 KB) and the JSON schema ahead of the dynamic page JSON. The order is right for caching.
+- No `session_id` is sent and there is no `cache_control`.
+- `cascade.ts note()` keeps only `prompt_tokens`, `completion_tokens` and `cost`. `pipeline.ai_invocations` has no `cached_tokens` column.
+- The static prefix is about 600 to 800 tokens of an average of 3,408 input tokens (Qwen, course description). That caps the possible input saving at about 20%, and only on providers that cache implicitly.
+- The Mistral re-ask is a different model, so it cannot use Qwen's cache.
+
+**3. Ledger drift: cause found**
+- 15 Nov: at 21:15 UTC the key showed $10.81 against $9.84 in `pipeline.ai_invocations`. At day end it was $10.99 against $10.03, a $0.96 gap.
+- The gap sits in the hours with `coverage-sweep` HTTP 546 (worker limit) responses:
+
+  | Hour (UTC) | 546 responses | Gap |
+  |---|---|---|
+  | 03 | 114 | $0.56 |
+  | 04 to 06 | 88 | $0.25 |
+  | 14 to 15 | 52 | $0.08 |
+
+- Hours with only HTTP 500 responses (07 to 12 UTC) drift by less than $0.02 an hour.
+- Cause: the attempt trace is written once, at the end of a worker call (index.ts about line 529, `svc_ai_model_answered_v1`). A call killed by 546 loses every attempt it had already paid for.
+- Minor: 924 failed attempts on 15 Nov carry no cost (time-outs and thrown errors).
+- **Action:** write attempts as they complete (or flush in batches during the call), and keep `usage.cost` on errors where OpenRouter returns it. Separately, reduce 546s in `enrich_ai` course description calls: fewer pages per call at peak, through the existing setting.
+
+**4. `unsupported_sentence` holds on `cdesc-source-grounded-v2`: top three causes**
+- 2,249 holds since 15 Nov 05:00 UTC, 2,243 of them on Qwen first answers. The threshold is `pdesc.support_min_share` 0.6, a provider-description setting reused here. The three groups overlap.
+  1. **The opening identity sentence: 1,857 holds (83%).** Sentences like "The <title> at <provider> is a …". The check strips the known title and provider before scoring (`security.cdesc_known_strip_v1`), so the framing left over ("is a qualification offered by …", 817 holds) is scored against a quote that does not contain it.
+  2. **Level, credit or duration facts not in the cited quote: 750 holds (33%).** For example AQF level, credit points or full-time years.
+  3. **Audience framing ("designed for …", 356, 16%) and near-empty sentences after stripping (280, 12%).** For example "The is offered by the.", support 0.
+- **Re-asks to Mistral:** 9,087 Qwen answers led to 5,786 re-asks (64% in this window). Only 1,552 items ended with the Mistral answer (1,533 filled or in review), about 27% of re-asks. About 4,200 re-asks bought nothing (about $1.70 at $0.00041 a call).
+- **Action, to decide (prompt and check change, not made here):**
+  - Tell the model not to open with an identity sentence.
+  - Or let that sentence draw on `VERIFIED_COURSE_FACTS` (title, provider, study level), with the check treating those facts as known in the same way.
+  - Only re-ask when the hold is not one of these predictable patterns.
 
 ## 6. Known gaps (not resolved, do not work around silently)
 
