@@ -1,0 +1,22 @@
+{
+ "head": "20261116200000",
+ "newer": 3,
+ "applied": 0,
+ "failures": [
+  {
+   "version": "20261116190000",
+   "name": "cf247_admission_rule_runner_cutover",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: gate: a rule is already live; this cutover runs once\nCONTEXT:  PL/pgSQL function inline_code_block line 5 at RAISE\n"
+  },
+  {
+   "version": "20261116210000",
+   "name": "cf247_rollup_scheduler_fix",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: housekeeping-daily is not the job this change edits\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE\n"
+  },
+  {
+   "version": "20261116220000",
+   "name": "cf247_pr3_coverage_lane_dispatch_shadow",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: post-check: 0 of 13 coverage lanes match their live legacy job\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE\n"
+  }
+ ]
+}

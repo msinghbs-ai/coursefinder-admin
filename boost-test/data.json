@@ -1,0 +1,163 @@
+[
+ {
+  "table": "ref.aer_qualifications",
+  "rows": 39
+ },
+ {
+  "table": "ref.api_field_dictionary",
+  "rows": 1923
+ },
+ {
+  "table": "ref.au_regional_postcode_ranges",
+  "rows": 67
+ },
+ {
+  "table": "ref.countries",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"countries\" violates foreign key constraint \"countries_default_currency_code_fkey\"\nDETAIL:  Key (default_currency_code)=(INR) is not present in table \"currencies\".\n"
+ },
+ {
+  "table": "ref.course_code_schemes",
+  "rows": 33
+ },
+ {
+  "table": "ref.course_link_types",
+  "rows": 6
+ },
+ {
+  "table": "ref.currencies",
+  "rows": 7
+ },
+ {
+  "table": "ref.english_tests",
+  "rows": 7
+ },
+ {
+  "table": "ref.external_study_area_mappings",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"external_study_area_mappings\" violates foreign key constraint \"external_study_area_mappings_external_study_area_id_fkey\"\nDETAIL:  Key (external_study_area_id)=(8166cebf-a019-4ade-8b6c-dbb31d3a8731) is not present in table \""
+ },
+ {
+  "table": "ref.external_study_areas",
+  "rows": 13
+ },
+ {
+  "table": "ref.fields_of_study",
+  "rows": 102
+ },
+ {
+  "table": "ref.grade_scale_conversions",
+  "rows": 0
+ },
+ {
+  "table": "ref.identifier_schemes",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"identifier_schemes\" violates foreign key constraint \"identifier_schemes_country_id_fkey\"\nDETAIL:  Key (country_id)=(e89cc13b-43b5-4255-8f26-45ef6d86141b) is not present in table \"countries\".\n"
+ },
+ {
+  "table": "ref.institution_collections",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"institution_collections\" violates foreign key constraint \"institution_collections_country_id_fkey\"\nDETAIL:  Key (country_id)=(e89cc13b-43b5-4255-8f26-45ef6d86141b) is not present in table \"countries\".\n"
+ },
+ {
+  "table": "ref.languages",
+  "rows": 0
+ },
+ {
+  "table": "ref.nationality_terms",
+  "rows": 125
+ },
+ {
+  "table": "ref.outcome_metrics",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"outcome_metrics\" violates foreign key constraint \"outcome_metrics_survey_id_fkey\"\nDETAIL:  Key (survey_id)=(b1d921c6-00f2-495b-8792-534bf713dc7a) is not present in table \"outcome_surveys\".\n"
+ },
+ {
+  "table": "ref.outcome_surveys",
+  "rows": 10
+ },
+ {
+  "table": "ref.provider_types",
+  "rows": 10
+ },
+ {
+  "table": "ref.ranking_sources",
+  "rows": 0
+ },
+ {
+  "table": "ref.regions",
+  "rows": 0
+ },
+ {
+  "table": "ref.study_level_source_mappings",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"study_level_source_mappings\" violates foreign key constraint \"study_level_source_mappings_source_id_fkey\"\nDETAIL:  Key (source_id)=(b5680d74-49c5-49a5-b198-a625f3e3fdcf) is not present in table \"sources\".\n"
+ },
+ {
+  "table": "ref.study_levels",
+  "rows": 24
+ },
+ {
+  "table": "ref.subdivisions",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"subdivisions\" violates foreign key constraint \"subdivisions_country_id_fkey\"\nDETAIL:  Key (country_id)=(33bd5bc5-ef40-43af-9d30-8dc21d3884c7) is not present in table \"countries\".\n"
+ },
+ {
+  "table": "security.roles",
+  "rows": 6
+ },
+ {
+  "table": "pipeline.platform_toolset_settings",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"platform_toolset_settings\" violates foreign key constraint \"platform_toolset_settings_toolset_key_fkey\"\nDETAIL:  Key (toolset_key)=(edge_functions) is not present in table \"platform_toolsets\".\n"
+ },
+ {
+  "table": "pipeline.automation_catalogue",
+  "rows": 206
+ },
+ {
+  "table": "pipeline.component_register",
+  "rows": 2008
+ },
+ {
+  "table": "pipeline.ai_service_routes",
+  "rows": 15
+ },
+ {
+  "table": "pipeline.ai_model_catalogue",
+  "rows": 17
+ },
+ {
+  "table": "pipeline.aer_prompt_versions",
+  "rows": 6
+ },
+ {
+  "table": "pipeline.prompt_templates",
+  "rows": 4
+ },
+ {
+  "table": "pipeline.layer4_field_registry",
+  "rows": 51
+ },
+ {
+  "table": "pipeline.rollup_targets",
+  "rows": 26
+ },
+ {
+  "table": "pipeline.admission_rules",
+  "rows": 20
+ },
+ {
+  "table": "pipeline.admin_job_kinds",
+  "rows": 16
+ },
+ {
+  "table": "pipeline.platform_toolsets",
+  "rows": 7
+ },
+ {
+  "table": "pipeline.firecrawl_purpose_groups",
+  "rows": 0,
+  "error": "missing on the test project"
+ }
+]

@@ -1,0 +1,6 @@
+{
+ "file": "005_rehearsal_rolled_back.sql",
+ "ok": false,
+ "result": null,
+ "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"providers\" violates foreign key constraint \"providers_id_fkey\"\nDETAIL:  Key (id)=(c660bcf6-3e06-4e68-b99f-47a3fa6a4543) is not present in table \"entity_registry\".\nCONTEXT:  SQL statement \"insert into catalogue.providers (id, stable_key, canonical_name, country_id) values (gen_random_uuid(), 'boost-rehearsal', 'Boost Rehearsal Institute', v_country)\n    returning id\"\nPL/pgSQL function inline_code_block line 15 at SQL statement\n"
+}
