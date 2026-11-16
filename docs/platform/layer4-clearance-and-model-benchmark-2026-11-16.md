@@ -177,10 +177,54 @@ Round 1 for reference (set 5, longer pages allowed): MiMo 30%, Mistral 30%, Qwen
 |---|---|---|
 | 1 | Pilot #1178, migration `20261116120000`:<br>• `course_entry_requirements` and `entry_matrices` switched off.<br>• Qwen3 30B unqualified on both and on the v2 shadow.<br>• `entry_requirements_v2_shadow` cascade = Mistral Small 3.2 alone (`pending`, provisional); route and `aer.v2_shadow_on` stay off.<br>• 7 log entries. | Merged 16 Nov 17:49 AEDT. Read back: all three routes held `off`; no entry-reading AI call since. Rolled-back dry run first; G3 unchanged. |
 | 2 | Pilot #1179, worker v1.0.6 and migration `20261116130000`:<br>• A page over `reading.aer_v2_page_chars` sends only its entry requirement sections (`lean-sections-v3`), with the page's own block numbers, when `reading.aer_v2_long_page_sections_on` = 1.<br>• The answer is verified against the whole page. A page is never cut. | Merged 16 Nov 18:02 AEDT; worker v1.0.6 live from 18:05; the switch is 0. |
-| 3 | Round 3 on the frozen set 5, under the same limits, with the long-page switch on: Mistral, MiMo, Gemini 2.5 Flash, each pinned. | Scheduled Tue 17 Nov 07:30 AEDT. |
-| 4 | Only if Mistral passes the gate: the Platform Admin qualifies it, switches the shadow on, and the held items are re-read through the normal admission rule. | Proposal only. Nothing switches on by itself. |
+| 3 | Round 3 on the frozen set 5, under the same limits, with the long-page switch on: Mistral, MiMo, Gemini 2.5 Flash, each pinned. | **Done 17 Nov 07:45–09:07 AEDT** (Pilot #1191 and #1192; §6.1). |
+| 4 | Only if Mistral passes the gate: the Platform Admin qualifies it, switches the shadow on, and the held items are re-read through the normal admission rule. | **Path B (17 Nov 09:15 AEDT):** Mistral failed the gate (§6.1). Nothing qualified or switched on; no re-reads; no further spend. |
 
 AER v1 entry reading waits for a qualified model. The AER v1 prompt (`course-entry-v1`) has no benchmark with Mistral, so it cannot be qualified from round 2.
+
+### 6.1 Round 3 results (Tue 17 Nov 2026)
+
+**Setup.**
+- Pilot #1191 (migration `20261117020000`) opened runs 24 (Gemini 2.5 Flash), 25 (MiMo v2.6 Flash) and 26 (Mistral Small 3.2). Each model was pinned without fallback.
+- Same as round 2: the frozen set 5, prompt `aer-v2-course-v3` (same sha-256), `reading.aer_v2_page_chars` 60,000 and `reading.aer_v2_max_tokens` 12,000.
+- New: `reading.aer_v2_long_page_sections_on` = 1, worker `coverage-sweep` v1.0.6.
+- Rolled-back live dry runs passed with the consumer API check unchanged, for both #1191 and #1192.
+- Answered 07:50–08:56 AEDT by seven worker calls. Partial calls hold a 30-minute lease (lesson 7).
+- Scored by the `ai-eval` job; evidence was written to `pipeline.ai_route_qualifications` as `pending`.
+- Pilot #1192 (migration `20261117030000`) restored the three switches to 0 at 08:58 and closed on-demand `349feb5b`.
+
+| Model (pinned) | Right, 50 (round 2) | Right, 40 short pages (round 2) | Long pages: read / right, of 10 | Errors | Error rate | Source integrity | False positives | Cost | Cost per right answer |
+|---|---|---|---|---|---|---|---|---|---|
+| `mistralai/mistral-small-3.2-24b-instruct` | **13 (26%)** (10) | 11 (10) | 6 / 2 | 11 timeouts | **22 pts** (30) | **85.7%** (83.3%) | **1** (1) | $0.041 | $0.0032 |
+| `google/gemini-2.5-flash` | 14 (28%) (11) | 11 (11) | 9 / 3 | 4 output truncated | 8 pts (26) | 75% (66.7%) | 2 (3) | $0.514 | $0.0367 |
+| `xiaomi/mimo-v2.6-flash` | 12 (24%) (11) | 9 (11) | 7 / 3 | 10 timeouts, 1 truncated | 22 pts (30) | 50% (50%) | 3 (3) | $0.058 | $0.0049 |
+
+**Gate on Mistral Small 3.2 (criteria recorded with the run).** Source integrity 100%, error rate at most 10 points, no false positives. **Failed on all three:** 85.7%, 22 points, 1 false positive. **Path B**, as pre-authorised on 16 Nov 20:14:
+- AER live admission and the v2 shadow stay off.
+- No model is qualified. No held item is re-read.
+- No further spend.
+
+**What the long-page switch did.**
+- **Page too long:** no case is left with this error (10 per model in round 2).
+- **Long pages:** answers on the 10 long pages had **100% source integrity and no false positives** on every model, and 2 to 3 of them were right.
+- **Accuracy:** the round-3 gains come almost entirely from the long pages. On the 40 short pages, Mistral gained one right answer, Gemini was level and MiMo lost two.
+
+**What blocks qualification now.**
+1. **Timeouts at the 90-second call limit.** Mistral 11 (5 in round 2), 4 of them on long pages; MiMo 10. Every timeout counts as a failed answer.
+2. **Quotes not found on the page.** All are on short pages: the long-page answers were 100% on the page. Mistral's source integrity is 85.7%.
+3. **Missed rows (false negatives 24 to 30).** Accuracy stays under 30% on every model; prompt v3 still misses most printed rows.
+
+**Recommendation (for the Platform Admin; nothing is changed).**
+- Keep AER v1 and the v2 shadow off.
+- Before another round: raise the per-call time limit for long section prompts, or split the 90-second limit, so slow answers are measured, not dropped.
+- Revise prompt v3 for the rows it misses, using the person-decided cases the Phase 5 `AER Audit Samples` view collects (lesson 3).
+- Re-run on set 5 under the same limits.
+
+**Spend and credit.**
+- Round 3 answers cost **$0.613**: Gemini $0.514, Mistral $0.041, MiMo $0.058.
+- AER v3 spend over all time is **$1.238** of the $2 cap (`ai_eval.aer_v3_max_usd`).
+- On-demand `349feb5b`: estimate $0.60, 0 Firecrawl.
+- OpenRouter balance went from $14.49 to $13.84; that drop covers all lanes over the window.
 
 ## 7. Official URL resolution: all 856 items (Platform Admin 16 Nov 2026 16:47, 18:01 and 18:44 AEDT)
 
