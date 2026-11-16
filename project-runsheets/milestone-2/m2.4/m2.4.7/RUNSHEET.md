@@ -11622,3 +11622,33 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Approved way to speed up CI (no workflow edits):** raise the `TEST_EVIDENCE_SHARDS` repository variable (supported range 1–16, default 6) with Platform Admin sign-off, and run the targeted specs locally before pushing. Anything that gates by path needs a separate, signed-off change to the readiness scripts and `s400`.
 
 **Reference:** project note `claude/ci-path-filter-findings-2026-11-14.md`.
+
+## 16 Nov 2026 12:25 AEDT — F-CDESC rejection memory counts person decisions only; release v2.16.13 (Pilot #1174 6bfadf01) — DONE, readings resume at the next gap-queue run
+
+**Request:** Platform Admin 16 Nov 2026 11:32, approving the read-only finding of 11:09: only genuine human decisions count as `rejected_before_course`; bump the rule version so the 1,167 waiting v2 descriptions are evaluated again against all other checks.
+
+**Finding (read only, 11:00–11:09):** OpenRouter was not the cause (key reset at 11:00, US$100 of US$100 left; other services answered from 11:00). No course description reading had started since 02:48 because `security.enrich_course_text_gaps_v1` starts none while 1,500 first descriptions wait in Layer 4, and 1,831 waited. 1,167 were declined `rejected_before_course`; every earlier item for those courses was `superseded` by the platform (1,421 by `cdesc-prompt-supersede` at the v2 release, 132 by another CF-247 path), none by a person, none a v2 reading.
+
+**Change:** migration `20261116080000_cf247_cdesc_rejection_memory_person_only`, md5-guarded edits in place (prosrc before and after):
+- `security.course_description_machine_check_v1`: the three rejection-memory tests (course, page, text) leave out `superseded`; a person's decision still counts.
+- Rule version `cdesc-machine-v2` in the check, `course_description_machine_admit_v1`, the policy stamp, `cdesc_prompt_supersede_v1` and `course_description_machine_shadow_v1`. The new stamp makes the job `course-description-machine` evaluate every waiting item again.
+- No setting, job, route, model or consumer API object changed (`enrich.course_description_pending_global_max` stays 1,500).
+
+**Rolled-back live dry run (production, 20 s per statement):** every guard and post-check passed; consumer API drift none (75 functions, 48 relations); even sample of 120 of the 1,167: 60 would be admitted, 0 still `rejected_before_course` (identity_margin_thin 45, binding_ambiguous 9, policy_refused_word 6).
+
+**Verified live:** deploy-on-merge applied the migration at 11:53 (history md5 30dc3d41 matches the file); the five function bodies equal the expected md5s (check `1be689ae…`, admit `ee3f9e55…`, stamp `d089bbeb…`, supersede `b55a9382…`, shadow `0e8fafc0…`); settings unchanged.
+
+| Measure (since 11:53) | 12:25 AEDT |
+|---|---|
+| First descriptions waiting in Layer 4 | **1,486** (1,831 before; below the 1,500 back-pressure limit from 12:24) |
+| Admitted by `cdesc-machine-v2` | 492, all 492 read back by the consumer check; 0 withdrawn |
+| Still declined `rejected_before_course` under the new stamp | 0 |
+| Waiting items not yet evaluated again | 1,052 (the job takes about 100 a run; done by about 13:05) |
+| Machine job runs failed | 0 |
+| Consumer API drift flag | none |
+
+**Course description readings:** not resumed yet. The queueing job `field-gap-queue` (hourly at :23) ran at 12:23, while 1,535 still waited, and timed out at 120 s in its deadline step, its first failure in 30 hours (runs take 42–113 s), during the re-evaluation load. Its next run is 13:23, after the re-evaluation ends; a follow-up check is scheduled for 13:35.
+
+**Known:** a refreshed decline keeps its earlier ledger `rule` label (`cdesc-machine-v1`) because the decline row is updated in place; its `policy_stamp` is the v2 stamp, so the evaluation is v2. Admissions carry `cdesc-machine-v2`.
+
+**Tests:** new spec `cf-247-s558-cdesc-rejection-memory-person-only` (3 tests); test register regenerated (679 specs, 3,215 tests); SOP mirror and UI map for v2.16.13.
