@@ -221,3 +221,26 @@ The 2,046-migration replay is not a usable launch path. It is recorded as a gap,
 3. Run G3, point 3 and the shadow-only check there.
 
 The workflow change follows when the Platform Admin agrees the route.
+
+### 12.1 Schema-dump route (Platform Admin 16 Nov 2026 22:44): runs 43863252704 and 43885548875
+
+**Route (admin #532):** reset the test project, apply Pilot's roles and preamble, then the production schema dump `db-schema-dump/43861191617` (16 Nov 22:50–23:04 AEDT, 10.4 MB, 15,936 statements, production head `20261116200000`). After that come the reference and configuration data (read only from production), the migrations newer than the dump (`20261116190000` PR 2 and `20261116210000` PR 1 fix included), G3, point 3 and the 50-item shadow-only check.
+
+| Run | What happened | Result |
+|---|---|---|
+| 43863252704 (23:04 AEDT) | Step 2 (schema) ran 2 h 20 min. Each failed 200-statement batch fell back to one API call per statement; no progress output; a time-out would have skipped the results step | **Cancelled 01:25 AEDT**, no results. Fix admin #536: failed batches are bisected, progress is printed and saved after every batch, steps have time limits, the results step always runs |
+| 43885548875 (01:25 AEDT) | Step 2 reached its 90-minute limit | **Schema not finished: 3,698 of 15,936 statements in 89 min; 2,440 applied, 1,258 failed, 4,094 API calls.** Roles 7 of 7. Steps 3 to 5 did not run, so no G3, point 3 or shadow-only result. Results: branch `boost-test/43885548875` |
+
+**Why every one of the 1,258 statements failed (one cause):**
+
+| Statement | Failed | Error |
+|---|---|---|
+| `CREATE OR REPLACE FUNCTION` | 557 | body check: a table or function it reads does not exist yet (`42P01`, `42883`) |
+| `ALTER FUNCTION … OWNER TO` | 556 | the function above was not created |
+| `COMMENT ON FUNCTION` | 145 | the same |
+
+A pg_dump schema creates functions before the tables they read. It relies on its opening session settings, mainly `check_function_bodies = false` and `search_path = ''`. The script sends each batch as its own API call, which is a new session, so those settings reached only the first batch. Because a third of the statements failed, bisection could not keep the call count down.
+
+**Fix (this change):** every call now starts with the session settings in effect before its first statement and ends with `RESET ALL`, so nothing carries into later calls. Offline test (fake API that refuses a function unless `check_function_bodies = false` is set in the same call; 4,004 statements): all applied except the one bad statement, in **37 calls**, order kept. On the real dump this means about 80 batches instead of thousands of calls.
+
+**Next:** re-run `boost-test-rebuild.yml` with the same inputs once the Platform Admin agrees. Nothing here touched production beyond read-only queries; the test project stays as the run left it (partly built) until the next reset.
