@@ -1,8 +1,10 @@
 # Boost test project experiment (S2 - BOOST; Platform Admin 17 Nov 2026 22:05: database and test-project runs go through GitHub Actions and the
 # Management API, with no confirmation prompt). What a run does:
 #   1. Production, read only (read_only=true): migration head, G3 (75 functions, 48 relations, no drift) and the md5 of security.boost_promote_v1.
-#   2. Test project coursefinder-boost-test (refused for any other project): optionally re-seed the cohort (docs/paste/boost-test-reseed.sql),
-#      copy the promotion function from production, run sql/boost-experiments/admitted-count.sql under the given label, and give a verdict.
+#   2. Test project coursefinder-boost-test (refused for any other project): copy the promotion function from production, then either
+#      (admitted-count) optionally re-seed the cohort (docs/paste/boost-test-reseed.sql), run sql/boost-experiments/admitted-count.sql under
+#      the given label and give a verdict, or (benchmark) replay the production model benchmark run named by the label: each model's answers
+#      are promoted with only that model qualified, on the test project only, and reported per model and country.
 #   3. Results to the never-merged branch boost-experiment/<run id> (counts and timings only).
 # Nothing is written to production.
 name: Boost test project experiment
@@ -20,6 +22,11 @@ on:
         description: "Re-seed the cohort first (after a rebuild of the test project)"
         type: boolean
         default: true
+      mode:
+        description: "admitted-count: the load and promotion run. benchmark: replay the production model benchmark run named by the label"
+        type: choice
+        options: ["admitted-count", "benchmark"]
+        default: "admitted-count"
 concurrency:
   group: boost-test-project
   cancel-in-progress: false
@@ -43,15 +50,22 @@ jobs:
           if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then echo "::error::Secret SUPABASE_ACCESS_TOKEN is not set on this repository"; exit 1; fi
           python3 scripts/boost-experiment.py prodcheck | tee -a "$GITHUB_STEP_SUMMARY"
       - name: 2. Re-seed the cohort on the test project
-        if: ${{ inputs.reseed }}
+        if: ${{ inputs.reseed && inputs.mode != 'benchmark' }}
         run: python3 scripts/boost-experiment.py run docs/paste/boost-test-reseed.sql "$LABEL" | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: 3. Promotion function from production, then the experiment
+      - name: 3. Promotion function from production
         run: |
           set -euo pipefail
+          python3 scripts/boost-experiment.py copyfn "security.boost_on_demand_v1(timestamp with time zone)" | tee -a "$GITHUB_STEP_SUMMARY"
           python3 scripts/boost-experiment.py copyfn "security.boost_promote_v1(text,boolean,timestamptz)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 4. The experiment and its verdict
+        if: ${{ inputs.mode != 'benchmark' }}
+        run: |
+          set -euo pipefail
           python3 scripts/boost-experiment.py run sql/boost-experiments/admitted-count.sql "$LABEL" | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: 4. Verdict
-        run: python3 scripts/boost-experiment.py verdict "$LABEL" | tee -a "$GITHUB_STEP_SUMMARY"
+          python3 scripts/boost-experiment.py verdict "$LABEL" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: 4. Replay of the production model benchmark
+        if: ${{ inputs.mode == 'benchmark' }}
+        run: python3 scripts/boost-experiment.py benchmark "$LABEL" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Results to boost-experiment/<run id>
         if: ${{ always() }}
         run: |
