@@ -318,3 +318,11 @@ Dump `db-schema-dump/43989024895` (Pilot run 43989024895, 11:36–11:50 AEDT; pr
 - **Priority matrix** (replaces the store and categories described in §13): 18 `boost.matrix.*` settings on Settings › Pipeline settings › Boost, over the single category list `ref.enrichment_categories`; `study_load` is Intakes & deadlines and `course_description` is Course basics; it orders the queue only and promotion does not read it (Pilot #1219, migration `20261117223000`, s586).
 - **Promotion** admits one row per course in a batch; later rows for the same course are refused, so the admitted count is the number of courses filled.
 - **Test project** is shared with S1-Build's squash rebuild proof; the cohort is re-seeded from `docs/paste/boost-test-reseed.sql` after each rebuild.
+
+## 15. Boost extraction through `coverage-sweep` (S2 - BOOST, live 17 Nov 2026 22:37 AEDT)
+
+- **Built as decided in §14:** route `boost_extract` in Models & services (pinned to `qwen3-30b`), worker `coverage-sweep` v1.0.9 mode `boost_extract`, job `boost-extract` inside the overnight Boost window, ledger `pipeline.boost_extract_items` (Pilot #1223, migration `20261117235000`, s587). The prompt (`boost-study-load-v1`) and the answer check are those of `workers/cf-boost-extractor` (prompts/study_load.json, src/verify.ts), moved into the worker's `boost.ts`.
+- **Path of a result:** job `boost-extract` → worker reads the stored page and asks the route's model → result file in Storage `staging-boost/inbound` → `worker-boost-bulk-ingest` → `pipeline.boost_inbound_staging` → `security.boost_promote_v1`. Shadow only while `pipeline.boost_model_qualifications` is empty.
+- **`workers/cf-boost-extractor` and `scripts/boost-export-queue.*`** stay in this repository as the design record and the test harness; neither is deployed or scheduled.
+- **Test-project runs** go through the workflow `boost-test-experiment.yml` (§12 rebuild is S1-Build's `boost-test-rebuild.yml`).
+- **Figures, queue size, verification and what is still to do:** `docs/CURRENT-STATE.md`, section 5 › S2 - BOOST lane.
