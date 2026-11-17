@@ -11692,3 +11692,23 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 
 **Next executable action:**
 - Platform Admin: set the UAT account's password and the GitHub secret `UAT_PASSWORD` to the same value, then re-run StudySearch Deployed UAT.
+
+## 17 Nov 2026 22:55 AEDT — v2.16.27: Email delivery provider card saves and tests itself (Pilot #1225); Deployed UAT on main GREEN
+
+**Trigger:** Platform Admin 17 Nov 2026 22:31, 22:34 and 22:45 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1225 merged on green CI (12 checks) as `24651f52` and deployed: v2.16.27, package 0.1.449, no migration. Users & roles › Links & Email Templates › Email delivery provider has its own Reason box, Save Email Provider Settings and Send Test Email, with the result shown in the card. Edge function `admin-user-management` version 12: `auth_template_test` with `via: "resend"` sends through Resend with the saved settings to the caller's own address, also before Resend is the provider.
+- `main` is green: Deployed UAT passed on the 22:31 re-run (after the Platform Admin aligned `UAT_PASSWORD`) and on the runs for Pilot #1224, #1223 and #1225. All five workflows on `24651f52` passed.
+- Checked live, read only: G3 guard 75 functions and 48 tables, no drift; migration head `20261117235000` (S2 - BOOST); eight categories and 32 mapped fields, none orphaned; `admin_ops_telemetry()` returns 1,866 source rows (39,756 Layer 4 review items, 60,493 evidence captures) equal to its view; field coverage snapshot dated 17 Nov 2026.
+- Admin mirrors: UI map, SOPs (Platform Admin SOP 2.53) and the test register.
+
+**Not done:**
+- No real email was sent through Resend: no key is saved and the provider is still Supabase built-in. The new buttons were not checked signed in.
+- No paused country register drafts were pre-staged: `pipeline.layer1_source_inductions` holds 0 drafts. No countries or sources were named, and a draft is saved by a signed-in Curator or above.
+- The `dashboard` time-out of 21:43 and 21:57 AEDT did not recur and was not investigated.
+- Correction: the previous entry was stamped 22:50 AEDT in error; it was written at about 22:25 AEDT.
+
+**Next executable action:**
+- Platform Admin: on Links & Email Templates enter the From Email and Resend API key, give a reason, Save Email Provider Settings, then Send Test Email and read the answer in the card before choosing Resend API.
+- Platform Admin: name the countries and registers to pre-stage as paused drafts.
