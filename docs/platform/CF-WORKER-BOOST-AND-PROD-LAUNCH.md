@@ -286,4 +286,22 @@ Dump `db-schema-dump/43989024895` (Pilot run 43989024895, 11:36–11:50 AEDT; pr
 
 **Fix (#551):** a schema whose drop hits 53200 is emptied in chunks (tables, views, materialised views and routines, 40 a call) and then dropped. The reset lists any application schema still present and stops the run if there is one. Local test (Postgres 16, lock limit 64): a 4,000-table schema with identity sequences and 120 functions, whose single drop fails with out of shared memory, was dropped completely.
 
-**Run 44015982270** (15:16 AEDT, main `337aa9ad` with #551, same inputs): running; result below when it ends.
+**The runs after the fix (same inputs):**
+
+| Run | Result | Fix |
+|---|---|---|
+| 44015982270 (#551) | Reset clean; schema 16,033 of 16,033 in 200 s (105 calls, 0 failed). FAIL: 005 stopped at its manual lock insert (production requires `manual_locks.mode`, `value` or `removed`); G3 75/48 with 7 functions "changed" | #553: 005 sets `mode`; G3 writes each changed function's difference |
+| 44017816120 (#553) | Point 3 and the shadow-only check PASS. G3 FAIL: the 7 v2 read functions (course, provider, providers, course item, `zoho_edge_scholarships_v1`) have Windows line endings in production, and `schema()` read the dump in text mode, which turns `\r\n` into `\n` (for example `website_v2_course(text,text)`: 15 CRs, 15 characters shorter) | #554: the dump and SQL files are read byte for byte (`newline=""`); the G3 difference reads production by name and shows `\r` |
+| **44019730363 (#554)** | **PASS on every check** | — |
+
+**Run 44019730363** (15:48 AEDT, main `fdd8789d`): reset clean; schema 16,033 of 16,033 in 275 s (105 calls, 0 failed); 6,911 rows in 39 tables (`ref.study_level_source_mappings` refers to `pipeline.sources`, which is not copied); 7 of 8 newer migrations (`20261117051700` refuses on a project with no cron jobs, as designed).
+
+| Check | Result |
+|---|---|
+| G3: 75 functions, 48 relations, no drift | **PASS** |
+| Bulk load of 1,000 rows in one transaction under 5 s | **PASS** (0.038 s) |
+| 50-item shadow-only check: none admitted, no course changed | **PASS** (50 shadow) |
+| Promotion rehearsal: 1 study load written, 0 `updated_at` touched | **PASS** |
+| Outside the 01:00–05:00 window: refused | **PASS** |
+
+**Finding for the production launch:** production can be rebuilt from a schema dump, the reference data and the newer migrations. The rebuild tool must read the dump byte for byte, and must drop large schemas in chunks.
