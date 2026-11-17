@@ -4529,3 +4529,24 @@ Follows the v1.0.3 entry above.
 
 **Next executable action:**
 - Platform Admin: set `SB_MANAGEMENT_TOKEN` (steps in `docs/paste/PASTE-20261117-supabase-invite-email-template.md`), then open Users & roles › Links & Email Templates, Save & Sync with a reason and Send Test Email.
+
+## 17 Nov 2026 16:15 AEDT — Release v2.16.21 (Pilot #1203): Resend invite, warning and Copy HTML; branded emails applied to Supabase Auth — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 15:45 AEDT, chat S1-RM-Design (signed-in test of Users & roles on v2.16.20).
+
+**Done:**
+- Pilot #1203 merged on green CI (12 checks) as `ebebc0b5`; deploy-on-merge green 16:00 AEDT (edge function step succeeded). Release v2.16.21, package 0.1.443. No migration.
+- Users & roles: Resend invite on the row of a person who has not accepted the invitation (`admin-user-management` action `resend_invite`; Platform Admin only; recorded in the access history as `user_invited` with `resent`).
+- Links & Email Templates: while `SB_MANAGEMENT_TOKEN` is not set, a warning says Supabase Auth still holds the previous emails, with Copy HTML for Supabase Dashboard and Copy subject.
+- Supabase Auth now sends the `#0b6e5f` StudySearch PIM Admin emails: the paste file's steps 2 and 3 were replaced with the tab's defaults as Auth reads them, and workflow `supabase-auth-config.yml` applied them at 16:04 AEDT (run 44021389741; read back PASS; md5 `f34516d2` invite, `e7fe57cf` reset). Site URL and redirect list unchanged.
+- Read back live: G3 guard 75 functions and 48 tables with no drift; newest migration still `20261117152700` (2,062 applied).
+
+**Not done:**
+- `SB_MANAGEMENT_TOKEN` is not set. The only token available is the account-wide GitHub secret; copying it into the edge function is left to the Platform Admin's decision.
+- Sender name StudySearch PIM Admin: not possible on Supabase's built-in mail service; it needs custom SMTP.
+- Reset password was already on the row (v2.16.16); no change to who can be reset.
+- The deployed edge function version was not read back; the new emails were not seen as received; no signed-in check of a resent invitation.
+- An invitation sent without a full name greets with an empty name.
+
+**Next executable action:**
+- Platform Admin: resend an invitation from Users & roles and check the branded email arrives; decide whether the account-wide token may be set as `SB_MANAGEMENT_TOKEN`; decide on a mail provider if the sender name must change.
