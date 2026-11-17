@@ -1,0 +1,213 @@
+{
+ "statements": 16033,
+ "done": 8643,
+ "applied": 8643,
+ "failed": 0,
+ "calls": 722,
+ "seconds": 1517,
+ "already_present": 106,
+ "present": [
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"admin_control_events\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"admin_control_events_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"admission_rule_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"admission_rule_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO M",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_machine_admissions\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_machine_admissions_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n  ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_machine_validations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_machine_validations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_source_discover_requests\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_source_discover_requests_id_seq\"\n    START WITH 1\n    INCRE",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_v2_shadow_results\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_v2_shadow_results_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_v2_shadow_results_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ai_input_observations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ai_input_observations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ai_input_observations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ai_invocations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ai_invocations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n  ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ai_invocations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"course_remediation_holds\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"course_remediation_holds_id_seq\"\n    START WITH 1\n    INCREMENT BY ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"course_remediation_holds_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"coverage_ai_match\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"coverage_ai_match_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVA",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"coverage_ai_match_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"coverage_lane_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"coverage_lane_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MIN",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"coverage_lane_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"enrich_ai_answers\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"enrich_ai_answers_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVA",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"enrich_ai_answers_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"enrich_plan_auto_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"enrich_plan_auto_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"enrich_plan_auto_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"evidence_storage_dedupe_log\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"evidence_storage_dedupe_log_id_seq\"\n    START WITH 1\n    INCREME",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"evidence_storage_dedupe_log_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"fc_extract_results\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"fc_extract_results_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MIN",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"fc_extract_results_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"fee_rule_admissions\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"fee_rule_admissions_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO M",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"fee_rule_admissions_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"fee_wording_rules\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"fee_wording_rules_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVA",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"fee_wording_rules_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"field_gap_queue_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"field_gap_queue_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"field_gap_queue_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"layer1_course_retirements\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"layer1_course_retirements_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"layer1_course_retirements_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"layer1_provider_departures\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"layer1_provider_departures_id_seq\"\n    START WITH 1\n    INCREMENT",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"layer1_provider_departures_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"layer3_tier_audits\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"layer3_tier_audits_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MIN",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"layer3_tier_audits_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"layer4_link_refusal_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"layer4_link_refusal_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"layer4_link_refusal_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"layer4_rule_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"layer4_rule_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALU",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"layer4_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"lean_qualify_cases\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"lean_qualify_cases_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MIN",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"lean_qualify_cases_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"lean_section_eval_cases\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"lean_section_eval_cases_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"lean_section_eval_cases_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"maintenance_job_snapshot\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"maintenance_job_snapshot_id_seq\"\n    START WITH 1\n    INCREMENT BY ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"maintenance_job_snapshot_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"manual_edit_log\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"manual_edit_log_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"manual_edit_log_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"mode_outcome_ledger\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"mode_outcome_ledger_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO M",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"mode_outcome_ledger_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ops_lane_priority_snapshots\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ops_lane_priority_snapshots_id_seq\"\n    START WITH 1\n    INCREME",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ops_lane_priority_snapshots_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"platform_capacity_observations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"platform_capacity_observations_id_seq\"\n    START WITH 1\n    I",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"platform_capacity_observations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"pre_ai_admission_decisions\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"pre_ai_admission_decisions_id_seq\"\n    START WITH 1\n    INCREMENT",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"pre_ai_admission_decisions_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"priority_pins\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"priority_pins_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"priority_pins_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"provider_archives\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"provider_archives_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVA",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"provider_archives_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"provider_contact_points\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"provider_contact_points_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"provider_contact_points_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"provider_identity_investigations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"provider_identity_investigations_id_seq\"\n    START WITH 1\n ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"provider_identity_investigations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"provider_lifecycle_events\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"provider_lifecycle_events_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"provider_lifecycle_events_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"register_end_date_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"register_end_date_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n  ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"register_end_date_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"rollup_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"rollup_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n    NO M",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"rollup_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_admission_log\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_admission_log_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_admission_log_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_coverage_recoveries\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_coverage_recoveries_id_seq\"\n    START WITH 1\n   ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_coverage_recoveries_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_flow_checks\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_flow_checks_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_flow_checks_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_listing_pages\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_listing_pages_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_listing_pages_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_owner_proposals\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_owner_proposals_id_seq\"\n    START WITH 1\n    INCREME",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_owner_proposals_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_page_candidates\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_page_candidates_id_seq\"\n    START WITH 1\n    INCREME",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_page_candidates_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_read_requests\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_read_requests_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_read_requests_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"scholarship_sweep_changes\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"scholarship_sweep_changes_id_seq\"\n    START WITH 1\n    INCREMENT B",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"scholarship_sweep_changes_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"source_record_staging\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"source_record_staging_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"source_record_staging_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"statistics_edition_candidates\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"statistics_edition_candidates_id_seq\"\n    START WITH 1\n    INC",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"statistics_edition_candidates_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ui_error_log\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ui_error_log_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n    NO",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ui_error_log_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"vendor_credit_observations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"vendor_credit_observations_id_seq\"\n    START WITH 1\n    INCREMENT",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"vendor_credit_observations_id_seq\" already exists\n"
+  }
+ ],
+ "committed_despite_error": 0,
+ "failures": []
+}
