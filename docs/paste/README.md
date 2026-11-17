@@ -11,13 +11,33 @@ Each paste file is added in the same release cycle as the change that prepares i
 | `PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 | Pilot migration `20261115200500_cf247_cron_quick_wins` | `b15d3ad9bcde75ea86b18e3f24fca4d0` |
 | `PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 | Pilot migration `20261116010000_cf247_settings_tidy_phase1` | `fdb433eae91edcd5fe4cceb5084e2fea` |
 | `PASTE-20261116-admission-rule-legacy-unschedule.sql` | 1 Dec 2026 (retire_after 30 Nov and 14 idle days); refuses unless all 20 rules are live and all 20 jobs are off, retiring, past retire_after and idle | Pilot #1185, migration `20261116190000_cf247_admission_rule_runner_cutover` (PR 2 cutover, live 16 Nov 2026 23:31 AEDT) | `84d275f83c23b080d2ac0d0c8f003f51` |
-| `PASTE-20261117-supabase-invite-email-template.md` | Now (Supabase dashboard settings, not SQL): before the next invitation or reset | Pilot #1189, release v2.16.16 (no migration): Redirect URLs allow-list, Site URL, Invite user and Reset password templates | `094fd9a8ee7d062fdf7732958231b0bc` |
+| `PASTE-20261118-rollup-legacy-unschedule.sql` | 2 Dec 2026 (retire_after 1 Dec and 14 idle days); guarded | Pilot migration `20261118010000_cf247_rollup_scheduler_cutover` (PR 1 cutover, Platform Admin 17 Nov 2026 23:07) | `6aa2922735e28f1f6fa3e08881061809` |
+| `PASTE-20261118-coverage-lane-legacy-unschedule.sql` | 2 Dec 2026 (retire_after 1 Dec and 14 idle days); refuses until `security.flag_jobs_v1` reads the live lanes from the registry | Pilot #1229, migration `20261118012000_cf247_pr3_coverage_lane_dispatch_cutover` (PR 3 cutover, live 18 Nov 2026 00:21 AEDT) | `9f3907f811c8ad6263e39c59028cc410` |
 | `PASTE-20261116-api-field-dictionary-number-arrays.sql` | Any time after Pilot migration `20261116110000` is live; a follow-up migration then loads the 2 held fields | Pilot #1162, migration `20261116110000_cf247_api_field_dictionary_sync` (REQ-76) | `29cf5f3ad8fff63d68bd58bbc2143ff9` |
-| `PASTE-20261116-l4-lift-false-link-refusals.sql` | Any time | S2-CF, Layer 4 official URL resolution (Platform Admin 16 Nov 2026 18:44; report `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md` §7.3); after Pilot migration `20261116143000` | `1ac93dd83ccb7f872bc947f4fa19aec1` |
-| `PASTE-20261116-staging-boost-bucket.sql` | Any time (step 2 of the Boost setup); idempotent | CF-247 Boost, Platform Admin 16 Nov 2026 21:09 (`docs/platform/CF-WORKER-BOOST-AND-PROD-LAUNCH.md` §8, §11): the private `staging-boost` Storage bucket, service role only | `c70477e52486fcdfa47e6491647fbedc` |
+| `PASTE-20261116-l4-lift-false-link-refusals.sql` | Any time; stops unless exactly 59 rows match | S2-CF, Layer 4 official URL resolution (Platform Admin 16 Nov 2026 18:44; report `docs/platform/layer4-clearance-and-model-benchmark-2026-11-16.md` §7.3); after Pilot migration `20261116143000` | `1ac93dd83ccb7f872bc947f4fa19aec1` |
+| `PASTE-20261117-supabase-invite-email-template.md` | Step 4 only (a test invitation and reset to an address you control); steps 1 to 3 done 17 Nov 2026 14:33 AEDT by `supabase-auth-config.yml` | Pilot #1189, release v2.16.16 (no migration) | `f2512654fdef6ee5a8c62809c64928fd` |
+| `boost-test-reseed.sql` | After each rebuild of project `coursefinder-boost-test` (ucdaaqrpgcldnatavmib) only; never the Pilot | S2 - BOOST lane (Platform Admin 17 Nov 2026 18:02, 20:06, 21:18) | `90931cd10cbf851c3fefda2c4f850813` |
 
-## In transition
+## Done (kept for the record)
 
-- These two files are byte-for-byte copies of the Pilot files of the same name (`docs/paste/`). The Pilot copies stay until their guards move: specs `s546` and `s549` read them there. Until then a change to either file is made in both places and the md5 above is updated.
-- Pilot `docs/paste/` holds 41 files in all (most already run). 18 specs, 7 database fixture folders, one workflow trigger and the evidence classifier read them, so they move in a separate Pilot PR with their guards; nothing is moved by dropping a guard.
-- Paste files from before 4 Nov 2026 are in `docs/platform/pastes/` (history; not moved).
+| File | Outcome | md5 |
+|---|---|---|
+| `PASTE-20261116-staging-boost-bucket.sql` | Done 17 Nov 2026 14:37 AEDT by Pilot #1199 (migration `20261117152300`, same values and check); nothing to paste | `c70477e52486fcdfa47e6491647fbedc` |
+
+## Reference (moved from Pilot on 18 Nov 2026; nothing to run)
+
+These left the Pilot repository in the paste split (Pilot #1248, Platform Admin approval 16 Nov 2026 10:10). No spec, fixture or workflow reads them.
+
+| File | What it is | md5 |
+|---|---|---|
+| `CDESC-20261108-decode-html-entities-in-live-descriptions.md` | Review pack (8 Nov 2026) | `edb4f4959446f0c8f8fec7f47a40a53e` |
+| `ENG-20261108-english-policy-review-pack.md` | Review pack (8 Nov 2026) | `b5874c756c61fd124a47756283a63a10` |
+| `PASTE-20261104-fee-units-holds-readback.sql` | Read-only read-back (4 Nov 2026) | `919a295db53e6704157f163cb15ab897` |
+| `PASTE-20261104-newgen-03871f-b-website-correction-rollback.sql` | Rollback of a run correction (4 Nov 2026) | `3a31bcffd3c72404c4162dc630664b54` |
+| `READONLY-20261106-p0-deadline-scope.sql` | Read-only scope query (6 Nov 2026) | `23a46463b5eeb7a7024c4de4c1141de4` |
+
+## Copies kept as Pilot test fixtures
+
+Pilot keeps byte-for-byte copies of the paste files its specs, database fixtures, workflow triggers or evidence classifier read in `tests/fixtures/paste/` (36 files, most already run; guarded by Pilot spec `s616`, which also fails on any Pilot `docs/paste/` folder). Two of them are pending here: `PASTE-20261115-cron-legacy-jobs-drop.sql` and `PASTE-20261116-retired-settings-drop.sql` (specs `s546` and `s549`); a change to either is made in both places, with the md5 above updated. Every other new paste file is written here only.
+
+Paste files from before 4 Nov 2026 are in `docs/platform/pastes/` (history; not moved).
