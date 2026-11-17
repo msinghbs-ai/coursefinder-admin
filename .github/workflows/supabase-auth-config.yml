@@ -1,0 +1,32 @@
+# Supabase Auth URL configuration and the branded Invite user and Reset password emails (Platform Admin 17 Nov 2026 14:12;
+# docs/paste/PASTE-20261117-supabase-invite-email-template.md). Production project fxcwkweaxjtknorudmwp only.
+#   check: read only.  apply: sets the Site URL, adds the two redirect URLs (never removes one), sets both subjects and templates, reads back.
+# This repository is public: the script prints only those fields and the templates' md5, never the rest of the Auth configuration.
+name: Supabase Auth configuration
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check (read only) or apply"
+        required: true
+        default: "check"
+      project_ref:
+        description: "Type the production project ref to confirm"
+        required: true
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT: ${{ inputs.project_ref }}
+      MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auth configuration (${{ inputs.mode }})
+        run: |
+          set -euo pipefail
+          if [ "$MODE" != "check" ] && [ "$MODE" != "apply" ]; then echo "::error::mode must be check or apply"; exit 1; fi
+          python3 scripts/supabase-auth-config.py "$MODE" | tee -a "$GITHUB_STEP_SUMMARY"
