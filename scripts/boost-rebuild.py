@@ -105,15 +105,45 @@ def reset():
     log = []
     log.append(("cron", q(REF, "do $x$ begin if to_regclass('cron.job') is not null then perform cron.unschedule(jobid) from cron.job; end if; end $x$;")))
     for s in app:
-        log.append((s, q(REF, f'drop schema if exists "{s}" cascade')))
+        res = q(REF, f'drop schema if exists "{s}" cascade')
+        if not res[0] and "53200" in str(res[1]):
+            res = drop_schema_in_chunks(s)  # run 44014040952: pipeline (555 tables) exceeded max_locks_per_transaction in one drop
+        log.append((s, res))
     # public: drop its objects, keep the schema and Supabase's grants
     log.append(("public", q(REF, "do $x$ declare r record; begin "
                 "for r in select c.oid::regclass::text t from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind in ('r','v','m','p','f') loop execute 'drop ' || case (select relkind from pg_class where oid = r.t::regclass) when 'v' then 'view' when 'm' then 'materialized view' when 'f' then 'foreign table' else 'table' end || ' if exists ' || r.t || ' cascade'; end loop; "
                 "for r in select p.oid::regprocedure::text f, p.prokind k from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' loop execute 'drop ' || case r.k when 'p' then 'procedure' when 'a' then 'aggregate' else 'function' end || ' if exists ' || r.f || ' cascade'; end loop; "
                 "for r in select t.typname from pg_type t join pg_namespace n on n.oid = t.typnamespace where n.nspname = 'public' and t.typtype in ('e','c','d') and not exists (select 1 from pg_class c where c.reltype = t.oid) loop execute 'drop type if exists public.' || quote_ident(r.typname) || ' cascade'; end loop; end $x$;")))
     bad = [(k, v[1]) for k, v in log if not v[0]]
-    json.dump({"dropped_schemas": app, "failures": bad}, open(f"{OUT}/reset.json", "w"), indent=1)
-    print(f"reset: {len(app)} schemas dropped; {len(bad)} failures")
+    ok, r = q(REF, "select coalesce(json_agg(nspname order by nspname), '[]') l from pg_namespace where nspname not like 'pg_temp%' and nspname not like 'pg_toast_temp%'")
+    left = [x for x in (r[0]["l"] if ok and r else []) if x not in SYSTEM]
+    json.dump({"dropped_schemas": app, "failures": bad, "schemas_left": left}, open(f"{OUT}/reset.json", "w"), indent=1)
+    print(f"reset: {len(app)} schemas dropped; {len(bad)} failures; left: {left or 'none'}")
+    # a schema left behind makes every later CREATE ... IF NOT EXISTS a silent no-op (runs 43991418340 to 44014040952 loaded onto
+    # the previous run's pipeline schema), so the rebuild stops here instead
+    if left or not ok:
+        sys.exit(f"reset: application schemas still present: {left}")
+
+
+def drop_schema_in_chunks(s, size=40):
+    """Drops a schema too big for one transaction's lock table: its tables, views and functions in chunks, then the schema."""
+    kinds = (("r','p','f", "table"), ("v", "view"), ("m", "materialized view"))
+    for kind, word in kinds:
+        for _ in range(500):  # a bound: a chunk that never empties stops here and the final drop reports it
+            ok, r = q(REF, f"select coalesce(json_agg(c.oid::regclass::text), '[]') l from (select c.oid from pg_class c join pg_namespace n on n.oid = c.relnamespace "
+                           f"where n.nspname = '{s}' and c.relkind in ('{kind}') limit {size}) c")
+            names = r[0]["l"] if ok and r else []
+            if not names: break
+            ok, r = q(REF, f"drop {word} if exists {', '.join(names)} cascade")
+            if not ok: return False, f"chunk drop of {word}s in {s}: {r}"
+    for _ in range(500):
+        ok, r = q(REF, f"select coalesce(json_agg(p.oid::regprocedure::text), '[]') l from (select p.oid from pg_proc p join pg_namespace n on n.oid = p.pronamespace "
+                       f"where n.nspname = '{s}' and p.prokind in ('f','p','w') limit {size}) p")
+        names = r[0]["l"] if ok and r else []
+        if not names: break
+        ok, r = q(REF, f"drop routine if exists {', '.join(names)} cascade")
+        if not ok: return False, f"chunk drop of routines in {s}: {r}"
+    return q(REF, f'drop schema if exists "{s}" cascade')
 
 
 # duplicate table or sequence (42P07), second primary key (42P16), duplicate object (42710), column (42701) or function (42723), duplicate schema (42P06)
