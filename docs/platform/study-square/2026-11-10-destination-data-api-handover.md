@@ -1,5 +1,7 @@
 # Study Square — 28-Destination Data Aggregation and API Handover
 
+> **Note added 17 November 2026 (merged under the Platform Admin's merge mandate, admin #401):** this is the planning baseline as written on 10 November. Since then destination data is delivered through the API v3 `destination` action (live and empty from v2.16.18); the separate `destination-data-v1` API proposed below was not built. Current design: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md`.
+
 **Record date:** 10 November 2026, Australia/Melbourne  
 **Status:** Scoped and mapped; **planning baseline, not approved new consumer API or deployed destination data**  
 **Accountable platform:** StudySearch / CourseFinder  
