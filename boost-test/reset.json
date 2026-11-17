@@ -1,0 +1,23 @@
+{
+ "dropped_schemas": [
+  "admin_api",
+  "api",
+  "catalogue",
+  "destination",
+  "integration",
+  "l4_api",
+  "pim",
+  "pim_api",
+  "pipeline",
+  "private",
+  "publishing",
+  "ranking",
+  "ref",
+  "scholarship",
+  "search",
+  "security",
+  "workflow"
+ ],
+ "failures": [],
+ "schemas_left": []
+}

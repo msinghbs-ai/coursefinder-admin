@@ -1,0 +1,13 @@
+{
+ "statements": 7,
+ "done": 7,
+ "applied": 7,
+ "failed": 0,
+ "calls": 1,
+ "seconds": 1,
+ "already_present": 0,
+ "present": [],
+ "committed_despite_error": 0,
+ "batch_errors": [],
+ "failures": []
+}
