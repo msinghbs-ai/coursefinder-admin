@@ -1,10 +1,10 @@
 # Destination data: Admin UI fitout, API v3 blueprint and bulk ingestion plan
 
-**Version 1.0 · 17 November 2026 AEDT · Design and specification only · RM0C to RM6**
+**Version 1.1 · 17 November 2026 AEDT · Design and specification only · RM0C to RM6** (v1.1: decisions G-1 to G-5 approved by the Platform Admin, 17 November 2026 11:52 AEDT; tabs 1 and 2 move into step 1)
 
 Chat reference: S1-RM-Design (UI fitout and bulk ingestion plan). Platform Admin, 17 November 2026 11:39 AEDT.
 
-Companion to [`DESTINATION-DATA-DESIGN.md`](DESTINATION-DATA-DESIGN.md) v1.7. Wireframe: [`mockups/destination-data-admin-fitout-mockup.html`](mockups/destination-data-admin-fitout-mockup.html).
+Companion to [`DESTINATION-DATA-DESIGN.md`](DESTINATION-DATA-DESIGN.md) v1.8. Wireframe: [`mockups/destination-data-admin-fitout-mockup.html`](mockups/destination-data-admin-fitout-mockup.html).
 
 **Status.** Nothing in this document is built. It is written against the live system as read on 17 November 2026 at 11:45 AEDT (read only): release v2.16.18, newest migration `20261117040000`, 2,054 migrations applied, G3 guard 75 functions and 48 tables with no drift, all `destination` tables empty, 4,906 Layer 4 items pending.
 
@@ -179,7 +179,7 @@ Proposed `campuses[].locality`: `{locality_id, name, geography_type, geography_c
 
 **Problem.** `destination.career_outcomes` is unique on (edition, country, occupation code). A state or locality figure for the same occupation cannot sit beside the national one, and the importer's upsert uses that same key.
 
-**Decision (recommended, G-1).** One row per edition, country, occupation scheme, occupation code and area, where area is national, a state, or a locality.
+**Decision G-1 (approved 17 November 2026 11:52 AEDT).** One row per edition, country, occupation scheme, occupation code and area, where area is national, a state, or a locality.
 
 | Change | Detail |
 |---|---|
@@ -190,7 +190,7 @@ Proposed `campuses[].locality`: `{locality_id, name, geography_type, geography_c
 | Importer | `security.destination_import_v1` upserts on the new key in the same migration |
 | API | Each outcome gains `geography_level` and `state_code`; `locality_id` is already returned |
 
-The table is empty, so nothing is migrated. Replacing the old key is a constraint replacement; under the repository rule it goes inside the constraint block of the migration (as `20261117040000` did for the access-history check) or by paste file. That choice is decision G-1 in section 4.
+The table is empty, so nothing is migrated. Replacing the old key is a constraint replacement. As approved, it goes inside the constraint block of the migration (as `20261117040000` did for the access-history check); no paste file.
 
 ---
 
@@ -201,16 +201,16 @@ Starts when the Platform Admin confirms the squash of Thursday 19 November 2026 
 | # | Step | Builds | Loads | Needs first | Done when |
 |---|---|---|---|---|---|
 | 0 | Baseline check | Nothing | Nothing | Squash confirmed | Migration head, G3 guard (75 and 48) and an empty `destination` read all read back clean on the squashed baseline |
-| 1 | ABS population and ASGS postcode loader (RM1B) | Job `destination-abs-load`; `evidence_id` on localities and figures; Layer 4 kind `campus_locality`; `admin_destination_postcode_resolve` | SUA localities (about 100, estimate), one population figure each (30 June 2025), postcode shares for the 805 distinct AU campus postcodes | Sources approved (A-1 to A-4, done) | Every AU campus postcode is either a primary match or a Layer 4 item; attribution on every figure; Platform Admin approves; `destination` returns localities |
+| 1 | ABS population and ASGS postcode loader (RM1B), with Destination data tabs 1 and 2 (G-4) | The page `#destination-data` with Overview & editions and Localities & postcodes, and the wrappers they need (section 1.5); job `destination-abs-load`; `evidence_id` on localities and figures; Layer 4 kind `campus_locality`; `admin_destination_postcode_resolve` | SUA localities (about 100, estimate), one population figure each (30 June 2025), postcode shares for the 805 distinct AU campus postcodes | Sources approved (A-1 to A-4, done) | Every AU campus postcode is either a primary match or a Layer 4 item; attribution on every figure; Platform Admin approves; `destination` returns localities |
 | 2 | Study rules importer extension (RM0D, RM1C, RM1H, RM2C) | Importer accepts the general rule fields, quote, evidence and applicability; career grain change G-1 rides here if approved | AU rules first (about 15 to 25, estimate): routes, funds, fee, work rights, post-study work, processing times | Page capture of each official page; edition terms recorded | Every rule has a quote found on its stored page and effective dates; edition published; `destination` returns rules |
 | 3 | NZQA qualifications capture (RM4A) | NZQCF capture in the Layer 1 NZ adapter; match by qualification number | 3,894 four-digit candidates matched; 2,559 provider-style codes classified | NZQA commercial-use terms settled by management | NZ `recognition[]` served from course-level evidence; unmatched codes held with a reason |
 | 4 | BOM climate, living costs and JSA careers (RM1I, RM1D, RM2B, RM4C) | Jobs for each dataset; grain change G-1 if not already shipped | Climate normals and living costs per locality; occupation outcomes | Step 1 (localities). Source and reuse approvals for BOM, the living-cost source and JSA (REQ-68) | Figures and outcomes approved and returned with attribution |
 | 5 | UK, Ireland and USA register adapters (RM3, RM5, RM6) | Three Layer 1 adapters and their provider identity rules | Provider and course registrations under `uk_qaa`, `uk_ofs`, `ie_qqi`, `us_opeid`, `us_ipeds`; field codes under `hecos`, `cip` | Source registration and terms per country; country enabled for ingestion | Registrations land with evidence; schemes move from `planned` to `active` in `ref.registration_schemes` |
-| 6 | Destination data screens (RM0F) and the password-reset audit line | `src/DestinationData.jsx`, the adapted screens, the wrappers of section 1.5; `admin-user-management` writes `password_reset_sent` | Nothing | Steps 1 and 2 give the screens real rows | UI map regenerated, screen help and SOPs updated, version pill bumped, spec `s557` green |
+| 6 | Destination data tabs 3 to 5, the adapted screens (RM0F) and the password-reset audit line | `src/DestinationData.jsx`, the adapted screens, the wrappers of section 1.5; `admin-user-management` writes `password_reset_sent` | Nothing | Steps 1 and 2 give the screens real rows | UI map regenerated, screen help and SOPs updated, version pill bumped, spec `s557` green |
 
 ### 3.1 Sequencing notes
 
-- **Step 6 can start early.** Tabs 1 and 2 need only step 1. Building them alongside step 1 gives the Platform Admin a screen for the first approvals instead of function calls. The order above is the order given; this is the one change worth considering.
+- **Tabs 1 and 2 ship with step 1 (G-4, approved).** The Platform Admin has a live approval screen for the first load. Tabs 3 to 5 and the adapted screens stay at step 6, though each tab may ship with the step that gives it rows.
 - **Step 4 is two approvals away.** BOM and living-cost sources have no approval yet, and JSA and QILT terms (REQ-68) are open. The build can proceed; the load cannot.
 - **Step 5 is the largest piece.** Three new countries, each with its own identity rules. It is listed fifth but is a programme of its own.
 - **Dictionary sync** (section 2.3) is independent and can ship at any point.
@@ -229,15 +229,21 @@ Starts when the Platform Admin confirms the squash of Thursday 19 November 2026 
 
 ---
 
-## 4. Decisions for the Platform Admin
+## 4. Decisions (all approved)
 
-| # | Decision | Recommendation |
+Approved by the Platform Admin on 17 November 2026 at 11:52 AEDT.
+
+| # | Decision | Approved |
 |---|---|---|
-| G-1 | Career outcomes grain (section 2.5) and how the old unique key is replaced | Approve the national, state or locality grain; replace the key inside the migration's constraint block, as for the access-history check |
-| G-2 | Menu placement of Destination data | Catalogue, after Rankings & statistics |
-| G-3 | Postcodes below 90% | A Layer 4 Inbox kind "Campus locality", so every decision that needs a person stays in one inbox |
-| G-4 | Build tabs 1 and 2 with step 1 rather than at step 6 | Yes |
-| G-5 | `campuses[].locality` on the v3 `provider` action | Approve the shape in section 2.4 |
+| G-1 | Career outcomes grain | One row per occupation and area (`national`, `state` or `locality`). The unique key is replaced inside the migration's constraint block |
+| G-2 | Menu placement | Destination data sits in the Catalogue menu after Rankings & statistics; address `#destination-data`; Curator and above |
+| G-3 | Postcodes below 90% | Routed to the existing Layer 4 Inbox as a new kind, "Campus locality" |
+| G-4 | Tabs 1 and 2 | Overview & editions and Localities & postcodes are built with step 1 (the ABS loader), right after the squash |
+| G-5 | `campuses[].locality` | The shape in section 2.4 is approved for the v3 `provider` action |
+
+**Hold.** No schema or ingestion pull request is opened on Pilot until the Platform Admin confirms the squash of Thursday 19 November 2026 (01:30–03:30 AEDT) is complete. Step 0 and step 1 start straight after that confirmation.
+
+**Merging.** From 17 November 2026 11:52 AEDT the agent merges its own pull requests in both repositories once checks are green and G1 to G3 hold.
 
 ## 5. Assumptions and risks
 

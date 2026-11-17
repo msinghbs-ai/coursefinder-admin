@@ -1,6 +1,6 @@
 # StudySearch – Consumer developer requirements register (website and Zoho)
 
-**Version:** 2.34 (17 Nov 2026; O29 RM1A-3: 1,505 more AU courses served with CRICOS recognition, 594 held; prior v2.33; full history below)
+**Version:** 2.35 (17 Nov 2026; four request-register pull requests merged, Z2 and Z11 rows updated from the 16 Nov weekly check; prior v2.34 17 Nov 2026; O29 RM1A-3: 1,505 more AU courses served with CRICOS recognition, 594 held; prior v2.33; full history below)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type), 277 (website API v3)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -382,6 +382,7 @@ How each value is worked out (platform side, no API change): `known` when `cours
 
 | Version | Date | Change |
 |---|---|---|
+| 2.35 | 17 Nov 2026 | Platform Admin 11:52 (merge mandate): admin pull requests #501, #509, #521 and #542 merged into `CONSUMER-REQUESTS.csv` row by row (later `updated_at` wins; every dated log line kept). From the 16 Nov weekly check (#509): REQ-31 Live in v3, REQ-58 Delivered; rows Z2 and Z11 here updated. REQ-67 records the destination tables and the API v3 `destination` action, live and empty. No API change. |
 | 2.34 | 17 Nov 2026 | O29 RM1A-3 (Pilot #1190, migration `20261117010000`): no API shape change. 1,596 CRICOS registrations wrongly end-dated were restored, so `recognition[]` is returned for 23,138 searchable AU courses (was 21,633); 594 stay held. |
 | 2.33 | 16 Nov 2026 | O28 RM1A-2: `field_of_study_codes[]` on Website v3 and Zoho v3 `course` (Pilot #1186, migration `20261116200000`), read from existing register observations; Zoho v3 `course` also returns `recognition[]`. Platform Admin 16 Nov 22:30: both v3 APIs are pre-cutover, so additive Zoho v3 fields merge on green like Website v3; no handover document until v3 release. |
 | 2.29 | 13 Nov 2026 | Platform Admin 16:35: Website v3 and Zoho v3 are both under development; no v3 handover document is released to either developer yet. Roadmap fields are recorded here and in the v3 field definition as built; the developer guide and Zoho pack are issued once at v3 release (R33). RM delivery plan: `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.2. |
