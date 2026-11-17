@@ -11947,3 +11947,21 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - S2 - BOOST: move the matrix to the published keys (`docs/platform/ENRICHMENT-CATEGORIES.md`).
 - Platform Admin: set the weights for the five split categories and decide where study rules and career outcomes sit; sign in as a Curator and open Layer 1.
+
+## 17 Nov 2026 22:50 AEDT — Deployed UAT: role-boundary test updated (Pilot #1222); sign-in now blocks the run — NOT GREEN
+
+**Trigger:** Platform Admin 17 Nov 2026 22:04 AEDT, chat S1-RM-Design (priority sprint).
+
+**Done:**
+- Cause of the red Deployed UAT since Pilot #1211 found: one deployed test still expected no + Add source for the UAT operator. Pilot #1222 merged on green CI (11 checks) as `fd9eb052`; test only, no release bump. It now checks that the operator opens the wizard and that the reason field and Activate are disabled without Platform Admin.
+- Checked live: Resend routing and the empty-name greeting (v2.16.22 and v2.16.23), the completeness report with evidence and Layer 4 items side by side, and the wizard's retention in `pipeline.source_retention_policies` (v2.16.26) are deployed. G3 guard 75 functions and 48 tables, no drift.
+- S2 - BOOST's Pilot #1219 (migration `20261117223000`) has moved the Boost matrix onto the single category list.
+- The two 17:59 engagement rows were inspected again: different prompts to two chats, both kept.
+
+**Not done:**
+- Deployed UAT is still red. The run after #1222 could not sign in: the UAT account's password was changed at 22:17 AEDT after a reset sent from the Admin at 22:16, so the stored `UAT_PASSWORD` is rejected. The new test has therefore not run against the live site.
+- Resend is not switched on: no provider, from email or key is saved.
+- The `dashboard` read timed out under load in two earlier runs; not investigated further.
+
+**Next executable action:**
+- Platform Admin: set the UAT account's password and the GitHub secret `UAT_PASSWORD` to the same value, then re-run StudySearch Deployed UAT.
