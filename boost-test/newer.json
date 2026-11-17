@@ -1,0 +1,12 @@
+{
+ "head": "20261117040000",
+ "newer": 8,
+ "applied": 7,
+ "failures": [
+  {
+   "version": "20261117051700",
+   "name": "cf247_pause_low_yield_jobs",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: post-check: expected 4 jobs\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE\n"
+  }
+ ]
+}
