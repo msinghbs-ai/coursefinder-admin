@@ -151,7 +151,8 @@ def benchmark(label):
                            "input_tokens": sum(int(r["input_tokens"] or 0) for r in g), "output_tokens": sum(int(r["output_tokens"] or 0) for r in g),
                            "cost_usd": round(cost, 6), "cost_usd_per_admitted_field": round(cost / adm, 6) if adm else None,
                            "median_ms_per_call": med(ms), "calls_per_second_one_at_a_time": round(1000 / med(ms), 2) if ms and med(ms) else None,
-                           **({"promote": out.get("promote"), "promote_ms": out.get("promote_ms"), "error": out.get("error")} if cc == "ALL" else {})})
+                           **({"admitted_rows": ((out.get("promote") or {}).get("by_state") or {}).get("admitted", 0), "promote": out.get("promote"),
+                               "promote_ms": out.get("promote_ms"), "error": out.get("error")} if cc == "ALL" else {})})
     # agreement: pages every model answered with a verified value
     by_page = {}
     for r in rows:
@@ -159,10 +160,18 @@ def benchmark(label):
     full = [v for v in by_page.values() if len(v) == len(models)]
     agree = {"models": sorted(models), "pages_with_a_value_from_any_model": len(by_page), "pages_with_a_value_from_every_model": len(full),
              "of_those_all_agree": sum(1 for v in full if len(set(v.values())) == 1)}
-    br.q(br.REF, "delete from pipeline.boost_model_qualifications; delete from pim.entity_registry where stable_key like 'boostbench:%'; select 1")
+    # clean up, one step at a time so a refused step does not undo the others; each refusal is kept in the result
+    cleanup = {}
+    for name, sql in (("qualifications", "delete from pipeline.boost_model_qualifications; select 1 ok"),
+                      ("staging", f"delete from pipeline.boost_inbound_staging where batch_id like {lit(label + '-%')}; select 1 ok"),
+                      ("courses", "delete from catalogue.courses where stable_key like 'boostbench:%'; select 1 ok"),
+                      ("providers", "delete from catalogue.providers where stable_key like 'boostbench:%'; select 1 ok"),
+                      ("registry", "delete from pim.entity_registry where stable_key like 'boostbench:%'; select 1 ok")):
+        okc, rc = br.q(br.REF, sql)
+        cleanup[name] = "done" if okc else str(rc)[:300]
     ok, chk = br.q(br.REF, "select json_build_object('quals', (select count(*) from pipeline.boost_model_qualifications), 'bench_courses_left', (select count(*) from catalogue.courses where stable_key like 'boostbench:%'), 'g3', security.consumer_api_check_v1()) r")
     keep("benchmark", {"label": label, "production_rows_read": len(rows), "production_rows_left": left, "courses_seeded": seeded, "report": report, "agreement": agree,
-                       "after": chk[0]["r"] if ok and chk else str(chk)[:300]})
+                       "cleanup": cleanup, "after": chk[0]["r"] if ok and chk else str(chk)[:300]})
 
 
 if __name__ == "__main__":
