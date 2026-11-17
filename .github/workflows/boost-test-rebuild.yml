@@ -62,6 +62,7 @@ jobs:
       - name: 2. Schema from the dump
         timeout-minutes: 90  # fixed: CI step limit (a time-out still keeps the results; run 43863252704 ran past the job limit here)
         run: |
+          python3 scripts/boost-rebuild.py probe | tee -a "$GITHUB_STEP_SUMMARY"
           python3 scripts/boost-rebuild.py schema pilot/supabase/live-capture/baseline/roles-apply.sql | tee -a "$GITHUB_STEP_SUMMARY"
           cat pilot/supabase/live-capture/baseline/apply-preamble.sql dump/supabase/live-capture/baseline/schema.sql pilot/supabase/live-capture/baseline/apply-postscript.sql > schema-full.sql
           python3 scripts/boost-rebuild.py schema schema-full.sql | tee -a "$GITHUB_STEP_SUMMARY"

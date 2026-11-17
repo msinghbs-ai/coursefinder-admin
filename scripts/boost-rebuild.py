@@ -116,6 +116,8 @@ def reset():
     print(f"reset: {len(app)} schemas dropped; {len(bad)} failures")
 
 
+# duplicate table or sequence (42P07), second primary key (42P16), duplicate object (42710), column (42701) or function (42723), duplicate schema (42P06)
+ALREADY = re.compile(r"\b(42P07|42P16|42710|42701|42723|42P06)\b")
 SESSION_SET = re.compile(r"^\s*(SET\s+(?!LOCAL\b)(\w+)|SELECT\s+pg_catalog\.set_config\('([\w.]+)')", re.I)
 
 
@@ -133,21 +135,25 @@ def apply_statements(stmts, label):
         if m:
             settings[(m.group(2) or m.group(3)).lower()] = st.strip().rstrip(";") + ";"
             prefix = "\n".join(settings.values()) + "\n"
-    ok_n, fails, calls = 0, [], 0
+    ok_n, fails, calls, present = 0, [], 0, []
     t0 = time.time()
     def run(lo, hi):
         nonlocal ok_n, calls
         if lo >= hi: return
         calls += 1
-        ok, r = q(REF, pre[lo] + "\n".join(stmts[lo:hi]) + "\nRESET ALL;")
+        # an explicit transaction: run 43991418340 showed the API commits a call statement by statement, so a call cut off part way (a
+        # transient error and its retry) left half a batch behind and every later re-send failed with "already exists"
+        ok, r = q(REF, "BEGIN;\n" + pre[lo] + "\n".join(stmts[lo:hi]) + "\nCOMMIT;\nRESET ALL;")
         if ok: ok_n += hi - lo; return
         if hi - lo == 1:
+            if ALREADY.search(str(r)):  # already in place (committed by an earlier, interrupted call): counted as applied, and listed
+                present.append({"statement": stmts[lo][:200], "error": str(r)[:200]}); ok_n += 1; return
             fails.append({"statement": stmts[lo][:300], "error": str(r)[:400]}); return
         mid = (lo + hi) // 2
         run(lo, mid); run(mid, hi)
     def save(done):  # rewritten after every batch, so a step time-out still leaves the counts so far
         json.dump({"statements": len(stmts), "done": done, "applied": ok_n, "failed": len(fails), "calls": calls, "seconds": int(time.time() - t0),
-                   "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
+                   "already_present": len(present), "present": present[:50], "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
     save(0)
     lo, size = 0, 0
     for i, st in enumerate(stmts):
@@ -157,6 +163,18 @@ def apply_statements(stmts, label):
             print(f"  {label}: {lo}/{len(stmts)} statements, {ok_n} applied, {len(fails)} failed, {calls} calls, {int(time.time() - t0)} s", flush=True)
             save(lo)
     print(f"{label}: {ok_n} statements applied, {len(fails)} failed ({calls} calls, {int(time.time() - t0)} s)", flush=True)
+
+
+def probe():
+    """Records whether a failed call with an explicit transaction leaves anything behind (test project only)."""
+    guard()
+    q(REF, "drop schema if exists boost_probe cascade; create schema boost_probe;")
+    ok, r = q(REF, "BEGIN;\ncreate table boost_probe.t1 (id int);\nselect 1/0;\nCOMMIT;")
+    ok2, r2 = q(REF, "select to_regclass('boost_probe.t1') is not null as left_behind")
+    left = bool(ok2 and r2 and r2[0].get("left_behind"))
+    q(REF, "drop schema if exists boost_probe cascade;")
+    json.dump({"failed_call_error": str(r)[:200], "left_behind": left, "atomic": not left}, open(f"{OUT}/probe.json", "w"), indent=1)
+    print(f"probe: an explicit transaction is {'all or nothing' if not left else 'NOT all or nothing (half a call stays)'}", flush=True)
 
 
 def schema(path):
@@ -281,5 +299,5 @@ def sqlfile(path):
 
 if __name__ == "__main__":
     cmd, args = sys.argv[1], sys.argv[2:]
-    {"reset": lambda: reset(), "schema": lambda: schema(args[0]), "data": lambda: data(), "newer": lambda: newer(args[0], args[1] if len(args) > 1 else ""),
+    {"reset": lambda: reset(), "probe": lambda: probe(), "schema": lambda: schema(args[0]), "data": lambda: data(), "newer": lambda: newer(args[0], args[1] if len(args) > 1 else ""),
      "g3": lambda: g3(), "sqlfile": lambda: sqlfile(args[0])}[cmd]()
