@@ -1,6 +1,6 @@
 # Layer 1 AI induction mapper — request and response contract
 
-**Version:** 1.1, 17 Nov 2026 20:10 AEDT (1.0, 19:00: first issue; 1.1: target record type, parser spec, drift and re-infer, Pilot v2.16.25, migration `20261117203000`)
+**Version:** 1.2, 17 Nov 2026 21:30 AEDT (1.2: one category list, Curators draft, retention in `pipeline.source_retention_policies`; 1.0, 19:00: first issue; 1.1: target record type, parser spec, drift and re-infer, Pilot v2.16.25, migration `20261117203000`)
 **For:** S2-Build (owner of the edge function `layer1-ai-induction-mapper` and of the Layer 1 readers).
 **From:** S1-RM-Design (owner of the Admin wizard, Pilot release v2.16.24, migration `20261117193000`).
 **Decision:** Platform Admin, 17 Nov 2026 18:10: the wizard ships with mapping by hand; AI Auto-Map switches on by itself once the mapper is deployed.
@@ -8,7 +8,7 @@
 
 ## How the wizard uses the mapper
 
-Layer 1 › Sources › + Add source › step 3 (Field mapping) calls the edge function from the signed-in browser with `supabase.functions.invoke('layer1-ai-induction-mapper', { body })`. The function receives the user's JWT; it must check the caller is Pipeline Operator (rank 4) or above.
+Layer 1 › Sources › + Add source › step 3 (Field mapping) calls the edge function from the signed-in browser with `supabase.functions.invoke('layer1-ai-induction-mapper', { body })`. The function receives the user's JWT; it must check the caller is Curator (rank 3) or above (from Pilot v2.16.26, Curators draft).
 
 1. When the wizard opens it sends `status`. If the answer is not `{ "ok": true }` (including 404 while the function does not exist), the AI Auto-Map button stays disabled and says the mapper is not deployed.
 2. When the person presses AI Auto-Map it saves the draft, then sends `map`. Suggestions fill only the rows the person has not mapped yet, marked "AI" with the confidence. Nothing is saved until the person presses Save & continue; an edited suggestion is stored as `ai_adjusted`.
@@ -86,7 +86,7 @@ Response (200):
 
 - Dry-run size: setting `layer1.induction_dry_run_rows` (100). Postcode escalation: a campus postcode below `destination.postcode_primary_min_share` (0.9), as `security.destination_postcode_flags_v1` decides.
 - A recorded dry run switches nothing on. Activation is the Platform Admin's step and saves the source paused; a failed dry run blocks activation until a later one passes.
-- Two category lists exist and are tied field by field. The wizard and the completeness report use the eight categories in `ref.enrichment_categories` (Platform Admin 17 Nov 18:10). The Boost matrix (`country_category_boost`, Pilot migration `20261117183000`, Platform Admin 18:02) uses eight other keys. `ref.enrichment_category_fields.boost_category` gives the Boost category of each coverage field, so a mapping to a field resolves to both.
+- One category list (Platform Admin 17 Nov 2026 19:58): the eight keys of `ref.enrichment_categories`, published by `rpc('svc_enrichment_categories')` and described in `docs/platform/ENRICHMENT-CATEGORIES.md`. Use only these keys in `category_key`.
 - Category routing: `ref.enrichment_categories` and `ref.enrichment_category_fields` are readable by the service role. The Platform Admin can move a field between categories, so read them rather than copying them into code.
 
 ## Parser records, layout drift and re-infer (service role)
@@ -106,4 +106,4 @@ The mapper is AI work whose output a person confirms. Pin it to one named, quali
 ## Not in this contract
 
 - Building a reader for a new source, and the dry run itself (S2-Build).
-- Enforcing per-source retention. The values are recorded on the induction; platform policy and prune jobs are unchanged (Platform Admin decision 17 Nov 2026 18:10).
+- Per-source retention. The draft carries one staging keep period; activation sets it in `pipeline.source_retention_policies` (S1-Build), which `housekeeping-daily` reads.

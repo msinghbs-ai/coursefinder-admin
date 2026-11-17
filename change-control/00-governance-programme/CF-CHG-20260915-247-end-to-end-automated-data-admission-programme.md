@@ -11650,3 +11650,27 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - S2-Build: have readers call `svc_layer1_parser_drift_record`, and the mapper return `parser_spec` and act on re-infer requests, to contract v1.1.
 - Platform Admin: open Layer 1 › Sources signed in and check the Parser column; decide the two open items (one category list; one place for per-source retention).
+
+## 17 Nov 2026 21:30 AEDT — Release v2.16.26 (Pilot #1217), Wave 2 decisions: one category list, retention in one place, Curators in Layer 1, evidence and items side by side — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 19:58 (four decisions), 20:06 (report change) and 20:45 (role gates confirmed by role name), chat S1-RM-Design.
+
+**Done:**
+- Pilot #1217 merged on green CI (13 checks, 1 conditional job of another lane skipped) as `64dc0c13`; deploy-on-merge green 20:25 AEDT. Release v2.16.26, package 0.1.448.
+- Migration `20261117213000` applied (history md5 `7f2f3b43` equals the file; 2,073 applied). Every function it changes was checked against its expected definition before the merge.
+- Categories: one list in `ref.enrichment_categories`; `public.svc_enrichment_categories()` publishes it; `docs/platform/ENRICHMENT-CATEGORIES.md` gives the keys, the 32 fields and the crosswalk from the Boost keys.
+- Retention: the wizard's own values are gone. One optional Staging kept (days) is set through `admin_source_retention_set` on activation; the report reads `pipeline.source_retention_policies` and the `retention.*` settings.
+- Roles: Curator (rank 3) opens Layer 1 and drafts; re-infer stays rank 4; activation rank 6. Read back live in each function.
+- Report: Evidence captured and Layer 4 review items by source, two counts side by side, no rate.
+- Register check: the two 17:59 rows are different prompts to two chats (this chat: induction wizard and completeness report, Pilot #1211; S1-Build: retention, category priority and telemetry, Pilot #1212). Both kept; nothing removed.
+- G3 guard 75 functions and 48 tables, no drift. Fixture `layer1-induction-wizard`: 48 checks pass.
+
+**Not done:**
+- The Boost matrix (`country_category_boost`) still holds eight other keys. Moving it is S2 - BOOST's change and needs new weights and a decision on study rules and career outcomes.
+- No source has its own retention period yet, and pruning is still switched off (S1-Build's switch).
+- A Curator does not see new-edition candidates on Layer 1 (`layer1_statistics_candidates_read` stays rank 4).
+- No signed-in check as a Curator.
+
+**Next executable action:**
+- S2 - BOOST: move the matrix to the published keys (`docs/platform/ENRICHMENT-CATEGORIES.md`).
+- Platform Admin: set the weights for the five split categories and decide where study rules and career outcomes sit; sign in as a Curator and open Layer 1.
