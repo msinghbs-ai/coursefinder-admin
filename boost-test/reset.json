@@ -1,0 +1,27 @@
+{
+ "dropped_schemas": [
+  "admin_api",
+  "api",
+  "catalogue",
+  "destination",
+  "integration",
+  "l4_api",
+  "pim",
+  "pim_api",
+  "pipeline",
+  "private",
+  "publishing",
+  "ranking",
+  "ref",
+  "scholarship",
+  "search",
+  "security",
+  "workflow"
+ ],
+ "failures": [
+  [
+   "pipeline",
+   "HTTP 400: Failed to run sql query: ERROR:  53200: out of shared memory\nHINT:  You might need to increase \"max_locks_per_transaction\".\n"
+  ]
+ ]
+}
