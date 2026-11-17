@@ -1,0 +1,15 @@
+{
+ "label": "run-2",
+ "checks": {
+  "admitted_equals_courses_filled": true,
+  "60_admitted_for_60_courses_at_1000": true,
+  "60_admitted_for_60_courses_at_5000": true,
+  "duplicates_refused_not_admitted": true,
+  "shadow_none_admitted": true,
+  "held_courses_unchanged": true,
+  "cohort_put_back": true,
+  "g3_test_project": true,
+  "promotion_function_is_production": true
+ },
+ "result": "PASS"
+}
