@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.7 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.7 adds the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.8 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.8 records [decisions G-1 to G-5 as approved](#decisions-g-1-to-g-5-approved-17-november-2026); v1.7 added the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -772,6 +772,20 @@ Not done from this session: a keyed HTTP call to the `destination` action on eit
 
 - Isolated PostgreSQL 16 fixture `tests/fixtures/destination-schema-pack/run.sh`: the pack applies twice; 33 checks pass (empty read, approval ranks, postcode rule from the setting, published-edition rules, scheme register, access history).
 - Spec `cf-247-rm0-destination-schema-pack-contract`. Three existing specs were widened for the new action and are named in the pull request.
+
+## Decisions G-1 to G-5 approved (17 November 2026)
+
+Platform Admin, 17 November 2026 11:52 AEDT (S1-RM-Design). Detail is in [`DESTINATION-DATA-UI-AND-INGESTION-SPEC.md`](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) v1.1, section 4. Decisions only; nothing was built.
+
+| # | Approved |
+|---|---|
+| G-1 | `destination.career_outcomes` holds one row per occupation and area (`national`, `state` or `locality`); the unique key is replaced inside the migration's constraint block. This closes the "career figures by city" limit listed under v1.6 |
+| G-2 | Destination data page in the Catalogue menu after Rankings & statistics (`#destination-data`, Curator and above) |
+| G-3 | Postcodes below 90% containment go to the Layer 4 Inbox as a new kind, "Campus locality" |
+| G-4 | Tabs 1 and 2 of the page are built with the ABS loader (step 1), right after the squash |
+| G-5 | `campuses[].locality` on the v3 `provider` action, in the shape of spec section 2.4 |
+
+New schema and ingestion pull requests on Pilot are held until the Platform Admin confirms the squash of Thursday 19 November 2026 is complete; step 0 and step 1 then start at once. From 11:52 AEDT the agent merges green pull requests itself in both repositories.
 
 ## Design references
 

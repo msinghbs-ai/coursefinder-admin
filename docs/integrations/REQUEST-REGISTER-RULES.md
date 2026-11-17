@@ -1,6 +1,6 @@
 # Request register – rules for any agent or chat
 
-**Version:** 1.1 (15 Nov 2026; Google Drive copy and two-way sync) · **Owner:** Platform Admin · **Change control:** CF-247
+**Version:** 1.2 (17 Nov 2026; green pull requests are merged by the agent; prior 1.1, 15 Nov 2026: Google Drive copy and two-way sync) · **Owner:** Platform Admin · **Change control:** CF-247
 
 Platform Admin, 15 Nov 2026: work on the request register may come from other LLMs and chats (ChatGPT, Codex, other Claude chats). Every change must record when it was made, by which tool and in which chat, and follow the same rules.
 
@@ -43,7 +43,7 @@ This repo is **public**.
 4. REQ items belong only in this register. Never put REQ IDs in roadmap (RM) files.
 5. Confidential: no Study Square staff comments, email text, attachments, API keys or personal email addresses. Staff comments stay in the Platform Admin's working sheet only.
 6. Use Australian English and plain language.
-7. Work on a branch named `docs/requests-<tool>-YYYY-MM-DD` and open a PR. Do not merge it. In the PR description, list each REQ changed with its status before and after, plus the tool and chat name. Changes that affect the consumer APIs wait for developer comms before release.
+7. Work on a branch named `docs/requests-<tool>-YYYY-MM-DD` and open a PR. **From 17 Nov 2026 11:52 AEDT (Platform Admin): when its checks are green, merge it yourself; do not leave a green PR waiting.** If another register PR is open, merge row by row (later `updated_at` wins, every dated log line kept). In the PR description, list each REQ changed with its status before and after, plus the tool and chat name. Changes that affect the consumer APIs wait for developer comms before release.
 8. Before you finish, re-read the CSV from the branch and check that:
    - it still has 16 columns on every row;
    - every `req_id` is unique;
