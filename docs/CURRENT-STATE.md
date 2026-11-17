@@ -167,6 +167,8 @@ Lane: the Boost worker (`worker-boost-bulk-ingest`), the promotion function, qua
 
 **Done 18 Nov 08:20 AEDT (Pilot #1244): the Boost benchmark spec is `s600`.** Was: **Action for S2 - BOOST (Platform Admin 18 Nov 2026 07:35, via S1-Build): renumber the Boost benchmark spec.** `cf-247-s596-boost-benchmark-contract` and S2-Build's `cf-247-s596-layer1-declarative-runner-contract` share `s596`. In your next Pilot PR (qualifying the winning model and fixing the dispatcher lock skips), rename the Boost benchmark spec to a number strictly above every number in use and regenerate `docs/platform/TEST-REGISTER.md` in the same change (G4). At 07:40 AEDT the register's highest is `s596`, and open Pilot PRs already claim `s597` (#1239) and `s598` (#1240), so the next free number is `s599`; re-check open PRs before you merge. The Layer 1 runner spec keeps `s596`.
 
+**`coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`) is being reset — Wed 18 Nov 2026 from 10:30 AEDT (S1-Build, squash rehearsal).** `boost-test-rebuild.yml` drops and rebuilds its application schemas from a fresh production dump. Do not run experiments or re-seeds on it until S1-Build posts **"can re-seed"** here (expected before 11:45 AEDT).
+
 **Action for S2 - BOOST (Platform Admin 17 Nov 2026 20:06):** S1-Build uses `coursefinder-boost-test` for the squash rebuild proof, and `boost-test-rebuild.yml` resets the project (application schemas dropped and rebuilt from the production dump; reference data copied; test cron jobs switched off). Two resets:
 - **Rehearsal, Wed 18 Nov from 10:30 AEDT** (S1-Build posts here when the rebuild run finishes);
 - **Squash window, Thu 19 Nov 01:30–03:30 AEDT.**
