@@ -10,6 +10,8 @@ The two emails can now be edited on Administration › Users & roles › Links &
 
 To switch the copy on, once: create a Supabase access token for the account that owns project `fxcwkweaxjtknorudmwp` (Supabase dashboard › Account › Access tokens) and save it as the Edge Function secret `SB_MANAGEMENT_TOKEN` (Edge Functions › Secrets). Never put the token in a repository or a document. The tab then shows "Copy to Supabase Auth on save: on", and Save & Sync writes the site URL and both emails to Auth. Step 1 below (the redirect allow-list) is still a dashboard setting.
 
+From 17 Nov 2026 16:10 AEDT the templates in steps 2 and 3 are the `#0b6e5f` StudySearch PIM Admin defaults of Links & Email Templates (Pilot migration `20261117152700`), written as Supabase Auth reads them. Workflow `supabase-auth-config.yml` (apply) sets them.
+
 ## What the release sends
 
 | Email | Sent by | Link returns to | Template data |
@@ -31,63 +33,47 @@ If a later production address replaces the Worker, add it here first, then set t
 
 ## Step 2 — Invite user template (Authentication › Emails › Templates › Invite user)
 
-**Subject:** `You're invited to StudySearch Admin`
+**Subject:** `You're invited to StudySearch PIM Admin`
 
 **Message body (HTML), paste as is:**
 
 ```html
-<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#1e293b;line-height:1.5">
-  <h2 style="color:#3730a3;margin-bottom:4px">Welcome to StudySearch{{ if .Data.full_name }}, {{ .Data.full_name }}{{ end }}</h2>
-  <p style="margin-top:0;color:#64748b">StudySearch Admin · {{ .Email }}</p>
-
-  <p>You have been given access to StudySearch Admin{{ if .Data.role }} as <strong>{{ .Data.role }}</strong>{{ end }}. StudySearch is the course and provider catalogue our counsellors use to advise students on study in Australia, New Zealand and Canada.</p>
-
-  <p style="margin:24px 0">
-    <a href="{{ .ConfirmationURL }}" style="background:#4f46e5;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold">Accept the invitation and choose your password</a>
-  </p>
-  <p style="font-size:13px;color:#64748b">The button opens the StudySearch Admin sign-in at {{ .SiteURL }}. You will be asked to choose a password (12 characters or more); after that you sign in with your email and that password. The link works once and expires; if it has expired, ask the Platform Admin to send a new invitation.</p>
-
-  <h3 style="margin-bottom:4px">What you will find</h3>
-  <ul style="padding-left:18px">
-    <li><strong>Courses</strong>: every course with its provider, study level, fees, intakes, entry and English requirements and the official course page.</li>
-    <li><strong>Providers</strong>: universities and colleges, their locations, courses and scholarships.</li>
-    <li><strong>Scholarships</strong>: published scholarships and who can apply.</li>
-    <li>Search and filters on every list, and <strong>Export CSV</strong> to take a filtered list into Excel.</li>
-  </ul>
-
-  <h3 style="margin-bottom:4px">Please test</h3>
-  <ol style="padding-left:18px">
-    <li>Accept the invitation, choose your password, then sign out and sign in again with it.</li>
-    <li>Find a course you know well (search by name), open it and check the fee, intake and entry requirements against the official page.</li>
-    <li>Filter Courses by country and study level, then Export CSV › Export visible columns and open the file in Excel.</li>
-    <li>Tell us anything that looks wrong, with the course or provider name and what you expected.</li>
-  </ol>
-
-  {{ if .Data.guide_url }}<p>New to the platform? Read the <a href="{{ .Data.guide_url }}">Platform guide</a> after you sign in.</p>{{ end }}
-  <p style="font-size:12px;color:#94a3b8;margin-top:28px">If you were not expecting this invitation, you can ignore this email; no account is active until the invitation is accepted.</p>
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#18211d">
+  <div style="background:#0b6e5f;color:#ffffff;padding:18px 24px;border-radius:8px 8px 0 0">
+    <strong style="font-size:18px">StudySearch PIM Admin</strong>
+  </div>
+  <div style="border:1px solid #d6ddd9;border-top:0;padding:24px;border-radius:0 0 8px 8px">
+    <h2 style="margin:0 0 4px;color:#0b6e5f">Welcome, {{ .Data.full_name }}</h2>
+    <p style="margin:0 0 16px;color:#5d6b64">{{ .Email }}</p>
+    <p>You have been given access to StudySearch PIM Admin as <strong>{{ .Data.role }}</strong>.</p>
+    <p style="margin:24px 0"><a href="{{ .ConfirmationURL }}" style="background:#0b6e5f;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-weight:bold">Accept the invitation</a></p>
+    <p style="font-size:13px;color:#5d6b64">The button opens the Admin sign-in, where you choose a password of 12 characters or more. If the button does not work, copy this address into your browser:<br>{{ .ConfirmationURL }}</p>
+    <p>New to the platform? Read the <a href="https://coursefinder-pilot.techm.workers.dev/#platform-guide" style="color:#0b6e5f">Platform guide</a> after you sign in.</p>
+    <p style="font-size:12px;color:#5d6b64;margin-top:24px">If you were not expecting this invitation, you can ignore this email.</p>
+  </div>
 </div>
 ```
 
 ## Step 3 — Reset password template (Authentication › Emails › Templates › Reset password)
 
-**Subject:** `Reset your StudySearch Admin password`
+**Subject:** `Reset your StudySearch PIM Admin password`
 
 **Message body (HTML), paste as is:**
 
 ```html
-<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#1e293b;line-height:1.5">
-  <h2 style="color:#3730a3;margin-bottom:4px">Reset your StudySearch Admin password</h2>
-  <p style="margin-top:0;color:#64748b">{{ .Email }}</p>
-
-  <p>We received a request to reset the password for your StudySearch Admin account{{ if .Data.full_name }}, {{ .Data.full_name }}{{ end }}.</p>
-
-  <p style="margin:24px 0">
-    <a href="{{ .ConfirmationURL }}" style="background:#4f46e5;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold">Choose a new password</a>
-  </p>
-  <p style="font-size:13px;color:#64748b">The button opens the StudySearch Admin sign-in at {{ .SiteURL }}, where you choose a new password (12 characters or more). Your current password keeps working until you do. The link works once and expires.</p>
-
-  {{ if .Data.guide_url }}<p>The <a href="{{ .Data.guide_url }}">Platform guide</a> explains each screen.</p>{{ end }}
-  <p style="font-size:12px;color:#94a3b8;margin-top:28px">If you did not ask for this, ignore this email; your password does not change.</p>
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#18211d">
+  <div style="background:#0b6e5f;color:#ffffff;padding:18px 24px;border-radius:8px 8px 0 0">
+    <strong style="font-size:18px">StudySearch PIM Admin</strong>
+  </div>
+  <div style="border:1px solid #d6ddd9;border-top:0;padding:24px;border-radius:0 0 8px 8px">
+    <h2 style="margin:0 0 4px;color:#0b6e5f">Reset your password</h2>
+    <p style="margin:0 0 16px;color:#5d6b64">{{ .Email }}</p>
+    <p>Hello {{ .Data.full_name }}, a password reset was requested for your StudySearch PIM Admin account ({{ .Data.role }}).</p>
+    <p style="margin:24px 0"><a href="{{ .ConfirmationURL }}" style="background:#0b6e5f;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-weight:bold">Choose a new password</a></p>
+    <p style="font-size:13px;color:#5d6b64">Your current password keeps working until you choose a new one. If the button does not work, copy this address into your browser:<br>{{ .ConfirmationURL }}</p>
+    <p>The <a href="https://coursefinder-pilot.techm.workers.dev/#platform-guide" style="color:#0b6e5f">Platform guide</a> explains each screen.</p>
+    <p style="font-size:12px;color:#5d6b64;margin-top:24px">If you did not ask for this, you can ignore this email; nothing changes.</p>
+  </div>
 </div>
 ```
 
