@@ -11877,3 +11877,28 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 
 **Next executable action:**
 - Platform Admin: on Links & Email Templates choose Resend API, enter the From Email on the domain verified in Resend and the API key, Save & Sync with a reason, then Send Test Email for both templates.
+
+## 17 Nov 2026 19:00 AEDT — Release v2.16.24 (Pilot #1211), Parallel Wave 2: Layer 1 induction wizard and Country & category completeness report — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 17:59 AEDT and four decisions at 18:10, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1211 merged on green CI (14 checks) as `6797ac20`; deploy-on-merge green 18:54 AEDT. Release v2.16.24, package 0.1.446.
+- Migration `20261117193000` applied (history md5 `d019e3f8` equals the file; 2,068 applied): eight enrichment categories over the 32 coverage fields, wizard drafts, activation by the Platform Admin through `admin_layer1_add_source` (saved paused), service functions for the loaders' dry run, `admin_completeness_report`, four settings.
+- Layer 1 › + Add source opens the six-step wizard; the single form is removed. Platform health has the tab Country & category completeness (21 pages, 55 tabs).
+- Decisions applied: mapping by hand until the AI mapper is deployed; the proposed eight categories; Waiting for a reader when no reader exists; per-source retention recorded with today's policy as the default and nothing enforced.
+- Contract for S2-Build written: `docs/platform/LAYER1-AI-INDUCTION-MAPPER-CONTRACT.md`.
+- Read back live: 8 categories, 32 fields, no coverage field unmapped, no drafts, retention policy unchanged (staging 14 days, raw permanent), G3 guard 75 functions and 48 tables with no drift.
+- Isolated PostgreSQL fixture `layer1-induction-wizard`: applied twice, 21 checks pass. New spec `cf-247-s582`.
+
+**Not done:**
+- AI Auto-Map is off: `layer1-ai-induction-mapper` does not exist yet (S2-Build).
+- No source has a reader from the wizard, so no dry run has been recorded.
+- Retention entered in the wizard is not enforced.
+- Two eight-category lists now exist (this one and the Boost matrix of migration `20261117183000`); they are tied field by field, not merged.
+- Curators cannot open Layer 1, so they do not reach the wizard.
+- No signed-in check of the wizard or the report.
+
+**Next executable action:**
+- S2-Build: build `layer1-ai-induction-mapper` and the dry run to the contract.
+- Platform Admin: decide one category list or two, and whether Curators should open the wizard; walk one draft through the wizard signed in.
