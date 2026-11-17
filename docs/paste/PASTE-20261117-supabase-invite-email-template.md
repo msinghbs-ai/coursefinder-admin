@@ -4,6 +4,12 @@
 **Prepared by:** Pilot release v2.16.16 (Pilot PR #1189; Platform Admin 16 Nov 2026 22:12). No SQL: these are dashboard settings.
 **When:** before the next invitation or password reset is sent from Administration › Users & roles. Until step 1 is done, Supabase ignores the admin sign-in address and sends people to the dashboard's Site URL.
 
+## From v2.16.20: edit the emails in the Admin (17 Nov 2026)
+
+The two emails can now be edited on Administration › Users & roles › Links & Email Templates (Platform Admin). The templates below stay valid until a save there is copied to Supabase Auth.
+
+To switch the copy on, once: create a Supabase access token for the account that owns project `fxcwkweaxjtknorudmwp` (Supabase dashboard › Account › Access tokens) and save it as the Edge Function secret `SB_MANAGEMENT_TOKEN` (Edge Functions › Secrets). Never put the token in a repository or a document. The tab then shows "Copy to Supabase Auth on save: on", and Save & Sync writes the site URL and both emails to Auth. Step 1 below (the redirect allow-list) is still a dashboard setting.
+
 ## What the release sends
 
 | Email | Sent by | Link returns to | Template data |

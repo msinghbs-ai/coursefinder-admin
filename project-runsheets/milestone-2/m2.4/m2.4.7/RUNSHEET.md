@@ -11792,3 +11792,26 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 
 **Next executable action:**
 - Check Layer 4 Review › Inbox › Campus locality when S2-Build's first postcodes load.
+
+## 17 Nov 2026 15:35 AEDT — Release v2.16.20: Users & roles › Links & Email Templates (Pilot #1202) — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 14:40 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1202 merged on green CI (14 checks) as `f9065e08`; deploy-on-merge green 15:25 AEDT. Release v2.16.20, package 0.1.442.
+- Migration `20261117152700` applied (history md5 `efcb85cf` equals the file; 2,062 applied). It was first numbered `20261117150000`; another lane took that number while CI ran, so it was renumbered before the merge.
+- `admin_auth_template_settings_read()` and `admin_auth_template_settings_save(payload, reason)`: Platform Admin only; a save needs a reason and writes the control log. Stored as one row in the existing `pipeline.environment_settings`; no table created, nothing dropped.
+- `admin-user-management` version 7 deployed: status, copy to Supabase Auth, and test email actions; a password reset now refreshes the account's role and guide link first.
+- Users & roles has two tabs (it had none): Users & roles, and Links & Email Templates. Menu is 21 pages, 54 tabs.
+- Read back live: defaults in force (branded template, Worker site URL), no saved row yet, anon cannot call the save, G3 guard 75 functions and 48 tables with no drift.
+- Isolated PostgreSQL fixture `admin-auth-email-templates`: applied twice, 16 checks pass. New spec `cf-247-s573`. Test register 704 specs.
+
+**Not done:**
+- Copy to Supabase Auth is off: the Edge Function secret `SB_MANAGEMENT_TOKEN` is not set. Saves are stored and logged; Auth keeps its current emails until the token is set and Save & Sync is run.
+- The brief said a fourth tab; the page had no tabs, so this is its second.
+- Send Test Email covers Reset Password only. Supabase Auth sends an invitation only by creating the account.
+- The Admin Site URL setting is copied to Auth as its site URL; the address links return to is still `ADMIN_LOGIN_URL` and the Redirect URLs list.
+- No signed-in check of the tab, a save, a sync or a test email.
+
+**Next executable action:**
+- Platform Admin: set `SB_MANAGEMENT_TOKEN` (steps in `docs/paste/PASTE-20261117-supabase-invite-email-template.md`), then open Users & roles › Links & Email Templates, Save & Sync with a reason and Send Test Email.
