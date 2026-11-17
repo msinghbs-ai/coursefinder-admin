@@ -1,0 +1,58 @@
+{
+ "file": "005_rehearsal_rolled_back.sql",
+ "ok": false,
+ "result": null,
+ "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: BOOST_REHEARSAL {\"database\": \"postgres\", \"bulk_1000\": {\"rows\": 1000, \"seconds\": 0.042, \"under_5s\": true}, \"rehearsal\": {\"result\": {\"dry\": false, \"rows\": 5, \"batch\": \"rehearsal\", \"window\": [0, 24], \"by_state\": {\"shadow\": 2, \"refused\": 2, \"admitted\": 1}, \"melbourne_hour\": 2}, \"states\": {\"q1\": \"admitted\", \"q2\": \"shadow (model not qualified for this lane: mistral / mistral-small-latest)\", \"q3\": \"refused (a manual lock holds this course's study load)\", \"q4\": \"refused (worker: quote 0 is not on the page)\", \"q5\": \"shadow (AER shadow reading (admitted only by the AER rule after qualification))\"}}, \"shadow_50\": {\"result\": {\"dry\": false, \"rows\": 50, \"batch\": \"shadow-50\", \"window\": [0, 24], \"by_state\": {\"shadow\": 50}, \"melbourne_hour\": 2}, \"courses_changed\": 0}, \"outside_window\": \"not refused\", \"server_version\": \"17.12\", \"study_load_written\": 1, \"updated_at_touched\": 0}\nCONTEXT:  PL/pgSQL function inline_code_block line 78 at RAISE\n",
+ "rehearsal": {
+  "database": "postgres",
+  "bulk_1000": {
+   "rows": 1000,
+   "seconds": 0.042,
+   "under_5s": true
+  },
+  "rehearsal": {
+   "result": {
+    "dry": false,
+    "rows": 5,
+    "batch": "rehearsal",
+    "window": [
+     0,
+     24
+    ],
+    "by_state": {
+     "shadow": 2,
+     "refused": 2,
+     "admitted": 1
+    },
+    "melbourne_hour": 2
+   },
+   "states": {
+    "q1": "admitted",
+    "q2": "shadow (model not qualified for this lane: mistral / mistral-small-latest)",
+    "q3": "refused (a manual lock holds this course's study load)",
+    "q4": "refused (worker: quote 0 is not on the page)",
+    "q5": "shadow (AER shadow reading (admitted only by the AER rule after qualification))"
+   }
+  },
+  "shadow_50": {
+   "result": {
+    "dry": false,
+    "rows": 50,
+    "batch": "shadow-50",
+    "window": [
+     0,
+     24
+    ],
+    "by_state": {
+     "shadow": 50
+    },
+    "melbourne_hour": 2
+   },
+   "courses_changed": 0
+  },
+  "outside_window": "not refused",
+  "server_version": "17.12",
+  "study_load_written": 1,
+  "updated_at_touched": 0
+ }
+}

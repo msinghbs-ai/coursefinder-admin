@@ -1,0 +1,2 @@
+{"g3": true, "bulk_1000_under_5s": true, "shadow_50_none_admitted": true, "rehearsal_1_written_0_touched": true, "outside_window_refused": false}
+FAIL
