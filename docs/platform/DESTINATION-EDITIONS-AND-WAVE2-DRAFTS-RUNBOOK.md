@@ -1,8 +1,8 @@
 # Operator runbook: destination data editions and Wave 2 register drafts
 
-**Version:** 1.1, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT).
+**Version:** 1.2, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT).
 **For:** the Platform Admin and Curators. **Screens:** Destination data, Layer 1 Register, Reference data.
-**Status of the screens named:** live on Pilot at v2.16.31 (18 Nov 2026 08:33 AEDT). Not yet checked in a signed-in session.
+**Status of the screens named:** live on Pilot at v2.16.32 (18 Nov 2026 10:24 AEDT). Not yet checked in a signed-in session.
 
 Where a step says *Platform Admin*, the button is greyed for other roles and the server refuses the call as well. Every approval, publication and activation asks for a reason, which is kept with the decision.
 
@@ -13,7 +13,7 @@ Where a step says *Platform Admin*, the button is greyed for other roles and the
 | 1. Load the edition | Platform health › Data delivery › Destination loads › Run now | The role shown on the job | The loader creates the edition (draft), its localities (draft), postcodes and figures (draft). Nothing is returned by the API yet. |
 | 2. Settle postcodes | Destination data › Localities & postcodes, lower table; or Layer 4 Review › Inbox › Campus locality | Curator and above | A postcode that sits in more than one locality below the share is waiting for a person. Accept, choose a locality, or record none. One decision settles the postcode for every campus. |
 | 3. Approve localities | Destination data › Localities & postcodes | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** for a whole dataset edition: every draft with a name and attribution text is approved with one reason; a draft without attribution text stays draft and is counted. |
-| 4. Approve figures | Destination data › City metrics & costs | Platform Admin | Each figure is approved on its own row. There is no bulk action for figures. |
+| 4. Approve figures | Destination data › City metrics & costs | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** (v2.16.32) for a whole dataset edition: every draft figure with attribution text is approved with one reason; the rest stay draft and are counted. A figure is returned by the API once its locality is approved too. |
 | 5. Record the terms | Destination data › Overview & editions › Record terms | Platform Admin | Sets the edition's terms of use: approved, pending or restricted. |
 | 6. Publish the edition | Destination data › Overview & editions › Publish edition | Platform Admin | The edition becomes the published one for its country and domain; the earlier published edition is marked superseded. |
 
@@ -42,7 +42,7 @@ Nine drafts were pre-staged on 17 Nov 2026 (Pilot #1228). A draft is not a sourc
 **Before activating any of the drafts:**
 
 - **Duplicates:** the older catalogue rows for the OfS Register, Discover Uni, the Irish Register of Qualifications and the UKVI sponsor register were retired on 18 Nov 2026 (S2-Build, Pilot #1240; checked live), and adding a source now checks for a duplicate by address and name.
-- **ILEP:** kept and marked as a deprecating source (its note still says the scheme is to be registered; it is registered). Move it to the TrustEd Ireland list of eligible programmes when that replaces the ILEP (expected about the end of 2026).
+- **ILEP:** kept and marked as a deprecating source. Move it to the TrustEd Ireland list of eligible programmes when that replaces the ILEP (expected about the end of 2026).
 - **IRCC Designated Learning Institutions** is not a draft: it is already a live Layer 1 source.
 
 ## 3. Routing rule: where a source or dataset belongs
@@ -66,4 +66,4 @@ Decision of the Platform Admin, 18 Nov 2026 07:03.
 
 **Handover (RM0B):** both v3 APIs are still in development, so the dictionary and handover documents are not issued to the developers yet. They are issued once, at v3 release.
 
-**Found while checking (not changed here):** `API-V3-FIELD-DEFINITION.md` still says of `study_load` "not proven live" (its REQ-52 row). The catalogue holds a study load for about 2,500 courses on 18 Nov 2026. The owner of that document should update the row before the handover.
+**Study load (updated 18 Nov 2026 10:20 AEDT):** `API-V3-FIELD-DEFINITION.md` now records that 3,772 courses hold a study load, read from provider pages and growing through Boost. It is **not yet returned** by the v3 `course` or `search` actions: no v3 course function carries it and the field dictionary lists `study_load` on the scholarship actions only. Exposing it on the course actions is open work before the handover.

@@ -11982,3 +11982,21 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: Destination data › Localities & postcodes › Bulk Approve Drafts for "ABS Regional population 2024-25"; approve figures; Publish edition.
 - Platform Admin: check the new columns, the Boost queue and the bulk button signed in.
+
+## 18 Nov 2026 10:30 AEDT — v2.16.32: Bulk Approve Drafts for city figures; ILEP note corrected (Pilot #1250); study_load recorded as held, not yet returned by API v3
+
+**Trigger:** Platform Admin 18 Nov 2026 10:05 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1250 merged on green CI (14 checks) as `1af49b91` and deployed (v2.16.32, migration `20261118110707`): Destination data › City metrics & costs has Bulk Approve Drafts (Platform Admin, one reason, one control event). The ILEP draft's note no longer says its scheme is to be registered.
+- Rolled-back live dry run passed before merge. Checked live after deploy: history md5 equals the file; G3 guard 75 functions and 48 tables, no drift; `main` green on `1af49b91` (five workflows, Deployed UAT included).
+- `API-V3-FIELD-DEFINITION.md` updated: `study_load` is held for 3,772 courses and growing through Boost.
+
+**Not done:**
+- `study_load` was not recorded as returned by API v3, because it is not: no v3 course function carries it and the field dictionary lists it on the scholarship actions only. Exposing it is open work for the v3 lane.
+- Nothing was approved: 102 localities and 102 figures are still draft; the approvals and Publish edition are the Platform Admin's.
+- The new button was not checked in a signed-in session.
+
+**Next executable action:**
+- Platform Admin: Bulk Approve Drafts on Localities & postcodes and on City metrics & costs, then Publish edition on Overview & editions.
+- v3 lane: return `study_load` on the v3 `course` and `search` actions and add it to the dictionary, before the RM0B handover.
