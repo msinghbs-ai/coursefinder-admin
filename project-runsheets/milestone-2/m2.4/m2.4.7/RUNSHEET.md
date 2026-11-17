@@ -11778,3 +11778,17 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - S2-Build: catalogue each load job with a name starting `destination-`; set postcode flags from `security.destination_postcode_flags_v1`; set `evidence_id` on rules.
 - Platform Admin: open Catalogue › Destination data signed in.
+
+## 17 Nov 2026 14:30 AEDT — RM0F Destination data page accepted signed in by the Platform Admin (v2.16.19) — CHECK, no change
+
+**Trigger:** Platform Admin 17 Nov 2026 14:30 AEDT, chat S1-RM-Design.
+
+**Done:**
+- The Platform Admin opened Catalogue › Destination data signed in on v2.16.19: layout, five tabs, role gates and the live count (18 schemes registered) read cleanly.
+- The loader wiring notes (job names starting `destination-`, `security.destination_postcode_flags_v1`, `attribution_text`, `evidence_id`, and a dictionary entry for `campuses[].locality`) were passed to S2-Build by the Platform Admin.
+
+**Not done:**
+- The Layer 4 kind with a real item, a recorded password reset, and keyed HTTP calls to the v3 actions.
+
+**Next executable action:**
+- Check Layer 4 Review › Inbox › Campus locality when S2-Build's first postcodes load.

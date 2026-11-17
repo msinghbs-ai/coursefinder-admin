@@ -276,6 +276,12 @@ Platform Admin, 17 November 2026 13:12 AEDT: the 19 November hold is cancelled; 
 | Data delivery | Destination loads: counts, what waits for a person, and Run now for every catalogued job whose name starts `destination-` |
 | Password reset audit | `admin-user-management` writes `password_reset_sent`; `svc_admin_access_log_event` accepts it |
 
+### Signed-in acceptance check (Platform Admin, 17 November 2026 14:30 AEDT)
+
+The Platform Admin opened Catalogue › Destination data signed in on v2.16.19: layout, the five tabs, the role gates and the live count (18 schemes registered) all read cleanly. The loader wiring notes below were passed to S2-Build, including the request to add `campuses[].locality` to the field dictionary.
+
+Still not checked by anyone: the Layer 4 kind with a real item, a password reset recorded in the access history, and keyed HTTP calls to the v3 `provider` and `destination` actions. The first two need data or an action to exist first.
+
 ### Differences from the design, stated plainly
 
 | Design said | Built | Why |
