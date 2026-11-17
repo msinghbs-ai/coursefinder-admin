@@ -1,9 +1,13 @@
 # Supabase Auth custom SMTP through Resend — scope
 
-**Version:** 1.0, 17 Nov 2026 16:30 AEDT
+**Version:** 1.1, 17 Nov 2026 17:00 AEDT (1.0, 16:30: first issue)
 **Decision:** Platform Admin, 17 Nov 2026 16:13 (chat S1-RM-Design): scope Resend for Supabase Auth email and add it to the production setup checklist; configure DNS and SMTP after the Thursday 19 Nov migration squash.
 **Status:** scoped, not started. Go-live checklist row `auth_custom_smtp` is **pending** (Pilot migration `20261117163000`).
 **Project:** Supabase `fxcwkweaxjtknorudmwp` only (never `coursefinder-demo`).
+
+## What changed since 1.0 (17 Nov 2026 16:24)
+
+From v2.16.23 the Admin can send its own invitations and password resets through the Resend API (Users & roles › Links & Email Templates › Email delivery provider). That covers every email an administrator starts. Custom SMTP in this scope is still needed for one thing: the *Forgot password?* email a person requests from the sign-in screen, which Supabase Auth sends itself. The same Resend account, sending domain and DNS records serve both; a separate sending-only API key for SMTP is recommended.
 
 ## Executive summary
 

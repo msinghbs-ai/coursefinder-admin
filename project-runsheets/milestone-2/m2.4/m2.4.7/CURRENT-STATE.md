@@ -11834,3 +11834,44 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 
 **Next executable action:**
 - Platform Admin: resend an invitation from Users & roles and check the branded email arrives; decide whether the account-wide token may be set as `SB_MANAGEMENT_TOKEN`; decide on a mail provider if the sender name must change.
+
+## 17 Nov 2026 16:35 AEDT — Release v2.16.22 (Pilot #1204): clean greeting without a name; custom SMTP on the Go-live checklist; token decision — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 16:13 AEDT, chat S1-RM-Design (three decisions).
+
+**Done:**
+- Decision recorded: the account-wide Supabase token is not put in the edge function. Supabase Auth templates keep going through workflow `supabase-auth-config.yml`; Copy HTML stays. The tab's wording now says so.
+- Pilot #1204 merged on green CI (13 checks) as `4c1b262f`; deploy-on-merge green 16:29 AEDT. Release v2.16.22, package 0.1.444.
+- Empty name: `{{user_name}}` is translated to a conditional in `admin-user-management` and Copy HTML. Paste file steps 2 and 3 updated and applied to Supabase Auth at 16:31 AEDT (run 44024617120, read back PASS).
+- Migration `20261117163000` applied (md5 `3592f607` equals the file): Go-live checklist row `auth_custom_smtp` (Resend; pending; no value stored).
+- Scope written: `docs/platform/SUPABASE-AUTH-CUSTOM-SMTP-RESEND-SCOPE.md` (smtp.resend.com, port 465, sender name StudySearch PIM Admin; about 2 hours hands-on; after the Thursday squash).
+- G3 guard 75 functions and 48 tables, no drift.
+
+**Not done:**
+- No DNS or SMTP change; no Resend account touched. The sending domain and sender address are not chosen.
+- No document named "Production Environment Manual Setup Checklist" exists; the item was added to the in-app Go-live checklist and the scope document.
+- The default template text in the database is unchanged ("Welcome, {{user_name}}"); the fix is in how the name is written out.
+
+**Next executable action:**
+- Platform Admin: choose the sending domain and sender address; DNS and SMTP after the Thursday 19 Nov squash.
+
+## 17 Nov 2026 17:00 AEDT — Release v2.16.23 (Pilot #1206): Admin invitations and resets through Resend, write-only API key — DEPLOYED, not yet switched on
+
+**Trigger:** Platform Admin 17 Nov 2026 16:24 AEDT, chat S1-RM-Design. The request text arrived cut off after "interpolate `{{link}}`, `{{guide_link}}`,"; the rest was built from the stated goal.
+
+**Done:**
+- Pilot #1206 merged on green CI (13 checks) as `7ec9bfbd`; deploy-on-merge green 16:52 AEDT (migration and edge function steps succeeded). Release v2.16.23, package 0.1.445.
+- Migration `20261117170000` applied (md5 `d4f1ddd8` equals the file; 2,065 applied): `admin_email_delivery_read()`, `admin_email_delivery_save(payload, reason)` (Platform Admin; reason; control log), row `admin_email_delivery` in `pipeline.environment_settings`, Resend API key in Supabase Vault, `svc_admin_email_delivery()` for the service role only.
+- `admin-user-management`: with Resend chosen, a from email and a key (Vault, or Edge Function secret `RESEND_API_KEY`), Create user › Send invitation, Resend invite, Reset password and Send Test Email use `auth.admin.generateLink` and the Resend API with the templates saved on the tab. A failed invitation send removes the account it just made. Otherwise Supabase built-in sends, as before.
+- Links & Email Templates: Email delivery provider section (provider toggle, Sender Name, From Email, write-only key with a Saved badge showing the last four characters).
+- Read back live: delivery is Supabase built-in, no key in Vault; a signed-in user and anon cannot call the key reader; G3 guard 75 functions and 48 tables, no drift.
+- Isolated PostgreSQL fixture `admin-auth-email-templates`: 28 checks pass, including that the key is absent from the settings row, the control log, the read and error text.
+
+**Not done:**
+- Resend is not in use: the Platform Admin has the key and enters it on the tab. No real send was made or could be tested.
+- *Forgot password?* on the sign-in screen is still sent by Supabase Auth (sender "Supabase Auth") until custom SMTP is set.
+- Email delivery saves are in the control log but not listed under Recent changes on the tab.
+- The deployed edge function version was not read back.
+
+**Next executable action:**
+- Platform Admin: on Links & Email Templates choose Resend API, enter the From Email on the domain verified in Resend and the API key, Save & Sync with a reason, then Send Test Email for both templates.
