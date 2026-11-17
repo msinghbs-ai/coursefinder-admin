@@ -12006,3 +12006,28 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: decide what Boost priority score and Country tier are, and whether the ILEP is inducted or its TrustEd Ireland replacement is awaited.
 - S1-RM-Design: slice A of the audit (Courses: Study load and Empty reason), on approval.
+
+## 18 Nov 2026 08:40 AEDT — v2.16.29 to v2.16.31: Courses and Campuses columns (Pilot #1239); Boost queue and Bulk Approve Drafts (Pilot #1242); operator runbook
+
+**Trigger:** Platform Admin 18 Nov 2026 07:03 (decisions and routing rules) and 07:39 AEDT (Bulk Approve Drafts; operator guides), chat S1-RM-Design.
+
+**Done:**
+- Pilot #1239 merged on green CI as `8920f4c2` and deployed (v2.16.29, migration `20261118073000`): Courses show Study load and Empty reason as columns and filters; Campuses show Primary and Locality (by postcode) with their filters. The shared course page path and `admin_read` were edited in place under md5 guards; live body md5s equal the migration's. The ILEP draft is marked as a deprecating source.
+- Pilot #1242 merged on green CI as `af05d0e9` and deployed (v2.16.30 and v2.16.31, migrations `20261118083707` and `20261118090707`): the Boost queue card with Country tier and Priority score worked out on read, nothing stored; Bulk Approve Drafts for localities (Platform Admin, one reason, one control event).
+- Every migration passed the rolled-back live dry run before merge. G3 guard 75 functions and 48 tables, no drift, after each deploy. `main` green on `af05d0e9` (five workflows, Deployed UAT included).
+- New `docs/platform/DESTINATION-EDITIONS-AND-WAVE2-DRAFTS-RUNBOOK.md` (v1.1): destination load to published edition, Wave 2 draft to paused source, the Layer 1 or Reference data routing rule, where to look up API v3 fields.
+- S2-Build's Pilot #1240 registered the four missing schemes and retired the four older seed rows; checked live: all nine drafts carry a scheme.
+
+**Not done:**
+- Providers Accreditations and Sources Retention (days) columns are not built (both tables hold 0 rows).
+- No bulk action for the 102 draft figures. No locality was approved: the approval is the Platform Admin's.
+- Nothing was checked in a signed-in session; live page timings were not measured (fixture timings only).
+- `API-V3-FIELD-DEFINITION.md` still says `study_load` is "not proven live"; left for its owner before the RM0B handover.
+
+**Incidents:**
+- Pilot #1239 and S2 - BOOST's #1238 both used migration `20261118073000`. #1238 had already stopped on its own post-check and applied nothing; S2 - BOOST re-landed it as `20261118074500` (#1241). No data was affected. Later numbers were checked against `main` and the open PRs in a separate step before merging, and two further clashes (`20261118080000`/`s598`, `20261118083000`/`s600`) were avoided by renumbering before merge.
+- One dry-run dispatch for #1242 failed on my own input (file names separated by a space); the correct run on the same commit passed for both files. One CI job failed once on a port already in use and passed on re-run.
+
+**Next executable action:**
+- Platform Admin: Destination data › Localities & postcodes › Bulk Approve Drafts for "ABS Regional population 2024-25"; approve figures; Publish edition.
+- Platform Admin: check the new columns, the Boost queue and the bulk button signed in.

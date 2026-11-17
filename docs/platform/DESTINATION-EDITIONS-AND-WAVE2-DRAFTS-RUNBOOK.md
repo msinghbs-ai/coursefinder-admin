@@ -1,8 +1,8 @@
 # Operator runbook: destination data editions and Wave 2 register drafts
 
-**Version:** 1.0, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT).
+**Version:** 1.1, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT).
 **For:** the Platform Admin and Curators. **Screens:** Destination data, Layer 1 Register, Reference data.
-**Status of the screens named:** live on Pilot at v2.16.29. Bulk Approve Drafts (section 1, step 3) arrives with v2.16.31 and is marked below until it is merged.
+**Status of the screens named:** live on Pilot at v2.16.31 (18 Nov 2026 08:33 AEDT). Not yet checked in a signed-in session.
 
 Where a step says *Platform Admin*, the button is greyed for other roles and the server refuses the call as well. Every approval, publication and activation asks for a reason, which is kept with the decision.
 
@@ -12,7 +12,7 @@ Where a step says *Platform Admin*, the button is greyed for other roles and the
 |---|---|---|---|
 | 1. Load the edition | Platform health › Data delivery › Destination loads › Run now | The role shown on the job | The loader creates the edition (draft), its localities (draft), postcodes and figures (draft). Nothing is returned by the API yet. |
 | 2. Settle postcodes | Destination data › Localities & postcodes, lower table; or Layer 4 Review › Inbox › Campus locality | Curator and above | A postcode that sits in more than one locality below the share is waiting for a person. Accept, choose a locality, or record none. One decision settles the postcode for every campus. |
-| 3. Approve localities | Destination data › Localities & postcodes | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** (v2.16.31) for a whole dataset edition: every draft with a name and attribution text is approved with one reason; a draft without attribution text stays draft and is counted. |
+| 3. Approve localities | Destination data › Localities & postcodes | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** for a whole dataset edition: every draft with a name and attribution text is approved with one reason; a draft without attribution text stays draft and is counted. |
 | 4. Approve figures | Destination data › City metrics & costs | Platform Admin | Each figure is approved on its own row. There is no bulk action for figures. |
 | 5. Record the terms | Destination data › Overview & editions › Record terms | Platform Admin | Sets the edition's terms of use: approved, pending or restricted. |
 | 6. Publish the edition | Destination data › Overview & editions › Publish edition | Platform Admin | The edition becomes the published one for its country and domain; the earlier published edition is marked superseded. |
