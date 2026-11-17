@@ -220,7 +220,9 @@ def probe():
 
 def schema(path):
     guard()
-    text = open(path, encoding="utf-8").read()
+    # newline="": the dump is read byte for byte. Text mode turned every \r\n into \n, so functions written with Windows line endings
+    # (1,035 CR bytes in dump 43989024895) were created without them and G3 saw 7 v2 read functions as changed (run 44017816120)
+    text = open(path, encoding="utf-8", newline="").read()
     apply_statements(split_sql(text), "schema-" + os.path.basename(path).replace(".sql", ""))
 
 
@@ -329,14 +331,16 @@ def g3():
     changed = [d["name"] for d in ((res.get("g3") or {}).get("drift") or []) if d.get("what") == "function changed"]
     out = []
     for name in changed[:12]:
-        sql = ("select pg_catalog.pg_get_functiondef(f.oid) d from security.consumer_api_functions_v1() f where f.name = '" + name.replace("'", "''") + "'")
+        # pg_get_functiondef by name: production's read-only role may not run security.consumer_api_functions_v1 (run 44017816120)
+        sql = "select pg_catalog.pg_get_functiondef(to_regprocedure('" + name.replace("'", "''") + "')) d"
         okt, rt = q(REF, sql)
         try:
             rp = prod_read(sql)
         except RuntimeError as e:
             rp = [{"d": f"(production read failed: {e})"}]
-        t = (rt[0]["d"] if okt and rt else "(missing on the test project)").splitlines()
-        p_ = (rp[0]["d"] if rp else "(missing in production)").splitlines()
+        show = lambda d: (d or "").replace("\r", "\\r").split("\n")  # a carriage return is shown as \r, so a line-ending difference is visible
+        t = show(rt[0]["d"] if okt and rt else "(missing on the test project)")
+        p_ = show(rp[0]["d"] if rp else "(missing in production)")
         out.append(f"== {name}\n" + "\n".join(difflib.unified_diff(p_, t, "production", "test project", lineterm="", n=1)))
     if changed:
         open(f"{OUT}/g3-diff.txt", "w").write("\n\n".join(out)[:200_000])
@@ -345,7 +349,7 @@ def g3():
 
 def sqlfile(path):
     guard()
-    ok, r = q(REF, open(path, encoding="utf-8").read())
+    ok, r = q(REF, open(path, encoding="utf-8", newline="").read())
     name = os.path.basename(path)
     res = {"file": name, "ok": ok, "result": r if ok else None, "error": None if ok else str(r)[:4000]}
     m = re.search(r"BOOST_REHEARSAL (\{.*\})", "" if ok else str(r), re.S)
