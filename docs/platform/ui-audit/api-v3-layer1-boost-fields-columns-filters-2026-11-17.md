@@ -2,7 +2,7 @@
 
 **Asked:** Platform Admin, 17 Nov 2026 23:05 AEDT (chat S1-RM-Design).
 **Checked against:** the live Pilot database (read only) and Pilot `main` at v2.16.27, 17 Nov 2026 23:10 to 23:30 AEDT.
-**Status:** first slice shipped in v2.16.28 (item 3b). The rest is scoped below and not built yet.
+**Status (18 Nov 2026 08:00 AEDT):** 3b shipped in v2.16.28. 1a, 1b, 2b and 2c shipped in v2.16.29 (Pilot #1239). 1c is decided (worked out on the Boost queue, not stored; Pilot #1242 in CI). 2a and 3a are not built. The table below is the audit as written on 17 Nov.
 
 ## 1. What each item needs, and what is held today
 
