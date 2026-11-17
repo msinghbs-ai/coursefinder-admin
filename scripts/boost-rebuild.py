@@ -135,7 +135,9 @@ def apply_statements(stmts, label):
         if m:
             settings[(m.group(2) or m.group(3)).lower()] = st.strip().rstrip(";") + ";"
             prefix = "\n".join(settings.values()) + "\n"
-    ok_n, fails, calls, present = 0, [], 0, []
+    ok_n, fails, calls, present, committed = 0, [], 0, [], []
+    ok0, r0 = q(REF, "create table if not exists public.boost_rebuild_marks (label text, lo int, hi int, at timestamptz default now(), primary key (label, lo, hi))")
+    if not ok0: sys.exit(f"{label}: cannot create public.boost_rebuild_marks on the test project: {r0}")
     t0 = time.time()
     def run(lo, hi):
         nonlocal ok_n, calls
@@ -143,8 +145,15 @@ def apply_statements(stmts, label):
         calls += 1
         # an explicit transaction: run 43991418340 showed the API commits a call statement by statement, so a call cut off part way (a
         # transient error and its retry) left half a batch behind and every later re-send failed with "already exists"
-        ok, r = q(REF, "BEGIN;\n" + pre[lo] + "\n".join(stmts[lo:hi]) + "\nCOMMIT;\nRESET ALL;")
+        # each call also records its batch in public.boost_rebuild_marks, in the same transaction (the probe showed the API keeps it all or
+        # nothing): when a call fails, one look at the marks says whether it committed anyway (run 44004171402: replies lost after the
+        # commit, then every re-send refused as "already exists" and split into single statements, about 200 extra calls each time)
+        mark = f"insert into public.boost_rebuild_marks (label, lo, hi) values ('{label}', {lo}, {hi}) on conflict do nothing;"
+        ok, r = q(REF, "BEGIN;\n" + pre[lo] + "\n".join(stmts[lo:hi]) + "\n" + mark + "\nCOMMIT;\nRESET ALL;")
         if ok: ok_n += hi - lo; return
+        okm, rm = q(REF, f"select count(*) as n from public.boost_rebuild_marks where label = '{label}' and lo = {lo} and hi = {hi}")
+        if okm and rm and int(rm[0].get("n", 0)) > 0:
+            committed.append(lo); ok_n += hi - lo; return
         if hi - lo == 1:
             if ALREADY.search(str(r)):  # already in place (committed by an earlier, interrupted call): counted as applied, and listed
                 present.append({"statement": stmts[lo][:200], "error": str(r)[:200]}); ok_n += 1; return
@@ -153,7 +162,7 @@ def apply_statements(stmts, label):
         run(lo, mid); run(mid, hi)
     def save(done):  # rewritten after every batch, so a step time-out still leaves the counts so far
         json.dump({"statements": len(stmts), "done": done, "applied": ok_n, "failed": len(fails), "calls": calls, "seconds": int(time.time() - t0),
-                   "already_present": len(present), "present": present[:50], "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
+                   "already_present": len(present), "present": present[:50], "committed_despite_error": len(committed), "failures": fails}, open(f"{OUT}/{label}.json", "w"), indent=1)
     save(0)
     lo, size = 0, 0
     for i, st in enumerate(stmts):
