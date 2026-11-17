@@ -10,7 +10,7 @@ create or replace function security.pipeline_num_v1(p_key text, p_default numeri
   $$ select coalesce((select (value #>> '{}')::numeric from pipeline.platform_toolset_settings where toolset_key = 'pipeline' and key = p_key), p_default) $$;
 create or replace function security.current_role_rank() returns int language sql as $$ select 0 $$;
 create table if not exists pipeline.component_register (kind text, name text, layer text, area text, purpose text, status text, replaces text[], introduced_in text, unique (kind, name));
-create table if not exists pipeline.manual_locks (entity text, entity_id uuid, field text);
+create table if not exists pipeline.manual_locks (entity text, entity_id uuid, field text, mode text not null default 'value' check (mode in ('value', 'removed')));
 create schema if not exists ref;
 create table if not exists ref.countries (id uuid primary key default gen_random_uuid(), iso_alpha2 char(2) not null, iso_alpha3 char(3) not null, name text not null);
 create table if not exists catalogue.providers (id uuid primary key, stable_key text not null, canonical_name text not null, country_id uuid not null references ref.countries(id));
