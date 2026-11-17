@@ -1,0 +1,40 @@
+{
+ "g3": {
+  "drift": [
+   {
+    "name": "api.website_v2_course_item(uuid,text[],text[])",
+    "what": "function changed"
+   },
+   {
+    "name": "public.website_v2_course(text,text)",
+    "what": "function changed"
+   },
+   {
+    "name": "public.website_v2_course(text)",
+    "what": "function changed"
+   },
+   {
+    "name": "public.website_v2_provider(text,text)",
+    "what": "function changed"
+   },
+   {
+    "name": "public.website_v2_provider(text)",
+    "what": "function changed"
+   },
+   {
+    "name": "public.website_v2_providers(jsonb,integer,integer,text)",
+    "what": "function changed"
+   },
+   {
+    "name": "public.zoho_edge_scholarships_v1(text)",
+    "what": "function changed"
+   }
+  ],
+  "functions": 75,
+  "relations": 48,
+  "checked_at": "2026-11-17T04:27:45.858162+00:00"
+ },
+ "cron_active": 0,
+ "security_functions": 1725,
+ "pipeline_tables": 557
+}

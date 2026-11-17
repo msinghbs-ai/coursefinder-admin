@@ -1,0 +1,6 @@
+{
+ "file": "005_rehearsal_rolled_back.sql",
+ "ok": false,
+ "result": null,
+ "error": "HTTP 400: Failed to run sql query: ERROR:  23502: null value in column \"mode\" of relation \"manual_locks\" violates not-null constraint\nDETAIL:  Failing row contains (course, f5320cd9-e860-44f5-8103-147de4417646, study_load, null, null, 2026-11-17 04:27:52.045849+00).\nCONTEXT:  SQL statement \"insert into pipeline.manual_locks (entity, entity_id, field) values ('course', v_ids[53], 'study_load')\"\nPL/pgSQL function inline_code_block line 55 at SQL statement\n"
+}

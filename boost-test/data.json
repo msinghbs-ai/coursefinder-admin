@@ -1,0 +1,160 @@
+[
+ {
+  "table": "ref.aer_qualifications",
+  "rows": 39
+ },
+ {
+  "table": "ref.api_field_dictionary",
+  "rows": 2085
+ },
+ {
+  "table": "ref.au_regional_postcode_ranges",
+  "rows": 67
+ },
+ {
+  "table": "ref.course_code_schemes",
+  "rows": 33
+ },
+ {
+  "table": "ref.course_link_types",
+  "rows": 6
+ },
+ {
+  "table": "ref.currencies",
+  "rows": 7
+ },
+ {
+  "table": "ref.english_tests",
+  "rows": 7
+ },
+ {
+  "table": "ref.external_study_areas",
+  "rows": 13
+ },
+ {
+  "table": "ref.fields_of_study",
+  "rows": 102
+ },
+ {
+  "table": "ref.languages",
+  "rows": 0
+ },
+ {
+  "table": "ref.nationality_terms",
+  "rows": 125
+ },
+ {
+  "table": "ref.outcome_surveys",
+  "rows": 10
+ },
+ {
+  "table": "ref.provider_types",
+  "rows": 10
+ },
+ {
+  "table": "ref.ranking_sources",
+  "rows": 0
+ },
+ {
+  "table": "ref.regions",
+  "rows": 0
+ },
+ {
+  "table": "ref.registration_schemes",
+  "rows": 18
+ },
+ {
+  "table": "ref.study_levels",
+  "rows": 24
+ },
+ {
+  "table": "security.roles",
+  "rows": 6
+ },
+ {
+  "table": "pipeline.automation_catalogue",
+  "rows": 206
+ },
+ {
+  "table": "pipeline.component_register",
+  "rows": 2022
+ },
+ {
+  "table": "pipeline.ai_service_routes",
+  "rows": 15
+ },
+ {
+  "table": "pipeline.ai_model_catalogue",
+  "rows": 17
+ },
+ {
+  "table": "pipeline.aer_prompt_versions",
+  "rows": 6
+ },
+ {
+  "table": "pipeline.layer4_field_registry",
+  "rows": 51
+ },
+ {
+  "table": "pipeline.rollup_targets",
+  "rows": 26
+ },
+ {
+  "table": "pipeline.admission_rules",
+  "rows": 20
+ },
+ {
+  "table": "pipeline.admin_job_kinds",
+  "rows": 16
+ },
+ {
+  "table": "pipeline.platform_toolsets",
+  "rows": 7
+ },
+ {
+  "table": "pipeline.consumer_api_baseline",
+  "rows": 123
+ },
+ {
+  "table": "ref.countries",
+  "rows": 249
+ },
+ {
+  "table": "ref.external_study_area_mappings",
+  "rows": 2
+ },
+ {
+  "table": "ref.outcome_metrics",
+  "rows": 21
+ },
+ {
+  "table": "ref.study_level_source_mappings",
+  "rows": 0,
+  "error": "HTTP 400: Failed to run sql query: ERROR:  23503: insert or update on table \"study_level_source_mappings\" violates foreign key constraint \"study_level_source_mappings_source_id_fkey\"\nDETAIL:  Key (source_id)=(b5680d74-49c5-49a5-b198-a625f3e3fdcf) is not present in table \"sources\".\n",
+  "rows_not_loaded": 20
+ },
+ {
+  "table": "pipeline.platform_toolset_settings",
+  "rows": 1527
+ },
+ {
+  "table": "pipeline.prompt_templates",
+  "rows": 4
+ },
+ {
+  "table": "ref.grade_scale_conversions",
+  "rows": 0
+ },
+ {
+  "table": "ref.identifier_schemes",
+  "rows": 5
+ },
+ {
+  "table": "ref.institution_collections",
+  "rows": 4
+ },
+ {
+  "table": "ref.subdivisions",
+  "rows": 38
+ }
+]
