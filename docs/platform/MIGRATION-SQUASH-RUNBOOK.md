@@ -66,6 +66,18 @@ is `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`), which `S2 - BOOST` now us
 | B. Create a new `coursefinder-baseline-test` project | Keeps Boost experiments intact; adds a Supabase project (spend, Platform Admin approval) and a one-off setup. |
 | C. No rebuild; compare the dump with production text only | No cost, no disruption; weaker proof (formatting differences between the dump and `pg_get_functiondef` hide real drift). |
 
+### Pre-staged 17 Nov 2026 (night, S1-Build; Platform Admin 23:07)
+
+- **Squash tooling, Pilot #1234:** `tests/uat/support/migration-files.mjs` (`migrationNames()`, `migrationPath()`: the live folder plus files archived from `20261010006400` on; before the squash it returns exactly the live folder, 733 entries), the 46 folder-listing specs switched to it (no assertion changed; the baseline contract now counts only the 10 Oct archive, still 1,062), `scripts/migration-squash.mjs <cut-off> [--history <file>] [--allow <version>]... [--dry-run]`, guard spec s594. **Merged 18 Nov 2026 about 00:40 AEDT** (main `2fbd3601`; full CI green, 3,289 tests).
+- **Rehearsal, Pilot draft #1235 (never merged, label `full-suite-evidence`):** first run at `20261118001000` (731 files, 1,079 references in 642 files: 609 tests, 30 workflows, 2 docs, 1 script); rebuilt after the PR 1 cutover at `20261118010000`: 734 files moved, 1,087 references repointed in 647 files; `20261118011000` (S2 - BOOST, above the cut-off) stays in the live folder. Local sample 304 of 307 passed (the 3 failures were s594 assuming a live migration, now fixed, and browser checks that fail the same way on unmerged main locally). Full CI result: see the results table.
+- **Rehearsal finding 1 (fixed in Pilot #1237, squash tooling 2):** fixtures and specs that build a migration path at run time (`supabase/migrations/$m.sql`, `` `supabase/migrations/${f}.sql` ``, `new URL('migrations/…', root)`, a folder variable) are invisible to the literal rewrite; one such spec failed at load and stopped every test shard. #1237 adds `tests/fixtures/lib/migration-path.sh` (`migpath NAME`), switches 9 shell and 7 JavaScript fixtures to read either folder, and makes the path checks in s233, s506 and s507 accept either folder. It must also be merged before the window.
+- **Left as they are on purpose:** `scripts/ci/apply-migration.sh`, `scripts/ci/dry-run-migration.sh`, `db-migration-test.yml`, `db-migration-dry-run.yml`, `deploy-on-merge.yml` and the `supabase/migrations/*…*` path filters and `deployed-uat.yml` greps read only the live folder, which is right: they handle new migrations.
+- **Production history against the files** (read only, 17 Nov 23:30 AEDT and 18 Nov 00:45 AEDT; 735 versions against 734 files from `20261010006400` to `20261118010000`):
+  - `20261031090000_cf247_ss014_operational_automation.sql` is a documented no-op that was never applied (its guard refused it at deploy; re-issued as `20261031091000`, Pilot #775). Archive it with `--allow 20261031090000`.
+  - `20261107073928 cf247_course_description_promote_held` and `20261113004121 cf247_intake_wording_speed` are in the history with no file of that version (applied live, later checked in as `20261107120000` and `20261113302500`). The dump holds their effect; nothing to move. Logged as governance gaps.
+- **Window command (step 4):** write the production versions from `20261010006400` to the cut-off to a file (read only), then `node scripts/migration-squash.mjs <head> --history <file> --allow 20261031090000`.
+- **In the squash PR also:** add the new cut-off to `tests/uat/cf-247-baseline-contract.spec.mjs` (the live folder holds only files after it) and the new baseline md5s.
+
 ## 5. In the window (Thu 19 Nov 2026, 01:30–03:30 AEDT)
 
 | Step | Action | Pass when |
@@ -91,7 +103,7 @@ The Boost ingestion blackout (`boost.ingest_blackout_start_epoch` 1795012200 to 
 |---|---|---|
 | Rehearsal dump | | |
 | Rehearsal rebuild proof | | |
-| Rehearsal squash branch CI | | |
+| Rehearsal squash branch CI | Pilot draft #1235 (tool at `20261118010000`: 734 moved, 1,087 references in 647 files) | running (rebuilt 18 Nov 00:55 AEDT on squash tooling 2, Pilot #1237) |
 | Window dump | | |
 | Window proof | | |
 | Squash PR | | |
