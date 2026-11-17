@@ -1,6 +1,6 @@
 # Layer 1 AI induction mapper — request and response contract
 
-**Version:** 1.0, 17 Nov 2026 19:00 AEDT
+**Version:** 1.1, 17 Nov 2026 20:10 AEDT (1.0, 19:00: first issue; 1.1: target record type, parser spec, drift and re-infer, Pilot v2.16.25, migration `20261117203000`)
 **For:** S2-Build (owner of the edge function `layer1-ai-induction-mapper` and of the Layer 1 readers).
 **From:** S1-RM-Design (owner of the Admin wizard, Pilot release v2.16.24, migration `20261117193000`).
 **Decision:** Platform Admin, 17 Nov 2026 18:10: the wizard ships with mapping by hand; AI Auto-Map switches on by itself once the mapper is deployed.
@@ -37,6 +37,7 @@ Request:
 {
   "action": "map",
   "induction_id": "<uuid of pipeline.layer1_source_inductions>",
+  "target_record_type": "course_register",
   "country_code": "IE",
   "connector_type": "csv_file",
   "source_url": "https://…",
@@ -48,6 +49,7 @@ Request:
 
 - `sample.rows` holds at most 20 rows, each an array in column order. Values are text.
 - `target_fields` is the full list from `ref.enrichment_category_fields` (32 fields today); `categories` is `ref.enrichment_categories` (8 today). Suggest only values from these lists.
+- `target_record_type` is one of `course_register`, `provider_register`, `tuition_fees`, `study_rules`, `destination_metrics`, `career_outcomes`, `scholarships` (`security.layer1_record_types_v1()`). The parser spec is built for this type.
 - `connector_type` is one of `csv_file`, `xlsx_file`, `json_api`, `html_pages`, `pdf_document`, `manual_upload`.
 
 Response (200):
@@ -59,12 +61,16 @@ Response (200):
   "suggestions": [
     { "source_field": "NFQ Level", "target_field": "level", "category_key": "course_basics", "confidence": 0.86, "reason": "Values are qualification levels 6 to 10." },
     { "source_field": "Provider", "target_field": null, "category_key": "provider_profile", "confidence": 0.4, "reason": "Provider name; no platform field in the list." }
-  ]
+  ],
+  "parser_spec": { "record_type": "course_register", "target_table": "<schema.table the rows are written to>", "format": "csv", "fields": [ { "source": "NFQ Level", "target": "level" } ] },
+  "validation": { "ok": true, "errors": [] }
 }
 ```
 
 - One suggestion per source field at most. `target_field` and `category_key` may each be `null`.
 - `confidence` is 0 to 1. `reason` is one short sentence a person can check against the sample.
+- `parser_spec` (optional) is a JSON object the wizard shows as given, with `target_table` named beside it and the category routing counted from the mappings. Its `record_type` must equal the request's `target_record_type`, or the save is refused. `validation.ok` says whether the spec parsed the sample; `validation.errors` are shown when it did not. The spec is at most 200 KB.
+- The spec is saved with the draft and, on activation, becomes the source's AI-built parser (`pipeline.layer1_source_parsers`, version 1).
 - On failure answer `{ "ok": false, "error": "<plain words>" }`; the wizard shows the text.
 
 ## What the database accepts (so suggestions save cleanly)
@@ -82,6 +88,16 @@ Response (200):
 - A recorded dry run switches nothing on. Activation is the Platform Admin's step and saves the source paused; a failed dry run blocks activation until a later one passes.
 - Two category lists exist and are tied field by field. The wizard and the completeness report use the eight categories in `ref.enrichment_categories` (Platform Admin 17 Nov 18:10). The Boost matrix (`country_category_boost`, Pilot migration `20261117183000`, Platform Admin 18:02) uses eight other keys. `ref.enrichment_category_fields.boost_category` gives the Boost category of each coverage field, so a mapping to a field resolves to both.
 - Category routing: `ref.enrichment_categories` and `ref.enrichment_category_fields` are readable by the service role. The Platform Admin can move a field between categories, so read them rather than copying them into code.
+
+## Parser records, layout drift and re-infer (service role)
+
+| Function | Use |
+|---|---|
+| `public.svc_layer1_parser_record(p_source_id uuid, p_record jsonb)` | Records the parser of a source: `parser_kind` (`ai_built` or `hardcoded`), optional `target_record_type`, `reader`, `spec_by`, and `parser_spec` (required for `ai_built`). A new record raises the spec version and clears the drift flag and any re-infer request. |
+| `public.svc_layer1_parser_drift_record(p_source_id uuid, p_flagged boolean, p_message text)` | A reader flags that the source's layout no longer matches its parser (or clears the flag). A source read by code gets its row as `hardcoded` the first time its reader reports. |
+
+- The Admin shows the badge from these rows: AI-built parser, Hardcoded parser, or No parser yet (a source added by the wizard that has no row and still needs a reader).
+- When drift is flagged, a Pipeline Operator or above can press **Re-infer Parser Spec** with a reason. That only sets `reinfer_requested_at`, `reinfer_requested_by` and `reinfer_reason` on the row and writes a control event (`layer1`, `parser_reinfer_request`). The mapper picks up rows with a request, infers a new spec, and records it with `svc_layer1_parser_record`. A person still accepts the result; the source is not resumed by any of this.
 
 ## Model routing
 
