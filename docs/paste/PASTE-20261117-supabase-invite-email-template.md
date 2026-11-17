@@ -8,9 +8,9 @@
 
 The two emails can now be edited on Administration › Users & roles › Links & Email Templates (Platform Admin). The templates below stay valid until a save there is copied to Supabase Auth.
 
-To switch the copy on, once: create a Supabase access token for the account that owns project `fxcwkweaxjtknorudmwp` (Supabase dashboard › Account › Access tokens) and save it as the Edge Function secret `SB_MANAGEMENT_TOKEN` (Edge Functions › Secrets). Never put the token in a repository or a document. The tab then shows "Copy to Supabase Auth on save: on", and Save & Sync writes the site URL and both emails to Auth. Step 1 below (the redirect allow-list) is still a dashboard setting.
+Decision (Platform Admin 17 Nov 2026 16:13): no Supabase account token is kept in the edge function, so the tab does not write to Supabase Auth. After a save on the tab, bring steps 2 and 3 below up to date (Copy HTML for Supabase Dashboard gives the exact text) and run workflow `supabase-auth-config.yml` in apply mode, or paste the copied HTML in the dashboard. Step 1 (the redirect allow-list) is applied by the same workflow.
 
-From 17 Nov 2026 16:10 AEDT the templates in steps 2 and 3 are the `#0b6e5f` StudySearch PIM Admin defaults of Links & Email Templates (Pilot migration `20261117152700`), written as Supabase Auth reads them. Workflow `supabase-auth-config.yml` (apply) sets them.
+From 17 Nov 2026 16:10 AEDT the templates in steps 2 and 3 are the `#0b6e5f` StudySearch PIM Admin defaults of Links & Email Templates (Pilot migration `20261117152700`), written as Supabase Auth reads them; from 16:45 a person with no name is greeted without a stray comma. The sender name is set with custom SMTP: `docs/platform/SUPABASE-AUTH-CUSTOM-SMTP-RESEND-SCOPE.md`.
 
 ## What the release sends
 
@@ -43,7 +43,7 @@ If a later production address replaces the Worker, add it here first, then set t
     <strong style="font-size:18px">StudySearch PIM Admin</strong>
   </div>
   <div style="border:1px solid #d6ddd9;border-top:0;padding:24px;border-radius:0 0 8px 8px">
-    <h2 style="margin:0 0 4px;color:#0b6e5f">Welcome, {{ .Data.full_name }}</h2>
+    <h2 style="margin:0 0 4px;color:#0b6e5f">Welcome{{ if .Data.full_name }}, {{ .Data.full_name }}{{ end }}</h2>
     <p style="margin:0 0 16px;color:#5d6b64">{{ .Email }}</p>
     <p>You have been given access to StudySearch PIM Admin as <strong>{{ .Data.role }}</strong>.</p>
     <p style="margin:24px 0"><a href="{{ .ConfirmationURL }}" style="background:#0b6e5f;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-weight:bold">Accept the invitation</a></p>
@@ -68,7 +68,7 @@ If a later production address replaces the Worker, add it here first, then set t
   <div style="border:1px solid #d6ddd9;border-top:0;padding:24px;border-radius:0 0 8px 8px">
     <h2 style="margin:0 0 4px;color:#0b6e5f">Reset your password</h2>
     <p style="margin:0 0 16px;color:#5d6b64">{{ .Email }}</p>
-    <p>Hello {{ .Data.full_name }}, a password reset was requested for your StudySearch PIM Admin account ({{ .Data.role }}).</p>
+    <p>Hello{{ if .Data.full_name }} {{ .Data.full_name }}{{ end }}, a password reset was requested for your StudySearch PIM Admin account ({{ .Data.role }}).</p>
     <p style="margin:24px 0"><a href="{{ .ConfirmationURL }}" style="background:#0b6e5f;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-weight:bold">Choose a new password</a></p>
     <p style="font-size:13px;color:#5d6b64">Your current password keeps working until you choose a new one. If the button does not work, copy this address into your browser:<br>{{ .ConfirmationURL }}</p>
     <p>The <a href="https://coursefinder-pilot.techm.workers.dev/#platform-guide" style="color:#0b6e5f">Platform guide</a> explains each screen.</p>
