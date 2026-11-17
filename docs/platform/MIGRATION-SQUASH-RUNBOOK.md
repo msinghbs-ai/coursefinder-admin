@@ -45,20 +45,24 @@ So, at every step:
    sorted by version) and switch the 46 folder-listing specs to it, so s32, s42, s57, s120 and the rest still check every migration from their
    `FIRST` version on. No assertion is removed or weakened.
 3. **Dry squash on a branch** (`cf247-squash-rehearsal`, never merged): run the tool with the live head as cut-off; full CI must be green.
-4. **Dump and proof:** run `db-schema-dump.yml` (production, read only; snapshot branch `db-schema-dump/<run>`), then the rebuild proof
-   (see the decision below; with option A, admin `boost-test-rebuild.yml` from that dump on `coursefinder-boost-test`, never through the Supabase MCP write tool): all checks PASS and G3 75/48
+4. **Dump and proof:** run `db-schema-dump.yml` (production, read only; snapshot branch `db-schema-dump/<run>`), then the rebuild proof:
+   admin `boost-test-rebuild.yml` from that dump on `coursefinder-boost-test` (option A, decided; never through the Supabase MCP write tool): all checks PASS and G3 75/48
    with no drift. Record the run ids here.
 5. Post in `docs/CURRENT-STATE.md` section 4: migration freeze on Pilot `supabase/migrations/` from 01:15 to 03:30 AEDT Thursday (other lanes hold
    merges that add migrations).
 
-### Decision needed before the rehearsal: where the rebuild proof runs
+### Decided: where the rebuild proof runs (Platform Admin 17 Nov 2026 20:06: option A)
+
+**Option A.** The proof runs on `coursefinder-boost-test` through admin `boost-test-rebuild.yml` (input `dump_branch` = the window's `db-schema-dump/<run id>`, `dump_head` = the live head at the dump), for both the rehearsal and the window. Before each run, post in CURRENT-STATE that the project is being reset; `S2 - BOOST` re-seeds it after the rehearsal and right after the window closes at 03:30 AEDT Thursday.
+
+Options considered:
 
 `coursefinder-baseline-test` (the #452 proof project) no longer exists (project list read 17 Nov 2026 18:45 AEDT). The only throwaway project
 is `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`), which `S2 - BOOST` now uses for experiments; `boost-test-rebuild.yml` resets it.
 
 | Option | Effect |
 |---|---|
-| A. Use `coursefinder-boost-test`, agreed with `S2 - BOOST` (recommended) | No new cost. Their experiment data is wiped twice (rehearsal and window); they re-seed afterwards. |
+| A. Use `coursefinder-boost-test`, agreed with `S2 - BOOST` (**chosen**) | No new cost. Their experiment data is wiped twice (rehearsal and window); they re-seed afterwards. |
 | B. Create a new `coursefinder-baseline-test` project | Keeps Boost experiments intact; adds a Supabase project (spend, Platform Admin approval) and a one-off setup. |
 | C. No rebuild; compare the dump with production text only | No cost, no disruption; weaker proof (formatting differences between the dump and `pg_get_functiondef` hide real drift). |
 
@@ -69,11 +73,11 @@ is `coursefinder-boost-test` (`ucdaaqrpgcldnatavmib`), which `S2 - BOOST` now us
 | 0 | Read live: head version, `security.consumer_api_check` drift flag (read only), PR 1 cutover recorded live or held, no Pilot PR adding a migration merged since 01:15 | head known, no drift, PR 1 state recorded |
 | 1 | `db-schema-dump.yml` on production | snapshot branch pushed; md5s printed |
 | 2 | Count `\r` in the 7 consumer function bodies in the dumped `schema.sql` | 54, 14, 1, 10, 1, 98, 28 (or today's live counts, re-read in step 0) |
-| 3 | Rebuild proof from this dump (option A: admin `boost-test-rebuild.yml`) | every check PASS; G3 75 functions, 48 tables, no drift |
+| 3 | Rebuild proof from this dump: admin `boost-test-rebuild.yml` on `coursefinder-boost-test` (post the reset in CURRENT-STATE first) | every check PASS; G3 75 functions, 48 tables, no drift |
 | 4 | Squash PR: new `schema.sql`, `roles.sql`, `MD5SUMS` (and `roles-apply.sql` if `roles.sql` changed) copied byte for byte from the snapshot branch; `.gitattributes`; `node scripts/migration-squash.mjs <head>`; README "Baseline" section updated with the run ids | full CI green; `git diff --stat` shows only moves, the baseline files, `.gitattributes`, path rewrites and the README |
 | 5 | Merge on green | Deploy on merge reports "No new migrations." and deploys no edge function |
 | 6 | Read back | live head unchanged; history row count unchanged; G3 drift none; `md5sum supabase/live-capture/baseline/schema.sql` on main equals the snapshot |
-| 7 | Record | admin `docs/CURRENT-STATE.md` (canonical baseline = dump run id, cut-off, files archived), this runbook's results table, test register regenerated, engagement row |
+| 7 | Record and hand back | tell `S2 - BOOST` in CURRENT-STATE that `coursefinder-boost-test` is free to re-seed; admin `docs/CURRENT-STATE.md` (canonical baseline = dump run id, cut-off, files archived), this runbook's results table, test register regenerated, engagement row |
 
 If step 2 or 3 fails, stop: no squash PR, the window closes, report the figures. If CI fails on step 4 for a path that the tool did not rewrite,
 fix the rewrite (not the assertion) or stop at 03:15.
