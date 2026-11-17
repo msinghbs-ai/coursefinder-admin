@@ -235,7 +235,7 @@ Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consol
 | # | Request (who, date; REQ) | Status (12 Nov 2026) | Where it is returned / next step |
 |---|---|---|---|
 | Z1 | Scholarship list in search results (Divya, 3 Nov; REQ-31) | **Live in Zoho API v3** (13 Nov 2026, Pilot #1107): `search` items carry `scholarships_top[]` | `zoho-api-v3` `search`: first five published scholarships (`scholarship_id`, `name`, `amount_type`, `amount_value`, `amount_currency`). Not yet told to Divya; cut-over under the comms rule |
-| Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data partly held, export unchanged.** Live 13 Nov 2026: CELPIP on 80 courses, OET on 0 (letter grades not converted; decision open, O14); TOEFL iBT, CAE and DET are held but the Zoho export still carries IELTS and PTE only | Zoho v3 export columns (needs `zoho-api-v3`, not deployed on 13 Nov 2026) |
+| Z2 | English export with more tests: OET, CELPIP (Divya, 3 Nov; REQ-34) | **Data partly held, export unchanged.** Live 13 Nov 2026: CELPIP on 80 courses, OET on 0 (letter grades not converted; decision open, O14); TOEFL iBT, CAE and DET are held but the Zoho export still carries IELTS and PTE only | Zoho v3 export columns. Checked 16 Nov 2026: `zoho-api-v3` is deployed, but its `export` is still the v2 export (no new English columns) |
 | Z3 | Provider and course export beyond Australia (Divya, 3 Nov; REQ-35) | **Setting change, released with v3.** `zoho.sync_countries` is `["AU"]` | Setting; consumer change, held for comms |
 | Z4 | Academic entry by student country on Zoho course detail (Divya; REQ-28) | **Live in Zoho API v3** (13 Nov 2026, Pilot #1107) | `zoho-api-v3` `course` with `edu_country`: the entry for that country, with `quote` and `source_url` on each row. Not yet told to Divya |
 | Z5 | How a scholarship is matched to a course (Divya, 3 Nov; REQ-30) | **Answer only** (v3 guide field dictionary, R33) | Reply to Divya |
@@ -244,7 +244,7 @@ Sources: Divya (Zoho developer) 14 May to 3 Nov 2026, Sujata and Saurabh; consol
 | Z8 | Student filters: qualification, GPA/WAM/percentage, English for scholarships (Divya; REQ-18, 19, 20) | **Decision needed (D-2)** | v3 filters after the decision |
 | Z9 | Receiving sponsorship yes/no (Divya; REQ-13) | **Open, not held** | Platform data |
 | Z10 | Institute representatives (Divya; REQ-22) | **Partly delivered**: provider contacts on Zoho detail (31 contacts at 11 providers) | Platform data coverage |
-| Z11 | State missing for NZ and CA courses (Saurabh; REQ-58) | **Open, data work** | Platform data |
+| Z11 | State missing for NZ and CA courses (Saurabh; REQ-58) | **Delivered** (Platform Admin, 14 Nov 2026: UI fix; Canadian cities now show, so the city/state filter works; all 3,814 CA search items carry a province, NZ 2,437 of 6,506 a region) | NZ region coverage continues as platform data work |
 | Z12 | Ten-provider check before production; university groups (Sujata, Saurabh; REQ-59, REQ-77) | **Open.** Groups: IRU renamed 2050 Alliance on 27 May 2026 (adds ACU and VU); live 13 Nov 2026 still `au_iru` with 7 members; data fix awaiting Platform Admin approval | Data fix, then tell Raghav and Divya |
 
 ## Full request list (REQ numbers) and the working sheet
