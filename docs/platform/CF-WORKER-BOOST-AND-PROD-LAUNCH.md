@@ -305,3 +305,9 @@ Dump `db-schema-dump/43989024895` (Pilot run 43989024895, 11:36–11:50 AEDT; pr
 | Outside the 01:00–05:00 window: refused | **PASS** |
 
 **Finding for the production launch:** production can be rebuilt from a schema dump, the reference data and the newer migrations. The rebuild tool must read the dump byte for byte, and must drop large schemas in chunks.
+
+## 13. Priority matrix and first test-project experiments (S2 - BOOST, 17 Nov 2026 18:40 AEDT)
+
+- **Priority matrix (Pilot #1209, migration `20261117183000`, guard spec s581; live 18:30 AEDT).** Setting `country_category_boost` in `pipeline.environment_settings`: a weight for each (country, enrichment category) cell over the eight Layer 2/3 categories, AU, NZ and CA ahead of UK, IE and US in every cell. Read by `security.boost_country_category_matrix_v1`, `security.boost_country_category_weight_v1` and checked by `security.boost_country_category_check_v1`. It orders Boost work only; it qualifies no model and changes neither promotion, the gate nor the job. The queue exporter (§3) is to order by it when the Worker is deployed.
+- **Experiments run-1 on the test project.** 69 real course ids (AU, NZ, CA), synthetic worker rows, batches of 50 to 5,000: 9,100 to 10,500 rows a second with nothing qualified and 7,500 to 8,000 with one model qualified (database time); shadow isolation and the zero-regression checks held at every size. Model routing, field accuracy, token cost and Layer 4 escalation were not measured: they need the Worker deployed with its keys (§8).
+- **Figures, method, findings and open decisions:** `docs/CURRENT-STATE.md`, section 5 › S2 - BOOST lane.
