@@ -13,7 +13,7 @@ Route (the migration replay cannot rebuild production: run 43851316573, document
 Every call to production is a Management API query with read_only=true. Results are written under out/.
 Environment: SUPABASE_ACCESS_TOKEN, REF (test project), PROD (fxcwkweaxjtknorudmwp).
 """
-import json, os, re, sys, time, urllib.request, urllib.error
+import difflib, json, os, re, sys, time, urllib.request, urllib.error
 
 API = os.environ.get("BOOST_API_BASE", "https://api.supabase.com/v1/projects")  # the override is for the offline test only
 TOKEN, REF, PROD = os.environ["SUPABASE_ACCESS_TOKEN"], os.environ["REF"], os.environ.get("PROD", "fxcwkweaxjtknorudmwp")
@@ -323,6 +323,24 @@ def g3():
     res = r[0]["r"] if ok else {"error": r}
     json.dump(res, open(f"{OUT}/g3.json", "w"), indent=1)
     print("g3:", json.dumps(res)[:400])
+    # a "function changed" line names the function only (run 44015982270: 7 v2 read functions, none touched by a newer migration); the
+    # difference between the test project's definition and production's is written to out/g3-diff.txt (these functions are in the
+    # repositories' migrations already; production is read only)
+    changed = [d["name"] for d in ((res.get("g3") or {}).get("drift") or []) if d.get("what") == "function changed"]
+    out = []
+    for name in changed[:12]:
+        sql = ("select pg_catalog.pg_get_functiondef(f.oid) d from security.consumer_api_functions_v1() f where f.name = '" + name.replace("'", "''") + "'")
+        okt, rt = q(REF, sql)
+        try:
+            rp = prod_read(sql)
+        except RuntimeError as e:
+            rp = [{"d": f"(production read failed: {e})"}]
+        t = (rt[0]["d"] if okt and rt else "(missing on the test project)").splitlines()
+        p_ = (rp[0]["d"] if rp else "(missing in production)").splitlines()
+        out.append(f"== {name}\n" + "\n".join(difflib.unified_diff(p_, t, "production", "test project", lineterm="", n=1)))
+    if changed:
+        open(f"{OUT}/g3-diff.txt", "w").write("\n\n".join(out)[:200_000])
+        print(f"g3: {len(changed)} changed function(s); differences in g3-diff.txt", flush=True)
 
 
 def sqlfile(path):

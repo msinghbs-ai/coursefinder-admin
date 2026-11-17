@@ -61,7 +61,7 @@ begin
   end if;
 
   -- c. the 5-case rehearsal on courses 51 to 53 (53 carries a manual lock); only groq/llama qualified, inside this block
-  insert into pipeline.manual_locks (entity, entity_id, field) values ('course', v_ids[53], 'study_load');
+  insert into pipeline.manual_locks (entity, entity_id, field, mode) values ('course', v_ids[53], 'study_load', 'value');  -- mode is required in production (value or removed; run 44015982270)
   insert into pipeline.boost_inbound_staging (batch_id, item_key, lane, entity, entity_id, provider, model, prompt_id, prompt_version, prompt_sha256, answer, verdict, worker_status, worker_at)
   select 'rehearsal', k, lane, 'course', v_ids[n], prov, mdl, 'boost-study-load', 'boost-study-load-v1', repeat('c', 64), ans, ver, st, now()
   from (values
