@@ -11900,3 +11900,26 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - S2-Build: build `layer1-ai-induction-mapper` and the dry run to the contract.
 - Platform Admin: decide one category list or two, and whether Curators should open the wizard; walk one draft through the wizard signed in.
+
+## 17 Nov 2026 20:15 AEDT — Release v2.16.25 (Pilot #1214), Wave 2 addenda: Layer 1 parser line items and target record type — DEPLOYED
+
+**Trigger:** Platform Admin 17 Nov 2026 19:09 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1214 merged on green CI (13 checks, 1 conditional job of another lane skipped) as `6a3aa0ff`; deploy-on-merge green 19:27 AEDT. Release v2.16.25, package 0.1.447.
+- Migration `20261117203000` applied (history md5 `1a4f999b` equals the file; 2,070 applied): `pipeline.layer1_source_parsers`, `admin_layer1_parser_status`, `admin_layer1_parser_reinfer_request`, `svc_layer1_parser_record`, `svc_layer1_parser_drift_record`, seven target record types; the four induction functions were replaced from their live definitions (md5 checked before the merge).
+- Layer 1 › Sources: Parser column and badge on every line; drift reason and Re-infer Parser Spec on the open line when drift is flagged. Wizard: Target record type in step 1; parser spec, target table and category routing preview in step 3.
+- Mapper contract v1.1 for S2-Build (`docs/platform/LAYER1-AI-INDUCTION-MAPPER-CONTRACT.md`).
+- Read back live: seven record types, 43 Layer 1 sources all reading as Hardcoded, no parser row, G3 guard 75 functions and 48 tables with no drift.
+- Isolated PostgreSQL fixture `layer1-induction-wizard`: 34 checks pass.
+
+**Not done:**
+- No reader flags layout drift and the AI mapper is not deployed (S2-Build), so no Re-infer button and no AI-built parser appears today.
+- The line controls (schedule, warn and stop %, record bounds, Run now, Check source, Pause) and the Country filter already existed and were not changed.
+- ABS is not a Layer 1 source; UK, IE and US have no source yet.
+- The wizard's per-source retention is not yet tied to S1-Build's `pipeline.source_retention_policies`.
+- No signed-in check.
+
+**Next executable action:**
+- S2-Build: have readers call `svc_layer1_parser_drift_record`, and the mapper return `parser_spec` and act on re-infer requests, to contract v1.1.
+- Platform Admin: open Layer 1 › Sources signed in and check the Parser column; decide the two open items (one category list; one place for per-source retention).
