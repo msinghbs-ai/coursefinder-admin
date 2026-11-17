@@ -270,3 +270,20 @@ Main `05c575b5` (includes #537). Same inputs as 12.1. 13 minutes end to end. Res
 | 3 newer migrations refused (`20261116190000` "a rule is already live", `20261116210000` "housekeeping-daily is not the job this change edits", `20261116220000` "0 of 13 coverage lanes match their live legacy job") | They are cutovers and shadows that check production's live cron jobs and state. The test project has no cron jobs by design, and its copied data is already after the cutover | Expected, and outside the verdict. To have the test project match production's schema without replaying them, the next run uses a fresh schema dump (production head now `20261116220000`) |
 
 **Next:** a fresh `db-schema-dump` run on Pilot (read-only production dump, about 14 minutes; the last one held share locks and blocked nothing), then this workflow with that dump, its head and no extra versions. This waits for the Platform Admin.
+
+### 12.3 Fresh dump with the destination tables (Platform Admin 17 Nov 2026 11:35 and 13:11): runs 43991418340 to the final run
+
+Dump `db-schema-dump/43989024895` (Pilot run 43989024895, 11:36–11:50 AEDT; production head `20261117040000`, 2,054 migrations, 8 `destination` tables; 10.4 MB, 16,033 statements with Pilot's preamble and postscript).
+
+| Run | What happened | Fix |
+|---|---|---|
+| 43991418340 | The first 6,243 statements in 170 s, then 992 "already exists" or "multiple primary keys" refusals; the 90-minute step limit stopped it at 9,843 | #545: an explicit transaction per call, re-sent statements counted as already present, an atomicity probe |
+| 44004171402 | The probe showed the API keeps an explicit transaction all or nothing; still 1,121 calls for 8,843 statements (cancelled at 41 min for its saved progress) | #548: a commit marker per batch, so a reply lost after a commit is not split |
+| 44009650216 | No call committed despite an error, yet 106 statements already existed; slow again from statement 6,243 (cancelled at 33 min) | #550: the error that refuses a whole batch is recorded |
+| 44014040952 (diagnostic, cancelled at 11 min) | The very first attempt of batch 6,243–6,443 was refused: `admin_control_events_id_seq already exists` | see below |
+
+**Root cause:** the reset's `drop schema pipeline cascade` failed with `53200 out of shared memory`: 555 tables with their sequences, indexes and functions exceed `max_locks_per_transaction` in one transaction. The reset logged it and the run carried on, so every later run loaded the schema over the previous run's `pipeline` schema. `CREATE TABLE IF NOT EXISTS` was a silent no-op, the first identity `ALTER` met its existing sequence, and the bisection multiplied the calls. The first clean run (12.2) had started from a nearly empty project, where the drop fitted.
+
+**Fix (#551):** a schema whose drop hits 53200 is emptied in chunks (tables, views, materialised views and routines, 40 a call) and then dropped. The reset lists any application schema still present and stops the run if there is one. Local test (Postgres 16, lock limit 64): a 4,000-table schema with identity sequences and 120 functions, whose single drop fails with out of shared memory, was dropped completely.
+
+**Run 44015982270** (15:16 AEDT, main `337aa9ad` with #551, same inputs): running; result below when it ends.
