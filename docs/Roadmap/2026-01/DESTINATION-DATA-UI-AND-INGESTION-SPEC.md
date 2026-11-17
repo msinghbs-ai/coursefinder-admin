@@ -1,12 +1,12 @@
 # Destination data: Admin UI fitout, API v3 blueprint and bulk ingestion plan
 
-**Version 1.1 · 17 November 2026 AEDT · Design and specification only · RM0C to RM6** (v1.1: decisions G-1 to G-5 approved by the Platform Admin, 17 November 2026 11:52 AEDT; tabs 1 and 2 move into step 1)
+**Version 1.2 · 17 November 2026 AEDT · RM0C to RM6** (v1.2: the Admin UI fitout is built and live as v2.16.19, see [section 6](#6-build-record-v21619-17-november-2026); the 19 November hold is cancelled and the sessions run in parallel lanes. v1.1: decisions G-1 to G-5 approved by the Platform Admin, 17 November 2026 11:52 AEDT; tabs 1 and 2 move into step 1)
 
 Chat reference: S1-RM-Design (UI fitout and bulk ingestion plan). Platform Admin, 17 November 2026 11:39 AEDT.
 
 Companion to [`DESTINATION-DATA-DESIGN.md`](DESTINATION-DATA-DESIGN.md) v1.8. Wireframe: [`mockups/destination-data-admin-fitout-mockup.html`](mockups/destination-data-admin-fitout-mockup.html).
 
-**Status.** Nothing in this document is built. It is written against the live system as read on 17 November 2026 at 11:45 AEDT (read only): release v2.16.18, newest migration `20261117040000`, 2,054 migrations applied, G3 guard 75 functions and 48 tables with no drift, all `destination` tables empty, 4,906 Layer 4 items pending.
+**Status.** Sections 1 and 2.4 are built and live from v2.16.19 (section 6 says exactly what). The ingestion plan in section 3 is S2-Build's lane. The text below was first written when nothing was built. It is written against the live system as read on 17 November 2026 at 11:45 AEDT (read only): release v2.16.18, newest migration `20261117040000`, 2,054 migrations applied, G3 guard 75 functions and 48 tables with no drift, all `destination` tables empty, 4,906 Layer 4 items pending.
 
 `docs/UI-MAP.md` is generated from the code and is not edited by hand. It will show the new page in the release that builds it. Until then this document is the record of the planned placement.
 
@@ -254,3 +254,41 @@ Approved by the Platform Admin on 17 November 2026 at 11:52 AEDT.
 - Risk: attribution or terms missing at load time blocks approval, not loading; rows wait in draft.
 - Risk: the quote verifier depends on stored evidence for rule pages; a rule captured without stored evidence cannot be verified on screen.
 - Not checked from this session: a keyed HTTP call to the `destination` action and a signed-in call of the Admin functions.
+
+## 6. Build record: v2.16.19 (17 November 2026)
+
+Platform Admin, 17 November 2026 13:12 AEDT: the 19 November hold is cancelled; three sessions run in parallel. This session's lane is the Admin UI fitout and the two registers. Loaders, workers and ingestion are S2-Build's lane; Boost and cron hygiene are S1-Build's.
+
+### Built and live (Pilot #1197, migration `20261117131500`)
+
+| Spec item | Built as |
+|---|---|
+| Destination data page (G-2) | `#destination-data`, Catalogue after Rankings & statistics, Curator and above; five tabs in `src/DestinationData.jsx` |
+| Role gates and reasons | Every approve, withdraw, terms and publish control needs Platform Admin and asks for a reason; postcode controls need Curator. Disabled controls name the role; the server checks |
+| Edition wrappers | `admin_destination_edition_set_terms`, `admin_destination_edition_publish`; each writes the control log with its reason |
+| Postcode resolution | `admin_destination_postcode_resolve`; the decision is for the postcode and records who and why |
+| Overview and review lists | Edition list with terms and attribution check, load jobs, postcodes grouped with their candidates, rule applicability and stored evidence |
+| Quote verifier | `destination.study_rules.evidence_id`; the Study rules tab shows the stored quote beside the official page link and a link to the stored copy on the Evidence page |
+| Layer 4 kind (G-3) | `campus_locality`, registered as a kind hook under the Inbox paging contract; choices: accept the largest share, choose another candidate, not in any locality. `admin_layer4_inbox` was not replaced |
+| `campuses[].locality` (G-5) | On `website_v3_provider_item` and `zoho_v3_provider`: `{locality_id, name, geography_type, geography_code, boundary_vintage, match_share}` or null |
+| Course detail | Recognition card: schemes held with their authority, the country's field-of-study scheme, study rules proven for the course (`admin_course_destination_read`) |
+| Provider detail | Primary campus, locality per campus (or "in Layer 4"), registrations by scheme, PGWP counted apart from the DLI number (`admin_provider_destination_read`) |
+| Data delivery | Destination loads: counts, what waits for a person, and Run now for every catalogued job whose name starts `destination-` |
+| Password reset audit | `admin-user-management` writes `password_reset_sent`; `svc_admin_access_log_event` accepts it |
+
+### Differences from the design, stated plainly
+
+| Design said | Built | Why |
+|---|---|---|
+| Side-by-side quote verifier with the quote highlighted in the stored page | Quote, official page link and a link to the stored copy; no in-page highlight | The stored page text sits in storage, not the database; highlighting needs the evidence viewer extended |
+| G-1 career grain in this release | Shipped separately by S2-Build the same afternoon (Pilot #1196, migration `20261117060000`, key `career_outcomes_area_key`) | It replaces the key the importer upserts on, which is S2-Build's lane. The Careers tab reads the new columns |
+| Reason dialogs | The browser's prompt, as Adapters and Task manager already use | One pattern across the Admin |
+| Dictionary entries for `campuses[].locality` | Not added | S2-Build loaded the `destination` fields (Pilot #1196, migration `20261117061000`: 148 `destination` rows). `campuses[].locality` on the `provider` action is not in it yet and goes in with the next dictionary issue |
+
+### What S2-Build's loaders need to know
+
+- **Load jobs appear by name.** A job catalogued in `pipeline.automation_catalogue` with a name starting `destination-` is listed on Data delivery with Run now at its own `control_rank`.
+- **Postcodes.** Set `is_primary_match` and `needs_layer4_review` from `security.destination_postcode_flags_v1(share)`. Rows flagged for review become Layer 4 items by themselves, one per campus with that postcode; nothing else is needed.
+- **Rules.** Set `evidence_id` to the stored page so the quote can be checked. Rows load as draft; approval is on the page.
+- **Localities.** A locality with no attribution text cannot be approved from the page.
+- **Migration numbers.** This lane used `20261117131500`.

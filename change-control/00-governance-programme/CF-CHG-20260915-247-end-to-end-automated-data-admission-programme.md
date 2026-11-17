@@ -11480,3 +11480,26 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - Layer 1 owner: apply the 1,953 waiting rows of the 11 Nov CRICOS edition.
 - Build the ABS load job (first catalogued destination loader) after the squash.
 - Bulk ingestion readiness checklist: `docs/CURRENT-STATE.md` section 5.
+
+## 17 Nov 2026 14:05 AEDT — RM0F Admin UI fitout live: Destination data page, Layer 4 kind Campus locality, locality on API v3 providers (Pilot #1197, v2.16.19)
+
+**Trigger:** Platform Admin 17 Nov 2026 13:12 AEDT, chat S1-RM-Design: hold until the 19 Nov squash cancelled; three sessions in parallel; this lane is the Admin UI fitout and the two registers. Decisions G-1 to G-5 approved 11:52. Design: `docs/Roadmap/2026-01/DESTINATION-DATA-UI-AND-INGESTION-SPEC.md` v1.2 section 6.
+
+**Done and verified (read only, 14:01 AEDT):**
+- Pilot #1197 merged on green (15 checks; one phone tap-size guard failed on the first push and was fixed); Deploy on merge, deployed UAT and release currentness green; main `f8327605`.
+- Migration `20261117131500` applied; history md5 `dab5b0e5…` equals the file; 2,058 applied.
+- Page Catalogue › Destination data (`#destination-data`, Curator and above), five tabs; edition terms, edition publish and row approval are Platform Admin with a reason; postcode resolution is Curator and above with a reason.
+- Layer 4 Inbox kind `campus_locality` registered as a kind hook: `security.layer4_inbox_hooks_v1()` lists it with no failed or missing hook; 0 items (no postcode is loaded).
+- `campuses[].locality` on the v3 provider action: a live `website_v3_provider` campus returns `locality: null`.
+- `svc_admin_access_log_event` accepts `password_reset_sent`; `admin-user-management` writes it.
+- G3 guard: 75 functions, 48 tables, no drift; `website_v2_course`, `zoho_v2_course` and `zoho_v2_provider` md5 unchanged.
+- Isolated PostgreSQL fixture `destination-admin-ui`: applied twice, 26 checks pass.
+
+**Not done:**
+- No destination data is loaded; every list on the page is empty.
+- Signed-in check of the page, of the Layer 4 kind and of a password reset; keyed HTTP call to the v3 `provider` and `destination` actions. A `zoho_v3_provider` answer with campuses was not read back (the sampled provider returned none).
+- The quote is not highlighted inside the stored page. `campuses[].locality` is not in the field dictionary. (G-1 and the `destination` dictionary fields were shipped by S2-Build in Pilot #1196.)
+
+**Next executable action:**
+- S2-Build: catalogue each load job with a name starting `destination-`; set postcode flags from `security.destination_postcode_flags_v1`; set `evidence_id` on rules.
+- Platform Admin: open Catalogue › Destination data signed in.
