@@ -1,0 +1,11 @@
+{"at": "2026-11-14T07:09:01.262312+00:00", "txid": 17273009, "txid_status_after": "aborted", "failed": [], "verdict": "PASS",
+ "A_read_record": {"ms": 286, "flag": "on", "result": {"withdrawn": true}, "queued_courses": 2, "writer_lock_held": 0},
+ "A7_lock_control": "checked",
+ "B1_candidate": {"ok": true, "extraction": 67272, "rejected_admission": ["thin_page", "soft_block"]},
+ "B2_read_request": {"ok": true, "extraction": 67273, "rejected_admission": ["thin_page"]},
+ "B4_other_error": {"ok": true, "applied": null, "extraction": 67275}, "B4_state": "queued",
+ "md5_before": {"read_record": "ec72dc9952cce9f63e427377ec0513a8", "ai_record": "cbcf286f7d5cdd916aee7bb34ca52bc4", "job_watch": "947806f31aee1ba3df6311a7ba756e40", "ops_step": "1cb05209c00d6bfd135d0855d32614d7"},
+ "md5_after_in_rehearsal": {"read_record": "b72fd7b759abe53e1d0d550edb824fcc", "ai_record": "5227f7710178fc3424f9cd8d2770060b", "job_watch": "4651c38f22a9a30b3cd8d30531530ddb", "ops_step": "bd9f51c88bffdb1d350cbe10dda2ca0e"},
+ "post_1143_probe": {"txid": 17271148, "txid_status_after": "aborted", "ai_record": "fa3345b7e0fe4ba9b6abafe2ebec4f6a", "sweep_apply": "34d0eb52bd702d0556a0ea884115b6aa", "withdraw": "f2238b1c811dc871bb61a409038d1e9e", "read_record": "ec72dc9952cce9f63e427377ec0513a8"},
+ "independent_read_after": {"live_md5s_unchanged": true, "state_check": "queued, leased, done, failed", "search.course_refresh_requests": null, "new_settings": 0, "rehearsal_extractions_67272_67275": 0, "worker_errors_in_window": 0},
+ "files": {"rehearsal_sql_md5": "876e9d44268e5178ac637d8e7c18e3fb", "draft_sql_md5": "ac2872237d7d24cdb4438b87a9d5148d", "pr1143_file_md5": "5b4a75d4e85ce7b018f086342dad4fbe", "pr1143_head": "ae367ed6abec9e655c7f09693a5597ffeef838e7"}}

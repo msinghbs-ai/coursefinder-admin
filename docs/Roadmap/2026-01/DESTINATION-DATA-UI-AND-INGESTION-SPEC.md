@@ -243,6 +243,8 @@ Approved by the Platform Admin on 17 November 2026 at 11:52 AEDT.
 
 **Hold.** No schema or ingestion pull request is opened on Pilot until the Platform Admin confirms the squash of Thursday 19 November 2026 (01:30–03:30 AEDT) is complete. Step 0 and step 1 start straight after that confirmation.
 
+**Post-squash run (Platform Admin, 17 November 2026 12:15 AEDT).** Steps 0 to 6 are pre-authorised and run without a pause once the Platform Admin replies "Squash confirmed". The `password_reset_sent` audit line moves to step 2 and the dictionary load of the pending `destination` fields to step 4 (design v1.9).
+
 **Merging.** From 17 November 2026 11:52 AEDT the agent merges its own pull requests in both repositories once checks are green and G1 to G3 hold.
 
 ## 5. Assumptions and risks

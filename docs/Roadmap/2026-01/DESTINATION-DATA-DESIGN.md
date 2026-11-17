@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.8 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.8 records [decisions G-1 to G-5 as approved](#decisions-g-1-to-g-5-approved-17-november-2026); v1.7 added the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.9 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.9 records the [standing execution mandate and the pre-authorised post-squash run](#standing-execution-mandate-and-post-squash-run-17-november-2026); v1.8 recorded [decisions G-1 to G-5 as approved](#decisions-g-1-to-g-5-approved-17-november-2026); v1.7 added the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -786,6 +786,35 @@ Platform Admin, 17 November 2026 11:52 AEDT (S1-RM-Design). Detail is in [`DESTI
 | G-5 | `campuses[].locality` on the v3 `provider` action, in the shape of spec section 2.4 |
 
 New schema and ingestion pull requests on Pilot are held until the Platform Admin confirms the squash of Thursday 19 November 2026 is complete; step 0 and step 1 then start at once. From 11:52 AEDT the agent merges green pull requests itself in both repositories.
+
+## Standing execution mandate and post-squash run (17 November 2026)
+
+Platform Admin, 17 November 2026 12:15 AEDT (S1-RM-Design); it extends the mandate of 11:52 the same day.
+
+### Mandate
+
+| Rule | Detail |
+|---|---|
+| Authority | The agent acts on its own across GitHub, Supabase and Google Drive for this programme |
+| Merging | Any pull request whose checks are green and where G1 to G3 hold is merged by the agent, in both repositories: build, schema and register pull requests, and older green ones. A pull request that main has overtaken is closed with a note instead |
+| Migrations | Through pull request, green CI and the deploy workflow. The deploy step's own refusals and the repository rules (G1 to G4, housekeeping, nothing dropped by a migration) still apply; the mandate removes waiting, not checks |
+| Request register on Drive | The `Requests` tab of `CONSUMER-REQUESTS (GitHub sync)` is left to its two-hourly sync; it is not overwritten by hand |
+| Drive backups | Only the latest `.xlsx` and `.csv` backup sit in the Monitoring folder; a superseded backup is removed when a newer one is uploaded |
+| Registers | `CONSUMER-REQUESTS.csv` and `ROADMAP-ENGAGEMENTS.csv` stay separate; register updates merge straight to main and the Monitoring folder is updated at each milestone |
+
+What still stops the agent: a red check, a guard that fails, a deploy-step refusal, a decision that cannot be undone and could reasonably go either way, and a source that has no approval (BOM, living costs, JSA and QILT terms, NZQA commercial use, the UK, Ireland and USA sources). Those are reported, not worked around.
+
+### Phase A (done 17 November)
+
+Admin #491 (scholarship queue hygiene audit; documents and an unnumbered draft, nothing applied) and #401 (Study Square 28-destination planning baseline of 10 November, with a note that the `destination-data-v1` API it proposed was not built) merged on green. Superseded Drive backups removed.
+
+### Phase B (pre-authorised; starts when the Platform Admin replies "Squash confirmed")
+
+No Pilot schema or ingestion pull request is opened before that reply. After it, the steps of [`DESTINATION-DATA-UI-AND-INGESTION-SPEC.md`](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) v1.1 section 3 run in order without a pause between them: step 0 (baseline and G3 at 75 functions and 48 tables), step 1 (ABS loader with tabs 1 and 2 and the three Admin wrappers, then the first ABS load so localities wait for review), then steps 2 to 6.
+
+Two changes to the spec's step contents, as directed: the `password_reset_sent` audit line moves from step 6 to step 2, and loading the 72 pending `destination` fields per API into `ref.api_field_dictionary` is done in step 4.
+
+A step whose source or terms are not yet approved is built but not loaded, and the run moves on to the next step.
 
 ## Design references
 
