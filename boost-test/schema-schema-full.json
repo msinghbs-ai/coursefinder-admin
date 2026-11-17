@@ -1,0 +1,251 @@
+{
+ "statements": 16033,
+ "done": 6843,
+ "applied": 6843,
+ "failed": 0,
+ "calls": 177,
+ "seconds": 517,
+ "already_present": 9,
+ "present": [
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"admin_control_events\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"admin_control_events_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"admission_rule_runs\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"admission_rule_runs_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO M",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_machine_admissions\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_machine_admissions_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n  ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_machine_validations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_machine_validations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_source_discover_requests\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_source_discover_requests_id_seq\"\n    START WITH 1\n    INCRE",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"aer_v2_shadow_results\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"aer_v2_shadow_results_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_v2_shadow_results_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ai_input_observations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ai_input_observations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ai_input_observations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"ai_invocations\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"ai_invocations_id_seq\"\n    START WITH 1\n    INCREMENT BY 1\n    NO MINVALUE\n  ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"ai_invocations_id_seq\" already exists\n"
+  },
+  {
+   "statement": "ALTER TABLE \"pipeline\".\"course_remediation_holds\" ALTER COLUMN \"id\" ADD GENERATED ALWAYS AS IDENTITY (\n    SEQUENCE NAME \"pipeline\".\"course_remediation_holds_id_seq\"\n    START WITH 1\n    INCREMENT BY ",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"course_remediation_holds_id_seq\" already exists\n"
+  }
+ ],
+ "committed_despite_error": 0,
+ "batch_errors": [
+  {
+   "lo": 6243,
+   "hi": 6443,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6243,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6293,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6318,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6330,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6336,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6339,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6341,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6342,
+   "hi": 6343,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admin_control_events_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6343,
+   "hi": 6443,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6343,
+   "hi": 6393,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6368,
+   "hi": 6393,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6368,
+   "hi": 6380,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6368,
+   "hi": 6374,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6371,
+   "hi": 6374,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6372,
+   "hi": 6374,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6372,
+   "hi": 6373,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"admission_rule_runs_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6393,
+   "hi": 6443,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6418,
+   "hi": 6443,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6418,
+   "hi": 6430,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6424,
+   "hi": 6430,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6424,
+   "hi": 6427,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6425,
+   "hi": 6427,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6426,
+   "hi": 6427,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_admissions_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6430,
+   "hi": 6443,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6430,
+   "hi": 6436,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6430,
+   "hi": 6433,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6430,
+   "hi": 6431,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_machine_validations_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6443,
+   "hi": 6643,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6443,
+   "hi": 6543,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6443,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6468,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6480,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6486,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6489,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6491,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6492,
+   "hi": 6493,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_source_discover_requests_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6493,
+   "hi": 6543,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_v2_shadow_results_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6518,
+   "hi": 6543,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_v2_shadow_results_id_seq\" already exists\n"
+  },
+  {
+   "lo": 6530,
+   "hi": 6543,
+   "error": "HTTP 400: Failed to run sql query: ERROR:  42P07: relation \"aer_v2_shadow_results_id_seq\" already exists\n"
+  }
+ ],
+ "failures": []
+}
