@@ -11987,3 +11987,24 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: on Links & Email Templates enter the From Email and Resend API key, give a reason, Save Email Provider Settings, then Send Test Email and read the answer in the card before choosing Resend API.
 - Platform Admin: name the countries and registers to pre-stage as paused drafts.
+
+## 17 Nov 2026 23:32 AEDT — Wave 2 register drafts pre-staged (Pilot #1228); v2.16.28 reference tables (Pilot #1230); UI audit of new fields written
+
+**Trigger:** Platform Admin 17 Nov 2026 23:02 and 23:05 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1228 merged on green CI (13 checks) as `86b4aa0d` and applied: migration `20261118004000` (renumbered from `20261118003000`, which another lane's open PR had taken). Nine induction drafts for the United Kingdom (3), Ireland (3), the United States (2) and Canada (1), each with target record type, 90-day keep period, cadence and licence terms pending. Checked live: 9 drafts, all `draft` with no source; `pipeline.sources` unchanged at 3,412; 0 retention policies.
+- Pilot #1230 merged on green CI (15 checks) as `8eb38f8b` and deployed: v2.16.28, package 0.1.450, migration `20261118005000`. Reference data shows the API field dictionary (2,085 fields) and Grade scale conversions (0 rows) as read-only searchable lists. Function md5 live equals the file.
+- Both migrations passed the rolled-back live dry run (`db-migration-dry-run.yml`) before merge. G3 guard 75 functions and 48 tables, no drift, before and after.
+- `main` green on `8eb38f8b`: Deploy on merge, Deployed UAT, Frontend Build, Release History Contract, Release Currentness Deployed.
+- UI audit written: `docs/platform/ui-audit/api-v3-layer1-boost-fields-columns-filters-2026-11-17.md`.
+
+**Not done:**
+- IRCC Designated Learning Institutions was not drafted: it is already a live Layer 1 source with its own reader.
+- Four drafts have no registered scheme and four have no mappings; see `docs/CURRENT-STATE.md` section 5.
+- The list columns and filters (Courses, Providers, Campuses, Sources) are not built. Boost priority score, Country tier and `campuses.locality` do not exist as stored fields.
+- Nothing was checked in a signed-in session. One dry-run attempt failed on my own probe text (quoting), not on the migration; it was re-run and passed.
+
+**Next executable action:**
+- Platform Admin: decide what Boost priority score and Country tier are, and whether the ILEP is inducted or its TrustEd Ireland replacement is awaited.
+- S1-RM-Design: slice A of the audit (Courses: Study load and Empty reason), on approval.
