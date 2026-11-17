@@ -64,3 +64,11 @@ An RM1A prompt request is one **Planning · 15 min minimum** row. Starting imple
 - **Before writing:** `git pull --rebase origin main`, deduplicate by `engagement_id`, append, then verify row count and total `human_minutes`.
 - **Workbook:** rebuild `Roadmap_Engagement_Register.xlsx` from the two CSVs so every tab reconciles with them.
 - **Google Drive:** a session with Drive access updates the mirrored Google Sheet `Roadmap_Engagement_Register` from the CSVs. A GitHub-only session commits the CSVs and workbook to `main` and states the committed row ID and total minutes in its reply.
+
+## Continuous sync and Drive monitoring folder (Platform Admin, 17 Nov 2026 11:41 AEDT)
+
+- Activity values: Planning, Design, Development, Governance, Ingestion, Review, Decision, Acceptance, Handover. A request for a design is still logged as Planning unless the Platform Admin names it Design.
+- Human chargeable minutes only: 15 minutes minimum for each distinct human interaction or decision block; agent, CI and waiting time are never counted; one prompt is never counted twice.
+- A session logs only the interactions it took part in. Work found in commits from another session is listed for that session to log; its minutes are not guessed.
+- Drive: the Google Sheet `Roadmap_Engagement_Register` and its `.xlsx` backup live in the Drive folder "Project - CourseFinder PIM › Monitoring", beside `CONSUMER-REQUESTS (GitHub sync)` and the sheet `Chargeable_Hours_Summary (AEDT)` (hours by date, stream and register).
+- The request register (`docs/integrations/CONSUMER-REQUESTS.csv`) stays separate and keeps its own rules (`docs/integrations/REQUEST-REGISTER-RULES.md`): changes by pull request, and its Drive copy is synced by its own scheduled task. It has no minutes column; chargeable time is recorded here only.

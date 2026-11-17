@@ -1,0 +1,248 @@
+# Destination data: Admin UI fitout, API v3 blueprint and bulk ingestion plan
+
+**Version 1.0 · 17 November 2026 AEDT · Design and specification only · RM0C to RM6**
+
+Chat reference: S1-RM-Design (UI fitout and bulk ingestion plan). Platform Admin, 17 November 2026 11:39 AEDT.
+
+Companion to [`DESTINATION-DATA-DESIGN.md`](DESTINATION-DATA-DESIGN.md) v1.7. Wireframe: [`mockups/destination-data-admin-fitout-mockup.html`](mockups/destination-data-admin-fitout-mockup.html).
+
+**Status.** Nothing in this document is built. It is written against the live system as read on 17 November 2026 at 11:45 AEDT (read only): release v2.16.18, newest migration `20261117040000`, 2,054 migrations applied, G3 guard 75 functions and 48 tables with no drift, all `destination` tables empty, 4,906 Layer 4 items pending.
+
+`docs/UI-MAP.md` is generated from the code and is not edited by hand. It will show the new page in the release that builds it. Until then this document is the record of the planned placement.
+
+---
+
+## 1. UI architecture
+
+**Hybrid.** One new top-level page for country and city datasets, and in-place additions to three existing screens for course and provider attributes. No second module for anything a course or provider screen already owns.
+
+### 1.1 Navigation placement
+
+| Item | Value |
+|---|---|
+| Menu section | Catalogue, after Rankings & statistics and before Reference data |
+| Page key and address | `destination` · `#destination-data` |
+| Label and subtitle | Destination data · "Country and city datasets the website and Zoho read: localities, city figures, study rules and career outcomes, with their sources and approval." |
+| Opens for | Curator and above (rank 3), the rank the live review functions require |
+| Files | `src/nav-map.js` (page and `SECTIONS`), `pageBody` in `src/mature-main.jsx`, new `src/DestinationData.jsx` |
+
+### 1.2 Role gates (as the live functions enforce them)
+
+| Action | Minimum role | Live function | Reason required |
+|---|---|---|---|
+| Open the page, read overview and review lists | Curator (3) | `admin_destination_overview`, `admin_destination_review` | No |
+| Resolve a postcode below 90% | Curator (3) | To build (section 1.5) | Yes |
+| Run a load now | Pipeline Operator (5) | Scheduled jobs "Run now" | No |
+| Approve, publish, supersede or withdraw a row | Platform Admin (6) | `admin_destination_set_status` | Yes |
+| Record an edition's terms; publish an edition | Platform Admin (6) | To build as Admin wrappers (section 1.5) | Yes |
+
+The screen hides nothing by role inside the page: a button a role cannot use is shown disabled with the role it needs. The server check is the control; the disabled state is a courtesy.
+
+### 1.3 The five tabs
+
+| # | Tab | Shows | Reads | Actions |
+|---|---|---|---|---|
+| 1 | Overview & editions | Counts by status for every table; each edition with source owner, terms status, attribution present or missing, publish state; publish health | `admin_destination_overview` | Record terms; publish edition |
+| 2 | Localities & postcodes | Localities by country, geography type, boundary vintage and edition; postcode shares; a "Primary" badge at 90% or more and a "Layer 4" badge below | `admin_destination_review('locality')`, `('locality_postcode')` | Approve or withdraw a locality; choose the locality for a postcode below 90% |
+| 3 | City metrics & costs | Population at 30 June 2025, climate and living-cost figures, each with value, unit, period, source link and an attribution preview | `admin_destination_review('locality_metric')` | Approve, publish or withdraw a figure |
+| 4 | Study rules | Rules by category and effective dates; the stored quote beside the stored source page with the quote highlighted; the rule's applicability rows | `admin_destination_review('study_rule')` | Approve, supersede or withdraw a rule |
+| 5 | Careers & outcomes | Occupation by scheme and code, area, median annual earnings, demand rating, period | `admin_destination_review('career_outcome')` | Approve or withdraw an outcome |
+
+Rules every tab follows:
+
+- **Attribution is checked, not assumed.** A row with no attribution text shows "Missing" and cannot be approved from the screen.
+- **Published editions are fixed.** A study rule or career row in a published edition cannot be changed (guard of `20261115230000`). The screen offers "Start a new edition" instead of Withdraw for those rows. Localities and locality figures have no edition and can be withdrawn directly.
+- **Earnings are not visa funds.** Tab 5 never shows a visa financial threshold; that is a study rule of category `visa_funds` on tab 4. The tab says so on screen.
+- **Empty state.** Before any load each tab says what loads it and where that load is run.
+
+### 1.4 Adapted existing screens
+
+| Screen | Addition | Source |
+|---|---|---|
+| Courses › Course detail › Recognition card (`CourseRecognition.jsx`) | One row per registration scheme the course holds (`cricos`, `nzqa`, later `uk_qaa`, `ie_qqi`, `us_opeid`), never merged. Field-of-study codes by scheme (`asced`, later `nzsced`, `cip`, `hecos`). A new block "Study rules proven for this course" from `rule_applicability`, linking to tab 4 | `admin_course_recognition_read`, extended |
+| Providers › Provider detail › Campuses | "Primary campus" badge from `campuses.is_primary`. Mapped locality and match share per campus, or "In Layer 4" below 90% | Provider detail read, extended |
+| Providers › Provider detail › Registrations | Provider registrations by scheme. `ircc_dli` is listed as a provider registration; `pgwp` is shown per programme in its own block and never as a DLI | Provider detail read, extended |
+| Platform health › Data delivery | New panel "Destination loads" beside Recognition delivery: each load, last run, rows, what it waits on, Run now | `admin_destination_overview`, job catalogue |
+| Layer 4 Review › Inbox | New kind "Campus locality": one item per campus whose postcode share is below 90%, beside the 4,906 items pending today | Layer 4 inbox |
+
+### 1.5 What the screens need that is not live
+
+| Gap | Needed for | Proposed |
+|---|---|---|
+| Admin wrappers for edition terms and publish | Tab 1 | `public.admin_destination_edition_set_terms`, `public.admin_destination_edition_publish` over the existing `security.destination_edition_*` functions; Platform Admin, reason required |
+| Edition list with terms and attribution health | Tab 1 | Extend `admin_destination_overview` (it returns counts only) |
+| Postcode resolution | Tab 2, Layer 4 kind | `public.admin_destination_postcode_resolve(postcode, locality_id or null, reason)`; Curator and above |
+| Applicability rows in the rule review | Tab 4 | Extend `admin_destination_review('study_rule')` |
+| Stored page text for the quote verifier | Tab 4 | `destination.study_rules` gains `evidence_id` to the stored page (same pattern as the catalogue), so the quote is checked against stored evidence, not a live fetch |
+| Layer 4 kind `campus_locality` | Layer 4, Data delivery | New Inbox kind; decisions write `locality_postcodes` through the resolve function |
+| Campus locality on the provider read | Provider detail | Extend the provider detail read |
+
+### 1.6 Wireframes
+
+The interactive wireframe (linked above) shows the menu placement, all five tabs, the four adapted screens, a role switch (Viewer, Curator, Platform Admin) and the reason dialog. Every figure in it is a marked example.
+
+```mermaid
+flowchart LR
+  subgraph Catalogue
+    C[Courses] --> CD[Course detail: Recognition and field codes card]
+    P[Providers] --> PD[Provider detail: campuses, locality, registrations]
+    D[Destination data - new]
+  end
+  D --> T1[Overview and editions]
+  D --> T2[Localities and postcodes]
+  D --> T3[City metrics and costs]
+  D --> T4[Study rules]
+  D --> T5[Careers and outcomes]
+  T2 -- share below 90% --> L4[Layer 4 Inbox: Campus locality]
+  DD[Platform health: Data delivery - Destination loads] --> D
+  CD -. proven rules .-> T4
+  PD -. mapped locality .-> T2
+```
+
+---
+
+## 2. Entity relationships and API v3 blueprint
+
+### 2.1 Entities
+
+```mermaid
+erDiagram
+  EDITIONS ||--o{ STUDY_RULES : "holds"
+  EDITIONS ||--o{ CAREER_OUTCOMES : "holds"
+  STUDY_RULES ||--o{ RULE_APPLICABILITY : "applies to"
+  LOCALITIES ||--o{ LOCALITY_POSTCODES : "contains share of"
+  LOCALITIES ||--o{ LOCALITY_METRICS : "has figures"
+  LOCALITIES |o--o{ CAREER_OUTCOMES : "optional area"
+  CAMPUSES }o--o| LOCALITY_POSTCODES : "postcode, primary match"
+  PROVIDERS ||--o{ CAMPUSES : "has"
+  PROVIDERS ||--o{ PROVIDER_REGISTRATIONS : "holds"
+  COURSES ||--o{ COURSE_REGISTRATIONS : "holds"
+  COURSES ||--o{ COURSE_FIELD_OBSERVATIONS : "classified by"
+  REGISTRATION_SCHEMES ||--o{ COURSE_REGISTRATIONS : "names scheme"
+  REGISTRATION_SCHEMES ||--o{ PROVIDER_REGISTRATIONS : "names scheme"
+  RULE_APPLICABILITY }o--o| COURSES : "entity"
+  RULE_APPLICABILITY }o--o| PROVIDERS : "entity"
+  RULE_APPLICABILITY }o--o| LOCALITIES : "entity"
+```
+
+`destination.city_profiles` (Pilot #1155) is not in the picture: `locality_metrics` is the home for city figures. It is marked retiring once nothing reads it.
+
+### 2.2 Flow from source to API
+
+```mermaid
+flowchart LR
+  S1[ABS, BOM, JSA files] --> J[Catalogued load job]
+  S2[Official rule pages] --> CAP[Page capture and evidence]
+  S3[Registers: CRICOS, NZQA, later UK, IE, US] --> L1[Layer 1 adapters]
+  J --> DT[destination tables: draft]
+  CAP --> DT
+  L1 --> CT[catalogue registrations and field observations]
+  DT --> AP{Platform Admin approval, edition published}
+  AP --> RD[security.destination_read_v1]
+  CT --> RI[security.course_roadmap_item_v1]
+  RD --> W[website-api-v3: destination]
+  RD --> Z[zoho-api-v3: destination]
+  RI --> WC[website-api-v3 and zoho-api-v3: course]
+  DT --> PL[campus locality decorator - to build] --> WP[v3: provider]
+```
+
+### 2.3 Action `destination` (live in v2.16.18)
+
+| Part | Detail |
+|---|---|
+| Request | `{"action":"destination","filters":{...},"page":1,"page_size":50}` |
+| Filters | `country_code` (two letters), `section` (`localities`, `study_rules` or `career_outcomes`), `postcode` (returns the primary-match locality), `locality_id` (uuid), `rule_category` |
+| Paging | `page` from 1. `page_size` applies to each list; when omitted it is the platform maximum. Maximum is the setting `destination.page_size_max` (100 today; range 10 to 500) |
+| What is returned | Localities and locality figures with status `approved` or `published`. Study rules that are `approved`, in a `published` edition, and in effect today. Career outcomes `approved` or `published` in a `published` edition |
+| Response | `localities[]` (each with `metrics[]`), `study_rules[]` (each with `visa` or null, and `applicability[]`), `career_outcomes[]`, `totals{}`, `page`, `page_size`, `filters{}` |
+| Errors | `INVALID_INPUT` for a filter that is not an object, a country code that is not two letters, an unknown section or a locality id that is not a uuid |
+| Identical on both APIs | Yes: both wrappers call `security.destination_read_v1` |
+
+Field lists per item are in `docs/integrations/api-v3/API-V3-FIELD-DEFINITION.md` and, field by field, under `pending_fields` in Pilot `docs/api/v3/field-dictionary.json` (72 per API).
+
+**Loading the 144 pending fields into `ref.api_field_dictionary` (1,923 rows today).** The existing guard requires migration `20261116110000` to embed exactly the reviewed list, so the list cannot simply grow. The change is one pull request: move the destination entries from `pending_fields` to `fields`; add a new sync migration that embeds the new full list and calls `security.api_field_dictionary_sync_v1`; point `cf-247-api-v3-field-dictionary-contract` and its fixture at the newest sync migration. Owner: RM-v3-Dictionary (RM0B). It can ship before v3 release; the handover documents still wait for release.
+
+### 2.4 Additive fields on `course` and `provider`
+
+| Field | Action | State | Website v3 | Zoho v3 | Source |
+|---|---|---|---|---|---|
+| `recognition[]` | `course` | Live (CRICOS) | Yes, both forms | Yes | `catalogue.course_registrations` through `security.course_roadmap_item_v1` |
+| `field_of_study_codes[]` | `course` | Live (ASCED) | Yes, both forms | Yes | `catalogue.course_field_observations` through the same function |
+| `campuses[].locality` | `provider` | To build | Planned | Planned | Campus postcode → `locality_postcodes` primary match → `localities` |
+| `study_rules[]` on a course | `course` | Not planned for the course payload | | | Read through `destination` with the course's country; applicability gives the link |
+
+Proposed `campuses[].locality`: `{locality_id, name, geography_type, geography_code, boundary_vintage, match_share}` or `null` when the campus has no primary match. One decorator function serves both APIs, as `course_roadmap_item_v1` does for courses, so the two answers cannot drift.
+
+**G3.** Every one of these is a v3 wrapper or a new function beside v2. No v2 function, table or column is altered, so the guard stays at 75 functions and 48 tables. Each change re-runs `security.consumer_api_check_v1()` after deploy.
+
+### 2.5 Career outcomes grain: decision
+
+**Problem.** `destination.career_outcomes` is unique on (edition, country, occupation code). A state or locality figure for the same occupation cannot sit beside the national one, and the importer's upsert uses that same key.
+
+**Decision (recommended, G-1).** One row per edition, country, occupation scheme, occupation code and area, where area is national, a state, or a locality.
+
+| Change | Detail |
+|---|---|
+| New columns | `geography_level` (`national`, `state`, `locality`; default `national`), `state_code` |
+| Rule | `national`: no state, no locality. `state`: state code set. `locality`: `locality_id` set |
+| New key | Unique on edition, country, occupation scheme, occupation code, geography level, state code, locality |
+| Old key | `career_outcomes_edition_id_country_id_occupation_code_key` is replaced |
+| Importer | `security.destination_import_v1` upserts on the new key in the same migration |
+| API | Each outcome gains `geography_level` and `state_code`; `locality_id` is already returned |
+
+The table is empty, so nothing is migrated. Replacing the old key is a constraint replacement; under the repository rule it goes inside the constraint block of the migration (as `20261117040000` did for the access-history check) or by paste file. That choice is decision G-1 in section 4.
+
+---
+
+## 3. Bulk ingestion plan after the squash
+
+Starts when the Platform Admin confirms the squash of Thursday 19 November 2026 (01:30–03:30 AEDT) is complete. Every step ships by pull request, green CI and the deploy workflow; verification is read only. Each load is a catalogued job (G1) whose batch size and limits are settings (G2). Loads write drafts; nothing reaches the API until approved.
+
+| # | Step | Builds | Loads | Needs first | Done when |
+|---|---|---|---|---|---|
+| 0 | Baseline check | Nothing | Nothing | Squash confirmed | Migration head, G3 guard (75 and 48) and an empty `destination` read all read back clean on the squashed baseline |
+| 1 | ABS population and ASGS postcode loader (RM1B) | Job `destination-abs-load`; `evidence_id` on localities and figures; Layer 4 kind `campus_locality`; `admin_destination_postcode_resolve` | SUA localities (about 100, estimate), one population figure each (30 June 2025), postcode shares for the 805 distinct AU campus postcodes | Sources approved (A-1 to A-4, done) | Every AU campus postcode is either a primary match or a Layer 4 item; attribution on every figure; Platform Admin approves; `destination` returns localities |
+| 2 | Study rules importer extension (RM0D, RM1C, RM1H, RM2C) | Importer accepts the general rule fields, quote, evidence and applicability; career grain change G-1 rides here if approved | AU rules first (about 15 to 25, estimate): routes, funds, fee, work rights, post-study work, processing times | Page capture of each official page; edition terms recorded | Every rule has a quote found on its stored page and effective dates; edition published; `destination` returns rules |
+| 3 | NZQA qualifications capture (RM4A) | NZQCF capture in the Layer 1 NZ adapter; match by qualification number | 3,894 four-digit candidates matched; 2,559 provider-style codes classified | NZQA commercial-use terms settled by management | NZ `recognition[]` served from course-level evidence; unmatched codes held with a reason |
+| 4 | BOM climate, living costs and JSA careers (RM1I, RM1D, RM2B, RM4C) | Jobs for each dataset; grain change G-1 if not already shipped | Climate normals and living costs per locality; occupation outcomes | Step 1 (localities). Source and reuse approvals for BOM, the living-cost source and JSA (REQ-68) | Figures and outcomes approved and returned with attribution |
+| 5 | UK, Ireland and USA register adapters (RM3, RM5, RM6) | Three Layer 1 adapters and their provider identity rules | Provider and course registrations under `uk_qaa`, `uk_ofs`, `ie_qqi`, `us_opeid`, `us_ipeds`; field codes under `hecos`, `cip` | Source registration and terms per country; country enabled for ingestion | Registrations land with evidence; schemes move from `planned` to `active` in `ref.registration_schemes` |
+| 6 | Destination data screens (RM0F) and the password-reset audit line | `src/DestinationData.jsx`, the adapted screens, the wrappers of section 1.5; `admin-user-management` writes `password_reset_sent` | Nothing | Steps 1 and 2 give the screens real rows | UI map regenerated, screen help and SOPs updated, version pill bumped, spec `s557` green |
+
+### 3.1 Sequencing notes
+
+- **Step 6 can start early.** Tabs 1 and 2 need only step 1. Building them alongside step 1 gives the Platform Admin a screen for the first approvals instead of function calls. The order above is the order given; this is the one change worth considering.
+- **Step 4 is two approvals away.** BOM and living-cost sources have no approval yet, and JSA and QILT terms (REQ-68) are open. The build can proceed; the load cannot.
+- **Step 5 is the largest piece.** Three new countries, each with its own identity rules. It is listed fifth but is a programme of its own.
+- **Dictionary sync** (section 2.3) is independent and can ship at any point.
+- **CRICOS 11 November edition** (1,953 waiting rows) and the 701 register departures are Layer 1 actions outside this plan and are still open.
+
+### 3.2 Indicative effort (estimates for planning, not quotes)
+
+| Step | Size | Main uncertainty |
+|---|---|---|
+| 1 | Medium | Whether the direct Postal Area to SUA file exists; fallback A-4 is approved |
+| 2 | Medium | Number of rule pages and how stable their wording is |
+| 3 | Medium | Share of provider-style codes that match no qualification |
+| 4 | Medium, plus waiting on approvals | Source terms |
+| 5 | Large | Three new countries |
+| 6 | Medium | Layer 4 kind and quote verifier |
+
+---
+
+## 4. Decisions for the Platform Admin
+
+| # | Decision | Recommendation |
+|---|---|---|
+| G-1 | Career outcomes grain (section 2.5) and how the old unique key is replaced | Approve the national, state or locality grain; replace the key inside the migration's constraint block, as for the access-history check |
+| G-2 | Menu placement of Destination data | Catalogue, after Rankings & statistics |
+| G-3 | Postcodes below 90% | A Layer 4 Inbox kind "Campus locality", so every decision that needs a person stays in one inbox |
+| G-4 | Build tabs 1 and 2 with step 1 rather than at step 6 | Yes |
+| G-5 | `campuses[].locality` on the v3 `provider` action | Approve the shape in section 2.4 |
+
+## 5. Assumptions and risks
+
+- Target row counts marked "estimate" are planning figures to confirm at first capture.
+- The plan assumes the squash keeps `20261117040000` in the baseline unchanged.
+- Risk: attribution or terms missing at load time blocks approval, not loading; rows wait in draft.
+- Risk: the quote verifier depends on stored evidence for rule pages; a rule captured without stored evidence cannot be verified on screen.
+- Not checked from this session: a keyed HTTP call to the `destination` action and a signed-in call of the Admin functions.

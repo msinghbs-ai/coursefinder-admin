@@ -18,9 +18,9 @@ FONT = Font(name="Arial", size=10)
 HEAD_FILL = PatternFill("solid", fgColor="FFF3F3F3")
 TOP = Alignment(wrap_text=True, vertical="top")
 
-ACTIVITIES = ["Planning", "Development", "Review", "Decision", "Acceptance", "Handover"]
+ACTIVITIES = ["Planning", "Design", "Development", "Governance", "Ingestion", "Review", "Decision", "Acceptance", "Handover"]  # Design, Governance, Ingestion added 17 Nov 2026 (Platform Admin 11:41)
 BASES = ["minimum", "reported"]
-STATUSES = ["Roadmapped", "In progress", "Decision pending", "Blocked", "Delivered", "Closed"]
+STATUSES = ["Roadmapped", "In progress", "Schema Deployed — Ready for Bulk Ingestion", "Decision pending", "Blocked", "Delivered", "Closed"]
 
 
 def read(path):

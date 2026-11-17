@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Destination Data Admin Fitout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an operator console. Left menu rail shows where the new page sits; the working pane shows one screen at a time. Same tokens as australia-destination-mockups.html. */
+:root{
+  --bg:#f3f5f4; --panel:#ffffff; --ink:#18211d; --muted:#5d6b64; --line:#d6ddd9;
+  --accent:#0b6e5f; --accent-soft:#e1f0ec; --ok:#2f7d3b; --ok-soft:#e3f2e4;
+  --warn:#9a6200; --warn-soft:#fbefd8; --bad:#b3261e; --bad-soft:#fbe4e2; --idle:#6a7470; --idle-soft:#eceeed;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --panel:#18201d; --ink:#e4ebe7; --muted:#9aa9a2; --line:#2c3833;
+  --accent:#4fc3ad; --accent-soft:#183a33; --ok:#7fd08a; --ok-soft:#1c3320;
+  --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#f2948d; --bad-soft:#3d1c1a; --idle:#a3aca8; --idle-soft:#242c29; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --panel:#18201d; --ink:#e4ebe7; --muted:#9aa9a2; --line:#2c3833;
+  --accent:#4fc3ad; --accent-soft:#183a33; --ok:#7fd08a; --ok-soft:#1c3320;
+  --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#f2948d; --bad-soft:#3d1c1a; --idle:#a3aca8; --idle-soft:#242c29; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--f-body)}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+.top h1{font:600 20px/1.2 var(--f-display);margin:0;text-wrap:balance}
+.top p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+.role{display:flex;gap:6px;align-items:center;font-size:12.5px}
+.role button,.tab,.nav button,.btn{font:inherit;cursor:pointer}
+.role button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:5px 10px;border-radius:4px}
+.role button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.notice{margin:12px 16px 0;padding:8px 12px;border-left:3px solid var(--warn);background:var(--warn-soft);font-size:12.5px}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;padding:16px}
+@media (max-width:760px){.shell{grid-template-columns:1fr}}
+.nav{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px;align-self:start}
+.nav h2{font:600 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 8px 4px}
+.nav button{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;background:none;color:var(--ink);padding:6px 8px;border-radius:4px}
+.nav button[disabled]{color:var(--muted);cursor:default}
+.nav button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.new{background:var(--accent);color:var(--panel)} .chg{background:var(--warn-soft);color:var(--warn)}
+.ok{background:var(--ok-soft);color:var(--ok)} .warn{background:var(--warn-soft);color:var(--warn)} .bad{background:var(--bad-soft);color:var(--bad)} .idle{background:var(--idle-soft);color:var(--idle)}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:6px;min-width:0}
+.head{padding:14px 16px 0}
+.head h2{font:600 18px/1.2 var(--f-display);margin:0}
+.head p{margin:4px 0 0;color:var(--muted);max-width:75ch}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;padding:10px 16px 0;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;color:var(--muted);padding:8px 10px;border-bottom:2px solid transparent}
+.tab.on{color:var(--accent);border-color:var(--accent);font-weight:600}
+.body{padding:16px;display:grid;gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.tile b{display:block;font:600 20px/1.2 var(--f-display);font-variant-numeric:tabular-nums}
+.tile span{color:var(--muted);font-size:12.5px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+code{font:12px var(--f-mono);background:var(--idle-soft);padding:1px 4px;border-radius:3px}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:4px 9px;border-radius:4px;font-size:12.5px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,.tab:focus-visible,.nav button:focus-visible,.role button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px}
+.card h3{font:600 14px/1.3 var(--f-body);margin:0 0 6px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.quote{border-left:3px solid var(--accent);padding:6px 10px;background:var(--accent-soft);font-size:13px}
+.src{font:12px/1.5 var(--f-mono);background:var(--idle-soft);padding:8px 10px;border-radius:4px;max-height:150px;overflow:auto}
+.src mark{background:var(--warn-soft);color:var(--warn)}
+.wire{font-size:12px;color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);padding:16px;max-width:440px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+dialog textarea{width:100%;min-height:70px;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px}
+.err{color:var(--bad);font-size:12.5px;min-height:1.4em}
+.log{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Destination data: Admin fitout wireframe</h1>
+    <p>StudySearch Admin, proposed on live v2.16.18. One new page and three adapted screens. Design only; nothing here is built.</p>
+  </div>
+  <div class="role" role="group" aria-label="Signed-in role">
+    <span>View as</span>
+    <button type="button" data-rank="1" aria-pressed="false">Viewer</button>
+    <button type="button" data-rank="3" aria-pressed="true">Curator</button>
+    <button type="button" data-rank="6" aria-pressed="false">Platform Admin</button>
+  </div>
+</header>
+<div class="notice">Every row and figure below is a marked example to show layout. The live destination tables are empty until the first load after the squash.</div>
+<div class="shell">
+  <nav class="nav" aria-label="Admin menu" id="nav"></nav>
+  <main class="pane" id="pane"></main>
+</div>
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form id="dlg-form">
+    <h3 id="dlg-title" style="margin:0 0 8px"></h3>
+    <p class="wire" id="dlg-rpc"></p>
+    <label for="dlg-reason">Reason (required, saved with the decision)</label>
+    <textarea id="dlg-reason"></textarea>
+    <div class="err" id="dlg-err" role="alert"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="dlg-cancel">Cancel</button>
+      <button type="submit" class="btn pri" id="dlg-ok">Confirm</button>
+    </div>
+  </form>
+</dialog>
+<script>
+const $ = (s, r = document) => r.querySelector(s)
+let rank = 3, view = 'destination', tab = 'overview', log = []
+const MENU = [
+  ['', [['dashboard', 'Dashboard']]],
+  ['Catalogue', [['courses', 'Courses', 'chg'], ['providers', 'Providers', 'chg'], ['x1', 'Provider contacts'], ['x2', 'Scholarships'], ['x3', 'Entry requirements'], ['x4', 'Rankings & statistics'], ['destination', 'Destination data', 'new'], ['x5', 'Reference data']]],
+  ['Data pipeline', [['x6', 'Coverage & completeness'], ['x7', 'Layer 1 Register'], ['x8', 'Layer 2/3 Build & enrich'], ['layer4', 'Layer 4 Review', 'chg']]],
+  ['Operations', [['delivery', 'Platform health › Data delivery', 'chg'], ['x9', 'Scheduled jobs'], ['x10', 'Evidence']]],
+]
+const TABS = [['overview', 'Overview & editions'], ['localities', 'Localities & postcodes'], ['metrics', 'City metrics & costs'], ['rules', 'Study rules'], ['careers', 'Careers & outcomes']]
+const st = (s) => `<span class="pill ${({ approved: 'ok', published: 'ok', draft: 'idle', in_review: 'warn', withdrawn: 'bad', superseded: 'idle' })[s] || 'idle'}">${s.replace('_', ' ')}</span>`
+// Role gates as the live functions enforce them: review and lists at Curator (rank 3); approve, publish, withdraw at Platform Admin (rank 6) with a reason.
+const act = (label, rpc, min = 6, pri) => `<button type="button" class="btn ${pri ? 'pri' : ''}" data-act="${label}" data-rpc="${rpc}" ${rank < min ? `disabled title="Needs ${min === 6 ? 'Platform Admin' : 'Curator'}"` : ''}>${label}</button>`
+const rpc = (t) => `<p class="wire">Reads: <code>${t}</code></p>`
+
+const SCREENS = {
+  overview: () => `
+    ${rpc('admin_destination_overview()')}
+    <div class="grid">
+      <div class="tile"><b>2</b><span>Editions published</span></div>
+      <div class="tile"><b>1</b><span>Edition waiting on terms</span></div>
+      <div class="tile"><b>101</b><span>Localities approved</span></div>
+      <div class="tile"><b>37</b><span>Postcodes for Layer 4</span></div>
+      <div class="tile"><b>18</b><span>Schemes registered</span></div>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr><th>Edition</th><th>Domain</th><th>Source owner</th><th>Terms</th><th>Attribution shown</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>AU 2026</td><td>Study rules</td><td>Department of Home Affairs</td><td>${st('approved')}</td><td><span class="pill ok">Present</span></td><td>${st('published')}</td><td class="wire">Fixed. A change is a new edition.</td></tr>
+        <tr><td>AU 2025</td><td>Career outcomes</td><td>Jobs and Skills Australia</td><td><span class="pill warn">not checked</span></td><td><span class="pill ok">Present</span></td><td>${st('draft')}</td><td><div class="row">${act('Record terms', 'admin_destination_edition_set_terms (to build)')}${act('Publish edition', 'admin_destination_edition_publish (to build)', 6, true)}</div></td></tr>
+        <tr><td>ABS Regional population 2024-25</td><td>Locality figures</td><td>Australian Bureau of Statistics</td><td><span class="pill ok">CC BY 4.0, approved A-1</span></td><td><span class="pill ok">Present on 101 of 101</span></td><td>${st('approved')}</td><td class="wire">Approved row by row on its tab.</td></tr>
+      </tbody></table></div>
+    <p class="wire">Publish health: an edition cannot publish until its terms are approved (REQ-68). Rows left in draft when an edition publishes are never returned by the API.</p>`,
+  localities: () => `
+    ${rpc("admin_destination_review('locality', status) · admin_destination_review('locality_postcode')")}
+    <div class="row"><span class="pill idle">Geography: SUA</span><span class="pill idle">Boundary: ASGS_2021_ED3</span><span class="pill idle">Primary match at 90% or more (setting)</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Locality</th><th>Code</th><th>Edition</th><th>Attribution</th><th>Postcodes</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Ballarat</td><td class="n">2003</td><td>ERP 30 June 2025</td><td>Source: Australian Bureau of Statistics</td><td class="n">9 primary</td><td>${st('approved')}</td><td>${act('Withdraw', 'admin_destination_set_status')}</td></tr>
+        <tr><td>Geelong</td><td class="n">2008</td><td>ERP 30 June 2025</td><td>Source: Australian Bureau of Statistics</td><td class="n">14 primary, 2 to review</td><td>${st('draft')}</td><td>${act('Approve', 'admin_destination_set_status', 6, true)}</td></tr>
+      </tbody></table></div>
+    <div class="card"><h3>Postcodes below 90%: sent to Layer 4</h3>
+      <div class="scroll"><table>
+        <thead><tr><th>Postcode</th><th>Candidate localities and share</th><th>Campuses affected</th><th>Match</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td class="n">3221</td><td>Geelong 62% · not in any SUA 38%</td><td class="n">2</td><td><span class="pill warn">Layer 4</span></td><td>${act('Choose locality', 'admin_destination_postcode_resolve (to build)', 3)}</td></tr>
+          <tr><td class="n">3350</td><td>Ballarat 97%</td><td class="n">5</td><td><span class="pill ok">Primary</span></td><td class="wire">None needed</td></tr>
+        </tbody></table></div></div>`,
+  metrics: () => `
+    ${rpc("admin_destination_review('locality_metric', status)")}
+    <div class="row"><span class="pill idle">Population at 30 June 2025</span><span class="pill idle">Climate</span><span class="pill idle">Living cost</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Locality</th><th>Category</th><th>Measure</th><th>Value</th><th>Period</th><th>Source</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Ballarat</td><td>Population</td><td>Estimated resident population</td><td class="n">119,096 persons</td><td>30 June 2025</td><td>abs.gov.au › Regional population</td><td>${st('published')}</td><td>${act('Withdraw', 'admin_destination_set_status')}</td></tr>
+        <tr><td>Ballarat</td><td>Climate</td><td>Mean maximum, January</td><td class="n">25.1 °C</td><td>1991–2020</td><td>bom.gov.au</td><td>${st('draft')}</td><td class="wire">Source not yet approved</td></tr>
+        <tr><td>Ballarat</td><td>Living cost</td><td>Weekly rent, shared</td><td class="n">AUD 210</td><td>2026</td><td>To be approved</td><td>${st('in_review')}</td><td>${act('Approve', 'admin_destination_set_status', 6, true)}</td></tr>
+      </tbody></table></div>
+    <div class="card"><h3>Attribution preview: what the website must show beside the figure</h3>
+      <p style="margin:0"><b>119,096</b> people (30 June 2025). <span class="wire">Source: Australian Bureau of Statistics, Regional population 2024-25, CC BY 4.0.</span></p></div>`,
+  rules: () => `
+    ${rpc("admin_destination_review('study_rule', status), with applicability (review function to extend)")}
+    <div class="row"><span class="pill idle">application_route</span><span class="pill idle">visa_funds</span><span class="pill idle">work_rights</span><span class="pill idle">post_study_work</span><span class="pill idle">visa_fee</span><span class="pill idle">processing_time</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Rule</th><th>Category</th><th>Applies to</th><th>In effect</th><th>Edition</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Apply direct to the institution</td><td>application_route</td><td>International applicants</td><td>1 Jan 2026 – open</td><td>AU 2026 (draft)</td><td>${st('draft')}</td><td>${act('Approve', 'admin_destination_set_status', 6, true)}</td></tr>
+        <tr><td>Work hours during study</td><td>work_rights</td><td>Student visa holders</td><td>1 Jul 2023 – open</td><td>AU 2026 (draft)</td><td>${st('approved')}</td><td>${act('Withdraw', 'admin_destination_set_status')}</td></tr>
+      </tbody></table></div>
+    <div class="two">
+      <div class="card"><h3>Quote on page (stored with the rule)</h3>
+        <div class="quote">International students apply directly to the institution for this course.</div>
+        <p class="wire" style="margin:8px 0 0">Evidence date 17 Nov 2026 · threshold none · state none</p></div>
+      <div class="card"><h3>Stored source page</h3>
+        <div class="src">…Domestic applicants apply through the tertiary admissions centre. <mark>International students apply directly to the institution for this course.</mark> Offers are made in rounds…</div>
+        <p class="wire" style="margin:8px 0 0"><span class="pill ok">Quote found on the stored page</span></p></div>
+    </div>
+    <div class="card"><h3>Where it applies (<code>destination.rule_applicability</code>)</h3>
+      <div class="scroll"><table>
+        <thead><tr><th>Entity</th><th>Type</th><th>Result</th><th>Evidence</th></tr></thead>
+        <tbody><tr><td>Australia</td><td>Country</td><td><span class="pill ok">Proven</span></td><td>studyaustralia.gov.au</td></tr>
+        <tr><td>VIC, undergraduate via VTAC</td><td>State</td><td><span class="pill bad">Excluded</span></td><td>vtac.edu.au</td></tr></tbody></table></div></div>`,
+  careers: () => `
+    ${rpc("admin_destination_review('career_outcome', status)")}
+    <div class="row"><span class="pill idle">ANZSCO</span><span class="pill idle">NOC</span><span class="pill idle">SOC</span><span class="pill idle">Area: national · state · locality</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Occupation</th><th>Scheme and code</th><th>Area</th><th>Median annual earnings</th><th>Demand</th><th>Period</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Software and Applications Programmers</td><td>ANZSCO 2613</td><td>Australia</td><td class="n">AUD 110,000</td><td>Strong</td><td>2025</td><td>${st('approved')}</td><td>${act('Withdraw', 'admin_destination_set_status')}</td></tr>
+        <tr><td>Registered Nurses</td><td>ANZSCO 2544</td><td>Victoria</td><td class="n">Not published</td><td>Shortage</td><td>2025</td><td>${st('draft')}</td><td>${act('Approve', 'admin_destination_set_status', 6, true)}</td></tr>
+      </tbody></table></div>
+    <p class="wire">Earnings here are labour-market outcomes. Visa funds a student must show are a study rule (category visa_funds) and never appear in this table.</p>`,
+}
+const ADAPTED = {
+  courses: ['Courses › Course detail › Recognition and field codes card', 'Existing card (CourseRecognition.jsx), extended. No new page.', `
+    ${rpc('admin_course_recognition_read(course_id), extended with applicable study rules')}
+    <div class="two">
+      <div class="card"><h3>Registrations</h3><div class="scroll"><table style="min-width:420px">
+        <thead><tr><th>Scheme</th><th>Code</th><th>Authority</th><th>State</th></tr></thead>
+        <tbody><tr><td>cricos</td><td class="n">0100123</td><td>Dept of Education (AU)</td><td><span class="pill ok">Registered</span></td></tr>
+        <tr><td>nzqa · uk_qaa · ie_qqi · us_opeid</td><td colspan="3" class="wire">One row per scheme the course holds. Schemes are never merged (ref.registration_schemes).</td></tr></tbody></table></div></div>
+      <div class="card"><h3>Field-of-study codes</h3><div class="scroll"><table style="min-width:420px">
+        <thead><tr><th>Scheme</th><th>Code</th><th>Name</th><th>Rank</th></tr></thead>
+        <tbody><tr><td>asced</td><td class="n">0201</td><td>Computer Science</td><td class="n">1</td></tr>
+        <tr><td>nzsced · cip · hecos</td><td colspan="3" class="wire">Native register codes only; no crosswalk.</td></tr></tbody></table></div></div>
+    </div>
+    <div class="card"><h3>Study rules proven for this course</h3>
+      <p style="margin:0">Apply direct to the institution <span class="pill ok">Proven: country</span> <span class="wire">opens the rule on Destination data › Study rules</span></p></div>`],
+  providers: ['Providers › Provider detail › Campuses and registrations', 'Existing screen, two additions. No new page.', `
+    ${rpc('provider detail read, extended with campus locality and registrations by scheme')}
+    <div class="scroll"><table>
+      <thead><tr><th>Campus</th><th>Postcode</th><th>Locality (SUA)</th><th>Match</th></tr></thead>
+      <tbody><tr><td>Mount Helen <span class="pill ok">Primary campus</span></td><td class="n">3350</td><td>Ballarat</td><td><span class="pill ok">97% primary</span></td></tr>
+      <tr><td>Waurn Ponds</td><td class="n">3221</td><td class="wire">Not mapped</td><td><span class="pill warn">62%: in Layer 4</span></td></tr></tbody></table></div>
+    <div class="card"><h3>Provider registrations</h3><div class="scroll"><table style="min-width:420px">
+      <thead><tr><th>Scheme</th><th>Code</th><th>Kind</th></tr></thead>
+      <tbody><tr><td>cricos</td><td class="n">00103D</td><td>Provider registration</td></tr>
+      <tr><td>ircc_dli</td><td class="n">O19395536013</td><td>Provider registration</td></tr>
+      <tr><td>pgwp</td><td class="wire">Shown per programme, in its own block</td><td>Work eligibility: never listed as a DLI</td></tr></tbody></table></div></div>`],
+  delivery: ['Platform health › Data delivery › Destination loads', 'Existing Data delivery screen, one new panel beside Recognition delivery.', `
+    ${rpc('admin_destination_overview() · scheduled jobs catalogue')}
+    <div class="scroll"><table>
+      <thead><tr><th>Load</th><th>Last run</th><th>Rows</th><th>Waiting on</th><th>Action</th></tr></thead>
+      <tbody><tr><td>ABS population and postcodes</td><td>Not run</td><td class="n">0</td><td>Load job (to build)</td><td>${act('Run now', 'job destination-abs-load (to build)', 5)}</td></tr>
+      <tr><td>Study rules</td><td>Not run</td><td class="n">0</td><td>Page capture</td><td>${act('Run now', 'importer extension (to build)', 5)}</td></tr>
+      <tr><td>JSA careers</td><td>Not run</td><td class="n">0</td><td>Terms (REQ-68)</td><td>${act('Run now', 'destination_import_v1', 5)}</td></tr></tbody></table></div>
+    <p class="wire">Run now needs Pipeline Operator (rank 5). Each load is a catalogued job (G1); its batch size is a setting (G2).</p>`],
+  layer4: ['Layer 4 Review › Inbox › kind: Campus locality', 'Existing Inbox, one new kind. Sits beside the 4,906 items pending today.', `
+    ${rpc('layer4 inbox, kind campus_locality (to build)')}
+    <div class="scroll"><table>
+      <thead><tr><th>Item</th><th>Campus</th><th>Proposed</th><th>Why a person</th><th>Action</th></tr></thead>
+      <tbody><tr><td>Campus locality</td><td>Waurn Ponds, 3221</td><td>Geelong (62%)</td><td>Share below 90%</td><td><div class="row">${act('Accept Geelong', 'layer4 decision', 3, true)}${act('No locality', 'layer4 decision', 3)}</div></td></tr></tbody></table></div>`],
+}
+function draw() {
+  $('#nav').innerHTML = MENU.map(([g, items]) => (g ? `<h2>${g}</h2>` : '') + items.map(([k, l, tag]) =>
+    `<button type="button" data-view="${k}" class="${k === view ? 'on' : ''}" ${k.startsWith('x') || k === 'dashboard' ? 'disabled' : ''}><span>${l}</span>${tag ? `<span class="pill ${tag}">${tag === 'new' ? 'New' : 'Adapted'}</span>` : ''}</button>`).join('')).join('')
+  let h
+  if (view === 'destination') {
+    h = `<div class="head"><h2>Destination data</h2><p>Country and city datasets the website and Zoho read through the API v3 destination action. Opens for Curator and above (rank 3). Menu: Catalogue, after Rankings &amp; statistics. Address <code>#destination-data</code>.</p></div>
+      <div class="tabs" role="tablist">${TABS.map(([k, l]) => `<button type="button" role="tab" class="tab ${k === tab ? 'on' : ''}" data-tab="${k}" aria-selected="${k === tab}">${l}</button>`).join('')}</div>
+      <div class="body">${rank < 3 ? '<p>This page opens for Curator and above. A Viewer does not see it in the menu.</p>' : SCREENS[tab]()}</div>`
+  } else {
+    const [t, sub, body] = ADAPTED[view]
+    h = `<div class="head"><h2>${t}</h2><p>${sub}</p></div><div class="body">${body}</div>`
+  }
+  $('#pane').innerHTML = h + (log.length ? `<div class="body" style="padding-top:0"><div class="log">Recorded in this mock-up: ${log.join(' · ')}</div></div>` : '')
+}
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return
+  if (b.dataset.rank) { rank = +b.dataset.rank; document.querySelectorAll('.role button').forEach((x) => x.setAttribute('aria-pressed', x === b)); draw() }
+  else if (b.dataset.view) { view = b.dataset.view; draw() }
+  else if (b.dataset.tab) { tab = b.dataset.tab; draw() }
+  else if (b.dataset.act && !b.disabled) {
+    $('#dlg-title').textContent = b.dataset.act; $('#dlg-rpc').innerHTML = `Calls <code>${b.dataset.rpc}</code>`
+    $('#dlg-reason').value = ''; $('#dlg-err').textContent = ''; $('#dlg').dataset.act = b.dataset.act; $('#dlg').showModal()
+  } else if (b.id === 'dlg-cancel') $('#dlg').close()
+})
+$('#dlg-form').addEventListener('submit', (e) => {
+  e.preventDefault()
+  if (!$('#dlg-reason').value.trim()) { $('#dlg-err').textContent = 'Enter a reason. The function refuses a decision without one.'; return }
+  log.push(`${$('#dlg').dataset.act} (reason given)`); $('#dlg').close(); draw()
+})
+draw()
+</script>
+</body>
+</html>

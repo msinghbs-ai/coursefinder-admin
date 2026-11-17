@@ -86,6 +86,8 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 
 ### Production bulk data ingestion readiness (17 Nov 2026 08:50 AEDT; Platform Admin 07:39)
 
+Design for the screens, the API v3 blueprint and the ordered post-squash build is in [`docs/Roadmap/2026-01/DESTINATION-DATA-UI-AND-INGESTION-SPEC.md`](Roadmap/2026-01/DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) v1.0 (17 Nov 2026 11:55 AEDT; design only, nothing built; decisions G-1 to G-5 wait for the Platform Admin). The planned Destination data page is not in `docs/UI-MAP.md` until the release that builds it.
+
 Schema for every remaining roadmap item is live (Pilot #1194, migration `20261117040000`; design `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md` v1.6). No destination data is loaded. Target rows marked "estimate" are planning figures to confirm at the first capture.
 
 | Dataset or adapter | Target rows | Lands in | Entry point | Ready? | Blocker or next step |
