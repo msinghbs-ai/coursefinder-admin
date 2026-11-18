@@ -12911,7 +12911,7 @@ Read only; no migration and no data change (Thursday freeze respected; zero sche
 - Delete branch `cf247-s676-probe` in the GitHub UI (a never-merged probe carrier; this session cannot delete branches).
 - Unchanged: the five 11 Nov `entry_matrix_change` items in Layer 4; first automatic renewal about 23 Nov.
 
-## 19 Nov 2026 04:30 AEDT — S2-Build: API v3 PR D read path and scholarship round states on the Melbourne date (Pilot #1328, s710, s711)
+## 19 Nov 2026 04:30 AEDT — S2-Build: API v3 PR D read path, scholarship round states on the Melbourne date, student-facing destination read (Pilot #1328, #1329; s710–s712)
 
 **Done (Platform Admin directive 17:55, repeated 21:58; after the 03:30 freeze):**
 - **Pilot #1328**, merged 19 Nov 04:03 AEDT, outside the 01:15–03:30 freeze. Live max was `20261118272000` when re-read just before the merge. History md5s match the rolled-back dry runs:
@@ -12922,7 +12922,14 @@ Read only; no migration and no data change (Thursday freeze respected; zero sche
     - `website_v3_provider_item`: `is_primary` and `primary_basis` on each campus.
     - `destination_read_v1`: `employment_count` on each career row (JSA Table 1, "Employment in main job"). For example, Corporate Services Managers has 10,000.
   - `20261119043000` (md5 `4c5695b5`): API v3 field dictionary synced to 2,227 fields (11 added). `docs/api/v3/field-dictionary.json` was updated, and the dictionary spec points at this migration.
-- **Read back live (04:10 AEDT):** 0 `current_date` left in the function and 4 Melbourne-date comparisons; the target is live; `ref.api_field_dictionary` holds 2,227 fields; G3 is unchanged at 75 functions and 48 relations with no drift. Migrations applied: 2,151.
+- **Read back live (04:10 AEDT):** 0 `current_date` left in the function and 4 Melbourne-date comparisons; the target is live, and its first run through `rollup-scheduler` succeeded at 04:23 AEDT (1.2 s); `ref.api_field_dictionary` holds 2,227 fields; G3 is unchanged at 75 functions and 48 relations with no drift. Migrations applied: 2,151.
+- **Pilot #1329** (S712), merged 19 Nov 04:46 AEDT: the student-facing destination read and the accreditations read handed over by S1-RM-Design. Live max was `20261119044000` (another session) when re-read just before the merge, and both function bodies still matched the md5 guards.
+  - Migration `20261119045000` (md5 `fcd33705`, matching the rolled-back dry run; spec `s712`) makes two md5-guarded edits of existing functions. No new table or function; G3 is 75/48 with no drift.
+  - `public.admin_destination_review`: a Viewer or Counsellor may read `locality_metric`, `career_outcome` and `study_rule`. Rows are approved only; careers and rules must also be in a published edition. Fields are student-facing only: no evidence, quote, applicability, edition or terms status, dataset edition or audit columns. Every other kind stays Curator and above. Curator and above see exactly what they saw before.
+  - `public.admin_read('provider_detail')` now carries `accreditations[]`. Curator and above see every row with its status. Viewer and Counsellor see the API v3 set (active, not expired).
+  - Read back as a Counsellor: 5 published study rules (the 4 superseded rules excluded), 142 city figures and the career list (capped at 200, the same as for admins), with student-facing keys only. The postcode review is refused ("Curator role or above required"). Accreditations: `[]`, because the AMBA rows are under review. As Platform Admin: 9 rules with edition status, as before; accreditations show AMBA `under_review`.
+  - The migration file is named without "correlat" because `s694` guards that S1-RM-Design's screen change came with no migration.
+  - **Handed back to S1-RM-Design:** the Course and Provider detail cards still gate the read on Curator (`curator` in `src/CorrelatedBlade.jsx`). Viewers see the read-gap note until that one-line screen change ships with its release bump.
 - **Home Affairs successor edition published:** v3 `/destination` serves 5 study rules, including the 485 Post-Higher Education Work stay of 2 years.
 - **On-demand window `9f54b912`** (scholarship detail fill after the reader stall, OpenRouter) closed at 04:07 AEDT:
   - Estimate US$0.19 (ceiling US$0.63).
@@ -12937,5 +12944,5 @@ Read only; no migration and no data change (Thursday freeze respected; zero sche
   - EQUIS publishes no reuse terms.
   - Nothing is published until terms are approved; a passing load never publishes by itself.
 - **Multi-field live admission path:** this is the S2-BOOST lane, and it needs the qualification references first. Not built here.
-- **Still open:** the 12-month living-cost benchmark (financial capacity) on the Home Affairs page; the `cron.unschedule` paste file for the three retired destination side jobs after 14 days (from 2 Dec 2026); the student-facing correlated read and the accreditations read for S1-RM-Design (next in this lane).
-- **TEST-REGISTER:** no CI workflow regenerates it. Local generation fails here because the sandbox has no network (`lucide-react` is missing). The two new specs (`s710`, `s711`) are picked up on the next generated run.
+- **Still open:** the 12-month living-cost benchmark (financial capacity) on the Home Affairs page; the `cron.unschedule` paste file for the three retired destination side jobs after 14 days (from 2 Dec 2026); the screen change that calls the student-facing read for every role (S1-RM-Design).
+- **TEST-REGISTER:** no CI workflow regenerates it. Local generation fails here because the sandbox has no network (`lucide-react` is missing). The three new specs (`s710`, `s711`, `s712`) are picked up on the next generated run.
