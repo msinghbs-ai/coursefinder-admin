@@ -5408,9 +5408,25 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 - S2-Build, after Thu 03:30 AEDT: one read-only correlated read for every StudySearch role returning student-facing fields only, plus an admin read of provider accreditations; the screen then swaps its reads with no layout change.
 - Destination loads: JSA salary, outlook, shortage and study-area link; Home Affairs post-study work years and financial-capacity benchmark.
 - Platform Admin: review the layout and columns in the spec document.
+
+## S2-Courses, 18 Nov 2026 23:00 AEDT: study load cue guard (s661) and fee-basis replay (s665) live; s662 and s664 are in Pilot #1314 (S1-Courses)
+
+**Request:** Platform Admin 18 Nov 2026 21:59 (four items). Full findings: `docs/platform/S2-COURSES-STUDY-LOAD-GUARD-AND-FEE-BASIS-REPLAY-2026-11-18.md`.
+
+**Done and read back:**
+- **Pilot #1316 and #1319 merged on green and deployed** (worker `coverage-sweep` v1.0.22, specs s661 and s665, no migration; the deploy run for each merge commit succeeded).
+- **Study load cue guard (s661).** A course closed to international students ("not available to international students") is never read as a load rule and nothing is inferred from it (the Griffith full-time reading); an international word that names the student and a study word must lie within 80 characters, or a labelled "International ..." line must have its study word within 160. A CRICOS code and course titles no longer count as international words. Selectors `study-load-windows-v5` and `study-load-international-v2`; prompt `boost-study-load-v5` and the route are unchanged.
+- **Live inspection** (read only, no model, 62 readings): matched the cue on 41 pages before, 24 after proximity and closure, 18 after the word rule; about 8 of the 18 are real statements. **Not promoted, no page released for re-reading, no study load admitted.** A block that holds both a Domestic and an International line still makes the page check ask for the load of the whole block; the next change splits blocks at their labels.
+- **Fee-basis replay (s665), run 44297706134** (225 stored pages, US$0.0458, nothing staged or admitted): annual fees 6 of 6 agree, whole-course totals 3 of 7, intakes 10 of 18 (9 exact), 3 of the 8 intake disagreements list every held month and more; fees 15 verified of 224, descriptions 119 of 172 pass the page check. **Qwen3 30B is not qualified for any of these fields.**
+- **s662 and s664 are not built in this chat.** Pilot #1314 (chat S1-Courses, same spec block) already carries them: reader v4, identity-proof exemption, Layer 4 explanations and the four decisions. It was reviewed against the directive and left untouched. Its migration `20261118253000` is below the live head `20261118256000`, so it must be renumbered before it merges.
+- G3 75 functions and 48 relations, no drift (read 22:52). Live head `20261118256000` (2,144 applied).
+
+**For S2-Intakes (priority):** is the intake we hold the next intake the page announces or the main annual start? The replay cannot score intakes until this is defined.
+
+**Not done:** the label-splitting cue and any re-read release (needs a migration); intake, fee and description qualification (no route qualification row, no deadline field, intake undefined).
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
-Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a149709`): worker `coverage-sweep` v1.0.23, migration `20261118268000` (md5 `1e1310d8`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
+Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
 
 - **Reader v4 (s662).** Prompt `cdesc-source-grounded-v4`: 1 to 2 sentences (never more than 2), about 180 to 360 characters, the course's academic focus, core skills and stated career outcomes; never a sentence for intake dates, campus names or addresses, fees, or duration and study load. Per-sentence quote grounding unchanged. Settings `enrich.course_description_max_sentences` 4 to 2 and `enrich.course_description_max_chars` 700 to 360.
 - **Identity proof in cdesc-machine-v2 (s662).** The 0.1 page-match margin is waived when the page proves the course by its own CRICOS or NZQA code, or by its exact title (or an address ending in it) that no other active course of the provider shares, and no other course of the provider is bound to the same page. Switch `enrich.course_description_identity_proof_on` (1). Degree name, title and level, field and award, and adapter title stay with a person.
@@ -5420,21 +5436,21 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a149709`): worker 
 - **Inside the rolled-back dry run (after the change):** 249 of the 451 pass identity and fall to the new sentence limit (253 sentence count, 38 length), 202 stay identity holds, 3 pass outright.
 - **How the 666 clear after the merge:** the two settings move the machine rule's policy stamp, so the next settle run looks at every decline again; v3 readings fail the 2-sentence limit and are declined, `security.cdesc_prompt_supersede_v1` supersedes them and the gap queue reads each stored page again with v4 (no Firecrawl), and the machine rule admits each new reading whose page proves the course. No overwrite: a course that holds a description is never written.
 - **Finding, not this lane's:** the prompt registry row of the provider description service (v4) no longer matches its active database prompt (version 5 since S2-BOOST-Providers 18:45); the migration's parity post-check is scoped to course descriptions.
-- G3: 75 functions and 48 relations, consumer check unchanged inside the dry run. Live head `20261118256000`; this migration is `20261118268000`, above it and above #1318 (`262000`, `265000`).
+- G3: 75 functions and 48 relations, consumer check unchanged inside the dry run. Live head `20261118256000`; this migration is `20261118275000`; renumbered `20261118275000` above the live head `20261118270000` (S675) and #1322 (`272000`).
 
 **Not done:**
 - Merge of Pilot #1314 (refused by the session's tool guard) and so the deploy, the 5-to-10-minute acceptance read and the v2.16.45 mirrors (UI map, SOPs) here.
 - s661 (study load v6 cue) and s663 follow-up (fee basis): in Pilot #1316 (worker v1.0.21, no migration, merged), another session.
 
 **Next executable action:**
-- Platform Admin: merge Pilot #1314 (green). Deploy on merge applies `20261118268000` and deploys `coverage-sweep` v1.0.23.
+- Platform Admin: merge Pilot #1314 (green). Deploy on merge applies `20261118275000` and deploys `coverage-sweep` v1.0.23.
 - S1-Courses, within 10 minutes of the deploy: read back `security.cdesc_prompt_version_v1()` = v4, the four settings, the course description Layer 4 count by reason, and the first v4 admissions; mirror `docs/UI-MAP.md` and `docs/sops/` at v2.16.45; then watch the 666 drain over the next settle and gap-queue runs.
 - Before Thu 01:15 AEDT: nothing else from this lane touches the database (squash freeze 01:15 to 03:30).
 
 **Status at 18 Nov 2026 22:50 AEDT, S1-Courses (Platform Admin 22:28: post-merge verification, v2.16.45 mirrors, Drive sync).**
 
 - **Pilot #1314 and Admin #609 were still open at 22:30** (GitHub shows neither merged), so nothing of s662 or s664 is live and the live read-back was not run. Live still has prompt v3 and the old limits.
-- `main` had moved: #1307 (`20261118256000`), #1316 (worker v1.0.21) and two S674 follow-ups merged. #1314 was brought up to date with a merge from `main` (no force push): **migration renumbered `20261118268000`** (above the live head `256000` and #1318's `262000`/`265000`), **worker v1.0.23** (after #1316 v1.0.21 and #1319 v1.0.22), release v2.16.45 (after #1315, v2.16.44). The seven md5 guards are unchanged (no merged migration touched those functions). 230 targeted specs passed locally; CI and the PR's own rolled-back dry run were running at 22:50.
+- `main` had moved: #1307 (`20261118256000`), #1316 (worker v1.0.21) and two S674 follow-ups merged. #1314 was brought up to date with a merge from `main` (no force push): **migration renumbered `20261118275000`** (above the live head `256000` and #1318's `262000`/`265000`), **worker v1.0.23** (after #1316 v1.0.21 and #1319 v1.0.22), release v2.16.45 (after #1315, v2.16.44). The seven md5 guards are unchanged (no merged migration touched those functions). 230 targeted specs passed locally; CI and the PR's own rolled-back dry run were running at 22:50.
 - Admin #609 now also carries the v2.16.45 mirrors: `docs/UI-MAP.md` (generated) and `docs/sops/` (admin SOP 2.70, operator SOP 2.30: the "Why this is held" box and the four decisions). Merge it after Pilot #1314.
 - Drive `Monitoring`: `Roadmap_Engagement_Register` › Engagements synced to the CSV (105 rows in CSV order, 1,575 minutes logged, 1,560 counted); backups replaced latest-only.
 
@@ -5444,10 +5460,22 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a149709`): worker 
 
 **Status at 18 Nov 2026 23:15 AEDT, S1-Courses (Platform Admin 22:51: bring #1314 up to date as v2.16.45).**
 
-- S1-RM-Design merged Pilot #1315 as v2.16.44 and #1319 took worker v1.0.22. Pilot #1314 was brought up to date with `main` by merges (this session cannot force-push, so no rebase rewrite): **release v2.16.45** (package 0.1.467; version pill, release notes `docs/release-notes/v2.16.45.md`, changelog, release contract `m245`, Guide and SOPs reviewed for v2.16.45: admin SOP 2.70, operator SOP 2.30), **worker v1.0.23**, **migration `20261118268000`** (above the live head `20261118256000` and #1318's `262000`/`265000`). The seven md5 guards are unchanged.
-- Local checks at head `a149709`: 246 targeted specs and the 3 phone specs passed, build, release contract, UI map and token checks passed. GitHub CI and the PR's rolled-back dry run were running at 23:15.
+- S1-RM-Design merged Pilot #1315 as v2.16.44 and #1319 took worker v1.0.22. Pilot #1314 was brought up to date with `main` by merges (this session cannot force-push, so no rebase rewrite): **release v2.16.45** (package 0.1.467; version pill, release notes `docs/release-notes/v2.16.45.md`, changelog, release contract `m245`, Guide and SOPs reviewed for v2.16.45: admin SOP 2.70, operator SOP 2.30), **worker v1.0.23**, **migration `20261118275000`** (above the live head `20261118270000` and #1322's `272000`). The seven md5 guards are unchanged.
+- Local checks at head `a415d8f`: 246 targeted specs and the 3 phone specs passed, build, release contract, UI map and token checks passed. GitHub CI and the PR's rolled-back dry run were running at 23:15.
 - Admin #609 brought up to date with `main` (Admin #610): union of the append-only runsheet entries, `CURRENT-STATE.md` keeps both lanes' blocks, the engagement CSV keeps `main`'s rows byte for byte plus this lane's two (106 rows, 1,590 minutes logged, 1,575 counted), test register from `main` plus s662 and s664 (796 files, 3,680 tests), UI map and SOP mirrors at v2.16.45.
 
 **Next executable action:**
 - Platform Admin, before Thu 01:15 AEDT: merge Pilot #1314 (v2.16.45) once green, then Admin #609.
 - S1-Courses, within 10 minutes of the deploy: live read-back (prompt v4, four settings, course description counts by reason, first v4 admissions) and the Drive `Monitoring` sync.
+
+**Status at 18 Nov 2026 23:45 AEDT, S1-Courses (Platform Admin 22:51 and 23:09: renumber, v2.16.45, ready for the merge click before 01:15).**
+
+- `main` moved again after 23:15: S675 merged migration `20261118270000`, #1318 merged `262000` and `265000`, and #1322 holds `272000`. Pilot #1314 was merged with `main` again and **its migration is now `20261118275000`** (md5 `3b41d50c`), above the live head `20261118270000` and every open PR. **Release v2.16.45** (package 0.1.467) and **worker v1.0.23** stand. None of the merged migrations edits the seven functions #1314 guards by md5.
+- Local checks at head `a415d8f`: 228 targeted specs, release contract and UI map passed. GitHub CI and the PR's rolled-back dry run run on that head.
+- Admin #609 merged with `main` (Admin #610 and #611): runsheets as a union, `main`'s engagement rows byte for byte plus this lane's two (107 rows, 1,605 minutes logged, 1,590 counted), test register from `main` plus s662 and s664 (796 files, 3,682 tests), mirrors at v2.16.45.
+- Drive `Monitoring` › `Roadmap_Engagement_Register`: Engagements in CSV order with every Counted minutes cell filled (rows 84, 85, 89, 90, 98, 103, 106 and 110 were empty), and the Summary tab now sums the Engagements tab with formulas (1,590 minutes, 26.5 h), so it can no longer go stale.
+- **Freeze rule:** if #1314 is not merged by Thu 01:15 AEDT it waits until after 03:30 AEDT, so the squash window stays clean.
+
+**Next executable action:**
+- Platform Admin: merge Pilot #1314, then Admin #609, before Thu 01:15 AEDT (otherwise after 03:30).
+- S1-Courses, within 10 minutes of the deploy: live read-back and the Drive backup refresh.
