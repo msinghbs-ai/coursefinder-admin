@@ -5662,3 +5662,18 @@ Read only; no migration and no data change (Thursday freeze respected; zero sche
 - **Multi-field live admission path:** this is the S2-BOOST lane, and it needs the qualification references first. Not built here.
 - **Still open:** the 12-month living-cost benchmark (financial capacity) on the Home Affairs page; the `cron.unschedule` paste file for the three retired destination side jobs after 14 days (from 2 Dec 2026); the screen change that calls the student-facing read for every role (S1-RM-Design).
 - **TEST-REGISTER:** no CI workflow regenerates it. Local generation fails here because the sandbox has no network (`lucide-react` is missing). The three new specs (`s710`, `s711`, `s712`) are picked up on the next generated run.
+
+## 19 Nov 2026 05:25 AEDT — S2 - BOOST: run-4 PASS after the squash; benchmark bench-5 (Pilot #1327)
+
+Post-squash follow-up of the Platform Admin's 18 Nov 10:10 directive.
+
+- **Run-4 on `coursefinder-boost-test`: PASS, 9 of 9 checks** (admin run 44349340646, after S1-Build's "can re-seed" of 02:25):
+  - 60 admitted for 60 courses at 1,000 and 5,000 rows; 5,922 duplicates refused; shadow admitted none; held courses unchanged.
+  - The promotion function is byte-identical to production (md5 `fa4e3a86`), and test-project G3 is 75/48.
+  - The read-only production probe could not execute two security functions; production G3 was read separately at 03:52 (75/48).
+- **Bench-5** (migration `20261119044000`, s699; measures only). On 63 leftover pages with signal (AU 200 and NZ 1 pages per model):
+  - Verified rates: Mistral Small 3.2 59%, MiMo v2.6 Flash 44%, Qwen3 30B 32%.
+  - Cost per verified field: US$0.00012, US$0.00030 and US$0.00031.
+  - Qwen3's refusals are mostly duration lines quoted as the study load (24 of 31).
+  - Bench-4 rates for comparison: 81%, 66% and 76%.
+- Qwen3 30B stays the only qualified model; nothing was switched.
