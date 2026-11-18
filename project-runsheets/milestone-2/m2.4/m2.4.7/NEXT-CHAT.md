@@ -12986,3 +12986,12 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker 
 **Next executable action:**
 - Platform Admin: merge Pilot #1314, then Admin #609.
 - S1-Courses, within 10 minutes of the deploy: live read-back (prompt v4, the four settings, Layer 4 course description counts by reason, first v4 admissions), Drive `Monitoring` sync; then s666 (study-load Domestic/International block splitter).
+
+**Status at 19 Nov 2026 05:55 AEDT, S1-Courses.**
+
+- **Pilot #1314 is replaced by Pilot #1335**, the same tree as one commit on the post-squash `main` (`5b4e09c`): #1314 could not be force-pushed, and its `test-evidence` job compared against a pre-squash bundle (800+ changed files, "Argument list too long"); all six test shards and the rolled-back live dry run (run 44369853195) had passed on #1314's head. #1314 is closed as superseded. Migration `20261119060000`, release v2.16.47, worker v1.0.23 are unchanged.
+- **s666 is Pilot #1336** (stacked on #1335; replaces #1334, closed): worker v1.0.24 splits an unpunctuated block holding both a Domestic and an International label at those labels, so the International line alone decides the load for international students (Charles Darwin University, La Trobe handbook, VIT); a line that starts with the International label is a load statement, one that starts with the Domestic label never is; prose is never split. Selectors `study-load-windows-v6` and `study-load-international-v3`; prompt `boost-study-load-v5` and the qualified route unchanged; no migration and nothing released for re-reading. Local: 257 Boost specs passed (new `s666`, 5 tests).
+
+**Next executable action:**
+- Platform Admin: merge Pilot #1335, then Admin #609, then Pilot #1336.
+- S1-Courses, within 10 minutes of the #1335 deploy: live read-back and Drive `Monitoring` sync; s666 test register row and its record after #1336 merges.
