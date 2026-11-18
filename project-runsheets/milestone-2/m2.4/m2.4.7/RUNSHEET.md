@@ -13153,3 +13153,62 @@ Platform Admin 07:39 and 08:17. Worker change #1353 (s762, no migration) and one
 **Next executable action:**
 - S2-BOOST-Providers, about 11:15 AEDT: read the final re-read results (admitted, proposed, held by rule, spend), then record them here and in the registers.
 - Platform Admin: `pdesc.acquire_firecrawl` stays 0 and the service cap stays US$0.50 a day until changed on Settings.
+
+## 19 Nov 2026 08:50 AEDT — S2-BOOST-AER: matrix completion clauses and course links (s741); held-page export (s742); course machine queue (s748, s749); table row chunker (s744 to s746); s747 not yet run (Pilot #1338, #1358, #1360)
+
+Platform Admin 1-day handover, 19 Nov 2026 06:49 (spec block s740 to s759). Migrations `20261119052500` (s741), `20261119080500` (s748) and `20261119095500` (s749), each md5-guarded `create or replace` in place: no new table or function, G3 75/48 read back after each. Pilot #1338, #1339, #1340, #1349, #1350, #1358, #1360.
+
+**Done and read back from live (05:50 to 08:46 AEDT):**
+- **S740 (checks).**
+  - The course machine validation passed at 20:10 on 18 Nov and lapses 25 Nov 20:10. `aer-validation-renew.yml` is active, daily at 18:17 AEDT.
+  - P0 findings open: 0. The 149 approved AER rows stay live.
+- **S741, matrix completion clauses and course links (#1338).**
+  - `aer_matrix_machine_exclusions_v1`, `_check_v1` and `_admit_v1` edited in place:
+    - a matrix row that names one of the provider's courses is linked to it;
+    - the check adds `course_linked`;
+    - admission writes `course_id` only where none is set.
+  - The matrix validation was re-run and passed. 2 matrix items admitted live.
+  - The other waiting matrix items (57) are stopped by the D-R3 completeness gate. The reader dropped printed rows, so only a new read fixes them.
+  - The 294 rows with no level have no printed level on the page, and no provider is single-level, so no further inheritance applies.
+- **S742, held-page export (#1339, #1340, #1350).**
+  - Read-only workflow `aer-entry-inspect.yml` (worker mode `entry_inspect`) exported the stored pages of the held matrices.
+  - The pages are kept as 48 test fixtures with their sha256 (Pilot `tests/fixtures/aer-chunks/held/`).
+  - No reading, data or switch changed.
+- **S748, course machine queue (#1349, migration `20261119080500`).**
+  - Cause: a read the machine checked and did not admit (audit sample or declined) never had its shadow row refreshed. It therefore stayed at the front of the queue, and the run spent its time limit on the same items. The 89 would-admit reads behind them were never reached (S1-AER 03:15 finding, its S677).
+  - Fix: `aer_machine_admit_v1` now records the check time on every non-admitted outcome, with the same upsert the shadow mode uses.
+  - md5 `7473f475` → `89a5c44b`. Course validator unchanged (`945077fe`).
+  - Live from about 07:50: the 07:54 run reached 114 items and the 08:24 run 80 more (75 audit samples, 5 declined); 190 shadow rows refreshed by 08:27.
+  - No course read admitted yet at 08:27, because the gate-complete group checked first is mostly audit samples (about 970).
+- **S749, fair order (#1360, migration `20261119095500`).**
+  - Within the same groups (gate-complete first, then never checked), the least recently checked item now comes first, then the oldest by creation.
+  - Without this, an item that became eligible again after the 6-hour gap went back in front of items not yet reached.
+  - `aer_machine_run_v1` md5 `da1f53c6` → `fc9261cb`, read back live at 08:44.
+  - Not changed: eligibility, batch (200), the 45-second limit, daily cap, 6-hour gap, rule, thresholds (0.8 and 8), validators, the 5% audit sample.
+- **S744 to S746, table row chunker (AER v2 record source; #1358, worker module only, nothing deployed or switched on).**
+  - `coverage-sweep/entry-chunks.ts` splits a page into one chunk per printed table row, list line or text block, each with:
+    - the nearest three headings;
+    - the table header;
+    - the cells with their headings;
+    - the country and the qualification.
+  - A header is recognised only as a header line followed by its first row, so a repeated header stays in its table and a different header starts the next one.
+  - A national qualification normaliser (`national-qualifications.json`) maps overseas qualification names.
+  - Regression on the 48 held pages: on 36 pages the D-R3 gate stopped, every printed row with two or more cells is a chunk quote; none is missing or doubled; every quote is a line of the page text; the output is the same on every run.
+    - 1,715 row chunks (the stored readings hold 1,727 rows and lost 238).
+  - 70 of 70 local specs pass (s744 7, s745 50, s746 4, plus the source contracts). The 21 gate pages without table markup (PDF or text only) are not covered.
+- **UAT login with the saved GitHub credentials.** Deployed UAT acceptance on the #1358 branch (run 44398577335, 08:10 to 08:30) signed in as the UAT user through the repository secrets: 52 passed, 16 failed and 4 flaky.
+  - Most failures are live statement time-outs: 156 in 21:05 to 21:35 UTC, while another session's browser made about 2,000 `admin_read` calls, giving 500s on `admin_read`, `admin_toolsets_read` and `admin_aer_discovery`.
+  - The rest: a tablet filter layout check (a13), a missing regional-manager assignment on UQ (a15), and a strict-mode locator on the Data quality pager.
+  - None touches the chunker, which has no frontend change. Platform Health has no deployed spec; P0 read from the database: 0.
+
+**Not done:**
+- **S747, the 10-table chunked smoke test (≤ US$0.10).**
+  - It needs a worker mode that reads from the chunks, a matrix prompt version stored as data, and an on-demand window.
+  - Not run this cycle. No model call made; AER v3 spend unchanged at US$1.372 of US$2.
+- Course admissions after S748 and S749 are not yet measured over a full cycle.
+- `docs/platform/TEST-REGISTER.md` was not regenerated here: the generator needs the frontend packages, which this runner cannot install. It is regenerated by the next release bump or by CI.
+
+**Next executable action:**
+- S2-BOOST-AER, 10:24 AEDT (scheduled check): course reads admitted since 07:50, would-admit still waiting, shadow rows refreshed, matrix outcomes, P0.
+- S2-BOOST-AER: S747 smoke test on 10 chunked tables, the pinned models only, ≤ US$0.10, promote only if row completeness and quote fidelity meet the bar.
+- S1-AER: S677 is delivered by S748 and S749; do not build it again.
