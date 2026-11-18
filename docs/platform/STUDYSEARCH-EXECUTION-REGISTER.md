@@ -4791,3 +4791,25 @@ Follows the v1.0.3 entry above.
 - S2 - BOOST: re-seed `coursefinder-boost-test`; update check d before Thursday 01:30.
 - S1-Build: Thursday 19 Nov, freeze from 01:15, squash 01:30–03:30 at that night's head (runbook section 5), then "can re-seed" at 03:30.
 - Platform Admin: open Layer 4 Review and check the Review grid's three shared views signed in.
+
+## 18 Nov 2026 11:35 AEDT — S2-Build: v2.16.33 review grid (Pilot #1254), page-text feed to Boost (#1252), Layer 1 induction v3 fields (#1258), v2.16.34 Layer 1 Register fixes (#1260); BOM climate loader open (#1256)
+
+**Trigger:** Platform Admin 18 Nov 2026 10:09, 10:12, 10:31, 10:44 and 10:51 AEDT, chat S2-Build.
+
+**Done:**
+- Pilot #1252 merged on green CI as `34cfe9e2` (migration `20261118113000`, worker `coverage-sweep-worker-v1.0.15`, spec s619): job `page-text` converts stored source snapshots of active courses lacking study load or description into page text in `boost.matrix` order. Read 11:05 AEDT: 537 converted, Boost claimed 519.
+- Pilot #1254 merged on green CI as `ef0dc046` (v2.16.33, migration `20261118120000`, md5 `9c9400de` equals the rolled-back dry run, spec s620): Layer 4 › Inbox › Grid, `pipeline.saved_views` with AER Audit Samples, Official URLs and Provider Blockers, the Source Quote vs Extracted Value drawer.
+- Pilot #1258 merged on green CI as `7559e735` (migration `20261118124000`, md5 `bdaf2306`, runner 1.1.0, spec s622): Layer 1 parser targets for `study_load`, `empty_reason_code`, `provider_accreditations`, `campuses.is_primary`, `grade_scale_conversions`; baseline apply step fills only what is not held.
+- Pilot #1260 merged on green CI as `dfefa296` (v2.16.34, migration `20261118125000`, md5 `716e3708`, spec s624): `rollup-scheduler` target `layer1-next-due-roll` (0 overdue after); four Canadian college code readers retired as superseded by coverage-sweep; QS 2026/2027 verification from the publisher files; register headings fixed.
+- Read back live 11:27 AEDT: head `20261118125000`, 2,102 applied, G3 75 functions and 48 relations; `layer1-declarative-runner` version 1.1.0 deployed.
+
+**Not done:**
+- Pilot #1256 (BOM climate averages loader, migration `20261118131000`, s623) is open: dry run passed, CI re-running after two renumbers (timestamps taken by other sessions).
+- The ten Ontario college readers stay under Needs attention: they have no other course source; repair or replacement is a Platform Admin decision.
+- Australia datasets of the 10:44 directive not yet loaded: living costs, RM1C routes, RM1H visa rules, RM1D JSA careers. RM1J THE 2027 needs the THE publisher file uploaded (the loader does not fetch THE).
+- 22 page-text conversions failed on a shared-page evidence key (retried after a day; fix open).
+
+**Next executable action:**
+- S2-Build: merge #1256 on green, run Destination › BOM climate averages once (Run now) and confirm draft figures with attribution.
+- Platform Admin: upload the THE 2027 publisher file (Administration › Sources & Imports); decide repair or replacement for the ten Ontario college readers.
+- S2-Build: RM1H and RM1C as draft study rules with quoted sources; RM1D JSA through the Layer 1 induction wizard (career_outcomes); living costs as draft figures.

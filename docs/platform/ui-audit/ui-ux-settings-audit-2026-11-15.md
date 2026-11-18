@@ -411,6 +411,13 @@ Every phase's implementation spec carries the specs below. Each one sits inside 
 - **Settings › Integrations:** Environment & integrations (keys, platform resources, services overview) is its own tab (Platform Admin 08:22). The Settings tab is the settings only.
 - **On the diagnostics:** "Model performance", "Worker health" and "Migration history" are not headings on Settings. The block that matched was Environment & integrations, now moved.
 
+### Phase 5 first slice: Review grid, saved views and the quote drawer (done; Pilot #1254, v2.16.33, migration `20261118120000`, live 18 Nov 2026 10:57 AEDT)
+
+- Layer 4 › Inbox › Grid: one built-in kind as rows, paged on the server (`layer4.inbox_page_size`), reason filter, search, order, column chooser, Export CSV (`layer4.grid_export_max_rows`, 5,000).
+- `pipeline.saved_views` with the three shared views (AER Audit Samples, Official URLs, Provider Blockers; Platform Admin only, checked on the server) and personal views. A view chooses what is shown only (holds B and F unchanged).
+- Source Quote vs Extracted Value drawer: quote beside value, evidence link, decision history; decisions through `admin_layer4_inbox` with the Inbox's own card. Guard `s620`.
+- Next in Phase 5: the Evidence table on the grid, then the Field History drawer with restore (§7.3). Then Phase 4.
+
 ### Next
 - **Remaining fixed-only marks:** the Layer 4 claim lease, the nonce and fire guards, and the Layer 1 run windows. These are functions with only technical values. Each gets its `-- fixed:` mark the next time the function is changed for another reason, or in one md5-guarded sweep. Marking alone changes no behaviour, so it isn't urgent.
 - **Wave C, prompt registry (§7.1):**
