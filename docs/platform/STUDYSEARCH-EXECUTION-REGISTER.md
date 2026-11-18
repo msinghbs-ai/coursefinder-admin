@@ -4947,3 +4947,22 @@ Follows the v1.0.3 entry above.
 **Next executable action:**
 - After #1274 merges: rebase the Operations UI, renumber its spec, ship v2.16.40; then Coverage & completeness.
 - Platform Admin: run paste file v2 before Thu 19 Nov 01:15 AEDT.
+
+## 18 Nov 2026 14:30 AEDT — S2-Build: Operations backend v2.16.39 (Pilot #1274), open-licence destination publishing and BOM climate terms (#1275), grouped Layer 4 decisions v2.16.40 (#1277)
+
+**Trigger:** Platform Admin 18 Nov 2026 12:49, 13:02 and 13:07 AEDT, chat S2-Build.
+
+**Done:**
+- Pilot #1274 merged on green (v2.16.39, migration `20261118160000`, md5 `9eb36f30`, s638). Task manager reads in 2.0 s (it was 9.4 s, ref KEW72U). 254 AER tasks stranded on the switched-off entry route were closed with their reason (200 supersessions refused), and `aer-scheduled-read` is held while that route is off. Health checks now follow dispatchers and recorded pauses (Scholarship queues reads OK). New checks are live: Dispatchers, Boost, Layer 4 backlog and Guardrails G1/G3. Storage & retention has a Staging tables panel and Evidence has an Audit trail.
+- Pilot #1275 merged on green (migration `20261118161000`, md5 `a9e3270d`, s637). BOM climate statistics terms are approved (CC BY 4.0) with attribution, and 40 climate figures are loaded as drafts. The hourly target `destination-open-licence-publish` approves and publishes open-licence government editions (QILT is not on the list). Publishing now supersedes only the same owner's edition.
+- Pilot #1277 merged on green (v2.16.40, migration `20261118162000`, md5 `b1affe01`, s639): Layer 4 grid grouped decisions for shared-page AER items (live: 59 groups, 123 items) and refused study loads (252 in 48 groups), each decided through `admin_layer4_inbox` at the single item's rank. The study-load groups failed on read-back; the fix is Pilot #1279 (migration `20261118164000`), open.
+
+**Not done:**
+- Scholarship award values and closing dates: no pass was run. 875 of the 955 already had a version 3 detail read with no error, and the existing apply writes straight to the record, not to Layer 4. This waits for a Platform Admin decision.
+- The audit's 1,874 "shared page" AER items include 1,551 incomplete reads, which are not grouped for approval.
+- The BOM edition is published by the 14:41 AEDT target run and is read back after it.
+- The scheduled task "PR C and PR D of the API v3 data admission plan" (13:30) was not started.
+
+**Next executable action:**
+- Merge #1279 on green and read the study-load groups back. Read back the BOM publication after 14:41.
+- Platform Admin decision: route re-extracted scholarship values to Layer 4 (a new kind), or keep the existing direct apply for the 69 unread scholarships.
