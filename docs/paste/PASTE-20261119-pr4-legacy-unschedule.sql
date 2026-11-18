@@ -1,6 +1,6 @@
 -- PASTE-20261119-pr4-legacy-unschedule.sql
 -- CF-247 consolidation PR 4: unschedule the 9 legacy jobs after the 14-day retention window.
--- Prepared by: Pilot migration 20261119050000_cf247_pr4_lane_fold_cutover (shadow 20261118170000, Pilot #1282; Platform Admin 18 Nov 2026 14:24):
+-- Prepared by: Pilot migration 20261119070000_cf247_pr4_lane_fold_cutover (shadow 20261118170000, Pilot #1282; Platform Admin 18 Nov 2026 14:24):
 --   page-text and the 7 single-mode coverage-sweep jobs run by coverage-lane-dispatch (pipeline.field_execution_registry, mode live), and
 --   settings-backup-daily run by rollup-scheduler (pipeline.rollup_targets, group A, mode live); the 9 legacy cron.job rows switched off
 --   (active = false) and marked retiring, retire_after = cutover date + hygiene.retire_after_days.
