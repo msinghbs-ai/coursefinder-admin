@@ -12050,3 +12050,20 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - S2-Build: give the page-facts loader a rendered read (Firecrawl through the existing reader, opened on demand with an estimate) for pages whose static text is short. Map JSA Table 1 from its header. Run now again, then let `destination-open-licence-publish` approve and publish.
 - Close on-demand window `9f54b912` after the scholarship queue drains (it expires on its own at 22:01 AEDT).
+
+## 18 Nov 2026 20:05 AEDT — S1-RM-Design: v2.16.43 Layer 4 › Inbox › Grid › Clusters and City metrics wrap (Pilot #1309); Destination check
+
+**Trigger:** Platform Admin 18 Nov 2026 19:20 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1309 merged on green (v2.16.43, no migration, s693): Layer 4 › Inbox › Grid › Clusters groups one kind's waiting items by university, refusal reason and normalised quote; inspect, export, or settle ticked clusters item by item through the Inbox's own decision at each item's rank; AER, campus locality, provider departure and Human input needed are inspect only. Destination data measure cell wraps.
+- Destination data checked live in a signed-in session: 40 BOM climate figures (with icons) and 102 ABS population figures side by side; no page overflow; a 55px sideways scroll at a narrow pane fixed by the wrap.
+- Mirrors from Pilot main 2b1c8cc1 (UI map, SOPs, role guides, test register: 783 specs, 3,625 tests); one engagement row.
+
+**Not done:**
+- The Clusters screen was not opened live: the built-in browser went offline at about 20:02 (Deployed UAT and Release currentness green).
+- Pilot #1307 (S2-Build migration) left for its lane: a commit behind main, no rolled-back live dry run recorded.
+
+**Next executable action:**
+- S2-Build: merge #1307 after its dry run; apply the coverage read (cf247-coverage-telemetry) after Thu 03:30 AEDT.
+- Any recurring cluster exported from Clusters goes to the Boost worker or reader prompt as a rule with a regression test.

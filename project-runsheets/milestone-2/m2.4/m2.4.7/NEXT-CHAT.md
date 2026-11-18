@@ -12573,3 +12573,20 @@ Own follow-up of the 17:55 block (Platform Admin 16:54 and 17:02). One migration
 - Platform Admin: lift or keep the university search stop for Adelaide University, Victoria University, Flinders, Monash and ICMS. 418 of their courses are back on the list and are not searched while it stands.
 - After midnight AEDT, read how many of the 479 queued searches ran and how many found pages were read and proved.
 - UCOL: 24 found pages on `sws.ucol.ac.nz` need a rendered read; check them after their next read (19 Nov 17:58 AEDT).
+
+## 18 Nov 2026 20:05 AEDT — S1-RM-Design: v2.16.43 Layer 4 › Inbox › Grid › Clusters and City metrics wrap (Pilot #1309); Destination check
+
+**Trigger:** Platform Admin 18 Nov 2026 19:20 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1309 merged on green (v2.16.43, no migration, s693): Layer 4 › Inbox › Grid › Clusters groups one kind's waiting items by university, refusal reason and normalised quote; inspect, export, or settle ticked clusters item by item through the Inbox's own decision at each item's rank; AER, campus locality, provider departure and Human input needed are inspect only. Destination data measure cell wraps.
+- Destination data checked live in a signed-in session: 40 BOM climate figures (with icons) and 102 ABS population figures side by side; no page overflow; a 55px sideways scroll at a narrow pane fixed by the wrap.
+- Mirrors from Pilot main 2b1c8cc1 (UI map, SOPs, role guides, test register: 783 specs, 3,625 tests); one engagement row.
+
+**Not done:**
+- The Clusters screen was not opened live: the built-in browser went offline at about 20:02 (Deployed UAT and Release currentness green).
+- Pilot #1307 (S2-Build migration) left for its lane: a commit behind main, no rolled-back live dry run recorded.
+
+**Next executable action:**
+- S2-Build: merge #1307 after its dry run; apply the coverage read (cf247-coverage-telemetry) after Thu 03:30 AEDT.
+- Any recurring cluster exported from Clusters goes to the Boost worker or reader prompt as a rule with a regression test.
