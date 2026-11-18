@@ -1,6 +1,6 @@
 # Operator runbook: destination data editions and Wave 2 register drafts
 
-**Version:** 1.3, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT; section 5 added for the multi-country schema lock, 11:28 AEDT).
+**Version:** 1.4, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT; section 5 added for the multi-country schema lock, 11:28 AEDT; section 5 gaps mapped into existing tables, 12:21 AEDT).
 **For:** the Platform Admin and Curators. **Screens:** Destination data, Layer 1 Register, Reference data.
 **Status of the screens named:** live on Pilot at v2.16.35 (18 Nov 2026 11:55 AEDT). Not yet checked in a signed-in session.
 
@@ -94,16 +94,25 @@ Decision of the Platform Admin, 18 Nov 2026 07:03.
 | Labour market: occupations, shortage lists, outlook, projections, earnings | `destination.career_outcomes` (`occupation_scheme`, `occupation_code`, `skill_shortage_status`, `job_outlook_rating`, `outlook_horizon_years`, `median_salary`, `geography_level`) | data | **Partly.** `occupation_scheme` allows ANZSCO, NOC and SOC only: OSCA 2024 (Australia's successor), NOL, ISCO-08 and the national ISCO-based schemes need the list widened. **Employment by industry has no table** (outcomes are per occupation). |
 | Sources and licences | every row: `source_url`, `attribution_text`, evidence id; editions: `terms_status` (approved, pending, restricted); rankings: setting `website.rankings_display_approved`; registers: `pipeline.layer1_source_inductions.terms_status` | data | Yes. There is no `permission_status` column: the licence gate is the edition's `terms_status` and, for rankings, the display setting. |
 
-### What would make a new country need a migration (to be closed once)
+### The 28-destination extensions: all in existing tables (Platform Admin 18 Nov 2026 12:21)
 
-Fixed lists and two missing homes. Each is additive (no country table, no change to the frozen v2 consumer API) and is best made once, as reference lists, so that later countries need rows, not migrations:
+Every gap found in version 1.3 now has a home in a table that already exists. Nothing needs a new table (no 49th table, no country table; spec `s627`). Each change is an extra allowed value or an extra column.
 
-1. `ranking.systems.code`: add the Financial Times rankings.
-2. Three CHECK constraints are **in hand with S2-Build** (Pilot #1263; paste file `docs/paste/PASTE-20261118-29-destination-check-constraints.sql` for the Platform Admin, before Thursday 01:15 AEDT): `career_outcomes.occupation_scheme` gains ISCO, ESCO, KLDB, ROME, SSYK, DISCO, SSOC, MASCO, KSCO, JSCO and TSCO; `career_outcomes.state_code` accepts numeric ISO 3166-2 codes; `study_rules.rule_category` gains `health_insurance`, `language_requirement` and `admission_test`. **Still not covered after that file:** `rule_category` values for **dependants**, **minimum wage** and the **offer document** for the visa, and the occupation schemes **OSCA** (Australia, successor to ANZSCO) and **NOL** (New Zealand). Best added to the same paste file before it runs, so the constraints are relaxed once.
-3. A shared table for official national quality ratings, keyed by provider, scheme and edition, with source and terms.
-4. A shared table (or grain) for employment by industry and region.
+| Extension | Where it is stored | How | Status (18 Nov 2026 13:40 AEDT) |
+| --- | --- | --- | --- |
+| Financial Times rankings | `ranking.systems` | New allowed `code` value `ft`. Rankings rows then use the same `ranking.*` tables as QS and THE. Display stays behind `website.rankings_display_approved` and the FT licence (REQ-91). | Paste file version 2, to run |
+| Rule categories: dependants, minimum wage, offer document | `destination.study_rules` | New allowed `rule_category` values `dependants`, `minimum_wage`, `offer_document`, beside `health_insurance`, `language_requirement` and `admission_test` from version 1 of the file. | Paste file version 2, to run |
+| Occupation schemes OSCA (Australia) and NOL (New Zealand) | `destination.career_outcomes` | New allowed `occupation_scheme` values `OSCA` and `NOL`, beside ANZSCO, NOC, SOC and the ISCO family. | Paste file version 2, to run |
+| National quality ratings (TEF, NZQA EER, TrustEd, KHDA, SETARA, IEQAS, FINEEC, ANVUR) | `catalogue.provider_accreditations` | One row per provider and rating body, beside AACSB, EQUIS and AMBA. New columns `rating` (for example Gold, Category 1) and `rating_period`. The eight bodies become allowed `body_code` values. | Columns live: Pilot #1268 (migration `20261118150000`, md5 `1b759f16`, spec `s632`). Body codes: paste file version 2, to run |
+| Employment by industry and region | `destination.career_outcomes` | Same table as the occupation series. New columns `series_kind` (`occupation`, the default for every existing row, or `industry`), `industry_scheme` (ANZSIC, NAICS, NACE, SIC, ISIC and the national schemes), `industry_code`, `industry_title`, `employment_count`. An industry row must name its industry; occupation rows are unchanged. | Columns live: Pilot #1268. Occupation fields optional on industry rows: paste file version 2, to run |
 
-Owner: the destination schema lanes (RM-Cities, RM-Study-Rules, RM-Careers, RM-Rankings); item 2 is S2-Build's. Logged as open work in `docs/CURRENT-STATE.md`.
+**Order of work.** Pilot #1268 is merged and live. The Platform Admin runs admin `docs/paste/PASTE-20261118-29-destination-check-constraints.sql` version 2 (md5 `22bc38a31482375b8da67e214fd73939`; its rolled-back live dry run passed) before the Thursday 19 Nov 01:15 AEDT freeze, so the canonical squash captures the relaxed constraints. If it is not run before the freeze, the value lists above stay closed: loads for those countries are refused by the database, not stored wrongly.
+
+**One change to the frozen consumer API.** Adding `ft` to `ranking.systems` changes a table the consumer API reads. The Platform Admin approved this at 12:21, and the paste file records it (`-- Consumer API change approved`) and re-takes the baseline. No column changes.
+
+**What "G3 = 75/48" counts.** `security.consumer_api_check_v1()` counts the 75 consumer functions and the 48 tables and views those functions read (`pipeline.consumer_api_baseline`). It is not a count of every table in the database. A new internal table would not change 48; a change to one of the 48 would. The rule that keeps destination data in the shared tables is `s627` (no country tables) and this design, not the G3 number. All five rows above leave the count at 75/48.
+
+Owner: S2-Build (#1268 and the paste file). Open work in `docs/CURRENT-STATE.md` until the paste file has been run and read back.
 
 ### Publication gate
 

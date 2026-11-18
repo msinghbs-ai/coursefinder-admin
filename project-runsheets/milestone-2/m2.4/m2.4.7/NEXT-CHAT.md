@@ -12164,3 +12164,21 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: run `PASTE-20261118-29-destination-check-constraints.sql` v2 before 01:15; Run now Destination › BOM climate averages.
 - After the squash: coverage-lane-dispatch wave for the seven single-mode coverage-sweep jobs plus page-text; `settings-backup-daily` to rollup-scheduler.
+
+## 18 Nov 2026 13:45 AEDT — S1-RM-Design: hotfix v2.16.37 (Pilot #1270), Layer 1 wizard panel v2.16.38 (Pilot #1272), 28-destination extensions mapped (runbook v1.4)
+
+**Trigger:** Platform Admin 18 Nov 2026 12:21 and 12:23 AEDT (and 12:50 for Operations), chat S1-RM-Design.
+
+**Done:**
+- Pilot #1270 merged on green (v2.16.37, no migration, s634): Users & roles › Links & Email Templates no longer fails with React error #310 (ref ZDUFMC); the hook moved above the early returns; render guard covers the tab and the four-step Create user flow. Deployed UAT and Release currentness green; route read live in a signed-in session with no console errors.
+- Pilot #1272 merged on green (v2.16.38, no migration, s635): Layer 1 › + Add source, step 1: What this source will create.
+- Runbook v1.4 section 5: FT rankings, rule categories (dependants, minimum wage, offer document), OSCA and NOL, national quality ratings and industry employment all map into existing tables (columns live by #1268; value lists in paste file v2). G3 75/48 explained as consumer-read relations, not every table.
+- Mirrors from Pilot main `db503fa2`: UI map (21 pages, 56 tabs), SOPs, role guides, test register (752 specs, 3,414 local and 92 deployed tests). Two engagement rows (81 rows, 1,215 minutes).
+
+**Not done:**
+- Operations UI (12:50) built and tested locally (708 passed), held to rebase on S2-Build's #1274 (same directive, backend and v2.16.39); ships as v2.16.40.
+- Coverage & completeness modernisation (12:19) not started.
+
+**Next executable action:**
+- After #1274 merges: rebase the Operations UI, renumber its spec, ship v2.16.40; then Coverage & completeness.
+- Platform Admin: run paste file v2 before Thu 19 Nov 01:15 AEDT.
