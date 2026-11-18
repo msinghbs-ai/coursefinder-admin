@@ -1,0 +1,89 @@
+{
+ "file": "admitted-count.sql",
+ "label": "reseed-post-squash-20261119",
+ "ok": true,
+ "result": [
+  {
+   "r": {
+    "label": "reseed-post-squash-20261119",
+    "promote_md5": "fa4e3a8671577e2674e652fc5012f497",
+    "quals_after": 0,
+    "no_study_load_after": 60,
+    "duplicate_rows_refused": 5922,
+    "g3": {
+     "drift": [],
+     "functions": 75,
+     "relations": 48,
+     "checked_at": "2026-11-18T18:44:04.231027+00:00"
+    },
+    "cases": [
+     {
+      "scenario": "qualified",
+      "batch_rows": 50,
+      "reps": 3,
+      "load_ms": 2.7,
+      "promote_ms": 14.7,
+      "promote_ms_max": 14.8,
+      "rows_per_sec": 2878,
+      "admitted_min": 19,
+      "admitted_max": 19,
+      "filled_min": 19,
+      "filled_max": 19,
+      "held_changed": 0,
+      "updated_at_changed": 0,
+      "by_state": "{\"shadow\": 18, \"refused\": 13, \"admitted\": 19}"
+     },
+     {
+      "scenario": "qualified",
+      "batch_rows": 1000,
+      "reps": 3,
+      "load_ms": 36.3,
+      "promote_ms": 100.2,
+      "promote_ms_max": 108.1,
+      "rows_per_sec": 7371,
+      "admitted_min": 60,
+      "admitted_max": 60,
+      "filled_min": 60,
+      "filled_max": 60,
+      "held_changed": 0,
+      "updated_at_changed": 0,
+      "by_state": "{\"shadow\": 360, \"refused\": 580, \"admitted\": 60}"
+     },
+     {
+      "scenario": "qualified",
+      "batch_rows": 5000,
+      "reps": 3,
+      "load_ms": 199.4,
+      "promote_ms": 423.7,
+      "promote_ms_max": 444.9,
+      "rows_per_sec": 8065,
+      "admitted_min": 60,
+      "admitted_max": 60,
+      "filled_min": 60,
+      "filled_max": 60,
+      "held_changed": 0,
+      "updated_at_changed": 0,
+      "by_state": "{\"shadow\": 1800, \"refused\": 3140, \"admitted\": 60}"
+     },
+     {
+      "scenario": "shadow",
+      "batch_rows": 1000,
+      "reps": 3,
+      "load_ms": 39,
+      "promote_ms": 66.9,
+      "promote_ms_max": 68.9,
+      "rows_per_sec": 9493,
+      "admitted_min": 0,
+      "admitted_max": 0,
+      "filled_min": 0,
+      "filled_max": 0,
+      "held_changed": 0,
+      "updated_at_changed": 0,
+      "by_state": "{\"shadow\": 800, \"refused\": 200}"
+     }
+    ]
+   }
+  }
+ ],
+ "error": null
+}

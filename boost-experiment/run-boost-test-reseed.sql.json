@@ -1,0 +1,13 @@
+{
+ "file": "boost-test-reseed.sql",
+ "label": "reseed-post-squash-20261119",
+ "ok": true,
+ "result": [
+  {
+   "providers": 12,
+   "courses": 69,
+   "no_study_load": 60
+  }
+ ],
+ "error": null
+}
