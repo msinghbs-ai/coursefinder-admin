@@ -12190,3 +12190,26 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - S1-Build, Thu 01:15: freeze and squash.
 - S1-Build, Thu 15:10: PR 4 cutover.
 - PR 2 lane: look at the admission-runner lock contention.
+
+## 19 Nov 2026 02:25 AEDT — S1-Build: canonical migration squash merged; freeze lifted
+
+**Trigger:** Platform Admin 17 Nov 2026 18:02 and 22:05 (squash and window), run by the scheduled task at 01:15; runbook `docs/platform/MIGRATION-SQUASH-RUNBOOK.md` section 5, steps 0 to 7.
+
+**Done:**
+- 01:15 freeze posted (admin #618); Pilot #1314 held. Live head `20261118272000`, 2,148 history rows.
+- Step 1: production schema dump, Pilot run 44324920057 (01:30–01:43), `schema.sql` md5 `40cf02f4e8f5a6c2cb53bf351c55eccc`, all six files pass `MD5SUMS`.
+- Step 2: carriage returns in the 7 consumer functions 54, 14, 1, 10, 1, 98, 28 = live.
+- Step 3: rebuild proof on `coursefinder-boost-test`, admin run 44327488382 (01:44–01:56). Passed for the squash: 16,989 of 16,989 schema statements, 0 newer migrations, G3 75/48 with no drift, 50 shadow rows with 0 admitted. The run verdict is FAIL only on the Boost check `outside_window_refused`, the same as the rehearsal and not a squash finding.
+- Step 4: Pilot #1325. 800 files archived as pure renames, 1,201 references repointed in 712 files; baseline copied byte for byte with `.gitattributes`; baseline contract updated. CI 48 of 48 green after one re-run (npm had not yet served a package published at 14:43 UTC).
+- Step 5: merged 02:15 as `a0f0e10f` after re-reading main and open PRs. Deploy on merge: no new migrations, no edge function changes.
+- Step 6 read back: head and history unchanged, G3 75/48 with 0 drift and 0 open flags, main `schema.sql` md5 = the snapshot.
+- Step 7: runbook section 6 filled; CURRENT-STATE updated; freeze lifted and "can re-seed" posted at 02:25; rehearsal draft #1235 closed.
+- Test register unchanged: no spec added, retitled, re-guarded or removed. No engagement row (no Platform Admin interaction).
+
+**Not done:** nothing in the window.
+
+**Next executable action:**
+- Authors of open migration PRs (Pilot #1314 first): rebase on main; keep only the new file under `supabase/migrations/`.
+- S2 - BOOST: re-seed `coursefinder-boost-test` and update check d (`outside_window_refused`).
+- S1-Build, Thu 15:10: PR 4 cutover (rebase `cf247-pr4-lane-fold-cutover` after the squash, migration renumbered above the head).
+- PR 2 lane: the admission-runner lock contention (unchanged).
