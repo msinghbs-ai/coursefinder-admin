@@ -5466,3 +5466,22 @@ Worker `coverage-sweep` v1.0.19. Full write-up: `docs/platform/2026-11-18-s1-aer
 **Next executable action:**
 - S1-AER, Thursday 02:45 AEDT (scheduled): read-only `aer-validation-renew.yml` status since 20:09:59. Confirm the 90 would-admit course reads were admitted after their 6-hour re-check.
 - Platform Admin: how AER v2 qualification proceeds after round 5. Mistral now meets the error-point limit but not quote fidelity or false positives. The every-row section did not raise recall. US$0.47 of the evaluation cap is left.
+
+## 18 Nov 2026 23:55 AEDT — S1-RM-Design: v2.16.45 Course and Provider detail fixes after live inspection (Pilot #1323, s697)
+
+**Trigger:** Platform Admin 18 Nov 2026 23:02 AEDT, chat S1-RM-Design (reserved specs s697 to s699; zero schema migrations).
+
+**Done:**
+- Pilot #1323 merged on green at 23:33 AEDT (v2.16.45, commit `e9fb7847`, no migration, G3 75/48 untouched; spec s697, 8 tests):
+  - Preview as pills show their full labels at 1500, 720 and 390 px (the drawer header's 32 px icon-button rule clipped them).
+  - Archive course and Read with AI hidden for Counsellor and Viewer and in Preview as.
+  - Read / refresh entry requirements now and its pipeline hidden for them; approved entry requirements only, or one empty-state line.
+  - Scholarship lists show three, then Show all (N) scholarships / Show less (course list, Around this course card, insight panel in Course and Provider detail).
+- Spec document v1.1 (section 6A, matrix rows, three screenshots); mirrors from Pilot main `e9fb7847` (UI map, SOPs, role guides, test register: 798 specs, 3,688 tests); one engagement row.
+
+**Not done:**
+- The live screen was not re-opened: the built-in browser could not be reached (503); screenshots were taken against the mock.
+
+**Next executable action:**
+- Platform Admin: re-check the Master of Teaching (Secondary) detail in Preview as Counsellor and Viewer.
+- S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged from 22:50).

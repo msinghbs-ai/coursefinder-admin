@@ -1,6 +1,6 @@
 # Correlated detail blades, metric type pills and role-based field visibility — UI mockup and specification
 
-Version 1.0 · 18 Nov 2026 · S1-RM-Design · Platform Admin directive 18 Nov 2026 21:23 · PIM Admin v2.16.44 (Pilot specs s694, s695, s696)
+Version 1.1 · 18 Nov 2026 · S1-RM-Design · Platform Admin directives 18 Nov 2026 21:23 and 23:02 · PIM Admin v2.16.44 and v2.16.45 (Pilot specs s694, s695, s696, s697)
 
 The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44 as read-only blocks in the Course and Provider detail, the pills on Destination data › City metrics & costs and the "Preview as" switcher. Column and field tables in sections 3 to 6 are generated from the code (`src/lib/correlation-adapters.js` CARD_SPEC, `src/lib/destination-metric-types.js`, `src/lib/field-visibility.js`), so this document and the screen cannot drift; s694 to s696 hold the screen to them.
 
@@ -12,6 +12,7 @@ The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44
 | Correlated read-only sections in the Provider detail (Rankings; Campus city profiles; Scholarships & accreditations) | Providers › a provider › Around this provider | s694 |
 | Metric type filter pills | Destination data › City metrics & costs | s695 |
 | Role-based field visibility matrix and "Preview as: Admin \| Counsellor \| Viewer" | Course and Provider detail header and body | s696 |
+| Fixes after live inspection: Preview as pills, Archive course and Read with AI, the entry pipeline, scholarship Show all | Course and Provider detail | s697 |
 
 Zero schema: no migration, no new function, no grant. Every card is a join in the browser over reads the admin already has: `admin_provider_destination_read` and `admin_course_destination_read` (any StudySearch role), `admin_destination_review` (Curator and above), `admin_entry_requirements`, `admin_read` `provider_ranking_history`, and the course detail's own scholarships. G3 untouched (75 functions, 48 tables).
 
@@ -49,11 +50,11 @@ Empty and gap states (every card has one, so a card never disappears):
 | Location & weather | "No campus is held for this course yet." / "No climate or population figure is held for <city> yet." | "City figures, careers and visa figures show for Curators and above until the student-facing read is added (S2-Build)." |
 | Career pathway | not_loaded: "Career outcomes are not loaded for this country yet." · figures_loading: "Occupations are held; salary, growth and shortage figures arrive with the Jobs and Skills Australia load." · no_field_link: "No occupation is linked to this field of study yet." | as above |
 | Visa & living cost | "No visa or living-cost rule is proven for this course's destination yet."; a rule without a figure reads "Not held yet" | "Figures for each rule show for Curators and above …" |
-| Entry & scholarships | "Nothing read from this course's page yet." / "No published scholarship applies to this course." | — |
+| Entry & scholarships | "No approved entry requirements published for this course yet." (also the only entry line a Counsellor or Viewer sees when none is approved) / "No published scholarship applies to this course."; more than three scholarships: Show all (N) scholarships | — |
 | Rankings | "Not ranked" per system; "No subject rank is held yet." | — |
 | Scholarships & accreditations | "Sent in API v3" | "Accreditations are sent to the website as item.provider.accreditations; the admin read for them is part of the S2-Build hand-off." |
 
-Screenshots (mocked data, Playwright, 1500 px wide; the signed-in browser was not reachable from this session):
+Screenshots (mocked data, Playwright, 1500 px wide unless stated; the signed-in browser was not reachable from this session):
 
 | View | Image |
 |---|---|
@@ -62,6 +63,9 @@ Screenshots (mocked data, Playwright, 1500 px wide; the signed-in browser was no
 | Around this course (Preview as Counsellor) | ![](ui-audit/assets/2026-11-18-correlated-blades/2-course-correlated-preview-counsellor.png) |
 | Around this provider | ![](ui-audit/assets/2026-11-18-correlated-blades/3-provider-correlated-admin.png) |
 | City metrics & costs, Climate & Weather (BOM) pill | ![](ui-audit/assets/2026-11-18-correlated-blades/4-city-metrics-climate-pill.png) |
+| v2.16.45: Preview as pills at a 720 px pane | ![](ui-audit/assets/2026-11-18-correlated-blades/5-s697-preview-as-720px.png) |
+| v2.16.45: Preview as Counsellor, approved entry requirements only | ![](ui-audit/assets/2026-11-18-correlated-blades/6-s697-counsellor-entry.png) |
+| v2.16.45: scholarships, three then Show all (5) scholarships | ![](ui-audit/assets/2026-11-18-correlated-blades/7-s697-scholarships-show-all.png) |
 
 ## 3. Course detail: Around this course
 
@@ -191,13 +195,27 @@ Destination data › City metrics & costs. One row of pills above the panel; the
 | Dataset edition (`dataset_edition`) | Hidden | Hidden | Shown | Shown | `[data-vis="dataset_edition"]` |
 | Record id and stable key (`identifiers`) | Hidden | Hidden | Shown | Shown | `[data-identifiers]` |
 | Fill, extract and re-read actions (`fill_actions`) | Hidden | Hidden | Shown | Shown | `[data-fill-fields-card], [data-vis="fill_actions"]` |
+| Course status with Archive course and Restore course (`archive_actions`) | Hidden | Hidden | Shown | Shown | `.re-manage, [data-vis="archive_actions"]` |
+| Read with AI trigger bar (`read_with_ai`) | Hidden | Hidden | Shown | Shown | `[data-course-read-ai]` |
+| Read / refresh entry requirements now and the entry pipeline (sources, AI candidates, reviewer packet, Layer 4, links) (`entry_pipeline`) | Hidden | Hidden | Shown | Shown | `[data-course-entry], [data-aer-read-now], [data-vis="entry_pipeline"]` |
+| Entry requirement rows not yet approved (`unapproved_entry`) | Hidden | Hidden | Shown | Shown | `[data-vis="unapproved_entry"]` |
 | The value itself (fee, intake, figure, rank) (`value`) | Shown | Shown | Shown | Shown | — |
 | Source page link (`source_link`) | Shown | Shown | Shown | Shown | — |
 | Attribution the licence requires beside a figure (`attribution_text`) | Shown | Shown | Shown | Shown | — |
 | Period the figure covers (`reference_period`) | Shown | Shown | Shown | Shown | — |
 | Climate icon (long-term average) (`climate_icon`) | Shown | Shown | Shown | Shown | — |
+| Approved entry requirements (or one empty-state line) (`approved_entry`) | Shown | Shown | Shown | Shown | — |
 
 Preview as: Admin | Counsellor | Viewer, in the Course and Provider detail header, shown to Editors and Platform Admins only. A preview only lowers what is shown (an Editor previewing as Admin still sees the Editor view; a Viewer can never raise theirs).
+
+## 6A. Fixes after live inspection (v2.16.45, s697; Platform Admin 18 Nov 2026 23:02)
+
+| # | Found on Master of Teaching (Secondary) | Fix | Check in s697 |
+|---|---|---|---|
+| 1 | Preview as pills clipped ("out of bounds") | The drawer header styled every button as a 32 px icon square; the Preview as pills now override it (inline-flex, wrap, no-wrap labels, pill padding) | Full label, no clipping and inside the pane at 1500, 720 and 390 px; the check fails without the fix |
+| 2 | Archive course and the Read with AI bar shown to Counsellor and Viewer | `archive_actions` (`.re-manage`) and `read_with_ai` (`[data-course-read-ai]`) are internal | Hidden in Preview as Counsellor and Viewer and for a Counsellor; shown again for Admin |
+| 3 | Read / refresh entry requirements now and its pipeline (Source found, AI parsed candidates, Complete reviewer packet, Awaiting a person in Layer 4, Approved and active, Visible to the website, Open in Entry requirements, Inspect resolution) shown to Counsellor and Viewer | `entry_pipeline` (`[data-course-entry]`, `[data-aer-read-now]`) is internal; Counsellor and Viewer see a student-only block with approved (`active`) requirements, or "No approved entry requirements published for this course yet." Rows not yet approved are internal in the Around this course card too | Pipeline hidden, one approved row shown, the proposed row not shown; a Counsellor with none approved sees the one line |
+| 4 | Cramped scholarship list | Course scholarships, the Around this course card and the scholarship insight panel (Course and Provider detail) show three, then Show all (N) scholarships / Show less; no inner scroll box | Three, then all, then three again; no overflow or max-height on the list |
 
 ## 7. Live data behind the cards (read 18 Nov 2026, project fxcwkweaxjtknorudmwp)
 
@@ -226,3 +244,4 @@ Preview as: Admin | Counsellor | Viewer, in the Course and Provider detail heade
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 18 Nov 2026 | First issue with PIM Admin v2.16.44 (Platform Admin 18 Nov 2026 21:23). |
+| 1.1 | 18 Nov 2026 | Section 6A and the four new matrix rows: v2.16.45 fixes after live inspection (Platform Admin 18 Nov 2026 23:02, Pilot #1323, s697). |
