@@ -12022,3 +12022,31 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: run the per-owner paste file before 01:15. The BOM edition then publishes at the next minute 41.
 - Platform Admin: choose the publisher files to upload for RM1C/H and RM1D (Visa Pricing Table, Fair Work pay guide, JSA data file).
+
+## 18 Nov 2026 17:05 AEDT — S2-Build: BOM climate published beside ABS, scholarship reader restarted (Pilot #1290), page-facts loader built and run (Pilot #1291, #1292, #1294, #1296)
+
+**Trigger:** Platform Admin 18 Nov 2026 15:32 AEDT, chat S2-Build (Complete Directive: post-paste verification, direct scholarship reader write, page-facts loader).
+
+**Done:**
+- **Verified read-only.** Both paste files ran. The BOM Climate statistics edition was published at 15:41 AEDT beside ABS Regional population 2024-25. API v3 `/destination` (AU) serves 102 localities and the 40 climate figures with their attribution.
+- **Pilot #1290** (migration `20261118184000`, md5 `2244a4e1`, s652): the scholarship detail reader had not run since 14 Nov, because two dead leases kept the idle-fill due count above zero. The due count now follows the picker's attempt cap, and the dead leases are settled as failed.
+  - On-demand window `9f54b912` (openrouter): estimate US$0.19 for 136 scholarships, US$11.36 credit before.
+  - By 17:03: 105 readings of 89 scholarships for US$0.09 (credit US$11.20); 53 records filled (20 application windows, 25 benefits, 3 award values); 18 held in the existing buckets; 35 still queued.
+  - No new review kind and no overwrite.
+- **Pilot #1291** (migration `20261118185000`, md5 `e3123c68`, s653): `destination.page_facts`, loader v1.2.0 mode `facts`, `security.destination_page_facts_load_v1`, and job `destination-page-facts-load` (catalogued, Run now).
+  - Terms: Home Affairs CC BY 3.0 AU and JSA CC BY 4.0 approved; Fair Work CC BY-NC 4.0 restricted.
+  - **Pilot #1292** (`20261118186000`, md5 `ab80cc52`): first load.
+  - **Pilot #1294** (`20261118191000`, md5 `1bd038a4`, loader v1.2.1): the text reader no longer swallows the page after a self-closing tag, and JSA download routes are found.
+  - **Pilot #1296** (`20261118194000`, md5 `924d4ff9`): second load.
+- G3 75/48. Live head `20261118194000` (2,131 applied).
+
+**Not done:**
+- No page fact was written.
+  - The Home Affairs pages are rendered in the browser: their static HTML holds 3,595 and 1,656 characters of visible text, so the patterns have nothing to match.
+  - The JSA workbook is stored, but the Table 1 (Overview) header is not yet mapped to the reader's columns.
+- Study Australia (no figure on the page), Study Tasmania (no official figure page), the TAC and direct routes (no published terms), Fair Work (restricted) and QILT (gated) are not loaded.
+- The test register was not regenerated locally (the generator needs the full Pilot environment); s652 and s653 are new.
+
+**Next executable action:**
+- S2-Build: give the page-facts loader a rendered read (Firecrawl through the existing reader, opened on demand with an estimate) for pages whose static text is short. Map JSA Table 1 from its header. Run now again, then let `destination-open-licence-publish` approve and publish.
+- Close on-demand window `9f54b912` after the scholarship queue drains (it expires on its own at 22:01 AEDT).
