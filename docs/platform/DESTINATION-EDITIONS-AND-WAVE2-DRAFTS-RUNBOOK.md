@@ -1,6 +1,6 @@
 # Operator runbook: destination data editions and Wave 2 register drafts
 
-**Version:** 1.4, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT; section 5 added for the multi-country schema lock, 11:28 AEDT; section 5 gaps mapped into existing tables, 12:21 AEDT).
+**Version:** 1.5, 18 Nov 2026 (chat S1-RM-Design; asked by the Platform Admin 18 Nov 2026 07:39 AEDT; section 5 added for the multi-country schema lock, 11:28 AEDT; section 5 gaps mapped into existing tables, 12:21 AEDT; section 6 added by S2-Build for the Platform Admin's architectural rule of 22:04 AEDT: destination sources in the Layer 1 Register).
 **For:** the Platform Admin and Curators. **Screens:** Destination data, Layer 1 Register, Reference data.
 **Status of the screens named:** live on Pilot at v2.16.35 (18 Nov 2026 11:55 AEDT). Not yet checked in a signed-in session.
 
@@ -10,7 +10,7 @@ Where a step says *Platform Admin*, the button is greyed for other roles and the
 
 | Step | Where | Who | What happens |
 |---|---|---|---|
-| 1. Load the edition | Platform health › Data delivery › Destination loads › Run now | The role shown on the job | The loader creates the edition (draft), its localities (draft), postcodes and figures (draft). Nothing is returned by the API yet. |
+| 1. Load the edition | Layer 1 Register › Australia › the destination source › Run now (from 18 Nov 2026, Pilot #1318; section 6). The monthly run is the standard Layer 1 scheduler. | The role shown on the source | The loader creates the edition (draft), its localities (draft), postcodes and figures (draft). Nothing is returned by the API yet. |
 | 2. Settle postcodes | Destination data › Localities & postcodes, lower table; or Layer 4 Review › Inbox › Campus locality | Curator and above | A postcode that sits in more than one locality below the share is waiting for a person. Accept, choose a locality, or record none. One decision settles the postcode for every campus. |
 | 3. Approve localities | Destination data › Localities & postcodes | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** for a whole dataset edition: every draft with a name and attribution text is approved with one reason; a draft without attribution text stays draft and is counted. |
 | 4. Approve figures | Destination data › City metrics & costs | Platform Admin | **Approve** on one row, or **Bulk Approve Drafts** (v2.16.32) for a whole dataset edition: every draft figure with attribution text is approved with one reason; the rest stay draft and are counted. A figure is returned by the API once its locality is approved too. |
@@ -117,3 +117,36 @@ Owner: S2-Build (#1268 and the paste file). Open work in `docs/CURRENT-STATE.md`
 ### Publication gate
 
 Nothing a destination page shows is published until its source is verified and its terms allow it. Open official-source checks are request rows REQ-84 to REQ-90 in `docs/integrations/CONSUMER-REQUESTS.csv`; the commercial licence gates (QILT, QS, THE, FT) are REQ-91, with REQ-68. A rule waiting on one of them stays draft.
+
+## 6. Destination sources in the Layer 1 Register (standing rule)
+
+Decision of the Platform Admin, 18 Nov 2026 22:04 (S2-Build, s693; Pilot #1318):
+
+> All Destination Data sources must be registered in Layer 1 Register by country and ingest via standard Layer 1 schedule → Supabase Storage artifact → Layer 1 Evidence record → Destination Edition.
+
+Future countries (NZ, CA, UK, IE, US) follow the same pattern: a destination source is registered under its country code in the Layer 1 Register before anything is read.
+
+| Source (Layer 1 Register › Australia) | Class and parser | Loader mode | Schedule | Terms |
+|---|---|---|---|---|
+| ABS Regional Population | Statistics / hard-coded parser (Table 2, ERP by SUA) | `load` | Monthly, 1st at 05:30 Sydney | CC BY 4.0 |
+| BOM Climate Statistics (IDCJCM0037) | Statistics / hard-coded parser (one page per station) | `climate` | Monthly, 2nd | CC BY 4.0 (Coat of Arms and logo excluded) |
+| Jobs and Skills Australia (JSA) OSCA & Table 1 | Statistics / workbook parser (Table 1, headings read over two rows) | `facts`, scope `workbook` | Monthly, 3rd | CC BY 4.0 |
+| Department of Home Affairs Student & Graduate Visa Rules | Regulatory / Firecrawl page-facts reader (rendered, main content, verbatim quotes) | `facts`, scope `pages` | Monthly, 3rd | CC BY 3.0 AU |
+| Fair Work Ombudsman National Minimum Wage | Regulatory / restricted | none | **Paused** until commercial and automated-read terms are cleared | CC BY-NC 4.0 |
+
+**How a run flows:** the Layer 1 scheduler (`coursefinder-layer1-regulatory-scheduler`, hourly at :05) queues the source when it is due, and `layer1-operations-scheduled` calls `layer1-destination-geo-loader` with the source's mode and scope. Run now on the source goes through `layer1-operations-control`.
+
+Each run does the following:
+- Stores every downloaded artifact in Supabase Storage (bucket `evidence`, `destination/...`).
+- Records an evidence record naming the Layer 1 source, with the storage path, SHA-256, `fetched_at` and licence terms.
+- Writes draft rows into the source's destination edition. A published edition is never written to: a new fact or a changed value opens a successor edition, labelled "… (read <date>)".
+- Records the Layer 1 count and content hash on the source.
+
+Approval and publishing stay with the editions: `destination-open-licence-publish` handles owners on the open-licence list, otherwise steps 3–6 in section 1.
+
+**Retired side jobs:** `destination-abs-load`, `destination-climate-load` and `destination-page-facts-load` were switched off and marked retiring on 18 Nov 2026. Their `cron.unschedule` paste file follows after the 14-day retention window.
+
+**Page facts:**
+- Each figure or rule is a row of `destination.page_facts` (pattern, unit, plausible range, anchor, read mode). A fact that is not found writes nothing and shows the page text around its anchor.
+- Home Affairs pages are read rendered through Firecrawl `/v1/scrape` (`onlyMainContent: true`). The spend is decided by `svc_fc_spend` (purpose `destination_page_facts`) and every call is logged.
+- The workflow `destination-run-now` runs a destination job again without a migration.
