@@ -101,8 +101,8 @@ The Boost ingestion blackout (`boost.ingest_blackout_start_epoch` 1795012200 to 
 
 | Step | Run / PR | Result |
 |---|---|---|
-| Rehearsal dump | | |
-| Rehearsal rebuild proof | | |
+| Rehearsal dump | Pilot `db-schema-dump.yml` run 44199899527 (started 18 Nov 10:30:06 AEDT, done 10:43), branch `db-schema-dump/44199899527` | **PASS.** `schema.sql` md5 `eba7462e98e1028007926988cc81d27c` (10,745,415 bytes), all six files pass `MD5SUMS`. Carriage returns in the 7 consumer functions 54, 14, 1, 10, 1, 98, 28 = live (read 10:20). Dump head `20261118111500` (holds `111500`, not `113000`, which deployed at 10:36) |
+| Rehearsal rebuild proof | admin `boost-test-rebuild.yml` run 44201959838 (10:44–10:59 AEDT), results branch `boost-test/44201959838` | **PASS for the squash; run verdict FAIL on one Boost check.** Reset, schema from the dump, reference data, 2 newer migrations (0 failed), G3 75 functions and 48 tables with no drift, 1,000 rows in 0.042 s, 50 shadow rows with 0 admitted. FAIL only `outside_window_refused`: the Boost window is the whole day (`[0, 24]`, Pilot #1231), so check d of `005_rehearsal_rolled_back.sql` cannot be refused; S2 - BOOST asked to update it before Thursday. Not a squash finding |
 | Rehearsal squash branch CI | Pilot draft #1235 at `cfa0caae` (built on main `acf01a35`; tool at live head `20261118020000` with a 739-row production history and `--allow 20261031090000`: 738 moved, 1,091 references in 650 files; diff = 738 pure renames and 650 one-line path edits) | **PASS 18 Nov 01:23 AEDT:** 3,310 of 3,310 tests, all 6 shards, test evidence pass. One network failure (`ECONNRESET` fetching `wrangler` in the production parity job) re-run and green; not caused by the squash |
 | Window dump | | |
 | Window proof | | |
