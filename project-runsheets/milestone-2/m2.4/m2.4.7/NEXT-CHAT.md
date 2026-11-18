@@ -13072,3 +13072,33 @@ Platform Admin 06:49. One migration, `20261119080000` (md5 `ab4845cc`), data onl
 **Next executable action:**
 - Pilot owner of #1346: rebase to worker v1.0.26, a migration above `20261119084000` and the next release number.
 - Self-check at about 10:14 AEDT: confirm the 650 re-reads ran after 09:23 and report the admitted description total.
+
+
+## 19 Nov 2026 08:45 AEDT — S2-BOOST-Providers: identity proof rule, GPT-4.1 mini route and bounded re-read launched, source words, Layer 4 triage (Pilot #1353, #1355)
+
+Platform Admin 07:39 and 08:17. Worker change #1353 (s762, no migration) and one data-only migration `20261119090000` (md5 `f6c0971b`, #1355; s763, s764, s765). No table, column, function or job added. G3 75/48, no drift (read 08:40). Manual locks 7,585, unchanged.
+
+- **Identity proof (s762, worker).** A title or h1 segment that holds the provider's whole catalogue name plus its own initials in brackets, or an RTO, CRICOS or TEQSA registration number, now proves the provider on its own host. The registration code's form is checked, not its value: the worker is not given the register's numbers. A place or sub-brand after the name, another institution, a campus, faculty or school, a shared host and a foreign bracket stay held. The worker version string was not bumped.
+- **Route (s763).** GPT-4.1 mini is allowed again, qualified for `provider_description` only (the Platform Admin's decision is the evidence; provisional until a regression qualification), and is the service's one model with prompt version 5. The service's daily cap is US$0.50 (was US$1). No other service lists it. `pdesc.acquire_firecrawl` is 0.
+- **Re-read launched 08:36 (s764).** 267 reads queued: 196 held by the identity proof, 58 held by grounding, 13 never read with a stored page. At 08:40, 23 were done and all held (identity 8, machine identity rules 12, not stated 2, shared host 1); 244 were queued. Spend so far US$0.0007. At 10 reads every 5 minutes it finishes about 10:45.
+  - Not in the re-read: the 54 readings restored to Layer 4 (they keep their open reading), and 225 never-read providers that have no stored page.
+- **Source words (s765, F-PDESC.01/.02).** There is no allow list. The one list is `pdesc.refused_path_words`, and dates, calendar and timetable have been in it since 9 Nov: a page address with one of them is never a description source. The migration puts a missing word back and fails if any of the three is not refused; nothing was removed.
+- **Layer 4 triage (F-PDESC.03).** All 61 pending university descriptions have been checked by the machine rule and declined, so none is machine-eligible as it stands.
+
+| Group | Items | What a person does |
+|---|---|---|
+| The provider is not named at the start (29) | 17 as read, 12 after refused sentences are left out | Approve only after adding nothing: reject, or wait for the re-read |
+| Fewer than two sentences remain once refused sentences are left out (18), or too short (2) | 20 | Reject, or wait for a new reading |
+| A refused topic (fees, visas, rankings and the like) | 11 | Reject |
+| Every sentence refused | 1 | Reject |
+
+  - 54 of the 61 are the readings restored at 07:07; 7 arrived on their own.
+- **Held scholarships (82).** Unchanged, as confirmed: the 5 pages whose readings disagree, the staging address and the second Bond page stay held. No rule or spec was added for this (s683 already guards it).
+
+**Not done:**
+- Final re-read counts: the batch is running.
+- The test register rows for s762 to s765 were added in the generator's format.
+
+**Next executable action:**
+- S2-BOOST-Providers, about 11:15 AEDT: read the final re-read results (admitted, proposed, held by rule, spend), then record them here and in the registers.
+- Platform Admin: `pdesc.acquire_firecrawl` stays 0 and the service cap stays US$0.50 a day until changed on Settings.
