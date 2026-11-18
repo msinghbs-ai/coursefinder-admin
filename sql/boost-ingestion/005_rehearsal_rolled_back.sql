@@ -6,11 +6,14 @@
 --   b. 50 verified rows from four models with pipeline.boost_model_qualifications EMPTY -> a real promotion in the quiet window must admit 0
 --      and leave every catalogue.courses row exactly as it was (study_load and updated_at)
 --   c. the 5-case rehearsal (one model qualified inside the block): 1 admitted, 2 shadow, 2 refused; a manual lock wins; updated_at untouched
---   d. a real run outside the quiet window is refused
+--   d. a real run outside the quiet window is refused. The live window is all day ([0, 24], Platform Admin 17 Nov 2026 22:50), so no hour is
+--      outside it: the block narrows the two window settings to 1 to 5 (inside this rolled-back block only) and proves the refusal there, and
+--      reports the window it found as window_live. (S2-Build, Platform Admin 19 Nov 2026 05:21: "update the outside_window_refused check so
+--      full rebuild proofs pass all checks cleanly".)
 do $boost$
 declare
   v_country uuid; v_provider uuid; v_ids uuid[]; v_t0 timestamptz; v_load numeric; v_n int;
-  v_shadow jsonb; v_reh jsonb; v_win text := 'not refused'; v_changed_50 int; v_written int; v_touched int; v_lines jsonb;
+  v_shadow jsonb; v_reh jsonb; v_win text := 'not refused'; v_win_live jsonb; v_changed_50 int; v_written int; v_touched int; v_lines jsonb;
 begin
   -- production holds about 35,700 courses; a rebuilt test project holds none
   if (select count(*) from catalogue.courses) > 100 then raise exception 'refused: more than 100 courses, this looks like production'; end if;
@@ -74,7 +77,10 @@ begin
   insert into pipeline.boost_model_qualifications (lane, provider, model, reason) values ('study_load', 'groq', 'llama-3.3-70b-versatile', 'rehearsal only (rolled back)');
   v_reh := security.boost_promote_v1('rehearsal', false, '2026-11-17 02:00+11');
 
-  -- d. outside the window
+  -- d. outside the window: proven on a narrowed window (1 to 5 Melbourne time), set here and rolled back with everything else
+  v_win_live := jsonb_build_array(security.pipeline_num_v1('boost.quiet_window_start_hour', 1), security.pipeline_num_v1('boost.quiet_window_end_hour', 5));
+  update pipeline.platform_toolset_settings set value = to_jsonb(1) where toolset_key = 'pipeline' and key = 'boost.quiet_window_start_hour';
+  update pipeline.platform_toolset_settings set value = to_jsonb(5) where toolset_key = 'pipeline' and key = 'boost.quiet_window_end_hour';
   begin
     perform security.boost_promote_v1('rehearsal', false, '2026-11-17 12:00+11');
   exception when others then
@@ -89,6 +95,6 @@ begin
     'shadow_50', jsonb_build_object('result', v_shadow, 'courses_changed', v_changed_50),
     'rehearsal', jsonb_build_object('result', v_reh, 'states', (select jsonb_object_agg(item_key, promotion_state || coalesce(' (' || promotion_note || ')', ''))
                                                                   from pipeline.boost_inbound_staging where batch_id = 'rehearsal')),
-    'outside_window', v_win, 'study_load_written', v_written, 'updated_at_touched', v_touched, 'database', current_database(),
+    'outside_window', v_win, 'window_live', v_win_live, 'study_load_written', v_written, 'updated_at_touched', v_touched, 'database', current_database(),
     'server_version', current_setting('server_version'));
 end $boost$;
