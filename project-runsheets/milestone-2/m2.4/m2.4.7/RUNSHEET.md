@@ -12771,6 +12771,19 @@ Worker `coverage-sweep` v1.0.19. Full write-up: `docs/platform/2026-11-18-s1-aer
 **Next executable action:**
 - Platform Admin: re-check the Master of Teaching (Secondary) detail in Preview as Counsellor and Viewer.
 - S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged from 22:50).
+
+## S1-AER, 18 Nov 2026 23:55 AEDT: decisions recorded (149 approved rows stay live; paid AER v2 replay paused)
+
+Platform Admin 23:52. No code or migration.
+- **The 149 person-approved provider-table rows stay live** in the consumer API: AUT 56, Whitireia and WelTec 44, Massey 36, Flinders 12, Otago 1. The five 11 Nov `entry_matrix_change` items stay in Layer 4 for a person (s675).
+- **Paid AER v2 replay rounds are paused.**
+  - There is no round 6 on Qwen3 30B, Mistral Small 3.2 or MiMo v2.6 Flash, and the US$0.47 left of the US$2 evaluation cap is kept.
+  - AER v2 stays off (shadow only, `aer.v2_shadow_on` 0, gate unchanged). AER v1 deterministic admission handles live admission: course reads and provider tables, s670, s671, s673.
+  - **Replay resumes only when** dense multi-row entry tables are chunked per qualification, or a stronger frontier model is explicitly authorised.
+  - Recorded in Decision 276 and the AER runbook, item 3b.
+
+**Next executable action:**
+- S1-AER, Thursday 02:45 AEDT (scheduled): read-only check that the about 90 would-admit course reads were admitted after their 6-hour re-check.
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
 Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
