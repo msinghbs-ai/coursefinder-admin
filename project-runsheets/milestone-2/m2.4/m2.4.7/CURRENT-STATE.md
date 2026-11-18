@@ -12708,6 +12708,67 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 **For S2-Intakes (priority):** is the intake we hold the next intake the page announces or the main annual start? The replay cannot score intakes until this is defined.
 
 **Not done:** the label-splitting cue and any re-read release (needs a migration); intake, fee and description qualification (no route qualification row, no deadline field, intake undefined).
+
+## S1-AER, 18 Nov 2026 23:35 AEDT: prompt v3.1 and 180 s evaluation calls (s674), round 5 not qualified; standing 7-day validation renewal; five AER consumer data findings resolved without quarantine (s675)
+
+Platform Admin 20:53 and 22:26 (alert batch `88e5ff5b-3fb9-4613-80db-3ff0c96a6b06`). Pilot #1311, #1313, #1317, #1320 (s674) and #1321 (s675). Migrations:
+- `20261118243000` (md5 `28ef812f`)
+- `20261118270000` (md5 `85f5e02a`)
+
+Worker `coverage-sweep` v1.0.19. Full write-up: `docs/platform/2026-11-18-s1-aer-round5-renewal-consumer-findings.md`.
+
+**Done and read back from live:**
+- **s674, prompt `aer-v2-course-v3.1`.** v3 plus one section asking for every requirement row of a table or list. It runs on the three exact pinned models with no fallback.
+- **s674, 180 s evaluation calls (was 90 s).** The 150 s request idle time-out and `EarlyDrop` of background tasks forced a streamed answer. The replay workflow calls the worker straight with a one-time nonce, records each answer as it comes and starts at most 8 examples a call.
+- **Round 5 (runs 45 to 47).** The gate is unchanged and **no model passes**:
+
+  | Model | Right of 50 | Quotes on page | Error points | False positives | Time-outs |
+  |---|---|---|---|---|---|
+  | Mistral Small 3.2 | 13 | 85.7% | 8 | 2 | 2 |
+  | MiMo v2.6 Flash | 14 | 54.6% | 12 | 4 | 6 |
+  | Qwen3 30B | 7 | 25% | 22 | 3 | 11 (27 in round 4) |
+
+  Nothing was qualified or switched on. Switches are back to 0 and on-demand `6c37d8fc` is closed. AER v3 spend is US$1.529 of US$2.
+- **Standing rule (Platform Admin 20:53).** The two AER automatic admission validations renew automatically every 7 days, without sign-off, when nothing has changed:
+  - Workflow `aer-validation-renew.yml` runs daily at 18:17 AEDT and renews once the last pass is `aer.validation_renew_after_days` (5) old.
+  - It renews only on 0.8/8 (course reads) and 0.9/8 (provider tables), the validators checked on 18 Nov, mode 2, not suspended, and 0 regressions.
+  - Anything else fails the run and is reported; nothing is forced on.
+  - Next renewal about 23 Nov. The runbook item 3a in `docs/platform/2026-11-12-aer-admission-mechanism.md` has the rule.
+- **s675, the five critical consumer data findings.**
+  - The findings are 149 provider-table rows at five providers: AUT 56, Whitireia and WelTec 44, Massey 36, Flinders 12, Otago 1.
+  - People approved these rows on 30 Oct. On 11 Nov 19:15 the qualification-first re-record recorded the same runs again and re-pointed them to new change items, so the check read approved rows as "not admitted".
+  - Not quarantined: that would have withdrawn person-approved data from the consumer API. Instead:
+    - the check now accepts an approval that names the row's run;
+    - a run a person approved is never recorded again.
+  - The 23:27 `aer-reconcile` resolved findings 1516 to 1520: 0 P0 open and Platform health `aer:p0` resolved at 23:27:00 AEDT.
+- G3 75 functions and 48 relations. AER v1 thresholds unchanged. Both migrations were applied before Thursday's 01:15 freeze.
+
+**Not done:**
+- No AER v2 model is qualified, so the about 1,620 incomplete course reads stay held.
+- The five `entry_matrix_change` items, which hold the 11 Nov qualification rows, wait in Layer 4 for a person.
+
+**Next executable action:**
+- S1-AER, Thursday 02:45 AEDT (scheduled): read-only `aer-validation-renew.yml` status since 20:09:59. Confirm the 90 would-admit course reads were admitted after their 6-hour re-check.
+- Platform Admin: how AER v2 qualification proceeds after round 5. Mistral now meets the error-point limit but not quote fidelity or false positives. The every-row section did not raise recall. US$0.47 of the evaluation cap is left.
+
+## 18 Nov 2026 23:55 AEDT — S1-RM-Design: v2.16.45 Course and Provider detail fixes after live inspection (Pilot #1323, s697)
+
+**Trigger:** Platform Admin 18 Nov 2026 23:02 AEDT, chat S1-RM-Design (reserved specs s697 to s699; zero schema migrations).
+
+**Done:**
+- Pilot #1323 merged on green at 23:33 AEDT (v2.16.45, commit `e9fb7847`, no migration, G3 75/48 untouched; spec s697, 8 tests):
+  - Preview as pills show their full labels at 1500, 720 and 390 px (the drawer header's 32 px icon-button rule clipped them).
+  - Archive course and Read with AI hidden for Counsellor and Viewer and in Preview as.
+  - Read / refresh entry requirements now and its pipeline hidden for them; approved entry requirements only, or one empty-state line.
+  - Scholarship lists show three, then Show all (N) scholarships / Show less (course list, Around this course card, insight panel in Course and Provider detail).
+- Spec document v1.1 (section 6A, matrix rows, three screenshots); mirrors from Pilot main `e9fb7847` (UI map, SOPs, role guides, test register: 798 specs, 3,688 tests); one engagement row.
+
+**Not done:**
+- The live screen was not re-opened: the built-in browser could not be reached (503); screenshots were taken against the mock.
+
+**Next executable action:**
+- Platform Admin: re-check the Master of Teaching (Secondary) detail in Preview as Counsellor and Viewer.
+- S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged from 22:50).
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
 Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
@@ -12763,3 +12824,12 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker 
 **Next executable action:**
 - Platform Admin: merge Pilot #1314, then Admin #609, before Thu 01:15 AEDT (otherwise after 03:30).
 - S1-Courses, within 10 minutes of the deploy: live read-back and the Drive backup refresh.
+
+**Status at 18 Nov 2026 23:50 AEDT, S1-Courses.**
+
+- Another lane merged its own v2.16.45 into `main` at 23:40, so Pilot #1314 is now **release v2.16.46** (package 0.1.468; version pill, release notes `docs/release-notes/v2.16.46.md`, changelog, release contract, Guide and SOPs: admin SOP 2.71, operator SOP 2.31). Migration `20261118275000` (above the live head `20261118272000`, #1322 merged) and worker v1.0.23 stand. Local: 243 targeted specs and 3 phone specs passed; build, release contract and UI map passed. GitHub CI runs on head `5b31009`.
+- Admin #609 merged with `main` again: `CURRENT-STATE.md` rebuilt from `main` plus the S1-Courses section, `main`'s engagement rows byte for byte plus this lane's three (111 rows, 1,665 minutes logged, 1,650 counted), test register from `main` plus s662 and s664 (800 files, 3,698 tests), UI map and SOP mirrors at v2.16.46.
+
+**Next executable action:**
+- Platform Admin: when green, merge Pilot #1314 and then Admin #609 before Thu 01:15 AEDT; otherwise after 03:30 AEDT.
+- S1-Courses, within 10 minutes of the deploy: live read-back and Drive backup refresh.

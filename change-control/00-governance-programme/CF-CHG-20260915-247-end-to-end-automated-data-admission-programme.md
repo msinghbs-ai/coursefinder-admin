@@ -12089,6 +12089,25 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - S2-Build, after Thu 03:30 AEDT: one read-only correlated read for every StudySearch role returning student-facing fields only, plus an admin read of provider accreditations; the screen then swaps its reads with no layout change.
 - Destination loads: JSA salary, outlook, shortage and study-area link; Home Affairs post-study work years and financial-capacity benchmark.
 - Platform Admin: review the layout and columns in the spec document.
+
+## 18 Nov 2026 23:55 AEDT — S1-RM-Design: v2.16.45 Course and Provider detail fixes after live inspection (Pilot #1323, s697)
+
+**Trigger:** Platform Admin 18 Nov 2026 23:02 AEDT, chat S1-RM-Design (reserved specs s697 to s699; zero schema migrations).
+
+**Done:**
+- Pilot #1323 merged on green at 23:33 AEDT (v2.16.45, commit `e9fb7847`, no migration, G3 75/48 untouched; spec s697, 8 tests):
+  - Preview as pills show their full labels at 1500, 720 and 390 px (the drawer header's 32 px icon-button rule clipped them).
+  - Archive course and Read with AI hidden for Counsellor and Viewer and in Preview as.
+  - Read / refresh entry requirements now and its pipeline hidden for them; approved entry requirements only, or one empty-state line.
+  - Scholarship lists show three, then Show all (N) scholarships / Show less (course list, Around this course card, insight panel in Course and Provider detail).
+- Spec document v1.1 (section 6A, matrix rows, three screenshots); mirrors from Pilot main `e9fb7847` (UI map, SOPs, role guides, test register: 798 specs, 3,688 tests); one engagement row.
+
+**Not done:**
+- The live screen was not re-opened: the built-in browser could not be reached (503); screenshots were taken against the mock.
+
+**Next executable action:**
+- Platform Admin: re-check the Master of Teaching (Secondary) detail in Preview as Counsellor and Viewer.
+- S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged from 22:50).
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
 Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
@@ -12144,3 +12163,12 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker 
 **Next executable action:**
 - Platform Admin: merge Pilot #1314, then Admin #609, before Thu 01:15 AEDT (otherwise after 03:30).
 - S1-Courses, within 10 minutes of the deploy: live read-back and the Drive backup refresh.
+
+**Status at 18 Nov 2026 23:50 AEDT, S1-Courses.**
+
+- Another lane merged its own v2.16.45 into `main` at 23:40, so Pilot #1314 is now **release v2.16.46** (package 0.1.468; version pill, release notes `docs/release-notes/v2.16.46.md`, changelog, release contract, Guide and SOPs: admin SOP 2.71, operator SOP 2.31). Migration `20261118275000` (above the live head `20261118272000`, #1322 merged) and worker v1.0.23 stand. Local: 243 targeted specs and 3 phone specs passed; build, release contract and UI map passed. GitHub CI runs on head `5b31009`.
+- Admin #609 merged with `main` again: `CURRENT-STATE.md` rebuilt from `main` plus the S1-Courses section, `main`'s engagement rows byte for byte plus this lane's three (111 rows, 1,665 minutes logged, 1,650 counted), test register from `main` plus s662 and s664 (800 files, 3,698 tests), UI map and SOP mirrors at v2.16.46.
+
+**Next executable action:**
+- Platform Admin: when green, merge Pilot #1314 and then Admin #609 before Thu 01:15 AEDT; otherwise after 03:30 AEDT.
+- S1-Courses, within 10 minutes of the deploy: live read-back and Drive backup refresh.

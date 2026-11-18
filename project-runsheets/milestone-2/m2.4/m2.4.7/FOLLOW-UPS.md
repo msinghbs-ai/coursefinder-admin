@@ -435,3 +435,45 @@ Platform Admin directed one report-only reconciliation against the 2 November CR
 **For S2-Intakes (priority):** is the intake we hold the next intake the page announces or the main annual start? The replay cannot score intakes until this is defined.
 
 **Not done:** the label-splitting cue and any re-read release (needs a migration); intake, fee and description qualification (no route qualification row, no deadline field, intake undefined).
+
+## S1-AER, 18 Nov 2026 23:35 AEDT: prompt v3.1 and 180 s evaluation calls (s674), round 5 not qualified; standing 7-day validation renewal; five AER consumer data findings resolved without quarantine (s675)
+
+Platform Admin 20:53 and 22:26 (alert batch `88e5ff5b-3fb9-4613-80db-3ff0c96a6b06`). Pilot #1311, #1313, #1317, #1320 (s674) and #1321 (s675). Migrations:
+- `20261118243000` (md5 `28ef812f`)
+- `20261118270000` (md5 `85f5e02a`)
+
+Worker `coverage-sweep` v1.0.19. Full write-up: `docs/platform/2026-11-18-s1-aer-round5-renewal-consumer-findings.md`.
+
+**Done and read back from live:**
+- **s674, prompt `aer-v2-course-v3.1`.** v3 plus one section asking for every requirement row of a table or list. It runs on the three exact pinned models with no fallback.
+- **s674, 180 s evaluation calls (was 90 s).** The 150 s request idle time-out and `EarlyDrop` of background tasks forced a streamed answer. The replay workflow calls the worker straight with a one-time nonce, records each answer as it comes and starts at most 8 examples a call.
+- **Round 5 (runs 45 to 47).** The gate is unchanged and **no model passes**:
+
+  | Model | Right of 50 | Quotes on page | Error points | False positives | Time-outs |
+  |---|---|---|---|---|---|
+  | Mistral Small 3.2 | 13 | 85.7% | 8 | 2 | 2 |
+  | MiMo v2.6 Flash | 14 | 54.6% | 12 | 4 | 6 |
+  | Qwen3 30B | 7 | 25% | 22 | 3 | 11 (27 in round 4) |
+
+  Nothing was qualified or switched on. Switches are back to 0 and on-demand `6c37d8fc` is closed. AER v3 spend is US$1.529 of US$2.
+- **Standing rule (Platform Admin 20:53).** The two AER automatic admission validations renew automatically every 7 days, without sign-off, when nothing has changed:
+  - Workflow `aer-validation-renew.yml` runs daily at 18:17 AEDT and renews once the last pass is `aer.validation_renew_after_days` (5) old.
+  - It renews only on 0.8/8 (course reads) and 0.9/8 (provider tables), the validators checked on 18 Nov, mode 2, not suspended, and 0 regressions.
+  - Anything else fails the run and is reported; nothing is forced on.
+  - Next renewal about 23 Nov. The runbook item 3a in `docs/platform/2026-11-12-aer-admission-mechanism.md` has the rule.
+- **s675, the five critical consumer data findings.**
+  - The findings are 149 provider-table rows at five providers: AUT 56, Whitireia and WelTec 44, Massey 36, Flinders 12, Otago 1.
+  - People approved these rows on 30 Oct. On 11 Nov 19:15 the qualification-first re-record recorded the same runs again and re-pointed them to new change items, so the check read approved rows as "not admitted".
+  - Not quarantined: that would have withdrawn person-approved data from the consumer API. Instead:
+    - the check now accepts an approval that names the row's run;
+    - a run a person approved is never recorded again.
+  - The 23:27 `aer-reconcile` resolved findings 1516 to 1520: 0 P0 open and Platform health `aer:p0` resolved at 23:27:00 AEDT.
+- G3 75 functions and 48 relations. AER v1 thresholds unchanged. Both migrations were applied before Thursday's 01:15 freeze.
+
+**Not done:**
+- No AER v2 model is qualified, so the about 1,620 incomplete course reads stay held.
+- The five `entry_matrix_change` items, which hold the 11 Nov qualification rows, wait in Layer 4 for a person.
+
+**Next executable action:**
+- S1-AER, Thursday 02:45 AEDT (scheduled): read-only `aer-validation-renew.yml` status since 20:09:59. Confirm the 90 would-admit course reads were admitted after their 6-hour re-check.
+- Platform Admin: how AER v2 qualification proceeds after round 5. Mistral now meets the error-point limit but not quote fidelity or false positives. The every-row section did not raise recall. US$0.47 of the evaluation cap is left.

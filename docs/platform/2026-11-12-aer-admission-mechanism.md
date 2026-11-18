@@ -88,6 +88,11 @@ Changes to an admitted table always go to a person.
 1. **Every stage is scheduled and bounded.** A backlog slows the flow but never stops it. The course reader also stops itself while Layer 4 holds 600 AER items, so people are not flooded.
 2. **Work is leased.** Fetch and read runs have claim and lease timers. A failed run returns to the queue, up to 3 tries. A Firecrawl budget refusal doesn't use up a try.
 3. **Machine admission does the routine.** Both rules run every 30 minutes. They are switched on only after a recorded validation against human decisions and shadow results; validation 6 of the matrix rule passed with 0 disagreements. A pass never switches anything on by itself.
+3a. **Validation renewal (standing rule, Platform Admin 18 Nov 2026 20:53 AEDT).** Both machine rules need a passing validation younger than 7 days; without one they run as shadow. Renewal is automatic and needs no sign-off when nothing has changed:
+   - Workflow `aer-validation-renew.yml` (Pilot, daily 18:17 AEDT) runs `security.aer_machine_validate_v1` and `security.aer_matrix_machine_validate_v1` again once the last pass is `aer.validation_renew_after_days` (5) old.
+   - It renews only on the thresholds the rule names (course reads: confidence 0.8, quote 8 characters; provider tables: confidence 0.9, quote 8) and only for the validators checked on 18 Nov 2026 (md5 `945077fe…` and `162cfa24…`), with mode 2 and admission not suspended.
+   - A renewal passes only with 0 regressions. Anything else is reported in the run and the run fails; nothing is forced on, and admission falls back to shadow when the old pass lapses. A changed threshold or validator needs a new decision.
+   - `mode = status` (by hand) is read only: last passes, ages, thresholds, admissions since a time and would-admit reads still waiting.
 4. **Recovery without a person.**
    - Held reads are read again from stored records (replay).
    - Corrected reads are asked for held course reads, up to 2 tries, 14 days apart.
