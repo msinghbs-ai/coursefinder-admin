@@ -12767,3 +12767,23 @@ Platform Admin 23:52. No code or migration.
 **Next executable action:**
 - S2-Build, after 03:30 AEDT: PR C (accreditations through the on-demand gate) and PR D (v3 read path, including the career employment count), plus the multi-field live admission path and the Melbourne-date scholarship status refresh if not already covered.
 - Confirm the successor Home Affairs edition is published on API v3.
+
+## 19 Nov 2026 00:40 AEDT — S1-RM-Design: v2.16.46 Course detail declutter (Pilot #1324, s698)
+
+**Trigger:** Platform Admin 18 Nov 2026 23:51 AEDT, chat S1-RM-Design (reserved specs s698 to s699; zero schema migrations).
+
+**Done:**
+- Pilot #1324 merged on green at 00:26 AEDT (v2.16.46, commit `c9a293dd`, no migration, G3 75/48 untouched; spec s698, 5 tests):
+  - Description pipeline and Tasks that held this course hidden for Counsellor and Viewer and in Preview as; folded by default for Editors and Platform Admins.
+  - Check scholarships for this course and every other task button hidden for Counsellor and Viewer.
+  - Related insights & funding (QILT, PRISMS) folded by default for every role.
+  - One scholarship list on the Course detail: no second Scholarships & funding card in the insights.
+- The description, s697 and deployed a12 specs open the new folds; 1,192 related tests and the phone spec green.
+- Spec document v1.2 (section 6B, matrix rows, two screenshots); mirrors from Pilot main `c9a293dd` (UI map, SOPs, role guides, test register: 799 specs, 3,693 tests); one engagement row.
+
+**Not done:**
+- The live screen was not re-opened: the built-in browser could not be reached (503); screenshots were taken against the mock.
+
+**Next executable action:**
+- Platform Admin: re-check the Course detail on a phone in Preview as Counsellor and Viewer.
+- S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged).
