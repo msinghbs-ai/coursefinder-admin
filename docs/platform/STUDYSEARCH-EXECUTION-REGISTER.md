@@ -5902,3 +5902,29 @@ Platform Admin 1-day handover, 19 Nov 2026 06:49 (spec block s740 to s759). Migr
 - S1-AER: S677 is delivered by S748 and S749; do not build it again.
 
 **19 NOV 2026 08:55 AEDT — S2-BOOST-Discovery handover (Platform Admin 07:39 decisions, 08:18 addendum IQ-00029): evidence.** Decisions recorded: university search stop kept (21 providers, 637 queued searches), ANU 34 and La Trobe 21 year-swap held (no table, no rebind). Pilot #1354 (s659, `20261119085000`, md5 `ed95b24d`) released the 11 unread found pages with no search credit: 1 read (UVic, 200, identity mismatch), 10 not read, all 3 attempts used, each claim ended `WORKER_RESOURCE_LIMIT` (546) at 08:10, 08:21 and 08:31. Pilot #1361 (s666, `20261119100000`, md5 `bcb8b92d`) made `svc_coverage_discovery_next` and `svc_course_link_search_next` check lazily in pick order inside a 5 s budget: the `discover` 500s (128 of 394 calls since 05:24) were the discovery focus check, not the stop gate; rolled-back live run: course search 17.7 s for 40 rows before, 5.1 s for 17 of the same 40 after; 12 of 12 `discover` calls since the apply returned 200; course search full path first live at 00:00 AEDT 20 Nov. G3 75/48. Not done: the read worker's resource limit (10 pages unread).
+
+## 19 Nov 2026 08:45 AEDT — S1-Build: consolidation PR 4 cutover live (early, Platform Admin 07:47)
+
+**Trigger:** Platform Admin 19 Nov 2026 05:23 (rebase PR 4 after the squash) and 07:47 AEDT (chat S1-Build: "Do NOT wait until 15:10 AEDT — execute the PR 4 cron fold cutover immediately so DB contention drops while the S2 data-admittance drains run").
+
+**Done:**
+- Pilot #1331 merged 08:18 AEDT (migration `20261119095000`, history md5 `7e9b9fe7`):
+  - `coverage-lane-dispatch` took over `page-text` and the 7 single-mode `coverage-sweep` jobs;
+  - `rollup-scheduler` took over `settings-backup-daily`;
+  - the 9 legacy jobs are switched off and `retiring` (`retire_after` 2 Dec).
+- The 24-hour hold was replaced, as authorised, by checks on today's runs: `settings-backup-daily` 06:50 succeeded with its `shadow_due` rollup run, and the latest `rollup-scheduler` tick succeeded.
+- Minute coverage now counts a legacy start pg_cron ran one minute late as the dispatcher's slot: `central-find` and `ops-diagnose` at 18 Nov 17:28 and 19 Nov 05:28 had read as uncovered.
+- Gate at 07:53: 0 uncovered and 0 refused on all 8 lanes. Rolled-back live dry run passed; full CI green.
+- Read back: 8 lanes live; backup target live; 9 legacy jobs off and retiring; first live dispatches succeeded; active jobs 146 to 138; G1 0 unregistered; G3 75/48, 0 drift.
+- PIM Admin › Operations › Scheduled jobs (built-in browser, already signed in as Platform Admin): 138 running, 78 retired hidden, `coverage-lane-dispatch` 21 legacy jobs replaced.
+- Spec renumbered: the cutover spec took s644, already used by the Course link accept rule spec; s765 (Pilot #1359) then collided with a provider description spec merged at the same time, so it is now s766 (Pilot #1362). The test register is regenerated.
+- Admin: `docs/paste/PASTE-20261119-pr4-legacy-unschedule.sql` (md5 `1817ff40`, run from 3 Dec 2026 08:20 AEDT) is listed in `docs/paste/README.md`.
+- The 15:10 scheduled cutover task is switched off. Two engagement rows logged.
+
+**Not done:**
+- The 13 consolidation candidates are not all folded: `coverage-read`, `coverage-read-2` and the Boost jobs stay on their own jobs by design.
+- The legacy jobs are switched off, not unscheduled: the paste file unschedules them after the retention window.
+
+**Next executable action:**
+- Platform Admin, from 3 Dec 2026 08:20 AEDT: run the PR 4 paste file. It and the PR 3 file refuse until `security.flag_jobs_v1` reads the live lanes from the registry (owner: PR 3 and PR 4 lane, S1-Build).
+- PR 2 and coverage lanes: `rollup-scheduler`'s course-coverage target hit the 120-second timeout twice in 24 hours (01:53, 06:55).
