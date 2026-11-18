@@ -94,6 +94,7 @@ Changes to an admitted table always go to a person.
    - A renewal passes only with 0 regressions. Anything else is reported in the run and the run fails; nothing is forced on, and admission falls back to shadow when the old pass lapses. A changed threshold or validator needs a new decision.
    - `mode = status` (by hand) is read only: last passes, ages, thresholds, admissions since a time and would-admit reads still waiting.
 3b. **AER v2 replay paused (Platform Admin 18 Nov 2026 23:52 AEDT).** No paid AER v2 evaluation round is dispatched (`aer-v3-replay.yml`) until dense multi-row entry tables are chunked per qualification, or a stronger frontier model is explicitly authorised. AER v2 stays off; live admission is AER v1's deterministic rules for course reads and provider tables. Round 5 (18 Nov) left US$0.47 of the US$2 evaluation cap.
+3c. **Queue order (S748 and S749, 19 Nov 2026).** Each run checks up to `batch.aer_machine` items inside a 45-second limit: gate-complete items first, then never checked, then the least recently checked, then the oldest. Every outcome records its check time, so an item checked and not admitted waits behind the rest for its next turn (6-hour gap).
 4. **Recovery without a person.**
    - Held reads are read again from stored records (replay).
    - Corrected reads are asked for held course reads, up to 2 tries, 14 days apart.
