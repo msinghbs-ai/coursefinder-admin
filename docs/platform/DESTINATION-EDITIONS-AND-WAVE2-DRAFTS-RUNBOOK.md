@@ -59,14 +59,14 @@ Decision of the Platform Admin, 18 Nov 2026 07:03.
 
 | Question | Where |
 |---|---|
-| Which fields does an API v3 action return, from which table and column, for which request? | Reference data › API field dictionary (search a field, endpoint, source column or request number). 2,085 fields on 17 Nov 2026. |
+| Which fields does an API v3 action return, from which table and column, for which request? | Reference data › API field dictionary (search a field, endpoint, source column or request number). 2,216 fields on 18 Nov 2026. |
 | What does a field mean and what is its status? | `docs/integrations/api-v3/API-V3-FIELD-DEFINITION.md` |
 | Which course values are held today? | Catalogue › Courses: show Study load and Empty reason from Columns, or filter by them (v2.16.29). |
 | Which campus is primary, and its locality? | Catalogue › Providers › Campuses: Primary and Locality columns (v2.16.29). |
 
 **Handover (RM0B):** both v3 APIs are still in development, so the dictionary and handover documents are not issued to the developers yet. They are issued once, at v3 release.
 
-**Study load (updated 18 Nov 2026 11:50 AEDT):** returned by API v3 on the `course`, `search` and Zoho `courses` actions since Pilot #1257 (migration `20261118133707`), with `empty_reason_code`, `campuses[].locality` and `provider.accreditations`; the provider action returns `accreditations`. The field dictionary lists them (2,179 fields; the next list, 2,216, adds the fields the live actions carried that it did not describe: Pilot #1264).
+**Study load (updated 18 Nov 2026 11:50 AEDT):** returned by API v3 on the `course`, `search` and Zoho `courses` actions since Pilot #1257 (migration `20261118133707`), with `empty_reason_code`, `campuses[].locality` and `provider.accreditations`; the provider action returns `accreditations`. The field dictionary lists them (2,216 fields since Pilot #1264, 18 Nov 2026 11:54 AEDT, which added the fields the live actions carried that it did not describe).
 
 ## 5. Multi-country schema lock: every destination in the shared tables
 

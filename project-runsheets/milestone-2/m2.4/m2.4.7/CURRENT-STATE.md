@@ -12131,3 +12131,16 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: Publish edition on Destination data › Overview & editions (ABS Regional population 2024-25); check the seven official-source items REQ-84 to REQ-90.
 - S2-Build: re-bump #1263 to v2.16.36 and a free spec number; consider adding the remaining constraint values to the paste file before it runs.
+
+## 18 Nov 2026 12:25 AEDT — S1-RM-Design: API v3 field dictionary gaps closed (Pilot #1264, migration 20261118135707)
+
+**Trigger:** Platform Admin 18 Nov 2026 11:28 (RM0B cross-check), chat S1-RM-Design.
+
+**Done:**
+- Pilot #1264 merged on green CI as `1708ce44` and deployed: the dictionary describes the fields the live v3 actions returned but it did not (`item.field_of_study_codes[]` on both course actions, `item.recognition[]` on Zoho course, destination `filters.*`, Website `contract_version`) and corrects Website search `university_groups` to a list of objects. Rolled-back live dry run passed before merge. Read back live: history md5 `158ee71f` equals the file; 2,216 current fields, none deprecated; G3 75 functions and 48 tables, no drift.
+
+**Not done:**
+- Layer 1 wizard "What this source will create" panel: still held until S2-Build's #1263 merges.
+
+**Next executable action:**
+- Run the drift check again after each v3 change; every course, search, provider and destination answer should report nothing undescribed.
