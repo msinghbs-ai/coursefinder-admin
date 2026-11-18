@@ -5108,3 +5108,18 @@ Platform Admin 14:23, 14:25 and 14:29.
 - **Course page needed (1,958) is unchanged.** 1,568 items have every page found refused by the binder, 288 have a dead 404 page (163 of them at Adelaide University: adelaideuni.edu.au addresses, probably moved to adelaide.edu.au; not checked live), 60 are unread and 41 blocked. None has a proved page, and the search and reader lanes are paused.
 - **Open, needs a decision:** the 14:23 items (scholarship deadline refresh REQ-71 and REQ-72; multi-field admission REQ-61, REQ-69 and REQ-70) were held because that message ruled out migrations. The round-state refresh has not run since 17 Nov 00:23 UTC (its only caller job is paused) and uses the UTC date.
 - Migrations `20261118171000`, `173000` and `183000`; specs s644, s645 and s647. G3 75/48.
+
+## 18 Nov 2026 17:00 AEDT — S2 - BOOST: Course page needed through the search lane by rule; study-load settlement heals itself (Pilot #1293, #1295)
+
+Platform Admin 16:10.
+
+- **Course page needed (1,958 to 1,360).** Rule l4-page-needed-search-v1 (s654, job hourly at minute 53, 300 a run) sends each open item back to the course-link search lane through the existing Search again decision under the system automation account. 404 and unread pages go first. The lane's caps and Firecrawl limits apply, and no on-demand work was opened. 43 blocked or robots pages wait for a person.
+- **Correction to 15:45.** The search worker and the course-list reader run live through the lane dispatcher; they are not paused.
+- **Adelaide University.** `adelaideuni.edu.au` is the live domain and the `adelaide.edu.au` alias was already in place. The 203 404s are addresses guessed from titles; they were sent for a new search.
+- **Study load.** Rule l4-boost-sl-settle-v1 now releases pages last read with an older prompt (s655). The 74 that the old worker read with v4 during the deploy are released for v5. Totals: 94 admitted, 231 Not stated, 75 to settle.
+- **Not done, with reasons:**
+  - The international cue (38 items) needs the stored sentence texts, which this session cannot read.
+  - AER shared-page splitting is a new layout reader under the v1 freeze (Decision 276).
+  - The 751 descriptions are already read and are held by identity and wording rules; scraping again would not change that.
+  - The offline multi-field qualification has no person-decided reference answers.
+- Migrations `20261118190000` and `193000`. G3 75/48.
