@@ -13334,3 +13334,24 @@ Platform Admin 07:39 (three handover decisions) and 08:18 (addendum IQ-00029). T
 - S1-Courses: read the v4 course-description re-read drain to its end.
 - A person: the 28 campus postcodes left in Layer 4 › Campus locality.
 
+
+## 19 Nov 2026 10:24 AEDT — S2-BOOST-AER: scheduled check, AER course machine queue drained (s748, s749)
+
+Read only, project `fxcwkweaxjtknorudmwp`, 10:24 to 10:26 AEDT. No change made.
+
+- **Course reads admitted since S748 (07:50): 73.** 26 at 09:24, 43 at 09:54, 4 at 10:24. The 08:54 run, the first under S749, checked 169 items (audit samples first).
+- **Would-admit reads still waiting: 16** (89 at 07:02). At the current rate they are reached in the next run or two.
+- Live definitions unchanged since the merges: `aer_machine_admit_v1` md5 `89a5c44b`, `aer_machine_run_v1` md5 `fc9261cb`. P0 findings open: 0. G3 75/48. Head `20261119103000`.
+- **Matrix machine:** admit mode (validated 06:30), 79 matrix items pending. No admission since the 2 at 06:54 (6 rows). By latest outcome:
+  - D-R3 gate incomplete: 70
+  - all rows held: 11
+  - change of an admitted table: 6
+  - shared host: 6
+  - source not on the official host: 5
+  - earlier rejection: 2
+  - audit sample: 1
+  - no rows: 1
+  - The run re-checks pending items every 30 minutes and records only a changed outcome. Only a new read fixes the gate-incomplete items.
+
+**Next executable action:**
+- S2-BOOST-AER: S747, the 10-table chunked smoke test (≤ US$0.10, pinned models only), from the merged chunker (Pilot #1358).
