@@ -5389,7 +5389,7 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
-Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `66d00ea`): worker `coverage-sweep` v1.0.20, migration `20261118253000` (md5 `2d98e5f1`; seven md5-guarded function edits, no new table or function), release v2.16.44, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
+Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `497fa8b`): worker `coverage-sweep` v1.0.23, migration `20261118268000` (md5 `1e1310d8`; seven md5-guarded function edits, no new table or function), release v2.16.44, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
 
 - **Reader v4 (s662).** Prompt `cdesc-source-grounded-v4`: 1 to 2 sentences (never more than 2), about 180 to 360 characters, the course's academic focus, core skills and stated career outcomes; never a sentence for intake dates, campus names or addresses, fees, or duration and study load. Per-sentence quote grounding unchanged. Settings `enrich.course_description_max_sentences` 4 to 2 and `enrich.course_description_max_chars` 700 to 360.
 - **Identity proof in cdesc-machine-v2 (s662).** The 0.1 page-match margin is waived when the page proves the course by its own CRICOS or NZQA code, or by its exact title (or an address ending in it) that no other active course of the provider shares, and no other course of the provider is bound to the same page. Switch `enrich.course_description_identity_proof_on` (1). Degree name, title and level, field and award, and adapter title stay with a person.
@@ -5399,13 +5399,24 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `66d00ea`): worker 
 - **Inside the rolled-back dry run (after the change):** 249 of the 451 pass identity and fall to the new sentence limit (253 sentence count, 38 length), 202 stay identity holds, 3 pass outright.
 - **How the 666 clear after the merge:** the two settings move the machine rule's policy stamp, so the next settle run looks at every decline again; v3 readings fail the 2-sentence limit and are declined, `security.cdesc_prompt_supersede_v1` supersedes them and the gap queue reads each stored page again with v4 (no Firecrawl), and the machine rule admits each new reading whose page proves the course. No overwrite: a course that holds a description is never written.
 - **Finding, not this lane's:** the prompt registry row of the provider description service (v4) no longer matches its active database prompt (version 5 since S2-BOOST-Providers 18:45); the migration's parity post-check is scoped to course descriptions.
-- G3: 75 functions and 48 relations, consumer check unchanged inside the dry run. Live head `20261118243000`; this migration is `20261118253000` (Pilot #1307 holds `256000`).
+- G3: 75 functions and 48 relations, consumer check unchanged inside the dry run. Live head `20261118256000`; this migration is `20261118268000`, above it and above #1318 (`262000`, `265000`).
 
 **Not done:**
 - Merge of Pilot #1314 (refused by the session's tool guard) and so the deploy, the 5-to-10-minute acceptance read and the v2.16.44 mirrors (UI map, SOPs) here.
-- s661 (study load v6 cue) and s663 follow-up (fee basis): in Pilot #1316 (worker v1.0.21, no migration), another session.
+- s661 (study load v6 cue) and s663 follow-up (fee basis): in Pilot #1316 (worker v1.0.21, no migration, merged), another session.
 
 **Next executable action:**
-- Platform Admin: merge Pilot #1314 (green). Deploy on merge applies `20261118253000` and deploys `coverage-sweep` v1.0.20.
+- Platform Admin: merge Pilot #1314 (green). Deploy on merge applies `20261118268000` and deploys `coverage-sweep` v1.0.23.
 - S1-Courses, within 10 minutes of the deploy: read back `security.cdesc_prompt_version_v1()` = v4, the four settings, the course description Layer 4 count by reason, and the first v4 admissions; mirror `docs/UI-MAP.md` and `docs/sops/` at v2.16.44; then watch the 666 drain over the next settle and gap-queue runs.
 - Before Thu 01:15 AEDT: nothing else from this lane touches the database (squash freeze 01:15 to 03:30).
+
+**Status at 18 Nov 2026 22:50 AEDT, S1-Courses (Platform Admin 22:28: post-merge verification, v2.16.44 mirrors, Drive sync).**
+
+- **Pilot #1314 and Admin #609 were still open at 22:30** (GitHub shows neither merged), so nothing of s662 or s664 is live and the live read-back was not run. Live still has prompt v3 and the old limits.
+- `main` had moved: #1307 (`20261118256000`), #1316 (worker v1.0.21) and two S674 follow-ups merged. #1314 was brought up to date with a merge from `main` (no force push): **migration renumbered `20261118268000`** (above the live head `256000` and #1318's `262000`/`265000`), **worker v1.0.23** (after #1316 v1.0.21 and #1319 v1.0.22), release stays v2.16.44 (#1315 claims it too: whichever merges second renumbers). The seven md5 guards are unchanged (no merged migration touched those functions). 230 targeted specs passed locally; CI and the PR's own rolled-back dry run were running at 22:50.
+- Admin #609 now also carries the v2.16.44 mirrors: `docs/UI-MAP.md` (generated) and `docs/sops/` (admin SOP 2.69, operator SOP 2.29: the "Why this is held" box and the four decisions). Merge it after Pilot #1314.
+- Drive `Monitoring`: `Roadmap_Engagement_Register` › Engagements synced to the CSV (105 rows in CSV order, 1,575 minutes logged, 1,560 counted); backups replaced latest-only.
+
+**Next executable action:**
+- Platform Admin: merge Pilot #1314 when green, then Admin #609 (in that order).
+- S1-Courses, within 10 minutes of the deploy: read back prompt v4, the four settings, the course description count by reason and the first v4 admissions.

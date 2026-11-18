@@ -106,7 +106,7 @@ P0 verify deployed #1001 + paid-answer replay and job settlement; P1 implement g
 ## Production acceptance evidence and runbook
 Capture before and after counts by country/provider/course level and description origin; attempts/recorded/validated/machine-admitted/human-held/technical-retry/published/Website-verified; AI credits/cost; p50/p95 per stage; duplicates and retries; source-specific claims; fixed examples including Billy Blue DUX20, UniSC Graduate Certificate ICT and Academy IT ICT30120. Prove 2 unattended cycles and stable throughput near the **actual approved capacity**, no silent missing work and recoverable budget refusal. Do not claim completion from test success, PR merge, 100 samples or queued jobs. Record live evidence and rollback in the existing F-CDESC rows and Execution Register.
 
-## Change, 18 Nov 2026 (S1-Courses, s662 and s664; Pilot #1314, migration `20261118253000`, worker v1.0.20, v2.16.44)
+## Change, 18 Nov 2026 (S1-Courses, s662 and s664; Pilot #1314, migration `20261118268000`, worker v1.0.23, v2.16.44)
 
 Decided by the Platform Admin on 18 Nov 2026 (chat S1-Courses), after a Layer 4 review of Ara Institute of Canterbury, New Zealand Diploma in Applied Science (Level 5): three sentences of about 590 characters, the third only intake and duration filler, held for a thin page-match margin although the page was the course's own.
 
