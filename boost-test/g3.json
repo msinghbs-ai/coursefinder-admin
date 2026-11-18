@@ -1,0 +1,11 @@
+{
+ "g3": {
+  "drift": [],
+  "functions": 75,
+  "relations": 48,
+  "checked_at": "2026-11-18T18:41:37.146598+00:00"
+ },
+ "cron_active": 0,
+ "security_functions": 1805,
+ "pipeline_tables": 572
+}

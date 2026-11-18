@@ -1,0 +1,12 @@
+{
+ "head": "20261118272000",
+ "newer": 5,
+ "applied": 4,
+ "failures": [
+  {
+   "version": "20261119044000",
+   "name": "cf247_boost_benchmark_bench5",
+   "error": "HTTP 400: Failed to run sql query: ERROR:  P0001: post-check: the study-load admission qualification changed\nCONTEXT:  PL/pgSQL function inline_code_block line 8 at RAISE\n"
+  }
+ ]
+}
