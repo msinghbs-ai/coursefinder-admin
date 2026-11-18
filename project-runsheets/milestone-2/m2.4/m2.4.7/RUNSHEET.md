@@ -12641,3 +12641,34 @@ Own follow-up of the 17:55 block (Platform Admin 16:54 and 17:02). One migration
 **Next executable action:**
 - S2-Build: merge #1307 after its dry run; apply the coverage read (cf247-coverage-telemetry) after Thu 03:30 AEDT.
 - Any recurring cluster exported from Clusters goes to the Boost worker or reader prompt as a rule with a regression test.
+
+## S1-AER, 18 Nov 2026 20:50 AEDT: AER course machine admission re-validated (s673); matrix level from the table heading and completion-only rows (s671); AER v2 replay round 4, no model qualified (s672)
+
+Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, md5 `c1ae9cae`) and #1310 (`20261118238000` md5 `070779e6`, `20261118239000` md5 `536a4204`); specs s671 to s673. Full write-up: `docs/platform/2026-11-18-s1-aer-revalidation-matrix-parser-replay.md`.
+
+**Done and read back from live:**
+- **S673 (step 1):**
+  - Validation 6 of rule `aer-machine-v1` passed at 20:09:59 AEDT: 401 would-admit reads re-checked, 0 regressions. It ran inside a migration under the live md5, as on 11 Nov; there was no separate workflow.
+  - Course machine admission is live again; the 20:24 run admitted 1 read.
+  - The other about 90 `would_admit` reads are admitted as each 6-hour re-check comes round, by about 02:30 Thursday (fixed rule, not changed).
+  - Thresholds 0.8 and 8 unchanged; variant twins held.
+- **S671 (step 2):**
+  - Matrix rows with no level read take the one level named in the stored heading or file title (codes bachelor, masters, doctorate, foundation; never when any row names a level).
+  - "Year N equivalent" is not a level.
+  - Completion requirements with no score are not missing minimums.
+  - Effect: 127 rows take a level, 225 rows are completion-only; reads passing 0 to 2, both admitted at 20:24 (UTAS 29 rows, Deakin College 1 row).
+  - 54 reads stay held by the D-R3 gate (dropped rows); they need a corrected read.
+  - Matrix validation 12 passed. Switches `aer.matrix_level_inherit_on` and `aer.matrix_completion_only_on`. Functions replaced in place, G3 75/48.
+- **S672 (step 3):**
+  - Round 4 on frozen set 5 with the exact pinned IDs, through the new workflow `aer-v3-replay.yml` (run 44273806589, 20:13 to 20:37): on-demand `639066c5` opened and closed, switches back to 0.
+  - Results: MiMo v2.6 Flash 14/50 right, integrity 60%, 26 pts, 2 FP; Mistral Small 3.2 11/50, 85.7%, 22 pts, 2 FP; Qwen3 30B 3/50, 100%, 54 pts, 27 time-outs.
+  - **No model passes the unchanged gate:** Path B, nothing qualified or switched on.
+  - US$0.125 spent; AER v3 total US$1.372 of US$2.
+
+**Not done:**
+- No held AER course read was re-read. No model is qualified.
+
+**Next executable action:**
+- Platform Admin, AER v2: (a) revise prompt v3 for missed rows, then round 5 with `aer-v3-replay.yml` (recommended); (b) longer evaluation time-out (a fixed code value); or (c) pause replays.
+- Platform Admin: how the 7-day validations are renewed. They lapse on 25 Nov at 20:10 (course reads) and 20:12 (matrices).
+- S1-AER, about 02:45 Thursday: read back that the 90 `would_admit` reads were admitted.
