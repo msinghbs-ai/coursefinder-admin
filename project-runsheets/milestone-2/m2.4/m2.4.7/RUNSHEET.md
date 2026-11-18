@@ -13102,3 +13102,24 @@ Platform Admin 06:49. One migration, `20261119080000` (md5 `ab4845cc`), data onl
 - Platform Admin: open a course that has QILT and PRISMS figures and confirm the fold is closed by default.
 - Pilot #1335 and #1336 re-bump after rebase (v2.16.48 is now below main's v2.16.49).
 
+
+## 19 Nov 2026 08:35 AEDT — S2-BOOST-Courses: description reader live (Pilot #1344), 650 held descriptions queued for re-read, live counts read in PIM Admin (s728)
+
+**Trigger:** Platform Admin 19 Nov 2026 06:49 AEDT, chat S2-BOOST-Courses (reserved s666–s669 and s720–s739): standing 1-day handover mandate and five items. Full record: `docs/platform/S2-BOOST-COURSES-HANDOVER-2026-11-19.md`.
+
+**Done:**
+- Item 1. Pilot #1344 (the #1335 change rebased onto main; worker `coverage-sweep` v1.0.25, release v2.16.50, migration `20261119084000`, specs s662 and s664) merged on green CI after a rolled-back live dry run passed and the md5 of all seven guarded function bodies matched live. Live head is `20261119084000`; `security.cdesc_prompt_version_v1()` returns `cdesc-source-grounded-v4`. #1335 and #1336 closed as superseded (#1336's splitter is #1337, s721). G3 75/48 held (CREATE OR REPLACE and settings only).
+- Drain of the 666 held course descriptions (zero Firecrawl): the changed policy stamp made the machine rule look at every decline again at 07:44 (668 rows: 5 admitted, 254 too many sentences, 39 too long, 202 identity margin, 142 binding ambiguous, 15 evidence moved, 13 wrong page kind). By 08:29, 44 readings had been admitted by the machine rule, 650 were superseded for a 1-2 sentence re-read, and 15 stay in review (evidence moved). Courses holding a description: 14,433 (07:42) to 14,477 (08:29) of 44,733 (36,031 active). No overwrite: a course with a description is never written.
+- Item 2 and the study-load release: label splitter is #1337 (s721, worker v1.0.24) and the release of 820 items is #1347 (s722, merged 07:37 AEDT), both from the S1-Courses lane; nothing duplicated here. Courses with a study load: 5,689 of 36,031 active (08:21); Layer 4 Boost study load 179.
+- Item 4. s727 is #1341 (merged, migration `20261119062000`): 3 postcodes (9 campuses) settled; Layer 4 Campus locality 69 campuses wait for a person (suburbs outside the area's name, a campus under the wrong postcode, 50/50 postcodes). Nothing was guessed.
+- Item 5, live check. GitHub Actions secrets are write-only (they cannot be read back), so the UAT login was used where it already lives: the deployed-uat workflow signs in with `COURSEFINDER_UAT_EMAIL` and `COURSEFINDER_UAT_PASSWORD` and prints neither. New read-only deployed spec s728 (Pilot #1356, #1357; selected by `.github/s2-boost-live-counts-candidate`) opened Coverage (Courses, Attributes) and Layer 4 Inbox as the UAT user on the live site (Actions run 44400209609, release pill v2.16.50): Coverage snapshot built 08:12; Attributes tiles 24,066, 10,797, 13,456 and 20,834 of 36,031 admitted (Intakes 13,456, Provider tuition 10,797); Layer 4 Inbox: Boost study load 179, Campus locality 69, University description 76, Fee fails the check 10, Held scholarship 82, Entry requirements (AER) 2,655.
+- Self-check scheduled for about 10:14 AEDT (reads the drain, final admitted field totals and G3).
+
+**Not done:**
+- The 650 superseded descriptions are not yet re-read: job `field-gap-queue` (hourly at :23) failed at 08:23 with a statement timeout (it averages 80 s against a 120 s limit; one earlier failure, 19 Nov 05:23 AEDT). The next run is 09:23. Not changed here.
+- Items 3 (s723 intakes, s724/s725 fee gold replay and tier enablement, s726 deadlines) are Pilot #1346 (S1-Courses lane), open and conflicting with main (worker v1.0.25 and migration `20261119061500` are taken); a comment says what to renumber. No field other than study load is qualified for live admission; no fee tier was enabled (no tier has met 95% with zero false positives).
+- A Claude-browser login with retrieved credentials was not possible (see above); s728 is the governed substitute.
+
+**Next executable action:**
+- Pilot owner of #1346: rebase to worker v1.0.26, a migration above `20261119084000` and the next release number.
+- Self-check at about 10:14 AEDT: confirm the 650 re-reads ran after 09:23 and report the admitted description total.

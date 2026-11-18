@@ -83,6 +83,14 @@ Pending paste files (run by the Platform Admin; details and md5 in `docs/paste/R
 
 ## 5. Open work in the repositories
 
+### S2-BOOST-Courses, 19 Nov 2026 08:35 AEDT: description reader live (Pilot #1344, v2.16.50), re-reads queued, live counts read as the UAT user (s728)
+
+- Live migration head `20261119084000`; worker `coverage-sweep` v1.0.25; prompt `cdesc-source-grounded-v4`. #1335 and #1336 closed (superseded).
+- 666 held course descriptions: 44 admitted, 650 superseded awaiting a 1-2 sentence re-read (next `field-gap-queue` run 09:23; the 08:23 run hit a statement timeout), 15 in review. Courses with a description 14,477 of 44,733 (14,433 at 07:42).
+- Study load 5,689 of 36,031 active; Layer 4 Boost study load 179, Campus locality 69, University description 76 (live, run 44400209609).
+- Pilot #1346 (s723, s724, s726; S1-Courses lane) is open and conflicts with main. GitHub secrets are write-only; the live check ran through the deployed-uat login (s728).
+- Detail: `docs/platform/S2-BOOST-COURSES-HANDOVER-2026-11-19.md`; self-check scheduled about 10:14 AEDT.
+
 ### S2-Build, 19 Nov 2026 06:00 AEDT: post-squash batch (Platform Admin 19 Nov 2026 05:21): Boost test project rebuilt and re-seeded, blades live for every role, round states on rollup-scheduler only; coverage telemetry held for a decision
 
 **Status at 19 Nov 2026 06:00 AEDT. This block is the newest for these items.**
