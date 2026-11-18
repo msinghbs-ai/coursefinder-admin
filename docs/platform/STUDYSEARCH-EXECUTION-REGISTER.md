@@ -5730,3 +5730,42 @@ Read only; no migration, no data change (zero schema migrations in this lane). L
 - Pilot #1335 and #1336 (S1-Courses) also claim package 0.1.469; both were told on the PR to re-bump on rebase.
 
 **19 NOV 2026 07:15 AEDT — S2-BOOST-Discovery check-in (Platform Admin 16:54 and 17:02 directives): evidence.** On-demand request `2fe02033` closed 18 Nov 19:16 AEDT (2,190 credits recorded; window 1,092 calls, 2,184 credits; the scheduled share then used 800 credits from 00:00 AEDT). Pilot s658 (#1306) live: of 563 items waiting on a search, none is behind a gate. 922 searches finished since the window opened: 99 found a page (1 proved), 823 found none. Search pick time-outs 141 since 06:49 UTC (123 after the share opened), cost measured read-only; not fixed (no search lost under the 800-credit share). No binder matcher change (no query-string or trailing-slash mismatch in 98 unproved found pages). No year-preference rule: the rule already prefers a proved current-year page; the only write path (`security.course_page_rebind_v1`) clears the proved old page before the new address is read, and keeping it needs a new table. Detail: `docs/CURRENT-STATE.md` 19 Nov 07:15 block.
+## 19 Nov 2026 07:15 AEDT — S2-BOOST-Providers handover: provider description prompt recorded, held re-reads restored to Layer 4, final counts (Pilot #1345)
+
+Platform Admin 06:49. One migration, `20261119080000` (md5 `ab4845cc`), data only; specs s760 and s761. No table, column, function or job added. G3 75/48, no drift (read 07:07). Live head `20261119080000` (2,158 applied).
+
+**Handover numbers (read live 07:07):**
+
+| Measure | Count |
+|---|---|
+| Published, active providers | 2,830 |
+| With a description | 2,171 |
+| Without a description | 659 |
+| University descriptions waiting for a person in Layer 4 | 61 |
+| Scholarship records | 2,832 |
+| Scholarships published | 1,066 |
+| Held scholarship pages | 82 |
+| Campus localities waiting | 78 |
+
+- **Prompt record (s760).** The live prompt is version 5. Version 4 had been saved from the admin screen and version 5 built in SQL, so neither text was in a file. Both are now byte-for-byte fixtures in Pilot `tests/fixtures/pdesc/` with the live checksums; the migration refuses to apply if either live row differs.
+- **Re-read finished.** All 81 descriptions sent back on 18 Nov were read again from stored pages (US$0.0206, no Firecrawl): 12 admitted, 6 proposed in Layer 4, 63 held by the reader's own checks (a quote not on the page 26, a sentence its quote does not support 24, others 13).
+- **Restore (s761).** For 54 of the 63, the provider still has no description, so the earlier reading is pending in Layer 4 again with its reading proposed, and a person can approve it. The other 9 already hold a register-fact description. The migration admitted nothing.
+- **Why 659 providers have no description** (latest read of each):
+  - 238 have never been read.
+  - 196 are held by the page identity proof: the page title or h1 is not the provider's name alone (for example "About Us | Sydney Art School (SAS)", "Scotch College Melbourne", "About Us - Princeton International College" for Princeton Education Group Pty Ltd).
+  - 56 share their host with another active provider; 21 have a campus, faculty or school heading.
+  - 105 are held by grounding (quote not on the page 63, unsupported sentence 34, unsupported number 8).
+  - 7 are proposed in Layer 4; the rest are sentence count, wrong page and wording.
+- **Held scholarships (82, unchanged).** No rule was changed. Of the 15 clear re-check recommendations, 7 were settled on 18 Nov. The other 8 stay held: in 5 the two readings disagree about who may apply, 1 is a staging address, 1 audience sentence does not say "international", and 1 (Bond) is a second page of a scholarship already admitted. The rest are audience not stated 57, value unclear 3, not settled 3, no stored copy 11.
+  - The two scholarships admitted on 18 Nov are still unpublished: Ronald Lu Travel Award closed on 22 Jun 2026, and the Otago Polytechnic record has no award value.
+
+**Not done:**
+- Signing in to PIM Admin in a browser: the UAT email and password are GitHub Actions secrets, which cannot be read back, so the screens were not checked by eye. The counts above are from the live database. The Deployed UAT run on this merge was cancelled by a later merge.
+- No batch drain was started and no follow-up check was scheduled: the reader has no queued description reads, and every remaining provider is held by a rule, not by a queue.
+- The page identity proof and the grounding check are in the worker (`coverage-sweep/description.ts`); neither was changed.
+- The test register rows for s760 and s761 were added in the generator's format.
+
+**Next executable action:**
+- Platform Admin: decide the provider description model route (Qwen3 30B gave 8 usable readings of 39 with prompt version 5; GPT-4.1 mini gave 158 of 392 with version 4). It governs the 105 grounding holds.
+- Provider description owner: a worker release that accepts a title segment made of the provider's name plus its own initials in brackets or a registration number, then a re-read of the 196 identity holds.
+- A person: the 61 university descriptions in Layer 4.
