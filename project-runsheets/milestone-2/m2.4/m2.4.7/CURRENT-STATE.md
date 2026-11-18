@@ -12500,3 +12500,27 @@ Platform Admin 16:54 and 17:02. Two migrations, `20261118200000` (md5 `77d86cb5`
 - Stop rule l4-page-needed-search-v1 sending items whose search the stop gate holds, and return the 834 parked items to the list with the gate as their reason (s658).
 - Read the search results again after the found pages are read (reads run inside the scheduled share), then close request `2fe02033` with `security.on_demand_close_v1` and record the actual use.
 - Platform Admin: lift or keep the university search stop for Adelaide University, Victoria University, Flinders, Monash and ICMS. While it stands, their 395 courses are not searched.
+
+## S2-BOOST-Courses, 18 Nov 2026 18:00 AEDT: sentence cue inspected and not promoted; multi-field check v2 and replay live; 663 descriptions clustered
+
+**Request:** Platform Admin 18 Nov 2026 17:02 (study load v6 from the 38 international-sentence items, the 663 held course descriptions, Qwen3 30B multi-field qualification). Full findings: `docs/platform/BOOST-SENTENCE-CUE-DESCRIPTIONS-AND-MULTI-FIELD-QUALIFICATION-2026-11-18.md`.
+
+**Done and read back:**
+- **Pilot #1299 and #1301 merged on green and deployed** (worker `coverage-sweep` v1.0.18, specs s660 and s663, no migration). The mode ledger shows v1.0.18 answering both new modes.
+- **Read-only sentence inspection (s660).** Mode `boost_sentences` and workflow `boost-sentences-inspect.yml` return the sentences the study load reader takes as a statement for international students. No model call, no write.
+- **The cue is not clean, so v6 was not promoted and nothing was admitted.** 41 pages inspected (run 44251878109): 35 are false matches (unpunctuated blocks of entry requirements, navigation, other courses, markup) and 6 hold a real statement. One page shows the reader inferring full-time from "not available to international students", which is wrong.
+- **Multi-field page check `boost-fields-check-v2` is live (s663).** A description must be prose about the course; a month counts as an intake only where the quote says the course starts then; a fee needs its whole amount, currency, period and year supported.
+- **Gold-set replay (run 44254128321, 80 pages, US$0.0168, nothing staged or admitted).** Descriptions 47 of 60 verified. Intakes 12 verified, 6 agree with the held value. Fees 10 verified, 7 agree. **Qwen3 30B is not qualified on any of these fields.** Deadlines were not asked: the prompt has no deadline field.
+- **663 held course descriptions clustered:** identity margin thin 448, binding ambiguous 143, refused word 44, evidence moved 15, wrong page kind 13. Of the 448, the binder proved 170 by the course's own CRICOS or NZQA code and 170 by exact title after reading the page.
+- G3 75/48, no drift (read 17:59). Live head `20261118210000` (2,134 applied). Route rows, the one admission qualification and the 0 field candidates out of shadow are unchanged.
+
+**Not done:**
+- Study load v6. The corrected cue (signals close together, labelled international lines, no inference from a closed course) is designed in the findings document and not built.
+- No held description was admitted. The identity-proof rule changes `security.course_description_machine_check_v1`, whose live text is not in the repository; it needs a function migration with an md5 pre-check and a rolled-back dry run.
+- The test register rows for s660 and s663 were added in the generator's format and the totals raised by 2 specs and 11 tests; the generator's listing step needs the full Pilot environment.
+- The Google Drive Monitoring folder is synced after this change merges (the backups carry the merged commit); its result is in the session report, not in this block.
+
+**Next executable action:**
+- Capture the live `security.course_description_machine_check_v1`, add the identity-proof exemption (spec s662), dry-run it, and let the unchanged machine rule re-check the 340 items.
+- Build the v6 cue behind `boost_sentences`, run it over all settled and admitted readings, and promote only if it is clean (spec s661).
+- S2-Intakes: say whether an intake is the stated intake month or the teaching start date, then re-run the replay with 120 pages a field.
