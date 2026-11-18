@@ -12288,3 +12288,24 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
     - or register the legislative instrument (LIN 19/198 as amended, Federal Register of Legislation, CC BY 4.0) as a Layer 1 source.
 - **TEST-REGISTER:** not regenerated, because packages are not installed in this session and no CI workflow regenerates it. New or changed specs since the last register: `s694`, `s696`, `s710`, `s711`, `s712`, `s713`, `m245`.
 - Pilot #1335 and #1336 (S1-Courses) also claim package 0.1.469; both were told on the PR to re-bump on rebase.
+
+## 19 Nov 2026 07:40 AEDT — S1-RM-Design: v2.16.49 scholarships listed once (Pilot #1342, s699)
+
+**Trigger:** Platform Admin 19 Nov 2026 06:39 and 06:50 AEDT, chat S1-RM-Design (reserved spec s699; zero schema migrations), after a live check of v2.16.47 at 375×812.
+
+**Done:**
+- Live check of v2.16.47 (built-in browser, signed in as Platform Admin; no credentials were asked for or read): Preview as Viewer and Counsellor hide the Description pipeline and every task button; the Around this course card still repeated one scholarship line above the Scholarships section.
+- Pilot #1342 merged on green at about 07:03 AEDT (v2.16.49, commit `363cda70`, no migration, G3 75/48 untouched; spec s699, 8 tests: four roles, phone width, source check):
+  - The Around this course card is headed Entry requirements and carries no scholarship line, for every role.
+  - The Scholarships section (three, then Show all (N) scholarships / Show less) is the only scholarship list on the Course detail. The Provider detail is unchanged.
+- v2.16.48 was left to Pilot #1335 and #1336 (both claim it); this release took v2.16.49. Those PRs, #1314 and #1235 were not touched.
+- Live check of v2.16.49 at 375×812 on Diploma of Information Technology (Higher Education): Viewer, Counsellor and Admin previews show "Entry requirements" with no scholarship text, one Scholarships list, no horizontal overflow; pipeline and task buttons hidden for Viewer and Counsellor, shown for Admin.
+- Spec document v1.3 (section 6C, entry card table, layout sketch, empty states, decisions 1 and 2 marked done by s712, one live screenshot); mirrors from Pilot main `3ebe7e41` (UI map, SOPs, role guides, test register: 812 specs, 3,738 tests); one engagement row.
+
+**Not done:**
+- Related insights & funding was not on this course in any role (no QILT or PRISMS figures held for it), so the fold was not seen live; s698 covers it.
+
+**Next executable action:**
+- Platform Admin: open a course that has QILT and PRISMS figures and confirm the fold is closed by default.
+- Pilot #1335 and #1336 re-bump after rebase (v2.16.48 is now below main's v2.16.49).
+

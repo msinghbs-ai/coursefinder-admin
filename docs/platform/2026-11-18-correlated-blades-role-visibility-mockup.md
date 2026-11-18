@@ -1,6 +1,6 @@
 # Correlated detail blades, metric type pills and role-based field visibility — UI mockup and specification
 
-Version 1.2 · 19 Nov 2026 · S1-RM-Design · Platform Admin directives 18 Nov 2026 21:23, 23:02 and 23:51 · PIM Admin v2.16.44 to v2.16.46 (Pilot specs s694 to s698)
+Version 1.3 · 19 Nov 2026 · S1-RM-Design · Platform Admin directives 18 Nov 2026 21:23, 23:02 and 23:51, and 19 Nov 2026 06:39 and 06:50 · PIM Admin v2.16.44 to v2.16.49 (Pilot specs s694 to s699)
 
 The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44 as read-only blocks in the Course and Provider detail, the pills on Destination data › City metrics & costs and the "Preview as" switcher. Column and field tables in sections 3 to 6 are generated from the code (`src/lib/correlation-adapters.js` CARD_SPEC, `src/lib/destination-metric-types.js`, `src/lib/field-visibility.js`), so this document and the screen cannot drift; s694 to s696 hold the screen to them.
 
@@ -8,12 +8,13 @@ The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44
 
 | Item | Where | Spec |
 |---|---|---|
-| Correlated read-only sections in the Course detail (Location & weather; Career pathway, jobs & salary outlook; Visa & living-cost snapshot; Entry requirements & scholarships) | Courses › a course › Around this course | s694 |
+| Correlated read-only sections in the Course detail (Location & weather; Career pathway, jobs & salary outlook; Visa & living-cost snapshot; Entry requirements) | Courses › a course › Around this course | s694, s699 |
 | Correlated read-only sections in the Provider detail (Rankings; Campus city profiles; Scholarships & accreditations) | Providers › a provider › Around this provider | s694 |
 | Metric type filter pills | Destination data › City metrics & costs | s695 |
 | Role-based field visibility matrix and "Preview as: Admin \| Counsellor \| Viewer" | Course and Provider detail header and body | s696 |
 | Fixes after live inspection: Preview as pills, Archive course and Read with AI, the entry pipeline, scholarship Show all | Course and Provider detail | s697 |
 | Course detail declutter: Description pipeline and task buttons hidden for Counsellor and Viewer, pipeline and Related insights & funding folded, one scholarship list | Course detail | s698 |
+| Scholarships listed once: the Entry requirements card carries no scholarship line, for every role | Course detail › Around this course | s699 |
 
 Zero schema: no migration, no new function, no grant. Every card is a join in the browser over reads the admin already has: `admin_provider_destination_read` and `admin_course_destination_read` (any StudySearch role), `admin_destination_review` (Curator and above), `admin_entry_requirements`, `admin_read` `provider_ranking_history`, and the course detail's own scholarships. G3 untouched (75 functions, 48 tables).
 
@@ -36,8 +37,8 @@ Course detail (top to bottom): summary pills and fact cards › course values (c
 │ │   rainfall, pop.   │ │ shortage   │    │ │ visa charges       │ │
 │ │ attribution        │ │ (or empty  │    │ │ health cover       │ │
 │ └────────────────────┘ │  state)    ┘    └────────────────────┘ │
-│ ┌ Entry requirements & scholarships ┐                           │
-│ │ academic entry (3)  │ scholarships (3) │                       │
+│ ┌ Entry requirements ───────────────┐                           │
+│ │ academic entry (3)               │                           │
 │ └───────────────────────────────────┘                           │
 └────────────────────────────────────────────────────────────────┘
 ```
@@ -51,11 +52,11 @@ Empty and gap states (every card has one, so a card never disappears):
 | Location & weather | "No campus is held for this course yet." / "No climate or population figure is held for <city> yet." | "City figures, careers and visa figures show for Curators and above until the student-facing read is added (S2-Build)." |
 | Career pathway | not_loaded: "Career outcomes are not loaded for this country yet." · figures_loading: "Occupations are held; salary, growth and shortage figures arrive with the Jobs and Skills Australia load." · no_field_link: "No occupation is linked to this field of study yet." | as above |
 | Visa & living cost | "No visa or living-cost rule is proven for this course's destination yet."; a rule without a figure reads "Not held yet" | "Figures for each rule show for Curators and above …" |
-| Entry & scholarships | "No approved entry requirements published for this course yet." (also the only entry line a Counsellor or Viewer sees when none is approved) / "No published scholarship applies to this course."; more than three scholarships: Show all (N) scholarships | — |
+| Entry requirements | "No approved entry requirements published for this course yet." (also the only entry line a Counsellor or Viewer sees when none is approved). Scholarships are not in this card (s699); the Scholarships section below it lists them, and shows Show all (N) scholarships past three | — |
 | Rankings | "Not ranked" per system; "No subject rank is held yet." | — |
 | Scholarships & accreditations | "Sent in API v3" | "Accreditations are sent to the website as item.provider.accreditations; the admin read for them is part of the S2-Build hand-off." |
 
-Screenshots (mocked data, Playwright, 1500 px wide unless stated; the signed-in browser was not reachable from this session):
+Screenshots (images 0 to 9 are mocked data from Playwright, 1500 px wide unless stated; image 10 is the live site, taken in the built-in browser):
 
 | View | Image |
 |---|---|
@@ -69,6 +70,7 @@ Screenshots (mocked data, Playwright, 1500 px wide unless stated; the signed-in 
 | v2.16.45: scholarships, three then Show all (5) scholarships | ![](ui-audit/assets/2026-11-18-correlated-blades/7-s697-scholarships-show-all.png) |
 | v2.16.46: Description pipeline folded (Editor and Platform Admin) | ![](ui-audit/assets/2026-11-18-correlated-blades/8-s698-description-pipeline-folded.png) |
 | v2.16.46: More about this course, Related insights & funding folded | ![](ui-audit/assets/2026-11-18-correlated-blades/9-s698-insights-folded.png) |
+| v2.16.49: live PIM Admin at 375×812, Preview as Viewer: Entry requirements card, then the one Scholarships list (live site, not mocked) | ![](ui-audit/assets/2026-11-18-correlated-blades/10-s699-live-viewer-375x812.jpg) |
 
 ## 3. Course detail: Around this course
 
@@ -117,14 +119,13 @@ Join: course › provider › country › study_rules (proven rule_applicability
 | `rule_id` | Rule id | study_rules.id | — | Internal (Editor and Platform Admin) |
 | `approval_status` | Approval and edition status | study_rules.approval_status, editions.status | — | Internal (Editor and Platform Admin) |
 
-### Entry requirements & scholarships (`course.entry`)
+### Entry requirements (`course.entry`)
 
-Join: course › entry requirement rows and published scholarships.
+Join: course › entry requirement rows (scholarships are listed once, in the Scholarships section).
 
 | Field | Shown as | Column read | API v3 path | Audience |
 |---|---|---|---|---|
 | `entry_rows` | Academic entry requirements (kind, requirement, score and basis) | admin_entry_requirements course rows | `item.entry_requirements.summary` | Student-facing |
-| `scholarships` | Published scholarships (name, value, closing date) | course_scholarships.items | `item.scholarships[].name` | Student-facing |
 | `raw_quote` | Quote read from the page | entry requirement quote | — | Internal (Editor and Platform Admin) |
 | `layer4_queue_state` | Waiting in Layer 4 | entry requirement status proposed | — | Internal (Editor and Platform Admin) |
 
@@ -233,6 +234,20 @@ Found on Diploma of Information Technology (Higher Education), on a phone, in Pr
 | 3 | Related insights & funding (QILT, PRISMS: six stat cards) open every time | The panel is its own fold, "Related insights & funding — QILT & PRISMS context", closed by default for every role | Closed for the Platform Admin and a Counsellor; opens on click |
 | 4 | A second Scholarships & funding card below the insights | On a course the insights add no scholarship card; the course's Scholarships section (three, then Show all (N) scholarships) is the one list. The Provider detail keeps its scholarship card, which is its only list | No `.ci-scholarships` on the Course detail; one Scholarships section |
 
+## 6C. Scholarships listed once (v2.16.49, s699; Platform Admin 19 Nov 2026 06:39 and 06:50)
+
+Found by a live check of v2.16.47 on a phone (375×812) in Preview as Viewer and Counsellor: a scholarship showed twice, once as a line in the Around this course › Entry requirements & scholarships card (added in s694) and again in the Scholarships section.
+
+| # | Found | Fix | Check in s699 |
+|---|---|---|---|
+| 1 | One-line scholarship summary in the Around this course card, repeating the Scholarships section | The scholarship column is removed from the card for every role (Viewer, Counsellor, Editor, Platform Admin); the card is headed **Entry requirements** | The card holds no scholarship text and no `data-cb-scholarships` or `data-cb-sch-list` in all four roles |
+| 2 | Scholarships in two places | The Scholarships section (three, then Show all (N) scholarships / Show less) is the only scholarship list on the Course detail | Each scholarship name appears once, before and after Show all, in all four roles; one `[data-course-scholarships]` |
+| 3 | Check at phone width | Same | A `@responsive` test at 375×812 for a Viewer: no scholarship line, no horizontal overflow |
+
+The card spec (`CARD_SPEC`, card `entry`) lost its `scholarships` field and its join now reads "course › entry requirement rows". The Provider detail is unchanged: its Scholarships & accreditations card is its only scholarship list. Section 6A row 4 (the card's list showing three, then Show all) is superseded by this change; the toggle now belongs to the Scholarships section and the Provider insight list only.
+
+Live check, v2.16.49, Course detail of Diploma of Information Technology (Higher Education), 375×812, built-in browser signed in as Platform Admin: in Preview as Viewer, Counsellor and Admin the card is headed "Entry requirements", has no scholarship text, and the one Scholarships section lists the course's single scholarship; no horizontal overflow; Description pipeline and task buttons hidden for Viewer and Counsellor, shown for Admin. Related insights & funding was not on this course in any role (no QILT or PRISMS figures for it), so the fold was not seen on the live page; s698 covers it.
+
 ## 7. Live data behind the cards (read 18 Nov 2026, project fxcwkweaxjtknorudmwp)
 
 | Source | Held | What the cards show today |
@@ -248,8 +263,8 @@ Found on Diploma of Information Technology (Higher Education), on a phone, in Pr
 
 | # | Item | Decision or owner |
 |---|---|---|
-| 1 | Viewers and Counsellors cannot read city figures, careers or full rule figures: `admin_destination_review` is Curator and above, and this lane adds no schema | The cards show a read-gap note. Hand-off to S2-Build after Thu 03:30 AEDT: one read-only `admin_correlated_read_v1(entity_type, entity_id)` open to any StudySearch role, returning only student-facing fields (approved and published rows). The screen then swaps its reads; the card layout does not change. |
-| 2 | Accreditations have no admin read | Same S2-Build hand-off (add `accreditations` to the provider detail or the correlated read). |
+| 1 | Viewers and Counsellors could not read city figures, careers or full rule figures (`admin_destination_review` is Curator and above) | Done: S2-Build s712 (Pilot #1329, migration `20261119045000`) lets every StudySearch role read approved, published, student-facing rows; the screen shows them from v2.16.47. The read-gap note shows only if a read fails. |
+| 2 | Accreditations had no admin read | Done: s712 adds accreditations to the provider detail; Editors and above also see rows under review, marked as such (v2.16.47). |
 | 3 | Field visibility is a screen rule | The server's role checks remain the access control. Internal markers carry `data-vis="<field>"`; a student-facing drawer hides them with one generated style. |
 | 4 | Preview as | Editors and Platform Admins only; it never raises a role. The preview uses the person's own reads, so it shows the intended student view with data, including the cards a Viewer or Counsellor will see once item 1 is live. |
 | 5 | Career figures | JSA salary, outlook and shortage figures and the field-of-study link (study_area_code) are a destination load task; the empty state stays until they arrive. |
@@ -262,3 +277,4 @@ Found on Diploma of Information Technology (Higher Education), on a phone, in Pr
 | 1.0 | 18 Nov 2026 | First issue with PIM Admin v2.16.44 (Platform Admin 18 Nov 2026 21:23). |
 | 1.1 | 18 Nov 2026 | Section 6A and the four new matrix rows: v2.16.45 fixes after live inspection (Platform Admin 18 Nov 2026 23:02, Pilot #1323, s697). |
 | 1.2 | 19 Nov 2026 | Section 6B and two new matrix rows: v2.16.46 Course detail declutter (Platform Admin 18 Nov 2026 23:51, Pilot #1324, s698). |
+| 1.3 | 19 Nov 2026 | Section 6C: v2.16.49 scholarships listed once, Entry requirements card without a scholarship line (Platform Admin 19 Nov 2026 06:39 and 06:50, Pilot #1342, s699); section 3 entry card table, layout sketch and empty-state table updated; section 8 items 1 and 2 marked done (s712). |
