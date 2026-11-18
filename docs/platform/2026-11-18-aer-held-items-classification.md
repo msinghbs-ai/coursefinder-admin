@@ -30,10 +30,10 @@ Every pair (the held course and each other programme bound to the same address) 
 
 | Kind | Example | What it means |
 |---|---|---|
-| Qualification ladder on one page | Diploma and Advanced Diploma of Business; Graduate Certificate and Master of Public Administration; Associate Degree and Bachelor of Music; a degree and its Honours year | Two different qualifications, both bound by CRICOS code. Their requirements differ by level. A person or a per-qualification read decides. This is the largest kind. |
+| Qualification ladder on one page | Diploma and Advanced Diploma of Business; Graduate Certificate and Master of Public Administration; Associate Degree and Bachelor of Music; a degree and its Honours year | Two different qualifications, both bound by CRICOS code. Their requirements differ by level. A person or a per-qualification read decides. This is the most common kind in the listing. |
 | Major or stream siblings | Bachelor of Science (Biology) (Honours) with eight other majors; Doctor of Philosophy by faculty group | One award, several registered streams on one page. |
 | Pace or duration twins | (Standard) and (Accelerated); (Extended); 34 weeks and 52 weeks; 1 year and 2 years | The same qualification registered twice. 41 items. See section 3. |
-| The other binding was already refused | Certificate IV in Baking (bound by hand) with Certificate III in Baking (status `mismatch`) | The identity check has already refused the other course. The item is still held because the course's own basis is `manual`, which is not in `entry.shared_page_own_bases`, or it carries a hand lock. Roughly 15 items. |
+| The other binding was already refused | Certificate IV in Baking (bound by hand) with Certificate III in Baking (status `mismatch`) | The identity check has already refused the other course. The item is still held because the course's own basis is `manual`, which is not in `entry.shared_page_own_bases`, or it carries a hand lock. Roughly 15 items (counted by eye from the listing). |
 
 A heading, anchor or tab splitter separates very few of these: the pages are a course's own page, not a page with one section per course.
 
@@ -60,7 +60,7 @@ The directive of 17:04 asked for variant twins to pass automatically. A twin rul
 
 ## 4. Provider matrices (83 items, 3,302 proposed rows, 60 providers)
 
-All 83 runs were read by `openai/gpt-4.1-mini` (63 fetched directly, 20 through Firecrawl).
+All 83 runs were read by `openai/gpt-4.1-mini` (64 fetched directly, 19 through Firecrawl).
 
 | Finding | Figure |
 |---|---|
@@ -70,10 +70,10 @@ All 83 runs were read by `openai/gpt-4.1-mini` (63 fetched directly, 20 through 
 | of which the read carried no level at all | 893 rows, 22 providers |
 | of which the label is a school-year equivalence ("Year 12 equivalent", "Year 10 equivalent" and the like) | about 195 rows |
 | Rows with neither a grade nor a value | 997 |
-| of which the row is a completion requirement with no score ("Successful completion of …") | most |
+| of which the row is a completion requirement with no score ("Successful completion of …") | most of a sample of eight read |
 | Rows with a grade in words and no number (letter grades, "3 passes", "'B' average") | about 500 |
 
-Rows the reader dropped (448 across the runs): quote not on the page 183, unknown country 90, grade not in the quote 69, band not in the quote 31, value without a scale 17, low confidence 16, quote too short 16, other 26.
+Rows the reader dropped (449 across the runs): quote not on the page 183, unknown country 90, grade not in the quote 69, band not in the quote 31, value without a scale 17, low confidence 16, quote too short 16, other 27.
 
 What this means for a parser:
 - **The level is usually printed in the table, not missing.** For the 893 rows it sits in a column heading or the heading over the table; a deterministic reader can carry it when exactly one level is named there, using the platform's own study-level list.
