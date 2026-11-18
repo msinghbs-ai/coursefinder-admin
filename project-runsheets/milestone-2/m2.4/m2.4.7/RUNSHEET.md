@@ -12332,3 +12332,21 @@ Platform Admin 13:06: resolve every Layer 4 › Scholarship course links item wi
 - S1-Build, Thu 00:25: 24-hour late-tick check.
 - S1-Build, Thu 01:15: migration freeze and squash.
 - S1-Build, Thu 15:10: PR 4 cutover, gate first.
+
+## 18 Nov 2026 15:30 AEDT — S2-Build pre-freeze migration lane: paste file v2 back with the Platform Admin, BOM climate figures approved (Pilot #1287), page-text evidence key fix (#1281)
+
+**Trigger:** Platform Admin 18 Nov 2026 14:23 AEDT, chat S2-Build.
+
+**Done:**
+- Pilot #1280 applied paste file v2 as migration `20261118165000`. Deploy on merge refused it (top-level drop), so nothing was applied. It was reverted by Pilot #1288 (spec s641 retired) so main equals live.
+- Pilot #1287 merged on green (migration `20261118181500`, md5 `776a7c0f`, s646). The publish step is isolated: the 40 BOM climate figures are approved and served by API v3. The edition stays draft until the published-per-owner paste file is run. Read back 15:24 AEDT.
+- Pilot #1281 merged on green (migration `20261118181000`, md5 `b4643fa1`, s642). Page-text copies now take the next capture version under a per-course lock, and the 179 failed copies are due again.
+- New admin paste file `PASTE-20261118-destination-editions-published-per-owner.sql` (md5 `73b42f0f094279eb26af426ae7863411`), listed in `docs/paste/README.md`.
+
+**Not done:**
+- The 28-destination CHECK constraints need the Platform Admin to run paste file v2 before Thu 01:15 AEDT.
+- RM1I, RM1C/RM1H and RM1D are not loaded: a page-facts loader with quotes and evidence is needed. QILT and REQ-84 to REQ-90 stay gated.
+
+**Next executable action:**
+- Platform Admin: run paste file v2 and the published-per-owner paste file before 01:15. The BOM edition then publishes at minute 41.
+- S2-Build: page-facts mode of `layer1-destination-geo-loader` for the Home Affairs, Study Australia, Study Tasmania, Fair Work and TAC facts as attributed drafts (terms pending).
