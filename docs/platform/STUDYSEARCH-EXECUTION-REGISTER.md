@@ -5677,6 +5677,18 @@ Post-squash follow-up of the Platform Admin's 18 Nov 10:10 directive.
   - Qwen3's refusals are mostly duration lines quoted as the study load (24 of 31).
   - Bench-4 rates for comparison: 81%, 66% and 76%.
 - Qwen3 30B stays the only qualified model; nothing was switched.
+
+**S1-AER, 19 Nov 2026 05:30 AEDT: morning read-back — would-admit course reads still NOT admitted; 0 P0 findings; replay pause confirmed**
+
+Read only; no migration, no data change (zero schema migrations in this lane). Live reads: `aer-validation-renew.yml` status run 44369257782 (05:24) and a rolled-back probe (run 44370612954 on the carrier branch).
+- **Course-read sweep (`s670`/`s673`): not complete.** Since 20:09:59 on 18 Nov, 2 course reads (3 rows) and 2 provider tables admitted. **89 course reads are still would-admit and waiting**; 2,576 wait in Layer 4. The post-6-hour sweep did not reach them: the machine job (every 30 minutes, succeeding) re-checks the same first items each run (cause and fix S677 in the 03:15 block, awaiting Platform Admin authorisation). The 89 were last checked 16:54 to 19:54 AEDT on 18 Nov; no shadow rows since.
+- **P0 consumer-data findings: 0 open** (`pipeline.aer_gap_findings`, severity P0, state open or reopened). The 149 person-approved provider-table rows stay live; 6 `entry_matrix_change` items are pending in Layer 4 (the five from 11 Nov plus one to identify; none touched).
+- **Paid replay pause recorded in all three places:** CURRENT-STATE (23:55 block), the AER runbook (`docs/platform/2026-11-12-aer-admission-mechanism.md`, item 3b) and Decision 276 (`docs/coursefinder-design-reference-v1.4.md`, 23:52 decision): no round 6 until dense entry tables are chunked per qualification or a stronger frontier model is authorised; US$0.47 of the US$2.00 cap kept; AER v2 stays at 0 (shadow only).
+
+**Next executable action:**
+- Platform Admin: authorise S677 (one function, `security.aer_machine_admit_v1`: admit-mode declined and audit-sample results refresh the last-checked time), or approve the 89 in Layer 4 › Inbox.
+- S1-AER after authorisation: S677 with a rolled-back live dry run, then a status read 30 minutes after merge.
+- Open for a person: the Layer 4 change items; branch `cf247-s676-probe` still exists (never merged; delete in the GitHub UI).
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
 Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
