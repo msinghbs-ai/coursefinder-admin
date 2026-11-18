@@ -12239,3 +12239,45 @@ Platform Admin 13:06: resolve every Layer 4 › Scholarship course links item wi
 **Next executable action:**
 - S2-Build: apply the coverage read migration (renumber above the live head) so Coverage now shows change, trend, targets and 0 of N to N of N.
 - Platform Admin: confirm the accreditation reuse position and run the AMBA paste file; AI Auto-Map on the OfS, QQI and IRCC page drafts; attach the HESA, UKVI, ILEP and IPEDS samples.
+
+## 18 Nov 2026 15:05 AEDT — S1-Build: consolidation PR 4 in shadow (8 coverage lanes and settings-backup-daily); cutover and late-tick check scheduled
+
+**Trigger:** Platform Admin 18 Nov 2026 14:24 AEDT (chat S1-Build):
+- fold `page-text` and the 7 single-mode `coverage-sweep` jobs onto `coverage-lane-dispatch`;
+- move `settings-backup-daily` onto `rollup-scheduler`;
+- keep G1 at 0 unregistered;
+- run the 24-hour late-tick check after 23:20.
+
+**Done:**
+- Read live 14:30:
+  - G1 was already 0 unregistered (213 jobs; `page-text` registered by Pilot #1266);
+  - the 9 jobs were catalogued and registered active;
+  - the longest run in 7 days was 1.6 s.
+- Pilot #1282 merged on green, with a rolled-back live dry run passing and the branch rebased once. Migration `20261118170000`, deployed with history md5 `115abe29`, spec s643. It is shadow only:
+  - 8 worker lanes in `pipeline.field_execution_registry` and `settings-backup-daily` in `pipeline.rollup_targets`, group A;
+  - all copied from `cron.job` byte for byte;
+  - the legacy jobs keep running; no cron job is added or changed.
+- Read back 15:01:
+  - 8 of 8 lanes and 1 of 1 target byte-equal, legacy jobs on;
+  - first `shadow_due` 14:59;
+  - head `20261118170000`, G1 0, G3 75/48.
+- Cutover prepared on Pilot branch `cf247-pr4-lane-fold-cutover` (migration `20261119050000`, s644; no PR until the gate can pass). The gate checks:
+  - 24 hours of shadow;
+  - minute coverage per lane, at most 1 boundary minute out;
+  - `settings-backup-daily` covered;
+  - md5 and schedules unchanged;
+  - no person-paused job.
+- Unschedule paste file drafted on admin branch `s1-build-pr4-cutover-paste` (md5 `29c28cac`).
+- Late-tick check prepared and tested on 6 hours of data (passed): every dispatcher job ran 359 of 359 minutes with 0 failed, 0 drift, and the 66 retiring jobs were all off.
+
+**Not done:**
+- The cutover, which waits for the 24-hour cycle (ends Thu 19 Nov 14:59).
+- The full 24-hour late-tick check (Thu 00:25).
+- `coverage-read` and `coverage-read-2` stay on their own jobs: they run every 30 seconds and a minute dispatcher would halve them.
+- The Boost jobs belong to S2 - BOOST.
+- There is no job named `enrich-lane-dispatch`; the check covers `admission-rule-runner` (PR 2) instead.
+
+**Next executable action:**
+- S1-Build, Thu 00:25: 24-hour late-tick check.
+- S1-Build, Thu 01:15: migration freeze and squash.
+- S1-Build, Thu 15:10: PR 4 cutover, gate first.
