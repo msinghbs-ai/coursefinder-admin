@@ -12193,3 +12193,25 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - **Single-row inspection only:** the 488 AER audit-sample items (the 5% sample exists to be checked one by one); changes to an admitted matrix (6); matrix rows with an unmapped level or no minimum; host problems; identity not admitted; campus postcodes (each postcode is a different place).
 
 **Next:** the Scholarships lane, the 57 scholarship decisions and their 287 missing award values; AER v2 for `edition`/`routes`; a bulk-decision action on the Phase 5 grid for the grouped cases above.
+
+## 18 Nov 2026 13:05 AEDT — S2-Build: climate loader (Pilot #1256), v2.16.36 29-destination data paths (#1265), page-text registered (#1266), 28-destination additive columns (#1268), CF-245 telemetry retired (#1269); constraint paste file v2
+
+**Trigger:** Platform Admin 18 Nov 2026 10:31, 10:44, 11:28, 11:54, 12:19 and 12:21 AEDT, chat S2-Build.
+
+**Done:**
+- Pilot #1256 merged on green (migration `20261118140000`, md5 `ac470372`, s628): BOM climate averages loader; eight capital stations; edition terms pending; drafts load with attribution; job `destination-climate-load` and Run now.
+- Pilot #1265 merged on green (v2.16.36, migration `20261118141000`, s629): registration schemes and subdivisions as data; + Register a scheme in the Add source wizard. Replaced #1263 (closed).
+- Pilot #1266 merged on green (migration `20261118142000`, md5 `e62e0680`, s630): `page-text` job, table and functions in the component register (telemetry UNREGISTERED flag cleared; the job is still required).
+- Pilot #1268 merged on green (migration `20261118150000`, md5 `1b759f16`, s632): quality ratings (`provider_accreditations.rating`, `rating_period`) and employment-by-industry series (`career_outcomes.series_kind` and industry columns); no new table; G3 75/48.
+- Pilot #1269 merged on green (migration `20261118151000`, md5 `b01cf55d`, s633): CF-245 enrichment snapshot targets switched off; five objects retiring; Link refresh, Stalled fields and every snapshot with a reader kept.
+- Admin paste files: `PASTE-20261118-29-destination-check-constraints.sql` v2 (md5 `22bc38a31482375b8da67e214fd73939`; rolled-back live dry run passed, probe Pilot #1271 closed unmerged) and `PASTE-20261202-cf245-enrichment-snapshots-drop.sql`.
+- Read-only 28-destination cross-check and the audit of the 13 consolidation candidates recorded in CURRENT-STATE section 5.
+
+**Not done:**
+- The constraint paste file v2 is the Platform Admin's to run before Thu 19 Nov 01:15 AEDT.
+- Australia RM1C, RM1H, RM1D and living costs not loaded; RM1J waits for the THE 2027 publisher file. The climate job has not been run (Run now or the 2nd of the month).
+- The test register mirror was not regenerated here (the local suite list needs a package not installed in this workspace); the S1-RM-Design 12:25 regeneration stands.
+
+**Next executable action:**
+- Platform Admin: run `PASTE-20261118-29-destination-check-constraints.sql` v2 before 01:15; Run now Destination › BOM climate averages.
+- After the squash: coverage-lane-dispatch wave for the seven single-mode coverage-sweep jobs plus page-text; `settings-backup-daily` to rollup-scheduler.
