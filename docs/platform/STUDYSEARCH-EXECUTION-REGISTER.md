@@ -4765,3 +4765,29 @@ Follows the v1.0.3 entry above.
 **Next executable action:**
 - Platform Admin: Bulk Approve Drafts on Localities & postcodes and on City metrics & costs, then Publish edition on Overview & editions.
 - v3 lane: return `study_load` on the v3 `course` and `search` actions and add it to the dictionary, before the RM0B handover.
+
+## 18 Nov 2026 11:10 AEDT — S1-Build: squash rehearsal complete; Phase 5 first slice shipped by the other session (Pilot #1254)
+
+**Trigger:** Platform Admin 18 Nov 2026 10:09 AEDT (chat S1-Build: run the 10:30 squash rehearsal and the `coursefinder-boost-test` rebuild proof; ship Phase 5's first slice) and the 07:35 note (renumber the Boost benchmark spec off `s596`).
+
+**Done:**
+- 10:13 "being reset" posted for S2 - BOOST (admin #579). Step 0 read live at 10:20: head `20261118101500`, 2,095 history rows; G3 75 of 75 functions and 48 of 48 tables, 0 drift flags; carriage returns in the 7 consumer functions 54, 14, 1, 10, 1, 98, 28.
+- 10:30:06 production schema dump, Pilot `db-schema-dump.yml` run 44199899527 (done 10:43): `schema.sql` md5 `eba7462e98e1028007926988cc81d27c`, every file passes `MD5SUMS`, the 7 consumer functions hold the same carriage-return counts as live. Dump head `20261118111500` (checked by object: it holds `111500`, not `113000`).
+- 10:44–10:59 rebuild proof, admin `boost-test-rebuild.yml` run 44201959838: reset, schema from the dump, reference data, 2 newer migrations (0 failed), G3 75/48 no drift, 1,000 rows in 0.042 s, 50 shadow rows with 0 admitted. The run verdict is FAIL on one Boost check only (`outside_window_refused`): the Boost window covers the whole day since Pilot #1231, so check d of `sql/boost-ingestion/005_rehearsal_rolled_back.sql` cannot be refused. Not a squash finding; handed to S2 - BOOST.
+- 11:02 "can re-seed" posted for S2 - BOOST (admin #580), before its 11:45 check-in.
+- Rehearsal draft Pilot #1235 (never merged) rebuilt at live head `20261118113000` on main `34cfe9e2`: 750 files archived, 1,118 references repointed in 666 files; full CI green first run, 3,364 of 3,364 tests.
+- Phase 5 first slice: the 10:09 directive also reached another session, which merged Pilot #1254 (v2.16.33) at 10:56. S1-Build's parallel build (#1253: same migration name, spec number and table name) was closed unmerged as superseded, branch kept. Read back live: migration `20261118120000` is the head, `pipeline.saved_views` (row-level security on) holds the three shared views, the five grid and view functions exist, G3 75/48 with 0 drift flags.
+- 07:35 note: posted in the S2 - BOOST lane (admin #574) with `s599` as the next free number; S2 - BOOST renumbered the Boost specs in its next PR (admin #578).
+
+**Not done:**
+- The deployed Review grid was not opened in a signed-in session.
+- The Boost check d of `005_rehearsal_rolled_back.sql` still expects a refusal outside a window that no longer exists (S2 - BOOST's lane).
+
+**Incidents:**
+- Duplicate build of Phase 5 (two sessions given the same directive): closed before merge, nothing applied twice.
+- The Phase 5 build in this session first used migration `20261118110000` and release v2.16.32; both were taken by other lanes (#1250 v2.16.32; #1251 and #1252 numbers above it) before the PR could merge.
+
+**Next executable action:**
+- S2 - BOOST: re-seed `coursefinder-boost-test`; update check d before Thursday 01:30.
+- S1-Build: Thursday 19 Nov, freeze from 01:15, squash 01:30–03:30 at that night's head (runbook section 5), then "can re-seed" at 03:30.
+- Platform Admin: open Layer 4 Review and check the Review grid's three shared views signed in.
