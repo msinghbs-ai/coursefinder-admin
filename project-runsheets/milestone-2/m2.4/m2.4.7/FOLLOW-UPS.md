@@ -413,3 +413,7 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 - Platform Admin, AER v2: (a) revise prompt v3 for missed rows, then round 5 with `aer-v3-replay.yml` (recommended); (b) longer evaluation time-out (a fixed code value); or (c) pause replays.
 - Platform Admin: how the 7-day validations are renewed. They lapse on 25 Nov at 20:10 (course reads) and 20:12 (matrices).
 - S1-AER, about 02:45 Thursday: read back that the 90 `would_admit` reads were admitted.
+
+## 18 Nov 2026 AEDT — S3-Boost providers: full CRICOS provider reconciliation (s700)
+
+Platform Admin directed one report-only reconciliation against the 2 November CRICOS Institutions export and a deterministic `https://` normaliser for bare CRICOS provider websites. Use the GitHub Actions Management API read-only route with `p_write: false`, a US$0.00 LLM and Firecrawl budget, and zero migrations. Keep G3 at 75 functions and 48 tables. Evidence and exception lists belong in the Admin report and the summary goes to Admin #574. The Pilot implementation is scoped to the S3 lane.
