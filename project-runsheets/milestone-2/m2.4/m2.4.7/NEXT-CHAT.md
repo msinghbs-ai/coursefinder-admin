@@ -12643,3 +12643,19 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 - S2-Build, after Thu 03:30 AEDT: one read-only correlated read for every StudySearch role returning student-facing fields only, plus an admin read of provider accreditations; the screen then swaps its reads with no layout change.
 - Destination loads: JSA salary, outlook, shortage and study-area link; Home Affairs post-study work years and financial-capacity benchmark.
 - Platform Admin: review the layout and columns in the spec document.
+
+## S2-Courses, 18 Nov 2026 23:00 AEDT: study load cue guard (s661) and fee-basis replay (s665) live; s662 and s664 are in Pilot #1314 (S1-Courses)
+
+**Request:** Platform Admin 18 Nov 2026 21:59 (four items). Full findings: `docs/platform/S2-COURSES-STUDY-LOAD-GUARD-AND-FEE-BASIS-REPLAY-2026-11-18.md`.
+
+**Done and read back:**
+- **Pilot #1316 and #1319 merged on green and deployed** (worker `coverage-sweep` v1.0.22, specs s661 and s665, no migration; the deploy run for each merge commit succeeded).
+- **Study load cue guard (s661).** A course closed to international students ("not available to international students") is never read as a load rule and nothing is inferred from it (the Griffith full-time reading); an international word that names the student and a study word must lie within 80 characters, or a labelled "International ..." line must have its study word within 160. A CRICOS code and course titles no longer count as international words. Selectors `study-load-windows-v5` and `study-load-international-v2`; prompt `boost-study-load-v5` and the route are unchanged.
+- **Live inspection** (read only, no model, 62 readings): matched the cue on 41 pages before, 24 after proximity and closure, 18 after the word rule; about 8 of the 18 are real statements. **Not promoted, no page released for re-reading, no study load admitted.** A block that holds both a Domestic and an International line still makes the page check ask for the load of the whole block; the next change splits blocks at their labels.
+- **Fee-basis replay (s665), run 44297706134** (225 stored pages, US$0.0458, nothing staged or admitted): annual fees 6 of 6 agree, whole-course totals 3 of 7, intakes 10 of 18 (9 exact), 3 of the 8 intake disagreements list every held month and more; fees 15 verified of 224, descriptions 119 of 172 pass the page check. **Qwen3 30B is not qualified for any of these fields.**
+- **s662 and s664 are not built in this chat.** Pilot #1314 (chat S1-Courses, same spec block) already carries them: reader v4, identity-proof exemption, Layer 4 explanations and the four decisions. It was reviewed against the directive and left untouched. Its migration `20261118253000` is below the live head `20261118256000`, so it must be renumbered before it merges.
+- G3 75 functions and 48 relations, no drift (read 22:52). Live head `20261118256000` (2,144 applied).
+
+**For S2-Intakes (priority):** is the intake we hold the next intake the page announces or the main annual start? The replay cannot score intakes until this is defined.
+
+**Not done:** the label-splitting cue and any re-read release (needs a migration); intake, fee and description qualification (no route qualification row, no deadline field, intake undefined).
