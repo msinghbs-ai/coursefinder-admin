@@ -4827,3 +4827,23 @@ Follows the v1.0.3 entry above.
 - **Registers:** test register regenerated from Pilot `main` `14a30503` (741 specs, 3,474 tests); nine S2 - BOOST engagements logged (RM0, 135 minutes; ledger 69 rows, 1,035 minutes); workbook rebuilt; Drive Monitoring synced.
 
 **Next:** owner rules for Boost field candidates (each owner turns its rule on); Thursday squash: re-seed and run-4 right after 03:30 AEDT; watch the multi-field refusal rate as more pages are read.
+
+## 18 Nov 2026 12:05 AEDT — S1-RM-Design: API v3 study load and Publish edition fix (Pilot #1257); v2.16.35 role-centric Dashboard, Role guides, guided Create user, email editor (#1259); multi-country schema lock s627 (#1262); RM26 to RM33, REQ-84 to REQ-91
+
+**Trigger:** Platform Admin 18 Nov 2026 10:31, 10:33 (take ownership of `study_load` on API v3; UI/UX modernisation), 10:34 (Publish edition bug ref G7QN3W) and 11:28 (29-destination architecture lock, register updates, API v3 cross-check), chat S1-RM-Design.
+
+**Done:**
+- Pilot #1257 merged on green CI as `341b1318`, deployed (migrations `20261118133707`, `20261118133717`; renumbered once above the live head): every v3 course item carries `study_load`, `empty_reason_code`, `campuses[].locality` and `provider.accreditations`; the provider action carries `accreditations`; Publish edition counts a city profiles edition's localities and figures. Rolled-back live dry runs passed for both files. Read back live: history md5 `aa459e62` and `140d5eb2` equal the files; the four edited bodies equal the header md5s; G3 75 functions and 48 tables, no drift; dictionary 2,179; ABS edition 102 rows, 102 approved; Website and Zoho course and search items carry the fields.
+- Pilot #1259 merged on green CI as `62a3925a` (v2.16.35, no migration): role-centric Dashboard with Continue where you left off; Guides › Role guides (mirrored to `docs/platform/role-guides/`); guided Create user; formatted email body editor in a script-free frame; delivery route and button scope stated. Mockup published on the design canvas first. Deployed UAT and Release currentness green.
+- Pilot #1262 merged on green CI as `458a71fd`: spec `s627` fails any migration that creates or renames to a country-prefixed table or view; the six held before the lock are listed.
+- Admin: runbook v1.3 section 5 (where every destination dataset lives, checked against the live schema, and what still needs a change); `ROADMAP-MILESTONES.csv` RM26 to RM33; `CONSUMER-REQUESTS.csv` REQ-84 to REQ-91; `API-V3-FIELD-DEFINITION.md` (`study_load` returned); CURRENT-STATE; UI map, SOPs, role guides and test register mirrored from Pilot `main` `458a71fd`.
+
+**Not done:**
+- Pilot #1264 (dictionary gaps found by the live drift check, migration `20261118135707`, 2,216 fields) is in CI; its dry run passed.
+- Layer 1 wizard "What this source will create" panel: held until S2-Build's #1263 (same screen) merges.
+- Publish edition was not run: it is the Platform Admin's. No screen was checked in a signed-in session.
+- Not covered by the schema yet: Financial Times rankings, study-rule categories for dependants, minimum wage and offer document, occupation schemes OSCA and NOL, national quality ratings, employment by industry.
+
+**Next executable action:**
+- Platform Admin: Publish edition on Destination data › Overview & editions (ABS Regional population 2024-25); check the seven official-source items REQ-84 to REQ-90.
+- S2-Build: re-bump #1263 to v2.16.36 and a free spec number; consider adding the remaining constraint values to the paste file before it runs.
