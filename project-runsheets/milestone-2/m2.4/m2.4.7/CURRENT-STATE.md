@@ -13210,3 +13210,33 @@ Platform Admin 1-day handover, 19 Nov 2026 06:49 (spec block s740 to s759). Migr
 - S2-BOOST-AER, 10:24 AEDT (scheduled check): course reads admitted since 07:50, would-admit still waiting, shadow rows refreshed, matrix outcomes, P0.
 - S2-BOOST-AER: S747 smoke test on 10 chunked tables, the pinned models only, ≤ US$0.10, promote only if row completeness and quote fidelity meet the bar.
 - S1-AER: S677 is delivered by S748 and S749; do not build it again.
+
+## 19 Nov 2026 08:55 AEDT — S2-BOOST-Discovery handover: decisions recorded; 11 unread pages released but 10 stopped again by the read worker's resource limit; discovery and course search picks answer inside the 8 s limit (Pilot #1354, #1361)
+
+Platform Admin 07:39 (three handover decisions) and 08:18 (addendum IQ-00029). Two Pilot changes, no table, column, job or setting added: #1354 migration `20261119085000` (md5 `ed95b24d`, data only) and #1361 migration `20261119100000` (md5 `bcb8b92d`, two function replacements; specs s659 and s666). Live head `20261119100000` (2,169 applied). G3 75 functions and 48 relations (read after each apply).
+
+**Decisions recorded (07:39):**
+1. **University search stop kept active** for all 21 providers (637 queued searches at the 07:15 read), so the day's Firecrawl share goes to the 2,108 queued searches with the gate open. Nothing was changed.
+2. **ANU (34) and La Trobe (21) year-swapped addresses (55 courses): held.** No candidate table was created and `security.course_page_rebind_v1` was not called; their proved pages and readings are untouched (the s659 release selects only found pages with no read result, no proof and no stored reading).
+3. **The 11 found pages left unread (UVic 8, Seafood Training Services 2, PBRS 1) were released to the reader** with no search credit (#1354: next read now, attempts reset, lease cleared; recorded in `pipeline.admin_control_events` as `read_released`, search credits 0).
+
+**What happened to the 11 pages:**
+- The two read jobs (`coverage-read`, `coverage-read-2`) had been switched off at 07:50 by the idle check (its last 30 runs found nothing). The 10-minute recheck switched them on again at 08:10 because the release left work waiting; nobody changed them by hand.
+- **1 page was read:** a UVic page, HTTP 200, identity mismatch (status mismatch), so not proved.
+- **10 pages (UVic 7, Seafood 2, PBRS 1) are unread, with all three attempts used.** The read call that claimed them ended with `WORKER_RESOURCE_LIMIT` (HTTP 546, "not enough compute resources") at 08:10, 08:21 and 08:31, and wrote no result each time (attempts 3, read status empty, lease ended 08:42). The same ending fits the three claims left unrecorded at 18 Nov 18:11. They were not released again: another release would repeat the ending. The cause is in the worker's read call (up to 20 pages of one university in one call), not in the queue.
+
+**IQ-00029 (08:18 addendum), fixed by #1361:**
+- **Finding that changes the fix.** The HTTP 500s on `discover` (128 of 394 calls from 05:24 AEDT to the apply, 32%) are `svc_coverage_discovery_next` ("canceling statement due to statement timeout"): its focus check (`security.enrich_focus_v1`, 10.7 ms a provider) ran over the 1,177 due providers before the order and the limit, 7.8 s with nothing in focus. The stop gate belongs to the course search pick `svc_course_link_search_next`, which showed no failure only because the daily share was spent. Both picks are fixed.
+- **Both picks now check lazily, in pick order, and stop at a 5 s budget counted from the start of the call** (inside the worker's 8 s limit; the only number, marked `-- fixed:`). Course search: the stop gate (9.7 ms a row), the site-list check (7.4 ms a row) and the provider-level checks (about 17 ms a provider) run in pick order, once per provider for the provider-level ones; the stop is read per provider through the gate's own fallback; the order, the locks and the lease are unchanged. A call that spends its budget returns the rows it found, the next call continues.
+- **Rolled-back live run with the daily share opened:** the old course search pick took 17.7 s for 40 rows (a time-out); the new one 5.1 s for 17 rows, all among the old 40. Discovery: 5.05 s with nothing in focus; with 3 focus providers forced due it picked the same 3, in course-count order.
+- **After the apply (08:43:32):** 12 of 12 `discover` calls started since returned 200 (the 2 failures at 08:43 had started before the apply). 6 of 6 `link_search` calls returned 200, but the share is spent, so the course search pick has not yet run its full path live: that is the first check at 00:00 AEDT 20 Nov.
+
+**Not done:**
+- The 10 pages stay unread, and the other binder rows in the same state (95 at 07:50, mostly UVic) are untouched.
+- The read worker's resource limit: not changed (worker code, or the read call size `batch.coverage_read`, are not this lane's).
+- The course search pick under the open share: first live proof at 00:00 AEDT 20 Nov.
+
+**Next executable action:**
+- Worker owner / Platform Admin: reduce the read call's page count (setting `batch.coverage_read`, Settings › Pipeline settings, with a reason) or raise the worker's compute, then release the 10 pages again (Read now on each course) and read the results.
+- S2-BOOST-Discovery, 00:05 AEDT 20 Nov: read the first 10 `link_search` calls after the share opens (expect 200 with picks, no 500).
+- The ANU and La Trobe hold and the university search stop stay as decided.
