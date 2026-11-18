@@ -215,3 +215,10 @@ Acceptance is **source-backed new retained intake values and independently confi
 
 **Consumer acceptance:** v2 remains unchanged; v3 uses the current deployed Website v3, not the superseded #1085 dispatcher/gate. New fields are additive and contract-tested before pre-go-live integration; the actual developer switching/communications and later freeze are controlled separately. Record API list/detail/sync and pagination including page 2+; test authenticated HTTP and Zoho independently once available. A field is **not delivered** solely because its JSON key exists.
 
+## S1-RM-Design — How the data connects and climate icons (18 November 2026)
+
+For the website (Wix) and Zoho developers. No new field and no change to any field: this is how to join what v3 already returns.
+
+- **Joining:** Destination (`country_code`, `locality_id`) → Provider (`item.campuses[].locality.locality_id`, `item.campuses[].is_primary`, `item.accreditations[].body_code`) → Course (`item.study_load`, `item.empty_reason_code`, `item.entry_requirements`, `item.scholarships[]`) → Study rules (`study_rules[].country_code`) and career outcomes (`career_outcomes[].country_code`, `career_outcomes[].locality_id`). Join on the codes, never on names; null means not held. Full model: `docs/platform/ENTITY-CORRELATION-MODEL.md`.
+- **Climate icons:** `localities[].metrics[]` with `category` = `climate` are long-term averages, not forecasts. The icon rule (sunny, partly cloudy, rain, heavy rain, storm, snow, wind) is in the same document, section Climate icons; PIM Admin uses lucide icons (ISC licence) and any icon set may follow the same rule.
+

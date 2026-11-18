@@ -8,6 +8,7 @@ Each paste file is added in the same release cycle as the change that prepares i
 
 | File | Run on or after | Prepared by | md5 |
 |---|---|---|---|
+| `PASTE-20261118-rm1f-amba-accreditations.sql` | Any time. Data only (no schema change). Loads the 13 AMBA-accredited schools in AU, NZ and CA as `under_review` (API v3 returns only `active`); switch them on with the commented block once the reuse position is confirmed. Guarded: stops unless all 13 providers still carry the matched names | S1-RM-Design, RM1F / REQ-57 (Platform Admin 18 Nov 2026 14:23) | `c1ebf1b37c19a41dc75e1648b92e11d1` |
 | `PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 | Pilot migration `20261115200500_cf247_cron_quick_wins` | `b15d3ad9bcde75ea86b18e3f24fca4d0` |
 | `PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 | Pilot migration `20261116010000_cf247_settings_tidy_phase1` | `fdb433eae91edcd5fe4cceb5084e2fea` |
 | `PASTE-20261116-admission-rule-legacy-unschedule.sql` | 1 Dec 2026 (retire_after 30 Nov and 14 idle days); refuses unless all 20 rules are live and all 20 jobs are off, retiring, past retire_after and idle | Pilot #1185, migration `20261116190000_cf247_admission_rule_runner_cutover` (PR 2 cutover, live 16 Nov 2026 23:31 AEDT) | `84d275f83c23b080d2ac0d0c8f003f51` |
