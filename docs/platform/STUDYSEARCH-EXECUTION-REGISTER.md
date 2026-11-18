@@ -5386,3 +5386,25 @@ Platform Admin standing mandate 19:28. Pilot #1308 (migration `20261118237000`, 
 - Platform Admin, AER v2: (a) revise prompt v3 for missed rows, then round 5 with `aer-v3-replay.yml` (recommended); (b) longer evaluation time-out (a fixed code value); or (c) pause replays.
 - Platform Admin: how the 7-day validations are renewed. They lapse on 25 Nov at 20:10 (course reads) and 20:12 (matrices).
 - S1-AER, about 02:45 Thursday: read back that the 90 `would_admit` reads were admitted.
+
+## 18 Nov 2026 22:50 AEDT — S1-RM-Design: v2.16.44 correlated Course and Provider detail, Metric type pills, role-based field visibility (Pilot #1315)
+
+**Trigger:** Platform Admin 18 Nov 2026 21:23 AEDT, chat S1-RM-Design (reserved specs s694 to s699; zero schema migrations in this lane).
+
+**Done:**
+- Pilot #1315 merged on green at 22:41 AEDT (v2.16.44, commit `7343bbff`, no migration, G3 75/48 untouched):
+  - Course detail › Around this course: Location & weather (BOM, ABS, climate icon), Career pathway (JSA, empty state while figures load), Visa & living-cost snapshot (Home Affairs), Entry requirements & scholarships (s694).
+  - Provider detail › Around this provider: Rankings (QS, THE, ARWU, subject), Campus city profiles, Scholarships & accreditations (s694).
+  - Destination data › City metrics & costs: Metric type pills (s695).
+  - Role tiers and field audiences; Viewer and Counsellor see student-facing values only; Preview as: Admin | Counsellor | Viewer for Editors and up (s696).
+- Spec document `docs/platform/2026-11-18-correlated-blades-role-visibility-mockup.md` v1.0 with screenshots (mocked data); tables generated from the code.
+- Mirrors from Pilot main `7343bbff` (UI map, SOPs, role guides, test register: 794 specs, 3,670 tests); README row; one engagement row.
+
+**Not done:**
+- The live screen was not opened: the built-in browser could not be reached (503); screenshots were taken with Playwright against the mock.
+- Viewers and Counsellors cannot yet read city figures, careers, rule figures or accreditations (the reads are Curator and above or missing); the cards show a read-gap note.
+
+**Next executable action:**
+- S2-Build, after Thu 03:30 AEDT: one read-only correlated read for every StudySearch role returning student-facing fields only, plus an admin read of provider accreditations; the screen then swaps its reads with no layout change.
+- Destination loads: JSA salary, outlook, shortage and study-area link; Home Affairs post-study work years and financial-capacity benchmark.
+- Platform Admin: review the layout and columns in the spec document.
