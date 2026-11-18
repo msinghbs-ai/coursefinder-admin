@@ -12269,3 +12269,22 @@ Platform Admin 13:06: resolve every Layer 4 › Scholarship course links item wi
   - No decision made by a person was touched.
   - G3 75/48; head `20261118163000`.
 - **Open:** the Course links screen is not yet verified signed in. A person can change any of the 14 No courses on that screen at any time.
+
+## 18 Nov 2026 14:55 AEDT — S1-RM-Design: v2.16.41 Operations screens (Pilot #1278), v2.16.42 Coverage now, climate icons, data model (Pilot #1285), RM1F AMBA paste file, Wave 2 drafts
+
+**Trigger:** Platform Admin 18 Nov 2026 12:19, 12:50 and 14:23 AEDT, chat S1-RM-Design.
+
+**Done:**
+- Pilot #1278 merged on green (v2.16.41, no migration, s640): Dispatchers panel on Automations; retired legacy jobs hidden behind Show retired legacy jobs; Open issues links named from the menu (Queues & yield); Storage now; Evidence origins.
+- Pilot #1285 merged on green (v2.16.42, no migration, s650, s651): Coverage now (readiness by country and domain, every recorded field, portal rows and Stalled fields counters retired); climate icons; Guides › Platform guide › How the data connects. Read live at v2.16.42 in a signed-in session.
+- Coverage read migration (registry, recorder, telemetry read) handed to S2-Build: Pilot branch cf247-coverage-telemetry, migration 20261118170000, rolled-back dry run passed (md5 a34e0863); not merged by this lane (no schema change from 14:23).
+- docs/platform/ENTITY-CORRELATION-MODEL.md v1.0 and the API v3 field definition pointer; paste file PASTE-20261118-rm1f-amba-accreditations.sql (13 AMBA schools, under_review, guard read live 13 of 13); RM1F and REQ-57 updated.
+- Mirrors from Pilot main 56dc214c (UI map, SOPs, role guides, test register: 760 specs, 3,535 tests); two engagement rows (86 rows, 1,290 minutes).
+
+**Not done:**
+- AACSB and EQUIS accreditations: official pages not read in full (EFMD list needed an approval not available); not loaded.
+- Wave 2 drafts: no sample or parser spec attached; AI Auto-Map not pressed (a Claude-requested fetch needs security.on_demand_open_v1 first; five file sources need their datasets).
+
+**Next executable action:**
+- S2-Build: apply the coverage read migration (renumber above the live head) so Coverage now shows change, trend, targets and 0 of N to N of N.
+- Platform Admin: confirm the accreditation reuse position and run the AMBA paste file; AI Auto-Map on the OfS, QQI and IRCC page drafts; attach the HESA, UKVI, ILEP and IPEDS samples.
