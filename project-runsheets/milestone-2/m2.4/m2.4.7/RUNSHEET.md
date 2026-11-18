@@ -12838,3 +12838,31 @@ Platform Admin 23:52. No code or migration.
 **Next executable action:**
 - Platform Admin: re-check the Course detail on a phone in Preview as Counsellor and Viewer.
 - S2-Build, after Thu 03:30 AEDT: the student-facing correlated read and the accreditations read (unchanged).
+
+## 19 Nov 2026 00:35 AEDT — S1-Build: 24-hour late-tick check of the dispatchers; PR 4 shadow progress
+
+**Trigger:** Platform Admin 18 Nov 2026 14:24 AEDT (chat S1-Build, item 2), run by the scheduled task at 00:25.
+
+**Result:** not a clean 24 hours, clean for the last 6.
+- 0 md5 or schedule drift; the 69 retiring legacy jobs are all off and none ran; no refused dispatch.
+- Over 24 hours, `rollup-scheduler` skipped 5 minutes, `coverage-lane-dispatch` a/b/c 2 each, `admission-rule-runner` a/b/c 12/10/13. The admission runners had 22 failed ticks, all statement timeouts (120 s) under load.
+- The misses fall in three episodes:
+  - 00:38–01:58 after the PR 3 cutover, including 01:27 when all 7 jobs missed the same minute;
+  - 17:27, when all 7 jobs missed one minute together;
+  - 18:13–18:31, admission timeouts on the `search_course_documents_writer` lock and in heavy admission queries.
+- Since 18:32 all 7 jobs ran 355 of 355 minutes with 0 failed.
+- 1 rollup dispatch failed at 14:41: `destination-open-licence-publish` hit the old one-published-per-domain index. The per-owner paste file has since been run and BOM climate is published.
+
+**Readiness:**
+- The legacy side is ready for the PR 1 and PR 3 unschedule paste files on or after 2 Dec.
+- The admission-runner timeouts under load are handed to the PR 2 lane as a follow-up (writer-lock contention between lanes a/b/c). No timeout changed.
+
+**PR 4 shadow (Pilot #1282), 9.5 hours in:**
+- All 8 lanes have at most 1 uncovered legacy minute and 0 refused, within the cutover gate.
+- `settings-backup-daily` is first due Thu 06:50.
+- The cutover is still scheduled for Thu 15:10.
+
+**Next executable action:**
+- S1-Build, Thu 01:15: freeze and squash.
+- S1-Build, Thu 15:10: PR 4 cutover.
+- PR 2 lane: look at the admission-runner lock contention.
