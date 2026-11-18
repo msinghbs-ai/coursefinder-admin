@@ -5928,3 +5928,19 @@ Platform Admin 1-day handover, 19 Nov 2026 06:49 (spec block s740 to s759). Migr
 **Next executable action:**
 - Platform Admin, from 3 Dec 2026 08:20 AEDT: run the PR 4 paste file. It and the PR 3 file refuse until `security.flag_jobs_v1` reads the live lanes from the registry (owner: PR 3 and PR 4 lane, S1-Build).
 - PR 2 and coverage lanes: `rollup-scheduler`'s course-coverage target hit the 120-second timeout twice in 24 hours (01:53, 06:55).
+
+## 19 Nov 2026 10:15 AEDT — S2-BOOST-Courses self-check: held descriptions drained, G3 clean
+
+**Trigger:** the self-check scheduled by the 06:49 AEDT handover mandate (read-only).
+
+**Read live:**
+- Course descriptions: the 09:23 `field-gap-queue` run succeeded and the 650 superseded descriptions were re-read. Admitted since 07:40: 267 (161 with `cdesc-source-grounded-v4`). Courses holding a description: 14,433 (07:42) to 14,700 at 10:14 of 36,031 active (44,733 in total). Still declined since 07:40: too many sentences 254, identity margin 240, binding ambiguous 175, too long 39, evidence moved 15, wrong page kind 14, refused word 8. In review: 94. The sentence-count and length declines are readings made under the older prompt, not v4 readings.
+- Study load: 5,689 of 36,031 active (unchanged since 08:21; #1347 released 820 items for the label-split reader).
+- Intakes and fees: the 08:12 Coverage tiles stand (Intakes 13,456, Provider tuition 10,797 of 36,031 admitted). Pilot #1346 (s723 every intake month, s724 strict stratified fee replay, s726 deadlines; worker v1.0.26, migration `20261119103000`, records only) merged at about 10:03; the replay writes and qualifies nothing, so no new intake, fee or deadline value was admitted and no fee tier is enabled.
+- Campus locality: #1341 settled 3 postcodes (9 campuses); 69 campuses still wait for a person.
+- Migrations and G3: live head `20261119103000`; `20261119084000` applied once; `security.consumer_api_check_v1()` reports no drift, 75 functions and 48 relations.
+
+**Outstanding:**
+- The fee and intake replay results (#1346) and the decision on which tier, if any, to enable are with the S1-Courses lane and Platform Admin; nothing is enabled by a passing replay.
+- The UAT sign-in check in PIM Admin ran through the deployed-uat workflow (s728, run 44400209609 at 08:2x); a second run needs a change to `.github/s2-boost-live-counts-candidate`.
+- Declined descriptions that need v4 re-reads again after the 94 in review are handled by the hourly gap queue.
