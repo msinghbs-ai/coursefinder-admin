@@ -12887,3 +12887,26 @@ Platform Admin 23:52. No code or migration.
 - S2 - BOOST: re-seed `coursefinder-boost-test` and update check d (`outside_window_refused`).
 - S1-Build, Thu 15:10: PR 4 cutover (rebase `cf247-pr4-lane-fold-cutover` after the squash, migration renumbered above the head).
 - PR 2 lane: the admission-runner lock contention (unchanged).
+
+**S1-AER, 19 Nov 2026 03:15 AEDT: Thursday 02:45 check — the about 90 would-admit course reads were NOT admitted (the machine's job starves them)**
+
+Read only; no migration and no data change (Thursday freeze respected; zero schema migrations in this lane). Pilot #1326 (s676, script only: the `status` mode of `aer-validation-renew.yml` now also reports why would-admit reads wait).
+- **Result (status run 44339423118 at 02:46, detail run 44343797388 at 03:05):**
+  - Since the 20:09:59 re-validation: **2 course reads admitted (3 rows)** and 2 provider tables admitted. **89 course reads are still recorded would-admit and waiting**; 2,576 course reads wait in Layer 4.
+  - The validations are fresh (course and matrix passed 18 Nov 20:10, age 0.3 days); admission mode 2, not suspended, daily cap 5,000, 2 used.
+  - All 89 still pass the rule when re-checked now (rolled-back probe run 44344041791): 79 on `aer-machine-v1`, 10 on Approve except.
+- **Cause (by finding):** job `aer-machine-admission` (every 30 minutes, succeeding) re-checks the same items every run and never reaches the 89.
+  - Every one of the 2,576 waiting items is eligible on every run. In admit mode a declined or audit-sample result does not refresh the item's last-checked time (only shadow mode does), so the 6-hour re-check gap never applies to them.
+  - The run takes items gate-complete first, then oldest first, and stops at its 45-second limit. The first 60 in that order are 45 audit samples and 15 declined (no bound page 7, identity not admitted 8, row unsupported 1). The 89 sit at positions 443 to 2,542.
+  - No shadow rows were written after 20:09; the 89 were last checked 16:54 to 19:54 AEDT.
+- **Not changed:** no setting, function or row. Raising `batch.aer_machine` does not help (the 45-second limit stops the run first).
+
+**Decision needed (Platform Admin):** authorise one function fix, S677, outside this lane's zero-migration rule:
+- `security.aer_machine_admit_v1`: in admit mode, a declined or audit-sample result also refreshes the item's last-checked time (`create or replace`, md5-guarded, no table change, G3 unchanged), so each item waits 6 hours before its next check and the queue moves.
+- Until then a person can approve the 89 in Layer 4 › Inbox (kind Course entry first read).
+
+**Next executable action:**
+- Platform Admin: authorise S677 (or approve the 89 by hand).
+- S1-AER after authorisation: S677 migration with a rolled-back live dry run, then a status read 30 minutes after merge.
+- Delete branch `cf247-s676-probe` in the GitHub UI (a never-merged probe carrier; this session cannot delete branches).
+- Unchanged: the five 11 Nov `entry_matrix_change` items in Layer 4; first automatic renewal about 23 Nov.
