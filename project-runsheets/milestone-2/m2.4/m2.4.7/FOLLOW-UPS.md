@@ -144,3 +144,22 @@ To be done in the SQL editor (drops and deletes): the old database functions beh
 - **Single-row inspection only:** the 488 AER audit-sample items (the 5% sample exists to be checked one by one); changes to an admitted matrix (6); matrix rows with an unmapped level or no minimum; host problems; identity not admitted; campus postcodes (each postcode is a different place).
 
 **Next:** the Scholarships lane, the 57 scholarship decisions and their 287 missing award values; AER v2 for `edition`/`routes`; a bulk-decision action on the Phase 5 grid for the grouped cases above.
+
+## 18 Nov 2026 14:10 AEDT — S2 - BOOST: all 57 Scholarship course links resolved by deterministic rule (Pilot #1273, #1276)
+
+Platform Admin 13:06: resolve every Layer 4 › Scholarship course links item without a person.
+
+- **Decision order.** Each waiting scholarship got a decision from its own name, then its description, under the automated rule authority:
+  1. Wording that is not course-specific in its name: No courses.
+  2. A scope from its own words that keeps a course: that scope.
+  3. Explicit university-wide wording with no level or subject: All courses.
+  4. Otherwise: No courses.
+- **Audit.** The reason "Auto-applied deterministic title/description scope rule: …" names the rule used. The existing `security.scholarship_scope_apply_v1` applied each decision, with a `pipeline.layer4_mass_operations` row per scholarship.
+- **Migrations and settings.** Migrations `20261118153000` (#1273) and `20261118163000` (#1276, correcting three decisions read back live the same hour), spec s636. The word lists are settings in Pipeline settings › Scholarships.
+- **Live at 14:05:**
+  - 57 decided: 42 only matching courses, 1 all courses, 14 no courses.
+  - 694 links written and 60 audit rows.
+  - 0 waiting, and the Inbox count is 0.
+  - No decision made by a person was touched.
+  - G3 75/48; head `20261118163000`.
+- **Open:** the Course links screen is not yet verified signed in. A person can change any of the 14 No courses on that screen at any time.
