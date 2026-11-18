@@ -12249,6 +12249,46 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - **Multi-field live admission path:** this is the S2-BOOST lane, and it needs the qualification references first. Not built here.
 - **Still open:** the 12-month living-cost benchmark (financial capacity) on the Home Affairs page; the `cron.unschedule` paste file for the three retired destination side jobs after 14 days (from 2 Dec 2026); the screen change that calls the student-facing read for every role (S1-RM-Design).
 - **TEST-REGISTER:** no CI workflow regenerates it. Local generation fails here because the sandbox has no network (`lucide-react` is missing). The three new specs (`s710`, `s711`, `s712`) are picked up on the next generated run.
+
+## 19 Nov 2026 06:00 AEDT — S2-Build: post-squash batch (Platform Admin 19 Nov 2026 05:21): Boost test project rebuilt and re-seeded, blades live for every role, round states on rollup-scheduler only; coverage telemetry held for a decision
+
+**Done:**
+- **Item 1: Boost test project.**
+  - Check d of `sql/boost-ingestion/005_rehearsal_rolled_back.sql` (`outside_window_refused`) now narrows the two window settings to 1 to 5 inside its rolled-back block and confirms the refusal there. It also reports the live window (`window_live`, today `[0, 24]`). Admin #622.
+  - Full rebuild proof, admin `boost-test-rebuild.yml` run 44369667112 (05:26–05:41 AEDT), dump `db-schema-dump/44324920057` (the post-squash baseline, head `20261118272000`). Results branch `boost-test/44369667112`. **Verdict PASS, all five checks:**
+    - G3 is 75/48 with no drift.
+    - 1,000 rows loaded in 0.039 s.
+    - 50 shadow rows, 0 admitted, 0 courses changed.
+    - Rehearsal: 1 study load written, 0 `updated_at` touched.
+    - A run outside a narrowed window is refused.
+    - Schema: 16,989 of 16,989 statements, 0 failed.
+  - Of the 5 production migrations newer than the dump, 4 applied. `20261119044000` (S2-BOOST bench-5) stopped at its own post-check ("the study-load admission qualification changed"), because the test project's qualification list is empty by design. The verdict does not count it; for S2-BOOST to note.
+  - Re-seeded with admin `boost-test-experiment.yml` run 44372812878 (label `reseed-post-squash-20261119`): 12 providers, 69 courses, 60 without a study load. The admitted-count experiment passed all 9 checks, and the promotion function is production's. Results branch `boost-experiment/44372812878`.
+- **Item 2: destination sources.** Already in place since 19 Nov 00:05 (Pilot #1318, #1322): five Australian sources under Layer 1 Register › Australia (Fair Work paused and restricted), the Layer 1 schedule and Run now, the Storage artifact, the evidence record (source, licence, `fetched_at`) and successor editions. Published on API v3: Home Affairs 5 rules, JSA 1,577 careers (now with `employment_count`), BOM 40, ABS 102.
+- **Item 4: student-facing reads (server Pilot #1329; screen Pilot #1330, v2.16.47, merged 05:50 AEDT).**
+  - Around this course and Around this provider now read city figures, careers and visa rules for every StudySearch role. The read-gap note shows only when a read fails.
+  - Accreditations come from the provider record. Rows under review are marked for Editors and up only.
+  - Specs `s694` and `s696` were updated, the release contract `m245` was bumped, SOPs are 2.72 and 2.32, and the UI map is unchanged (checked). Deployed UAT passed on main.
+- **Item 5: round states on rollup-scheduler only (Pilot #1332, migration `20261119052000`, md5 `fc622344`, matching the dry run; `s710` extended).**
+  - The paused cron job `scholarship-discover-refill` ran `security.scholarship_discovery_refill_v1` on the UTC date, and that function ended with its own round-state refresh. The refresh is removed from it; the job stays paused.
+  - The target `scholarship-round-state-refresh` (Melbourne date) is now the only caller. It ran at 04:23 and 05:23 AEDT; both runs succeeded.
+- Live head `20261119052000`; 2,154 migrations applied; G3 75/48 with no drift. Admin mirrors: `docs/UI-MAP.md` (v2.16.47) and `docs/sops/` (2.72, 2.32) regenerated from Pilot main.
+
+**Held for a Platform Admin decision:**
+- **Item 3: coverage telemetry (Pilot #1333, not merged).**
+  - Branch `cf247-coverage-telemetry` is renumbered to `20261119053000`, otherwise unchanged; the recorder pre-check md5 still matches live.
+  - Rolled-back live dry run passed (md5 `e9ee89f4`), CI is green, and spec `s713` was added (the reserved block s691–s699 is fully used).
+  - It adds one table (`pipeline.tracked_fields`) and two functions (`security.tracked_field_coverage_v1`, `public.admin_coverage_telemetry_v1`). None is in the consumer API (G3 stays 75/48), but the directive also says "zero new tables or functions". Merging needs the Platform Admin to allow that exception.
+- **Stale PRs #1307 and #1287** were already merged (18 Nov). Nothing to close.
+
+**Not done:**
+- **Home Affairs 12-month living cost (financial capacity).** The rendered student visa page's main content has no amount: the loader's pattern only found "primary applicant" in the fee-concession text. Secondary sites give AUD 29,710 and place it on the Department's page under the Step by step tab. It is not published from secondary sources.
+  - Options for the Platform Admin:
+    - read the Step by step tab with a Firecrawl action (an on-demand read, a few credits);
+    - or register the legislative instrument (LIN 19/198 as amended, Federal Register of Legislation, CC BY 4.0) as a Layer 1 source.
+- **TEST-REGISTER:** not regenerated, because packages are not installed in this session and no CI workflow regenerates it. New or changed specs since the last register: `s694`, `s696`, `s710`, `s711`, `s712`, `s713`, `m245`.
+- Pilot #1335 and #1336 (S1-Courses) also claim package 0.1.469; both were told on the PR to re-bump on rebase.
+
 **Status at 18 Nov 2026 22:20 AEDT, S1-Courses (chat S1-Courses, spec block s660 to s669; Platform Admin 18 Nov 2026 21:08). s662 and s664 built, green and waiting for the merge click; s661 and s663 continue in Pilot #1316.**
 
 Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker `coverage-sweep` v1.0.23, migration `20261118275000` (md5 `3b41d50c`; seven md5-guarded function edits, no new table or function), release v2.16.45, specs s662 and s664. **All CI checks green; rolled-back live dry run passed (runs 44284565955 and the PR's own).** The squash merge was refused by the session's tool guard, so the Platform Admin merges it.
