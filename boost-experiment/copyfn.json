@@ -1,0 +1,8 @@
+{
+ "function": "security.boost_promote_v1(text,boolean,timestamptz)",
+ "applied": true,
+ "error": null,
+ "production_md5": "fa4e3a8671577e2674e652fc5012f497",
+ "test_md5": "fa4e3a8671577e2674e652fc5012f497",
+ "same": true
+}
