@@ -278,7 +278,7 @@ Platform Admin 16:54 and 17:02. Two migrations, `20261118200000` (md5 `77d86cb5`
 - Study load v6. The corrected cue (signals close together, labelled international lines, no inference from a closed course) is designed in the findings document and not built.
 - No held description was admitted. The identity-proof rule changes `security.course_description_machine_check_v1`, whose live text is not in the repository; it needs a function migration with an md5 pre-check and a rolled-back dry run.
 - The test register rows for s660 and s663 were added in the generator's format and the totals raised by 2 specs and 11 tests; the generator's listing step needs the full Pilot environment.
-- The Google Drive Monitoring folder was not synced in this session (see the session report).
+- The Google Drive Monitoring folder is synced after this change merges (the backups carry the merged commit); its result is in the session report, not in this block.
 
 **Next executable action:**
 - Capture the live `security.course_description_machine_check_v1`, add the identity-proof exemption (spec s662), dry-run it, and let the unchanged machine rule re-check the 340 items.
