@@ -13282,3 +13282,53 @@ Platform Admin 07:39 (three handover decisions) and 08:18 (addendum IQ-00029). T
 - The fee and intake replay results (#1346) and the decision on which tier, if any, to enable are with the S1-Courses lane and Platform Admin; nothing is enabled by a passing replay.
 - The UAT sign-in check in PIM Admin ran through the deployed-uat workflow (s728, run 44400209609 at 08:2x); a second run needs a change to `.github/s2-boost-live-counts-candidate`.
 - Declined descriptions that need v4 re-reads again after the 94 in review are handled by the hourly gap queue.
+
+## 19 Nov 2026 09:55 AEDT — S2 - BOOST: study-load label split and 206 international study loads admitted; campus locality by campus name; Boost fields v2 replay finds no field at the bar (Pilot #1337, #1341, #1346, #1347)
+
+**Trigger:** Platform Admin directives 05:40 and 06:55 AEDT (Platform Admin directives 05:40 and 06:55 AEDT, spec block s720–s739; 07:40: continue without the browser). This block covers study load, multi-field reading, campus locality and the test project; the other blocks of the lane keep their items.**
+
+- **s720, test project:** no Pilot change was needed. S2-Build's admin #622 fixed the `outside_window_refused` check; rebuild run 44369667112 passed with it `true`. Run-5 (admin run 44374301938, re-seeded) passed **9 of 9**: 60 admitted for 60 courses at batch sizes 1,000 and 5,000, duplicates refused, shadow admitted nothing, held courses unchanged, G3 75/48 on the test project.
+- **s721, study-load label split (Pilot #1337, worker v1.0.24, selectors `study-load-windows-v6` and `study-load-international-v3`, prompt `boost-study-load-v5` unchanged):**
+  - Unpunctuated stored text is split at its Domestic and International labels only when a block holds both (CDU, La Trobe, VIT).
+  - A line under the Domestic label never states the international load.
+  - Closures such as "not available to international students" are never split.
+  - S1-Courses closed its own split (#1336) as superseded; its s666 spec passes unchanged against #1337.
+- **s722, release and admission (Pilot #1347, migration `20261119082000`, data only, dry run md5 `d26cba54`):**
+  - 740 study-load items were released for one re-read: rejected, failed or refused at promotion, on the course's own latest unshared page, course with no study load and no manual lock.
+  - Drained by 08:10 AEDT: the batches since the release read 820 items (418 verified, 401 rejected, 1 failed).
+  - **206 courses gained an international study load** (110 full-time, 93 both, 3 part-time), each matching its admitted answer. Every one had no study load at release, and the claim takes only courses with none, so nothing was overwritten.
+  - 5,689 courses now hold a study load. Cost about US$0.05.
+  - The 35 items released before stay released: their pages are shared, so the claim does not read them.
+- **s723, s724 and s726, multi-field (Pilot #1346, worker v1.0.26, migration `20261119103000`, records only):**
+  - Prompt `boost-fields-v2`: intakes are every announced start month; a new application deadline field gives the date, the intake it belongs to and the verbatim quote, checked by page check `boost-fields-check-v3`.
+  - Replay scoring: a held primary intake contained in the page's months agrees. Fees are compared strictly on basis, currency and fee year. Strata are sized one by one (annual 160, whole-course total 60), and the run stops at US$0.15.
+  - The `boost_fields_extract` qualification row names v2. `boost.fields_lanes` is unchanged, so live reading does not ask for deadlines.
+  - Worker numbering: v1.0.25 went to S1-Courses' #1344, so this change is v1.0.26.
+  - **Replay `replay-v2-1`** (Pilot run 44413900611): 237 stored pages, Qwen3 30B, cost US$0.0606 (limit US$0.15), nothing staged or admitted. **No field passes the bar** (at least 100 compared, at least 95%, no disagreement), so **s725 did not admit anything**:
+    - intakes: 21 verified, 13 agree and 8 disagree (62%). By s723: 8 exact, 3 contain the held primary intake, 2 page subsets.
+    - course fees: 34 verified, 17 agree and 7 disagree (71%). Annual 10 of 11 (91%); whole-course total 7 of 13 (54%).
+    - application deadlines: 20 pages hold one; 3 verified, all 3 agree; 17 refused by the page check.
+  - **What the disagreements show:** most are the held value, not the reading. Held intake "March" against the page's "First semester (February)"; held CRICOS registered totals against the provider's current "Total course fee". The gold set therefore needs current held values before it can qualify the model.
+  - **The 150 and 50 targets were not reachable:** the catalogue holds too few stored pages with a comparable fee of the same basis, currency and year. 197 of the 234 fee answers were refused by the strict page check.
+  - Next: a gold set built from verified page values (not CRICOS registration), or human-confirmed samples. Live admission of intakes, fees and deadlines stays off.
+- **s727, campus locality (Pilot #1341, migration `20261119062000`):**
+  - Rule `l4-campus-locality-v1` gains the basis `campus_name`: the leading urban area holds more than half the postcode's mesh blocks and is named in every waiting campus's suburb or own name, never only through the provider's name (Roseworthy 5371 waits).
+  - The 07:57 run settled **3 postcodes, 9 campuses, 0 failures** (2650 Wagga Wagga, 4670 Bundaberg, 6330 Albany). 28 postcodes (69 campuses) wait for a person; settling more by rule needs a suburb-to-area gazetteer the platform does not hold.
+  - `062000` was numbered above the live head and every open PR when written, but it applied after `20261119080000` (#1345), which merged first. #1346 and #1347 were renumbered above main before merging.
+- **University descriptions, read-only (sentence-1 name rule):** 45 of 49 published university and university-college descriptions name the provider in sentence 1. The 4 that do not were published 10 and 11 Nov on prompt v2:
+  - **University of Waikato:** off-topic ("The Academic Calendar …").
+  - **Southern Cross University:** "The university uses …".
+  - **ECU and ANU:** initials only. `pdesc_name_forms_v1` gives no initials for these names.
+  - For S2-BOOST-Providers; nothing changed here.
+- **s728, held scholarships, read-only:** rule `l4-held-sch-settle-v1` is settling. 82 pending: 57 audience not stated, 11 without a re-check, 6 publish and 2 refuse recommendations held by the rule's own conditions (for example a `/staging/` address), 3 unclear value, 3 unsettled. Nothing changed.
+- **Course descriptions (item 1), S1-Courses' lane:**
+  - The 1–2 sentence reader and the identity proof are live (#1344, migration `20261119084000`, prompt `cdesc-source-grounded-v4`).
+  - Since 07:44 AEDT: 77 admitted with no overwrite. All 666 earlier readings were declined for a v4 re-read from the stored page (no Firecrawl).
+- **Browser check:** not done. Claude in Chrome was not connected, and the Platform Admin said at 07:40 to continue without it. GitHub secrets cannot be read back, and were not printed. The screens are covered by the deployed UAT workflow, which signs in with them; it passed on each merge (for example run 44384114106).
+
+**Next executable action:**
+- S2 - BOOST: build a multi-field gold set from verified page values (not CRICOS registration) or human-confirmed samples, then replay again; live admission of intakes, fees and deadlines stays off until a field passes.
+- S2-BOOST-Providers: Waikato's off-topic description and the ECU and ANU initials (name forms).
+- S1-Courses: read the v4 course-description re-read drain to its end.
+- A person: the 28 campus postcodes left in Layer 4 › Campus locality.
+
