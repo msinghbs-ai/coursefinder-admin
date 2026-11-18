@@ -11995,3 +11995,30 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Next executable action:**
 - Platform Admin: run paste file v2 and the published-per-owner paste file before 01:15. The BOM edition then publishes at minute 41.
 - S2-Build: page-facts mode of `layer1-destination-geo-loader` for the Home Affairs, Study Australia, Study Tasmania, Fair Work and TAC facts as attributed drafts (terms pending).
+
+## 18 Nov 2026 16:00 AEDT — S1-Build: pre-freeze checks; per-owner paste file reviewed; RM1 source readiness
+
+**Trigger:** Platform Admin 18 Nov 2026 15:26 AEDT (chat S1-Build): merge #1288 and #1287; the per-data-source edition paste file; RM1I, RM1C/H and RM1D loads; the cron fold; registers.
+
+**Done:**
+- **#1288 and #1287:** already merged by S2-Build. Read live 15:45:
+  - head `20261118181500`;
+  - the 40 BOM climate figures are approved on approved localities in 8 cities, so API v3 serves them;
+  - the BOM edition stays draft until the per-owner paste file is run.
+- **Paste file v2 (29-destination CHECK constraints):** already run. Its control event is logged at 15:24:58 AEDT.
+- **Per-owner paste file:** S2-Build committed it at 15:30 (admin #594). Path `docs/paste/PASTE-20261118-destination-editions-published-per-owner.sql`, md5 `73b42f0f094279eb26af426ae7863411`. Reviewed against live:
+  - the guard matches the live index definition;
+  - the new index does not exist yet;
+  - no published duplicates per country, domain and source owner;
+  - `destination_edition_publish_v1` already supersedes only the same owner's edition;
+  - `destination.editions` is not in the G3 baseline;
+  - its read-back functions exist.
+- **Cron fold:** consolidation PR 4 is in shadow since 14:59 (Pilot #1282), with the cutover scheduled for Thu 15:10. G1 is 0 unregistered.
+- **RM1I, RM1C/H, RM1D:** source readiness checked, nothing loaded. The details and the recommended upload path are in CURRENT-STATE, Pre-freeze migration lane.
+
+**Not done:**
+- No draft edition was loaded. Most official figures are behind scripts, out of date, or on pages that refuse automated readers.
+
+**Next executable action:**
+- Platform Admin: run the per-owner paste file before 01:15. The BOM edition then publishes at the next minute 41.
+- Platform Admin: choose the publisher files to upload for RM1C/H and RM1D (Visa Pricing Table, Fair Work pay guide, JSA data file).
