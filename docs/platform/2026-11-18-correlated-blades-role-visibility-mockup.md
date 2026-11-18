@@ -1,6 +1,6 @@
 # Correlated detail blades, metric type pills and role-based field visibility — UI mockup and specification
 
-Version 1.1 · 18 Nov 2026 · S1-RM-Design · Platform Admin directives 18 Nov 2026 21:23 and 23:02 · PIM Admin v2.16.44 and v2.16.45 (Pilot specs s694, s695, s696, s697)
+Version 1.2 · 19 Nov 2026 · S1-RM-Design · Platform Admin directives 18 Nov 2026 21:23, 23:02 and 23:51 · PIM Admin v2.16.44 to v2.16.46 (Pilot specs s694 to s698)
 
 The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44 as read-only blocks in the Course and Provider detail, the pills on Destination data › City metrics & costs and the "Preview as" switcher. Column and field tables in sections 3 to 6 are generated from the code (`src/lib/correlation-adapters.js` CARD_SPEC, `src/lib/destination-metric-types.js`, `src/lib/field-visibility.js`), so this document and the screen cannot drift; s694 to s696 hold the screen to them.
 
@@ -13,6 +13,7 @@ The interactive mockup is the live screen itself: it ships in PIM Admin v2.16.44
 | Metric type filter pills | Destination data › City metrics & costs | s695 |
 | Role-based field visibility matrix and "Preview as: Admin \| Counsellor \| Viewer" | Course and Provider detail header and body | s696 |
 | Fixes after live inspection: Preview as pills, Archive course and Read with AI, the entry pipeline, scholarship Show all | Course and Provider detail | s697 |
+| Course detail declutter: Description pipeline and task buttons hidden for Counsellor and Viewer, pipeline and Related insights & funding folded, one scholarship list | Course detail | s698 |
 
 Zero schema: no migration, no new function, no grant. Every card is a join in the browser over reads the admin already has: `admin_provider_destination_read` and `admin_course_destination_read` (any StudySearch role), `admin_destination_review` (Curator and above), `admin_entry_requirements`, `admin_read` `provider_ranking_history`, and the course detail's own scholarships. G3 untouched (75 functions, 48 tables).
 
@@ -66,6 +67,8 @@ Screenshots (mocked data, Playwright, 1500 px wide unless stated; the signed-in 
 | v2.16.45: Preview as pills at a 720 px pane | ![](ui-audit/assets/2026-11-18-correlated-blades/5-s697-preview-as-720px.png) |
 | v2.16.45: Preview as Counsellor, approved entry requirements only | ![](ui-audit/assets/2026-11-18-correlated-blades/6-s697-counsellor-entry.png) |
 | v2.16.45: scholarships, three then Show all (5) scholarships | ![](ui-audit/assets/2026-11-18-correlated-blades/7-s697-scholarships-show-all.png) |
+| v2.16.46: Description pipeline folded (Editor and Platform Admin) | ![](ui-audit/assets/2026-11-18-correlated-blades/8-s698-description-pipeline-folded.png) |
+| v2.16.46: More about this course, Related insights & funding folded | ![](ui-audit/assets/2026-11-18-correlated-blades/9-s698-insights-folded.png) |
 
 ## 3. Course detail: Around this course
 
@@ -198,6 +201,8 @@ Destination data › City metrics & costs. One row of pills above the panel; the
 | Course status with Archive course and Restore course (`archive_actions`) | Hidden | Hidden | Shown | Shown | `.re-manage, [data-vis="archive_actions"]` |
 | Read with AI trigger bar (`read_with_ai`) | Hidden | Hidden | Shown | Shown | `[data-course-read-ai]` |
 | Read / refresh entry requirements now and the entry pipeline (sources, AI candidates, reviewer packet, Layer 4, links) (`entry_pipeline`) | Hidden | Hidden | Shown | Shown | `[data-course-entry], [data-aer-read-now], [data-vis="entry_pipeline"]` |
+| Description pipeline (stored page, AI reading, checks, decision, source, next retry, run, Fill / refresh, Check the feeds, Fill or Recheck only) and Tasks that held this course (`description_pipeline`) | Hidden | Hidden | Shown | Shown | `[data-cdod-block], .cdod-tasks-fold` |
+| Scraper and task triggers (Check scholarships for this course and other task buttons) (`task_triggers`) | Hidden | Hidden | Shown | Shown | `[data-scholarship-actions], [data-job-button], [data-vis="task_triggers"]` |
 | Entry requirement rows not yet approved (`unapproved_entry`) | Hidden | Hidden | Shown | Shown | `[data-vis="unapproved_entry"]` |
 | The value itself (fee, intake, figure, rank) (`value`) | Shown | Shown | Shown | Shown | — |
 | Source page link (`source_link`) | Shown | Shown | Shown | Shown | — |
@@ -216,6 +221,17 @@ Preview as: Admin | Counsellor | Viewer, in the Course and Provider detail heade
 | 2 | Archive course and the Read with AI bar shown to Counsellor and Viewer | `archive_actions` (`.re-manage`) and `read_with_ai` (`[data-course-read-ai]`) are internal | Hidden in Preview as Counsellor and Viewer and for a Counsellor; shown again for Admin |
 | 3 | Read / refresh entry requirements now and its pipeline (Source found, AI parsed candidates, Complete reviewer packet, Awaiting a person in Layer 4, Approved and active, Visible to the website, Open in Entry requirements, Inspect resolution) shown to Counsellor and Viewer | `entry_pipeline` (`[data-course-entry]`, `[data-aer-read-now]`) is internal; Counsellor and Viewer see a student-only block with approved (`active`) requirements, or "No approved entry requirements published for this course yet." Rows not yet approved are internal in the Around this course card too | Pipeline hidden, one approved row shown, the proposed row not shown; a Counsellor with none approved sees the one line |
 | 4 | Cramped scholarship list | Course scholarships, the Around this course card and the scholarship insight panel (Course and Provider detail) show three, then Show all (N) scholarships / Show less; no inner scroll box | Three, then all, then three again; no overflow or max-height on the list |
+
+## 6B. Course detail declutter (v2.16.46, s698; Platform Admin 18 Nov 2026 23:51)
+
+Found on Diploma of Information Technology (Higher Education), on a phone, in Preview as Viewer.
+
+| # | Found | Fix | Check in s698 |
+|---|---|---|---|
+| 1 | Description pipeline (stored page, AI reading, checks, decision, source examined, next retry, run, Fill / refresh course description now, Check the feeds, Fill or Recheck only) and Tasks that held this course shown to a Viewer, and open by default for everyone | `description_pipeline` (`[data-cdod-block]`, `.cdod-tasks-fold`) is internal; the pipeline sits in a fold, closed until an Editor or Platform Admin opens it | Hidden in Preview as Counsellor and Viewer and for a Viewer; closed by default for the Platform Admin and opens on click |
+| 2 | Check scholarships for this course shown to a Viewer | `task_triggers` (`[data-scholarship-actions]`, `[data-job-button]`) is internal, so every task button in the drawer is hidden for Counsellor and Viewer | Hidden in Preview as Counsellor and Viewer and for a Viewer |
+| 3 | Related insights & funding (QILT, PRISMS: six stat cards) open every time | The panel is its own fold, "Related insights & funding — QILT & PRISMS context", closed by default for every role | Closed for the Platform Admin and a Counsellor; opens on click |
+| 4 | A second Scholarships & funding card below the insights | On a course the insights add no scholarship card; the course's Scholarships section (three, then Show all (N) scholarships) is the one list. The Provider detail keeps its scholarship card, which is its only list | No `.ci-scholarships` on the Course detail; one Scholarships section |
 
 ## 7. Live data behind the cards (read 18 Nov 2026, project fxcwkweaxjtknorudmwp)
 
@@ -245,3 +261,4 @@ Preview as: Admin | Counsellor | Viewer, in the Course and Provider detail heade
 |---|---|---|
 | 1.0 | 18 Nov 2026 | First issue with PIM Admin v2.16.44 (Platform Admin 18 Nov 2026 21:23). |
 | 1.1 | 18 Nov 2026 | Section 6A and the four new matrix rows: v2.16.45 fixes after live inspection (Platform Admin 18 Nov 2026 23:02, Pilot #1323, s697). |
+| 1.2 | 19 Nov 2026 | Section 6B and two new matrix rows: v2.16.46 Course detail declutter (Platform Admin 18 Nov 2026 23:51, Pilot #1324, s698). |
