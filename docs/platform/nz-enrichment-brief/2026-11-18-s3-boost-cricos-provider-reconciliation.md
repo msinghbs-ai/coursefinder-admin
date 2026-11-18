@@ -8,7 +8,7 @@ The SHA-pinned Department of Education [CRICOS Institutions export](https://data
 
 Pilot main and Admin main were checked for the reserved `s700`–`s709` block with no existing spec files found. The lane uses `s700` and zero migrations. The exact audit workflow used the Supabase Management API `read_only: true` with SELECT-only SQL. It made no staging, provider, alias, wizard-draft or run-metadata write (`p_write: false`), contacted the official export only, and made zero LLM or Firecrawl calls. The existing wizard dry-run endpoint persists metadata, so the live catalogue comparison used the separate read-only audit workflow.
 
-The run checked all 75 live consumer function identities and definition checksums and all baseline columns on the 48 frozen relations. It found zero G3 drift. The live migration head was `20261118239000`. Publisher file SHA-256 was `d62824262a8184ebb16a9caa13d7dc5d438fbce348556febf6a37e2b9481a11f`.
+The run checked all 75 live consumer function identities and definition checksums and all baseline columns on the 48 frozen relations. It found zero G3 drift. The live migration head was `20261118239000`. A second [read-only run on the rebased candidate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/44285129810) reproduced every count and exception at `20261118243000`, with G3 75 functions and 48 relations and zero drift. Publisher file SHA-256 was `d62824262a8184ebb16a9caa13d7dc5d438fbce348556febf6a37e2b9481a11f`.
 
 ## Telemetry
 
@@ -81,7 +81,7 @@ Five invalid publisher cells contain multiple URLs in one field or an email addr
 
 The s700 normaliser supplies `https://` for a syntactically valid bare DNS hostname before the website is validated. Explicit HTTP(S) addresses retain their original scheme and path. Empty, malformed or multi-address cells remain unresolved. The same helper is used by the CRICOS legacy archive reader, adapter and replay, and the declarative wizard's mapping preview, dry run and apply path. Mapping and replay use the draft's existing `cricos` registration scheme. The full audit factors formatting changes out before comparing domains.
 
-Pilot #1312 is awaiting its governed CI and release checks.
+Pilot #1312 merged at `d7782d7b`. The exact rebased candidate `fe347485` passed 3,552 tests with zero failures and zero skips, including all four s700 tests, and passed production parity. [Governing CI](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/44285129957) · [Edge deployment](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/44287604764).
 
 ## Man-power and ROI
 
