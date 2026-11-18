@@ -12377,3 +12377,20 @@ Platform Admin 13:06: resolve every Layer 4 › Scholarship course links item wi
 **Next executable action:**
 - Platform Admin: run the per-owner paste file before 01:15. The BOM edition then publishes at the next minute 41.
 - Platform Admin: choose the publisher files to upload for RM1C/H and RM1D (Visa Pricing Table, Fair Work pay guide, JSA data file).
+
+## 18 Nov 2026 15:45 AEDT — S2 - BOOST: reader v5, Course link and Boost study load settled by rule (Pilot #1283, #1284, #1286)
+
+Platform Admin 14:23, 14:25 and 14:29.
+
+- **Reader v5 (worker coverage-sweep v1.0.17, prompt `boost-study-load-v5`).** A fee note (EFTSL, CSP, a fee calculated on a standard full-time load) is never sent or accepted as the study load (s647, renamed from s643 in #1289).
+- **Boost study load (400 open readings).** 94 admitted on the v5 re-read, 231 settled Not stated by rule l4-boost-sl-settle-v1, 75 waiting for their re-read (job every 30 minutes). 38 of the Not stated readings had a sentence for international students that the reading did not use; a person may want to check them.
+- **Course link (1,487 to 423).** Rule l4-link-accept-v1, from the binder's proof, first run 0 failed:
+  - 154 pages used and 105 proved pages set: 259 official links written.
+  - 809 proposals refused (nothing linked).
+  - 16 left as the audit sample and 251 held for a person.
+  - Fee and English items were not touched.
+  - Job `layer4-link-accept` runs hourly.
+- **Scholarship course links stay at 0.** Job `scholarship-scope-auto` runs hourly.
+- **Course page needed (1,958) is unchanged.** 1,568 items have every page found refused by the binder, 288 have a dead 404 page (163 of them at Adelaide University: adelaideuni.edu.au addresses, probably moved to adelaide.edu.au; not checked live), 60 are unread and 41 blocked. None has a proved page, and the search and reader lanes are paused.
+- **Open, needs a decision:** the 14:23 items (scholarship deadline refresh REQ-71 and REQ-72; multi-field admission REQ-61, REQ-69 and REQ-70) were held because that message ruled out migrations. The round-state refresh has not run since 17 Nov 00:23 UTC (its only caller job is paused) and uses the UTC date.
+- Migrations `20261118171000`, `173000` and `183000`; specs s644, s645 and s647. G3 75/48.
