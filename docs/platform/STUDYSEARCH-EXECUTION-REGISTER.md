@@ -5626,3 +5626,32 @@ Read only; no migration and no data change (Thursday freeze respected; zero sche
 - S1-AER after authorisation: S677 migration with a rolled-back live dry run, then a status read 30 minutes after merge.
 - Delete branch `cf247-s676-probe` in the GitHub UI (a never-merged probe carrier; this session cannot delete branches).
 - Unchanged: the five 11 Nov `entry_matrix_change` items in Layer 4; first automatic renewal about 23 Nov.
+
+## 19 Nov 2026 04:30 AEDT — S2-Build: API v3 PR D read path and scholarship round states on the Melbourne date (Pilot #1328, s710, s711)
+
+**Done (Platform Admin directive 17:55, repeated 21:58; after the 03:30 freeze):**
+- **Pilot #1328**, merged 19 Nov 04:03 AEDT, outside the 01:15–03:30 freeze. Live max was `20261118272000` when re-read just before the merge. History md5s match the rolled-back dry runs:
+  - `20261119041000` (md5 `2b24a44e`, s710): `security.scholarship_round_state_refresh_v1` now compares round dates with the Australia/Melbourne date (`(now() at time zone 'Australia/Melbourne')::date`) instead of the UTC date. The function was edited with an md5 guard; its four `current_date` comparisons were replaced, and nothing else changed. A round no longer turns open or closed at 11:00 AEDT (UTC midnight) instead of at Melbourne midnight.
+    - New `rollup-scheduler` target `scholarship-round-state-refresh`: live, group A, priority 75, hourly at :23. The batch is the setting `batch.scholarship_round_state` (default 1000; G2). No new job or `cron.job` row.
+  - `20261119042000` (md5 `87c8f09a`, s711): v3 read path additions (v3 is open to additions until go-live, Decision 277):
+    - `course_v3_fields_v1`: `primary_basis` on each primary campus.
+    - `website_v3_provider_item`: `is_primary` and `primary_basis` on each campus.
+    - `destination_read_v1`: `employment_count` on each career row (JSA Table 1, "Employment in main job"). For example, Corporate Services Managers has 10,000.
+  - `20261119043000` (md5 `4c5695b5`): API v3 field dictionary synced to 2,227 fields (11 added). `docs/api/v3/field-dictionary.json` was updated, and the dictionary spec points at this migration.
+- **Read back live (04:10 AEDT):** 0 `current_date` left in the function and 4 Melbourne-date comparisons; the target is live; `ref.api_field_dictionary` holds 2,227 fields; G3 is unchanged at 75 functions and 48 relations with no drift. Migrations applied: 2,151.
+- **Home Affairs successor edition published:** v3 `/destination` serves 5 study rules, including the 485 Post-Higher Education Work stay of 2 years.
+- **On-demand window `9f54b912`** (scholarship detail fill after the reader stall, OpenRouter) closed at 04:07 AEDT:
+  - Estimate US$0.19 (ceiling US$0.63).
+  - OpenRouter use in the window, all lanes: US$0.31. No Firecrawl.
+  - OpenRouter balance went from US$11.36 to US$10.04, with other lanes included.
+- No new table or function: four existing functions were edited, each behind an md5 guard.
+
+**Not done (reported to the Platform Admin):**
+- **PR C (accreditations on API v3) is blocked on reuse terms:**
+  - AMBA's 13 rows are `under_review`, awaiting the Platform Admin's terms decision (paste file from S1-RM-Design).
+  - AACSB points data use to its Master Data Use Agreement (MDUA).
+  - EQUIS publishes no reuse terms.
+  - Nothing is published until terms are approved; a passing load never publishes by itself.
+- **Multi-field live admission path:** this is the S2-BOOST lane, and it needs the qualification references first. Not built here.
+- **Still open:** the 12-month living-cost benchmark (financial capacity) on the Home Affairs page; the `cron.unschedule` paste file for the three retired destination side jobs after 14 days (from 2 Dec 2026); the student-facing correlated read and the accreditations read for S1-RM-Design (next in this lane).
+- **TEST-REGISTER:** no CI workflow regenerates it. Local generation fails here because the sandbox has no network (`lucide-react` is missing). The two new specs (`s710`, `s711`) are picked up on the next generated run.
