@@ -105,3 +105,17 @@ P0 verify deployed #1001 + paid-answer replay and job settlement; P1 implement g
 
 ## Production acceptance evidence and runbook
 Capture before and after counts by country/provider/course level and description origin; attempts/recorded/validated/machine-admitted/human-held/technical-retry/published/Website-verified; AI credits/cost; p50/p95 per stage; duplicates and retries; source-specific claims; fixed examples including Billy Blue DUX20, UniSC Graduate Certificate ICT and Academy IT ICT30120. Prove 2 unattended cycles and stable throughput near the **actual approved capacity**, no silent missing work and recoverable budget refusal. Do not claim completion from test success, PR merge, 100 samples or queued jobs. Record live evidence and rollback in the existing F-CDESC rows and Execution Register.
+
+## Change, 18 Nov 2026 (S1-Courses, s662 and s664; Pilot #1314, migration `20261118253000`, worker v1.0.20, v2.16.44)
+
+Decided by the Platform Admin on 18 Nov 2026 (chat S1-Courses), after a Layer 4 review of Ara Institute of Canterbury, New Zealand Diploma in Applied Science (Level 5): three sentences of about 590 characters, the third only intake and duration filler, held for a thin page-match margin although the page was the course's own.
+
+| Area | Before | After |
+|---|---|---|
+| Prompt | `cdesc-source-grounded-v3`: 2 to 4 sentences, about 55 to 100 words | `cdesc-source-grounded-v4`: 1 to 2 sentences, never more than 2, about 180 to 360 characters; academic focus, core skills, stated career outcomes; never intake dates, campus names or addresses, fees, or duration and study load. Every other line of v3 kept |
+| Limits (settings) | at most 4 sentences, 700 characters | at most 2 sentences, 360 characters |
+| Identity margin (cdesc-machine-v2) | a page found by an AI match or with a score under 0.1 above the next page waits for a person, even when the page proves the course | waived when the page proves the course by its own CRICOS or NZQA code, or its exact title (or an address ending in it) that no other active course of the provider shares, and no other course is bound to the same page (switch `enrich.course_description_identity_proof_on`, 1) |
+| First-description hold | a provider's readings wait behind its Layer 4 places; the card says "one of the provider's first course descriptions" | off (switch `enrich.course_description_first_hold_on`, 0): every checked reading goes to the machine rule; the card says what really happens |
+| Layer 4 card | Approve as read, Reject; reason as a code | "Why this is held" in plain English with the match score, proof, quote check and sentence count, and the action; Approve as read, Re-read (1-2 sentences), Approve all verified for provider (count confirmed), Reject (bad page / wrong course) |
+
+Guardrails kept: quote verification per sentence, no overwrite of a held description, the machine switch, G3 (no consumer object), no new table or function. The hold explanations live in Pilot `src/lib/cdesc-hold.js` (one place; spec s664).

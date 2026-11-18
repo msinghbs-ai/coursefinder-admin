@@ -111,3 +111,7 @@ The Layer 4 kind Descriptions holds 663 course descriptions waiting. Each has a 
 | Replay, 80 pages | Pilot Actions run 44254128321 (artifact `boost-fields-replay`); first attempt 44252085329 stopped on a slow answer and led to #1301 |
 | Worker deployed | Deploy on merge run 44251752170; mode ledger shows `coverage-sweep-worker-v1.0.18` for both new modes |
 | Unchanged | Route rows (study load v5, fields v1), the single admission qualification (Qwen3 30B, study load), 0 field candidates out of shadow |
+
+## Follow-up, 18 Nov 2026 22:20 AEDT (S1-Courses, s662 and s664)
+
+The identity rule proposed in section 2 is built in Pilot #1314 (migration `20261118253000`), extended by the Platform Admin's 21:08 directive: a 1 to 2 sentence reader (prompt v4), the first-description hold switched off, and a plain-English Layer 4 card with four decisions. Live read at 21:15: 666 waiting, 451 on the identity margin (CRICOS 161, NZQA 9, exact title 172 would be proved). In the rolled-back dry run, 249 of the 451 pass identity and fall to the new 2-sentence limit, so they are superseded and read again with v4; 3 pass outright. The 44 refused words are left to the v4 re-read, as section 2 recommended. Items 1 and 3 continue in Pilot #1316 (s661, s665).
