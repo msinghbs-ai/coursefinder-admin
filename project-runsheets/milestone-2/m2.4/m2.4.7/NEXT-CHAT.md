@@ -13007,3 +13007,14 @@ Pilot #1314 (`cf247-s662-s664-cdesc-one-two-sentences`, head `a415d8f`): worker 
 **Next executable action:**
 - Platform Admin: merge Pilot #1335, then Admin #609, then Pilot #1336.
 - S1-Courses, within 10 minutes of the #1335 deploy: live read-back and Drive `Monitoring` sync; s666 test register row and its record after #1336 merges.
+
+**Status at 19 Nov 2026 06:00 AEDT, S1-Courses.**
+
+- **Pilot #1335 is now v2.16.48 (package 0.1.470).** Pilot #1330, from another lane, took v2.16.47 on `main` shortly before, so #1335 was merged with `main` (head `48bf94a`). The release, changelog, release notes (`docs/release-notes/v2.16.48.md`), Platform Admin SOP 2.73, Operator SOP 2.33 and the guide now carry v2.16.48; v2.16.47 stays as #1330 shipped it. Migration `20261119060000` stays above the live head `20261119052000` (Pilot #1332). Release contract, UI tokens, UI map check, build and 68 targeted specs pass locally; CI and the rolled-back live dry run are re-running on the new head.
+- **Pilot #1336 (s666)** was merged with the updated #1335 (head `b7d2780`), with no conflicts: worker v1.0.24, and 29 targeted specs pass.
+- **Admin #609** (head after this block) carries the v2.16.48 UI map and SOP mirrors. The test register is unchanged by this step: the s662 and s664 rows stand, and its +2 test difference comes from another lane's s696.
+- **Drive `Monitoring`:** the Engagements sheet matches the CSV (120 rows, 1,785 counted minutes; row 110 and the six rows after it filled; Summary back on formulas); latest-only backups are the `Admin #609` pair; the older `Admin #624` pair is in the trash.
+
+**Next executable action:**
+- Platform Admin: merge Pilot #1335, then Admin #609, then Pilot #1336.
+- S1-Courses, within 10 minutes of the #1335 deploy: live read-back and Drive `Monitoring` sync; the s666 test register row and its record after #1336 merges.
