@@ -45,6 +45,12 @@ Before a material run:
 
 A stale/failed health signal is not permission to switch to an arbitrary alternative source. Qualify source authority first. If source semantics or structure changed, follow Section 7.
 
+### CRICOS provider registrar audit
+
+Use Pilot Actions **CRICOS provider reconciliation (read-only)** for the pinned 2 November 2026 Institutions edition. The action verifies its SHA-256 and uses one read-only Management API query to check catalogue registration codes, current aliases and the frozen consumer baseline. Review the JSON artifact's domain mismatches, unmatched codes, blank catalogue URLs and uncovered trading names. Capture the run in the [S3 audit record](https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/nz-enrichment-brief/2026-11-18-s3-boost-cricos-provider-reconciliation.md). Keep suggested website changes report-only until the existing provider identity process has verified and approved them.
+
+The wizard **Run dry run** stores draft and run metadata. Use the independent audit workflow for a production zero-write reconciliation. The s700 parser adds HTTPS to valid bare CRICOS DNS names and leaves malformed or multi-address cells unresolved.
+
 ## 4. Failed jobs
 
 1. Locate the job in **Jobs** and record job ID, layer, source, start/end time, last successful run, cursor and failure text.
