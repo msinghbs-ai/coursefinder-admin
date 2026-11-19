@@ -12724,3 +12724,20 @@ Then build the controls in slices, each with its own spec and a rolled-back dry 
 - S1-Build: merge Pilot #1399 on green CI, read back live (setting, table, views, a provider page and a hand-picked course).
 - Read `enrich_ai` window 2.
 - Platform Admin: decisions B1 to B7 (assessment of 20 Nov 00:20).
+
+## 20 Nov 2026 01:15 AEDT — S1-Build: s790/s791 live; s791b recorded before merge (Run Now follows the dispatchers); s788 window 2 clean
+
+**Trigger:** Platform Admin 19 Nov 2026 23:12 and 23:21 AEDT (s788 to s791).
+
+**Done:**
+- **s790/s791:** Pilot #1399 merged 00:58 AEDT. v2.16.60 deployed; migration `20261120002000` applied (history md5 `75f4eafb`).
+  - Read back: setting 200, stage table, capabilities, providers view (NZ 290) and course search.
+  - G3 75/48; locks 7,585.
+- **Finding:** the intake plan has nothing left to fill (top-10 plans 0 rows; 12 AU university pages 0 eligible; 102 decisions in 24 hours, 0 filled). New dates need new evidence.
+- **s791b:** Run & Validate and `job_run_now_v1` refused intake Run Now as "paused" because they read the legacy cron row, which has been off since the 16 Nov dispatcher cutover. Pilot #1400 (migration `20261120010000`, dry run md5 `c0d99833`) reads the live dispatcher target first. Recorded here before merge.
+- **s788 (IQ-00053):** window 2 (00:33–00:47) had 0 `enrich_ai` 500s and 288 OKs. Two windows are clean.
+  - The remaining 500s are other claims: `svc_boost_extract_claim` and `svc_coverage_reidentify_next` (follow-up).
+
+**Next executable action:**
+- S1-Build: merge Pilot #1400 on green CI and read back (the screen is not blocked; a Run Now on a hand-picked cohort is not refused).
+- Platform Admin: decisions B1 to B7.
