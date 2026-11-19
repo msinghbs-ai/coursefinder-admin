@@ -14190,3 +14190,14 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 
 **Next executable action:**
 - Platform Admin: read `/.well-known/security.txt` live, confirm the OpenRouter account privacy setting, and try Flag primary campus on a few providers (preview first).
+
+## 20 Nov 2026 10:28 AEDT — S1-Build: s813/s814 recorded before merge (Layer 4 decision time-outs; lane admission matrix)
+
+**Trigger:** Platform Admin 20 Nov 2026 09:55 AEDT (s813 to s819).
+
+**Done (before merge, repo-first):**
+- **Pilot #1410, migration `20261120110000` (dry-run md5 `fe308586`):** Held scholarship decisions no longer rebuild the AI screen (1.8 to 5.8 s, now about 0.2 to 0.6 s); indexes for the decision guard, fee outcome and held description promotion; keyed Layer 4 item reads.
+- **Layer 4 lane admission matrix:** `docs/platform/2026-11-20-s814-layer4-lane-admission-matrix.md` (19 kinds measured live, rolled back).
+
+**Next executable action:**
+- S1-Build: merge #1410 on green CI; s815 (domestic-only scholarship rule; classifier and full-attribute time-outs).
