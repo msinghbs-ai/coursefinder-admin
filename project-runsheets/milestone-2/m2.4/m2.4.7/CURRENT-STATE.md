@@ -14206,3 +14206,16 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 
 **Next executable action:**
 - S1-Build: merge #1407 on green CI; verify live in PIM Admin (UTS, Torrens, AUT; read only; nothing admitted); Drive Monitoring.
+
+## 20 Nov 2026 08:25 AEDT — S1-Build: s805b live; s802 to s805 verified in PIM Admin
+
+**Done:**
+- **s805b live:** Pilot #1407 merged; `20261120102000` applied (history md5 `5c6e0293` = file). Live head `20261120102000`, 2,205 rows, 57 = 57. Held list total 352.
+- **Verified in PIM Admin v2.16.62 (read only; nothing admitted, opened or locked):**
+  - UTS: Edit & Approve shows the text, live counts, the refused word "innovative", both quotes and the official page; Save Edit & Admit disabled until edited.
+  - Torrens and AUT: listed under Held universities: open for writing, by name.
+  - Human Edits & Periodic Audit: both tabs open; 0 open, 0 unacknowledged, 0 due.
+- G3 75/48, no drift; manual locks 7,585; no spend.
+
+**Next executable action:**
+- A reviewer: UTS description (edit or approve as read); Torrens and AUT written by hand if wanted.
