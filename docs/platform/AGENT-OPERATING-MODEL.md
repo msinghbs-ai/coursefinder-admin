@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.21, 13 Nov 2026 (v1.21 adds mandatory roadmap milestone and 15-minute minimum human-engagement logging across ChatGPT and Claude; v1.20 adds shared runner throughput and cross-session settings change control after S2-CF stalled; v1.19 adds S2-Scholarship independent module ownership, source-backed detail completion, narrow re-admission checks, Website/Zoho v3 UI acceptance; v1.18 adds scoped parallel-module ownership, developer-request-to-API-v3-and-Admin acceptance and intake throughput; v1.17: on-demand work a Claude session asks for is not held by toolset limits, only by the account; it shows its estimate and credit left before and its actual use and credit left after, Platform Admin 12 Nov 2026 21:07, Data pipeline operating model 3.3.2; v1.16: a Website API version the website does not yet read (v3) is open to additions and its PRs merge on green; at go-live it joins the frozen surface, Decision 277; v1.15: the one exception to merge on green is a change affecting the consumer APIs, held until the Wix and Zoho developers are told, Platform Admin 12 Nov 2026 09:14; v1.14 restates rule 9 of the working rules, merge on green, Platform Admin 12 Nov 2026 08:46; v1.13 replaces rule 3 of "Switching on a gated rule" with the platform qualification register and one approval for all qualified universities, Decision 275; v1.12 adds rule 7 of "Switching on a gated rule": check the inputs the rule reads for each provider, learnt from RMIT; v1.8 to v1.11 retained; v1.11 adds "Switching on a gated rule, one provider at a time" (Decision 271, Rule B); v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
+v1.22, 19 Nov 2026 (v1.22 adds the production architecture baseline for handover: one migration baseline after the squash, the three cron dispatchers, Layer 1 Register first for destination data, and the API v3 full-shape contract; v1.21 adds mandatory roadmap milestone and 15-minute minimum human-engagement logging across ChatGPT and Claude; v1.20 adds shared runner throughput and cross-session settings change control after S2-CF stalled; v1.19 adds S2-Scholarship independent module ownership, source-backed detail completion, narrow re-admission checks, Website/Zoho v3 UI acceptance; v1.18 adds scoped parallel-module ownership, developer-request-to-API-v3-and-Admin acceptance and intake throughput; v1.17: on-demand work a Claude session asks for is not held by toolset limits, only by the account; it shows its estimate and credit left before and its actual use and credit left after, Platform Admin 12 Nov 2026 21:07, Data pipeline operating model 3.3.2; v1.16: a Website API version the website does not yet read (v3) is open to additions and its PRs merge on green; at go-live it joins the frozen surface, Decision 277; v1.15: the one exception to merge on green is a change affecting the consumer APIs, held until the Wix and Zoho developers are told, Platform Admin 12 Nov 2026 09:14; v1.14 restates rule 9 of the working rules, merge on green, Platform Admin 12 Nov 2026 08:46; v1.13 replaces rule 3 of "Switching on a gated rule" with the platform qualification register and one approval for all qualified universities, Decision 275; v1.12 adds rule 7 of "Switching on a gated rule": check the inputs the rule reads for each provider, learnt from RMIT; v1.8 to v1.11 retained; v1.11 adds "Switching on a gated rule, one provider at a time" (Decision 271, Rule B); v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -160,6 +160,77 @@ Before escalating:
 3. **A capacity change is verified by measured throughput.** Raising a cap, batch size or daily allowance is an intermediate state, not delivery (v1.5 rule 3). At the next cycle, measure attempted against recorded against failed items, worker batch errors and statement time-outs in the logs, and report that, not the setting. A raised cap that lowers real output is a P1 defect.
 4. **No orphaned work after a job fails.** A terminal job failure (deadlock, time-out) must not leave its items queued or leased with no runner. They are settled, released to the next job or raised as an integration issue in the same cycle, never left silent.
 5. **Paid answers are recovered before re-asking.** An AI answer already received and stored is replayed through the recording route before the item is asked again (the existing replay), consistent with the cost discipline above.
+
+## Production architecture baseline for handover (19 Nov 2026)
+
+Measured read only on production at 11:05 AEDT on 19 Nov 2026, and on Pilot main `dae62317` (release v2.16.50 live). The figures are a dated observation. For anything newer, the live system and `docs/CURRENT-STATE.md` win. The canonical rules stay where they are (Pilot `CLAUDE.md`, the runbooks named below); this section only points to them.
+
+### 1. Migrations: one baseline, then forward only (Pilot #1325)
+
+- **Squash on 19 Nov 2026 at 02:15 AEDT.** The baseline `supabase/live-capture/baseline/schema.sql` is a byte-for-byte production dump: run 44324920057, head `20261118272000`, md5 `40cf02f4e8f5a6c2cb53bf351c55eccc`, 2,889 functions and 720 tables. `.gitattributes` keeps it out of line-ending conversion; 7 consumer API functions hold carriage returns.
+- **800 applied files moved, not deleted,** to `supabase/migrations-archive/`, and every reference to them was repointed. Production was unchanged: Deploy on merge applied nothing.
+- **`supabase/migrations/` holds only migrations above `20261118272000`.** The live head was `20261119104100` at 11:05. A new migration is numbered strictly above the live head and above every open PR's claim, re-read just before merge.
+- **A new database is built from the baseline,** not by replaying history (proof: admin `boost-test-rebuild.yml` run 44327488382 on `coursefinder-boost-test`).
+- **Runbook and results:** `docs/platform/MIGRATION-SQUASH-RUNBOOK.md` (section 6).
+
+### 2. Scheduled work: three dispatchers and a short list of own jobs (consolidation PR 1 to 4)
+
+| Dispatcher (`cron.job`, every minute) | Reads its work from | Runs | Legacy jobs it replaced |
+|---|---|---|---|
+| `rollup-scheduler` | `pipeline.rollup_targets` | 28 report and cache targets, each on its own schedule. Examples: `settings-backup-daily` at 06:50 AEDT (PR 4), `scholarship-round-state-refresh` hourly at :23 on the Melbourne date, `layer1-next-due-roll` hourly at :23, `course-coverage-build` hourly at :47 | 26 |
+| `admission-rule-runner`, `-b`, `-c` | `pipeline.admission_rules` | Admission rules, for example `intake-dates-apply`, `coverage-admit-intakes`, `process-results` and `policy-auto-approve` | 20 |
+| `coverage-lane-dispatch`, `-b`, `-c` | `pipeline.field_execution_registry` (`kind = 'worker_lane'`, `mode = 'live'`) | 21 coverage worker lanes, including PR 4's `page-text` and the 7 single-mode `coverage-sweep` jobs (Pilot #1331, live 19 Nov 08:18 AEDT) | 21 |
+
+- **Jobs that stay on their own schedule:**
+  - Layer 1: `layer1-run-driver` (every minute), `layer1-auto-ingest`, `layer1-parser-reinfer`, `layer1-register-end-dates` and `coursefinder-layer1-regulatory-scheduler`.
+  - Layer 4: `layer4-drain` (:07 and :37) and the other `layer4-*` jobs.
+  - Boost: `boost-extract`, `boost-fields` and `boost-benchmark`.
+  - `coverage-read` and `coverage-read-2`, which run every 30 seconds.
+- **Counts.**
+  - The PR 4 cutover took active `pg_cron` jobs from 146 to 138.
+  - The running count then moves as sessions pause and resume jobs: 136 at 08:55, 138 at 11:05.
+  - 78 legacy jobs are switched off and `retiring`. G1: 0 unregistered jobs.
+- **Where to see it.** PIM Admin › Operations › Scheduled jobs › Automations shows:
+  - the Pipeline maintenance panel;
+  - the Dispatchers panel (lanes, runs and failures in 24 hours, legacy jobs replaced);
+  - the areas, with retired legacy jobs hidden until "Show retired legacy jobs" is ticked.
+- **How a job moves onto a dispatcher.** See Pilot `CLAUDE.md`, "Cron dispatchers":
+  - register the job byte for byte;
+  - run it in shadow;
+  - cut over by switching the legacy job off (`active = false`, `retiring`);
+  - unschedule it by a paste file after `hygiene.retire_after_days`.
+  - The pending unschedule paste files are listed in `docs/CURRENT-STATE.md`.
+  - PR 4 was cut over after about 17 hours of shadow, on the Platform Admin's decision of 19 Nov 07:47.
+
+### 3. Destination data: Layer 1 Register first (Platform Admin, 18 Nov 2026 22:04)
+
+- **Rule.** Every destination, regulatory and statistical source is registered in the Layer 1 Register under its country before it is read. It is ingested only by this route: Layer 1 schedule → Supabase Storage artifact → Layer 1 evidence record (naming the source, `fetched_at` and `licence_terms`) → Destination data › Editions. No side loader writes destination data.
+- **Live.**
+  - 26 destination sources are registered: AU 6, CA 4, GB 4, IE 4, NZ 4, US 4.
+  - Registered is not the same as read. The Layer 1 Register shows which sources have run and which are paused or restricted (for example Fair Work, paused).
+  - Editions: AU 4 published of 7, GB 1 of 1, US 1 of 1, NZ 0 of 1.
+- **No overwrite.**
+  - A published edition is never edited in place. A new read opens a successor draft.
+  - Publishing supersedes only the same data source's published edition: unique index `uq_destination_editions_published_per_owner`, trigger `destination_edition_guard`.
+  - The earlier side loaders (`destination-abs-load`, `destination-climate-load`, `destination-page-facts-load`) are switched off and retiring.
+- **Runbook and design.** `docs/platform/DESTINATION-EDITIONS-AND-WAVE2-DRAFTS-RUNBOOK.md` (section 6) and `docs/Roadmap/2026-01/DESTINATION-DATA-DESIGN.md`.
+
+### 4. API v3: the full shape from release 1 (Decision 277)
+
+- **G3 and v3.**
+  - G3 (75 functions and 48 relations in `pipeline.consumer_api_baseline`, 0 drift on 19 Nov) is the frozen **v2** consumer surface.
+  - v3 (`website-api-v3`, `zoho-api-v3`, `public.website_v3_*`, `public.zoho_v3_*`) sits beside v2 and only reads v2 and its data. It is open to additions until the website goes live on v3. At go-live it joins G3, the baseline and spec `s57` in the same change (Pilot `CLAUDE.md` G3).
+- **Every field is present on every item; null means not held.** Every field defined for v3 is on every item from release 1. A field the platform does not hold yet is `null` and fills in as data is admitted, with no new release (`docs/integrations/api-v3/API-V3-FIELD-DEFINITION.md`).
+- **`ref.api_field_dictionary` describes every field.**
+  - It holds 2,227 rows: one per surface, endpoint and field path.
+  - Each row gives the data type, whether the field can be null, the allowed values, the source table and column, the REQ IDs, and the version it was introduced or deprecated in.
+  - Website and Zoho consumers decide from the dictionary and the null whether to show a value, show fallback copy or hide a section. They need no schema release as data fills in.
+  - Drift between the dictionary and the live payloads is checked by `security.api_field_dictionary_drift_v1`.
+- **`empty_reason_code` is one course-level field (REQ-53).**
+  - It says why a course has no campus: `not_published_by_provider`, `not_listed_on_register`, `online_only_no_campus`, `pending_extraction` or `source_unavailable`. It is set by `security.course_empty_reason_apply_v1`.
+  - It is not a reason attached to every empty field. A per-field empty reason does not exist; until one is designed and built, null with the dictionary is the contract.
+- **Release.** According to the definition document, v3 answers `403 V3_NOT_RELEASED` until the release switch `api.v3_released` is turned on with the release authorisation and the developer communication. This update did not re-check the switch live.
+
 
 ## The two repos (both public)
 1. DECISIONS — github.com/msinghbs-ai/coursefinder-admin. Blueprints, designs, thread

@@ -6,6 +6,9 @@
 
 ## 1. What the process is
 
+> **Schedule update, 19 Nov 2026 (cron consolidation).** Steps 3 and 4 no longer run as their own `pg_cron` jobs. `intake-dates-apply` (hourly at :26) and `coverage-admit-intakes` (every 10 minutes from :05) now run as admission rules on `admission-rule-runner` (`pipeline.admission_rules`), on the same schedules. Their legacy jobs are switched off and retiring. The same holds for `process-results` (hourly at :53) and `policy-auto-approve` (every 10 minutes from :05). `calendar-reread` is paused (17 Nov 2026). The measurements below are the 5 Nov record and are unchanged.
+
+
 | Step | Component | Schedule | What it needs |
 |---|---|---|---|
 | 1 Intake months | University adapters read stored course pages | Adapter read cycle | A course page bound to the course |
@@ -83,7 +86,7 @@ A skipped row is not looked at again under the same rule and calendar (`intake_d
 
 751 rows wait on E16 page proof. Course Link reconciliation (Decision 179) moved 531 on 4 Nov and paused at 19:27.
 
-## 5. Revisit schedule (current, as built)
+## 5. Revisit schedule (as built on 5 Nov 2026; the jobs now run on `admission-rule-runner`, see section 1)
 
 | Group | Next look | Gap |
 |---|---|---|
