@@ -13436,3 +13436,45 @@ Platform Admin 11:36 AEDT. **Canada (52 international providers, including UBC, 
 **Next executable action:**
 - S1-Build: check the next runs of `waste-guard` (:17), `scholarship-coverage-classify` (:29), `no-page-propose` (:37) and `ops-cost-guard` (:43), and the 12:46 telemetry sync.
 - From 2 and 3 Dec: run the PR 3 and PR 4 unschedule paste files.
+
+## 19 Nov 2026 12:40 AEDT — S2-BOOST-AER: S747 chunked matrix smoke test run, nothing qualified; course drain 75, the last 16 still queued (Pilot #1365, #1368)
+
+Platform Admin 10:48. Worker `coverage-sweep` v1.0.27 then v1.0.28 (mode `aer_chunk_smoke`) and one data-only migration `20261119110500` (Pilot #1365); the table match fix in Pilot #1368 (no migration). No table, column, function or job added; G3 75/48 read back. Spec s747 (6 tests).
+
+**Done and read back from live (11:00 to 12:40 AEDT):**
+- **Matrix reader on the row chunker.**
+  - Mode `aer_chunk_smoke` reads one table of a stored entry-matrix page through `entry-chunks.ts` (S744 to S746), 25 rows a call.
+  - It checks every answer without a model: row completeness (each row answered once, no invented row), quote fidelity (each quote inside its own row) and minimum in quote.
+  - It admits, proposes and records no reading.
+- **Prompt version kept as data.**
+  - `aer-v2-matrix-chunk-v1` is 3 candidate rows of `pipeline.ai_instruction_versions` (ids 44 to 46), one per pinned model, each with its v3.1 provider pins.
+  - Text sha-256 `15888e86…`. The worker refuses a version whose text does not match.
+- **Smoke test: 10 gate-held tables, 237 rows, one per provider.**
+  - Selection rule: from the held pages that lost the most rows, the largest table of 8 to 70 rows, at most 12,000 characters.
+  - Workflow `aer-chunk-smoke.yml`, under on-demand windows `851c9099` (11:36 to 11:48) and `59b754f0` (12:09 to 12:37). Both closed. Firecrawl 0.
+  - Run 1 refused 7 of 10 tables before any model call: the tables were chosen on the exported copy (title, h1 and tables), whose table numbers differ from the whole page's. v1.0.28 finds the table by its rows; run 2 matched all 10.
+  - **Spend US$0.0276 of the US$0.10 cap** (run 1 US$0.0080, run 2 US$0.0196). `ai_invocations` source `aer_chunk_smoke` agrees: 54 attempts, US$0.02756.
+
+| Pinned model (run 2) | Row completeness | Quote fidelity | Minimum in quote | Invented rows | Cost US$ |
+|---|---|---|---|---|---|
+| xiaomi/mimo-v2.6-flash | 100% (237/237) | 100% (237/237) | 99.3% (136/137) | 0 | 0.0070 |
+| qwen/qwen3-30b-a3b-instruct-2507 | 59.5% (141/237) | 97.2% (137/141) | 100% (127/127) | 0 | 0.0084 |
+| mistralai/mistral-small-3.2-24b-instruct | 36.7% (87/237) | 100% (87/87) | 82.9% (34/41) | 0 | 0.0042 |
+
+- **Bar not met; nothing promoted.** The bar is 100% on all three measures with no invented row.
+  - MiMo misses it by one row: Manukau, row 28, minimum not printed inside its own quote.
+  - Qwen and Mistral lost whole groups: calls that ran past the 90-second limit on 25-row groups, and Qwen answering rows twice.
+  - Nothing is qualified, admitted or switched on. Each run is one control event (`aer` / `matrix_chunk_smoke`).
+- **Course drain.**
+  - 75 course reads admitted since S748 (26 at 09:24, 43 at 09:54, 4 at 10:24, 1 at 11:24, 1 at 11:54).
+  - The last 16 would-admit reads all pass `aer_machine_check_v1` (14 `aer-machine-v1`, 2 `aer-machine-v1-except`). At 11:14 they stood at queue positions 1,407 to 1,767 of 1,801 eligible items, about 170 checked a run, so they are reached by about 15:30.
+  - P0 0. Head `20261119120000`.
+- **Test register.** `docs/platform/TEST-REGISTER.md` regenerated from Pilot main `107fe5c2` is byte-identical to this repository's (the s747 row has been in since #641). This closes the 08:50 "not regenerated" note.
+
+**Not done:**
+- The 16 course reads are not yet admitted (queue order, not a hold).
+- No chunked reader is qualified.
+
+**Next executable action:**
+- S2-BOOST-AER, 15:45 AEDT (scheduled): record the final 16-item drain here and in the registers.
+- Platform Admin, AER v2 (a decision): either (a) a second chunked run with MiMo v2.6 Flash only, on more tables, with 12 rows a call (stays inside the 90-second limit), or (b) keep the AER v2 replay paused.
