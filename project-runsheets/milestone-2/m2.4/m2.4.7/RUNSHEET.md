@@ -13627,3 +13627,24 @@ Platform Admin 13:05 (decision approved). Worker `coverage-sweep` v1.0.29 and sc
   - a contract that gives one record per study-level cell;
   - decoding the Windows character codes in the chunk text (which touches the shared text converter, held by the AER v1 freeze);
   - prompt wording that copies the minimum exactly as printed.
+
+## 19 Nov 2026 15:07 AEDT — S1-Build: s769 live (Scholarships › Coverage loads again, ref 8XEY7B)
+
+**Trigger:** Platform Admin 19 Nov 2026 13:04 AEDT (chat S1-Build): Scholarships › Coverage timed out with error reference 8XEY7B.
+
+**Found** (read only, 13:05–13:40):
+- **Statement limit.** The page asked `admin_scholarship_coverage_read` for 300 providers, one `scholarship_coverage_row_v1` each, against the `authenticated` role's 8 s statement limit. Totals took 14 ms; 12 of the 27 watch-list providers took about 12 s.
+- **Per-pair recomputation.** In `security.scholarship_listing_match_v1` the planner inlined both CTEs, so `scholarship_series_key_v1` (regular expressions) ran for every listed item × record pair. One provider (138 × 21) took 6.86 s. The University of Sydney (582 × 257 = 149,574 pairs) did not finish in 58 s. All with scholarships has 208 providers.
+- No table scan or missing index was involved: every lookup already used a provider index.
+
+**Done:**
+- Pilot #1374 merged (v2.16.51, package 0.1.473); migration `20261119130000` live 14:18, history md5 `78c396f5`; spec s769. The rolled-back live dry run passed; its post-checks prove the sampled watch-list matches unchanged and both timings under 4 s.
+- Part 2, found in the live check: the provider drawer still timed out (Sydney 8.7 s). `admin_scholarship_coverage_provider` and the Publish action read `scholarship_publishability_v1()` for every scholarship (2,800+; 7.5 to 13.8 s) and kept one provider's. Pilot #1375, migration `20261119144500` live 15:07, history md5 `158ca349`: both now call `scholarship_publishability_for_v1` with that provider's or that scholarship's ids (identical rows for Sydney's 274 records, 0.6 s). One fragment of each md5-checked live definition was replaced.
+- Item and record keys, words and addresses are materialised once and then compared, with the same rule as v2.15.249 Fix 5: 92 ms and 721 ms for the two providers above. Read only, the matches were the same on 1,633 rows of 65 providers. An item listed twice with two links now keeps the first link on the page.
+- `admin_scholarship_coverage_read` returns at most 50 providers a page, ordered by name then code, with `limit` and `offset`. The screen pages with Previous and Next (Showing x–y of N); platform guide line added; SOPs re-exported for 2.16.51 with no step changes; UI map regenerated.
+- Only `create or replace function`: no table, column, index or job. G3 75/48, 0 drift.
+- Read back in PIM Admin (v2.16.51): no 8XEY7B; watch list 523 ms; All with scholarships pages 1–5 0.5 to 1.5 s; Sydney's row 582 listed, 184 found, 71 published, 398 missing (database 524 ms); Sydney's drawer 7088 ms.
+
+**Next executable action:**
+- S1-Build: s767 follow-up. `no-page-propose` timed out again at 13:37: its candidate query (`enrich_focus_v1` → `pipeline_list_v1`) hits the 120 s limit under load, so a smaller batch will not help. `waste-guard` passed at 13:17 in 107 s. `ops-cost-guard` ran at 13:47 in 73 s (deferred one tick for the tick budget).
+- Other unscoped `scholarship_publishability_v1()` readers remain: `admin_scholarships_page`, `scholarship_publication_review_v1`, `admin_scholarship_publishing_read_v1` (screens) and the jobs `scholarship_auto_publish_v1`, `scholarship_publish_batch_v1`, `scholarship_reread_cadence_v1`. Check each for the 8 s screen limit.
