@@ -12520,3 +12520,39 @@ Then build the controls in slices, each with its own spec and a rolled-back dry 
 **Next executable action:**
 - S1-Build: fix the `no-page-propose` candidate query.
 - S1-Build: profile `ops_cost_waste_v1` (115 s at 14:43, 44 s inside the function against about 16 s as plain SQL).
+
+## 19 Nov 2026 15:30 AEDT — S2-Build: page-text claim bounded (s772, IQ-00606), readiness as plain per-country CSVs (s771); s773–s775 handed to S1-Build
+
+**Directives:** Platform Admin 19 Nov 2026 14:24, 14:33 and 14:36 (quota boundary: finish #1377 and s771, hand s773–s775 to S1-Build). All live reads went through the rolled-back dry-run workflow.
+
+**s772, IQ-00606 (Pilot #1377, migration `20261119150000`; closed by #1379, `20261119153000`):**
+- **Cause.** `public.svc_page_text_next_v1` built the whole candidate set (about 18,000 bound pages, 12,700 eligible) and sorted it to keep 40: 2.9 s by plan, more under load. 14 of 55 runs had failed on the 8 s limit.
+- **Fix.** `pipeline.course_priority` is empty, so the order is country Boost weight (AU 80, NZ 76, CA 72) and then course id. The claim now walks each country's bound pages in that order through the new partial index `coverage_course_pages_bound_read_course_idx` and stops at the limit. A busy call returns no items instead of waiting. Claim rows, items and order are unchanged.
+- **Measured.** 0.75 s for 40 items and 0.93 s for 200 (rolled back); about 1.3 s live in a probe.
+- **Live.** Every page_text run since 15:08 succeeded: 11 of 11, 440 items, 0 failed. G3 75/48.
+- Migration renumbered from `20261119143000`, which S2-BOOST-AER's s751 had taken.
+
+**s771, plain per-country CSVs (Pilot #1378; no migration):**
+- The renderer writes one plain CSV per country, split by size so each file has the header and stays under 2.9 MB (one Drive connector upload).
+- Today: AU 12.0 MB → 5 parts, NZ 2.99 MB → 2 parts, CA 1.64 MB → 1 file. Two AU halves would be about 6 MB each, over the limit, so it is 8 files, not 4.
+- Export run 44456498448 (14:13 AEDT): the 8 files (6,061 / 6,140 / 6,128 / 5,994 / 1,380 AU rows; 3,814 CA; 6,203 / 311 NZ) are in Drive › Monitoring, and the zip is trashed.
+- The scheduled task "Course field readiness to Drive (07:45)" now uploads the country files, trashes any Matrix zip or CSV, and keeps 3 days.
+
+**Correction.** IQ-00594 and IQ-00588 were closed at 12:55 on 1.5 hours of clean runs (#1372). That was too early: Runner C timed out at 13:15 and 13:17 and Runner B at 13:19, in paths s720 had not bounded.
+
+**Handover to S1-Build (s773–s775; no PR opened in S2):**
+
+| Issue | Timed out | Path (from cron.job_run_details) | Suggested fix |
+|---|---|---|---|
+| **IQ-00594**, admission-rule-runner-b | 13:19, 120 s | `security.admission_rule_run_v1` → `security.adapter_overwrite_gated_v1(pipeline_num_v1('batch.adapter_overwrite', 200))` → `security.adapter_overwrite_v1` (FOR over SELECT rows) → `security.layer4_entity_or_parent_blocked(text,uuid,text)` → `exists(select 1 from security.layer4_active_blocks …)` | The view `security.layer4_active_blocks` is a `DISTINCT ON (entity_type, entity_id, block_scope)` over all of `pipeline.layer4_block_decisions` (then `event_type = 'block'` and not expired), so the predicate is not pushed through and each call scans every decision, twice per entity (entity, then provider), up to 200 entities a tick. Rewrite the check in the function to read the latest decision for (entity_type, entity_id, block_scope) directly, with an index on `layer4_block_decisions (entity_type, entity_id, block_scope, created_at desc, id desc)`. |
+| **IQ-00588**, admission-rule-runner-c | 13:15, 120 s | `security.coverage_admission_gated_v1('coverage-admit-intakes', …)` → `coverage_admission_apply_v1` → `consumer_api_snapshot_v1()` line 31 EXECUTE → `public.zoho_edge_course_search_v2(null, array['NZ'], …, 5, 0)` → `zoho_course_search_v2` | One frozen Zoho read ran past 120 s (230 ms at 11:41). The s720 time budget only stops new reads from starting; it cannot cut one that is running. Likely it waits on the search-document refresh. Set a local `lock_timeout` before each snapshot read and catch the error per read (mark it skipped), or skip the search cases while the writer lock is held. The snapshot is evidence only (Decision 163); the frozen functions are unchanged. |
+| **IQ-00588**, admission-rule-runner-c | 13:17, 120 s | `coverage_admission_apply_v1` line 9: `create temp table _adm on commit drop as select * from security.coverage_admission_plan_v1(p_extractor) where action in ('write','differs') and attribute=any(p_attributes)` | `coverage_admission_plan_v1(text)` (6,035 characters) plans every item before the attribute filter and the batch are applied. Push the attribute filter and a bounded batch into the plan (a body change only; the signature stays). |
+| **IQ-00426**, no-page-propose | 13:37, 120 s | `security.no_page_propose_v1()` → `insert into pipeline.bind_match_scope(provider_id, why, unbound) select … from catalogue.courses c join …` → `security.enrich_focus_v1(uuid)` (1,015 characters) → `security.pipeline_list_v1(text,jsonb)` "during startup" | The focus is evaluated once per course across the catalogue before the top providers are chosen. Pre-select the candidate providers by an indexed key with `LIMIT` first, then call `enrich_focus_v1`, and read `pipeline_list_v1` once into a variable instead of per row. |
+
+**Live head:** `20261119153000` (G3 75/48).
+**Issue states at 15:35 AEDT:** IQ-00606, IQ-00609 and IQ-00348 closed; IQ-00594 and IQ-00588 reopened; IQ-00426 triaged (the last three are for S1-Build).
+**TEST-REGISTER:** not regenerated in this session (packages not installed). New or changed specs: `s771` (new), `s772` (new, extended by #1379).
+
+**Next:**
+- S1-Build: s773–s775 above.
+- 07:45 AEDT Friday: first unattended per-country publish.
