@@ -13749,3 +13749,49 @@ Scheduled close-out under the Platform Admin directives of 10:48, 13:05, 14:25 a
 **Next executable action:**
 - S1 (post-handover): build Option 1 in `aerChunkVerifyV2` and 6 rows a call for wide tables, with the Platform Admin's spend approval, then replay on the 20 tables.
 - Any session after 22:30 AEDT: confirm the 16 course reads were admitted (91 of 91).
+
+
+## 19 Nov 2026 16:15 AEDT — S2-BOOST-Providers: Australian university descriptions triaged; none admissible by rule (no change made)
+
+Platform Admin 16:02. Read live 16:04 to 16:08 through the rolled-back `live-dry-run` workflow (probe expression, SELECT only). No rule, route, cap, setting or description was changed, so no spec was written (s766 unused). G3 75/48, no drift. Manual locks 7,585. Firecrawl off; provider AI spend today US$0.0075 of the US$0.50 cap; US$0.00 spent by this run.
+
+**Before and after (unchanged):** Australian universities with a description 37 of 45; Australian university colleges 6 of 8; all active providers with a description 2,185 of 3,091 (906 without, 645 of them published).
+
+**The 10 Australian university records without a description:**
+
+| Provider | State | Exact reason | What settles it |
+|---|---|---|---|
+| University of Technology Sydney (UTS) | Layer 4, pending | Machine rule: after sentences with refused words are left out, fewer than two remain. The reading itself is sound. | A person approves it in Layer 4 |
+| Victoria University (two records, `0f5373c8` and `bac82321`) | Identity hold, never read | Both records hold the host vu.edu.au, so each blocks the other | Merge or retire the duplicate record |
+| RMIT University | Identity hold, never read | Host rmit.edu.au is also held by "RMIT University Pathways, RMIT UP" | Record which provider owns the host |
+| Western Sydney University | Identity hold, never read | Host westernsydney.edu.au is also held by "UWS College, Western Sydney University The College" | Record which provider owns the host |
+| Torrens University Australia | Identity hold, stored page | Page title is "About Us \| Torrens University"; the catalogue name ends in "Australia" | A trading name "Torrens University", or a person |
+| Moore College (university college) | Identity hold, stored page | Page title is "About Moore Theological College"; the catalogue name is "Moore College" | A trading name "Moore Theological College", or a person |
+| Avondale University | Wrong page, no stored page | The About address redirects to `/your-uni/`, which is not an approved About address | An approved About address for the provider |
+| Macquarie University | Never read, no stored page | An open identity finding (identity unconfirmed) stops the read | Resolve the identity finding |
+| Australian University College of Divinity (university college) | Never read, no stored page | Its domain is shared with a provider record named "NA" | Fix or retire the "NA" record |
+
+- **No re-read was run.** The two with a stored page and a name mismatch (Torrens, Moore) would be held again by the unchanged identity proof, so a model call would change nothing.
+- **Layer 4.** Of the 62 pending university-description items, 1 is an Australian university (UTS). The others: Australian private VET 28, schools 7, higher education institutes 7, other 3; Canada 11; New Zealand 5. Each went to Layer 4 because the machine rule `pdesc-machine-v1` declined its text; none passes as it stands.
+- **Why there is no Australian university pill.** The Layer 4 grid filters by kind and reason only; it has no country or provider-type filter. A `Country` and `Provider type` filter is a screen change for S1-Build after handover.
+- **All 906 providers without a description, by country and state:**
+
+| State | AU | CA | NZ |
+|---|---|---|---|
+| No stored page | 348 | 76 | 59 |
+| Identity hold | 177 | 74 | 31 |
+| Layer 4, pending | 46 | 11 | 5 |
+| Grounding hold | 17 | 10 | 2 |
+| Other (wrong page, sentence count, wording) | 26 | 9 | 11 |
+| Never read, stored page | 3 | 0 | 0 |
+| Queued | 1 | 0 | 0 |
+| **Total** | **618** | **180** | **108** |
+
+**Not done:**
+- No Australian university description was admitted.
+- Propagation to the Website and Zoho projections was not checked, because nothing was admitted.
+
+**Next executable action:**
+- A person: approve UTS in Layer 4.
+- Platform Admin or catalogue owner: the duplicate Victoria University record, the shared hosts for RMIT and Western Sydney, the "NA" record, and the Macquarie identity finding.
+- S1-Build, after handover: `Country` and `Provider type` filters on the Layer 4 grid.
