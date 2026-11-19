@@ -14028,3 +14028,23 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 - S1-Build: merge Pilot #1397 (s788) and #1398 (s794) on green CI, read back live, and observe two `enrich_ai` windows.
 - Then s790/s791 (Intake Run & Validate: paging, single-course pick, stage history, Verify / Admit).
 - Platform Admin: decisions B1 to B7 in the assessment.
+
+## 20 Nov 2026 00:50 AEDT — S1-Build: s788 and s794 live and read back; s790/s791 recorded before merge
+
+**Trigger:** Platform Admin 19 Nov 2026 23:12 and 23:21 AEDT (s788 to s791, repo-first parity) and the 23:15 handover (s794).
+
+**Done:**
+- **s788 (IQ-00053):** Pilot #1397 merged 00:25 AEDT. Migration `20261119190000` applied by Deploy on merge (history md5 `42db5522`); `coverage-sweep` worker v1.0.31 deployed.
+  - Claim index present; `svc_enrich_ai_next(40)` 176 ms live.
+  - Window 1 (00:27–00:32): 0 HTTP 500 and 92 HTTP 200. The last two 500s were the Boost worker's `svc_boost_extract_claim` timeout (follow-up).
+- **s794:** Pilot #1398 merged 00:30 AEDT (migration `20261119191000`, history md5 `d3bc130f`). All 48 refresh requests processed by 00:32.
+- **s790/s791 (IQ-00313 F-INT):** Pilot #1399 (v2.16.60, migration `20261120002000`, dry run md5 `75f4eafb`) recorded here before merge.
+  - PAGE-01: any AU, NZ or CA provider paged through all its active courses (200 a page, a setting), plus hand-picked courses.
+  - OPS-01: stage counts per cohort and run in `pipeline.intake_cohort_stages`.
+  - VERIFY-01: Verify shows the stage history; admission stays with the intake job and its guards.
+- **Parity at 00:33:** history 2,196, head `20261119191000`, 48 post-cut-off versions equal to the 48 repository files. G3 75/48, no drift. Manual locks 7,585.
+
+**Next executable action:**
+- S1-Build: merge Pilot #1399 on green CI, read back live (setting, table, views, a provider page and a hand-picked course).
+- Read `enrich_ai` window 2.
+- Platform Admin: decisions B1 to B7 (assessment of 20 Nov 00:20).
