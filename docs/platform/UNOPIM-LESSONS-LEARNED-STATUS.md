@@ -1,6 +1,6 @@
-# UnoPim lessons-learned: what is built, what is not (s806)
+# UnoPim lessons-learned: what is built, what is not (s806, updated for s812)
 
-**Date:** 20 Nov 2026 (AEDT) · **Chat:** S1-RM-Design · **Source of the lessons:** `docs/platform/ui-audit/ui-ux-settings-audit-2026-11-15.md` §7 (locked 16 Nov 2026), `docs/coursefinder-pim-admin-guide-v1.0.md` (UnoPIM attribute, group and family organisation; a dashboard that surfaces what needs attention) and `docs/coursefinder-pilot-to-production-project-plan-v1.0.md` (UnoPIM-style UX principles).
+**Date:** 20 Nov 2026 (AEDT; updated after s812, Pilot v2.16.64) · **Chat:** S1-RM-Design · **Source of the lessons:** `docs/platform/ui-audit/ui-ux-settings-audit-2026-11-15.md` §7 (locked 16 Nov 2026), `docs/coursefinder-pim-admin-guide-v1.0.md` (UnoPIM attribute, group and family organisation; a dashboard that surfaces what needs attention) and `docs/coursefinder-pilot-to-production-project-plan-v1.0.md` (UnoPIM-style UX principles).
 **How this was checked:** each row below was matched against the code on Pilot `main` (migrations, `src/`) and the audit's own progress log (its §8). Where something is "not built" it was searched for by name and by purpose and not found.
 
 ## Summary
@@ -15,8 +15,8 @@
 | Dashboard "needs attention" | Surface what needs a person, not a hunt through the catalogue | **Built** | Dashboard › Waiting for you and Layer 4 Review › Inbox. |
 | Completeness per record | A share-complete bar on every row | **Built in 2.16.61 (s807)** | Courses: the existing six-signal score drawn as a bar. Providers: the share of nine tracked fields held. |
 | Missing-field filter | Narrow a grid to records lacking fields | **Built in 2.16.61 (s807)** | Courses use the filters the list already had (no database change). Providers use a new `missing` argument (migration `20261120100000`, one in-place, md5-guarded edit of `security.admin_providers_page_v3`). |
-| Bulk action bar | Act on many ticked rows | **Partly built** | Providers: Fill fields (description only), Export selected as CSV, Clear. Courses: the existing tick-box bar for descriptions. **Not built:** bulk-queue to Intake Run & Validate and bulk-flag primary campus (each needs a new write path; held for approval). |
-| Provenance on a record | Where each value came from, and whether it is locked | **Partly built** | Provider drawer panel shows Held or Missing for nine fields and a source pill for the description (Register, AI verified, Human input · Locked). Other fields do not record their source per field, so the panel says so. Course locks are shown by the existing lock notes. |
+| Bulk action bar | Act on many ticked rows | **Built in 2.16.64 (s812) for Providers** | Providers: Fill fields (description only), **Queue to Intake Run & Validate** (a hand-off list on Layer 2/3 › Operations; each provider is chosen in turn for the existing preview, fix and run; the hand-off runs and spends nothing), **Flag primary campus** (Platform Admin; preview, then Apply with a reason; the B2 rule for the ticked providers only; skips providers that already have a primary campus, have it locked, tie or are outside AU, NZ and CA; one audit event; migration `20261120104000`, an action of the existing `admin_layer4_inbox`, no new public function; the size of one request is the setting `bulk.primary_campus_max`), Export selected as CSV, Clear. **Not built:** the Courses grid has no row selection, so it has no bulk bar beyond the existing tick-box description bar. Queueing is by provider, because the intake run takes one provider (page by page) or hand-picked courses. |
+| Provenance on a record | Where each value came from, and whether it is locked | **Partly built (locks built in 2.16.64, s812)** | **Human Locked** pill beside every tracked field a person has locked: Provider drawer (nine tracked fields) and a Locks by hand panel in the Course drawer (description, duration, tuition, intakes, English, course page, official page, status), read from `pipeline.manual_locks`; locks on other fields (a name, the Course Finder switch) are listed in a line. **Register** and **AI verified** are shown for the description only, because it is the one field that records its source. For every other field the source is not recorded, and the screens say so rather than guess. |
 
 ## What the lessons taught us, and the decision each one needs
 
@@ -26,10 +26,10 @@
 | Never write silently | Admins have no preview step on AI reads | Build 7.2 only after 7.3, so Accept & Admit can be undone | Platform Admin: order of 7.2 and 7.3 |
 | Undo | No per-field history | New history table written by the admission path (G3: beside the catalogue, never in its shape) | Approve a new table |
 | Channel readiness | Website and Zoho completeness cannot be told apart | `pipeline.channel_contract_fields` built from the v2 and Zoho contract specs, with a spec keeping it in step | Approve a new table |
-| Per-field provenance | Only the description records its source | Record source on the admission path for the fields that matter to the website first | Approve scope |
+| Per-field provenance (Register, AI verified) | Only the description records its source; Human Locked is now shown for every tracked field | Record source on the admission path for the fields that matter to the website first, in a table beside the catalogue (G3) | Approve a new table (the History drawer in 7.3 can share it) |
 
-## Proposed, not shipped
-The Layer 4 inline "Edit & Approve" textarea and the six-month "Human Edits & Periodic Audit" bulk re-review bar are **not in the source**. They appear in the s806–s810 mockup labelled proposed. Layer 4 today decides an item with Approve (including Approve except), Reject or Hold, each with a reason; a person corrects a value through the record editor, which writes a manual lock.
+## Earlier proposals now built
+The Layer 4 inline Edit & Approve and the six-month Human Edits & Periodic Audit are **built** (S1-Build, s802 to s805, Pilot #1406, v2.16.62, migration `20261120101000`). An earlier version of this document listed them as proposed only; that is out of date.
 
 ## Reading this document
 "Built" means present on Pilot `main` and covered by a test. "Partly built" names what is missing. Nothing here switches anything on; a passing qualification still never activates anything by itself.
