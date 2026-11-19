@@ -14065,3 +14065,18 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - S1-Build: merge Pilot #1400 on green CI and read back (the screen is not blocked; a Run Now on a hand-picked cohort is not refused).
 - Platform Admin: decisions B1 to B7.
+
+## 20 Nov 2026 01:35 AEDT — S1-Build: s791b live; correction to s794; gap re-measure
+
+**Done:**
+- **s791b:** Pilot #1400 merged 01:28 AEDT; migration `20261120010000` applied (history md5 `c0d99833`).
+  - Intake Run & Validate is no longer blocked.
+  - Run Now reads the live dispatcher target.
+  - A hand-picked preview works.
+  - G3 75/48; locks 7,585; 0 `enrich_ai` 500s since 00:47.
+- **Correction to s794:** the 48 courses were unpublished, not lagging. They were rebuilt with no change, and published courses have 0 lag. Nothing to undo.
+- **Gap re-measure 01:19:** AU and NZ unchanged since 23:33. CA study load 3,113 → 2,368.
+
+**Next executable action:**
+- Platform Admin: decisions B1 to B7. AU gaps need new evidence (stored pages, approved calendars) or rules, not more runs.
+- Other lanes: the `svc_boost_extract_claim` and `svc_coverage_reidentify_next` claim timeouts.
