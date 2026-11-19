@@ -13936,3 +13936,31 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 - Torrens, Moore and AUT: held by the sentence checks; the same stored evidence is now remembered as failed, so another read waits for changed evidence or an on-demand mark.
 
 **Next executable action:** Platform Admin decides Holmes owner (02639M or another record), the Victoria 02475D registration, the "NA" record website, Macquarie (`identity_unconfirmed`) and Avondale (About redirects to `/your-uni/`), and the Lyons and Awanuiārangi About pages.
+
+## 19 Nov 2026 18:57 AEDT — S1-Build: s776/s777 live (readiness ETA panel and hourly stakeholder tabs), s778 live (Create user layout), s781 live (Catalogue › Providers)
+
+**Trigger:**
+- Platform Admin 19 Nov 2026 15:36 AEDT (chat S1-Build): s776 hourly Stakeholder_Course_Readiness_Summary tabs; s777 Pipeline & Field ETA panel.
+- 15:38: s778 Create user wizard field layout.
+- 16:37 (chat S1-RM-Design, routed to S1): s781 Catalogue › Providers table UI.
+
+**Done:**
+- **s776/s777.** Pilot #1382 merged 17:22; migration `20261119174000` live, history md5 `0fd6fb87`.
+  - Rollup target `course-field-readiness` builds the snapshot in 16 parts (`readiness.snapshot_parts`); `readiness.days_kept` keeps 15 days of daily marks for the velocity.
+  - Panel read 137 ms live; tabs read 188 ms.
+  - Follow-up Pilot #1389 merged 18:11, migration `20261119182000` (md5 `71880fba`): the tabs read returns null until all 16 parts are built.
+  - Telemetry scheduled task `trig_01KF1H6JAMBGUVBikTc7yhjj` updated to revision 5 (step 8b writes the three tabs hourly). First hourly write by the 18:46 sync: Executive_Summary, Field_ETA_Forecast and By_Provider_Action_List replaced (140 rows, snapshot 17:48 AEDT); Run_History_Log row stakeholder-readiness-sync SUCCESS.
+- **s778.** Pilot #1390 merged 18:11, v2.16.55, no migration: the Users & roles dialogs stack each field (label, full-width 40 px control, helper below). Spec s778 at 1280 px and phone width.
+- **s781.** Pilot #1392 merged 18:24, v2.16.56, no migration; follow-up Pilot #1393 merged 18:47, v2.16.57 (register codes in capitals, found in the live check).
+  - Providers rows: logo or monogram, bold name with CRICOS code or stable key, drawn SVG flags for AU, NZ and CA with one code pill.
+  - Compact Extract / refresh description icon; the adapter badge reads in full; the Type select stays in its column.
+  - Five filters in the bar, eight under More filters with an in-use count; clearer inactive tabs.
+  - Spec s781; two existing specs open More filters for the moved filters.
+- G3 unchanged (75 functions / 48 tables); test register regenerated; UI map and SOP mirrors for v2.16.54 to v2.16.56.
+
+**Next executable action:**
+- S1-Build follow-ups:
+  - the other slow rules on admission runners B and C;
+  - `ops_cost_waste_v1` (115 s);
+  - six unscoped `scholarship_publishability_v1()` callers;
+  - "courses" page statement time-outs seen at 16:26–16:29.
