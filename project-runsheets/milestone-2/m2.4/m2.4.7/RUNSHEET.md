@@ -13416,3 +13416,25 @@ Read-only, no write, no Firecrawl spend, no table, column, function, job or sett
 ## 19 Nov 2026 11:40 AEDT — S2-BOOST-Discovery: Canada approved for the AER programme in Wave 2; the 355 read-pending providers are the priority read queue (closes the open work in the 11:35 audit entry; audit #639)
 
 Platform Admin 11:36 AEDT. **Canada (52 international providers, including UBC, Alberta and Conestoga) joins the AER programme in Wave 2, immediately after the 20 Nov handover.** Today's remaining budget and queues stay on AU and NZ. **Priority read queue (no search credit): the 355 providers that already have discovered pages and nothing read for scholarships or entry requirements** (AU 332, NZ 21, CA 2; the 2 Canadian providers wait for Wave 2), then the remaining AU and NZ AER and scholarship drains. Docs and registers only: nothing was started on the queue, no setting, job, table or function changed (G3 75/48), no migration. Correction: the audit entry and report were stamped 11:55 AEDT in error; the audit ran about 11:15 to 11:35 AEDT on 19 Nov and the stamps now read 11:35. Ledger row, workbook and Drive Monitoring synced with this entry.
+
+## 19 Nov 2026 12:40 AEDT — S1-Build: s767 live (consolidated lanes read as live; CHRONIC_FAIL jobs under the statement limit)
+
+**Trigger:** Platform Admin 19 Nov 2026 11:34 AEDT (chat S1-Build): telemetry showed `coverage-discover` PAUSED after the PR 4 cutover, and three jobs CHRONIC_FAIL.
+
+**Found** (read only, 11:05–11:45):
+- **PAUSED came from the exporter.** The Drive telemetry exporter judged `coverage-discover` by its switched-off `cron.job` rows. Part of it is also real: both discover lanes are held idle by flag-recheck when 30 runs find nothing, with a trial every 15 minutes.
+- **`flag_jobs_v1` found lanes only through `cron.job` rows.** So the PR 3 and PR 4 paste files would have dropped the lanes from the idle pause, which is why both refused to run.
+- **The three CHRONIC_FAIL jobs only hit the 120-second platform statement timeout under load:** `waste-guard` 7 of 48, `no-page-propose` 10 of 48, `scholarship-coverage-classify` 14 of 48. The overlaps with other jobs were artefacts of the long runs. `ops_cost_waste_v1` alone took 44 s.
+- **A latent defect.** `waste_idle_guard_v1` could switch the retiring `course-link-reverse` back on.
+
+**Done:**
+- Pilot #1367 merged; migration `20261119120000` live 12:24, spec s767. The two earlier dry-run failures were fixed (`updated_by` is a uuid; the post-check now compares each lane with its registry state).
+- `flag_jobs_v1` reads the registry; `job_effective_state_v1` added; cost measure moved to rollup target `ops-cost-guard`; two per-run sizes lowered with reasons; idle guard keeps retiring jobs off.
+- Telemetry exporter revision 4 uploaded to Drive (byte-for-byte hash check) and the hourly telemetry task repointed. Revision 4's Pipeline_Summary logic read `coverage-discover` as running (2,899 runs in 24 h, 0 failed).
+- Read back: G3 75/48 with 0 drift, G1 0 unregistered, 136 active jobs. The paste README and CURRENT-STATE are updated; the test register is regenerated (s767).
+
+**Not done:** why the cost measure takes 44 s inside its PL/pgSQL function when its six parts take about 16 s as plain SQL. It needs profiling (`track_functions` is off).
+
+**Next executable action:**
+- S1-Build: check the next runs of `waste-guard` (:17), `scholarship-coverage-classify` (:29), `no-page-propose` (:37) and `ops-cost-guard` (:43), and the 12:46 telemetry sync.
+- From 2 and 3 Dec: run the PR 3 and PR 4 unschedule paste files.

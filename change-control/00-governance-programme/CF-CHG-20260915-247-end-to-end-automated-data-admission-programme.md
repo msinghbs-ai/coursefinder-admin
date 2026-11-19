@@ -12360,3 +12360,25 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 **Found:** the Dispatchers panel on Scheduled jobs showed "Last run 8:20 am" at 11:05 although the dispatchers ran every minute. The panel reads a cached snapshot.
 
 **Next executable action:** design and build a per-field empty reason for API v3, if the Platform Admin wants one beside the dictionary (not started).
+
+## 19 Nov 2026 12:40 AEDT — S1-Build: s767 live (consolidated lanes read as live; CHRONIC_FAIL jobs under the statement limit)
+
+**Trigger:** Platform Admin 19 Nov 2026 11:34 AEDT (chat S1-Build): telemetry showed `coverage-discover` PAUSED after the PR 4 cutover, and three jobs CHRONIC_FAIL.
+
+**Found** (read only, 11:05–11:45):
+- **PAUSED came from the exporter.** The Drive telemetry exporter judged `coverage-discover` by its switched-off `cron.job` rows. Part of it is also real: both discover lanes are held idle by flag-recheck when 30 runs find nothing, with a trial every 15 minutes.
+- **`flag_jobs_v1` found lanes only through `cron.job` rows.** So the PR 3 and PR 4 paste files would have dropped the lanes from the idle pause, which is why both refused to run.
+- **The three CHRONIC_FAIL jobs only hit the 120-second platform statement timeout under load:** `waste-guard` 7 of 48, `no-page-propose` 10 of 48, `scholarship-coverage-classify` 14 of 48. The overlaps with other jobs were artefacts of the long runs. `ops_cost_waste_v1` alone took 44 s.
+- **A latent defect.** `waste_idle_guard_v1` could switch the retiring `course-link-reverse` back on.
+
+**Done:**
+- Pilot #1367 merged; migration `20261119120000` live 12:24, spec s767. The two earlier dry-run failures were fixed (`updated_by` is a uuid; the post-check now compares each lane with its registry state).
+- `flag_jobs_v1` reads the registry; `job_effective_state_v1` added; cost measure moved to rollup target `ops-cost-guard`; two per-run sizes lowered with reasons; idle guard keeps retiring jobs off.
+- Telemetry exporter revision 4 uploaded to Drive (byte-for-byte hash check) and the hourly telemetry task repointed. Revision 4's Pipeline_Summary logic read `coverage-discover` as running (2,899 runs in 24 h, 0 failed).
+- Read back: G3 75/48 with 0 drift, G1 0 unregistered, 136 active jobs. The paste README and CURRENT-STATE are updated; the test register is regenerated (s767).
+
+**Not done:** why the cost measure takes 44 s inside its PL/pgSQL function when its six parts take about 16 s as plain SQL. It needs profiling (`track_functions` is off).
+
+**Next executable action:**
+- S1-Build: check the next runs of `waste-guard` (:17), `scholarship-coverage-classify` (:29), `no-page-propose` (:37) and `ops-cost-guard` (:43), and the 12:46 telemetry sync.
+- From 2 and 3 Dec: run the PR 3 and PR 4 unschedule paste files.
