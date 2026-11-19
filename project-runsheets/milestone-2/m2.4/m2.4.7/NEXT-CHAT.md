@@ -13332,3 +13332,28 @@ Read live at 11:05, SELECT only. No rule, route, cap or setting was changed. G3 
 **Next executable action:**
 - Provider description owner or Platform Admin: the 184 identity holds need a trading name recorded for the provider, or a person; the narrow rule does not reach them.
 - A person: the 62 university descriptions in Layer 4.
+
+## 19 Nov 2026 11:25 AEDT — S1-Build: handover architecture documents (docs only)
+
+**Trigger:** Platform Admin 19 Nov 2026 11:00 AEDT (chat S1-Build): update the platform design and process documents for the post-squash, PR 4-consolidated architecture and the API v3 handover.
+
+**Done** (read only on production 11:05 AEDT; Pilot main `dae62317`, release v2.16.50; no migration and no Pilot change):
+- `docs/platform/AGENT-OPERATING-MODEL.md` v1.22 adds "Production architecture baseline for handover (19 Nov 2026)". It covers:
+  - the migration baseline after the squash (Pilot #1325);
+  - the three cron dispatchers and the jobs that keep their own schedule (PR 1 to 4, Pilot #1331);
+  - Layer 1 Register first for destination data (26 sources: AU 6; CA, GB, IE, NZ and US 4 each; no-overwrite editions);
+  - the API v3 full-shape contract (`ref.api_field_dictionary`, 2,227 fields).
+- `docs/platform/STUDYSEARCH-PROGRAMME-STATUS.md`: new section 0 with the current architecture. Sections 1 to 5 are marked as the dated 8 to 10 Nov snapshot.
+- `docs/platform/UI-CATALOGUE.md` 1.19: Scheduled jobs › Automations re-read (Pipeline maintenance, Dispatchers panel, retired legacy jobs hidden).
+- `docs/platform/processes/intake-dates.md`: `intake-dates-apply`, `coverage-admit-intakes`, `process-results` and `policy-auto-approve` now run on `admission-rule-runner`; `calendar-reread` is paused.
+
+**Corrections to the brief, as documented:**
+- **Active jobs.** The PR 4 cutover took active jobs from 146 to 138. The count moves as sessions pause and resume jobs (136 at 08:55, 138 at 11:05), so the documents give the dated figures, not a fixed 136.
+- **`rollup-scheduler` scope.** It runs 28 targets of varied cadence, not only hourly rollups.
+- **Layer 1 and Layer 4 jobs.** `layer1-*` and `layer4-drain` are jobs with their own schedules, not dispatchers.
+- **`empty_reason_code`.** It is the course-level no-campus reason (REQ-53), not a reason paired with every field. The v3 contract for an unfilled field is null plus `ref.api_field_dictionary`; a per-field empty reason is not built.
+- **G3.** 75/48 is the frozen v2 surface; v3 joins it at the website's go-live (Decision 277).
+
+**Found:** the Dispatchers panel on Scheduled jobs showed "Last run 8:20 am" at 11:05 although the dispatchers ran every minute. The panel reads a cached snapshot.
+
+**Next executable action:** design and build a per-field empty reason for API v3, if the Platform Admin wants one beside the dictionary (not started).

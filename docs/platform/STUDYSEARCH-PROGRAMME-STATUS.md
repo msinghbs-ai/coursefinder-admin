@@ -54,6 +54,17 @@
 **Status:** MODE 1 — ACTIVE REMEDIATION. **Self-sustaining programme: NOT ACCEPTED.**
 **Source of truth:** [Execution register](STUDYSEARCH-EXECUTION-REGISTER.md) and live `pipeline.integration_issues`. **Requirement specification:** [Feature Acceptance Contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md). **Current scope/mandate:** [Cross-domain delivery](nz-enrichment-brief/2026-11-08-cross-domain-autonomous-delivery-closure.md). This file is an automatically maintainable executive *projection* of that evidence, never a second task tracker.
 
+## 0. Production architecture at 19 Nov 2026 (handover baseline)
+
+**Read this first.** Sections 1 to 5 below are the dated controller snapshot of 8 to 10 Nov 2026. They are kept as the record but are not the current state: for that, read `docs/CURRENT-STATE.md` and the live system. The architecture the platform runs on now (measured 19 Nov 2026 at 11:05 AEDT, read only) is in [Agent Operating Model › Production architecture baseline for handover](AGENT-OPERATING-MODEL.md#production-architecture-baseline-for-handover-19-nov-2026). In short:
+
+| Area | Now | Where it is defined |
+|---|---|---|
+| Migrations | Canonical squash merged 19 Nov 02:15 AEDT (Pilot #1325). One baseline `schema.sql` (production dump at `20261118272000`); 800 applied files in `supabase/migrations-archive/`; new migrations only above `20261118272000`. | `docs/platform/MIGRATION-SQUASH-RUNBOOK.md` |
+| Scheduled work | Three dispatchers: `rollup-scheduler` (28 targets), `admission-rule-runner` (3 lanes) and `coverage-lane-dispatch` (3 lanes, 21 worker lanes after PR 4, Pilot #1331, 19 Nov 08:18). Layer 1, Layer 4, Boost and `coverage-read` keep their own jobs. Active jobs 146 → 138 at the PR 4 cutover; 78 legacy jobs retiring and hidden on Scheduled jobs; G1 0 unregistered. | Pilot `CLAUDE.md` "Cron dispatchers"; `docs/CURRENT-STATE.md` |
+| Destination data | Layer 1 Register first: 26 sources registered (AU 6; CA, GB, IE, NZ and US 4 each) → Storage artifact → evidence record → Editions; published editions are never overwritten. | `docs/platform/DESTINATION-EDITIONS-AND-WAVE2-DRAFTS-RUNBOOK.md` section 6 |
+| API v3 | Every v3 field on every item from release 1; null means not held; `ref.api_field_dictionary` (2,227 fields) tells consumers what each field is. `empty_reason_code` is the course-level no-campus reason (REQ-53), not a per-field reason. G3 (75/48) is the frozen v2 surface; v3 joins it at the website's go-live. | `docs/integrations/api-v3/API-V3-FIELD-DEFINITION.md`; Pilot `CLAUDE.md` G3 |
+
 ## 1. Executive result: delivered versus accepted
 | Category | Last independently grounded state | Verification still required |
 |---|---|---|
