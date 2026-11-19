@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.21 (19 Nov 2026, platform release v2.16.51; section 2.4 Coverage pages 50 providers at a time; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
+**Version:** 1.22 (19 Nov 2026, platform release v2.16.57; sections 2.2 Providers list, 3.1 Pipeline & field ETA and 6.1 Create user updated; section 2.4 Coverage pages 50 providers at a time; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
 **Change control:** CF-247; SS-020 admin menu consolidation (Decision 269)
 **Source:** read from the Pilot repository code at `origin/main` 725fc7f6 (`src/nav-map.js` PAGES, SECTIONS and LEGACY, `src/mature-main.jsx` `pageBody`, each screen's component), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`; the SS-020 decisions are in `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md` (C01–C53) and `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`.
@@ -70,8 +70,9 @@ In the tab tables below, **Key** is the tab's address (`#<page slug>?tab=<key>`;
 | Archived | `archived` | 3 | Providers and courses not active, with why | Restore, bulk restore |
 
 - **Providers:**
-  - List filters: country, state, group, status, publication.
-  - Columns: provider, Adapter (Platform Admin: open/create adapter and its state), country, state, city, courses, group, Evidence count, lifecycle, Published switch (rank ≥5: hides from Wix, Zoho and the website and pauses background work), verified, Scholarship search (On, or Off · directory site).
+  - List filters (v2.16.56): Country, Type, Status, Description and University group in the bar; **More filters** (popover, counts the ones in use) holds State / region, Publication, Adapter (rank 6), Description quality, Description admission, Description source, Website feed and Zoho feed.
+  - Provider cell (v2.16.56): 32 px logo or a two-letter monogram, the name in bold with its register code (for example CRICOS 00001A, NZQA 8530) or stable key; rank ≥3 also has a tick box and a refresh icon (Extract / refresh description). Country shows a drawn flag (AU, NZ, CA) and one code pill.
+  - Columns: provider, Adapter (Platform Admin: the state badge and an Open adapter icon, or Create adapter), country, state, city, courses, group, Evidence count, lifecycle, Published switch (rank ≥5: hides from Wix, Zoho and the website and pauses background work), verified, Scholarship search (On, or Off · directory site).
   - Drawer: logo upload (rank ≥5); summary (courses, scholarships, contacts, campuses); Scholarship search flag (rank ≥4 changes it with a reason); "Fill in from website" and "Find scholarships now" (tasks); provider editor (archive checklist and restore; regulatory contact; internal-only block); world rankings; academic entry requirements (rows, 50 a page, and Sources and reads; read only, "Open in Entry requirements"); Layer 4 fold.
 - **Campuses:** campus, provider, country, state, city, courses, status; generic drawer.
 - **Logos & assets:** tiles (providers, with a logo, no logo); logo table with Open provider.
@@ -144,6 +145,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 | Attributes | `attributes` | 1 | Each attribute across all courses (measures only) | Read only; links to Enrich fields |
 
 - **Courses:** filters; tiles (completeness score, accounted for, fully complete); bands by attributes admitted; daily trend table.
+  - **Pipeline & field ETA** (v2.16.54, `PipelineEta.jsx`): every API v3 field split into Admitted, Trying, Needs a source, Not possible and Wave 2, with the daily velocity, main bottleneck and expected date; Consolidated, By country or By university (search). Read only, any role; from the course field readiness snapshot (16 parts, rebuilt every 4 minutes).
   - **Link refresh** (`LinkRefresh.jsx`): how often each kind of course link is re-checked (all countries, a country or a provider; the most specific wins) and which portals supply links; Pipeline Operator and above change them. It stays here for now (open decision, section 8).
 - **Attributes** (changed in v2.15.456: **read only**):
   - Key figures per attribute; coverage against the 80% target by source; completeness by attribute (9 states; click to list courses); coverage by pipeline stage; field coverage by country.
@@ -307,6 +309,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 
 ### 6.1 Users & roles — `users`, rank 6 (`access-roles-entry.jsx`)
 - Role help; tiles; user directory (auth state, roles, effective role, last sign-in); roles with expiry; disable; create user; recent access changes.
+- Create user (Person, Role, Sign-in, Review) and the role and edit dialogs (v2.16.55): each field is a stack of label, full-width 40 px box and help text underneath.
 
 ### 6.2 Guides — `guide` (3 tabs)
 
@@ -455,6 +458,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 ## Version history
 | Version | Date | Change |
 |---|---|---|
+| 1.22 | 19 Nov 2026 | v2.16.54 to v2.16.57 (s776/s777, s778, s781): Pipeline & field ETA panel; Create user field layout; Providers list logos, drawn flags, compact row actions and More filters. |
 | 1.21 | 19 Nov 2026 | v2.16.51 (s769): Scholarships › Coverage lists 50 providers a page with Previous and Next; the page no longer times out (ref 8XEY7B). |
 | 1.20 | 19 Nov 2026 | Planned tabs Queue & lane control and On-demand runs on Scheduled jobs (s768 design, not built), marked in italics in section 4.2. |
 | 1.19 | 19 Nov 2026 | v2.16.50: section 4.2 Scheduled jobs › Automations re-read: Pipeline maintenance, Dispatchers panel (three cron dispatchers after consolidation PR 1 to 4) and retired legacy jobs hidden by default. Handover architecture baseline in `AGENT-OPERATING-MODEL.md`. |
