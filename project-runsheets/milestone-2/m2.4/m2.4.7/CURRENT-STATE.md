@@ -13795,3 +13795,47 @@ Platform Admin 16:02. Read live 16:04 to 16:08 through the rolled-back `live-dry
 - A person: approve UTS in Layer 4.
 - Platform Admin or catalogue owner: the duplicate Victoria University record, the shared hosts for RMIT and Western Sydney, the "NA" record, and the Macquarie identity finding.
 - S1-Build, after handover: `Country` and `Provider type` filters on the Layer 4 grid.
+
+## 19 Nov 2026 17:10 AEDT — S2 - BOOST s754: university and higher-education provider descriptions triaged; 0 ready to admit; bounded re-check of 2 held again (Pilot #1383)
+
+**Trigger:** S2 - BOOST (Platform Admin 16:00, s754: university and higher-education provider descriptions). This block is newer than the S2-BOOST-Providers 11:10 block for those items.**
+
+Pilot #1383, one data-only migration `20261119170500` (dry run md5 `4d54f3c2`; applied, read back 17:05). No table, column, function, job or setting. G3 75/48, no drift. Manual locks 7,585. Every live read was made through the rolled-back dry run (workflow_dispatch on a probe branch), with no interactive query.
+
+- **Scope found live:** 201 published, active providers of the types university (53), university_college (8), higher_education_institute (137) and wānanga (3). 141 hold a description and 60 do not. The directive's 209 could not be reproduced from the live tables; this block reports the 201 and the 60.
+- **The 60 without a description, by their latest read:**
+
+| State | Count |
+|---|---|
+| Ready to admit (passes the machine rule) | **0** |
+| Layer 4 pending: all 8 declined by the machine rule; a person decides | 8 |
+| Identity hold | 29 |
+| Grounding hold outside Layer 4 (read today with GPT-4.1 mini) | 2 |
+| Other content hold: sentence count 3, not stated 2, refused topic 1, refused source word 1, not an about page 1 | 8 |
+| No stored page and never read | 13 |
+
+- **Identity holds (29):**
+  - 9 share a website with another active provider record (Holmes Institute 3, Victoria University 2, RMIT, Western Sydney, Le Cordon Bleu, Trident).
+  - 18 are pages that do not prove the full catalogue name.
+  - 1 is identity unconfirmed (ECA) and 1 a sub-unit page (Christian Heritage College).
+- **Why no read can clear them:** the identity proof runs before any model call and takes names only from the catalogue and the register. 8 of the 18 look like the same institution under a trading name or with a suffix, on the provider's own website:
+  - AUT ("… in New Zealand");
+  - Lyons College;
+  - Te Whare Wānanga o Awanuiārangi;
+  - Torrens University;
+  - Moore Theological College;
+  - Kaplan Murdoch;
+  - Sydney Metropolitan Institute of Technology;
+  - CIHE (Crown Institute of Higher Education).
+- **Clearing those 8** needs a trading name recorded for the provider or a person; the 07:39 rule keeps a place or sub-brand after the name held, so the proof was not weakened. The other 10 correctly stay held: the page names another institution (Emmaus to ACCS, AIM, Deakin College, Texila) or the title does not carry the name (APEX, EQUALS, IBC, Ozford, Sydney Institute of Higher Education, AMPA).
+- **Re-check (s754):** one GPT-4.1 mini read from the stored page went to each provider whose latest read was held by a content rule (never identity) and was not made by GPT-4.1 mini in the last day. That was 2: Kingsford Institute of Higher Education and Australian Guild of Education.
+  - Both were read at 16:31 and held again (not stated: the page does not describe the institution).
+  - Spend US$0.0006 (US$0.00 Firecrawl, `pdesc.acquire_firecrawl` 0); the provider_description route stood at US$0.0081 today, inside its US$0.50 cap.
+- **Before and after:** published providers with a description 2,185 → 2,185; higher-education 141 → 141. Nothing was admitted, so the Website and Zoho projections are unchanged. Layer 4 provider descriptions pending (all types): 62.
+- **No stored page (13):** Macquarie University, Victoria University of Wellington, Te Wānanga o Aotearoa and 10 others stay held; a read needs a page, and Firecrawl is off.
+
+**Next executable action:**
+- Platform Admin or the provider owner: record trading names for the 8 same-institution identity holds (or approve them in Layer 4), and decide the 9 shared-website records (which provider owns the site).
+- A person: the 8 higher-education descriptions in Layer 4 (62 provider descriptions in all).
+- Platform Admin: allow Firecrawl for the 13 providers with no stored page, if wanted (about 13 credits).
+
