@@ -1,6 +1,6 @@
 # s766 and s767: Australian university identity holds, and Country and Provider type filters on Layer 4 Review
 
-Version 1.0, 19 Nov 2026 (chat S1-RM-Design). Platform Admin directive 19 Nov 2026 16:18. Pilot release v2.16.53 (package 0.1.475), migrations `20261119172000` and `20261119173000`.
+Version 1.1, 19 Nov 2026 17:53 (chat S1-RM-Design). Platform Admin directive 19 Nov 2026 16:18 and addendum 17:02. Pilot release v2.16.53 (package 0.1.475), migrations `20261119172000`, `20261119173000`, `20261119175000` and `20261119181000` (Pilot #1385, #1388, #1391).
 
 ## 1. What was read (live, by the rolled-back dry run only; no interactive query)
 
@@ -25,6 +25,16 @@ Live head was `20261119160000`. `pdesc.acquire_firecrawl` 0; route `openai/gpt-4
 3. **Reads.** One stored-page read queued for each of Torrens and Moore (state `queued`, drain rule `s766-au-university-identity`), run by the scheduled worker under its own limits: GPT-4.1 mini, about US$0.0015 a read, Firecrawl 0. Both providers have no description and no manual lock. The reader, grounding checks and machine admission decide each one; nothing is admitted by this change.
 
 Not changed: the consumer API (G3 stays 75 functions and 48 tables; the new table is in schema `pipeline`), the manual locks (7,585), any description a person wrote. Nothing is merged, retired or deleted.
+
+### 2a. Addendum of 17:02 (migrations `20261119175000` and `20261119181000`)
+
+| Item | Result |
+|---|---|
+| Trading names | Recorded (type `trading_name`): AUT, Auckland University of Technology in New Zealand, CIHE, Crown Institute of Higher Education, Kaplan Murdoch, Sydney Metropolitan Institute of Technology. With Torrens University and Moore Theological College that is six providers. Lyons College and Te Whare Wānanga o Awanuiārangi were not added: their stored pages carry no heading with the name, so an alias would not clear the proof (not weakened). |
+| Host owner, Holmes Institute | holmesinstitute.edu.au to CRICOS 02639M (Melbourne). Three records share the website; the other two now read `provider_host_conflict`. Reversible by a person. |
+| Bounded read | On-demand request `ebcc6b09`, six stored-page reads, GPT-4.1 mini, Firecrawl 0. Admitted: Kaplan Murdoch, CIHE, Sydney Met. Held by the sentence checks on the model answer: Torrens, Moore ("the first sentence does not name the provider"), AUT ("a sentence is not supported by its quote", 0.4545). |
+| Spend | Firecrawl 0 units; OpenRouter US$0.0887 in the window across all lanes (cap US$0.10); balance US$6.96 after. Window closed by `20261119181000`. |
+| Guardrails | Manual locks and G3 (75 functions, 48 tables) untouched; no new consumer object; `pdesc.acquire_firecrawl` 0. |
 
 ## 3. Decisions taken and what is left for a person
 
@@ -52,4 +62,4 @@ The register type `other` and the two retired types belong to no group and show 
 
 ## 5. Verification
 
-Both migrations passed the rolled-back live dry run (their own post-checks ran to the end). The dry run showed the three owners and the two reads that would queue. Specs `cf-247-s766-au-university-identity-contract` (5) and `cf-247-s767-layer4-grid-country-type-contract` (4, one on the phone project at 375 px).
+Both migrations passed the rolled-back live dry run (their own post-checks ran to the end). The dry run showed the three owners and the two reads that would queue. Specs `cf-247-s766-au-university-identity-contract` (9, including the addendum) and `cf-247-s767-layer4-grid-country-type-contract` (4, one on the phone project at 375 px).
