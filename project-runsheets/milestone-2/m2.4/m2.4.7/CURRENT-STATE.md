@@ -14145,3 +14145,14 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - S1-Build: s802 to s805 (Layer 4 inline Edit & Admit, human-edit audit, 6-month re-review).
 - Platform Admin: the 277 providers with tied campuses (B2) are listed in `pipeline.admin_control_events` (action `campus_primary_rule`).
+
+## 20 Nov 2026 07:06 AEDT — S1-RM-Design: correction before merge (migration renumbered to `20261120100000`; Pilot #1403 rebased on main)
+
+**Done:**
+- **Why:** three other lanes merged Pilot #1401, #1402 and #1404 after the 06:48 entry. Live `schema_migrations` is now 2,202 rows, head `20261120095000` (read through the rolled-back dry-run workflow: 2,198 plus their four migrations). The s807 migration was `20261120090000`, which is now below the head, so it is renumbered to `20261120100000` (strictly above the head). Its content and md5 guard (`789b1a5ceb4ee9fbcc770a9d65e31e39`) are unchanged.
+- **Pilot #1403** rebased on main `0f357bd1` and pushed. Rolled-back dry run on the new file name passed: 3,091 active providers; 773 lack a website by the filter and by a plain count.
+- **Expected after deploy on merge:** 2,203 rows, head `20261120100000`.
+- This entry corrects the version number in the 06:48 entry above; nothing else in that entry changes.
+
+**Next executable action:**
+- Merge Pilot #1403 on green CI, read back the live head, headers and screens.
