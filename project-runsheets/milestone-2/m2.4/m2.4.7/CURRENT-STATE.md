@@ -13700,3 +13700,52 @@ Platform Admin 13:05 (decision approved). Worker `coverage-sweep` v1.0.29 and sc
 **Next:**
 - S1-Build: s773–s775 above.
 - 07:45 AEDT Friday: first unattended per-country publish.
+
+## 19 Nov 2026 15:45 AEDT — S2-BOOST-AER: handover close-out: course drain 76 of 91, S751–S752 verification (100% minimum in quote, 99.9% quote fidelity), Platform Admin decision of 15:14 for the S1 follow-up
+
+Scheduled close-out under the Platform Admin directives of 10:48, 13:05, 14:25 and 15:14. Read only, no setting changed, no replay, no Pilot PR. `aer.v2_shadow_on` 0 and the `ai_eval` run switches 0, so no further AER v2 spend and S2 weekly capacity is preserved. G3 75/48, P0 0, head `20261119153000`.
+
+**Course AER drain (read 15:46):**
+- **76 of 91 admitted since S748** (26 at 09:24, 43 at 09:54, 4 at 10:24, 1 at 11:24, 1 at 11:54, 1 at 14:54).
+- **The last 16 are not admitted yet.** All 16 still pass `aer_machine_check_v1`; none is held.
+  - They stand at queue positions 914 to 1,268 of 1,304 eligible course reads (1,407 to 1,767 of 1,801 at 11:14).
+  - The run takes gate-complete reads first. That group (mostly audit samples) becomes eligible again every 6 hours and goes back in front, so the queue advanced about 55 places a run, not the 170 estimated at 11:14.
+  - Expected reached between about 20:30 and 22:30 AEDT tonight, when the rule admits them.
+
+**S751–S752 (Pilot #1376, worker v1.0.30, migration `20261119143000`, data only):**
+- Prompt `aer-v2-matrix-chunk-v2` (row 48, sha-256 `7897c6c5`, MiMo v2.6 Flash, 12 rows a call).
+  - Contract v2: one record per row and study level.
+  - The minimum must be an exact substring of its quote.
+- Windows-1252 punctuation folded inside the AER v2 verifier only. The shared AER v1 text converter is unchanged and spec s752 pins it.
+- Verification replay (run 44453911662, on-demand window `c6262d9f`, closed):
+  - Spend: US$0.028067 of the US$0.03 cap; `ai_invocations` agrees (55 attempts).
+  - The cap stopped the run after 18 of 20 tables. ANU and Sydney Institute were not run, because multi-record answers cost about 40% more.
+
+| MiMo v2.6 Flash, prompt v2, 12 rows a call (18 tables, 565 rows) | Result |
+|---|---|
+| Quote fidelity | 99.9% (818/819) |
+| Minimum in quote | 100% (519/519) |
+| Invented records | 0 |
+| Row completeness | 89.4% (505/565) |
+| Longest call | 66.7 s against the 90 s time-out (2 over 60 s) |
+
+- The three S750 edge cases now pass: Manukau two-level rows (53/53 minimums), KBS Korea Windows quote codes (KBS 70/70 minimums) and verbatim minimums.
+- **Row completeness losses:**
+  - Several qualifications under one study level (TAFE SA, KBS India) were counted as doubled by the (row, study level) rule.
+  - UTS College gave identical duplicate "N/A" records and one call timed out.
+- **Bar not met; nothing promoted.**
+
+**Platform Admin decision, 15:14 AEDT (recorded for the post-handover S1 follow-up; not built here):**
+- **Option 1:** a row is doubled only when (row index, study level, normalised quote) repeats. Distinct qualifications under one study level pass; duplicate "N/A" records are still rejected.
+- **6 rows a call on wide multi-column tables** (target under 35 s a call).
+- AER v2 live admission stays paused until sign-off after the handover. No further replay in this session.
+
+**Records:** `docs/platform/TEST-REGISTER.md` regenerated from Pilot main `b6974a69` (s751 and s752 are in; picks up s771 and s772 from other sessions).
+
+**Not done:**
+- The 16 course reads (queue order, not a hold).
+- The Option 1 verifier and the 6-row setting (post-handover S1).
+
+**Next executable action:**
+- S1 (post-handover): build Option 1 in `aerChunkVerifyV2` and 6 rows a call for wide tables, with the Platform Admin's spend approval, then replay on the 20 tables.
+- Any session after 22:30 AEDT: confirm the 16 course reads were admitted (91 of 91).
