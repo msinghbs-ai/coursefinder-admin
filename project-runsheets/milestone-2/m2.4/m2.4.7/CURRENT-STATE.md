@@ -14107,3 +14107,22 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - Merge this admin pull request, then Pilot #1403 on green CI; read back the live head (expect 2,199 rows, head `20261120090000`), the headers, and the Courses and Providers screens.
 - Platform Admin: name a security contact address; confirm the OpenRouter privacy setting; decide on 7.2, 7.3 and 7.4 (new tables).
+
+## 20 Nov 2026 07:45 AEDT — S1-Build: s797 to s799 recorded before merge; s800 rankings trace and readiness
+
+**Trigger:** Platform Admin 20 Nov 2026 05:42 AEDT (decisions B1 to B7 approved; claim time-outs; QS 2027 trace; registers).
+
+**Done (before merge, repo-first):**
+- **s797 (Pilot #1401, `20261120093000`):** B7 AU CRICOS study load rule (dry run: 16,998 set; AU no-load 17,064 → 66). B2 primary campus rule (dry run: +1,066; 277 ties for a person).
+- **s798 (Pilot #1402, `20261120094000` and `094100`):**
+  - B1: 58 AACSB + 31 EQUIS; 13 AMBA approved; 10 Triple and 19 Double Crown.
+  - B3: 2050 Alliance, nine members.
+  - B4: English grades as held.
+  - v3 field dictionary 2,249.
+- **s799 (Pilot #1404, `20261120095000`):** boost claim ~4× faster, re-identify ~5× faster under the same load; same due set.
+- **s800:** QS 2027 traced to `ranking.editions`; THE 2027 needs only the licensed file; B5 destination readiness noted. No import.
+- Numbered above another lane's `20261120090000` (Pilot #1403).
+
+**Next executable action:**
+- S1-Build: merge s797, s798, s799 in that order on green CI; read back live gaps; post-merge records.
+- Then s802 to s805.
