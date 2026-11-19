@@ -912,3 +912,51 @@ Platform Admin 10:48. Worker `coverage-sweep` v1.0.27 then v1.0.28 (mode `aer_ch
 **Next executable action:**
 - S2-BOOST-AER, 15:45 AEDT (scheduled): record the final 16-item drain here and in the registers.
 - Platform Admin, AER v2 (a decision): either (a) a second chunked run with MiMo v2.6 Flash only, on more tables, with 12 rows a call (stays inside the 90-second limit), or (b) keep the AER v2 replay paused.
+
+## 19 Nov 2026 13:45 AEDT — S2-BOOST-AER: S750 MiMo v2.6 Flash, 12 rows a call, 20 tables: 99.8% rows, 100% quotes, 99.4% minimums, bar not met; Manukau miss explained (Pilot #1373)
+
+Platform Admin 13:05 (decision approved). Worker `coverage-sweep` v1.0.29 and script/workflow only; no schema migration (G3 75/48 read back). Spec s750 (3 tests).
+
+**Done and read back from live (13:15 to 13:45 AEDT):**
+- **Worker v1.0.29 (mode `aer_chunk_smoke`).**
+  - Each call reports its own duration, measured against the 90 s time-out.
+  - A row that fails a check comes back with the row as sent and the model's own answer.
+  - `inspect_only` returns a table's row chunks with no model call and no spend.
+  - `aer-chunk-smoke.yml` takes a model, rows a call, a table set and an inspect list.
+- **The 20 tables (`tests/fixtures/aer-chunks/smoke-tables-20.json`, 645 rows).**
+  - The S747 rule (gate-held pages, most rows lost first, one per provider) with the character bound raised to 16,000 so that 20 providers qualify. The S747 ten are kept.
+  - The gate-held set holds three universities (Lincoln, CDU and ANU). The other 17 are colleges, TAFEs and NZ institutes, so 20 university-only tables were not available.
+- **Run** (workflow run 44444450585, on-demand window `53d590e8`, 13:27 to 13:40, closed; Firecrawl 0).
+
+| xiaomi/mimo-v2.6-flash, 12 rows a call | Result |
+|---|---|
+| Tables answered | 20 of 20 |
+| Row completeness | 99.8% (644/645) |
+| Quote fidelity | 100% (644/644) |
+| Minimum in quote | 99.4% (343/345) |
+| Invented rows | 0 |
+| Calls / longest call | 62 / 32.9 s (time-out 90 s; none over 60 s) |
+| Spend | US$0.019775 of the US$0.05 cap (`ai_invocations` agrees: 62 attempts) |
+
+- **Bar not met (100/100/100, no invented row); nothing admitted, promoted or switched on.** Three rows decide it:
+  - **KBS, Zimbabwe (row 52), page structure:** the row prints one requirement per study-level column (Diploma, Bachelor); the model returned two records, one per level, so the row counts as doubled.
+  - **KBS, Korea (row 27), page encoding:** the page writes its quote marks as old Windows character codes (`&#145;C&#146;`), which stay undecoded in the row text; the model wrote the minimum as `'C' grade average`, so it is not inside its own quote.
+  - **Sydney Institute, Australia (row 2), prompt wording:** the row prints "ATAR of 60"; the model wrote "ATAR 60", following the prompt's own example ("ATAR 70").
+- **The Manukau miss of run 2 (136/137).**
+  - Row 28 is "Pacific Islands" (confirmed with `inspect_only`; read from the title, h1 and tables form). Its Diploma cell prints no minimum and its Degree cell prints "55% average".
+  - One record per row cannot hold both, so this is a page-structure edge case (two study levels in one row), the same class as KBS Zimbabwe, not the prompt.
+  - At 12 rows a call the same row passed (Manukau 26/26 minimums).
+- **AER v2 smoke spend so far:** US$0.047332 over three runs (116 attempts).
+- **Course drain at 13:42:** 75 admitted since S748, 16 still queued (they pass the rule), P0 0, head `20261119125500`.
+- **Test register:** `docs/platform/TEST-REGISTER.md` regenerated from Pilot main `395cd53f` (adds s750; picks up two rows other sessions changed).
+
+**Not done:**
+- No chunked reader is qualified.
+- The 16 course reads are not yet admitted (queue order, not a hold).
+
+**Next executable action:**
+- S2-BOOST-AER, 15:45 AEDT (scheduled): the final read-back of the 16 course reads, recorded beside these figures.
+- Platform Admin (a decision): the three edge cases would need reader changes before another run:
+  - a contract that gives one record per study-level cell;
+  - decoding the Windows character codes in the chunk text (which touches the shared text converter, held by the AER v1 freeze);
+  - prompt wording that copies the minimum exactly as printed.
