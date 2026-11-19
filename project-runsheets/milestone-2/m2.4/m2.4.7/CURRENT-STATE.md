@@ -13984,3 +13984,25 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 - Only one grid kind (Entry requirements (AER)) is offered today; the pills apply to any kind the Grid lists.
 
 **Next executable action:** Platform Admin reviews the Layer 4 decisions and the open manual items listed in the 17:53 entry (Holmes owner, Victoria 02475D, "NA" record, Macquarie, Avondale, Lyons and Awanuiārangi About pages, human decisions for UTS, Torrens, Moore and AUT).
+
+## 19 Nov 2026 23:40 AEDT — S1-Build: repo-first record of s788 (enrich_ai claim) before merge; s782 migration history in the repository
+
+**Trigger:**
+- Platform Admin 19 Nov 2026 22:52 to 23:10 AEDT (chat S1-Build): migration count 2,194 against the squash; "Sync migration from supabase to repo so they are same" (s782).
+- 23:12 and 23:21: s788 to s791 (IQ-00053, IQ-00130, IQ-00313), repo-first migration parity rule.
+- 23:28: s792 to s796 data gap assessment (queued).
+
+**Parity (read live 23:20 AEDT):**
+- History 2,194, head `20261119182000`.
+- Versions after the baseline cut-off `20261118272000`: 46, matching `supabase/migrations/` one to one.
+- The 2,148 earlier versions are in the baseline; Pilot #1396 puts their applied text in the repository.
+
+**s788 found and planned (Pilot #1397, not yet merged):**
+- All 52 `enrich_ai` HTTP 500s since 21:00 AEDT were `svc_enrich_ai_next` statement time-outs: the claim walked all 266,611 items.
+- Migration `20261119190000`: claim index and state named first. Dry run 84 ms, was 4.1 s.
+- Worker v1.0.31: busy claim is a structured 503.
+- Spec s788.
+
+**Next executable action:**
+- S1-Build: merge Pilot #1396 and #1397 on green CI (#1397 after this record is merged), read back live, observe two unattended windows.
+- Then s792 (re-measurement and root-cause matrix), s789, s790 and s791, s793 to s796.
