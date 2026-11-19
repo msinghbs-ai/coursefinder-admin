@@ -6810,3 +6810,27 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 
 **Next executable action:**
 - Merge Pilot #1403 on green CI, read back the live head, headers and screens.
+
+## 20 Nov 2026 07:46 AEDT — S1-RM-Design: s806 to s810 merged and read back live (Pilot #1403 `a7367a9a`, fix #1405 `9c0eb880`; admin #664, #667)
+
+**Done:**
+- **Merged on green CI:** Pilot #1403 (squash `a7367a9a`, v2.16.61), then Pilot #1405 (squash `9c0eb880`, see Found). Admin #664 and #667. Admin #609 (S1-Courses), admin #668 and Pilot #1406 (S1-Build, s802 to s805) are other lanes' and were left untouched.
+- **Live database (read through the rolled-back dry-run workflow, no interactive `execute_sql`):** `schema_migrations` 2,203 rows, head `20261120100000` (1-to-1 with Pilot main at the time of the read); `admin_providers_page_v3` carries the `missing` argument; 3,091 active providers, 773 lack a website (filter and plain count agree). Consumer API check: 0 drift, 75 functions, 48 relations. Manual locks 7,585. No new public table, view or function.
+- **Live screens (built-in browser, v2.16.61):** Providers list shows completeness bars (50 per page) and the Missing field pills; `missing=website` reads "773 lack this". `#platform-guide` shows the role guides (Counsellor, Editor, Platform Admin; v1.1). Release notes page lists 212 releases.
+- **Live headers:** Content-Security-Policy (script-src 'self'; connect-src the project only), Strict-Transport-Security (1 year, includeSubDomains), X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy all present on `/`. No Content-Security-Policy violation is logged on the app or the guide.
+- **Spend:** US$0 (no AI or Firecrawl call).
+
+**Found (fixed in Pilot #1405):**
+- The release notes page (`/release-history`) had an inline script, which the new Content-Security-Policy blocked; the per-path rule in `public/_headers` that lifted the policy for that page did not apply on Workers. The script is now `public/release-history.js`, the rule is removed, and s810 asserts there is no inline script. Read back live: the page renders 212 releases from a file script.
+
+**Not done, stated plainly:**
+- `/.well-known/security.txt` is not published (the path falls back to the app page, HTTP 200 `text/html`). It needs a security mailbox the Platform Admin names.
+- ISM-2103 (provider non-training) is not evidenced; the OpenRouter account setting is for the Platform Admin to confirm.
+- The description prompt is stripped of hidden text but not fenced until the prompt registry takes a version bump (spec `s553`).
+- The Zoho v3 error-detail rule waits for approval (G3). There is no pre-production database. No git-history secret scan has run. The undeployed Boost extractor Worker is not fenced. Pilot's Vite 6.4.6 is on security patches only (upgrade plan in `API-SECURITY-AND-EOL-GUIDE.md`).
+- Layer 4 inline Edit & Approve and the 6-month human-edit audit were proposed in the mockup only; S1-Build owns s802 to s805. Bulk-queue to Intake and bulk primary-campus flag are not built (new write paths).
+- Pre-existing, unrelated: `cf-247-catalogue-course-description-contract.spec.mjs:61` fails on a local run against a stale `dist/version.json` (also on main); CI is green.
+
+**Next executable action:**
+- Platform Admin: name the security mailbox (publish `security.txt`) and confirm the OpenRouter non-training setting.
+- S1-Build: s802 to s805; per-field provenance beyond the provider description follows that work.
