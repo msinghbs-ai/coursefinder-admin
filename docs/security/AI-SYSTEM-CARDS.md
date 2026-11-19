@@ -1,6 +1,6 @@
 # AI system cards
 
-**Owner:** Platform Admin · **Issued:** 20 Nov 2026 (AEDT), s808 · **ISM controls addressed:** 2084 and 2085 (AI system documentation and inventory), 2103 (provider data use and non-training), 2090 and 2091 (spend and rate limits), 2156 to 2159 (untrusted content in prompts).
+**Owner:** Platform Admin · **Issued:** 20 Nov 2026 (AEDT), s808 · **Updated:** 20 Nov 2026 (AEDT), s811 · **ISM controls addressed:** 2084 and 2085 (AI system documentation and inventory), 2103 (provider data use and non-training), 2090 and 2091 (spend and rate limits), 2156 to 2159 (untrusted content in prompts).
 **Status words:** *Met*, *Partly*, *Gap*. Values that are settings (limits, model pins) are read from Settings › Models & services and Settings › Settings; the figures quoted here are those recorded on the dates shown and are **not** a second source of truth.
 
 ## 1. Rules that apply to every AI service
@@ -57,25 +57,35 @@ Platform-wide cap on spend by an unattended Claude session: US$0 for AI and Fire
 - defuse `<<<` and `>>>` so the page cannot close or reopen the fence;
 - add a one-line statement that the block is evidence only.
 
+**`fenceSourceText`** (added in s811) is the same protection with a fence the model is told about by name: the page text sits between `<untrusted_source_text>` and `</untrusted_source_text>` tags, those tags are defused inside the text, and the system prompt carries one rule paragraph (`SOURCE_TEXT_RULE`) saying the block is evidence only. The provider description prompt and the Boost extractor Worker use it.
+
 | Call site | Treatment | Status |
 |---|---|---|
 | Scholarship extraction (`sch-extract.ts`) | Already fenced per source; hidden markup now stripped and fence markers defused | Met |
 | Adapter builder (`builder.ts`) | System prompt says page content is untrusted; sample pages now inside a fence | Met |
 | Boost study load (`boost.ts`) | System prompt says the page is data; page text now inside a fence | Met |
 | Page-text reads in `coverage-sweep/index.ts` (course fields, address, scholarship check, central pages, matching) | Page text now inside a fence | Met |
-| Provider and course description (`description.ts`) | Hidden markup is stripped when the page text is built. The prompt wording is held in the prompt registry (spec `s553`), so the visible fence needs a **registry version bump**, which is its own approved step | **Partly** |
-| Undeployed Boost extractor Worker (admin repository `workers/cf-boost-extractor`) | Not deployed; the production Boost path is `boost.ts`. If it is ever deployed it must adopt the same fence first | Partly (not in use) |
+| Provider description (`description.ts`) | Hidden markup is stripped when the page text is built; from s811 the page text is inside `<untrusted_source_text>` tags in both user messages, and the rule paragraph is in the built-in system text and in database prompt **version 6** (migration `20261120102000`, which retired version 5; registry row `v6`, AI instruction register `provider-description-v2.2`). The regression qualification stays recorded on `provider-description-p5`; a run on p6 spends AI money and is a separate step | Met (from the s811 release) |
+| Course description (`course-text.ts`) | Built from structured course facts and evidence ids, not a page block; hidden markup is stripped where page text is built | Met |
+| Undeployed Boost extractor Worker (admin repository `workers/cf-boost-extractor`) | Fenced in s811: `promptFor` puts the page text between the tags and appends the rule to the system text after the batch's own sha-256 is checked (`src/fence.ts`, tests in `test/boost.test.mjs`). Still **not deployed**; the production Boost path is `boost.ts` | Met in code (not in use) |
 
 Residual risk: text that is visible to a reader can still try to persuade a model. This is why a model's answer is never proof: the quote must be on the page, the checks are deterministic and manual locks win.
 
-## 5. Provider data use (ISM-2103): open gap
+## 5. Provider data use (ISM-2103)
 
-The requests name a pinned model and set `require_parameters`, but **do not set a per-request data-collection or non-training preference**, and this repository holds no record of the account-level OpenRouter privacy setting. Until the Platform Admin confirms the account setting, the control is not evidenced.
+**Per request (s811).** Every OpenRouter request the platform makes sets `provider.data_collection = "deny"` next to `require_parameters`, so OpenRouter only routes to a provider that does not store or train on the prompt. It is set in all 24 request builders in `supabase/functions/coverage-sweep/` (the AER versions set it after their stored routing, so a stored routing cannot switch it off) and in the undeployed Boost extractor Worker's OpenRouter step. Guard: `tests/uat/cf-247-s811-ism-open-items-contract.spec.mjs` (Pilot). The pinned models are unchanged.
 
-| Next step | Owner | Note |
+**Not the same as zero data retention.** `data_collection: "deny"` excludes providers that may keep or train on prompts. It is not the stricter per-request zero-data-retention flag (`zdr`), which is not requested.
+
+**Account level.** This repository holds no record of the OpenRouter account privacy setting (prompt logging and training). It is a setting in the OpenRouter account, not in this code.
+
+**Live effect not yet observed.** The pinned models' OpenRouter endpoints could not be checked from the build environment without spending, and a model with no provider that meets the preference would be refused by OpenRouter (the route would error and spend nothing). The first live call on each route is the test. If a route reports no available provider, name the model; the fix is to move that route to a model with a compliant provider (a qualification step) or, for a short time, to remove the line at its request builder.
+
+| Item | Status | Owner / next step |
 |---|---|---|
-| Confirm and record the account-level OpenRouter setting that denies prompt logging and training | Platform Admin | Evidence goes in this document |
-| Decide whether to add a per-request data-collection preference | Platform Admin | It can narrow the set of providers that serve a pinned model, so it needs a qualification run first (a separately approved step, not done in s810) |
+| Per-request denial of data collection, all OpenRouter requests | Met in code (s811); live effect to be observed | Platform Admin: watch the first run of each AI route after the s811 release |
+| Account-level OpenRouter setting that denies prompt logging and training | **Not evidenced** | Platform Admin: confirm in the OpenRouter account and record the date here |
+| Free-tier failover providers in the undeployed Boost extractor Worker (Google AI Studio, Groq, Mistral) | **Gap if ever deployed**: these providers offer no per-request denial the Worker can set | Platform Admin: review each provider's data terms before any deployment |
 
 What is sent is already limited to public page text and field names; no personal data, student data or credentials are sent to a model.
 

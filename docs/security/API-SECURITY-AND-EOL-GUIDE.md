@@ -33,7 +33,7 @@ A public error must not reveal SQL, table names, function names or stack traces.
 |---|---|---|
 | Website v2, Zoho v2, Zoho course, Website course, Wix course | Fixed codes and messages (`INVALID_JSON`, `INVALID_ACTION`, `INVALID_INPUT`, `AUTHENTICATION_REQUIRED`, `RATE_LIMITED`, `NOT_FOUND`, `SERVICE_UNAVAILABLE`, `METHOD_NOT_ALLOWED`); unexpected database errors return `SERVICE_UNAVAILABLE` and log the error code only; every response has a request id | Met (frozen, unchanged) |
 | Website v3 | As v2. Until 20 Nov 2026 an invalid-input detail could carry a database message that did not come from the platform's own validation. From s810 the detail is sent only when it starts with the platform's own `INVALID_INPUT:` text; any other database message is dropped | Met from s810 |
-| Zoho v3 | Same behaviour as v2 and v3 before s810. **Open item:** apply the same one-line rule to `zoho-api-v3` once the Platform Admin confirms Zoho v3 may change | Partly |
+| Zoho v3 | As v2 until 20 Nov 2026. From s811 (Platform Admin, 20 Nov 2026 08:06) the same one-line rule as Website v3 applies: a detail is sent only when it starts with the platform's own `INVALID_INPUT:` text. The error envelope, codes, actions and signatures are unchanged. `zoho-api-v3` is not on the frozen G3 list (that names `zoho-api-v2` and `zoho-course-api`); v2 is untouched | Met from s811 |
 
 The `INVALID_INPUT` detail on the frozen v2 and Zoho functions is the platform's own validation text raised by the platform's functions; it was left as it is.
 
@@ -50,9 +50,9 @@ Sent by the Cloudflare Worker that serves each app's files, from `public/_header
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Less leakage in links |
 | `Permissions-Policy` | Camera, microphone, location, payment and USB off | Least privilege |
 
-Known trade-offs: styles allow inline rules because the app sets style attributes; images allow any `https:` source for provider logos. The generated `release-history.html` page has its own inline script, so only the policy header is lifted for that one static page; its other headers still apply.
+Known trade-offs: styles allow inline rules because the app sets style attributes; images allow any `https:` source for provider logos. The generated release notes page keeps its script in its own file (`release-history.js`), so no page needs the policy lifted (an inline script on it was blocked by the policy and fixed in Pilot #1405).
 
-**Contact for security reports (`/.well-known/security.txt`).** The file needs a monitored address, and this repository holds no organisation security mailbox. It is **not published** until the Platform Admin names the address. Ready-to-publish text is in section 6.
+**Contact for security reports (`/.well-known/security.txt`).** Published in s811 in both apps (this repository's `public/.well-known/security.txt` and Pilot's): `Contact: mailto:security@studysquare.com` (named by the Platform Admin, 20 Nov 2026), `Preferred-Languages: en`, `Expires: 2027-11-19`. It is served as `text/plain; charset=utf-8` by a rule in `public/_headers`, so the single-page fallback never answers it. Renew `Expires` before it lapses (Pilot's spec `s811` fails 30 days before).
 
 ## 5. Currency and end of life (ISM-1817 to 1911)
 
@@ -72,11 +72,10 @@ Dates are as published by each vendor on the checking date; confirm against the 
 
 The dependency audit (s809) fails a pull request on any high or critical advisory, so a vulnerable library cannot arrive unnoticed; the table above tracks the slower question of versions that are supported but ageing. Review the table every quarter with the docs budget.
 
-## 6. Ready-to-publish `security.txt` (held)
+## 6. The published `security.txt`
 ```
-Contact: mailto:<monitored security address, to be named by the Platform Admin>
-Expires: <a date no more than 12 months ahead, RFC 3339>
+Contact: mailto:security@studysquare.com
 Preferred-Languages: en
-Canonical: https://<app host>/.well-known/security.txt
+Expires: 2027-11-19T13:00:00.000Z
 ```
-Publish it as `public/.well-known/security.txt` in each app repository once the address is named. Renew `Expires` at each security review.
+It is `public/.well-known/security.txt` in each app repository. A `Canonical` line is left out because each app is reached on more than one host. Renew `Expires` at each security review.

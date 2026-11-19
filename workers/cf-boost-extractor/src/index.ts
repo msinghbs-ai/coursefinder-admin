@@ -13,6 +13,7 @@
 import { ask, type Keys, type Prompt } from "./router.ts";
 import { verifyFlat } from "./verify.ts";
 import { LANES, type LaneKey } from "./lanes.ts";
+import { fenceSourceText, SOURCE_TEXT_RULE } from "./fence.ts";
 
 export type Env = Keys & {
   BOOST_TOKEN: string;                 // shared secret for POST /run (wrangler secret)
@@ -48,8 +49,9 @@ export function parseBatch(ndjson: string): { header: Header; items: Item[] } {
 
 export function promptFor(h: Header, it: Item): Prompt {
   // page content and context are data placed into the template; nothing in them is treated as an instruction to this worker
-  const user = h.prompt.user_template.replace("{{context}}", JSON.stringify(it.context)).replace("{{input}}", it.input.text);
-  return { system: h.prompt.system, user, max_tokens: h.prompt.max_tokens, temperature: h.prompt.temperature };
+  // s811 (ISM-2158): the page text is fenced and the model is told so; the rule is added to the system text after the batch's own sha-256 was checked
+  const user = h.prompt.user_template.replace("{{context}}", () => JSON.stringify(it.context)).replace("{{input}}", () => fenceSourceText(it.input.text));
+  return { system: `${h.prompt.system}\n\n${SOURCE_TEXT_RULE}`, user, max_tokens: h.prompt.max_tokens, temperature: h.prompt.temperature };
 }
 
 export async function runItems(h: Header, items: Item[], keys: Keys, opt: { timeoutMs: number; fetchFn?: typeof fetch; deadline?: number }) {

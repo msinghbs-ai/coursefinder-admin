@@ -54,7 +54,7 @@ export function request(step: Step, key: string, pr: Prompt): { url: string; ini
   const body: any = { model: step.model, temperature: pr.temperature, max_tokens: pr.max_tokens, response_format: { type: "json_object" },
     messages: [{ role: "system", content: pr.system }, { role: "user", content: pr.user }] };
   // one model, no provider fallback to another model, parameters honoured or refused (lesson 8)
-  if (step.provider === "openrouter") body.provider = { allow_fallbacks: false, require_parameters: true };
+  if (step.provider === "openrouter") body.provider = { allow_fallbacks: false, data_collection: "deny", require_parameters: true };  // s811 (ISM-2103): a provider that may keep or train on the prompt is never used
   return { url: `${base}/chat/completions`, init: { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${key}` }, body: JSON.stringify(body) } };
 }
 
