@@ -13790,3 +13790,33 @@ Pilot #1383, one data-only migration `20261119170500` (dry run md5 `4d54f3c2`; a
 - A person: the 8 higher-education descriptions in Layer 4 (62 provider descriptions in all).
 - Platform Admin: allow Firecrawl for the 13 providers with no stored page, if wanted (about 13 credits).
 
+
+## 19 Nov 2026 17:15 AEDT — S1-Build: s780 P1 live (Provider details for Platform Admin, refs 3A9WTT and 3UD5A2); s773–s775 verified
+
+**Trigger:**
+- Platform Admin 19 Nov 2026 16:23 AEDT (chat S1-Build, URGENT P1): Provider details refused for Platform Admin, refs 3A9WTT and 3UD5A2.
+- 16:34: name the RPC behind each ref, the causing PR and commit, and why it happened.
+- Platform Admin 15:18: s773–s775 (IQ-00594, IQ-00588, IQ-00426) and verification of unattended cycles.
+
+**s780 found:**
+- Both refs are `public.admin_read('provider_detail', {id})`, called by `api.providerDetail(id)` and `providerRelated()` in `src/lib/supabase.js` when the Provider details blade opens.
+- `pipeline.ui_error_log` ids 228 and 231, detail "permission denied for schema catalogue"; 10 such refs 16:15–16:53.
+- Cause: Pilot #1329, commit `a18020c8`, migration `20261119045000` (S712, merged 04:44). It added a direct `catalogue.provider_accreditations` read to the security invoker `admin_read` for rank ≥ 3; `authenticated` has no USAGE on `catalogue`.
+- Missed because the #1329 dry run ran as the owner and its live check used Viewer and Counsellor only.
+
+**s780 done:**
+- Pilot #1386 merged 17:05 AEDT; migration `20261119173500` live, history md5 `abe49702`.
+- New security definer `security.provider_accreditations_admin_v1(uuid)`; `admin_read` calls it (md5-guarded fragment edit) and stays invoker. No grant on `catalogue` widened; G3 75/48, no consumer API change.
+- Dry run (rolled back, as `authenticated` with the Platform Admin's claims): before "permission denied for schema catalogue"; after rank 6, accreditations 1 of 1 held.
+- Live read-back (rolled-back workflow): the same result; 0 "schema catalogue" refs since the deploy.
+- Spec s780 `tests/uat/cf-247-s780-provider-detail-access-contract.spec.mjs` (4 tests); test register regenerated.
+
+**s773–s775 verified:**
+- Pilot #1380 merged 15:56; migrations `20261119155000` (`97cbc66f`), `20261119155500` (`0b5999ea`), `20261119160000` (`b659f997`).
+- 15:58–17:10: 2,371 job runs, 0 failed, 0 statement time-outs.
+- `adapter-overwrite` 9–17 s live (was up to 113 s); `coverage-admit` 10–30 s (was up to 118 s); `no-page-propose` 25.3 s at 16:37 (was failing at 120 s).
+- The 5 s and 3 s targets are not met live; the whole runner ticks still reach 96 s (B) and 118 s (C) from other rules on those lanes.
+
+**Next executable action:**
+- S1-Build: Pilot #1382 (s776/s777, v2.16.54, migration `20261119174000`), then s778 (Create user form layout) and s781 (Catalogue › Providers polish).
+- Follow-ups: profile the other slow rules on runners B and C (`provider-english-defaults` and others); `ops_cost_waste_v1` (115 s); six unscoped `scholarship_publishability_v1()` callers; "courses" page statement time-outs seen in `ui_error_log` at 16:26–16:29.
