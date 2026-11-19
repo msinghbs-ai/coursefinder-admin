@@ -14131,3 +14131,17 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - Platform Admin: name the security mailbox (publish `security.txt`) and confirm the OpenRouter non-training setting.
 - S1-Build: s802 to s805; per-field provenance beyond the provider description follows that work.
+
+## 20 Nov 2026 07:45 AEDT — S1-Build: s802 to s805 recorded before merge (Layer 4 Edit & Approve; human-edit audit)
+
+**Trigger:** Platform Admin 20 Nov 2026 05:52 AEDT (s802 to s805).
+
+**Done (before merge, repo-first):**
+- **Pilot #1406, migration `20261120101000`, v2.16.62 (dry-run md5 `ce175497`):**
+  - s802/s803: Layer 4 Edit & Approve for University and Course descriptions. Unedited text is `machine_human_approved`; edited text is `human_input`, checked, locked by hand unless declined, and audited with a review in six months.
+  - Held universities (no machine text, for example Torrens, AUT) can be opened for writing.
+  - s804/s805: `pipeline.human_edit_audit`; Data & Governance › Human Edits & Periodic Audit (My Human Edits, All Human Edits) with Acknowledge & Keep Lock, Re-Verify by Machine ($0, read-only), Edit & Re-Lock and Release Lock to Machine.
+- Numbered above Pilot #1403 (`20261120100000`, renumbered by its lane at 07:05).
+
+**Next executable action:**
+- S1-Build: merge #1406 on green CI; verify live in PIM Admin (UTS, Torrens, AUT; read only); post-merge record; Drive Monitoring.
