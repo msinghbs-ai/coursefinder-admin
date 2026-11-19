@@ -1,0 +1,300 @@
+# Provider descriptions — first published missing batch, 19 November 2026
+
+Status: INCOMPLETE — source verification blocked by browser connection. No admission-ready descriptions, no PIM saves and no publication. No Firecrawl/OpenRouter or other paid extraction API invoked.
+
+The requested review used the signed-in PIM Admin v2.16.57 Catalogue › Providers screen. The in-app browser could not be attached or opened, so the existing Chrome Admin tab was used. Observed filters: Status Active (archived are on Providers › Archived), Description Missing, Publication Published; sorted Courses, most first. The UI reported 642 matching rows. Each of the first 15 detail blades was inspected; Description showed Automated and empty. The heading 'any status' beside the count is retained as a UI observation, not proof of a different filter. Active status was shown in detail views.
+
+These are observations captured during the browser session, not a present-time revalidation. Locks and description values must be reread immediately before any eventual save. Wellington had a manually entered Website; NZIST had a manually entered Name and a total of two manual values. Treat both as held pending lock-scope reconciliation. The University of Alberta UUID was not captured; do not infer it. Torrens has a long multi-brand catalogue name; verify a trading name against code 03389E before drafting.
+
+## Source progress
+
+- UBC homepage and https://www.ubc.ca/about/ inspected. About page states: “Our two major campuses are located in Vancouver and the Okanagan.” Footer identifies Vancouver and Kelowna, BC. Discipline grounding still needed; no compliant draft issued.
+- UTS homepage and https://www.uts.edu.au/about inspected. Homepage footer shows CRICOS 00099F and City Campus, Ultimo, NSW. About page lists faculties and describes campus location. Full claim-to-quote packet and length validation not completed; no compliant draft issued.
+- RMIT homepage and https://www.rmit.edu.au/about inspected. Footer shows CRICOS 00122A. About page identifies technology, design and enterprise and discipline areas; current campus evidence and final quote packet still needed.
+- Opening the next three official homepages (Macquarie, Alberta, Western Sydney) stalled and was aborted. No successful source evidence is claimed for those visits.
+- On resumption the browser kernel exited before actions, including after one reset, with a filesystem-path initialisation error. No browser alternative was available through the exposed registry. Respect the user's browser-only source requirement; do not substitute unobserved source facts or invent quotes.
+
+## Resume the same batch
+
+Complete official live About/homepage verification for these same 15 rows. Keep every proposed description at 2–3 factual sentences / 55–95 words, exact catalogue or verified trading name in sentence 1, no banned marketing terms, official identity match, and exact URL/quote support for every claim. A genuine source or identity gap stays held; never fill it with a generic paragraph. Present the requested 15-row review table and admission-ready JSON before Save/Publish; wait for the user's explicit batch-save instruction. Never overwrite an admitted description/manual lock, delete or archive a provider.
+
+## Captured selection (handoff only — NOT an admission payload)
+
+```json
+{
+  "status": "incomplete_do_not_admit",
+  "pim_mutations": 0,
+  "records": [
+    {
+      "selection_rank": 1,
+      "provider_id": "175462f3-59ea-4370-9c80-e7a06b100137",
+      "registration_scheme": "IRCC_DLI",
+      "provider_code": "O19330231062",
+      "catalogue_name": "University of British Columbia (UBC)",
+      "country": "CA",
+      "catalogue_course_count": 740,
+      "catalogue_website_url": "https://www.ubc.ca",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "About page inspected; grounding packet incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 2,
+      "provider_id": "9d22a19e-c3f7-4012-b738-17bc0b481e7f",
+      "registration_scheme": "CRICOS",
+      "provider_code": "00099F",
+      "catalogue_name": "University of Technology Sydney (UTS)",
+      "country": "AU",
+      "catalogue_course_count": 530,
+      "catalogue_website_url": "https://www.uts.edu.au",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "About page inspected; grounding packet incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 3,
+      "provider_id": "8e1adb6c-e069-43db-9584-bd054255e702",
+      "registration_scheme": "CRICOS",
+      "provider_code": "00122A",
+      "catalogue_name": "RMIT University (RMIT)",
+      "country": "AU",
+      "catalogue_course_count": 510,
+      "catalogue_website_url": "https://www.rmit.edu.au",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "About page inspected; grounding packet incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 4,
+      "provider_id": "188103a5-1aba-4f99-bd3e-0416659086d3",
+      "registration_scheme": "CRICOS",
+      "provider_code": "00002J",
+      "catalogue_name": "Macquarie University",
+      "country": "AU",
+      "catalogue_course_count": 461,
+      "catalogue_website_url": "https://www.mq.edu.au",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 5,
+      "provider_id": null,
+      "registration_scheme": "IRCC_DLI",
+      "provider_code": "O19257171832",
+      "catalogue_name": "University of Alberta",
+      "country": "CA",
+      "catalogue_course_count": 379,
+      "catalogue_website_url": "https://www.ualberta.ca",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 6,
+      "provider_id": "1719c3ba-1ddf-483e-935e-c750124ba99c",
+      "registration_scheme": "CRICOS",
+      "provider_code": "00917K",
+      "catalogue_name": "Western Sydney University",
+      "country": "AU",
+      "catalogue_course_count": 334,
+      "catalogue_website_url": "https://www.westernsydney.edu.au",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 7,
+      "provider_id": "bac82321-ded7-4e10-a71d-b18f3ae4d1c7",
+      "registration_scheme": "CRICOS",
+      "provider_code": "00124K",
+      "catalogue_name": "Victoria University",
+      "country": "AU",
+      "catalogue_course_count": 280,
+      "catalogue_website_url": "http://www.vu.edu.au/",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 8,
+      "provider_id": "34616965-b2b7-42a7-8da7-50ffbf120958",
+      "registration_scheme": "NZQA",
+      "provider_code": "7004",
+      "catalogue_name": "Victoria University of Wellington",
+      "country": "NZ",
+      "catalogue_course_count": 273,
+      "catalogue_website_url": "https://www.wgtn.ac.nz",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": "Website entered by hand; do not alter locked fields. Recheck full lock scope before any save."
+    },
+    {
+      "selection_rank": 9,
+      "provider_id": "39301fa8-bff2-4389-bbcd-32d8415fae04",
+      "registration_scheme": "NZQA",
+      "provider_code": "7008",
+      "catalogue_name": "Auckland University of Technology",
+      "country": "NZ",
+      "catalogue_course_count": 257,
+      "catalogue_website_url": "https://www.aut.ac.nz",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 10,
+      "provider_id": "1b8f2f2f-d3d2-455e-a9fd-5a65744352ec",
+      "registration_scheme": "NZQA",
+      "provider_code": "6044",
+      "catalogue_name": "NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn)",
+      "country": "NZ",
+      "catalogue_course_count": 231,
+      "catalogue_website_url": "https://www.nzist.ac.nz",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": "Name entered by hand; second manual field reported. Do not alter locked fields; recheck full lock scope before any save."
+    },
+    {
+      "selection_rank": 11,
+      "provider_id": "dc671c35-5660-48ff-bb3b-31be971c0d9f",
+      "registration_scheme": "IRCC_DLI",
+      "provider_code": "O19283850612",
+      "catalogue_name": "George Brown College",
+      "country": "CA",
+      "catalogue_course_count": 214,
+      "catalogue_website_url": "https://www.georgebrown.ca",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 12,
+      "provider_id": "ea5a3fa6-31f4-4553-9cfd-6bff49c36a6b",
+      "registration_scheme": "NZQA",
+      "provider_code": "6007",
+      "catalogue_name": "Eastern Institute of Technology",
+      "country": "NZ",
+      "catalogue_course_count": 189,
+      "catalogue_website_url": "https://www.eit.ac.nz",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 13,
+      "provider_id": "fec52f92-a8a3-4de8-a862-06f355e4e2f7",
+      "registration_scheme": "CRICOS",
+      "provider_code": "03389E",
+      "catalogue_name": "Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To",
+      "country": "AU",
+      "catalogue_course_count": 182,
+      "catalogue_website_url": "https://www.torrens.edu.au",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 14,
+      "provider_id": "c79c40ee-0939-4e2e-b9b3-b4e2d772e667",
+      "registration_scheme": "IRCC_DLI",
+      "provider_code": "O19361081012",
+      "catalogue_name": "Durham College",
+      "country": "CA",
+      "catalogue_course_count": 162,
+      "catalogue_website_url": "https://durhamcollege.ca",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    },
+    {
+      "selection_rank": 15,
+      "provider_id": "3273618f-8b4c-4584-bead-3ba193d84b1e",
+      "registration_scheme": "IRCC_DLI",
+      "provider_code": "O19395299642",
+      "catalogue_name": "University of the Fraser Valley",
+      "country": "CA",
+      "catalogue_course_count": 155,
+      "catalogue_website_url": "https://www.ufv.ca",
+      "description_observed": null,
+      "description_field_ui": "Automated; empty",
+      "source_verification_status": "Official website verification incomplete",
+      "proposed_description": null,
+      "admission_ready": false,
+      "source_url": null,
+      "verbatim_quote": null,
+      "manual_lock_note": null
+    }
+  ]
+}
+```
