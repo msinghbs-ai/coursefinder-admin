@@ -14006,3 +14006,23 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - S1-Build: merge Pilot #1396 and #1397 on green CI (#1397 after this record is merged), read back live, observe two unattended windows.
 - Then s792 (re-measurement and root-cause matrix), s789, s790 and s791, s793 to s796.
+
+## 20 Nov 2026 00:20 AEDT — S1-Build: s792 data gap assessment; s789 checked at the day reset; s794 recorded before merge
+
+**Trigger:** Platform Admin 19 Nov 2026 23:15 AEDT handover (s792 to s796) and 23:12 / 23:21 (s788 to s791).
+
+**Done:**
+- **s792:** assessment and fix plan written (`docs/platform/2026-11-19-au-nz-ca-data-gap-assessment-and-fix-plan.md`), measured live through the rolled-back workflow.
+  - AU unchanged 21:45–23:33. AU study-load reading is exhausted (pages do not state it; about 8,000 AU courses without a stored page).
+  - AU fees: 15,392 of the 15,561 "no fee" courses hold the register fee.
+  - Projection lag: 48 courses.
+  - Rankings tables are empty (to trace).
+  - Seven decisions B1–B7.
+- **s789:** at the 00:00 reset the course-search share came back (1,200) and the held plans resumed, with no duplicate plans and no shared courses. The page-text drain kept running at 1,200 pages an hour with Firecrawl 0. No change was needed.
+- **s794:** Pilot #1398 (migration `20261119191000`, dry run md5 `d3bc130f`) queues the 48 lagging courses for the existing refresh job. Recorded here before merge.
+- **s782:** Pilot #1396 merged (production migration history in the repository; no database change).
+
+**Next executable action:**
+- S1-Build: merge Pilot #1397 (s788) and #1398 (s794) on green CI, read back live, and observe two `enrich_ai` windows.
+- Then s790/s791 (Intake Run & Validate: paging, single-course pick, stage history, Verify / Admit).
+- Platform Admin: decisions B1 to B7 in the assessment.
