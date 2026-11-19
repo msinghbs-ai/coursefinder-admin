@@ -834,3 +834,31 @@ Read only, project `fxcwkweaxjtknorudmwp`, 10:24 to 10:26 AEDT. No change made.
 
 **Next executable action:**
 - S2-BOOST-AER: S747, the 10-table chunked smoke test (≤ US$0.10, pinned models only), from the merged chunker (Pilot #1358).
+
+
+## 19 Nov 2026 11:10 AEDT — S2-BOOST-Providers self-check: GPT-4.1 mini re-read results (no change made)
+
+Read live at 11:05, SELECT only. No rule, route, cap or setting was changed. G3 75/48, no drift. Manual locks 7,585.
+
+**Totals:**
+
+| Measure | 07:07 | 11:05 |
+|---|---|---|
+| Published, active providers with a description (of 2,830) | 2,171 | 2,184 |
+| University descriptions pending in Layer 4 | 61 | 62 |
+| Scholarships published (of 2,832 records) | 1,066 | 1,066 |
+| Held scholarship pages | 82 | 82 |
+
+- **Re-read of 267 (launched 08:36):** 252 finished, 14 still queued and 1 being read. 13 admitted by the unchanged machine rule, 1 proposed in Layer 4, 238 held.
+  - Spend US$0.0478 for 55 model calls; Firecrawl reads 0. The service cap of US$0.50 a day was not approached.
+- **58 grounding holds:** 12 admitted, 40 held again (quote not on the page 17, unsupported sentence 10, nothing stated 10, others 3), 6 queued.
+- **196 identity holds:** 184 are still held by the page identity proof. 1 was admitted and 1 proposed; the other 10 are queued or held by another rule. The s762 rule released at most 12.
+- **13 never-read providers with a stored page:** none admitted. All 13 were held before any model call: identity not confirmed 6, name not clean 2, shared domain 2, shared host 1, register changed 1, redirected or parked 1.
+- **Held scholarships:** unchanged at 82.
+
+**Not done:**
+- 15 reads had not finished at 11:05.
+
+**Next executable action:**
+- Provider description owner or Platform Admin: the 184 identity holds need a trading name recorded for the provider, or a person; the narrow rule does not reach them.
+- A person: the 62 university descriptions in Layer 4.
