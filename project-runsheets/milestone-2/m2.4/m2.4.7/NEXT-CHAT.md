@@ -13820,3 +13820,42 @@ Pilot #1383, one data-only migration `20261119170500` (dry run md5 `4d54f3c2`; a
 **Next executable action:**
 - S1-Build: Pilot #1382 (s776/s777, v2.16.54, migration `20261119174000`), then s778 (Create user form layout) and s781 (Catalogue › Providers polish).
 - Follow-ups: profile the other slow rules on runners B and C (`provider-english-defaults` and others); `ops_cost_waste_v1` (115 s); six unscoped `scholarship_publishability_v1()` callers; "courses" page statement time-outs seen in `ui_error_log` at 16:26–16:29.
+
+## 19 Nov 2026 17:35 AEDT — S2-BOOST-AER: S753 Layer 4 AER triage and bounded drain: 17 rule-compliant reads admitted (2,579 → 2,562), 16 would-admit reads cleared (93 since S748), holds unchanged (Pilot #1381, #1384, #1387)
+
+Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer-l4-drain.yml`, spec s753): no migration, no worker change. Zero AI and Firecrawl spend: only the AER v1 rules' own database functions ran. Every query and write went through GitHub Actions (Management API); none through an interactive prompt. G3 75/48, P0 0, `aer.v2_shadow_on` 0, manual locks 7,585 unchanged.
+
+**Triage (drain run 44469183404: before at 17:13, after at 17:30 AEDT; the read-only run 44466360632 at 16:50 gave the same before counts).** Every pending AER item went through its rule's read-only check (`aer_machine_check_v1`, `aer_matrix_machine_check_v1`):
+
+| Pending AER items in Layer 4 | Before | After |
+|---|---|---|
+| Pass the rule (machine-eligible) | 17 | 0 |
+| Completeness gate not passed (`gate_incomplete`) | 1,835 course + 57 matrix | same |
+| Audit sample (a person checks; left untouched) | 491 course + 1 matrix | same |
+| Every row fails a row rule (`all_rows_held`) | 102 course + 9 matrix | same |
+| No bound course page (page identity) | 38 | same |
+| Page identity basis not admitted (`identity_not_admitted`) | 17 | same |
+| Change to an admitted matrix (a person decides) | 6 | same |
+| Shared host / source not the official host | 2 + 2 | same |
+| No rows / earlier rejection | 1 + 1 | same |
+| No-overwrite conflict (`active_rows_exist`) | 0 | 0 |
+| Manual lock | 0 | 0 |
+| **Total pending** | **2,579** | **2,562** |
+
+- **Leases.** Layer 4 items carry no worker lease (no `locked_until`). There were no person claims of any age and no assignments, so nothing was reclaimed.
+- **Drain.** One tick of 17 items (bound 250, run at 40), 13.4 s, rows locked `FOR UPDATE SKIP LOCKED`, clear of the cron's :24 and :54 runs. The cron's own admission function `aer_machine_admit_v1('run')` admitted all 17.
+- **Entry requirements.** Active rows in `catalogue.course_entry_requirements` went from 25,412 to 25,452 (+40, proposed rows made active; table total unchanged at 36,295; no row overwritten).
+- **Course drain after S748.**
+  - 93 admitted: the 76 recorded at 15:45 and the 17 here.
+  - Would-admit reads waiting: 0, read back through the rolled-back dry run (run 44472699290). The last 16 of the 91 are in.
+- **Gates.** No rule, threshold, switch, lock, claim or held item changed. One control event each run (`aer` / `l4_triage`, `l4_drain`).
+- **Script fixes during the run.**
+  - Pilot #1384: 400 checks in one statement passed the API's 60 s statement time (rolled back, nothing changed). Statements now start at 50 or 100 and halve on a time-out.
+  - Pilot #1387: the job limit is 60 minutes, because a drain triages before and after.
+
+**Remaining human-review holds (2,562):** completeness gate 1,892, audit sample 492, all rows held 111, page identity 55 (no bound page 38, identity basis 17), matrix changes 6, host 4, no rows 1, earlier rejection 1. Only a new read or a person moves these.
+
+**Next executable action:**
+- None for S2-BOOST-AER.
+- The gate-held reads need corrected reads (AER v2, paused until sign-off after the handover).
+- The audit samples and matrix changes wait for a person in Layer 4.
