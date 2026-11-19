@@ -6732,3 +6732,32 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 **Next executable action:**
 - Platform Admin: decisions B1 to B7. AU gaps need new evidence (stored pages, approved calendars) or rules, not more runs.
 - Other lanes: the `svc_boost_extract_claim` and `svc_coverage_reidentify_next` claim timeouts.
+
+## 20 Nov 2026 06:48 AEDT — S1-RM-Design: s806 to s810 recorded before merge (UnoPim completeness patterns; ASD ISM security documents and gates)
+
+**Trigger:** Platform Admin 20 Nov 2026 06:10 and 06:12 AEDT (UnoPim lessons-learned gap audit, UI and guide rollout, ASD ISM September 2026 hardening).
+
+**Done (recorded before merge, repo first):**
+- **Parity before authoring:** live `schema_migrations` 2,198 rows, head `20261120010000`, equal to the 2,148-row baseline plus 50 Pilot files on main `dabb8310`. New migration numbered above the head and above the other lanes' open pull requests: `20261120090000`.
+- **s806:** `docs/platform/UNOPIM-LESSONS-LEARNED-STATUS.md` (built, partly built, not built, with evidence and the decision each gap needs).
+- **s807, Pilot #1403 (v2.16.61):**
+  - Completeness bar on Courses and Providers rows; Missing field pill bar; provider bulk bar (Fill fields, Export selected, Clear); provider drawer completeness and provenance panel; role guides 1.1 and page guides.
+  - Migration `20261120090000`: one in-place, md5-guarded edit of `security.admin_providers_page_v3` (guard `789b1a5ceb4ee9fbcc770a9d65e31e39`), optional `missing` argument. Rolled-back live dry run passed: 3,091 active providers, 773 lack a website by the filter and by a plain count.
+  - No new function, table or view. G3 75/48.
+- **s808:** `docs/security/ISM-SECURE-SDLC-AND-THREAT-MODEL.md`, `AI-SYSTEM-CARDS.md`, `API-SECURITY-AND-EOL-GUIDE.md`, listed in `docs/README.md` and named in Pilot `CLAUDE.md`.
+- **s809:** `security-gates.yml` in both repositories: secret scan (secretlint 14.0.1), dependency audit through a runner-only lockfile, CycloneDX 1.5 SBOM kept 90 days. Admin: `vite` 8.1.5 to 8.3.8 (a high advisory the new audit found; build verified).
+- **s810:** `public/_headers` in both apps (CSP, HSTS, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy). Untrusted page-text fence and hidden-markup strip on the Layer 2 and 3 prompt builders; website API v3 forwards only the platform's own `INVALID_INPUT:` text.
+- **Specs:** `cf-247-s807-unopim-patterns-contract` (7 desktop, 1 phone) and `cf-247-s810-security-gates-contract` (6). s806 and s808 are documents; s809 is guarded by the s810 spec. `s538` allows one more differing v3 line.
+- **Spend:** AI US$0, Firecrawl 0. No interactive query.
+
+**Not done, stated plainly:**
+- Bulk-queue to Intake Run & Validate and bulk-flag primary campus (each needs a new write path; held for approval).
+- Layer 4 inline Edit & Approve and the six-month periodic audit bar do not exist; they are shown as proposed in the mockup only.
+- `/.well-known/security.txt` is not published: no organisation security mailbox is recorded. Ready text is in `API-SECURITY-AND-EOL-GUIDE.md` section 6.
+- ISM-2103 (provider non-training) is an open gap: the account-level OpenRouter setting is not evidenced.
+- Description prompt wording is registry-governed (`s553`): cleaned, not fenced, until a registry version bump.
+- Local: `cf-247-catalogue-course-description-contract.spec.mjs:61` also fails on main (stale local `dist/version.json`).
+
+**Next executable action:**
+- Merge this admin pull request, then Pilot #1403 on green CI; read back the live head (expect 2,199 rows, head `20261120090000`), the headers, and the Courses and Providers screens.
+- Platform Admin: name a security contact address; confirm the OpenRouter privacy setting; decide on 7.2, 7.3 and 7.4 (new tables).
