@@ -63,3 +63,9 @@ The register type `other` and the two retired types belong to no group and show 
 ## 5. Verification
 
 Both migrations passed the rolled-back live dry run (their own post-checks ran to the end). The dry run showed the three owners and the two reads that would queue. Specs `cf-247-s766-au-university-identity-contract` (9, including the addendum) and `cf-247-s767-layer4-grid-country-type-contract` (4, one on the phone project at 375 px).
+
+## 6. Addendum 19 Nov 2026 19:26: pills with counts and the review drawer (s767, s768; Pilot #1394 and #1395)
+
+No migration. The Grid pills now show the drawn country flags and a live count on every pill (nine reads, two at a time, cached; the count line names the filters in force). The item drawer shows the proposed value, the verbatim quote with a clickable source address and the exact machine hold reason side by side, then the kind's own decision card unchanged, with Previous, Next and the J and K keys (they only move; they never decide, and are ignored while typing). Entry requirements (AER) live: 492 = AU 482 + NZ 10 + CA 0; University 217, VET / College 233, School 0, HEI 38. Checked in the side-panel browser without any decision click.
+
+Not changed: the HEI pill keeps its name because wānanga are grouped under University by the database function (regrouping needs a migration); decision labels stay the kind's own (server-defined) because new labels would need a new write path. Specs `cf-247-s767-layer4-grid-country-type-contract` and `cf-247-s768-layer4-review-drawer-triage-contract`.
