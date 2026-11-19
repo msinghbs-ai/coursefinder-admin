@@ -12804,3 +12804,22 @@ Then build the controls in slices, each with its own spec and a rolled-back dry 
 **Next executable action:**
 - S1-Build: merge s797, s798, s799 in that order on green CI; read back live gaps; post-merge records.
 - Then s802 to s805.
+
+## 20 Nov 2026 07:10 AEDT — S1-Build: s797 to s799 live and read back (s801)
+
+**Done:**
+- **Merged and applied:** Pilot #1401 (s797), #1402 (s798) and #1404 (s799), 06:52 to 07:00 AEDT, each history md5 matching its file. Live head `20261120095000`, 2,202 rows, 54 = 54.
+- **Read back 07:01:**
+  - AU study-load gap 15,382 → **24**.
+  - Primary campuses AU 1,277, NZ 101, CA 44.
+  - AACSB 58, EQUIS 31, AMBA 13; 10 Triple and 19 Double Crown.
+  - v3 shows the crown, `study_load_basis` and **2050 Alliance**.
+  - Claims: boost ~110 ms, re-identify ~55 ms; 0 HTTP 500s since.
+  - G3 75/48; locks 7,585.
+- **Corrections:**
+  - The s798 search refresh changes nothing (search documents do not hold university groups); harmless.
+  - The 07:45 entry was written at about 06:55; its 07:30 engagement row is superseded.
+
+**Next executable action:**
+- S1-Build: s802 to s805 (Layer 4 inline Edit & Admit, human-edit audit, 6-month re-review).
+- Platform Admin: the 277 providers with tied campuses (B2) are listed in `pipeline.admin_control_events` (action `campus_primary_rule`).
