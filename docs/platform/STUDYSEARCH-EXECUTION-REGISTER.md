@@ -6300,3 +6300,21 @@ Platform Admin 13:05 (decision approved). Worker `coverage-sweep` v1.0.29 and sc
 **Next executable action:**
 - S1-Build: s767 follow-up. `no-page-propose` timed out again at 13:37: its candidate query (`enrich_focus_v1` → `pipeline_list_v1`) hits the 120 s limit under load, so a smaller batch will not help. `waste-guard` passed at 13:17 in 107 s. `ops-cost-guard` ran at 13:47 in 73 s (deferred one tick for the tick budget).
 - Other unscoped `scholarship_publishability_v1()` readers remain: `admin_scholarships_page`, `scholarship_publication_review_v1`, `admin_scholarship_publishing_read_v1` (screens) and the jobs `scholarship_auto_publish_v1`, `scholarship_publish_batch_v1`, `scholarship_reread_cadence_v1`. Check each for the 8 s screen limit.
+
+## 19 Nov 2026 15:20 AEDT — S1-Build: s767 post-fix check (runs 12:24–15:15)
+
+**Trigger:** S1-Build's own check after the s767 deploy (migration `20261119120000`, 12:24 AEDT).
+
+**Found** (read only):
+- `scholarship-coverage-classify` at batch 80: 99 s, 56 s, 75 s, all succeeded. The slowest is 21 s under the 120 s limit, so the size stays.
+- `no-page-propose` at 25 providers: 90 s; failed at 120 s at 13:37; then 102 s. The failure is in its candidate query (`enrich_focus_v1` → `pipeline_list_v1`) under load, before any per-provider work, so lowering the batch would not help.
+- `waste-guard`: 107 s and 76 s, both succeeded; before s767, 2 of 3 runs failed.
+- `ops-cost-guard`: 92 s, 73 s (one tick deferred for the tick budget) and 115 s at 14:43, within 6 s of the limit.
+- `rollup-scheduler`: no failed tick since 06:xx. Ticks over 100 s occur 1–4 times an hour under load, as before s767.
+- Telemetry revision 4: syncs at 12:48, 13:48 and 14:47 AEDT all SUCCESS; `coverage-discover` reads RUNNING (231 completed, 0 failed in 24 h).
+
+**Done:** no setting changed; nothing met the rule for lowering a per-run size.
+
+**Next executable action:**
+- S1-Build: fix the `no-page-propose` candidate query.
+- S1-Build: profile `ops_cost_waste_v1` (115 s at 14:43, 44 s inside the function against about 16 s as plain SQL).
