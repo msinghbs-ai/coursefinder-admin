@@ -6848,3 +6848,15 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 
 **Next executable action:**
 - S1-Build: merge #1406 on green CI; verify live in PIM Admin (UTS, Torrens, AUT; read only); post-merge record; Drive Monitoring.
+
+## 20 Nov 2026 08:12 AEDT — S1-Build: s802 to s805 live and read back; s805b recorded before merge
+
+**Done:**
+- **Pilot #1406 merged 08:00 AEDT; `20261120101000` applied (history md5 `ce175497` = file).** Live head `20261120101000`, 2,204 rows, 56 = 56.
+- **Read back 08:08:** Save Edit & Admit offered on description cards; audit 0 rows; G3 75/48 no drift; locks 7,585.
+  - UTS: pending University description item (machine text).
+  - Torrens and AUT: held readings with no machine text, listed under Held universities: open for writing.
+- **Found and fixed (s805b, Pilot #1407, `20261120102000`, dry-run md5 `5c6e0293`):** the held list total was the page size (200); 352 are held.
+
+**Next executable action:**
+- S1-Build: merge #1407 on green CI; verify live in PIM Admin (UTS, Torrens, AUT; read only; nothing admitted); Drive Monitoring.
