@@ -12411,3 +12411,73 @@ A proposal to gate Pilot PR CI by changed paths (`dorny/paths-filter@v3`, workfl
 - per-item priority columns.
 
 Then build the controls in slices, each with its own spec and a rolled-back dry run.
+
+## 19 Nov 2026 12:50 AEDT — S2-Build: living cost published, wave 2 published, reliability unblock live (s720), evidence-link-index alert fixed, daily course field readiness (s770)
+
+**Directives:** Platform Admin 19 Nov 2026 06:41, 06:45, 06:50, 06:57, 08:17, 10:50, 11:41 and 11:42. All live reads in this block went through the rolled-back dry-run workflow (no interactive Supabase calls after 10:50).
+
+**Layer 1 and destination (s714–s719):**
+- **10:10 scheduled check.** ABS, BOM and LIN 19/198 ran at 09:05 and are Healthy, next due 19 Dec. The NZ, GB and US visa sources ran at 10:05 and were unchanged. The Canadian clean-up and the Ontario APS pause stand.
+- **LIN 19/198 fact not found.** The instrument sets "primary applicant annual living costs" in italics, so its page text has a space inside each bracket. Pilot #1363 (migration `20261119104100`) allows the space and made LIN due at once.
+  - It was read at 10:36: AUD 29,710, with evidence `destination/page-facts/www.legislation.gov.au/282a04f2….html` (CC BY 4.0).
+  - The new Home Affairs edition "(read 19 Nov 2026, 10:36)" is **published with visa_funds AUD 29,710** and Australian country applicability, alongside the other 5 rules.
+- **Home Affairs Step by step tab (`#HowTo`).** Firecrawl's rendered page does not include the tab's content. The nearest amount (AUD 87,856, the income alternative) is refused by the plausible maximum. LIN 19/198 is the source of the amount.
+- **UKVI and USCIS were not publishing.** Their owners were not on `destination.open_licence_owners`. #1363 adds both. UKVI (2 visa_funds rules, OGL v3.0) and USCIS (OPT up to 12 months, public domain) were **published** by `destination-open-licence-publish`. Immigration New Zealand stays held (terms pending).
+- **Firecrawl:** 31 credits for `destination_page_facts` today; the "other" share is 74 of 200, 126 left.
+  - Open item: the loader reads every page-fact page on each source run, so three sources due at one tick read the Home Affairs pages three times (23:05 UTC). Scoping the read to the source's domains is a loader change for later. Cadences are 30 days, so the cost is small.
+
+**Reliability unblock (s720; Pilot #1364, #1366, #1369; migrations `20261119104500`, `111500`, `114500`, `115000`; CREATE OR REPLACE of 6 existing functions, settings, one outcome code, rollup target rows; no new table or function; G3 75/48, no drift):**
+- **IQ-00609, coverage build.** `security.course_coverage_build_v1` rebuilds the oldest providers each run, up to `batch.course_coverage_courses` (now 400), every 2 minutes. It was a full 36,031-course rebuild taking 65–112 s. Reads are limited to the chunk, rows are replaced by provider, and the daily counts move by each run's change.
+  - Live: daily counts equal the table (530,137; Australia 385,545).
+  - At 800 courses runs took 11.7–16.0 s live, so the chunk is now 400 (the whole table about every 3 hours).
+- **Dispatcher finding (for S1-Build).** `security.rollup_tick_v1` estimates a target's time as its longest successful run in the last 14 days. That kept the chunked build deferred behind group A's every-minute targets. #1366 gives `course-coverage-build` priority 5, so it runs first in its due ticks. The dispatcher is unchanged.
+- **IQ-00594/IQ-00588, runners B and C.**
+  - The admission evidence snapshot reads 5 rows per frozen read within 6 s (5.0 s measured).
+  - The coverage admission tries the search writer lock and queues to `search.refresh_requests` when it is busy.
+- **IQ-00606.** `svc_page_text_next_v1` claims each stored page once (20 items in 0.7 s).
+- **Planner.** `enrich_plan_auto_v1` released 34 stalled automatic plans (outcome `released_stalled`, skip-locked) and created new ones: 26 open after the 11:41 run (was 40 of 40).
+- **Two clean cycles.** From the 11:03 deploy to 11:52 AEDT: 203 runs of rollup-scheduler and admission-rule-runner A, B and C, **0 failures and 0 statement timeouts**.
+- **IQ-00348, evidence-link-index critical alert (11:42).** The ranked queue is drained: 46,597 artifacts unindexed, none of them a ranked provider's. The feed still read 108,483 artifact rows from the heap to prove that (8.9 s, over the 8 s gateway limit).
+  - #1369 (`20261119114500`) finds the ids from the queue index alone, with a 4 s query limit: 1.6 s live (was 9.5 s).
+  - Edge calls at 12:19, 12:29 and 12:39 AEDT all returned **HTTP 200** (the calls at 11:59 and 12:09, before the deploy, were 500).
+- **Issues.** IQ-00609, IQ-00594, IQ-00588 and IQ-00348 were verified as cleared and are **closed** through `security.integration_issue_close_v1` (Pilot #1372, migration `20261119125500`, read back 13:16 AEDT).
+- **IQ-00606 stays open.** The duplicate-claim error is gone: before the deploy 92 of 92 page-text runs failed; since it, 41 of 55 succeed. The other 14 hit the 8 s limit in the claim, which reads about 18,000 bound pages to keep 40 (2.9 s by plan). The follow-up is a bounded candidate walk. A failed claim retries 2 minutes later and nothing is lost.
+- **Slip (07:2x AEDT).** Pilot #1343 was merged in the same command as the head re-read, and the deploy applied `20261119083100` out of order (md5 matched). Every merge since re-reads the live head first and merges in a separate step.
+
+**Daily course field readiness (s770; the directive's s721 was taken on main; Pilot #1370, #1371 (sheet-ready tabs, top 100 providers); no migration, nothing written to the database):**
+- `scripts/telemetry/course-field-readiness.sql` (read only) gives each active course × the 14 canonical API v3 fields either its admitted value (80 characters at most) or one of TRYING, POSSIBLE_NEEDS_SOURCE, NOT_POSSIBLE or EMPTY_NOT_STARTED.
+- Workflow `course-field-readiness.yml` runs daily at 07:30 AEDT (20:30 UTC) and commits the CSV and the summary to branch `course-readiness-snapshot`.
+- The scheduled task "Course field readiness to Drive (07:45)" (automatic approval) puts them in Drive › Monitoring and trims dated copies older than 3 days.
+- **First run 12:27 AEDT** (run 44436981882): 36,031 courses (AU 25,703, NZ 6,514, CA 3,814). Admitted:
+
+  | Field | Admitted |
+  |---|---|
+  | duration | 81.9% |
+  | tuition_fee | 77.0% |
+  | official_url | 66.8% |
+  | english_requirements | 57.8% |
+  | description | 41.7% |
+  | study_load | 17.2% |
+  | intake_dates | 7.9% (56.2% not possible: month-only) |
+  | aer_academic | 3.9% |
+
+- **Drive › Monitoring:**
+  - `Course_Field_Readiness_Matrix_2026-11-19.zip`: the full 16.6 MB CSV, zipped. The connector carries at most about 3.1 MB per call, so the plain CSV cannot be uploaded.
+  - Google Sheet `Stakeholder_Course_Readiness_Summary` with tabs `Executive_Summary` (counts, with percentages as formulas), `By_Provider_Action_List` (top 100 providers by cells needing a source; UNSW Sydney, NZIST Work-Based Learning and Monash first) and `Dev_Display_Rules` (the 5 states → API v3 `empty_reason_code` → display rule).
+
+**Guardrail notes:**
+- **Pilot #1333 (coverage telemetry).** Merged 06:4x AEDT under the Platform Admin's authorised exception of 06:41: one internal table (`pipeline.tracked_fields`) and two internal functions (`security.tracked_field_coverage_v1`, `public.admin_coverage_telemetry_v1`). None is in the consumer API, which stays G3 75 functions / 48 tables with no drift. The "zero new tables or functions" rule otherwise stands.
+- **Hourly admittance telemetry (06:57, s717).**
+  - Drive › Monitoring has the Google Sheet `Hourly_Admittance_Telemetry` (tab of the same name, en_AU, Melbourne time) and `Hourly_Admittance_Telemetry.csv` (one current copy).
+  - The scheduled task "Hourly admittance telemetry" runs `scripts/telemetry/hourly-admittance.sql` (read only) at minute 1 of every hour and appends one row. Rows are in place for 07:00, 08:02, 09:01 and 10:02.
+  - The 27 columns: snapshot_aedt, snapshot_utc, courses_admitted, courses_held, courses_rejected, providers_admitted, providers_held, providers_rejected, scholarships_admitted, scholarships_held, scholarships_rejected, aer_admitted, aer_held, aer_rejected, destination_admitted, destination_held, destination_rejected, coverage_courses, coverage_fields_n, coverage_courses_all_n, coverage_courses_zero, coverage_mean_fields_admitted, coverage_tracked_fields, jobs_active, jobs_off, job_runs_1h_succeeded, job_runs_1h_failed.
+
+**Live head:** `20261119125500` (G3 75/48, no drift).
+**TEST-REGISTER:** not regenerated in this session (packages not installed). New or changed specs: `s719` (extended), `s720` (new), `s770` (new).
+
+**Next:**
+- Platform health: confirm green at its next check.
+- IQ-00606: bounded page-text candidate walk.
+- 07:45 AEDT Friday: first unattended readiness publish.
+- S1-Build: dispatcher estimate window.
+- Loader: scope page-fact reads to the source.
