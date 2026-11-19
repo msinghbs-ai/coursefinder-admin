@@ -1,7 +1,7 @@
-<!-- sop-export: id=admin-sop; version=2.74; reviewed-release=2.16.51; source-commit=2e6d3ddd6eaa; content-sha256=ea89292026f9f0c797ff09090036cc72e23f1d26271e470f8e83bc31c6f615f3 -->
+<!-- sop-export: id=admin-sop; version=2.75; reviewed-release=2.16.54; source-commit=d91468fb0cda; content-sha256=f9652a5b746e5d50a3d2352bfb06c1aa8c1b1d4192055f5e4418e3e696303cac -->
 # StudySearch – Platform Admin SOP
 
-**Version:** 2.74 (reviewed for platform release v2.16.51)  
+**Version:** 2.75 (reviewed for platform release v2.16.54)  
 **Audience:** Platform Admin (role rank 6)  
 **Change control:** CF-247  
 **Rule:** this SOP is reviewed with every release; a change to a screen, an automation or where a person decides changes it, raises its version and is recorded below. The in-app copy is Guides › Platform Admin SOP.
@@ -140,6 +140,7 @@ How the Platform Admin runs StudySearch day to day: the approvals only you can g
 
 | Version | Date | Release | Change |
 |---|---|---|---|
+| 2.75 | 19 Nov 2026 | v2.16.53 | Layer 4 › Inbox › Grid: Country pills (All, Australia, New Zealand, Canada) and Provider type pills (All, University, VET / College, School, HEI) narrow the rows, the count and Export CSV. They are not saved in a view. |
 | 2.74 | 19 Nov 2026 | v2.16.50 | Layer 4 › Inbox, Course description cards: read Why this is held first. Re-read (1-2 sentences) for a long or worded description, Approve all verified for provider when many of one university are from their own pages (type the count shown to confirm), Reject (bad page / wrong course) when the page is not the course. Course descriptions are now 1 to 2 sentences. The machine rule now admits a description whose own page proves the course (CRICOS or NZQA code, or exact title). |
 | 2.73 | 19 Nov 2026 | v2.16.49 | Course detail › Around this course: the Entry requirements card no longer carries a scholarship line. Scholarships are listed once, in the Scholarships section (three, then Show all (N) scholarships), for every role. |
 | 2.72 | 19 Nov 2026 | v2.16.47 | Around this course and Around this provider show live figures for every role: Counsellors and Viewers see the approved climate, population, career and visa figures. Accreditations are listed on the Provider detail; rows under review are marked for Editors and up and are not shown to Counsellors or Viewers. |
