@@ -6618,3 +6618,23 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
   - `ops_cost_waste_v1` (115 s);
   - six unscoped `scholarship_publishability_v1()` callers;
   - "courses" page statement time-outs seen at 16:26–16:29.
+
+
+## 19 Nov 2026 20:14 AEDT — S1-RM-Design: s767/s768 Layer 4 Review Grid pills with flags and live counts, side-by-side review drawer, J and K (Pilot #1394 and #1395, v2.16.58 and v2.16.59, no migration)
+
+**Trigger:** Platform Admin 19 Nov 2026 19:26 AEDT (chat S1-RM-Design), "Standing Autonomous 1-Day Handover Mandate (Browser-Assisted UI Build — S1 Quota)", reserved specs s767 to s768. Zero database migrations, G3 75 functions and 48 tables, US$0 AI, Firecrawl 0, 7,585 manual locks untouched. No Approve, Reject or Hold was clicked and no live Layer 4 item or manual catalogue record was changed (UTS, Torrens, Moore, AUT, Victoria 02475D, "NA", Macquarie, Avondale).
+
+**Done:**
+- Pilot #1394 merged on green (v2.16.58, package 0.1.480), no migration:
+  - **s767:** Layer 4 Review › Grid Country pills (All, Australia (AU), New Zealand (NZ), Canada (CA)) with the drawn SVG flags used on Catalogue › Providers, and Provider type pills (All, University, VET / College, School, HEI), each with a live cohort count. The counts are read with the existing `admin_layer4_grid_read_v1` (two at a time, cached, refreshed on Refresh and after a decision); the count line names the filters in force ("· AU · University"). One click isolates a cohort such as Provider Descriptions · AU · University.
+  - **s768:** the Grid item drawer shows three columns side by side (proposed text or value, verbatim source quote with a clickable source address, the exact machine hold reason as a badge), then Decide (the kind's own decision card, unchanged), then the existing row table, evidence and history. Previous and Next buttons and the J and K keys move through the filtered list, across pages, and never decide anything (ignored while typing). One column on a phone.
+  - Specs: `cf-247-s767-layer4-grid-country-type-contract` (updated) and `cf-247-s768-layer4-review-drawer-triage-contract` (new; includes a phone `@responsive` test).
+- Pilot #1395 merged on green (v2.16.59, package 0.1.481), no migration: found in the live check. For items made of many rows (entry requirements) the Proposed column states the row count instead of a column of dashes and the quote column shows the first four quotes with a count of the rest; the full table stays below. One more s768 test.
+- **Live check in the side-panel browser (read only):** v2.16.58 pills read All 492, AU 482, NZ 10, CA 0; University 217, VET / College 233, School 0, HEI 38; the count line reads "492 waiting · Entry requirements (AER)". Drawer on item 1 of 492: three columns on one row, hold reason badge, source link, Previous disabled on the first item; J moved to 2 of 492 and K back to 1 of 492. v2.16.59 live: four quotes with "and 7 more, in the table below", hold reason and source link present.
+
+**Decisions for the Platform Admin (not changed, by design):**
+- The type pill is labelled "HEI", not "HEI / Wānanga": the database groups wānanga under University, and regrouping needs a migration, which this mandate excludes.
+- The decision buttons keep the kind's own server-defined labels (for example Approve all rows, Approve except, Reject the read). "Approve & Publish", "Edit & Approve" and "Reject / Hold with Note" were not introduced because they would need a new write path.
+- Only one grid kind (Entry requirements (AER)) is offered today; the pills apply to any kind the Grid lists.
+
+**Next executable action:** Platform Admin reviews the Layer 4 decisions and the open manual items listed in the 17:53 entry (Holmes owner, Victoria 02475D, "NA" record, Macquarie, Avondale, Lyons and Awanuiārangi About pages, human decisions for UTS, Torrens, Moore and AUT).
