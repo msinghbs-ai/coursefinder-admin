@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.20 (19 Nov 2026, platform release v2.16.50; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
+**Version:** 1.21 (19 Nov 2026, platform release v2.16.51; section 2.4 Coverage pages 50 providers at a time; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
 **Change control:** CF-247; SS-020 admin menu consolidation (Decision 269)
 **Source:** read from the Pilot repository code at `origin/main` 725fc7f6 (`src/nav-map.js` PAGES, SECTIONS and LEGACY, `src/mature-main.jsx` `pageBody`, each screen's component), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`; the SS-020 decisions are in `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md` (C01–C53) and `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`.
@@ -91,7 +91,7 @@ In the tab tables below, **Key** is the tab's address (`#<page slug>?tab=<key>`;
 | Coverage | `coverage` | 3 | Each provider measured against its own listing page | Find, watch, sign off, publish, hold |
 
 - **Scholarships:** list (scholarship, provider, type, who it is for, value, courses, closes). Drawer (`ScholarshipRecord.jsx`): one row per fact with source, quote and Change (reason) or "Let automation update this"; evidence and extraction (7 steps); hand-change history; "Read again now" (task); Layer 4 fold (correct, revert, publishing decision, suggest a record).
-- **Coverage** (`ScholarshipCoverage.jsx`): tiles (published, watch list, with a listing page, signed off); auto-published in the last 3 days, with Hold; provider table (listed, found, published, missing, other, state) with bulk "find scholarships" (≤50); provider panel (watch, read listing again, sign off, find now, runs; listing pages; the two record tables with publish, international, hold/withdraw, release).
+- **Coverage** (`ScholarshipCoverage.jsx`): tiles (published, watch list, with a listing page, signed off); auto-published in the last 3 days, with Hold; provider table (listed, found, published, missing, other, state), 50 providers a page with Previous, Next and "Showing x–y of N" (v2.16.51), with bulk "find scholarships" (≤50); provider panel (watch, read listing again, sign off, find now, runs; listing pages; the two record tables with publish, international, hold/withdraw, release).
   - **Changed in v2.15.456:** the "Settings and jobs" fold left this tab. A line says the scholarship settings and jobs are on Layer 2/3 › Scholarships.
 - Scholarship extraction (the AI that reads scholarship pages) is on Models & services › AI & OpenRouter.
 
@@ -455,6 +455,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 ## Version history
 | Version | Date | Change |
 |---|---|---|
+| 1.21 | 19 Nov 2026 | v2.16.51 (s769): Scholarships › Coverage lists 50 providers a page with Previous and Next; the page no longer times out (ref 8XEY7B). |
 | 1.20 | 19 Nov 2026 | Planned tabs Queue & lane control and On-demand runs on Scheduled jobs (s768 design, not built), marked in italics in section 4.2. |
 | 1.19 | 19 Nov 2026 | v2.16.50: section 4.2 Scheduled jobs › Automations re-read: Pipeline maintenance, Dispatchers panel (three cron dispatchers after consolidation PR 1 to 4) and retired legacy jobs hidden by default. Handover architecture baseline in `AGENT-OPERATING-MODEL.md`. |
 | 1.18 | 8 Nov 2026 | v2.15.494: Lane funnels panel on Layer 2/3 › Operations; Firecrawl allowance and spend card on Models & services › Services & limits (Firecrawl); Layer 4 Inbox Course description pill: review capacity and review pack; Settings › Pipeline settings: section Lane funnels (10 settings). Backend-only changes rolled into the note (intake year change, fee plausibility guard, provider description retry, English gap funnel, scholarship coverage states) have no screen. |
