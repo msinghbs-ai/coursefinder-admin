@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.19 (19 Nov 2026, platform release v2.16.50; section 4.2 re-read from Pilot `origin/main` dae62317. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
+**Version:** 1.20 (19 Nov 2026, platform release v2.16.50; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
 **Change control:** CF-247; SS-020 admin menu consolidation (Decision 269)
 **Source:** read from the Pilot repository code at `origin/main` 725fc7f6 (`src/nav-map.js` PAGES, SECTIONS and LEGACY, `src/mature-main.jsx` `pageBody`, each screen's component), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`; the SS-020 decisions are in `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md` (C01–C53) and `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`.
@@ -239,6 +239,8 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 | Automations | `automations` | 4 | Every scheduled job by area; Refresh schedules and one-off runs | Pause, resume, run now, frequency, batch size (rank ≥5) |
 | Jobs | `jobs` | 4 | Job history | Filters, detail, admit passing fields of a task result |
 | Task manager | `tasks` | 4 | Long-running admin tasks | Pause, resume, cancel with a reason |
+| *Queue & lane control (planned, s768; not built)* | `control` | 3 (controls 6) | Work queues, dispatcher lanes, `pg_cron` jobs; a folded job shows its dispatcher state | Platform Admin: pause/resume queue, release expired leases, pause/resume/run once/disable lane, restart stuck lock, emergency stop; audited |
+| *On-demand runs (planned, s768; not built)* | `ondemand` | 5 | Open and recent on-demand runs, four stages with counts and spend | Cancel remaining, retry held |
 
 - **Automations** (`Automations.jsx`, re-read 19 Nov 2026 at v2.16.50). From the top:
   - **Pipeline maintenance** (`PipelineMaintenance.jsx`, `public.admin_pipeline_maintenance`): pause every scheduled job before a database change, wait until nothing is running, apply the change, then resume. Resume switches on only the jobs the pause switched off. Shows the running count and the last maintenance (button "Pause & Drain for Migration").
@@ -453,6 +455,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 ## Version history
 | Version | Date | Change |
 |---|---|---|
+| 1.20 | 19 Nov 2026 | Planned tabs Queue & lane control and On-demand runs on Scheduled jobs (s768 design, not built), marked in italics in section 4.2. |
 | 1.19 | 19 Nov 2026 | v2.16.50: section 4.2 Scheduled jobs › Automations re-read: Pipeline maintenance, Dispatchers panel (three cron dispatchers after consolidation PR 1 to 4) and retired legacy jobs hidden by default. Handover architecture baseline in `AGENT-OPERATING-MODEL.md`. |
 | 1.18 | 8 Nov 2026 | v2.15.494: Lane funnels panel on Layer 2/3 › Operations; Firecrawl allowance and spend card on Models & services › Services & limits (Firecrawl); Layer 4 Inbox Course description pill: review capacity and review pack; Settings › Pipeline settings: section Lane funnels (10 settings). Backend-only changes rolled into the note (intake year change, fee plausibility guard, provider description retry, English gap funnel, scholarship coverage states) have no screen. |
 | 1.17 | 4 Nov 2026 | v2.15.452, v2.15.454–v2.15.457: SS-020 admin menu consolidation (Decision 269), 47 tabs on 20 pages. Every page rewritten against the released code with each tab's key, minimum rank, what it shows and what it does; retired sections removed (Layer 3 areas and blocks, Serper, ScrapingBee, Search pass, Sample runs, dropped fetchers and gates, Courses with each field); Automations areas start closed; paging on Course sources, Course-level reading and Key dates; Queues & yield; Services & limits with one card per service; AI model switches on AI & OpenRouter; Progress on Layer 2/3 › Operations; Build adapter on Universities and as step 0 of the Adapter builder; Attributes read only, run controls on Enrich fields; scholarship settings on Layer 2/3 › Scholarships; Inbox readiness line; QILT and PRISMS as View data on Rankings › Datasets. New section 7 (every old address and where it leads) and section 8 (parked SS-020 decisions). Screens retired before SS-020 that were still listed (Live activity, Priority queue, the old Layer 4 tabs, Scrapers & fetchers, Data model, the separate Sources page) removed. Drop-down section renumbered 9. |

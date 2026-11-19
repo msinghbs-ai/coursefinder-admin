@@ -13429,3 +13429,32 @@ Platform Admin 10:48. Worker `coverage-sweep` v1.0.27 then v1.0.28 (mode `aer_ch
 **Next executable action:**
 - S2-BOOST-AER, 15:45 AEDT (scheduled): record the final 16-item drain here and in the registers.
 - Platform Admin, AER v2 (a decision): either (a) a second chunked run with MiMo v2.6 Flash only, on more tables, with 12 rows a call (stays inside the 90-second limit), or (b) keep the AER v2 replay paused.
+
+## 19 Nov 2026 13:30 AEDT — S1-Build: s768 design, queue and lane control and on-demand runs (docs only)
+
+**Trigger:** Platform Admin 19 Nov 2026 12:59 AEDT (chat S1-Build, s768).
+
+**Done** (read only on production 13:00–13:20; Pilot main `0246da6e`; no migration, no Pilot change, G3 75/48 untouched):
+- New `docs/platform/OPS-QUEUE-LANE-CONTROL-AND-ON-DEMAND-RUNS-DESIGN.md` v1.0. Each part is marked exists, extend or new:
+  - three-tier monitoring: work queues on the 17 `pipeline.queue_watch` queues, dispatcher lanes, `pg_cron` jobs;
+  - Platform Admin containment controls, as actions on the existing `admin_*` entry points, audited in `pipeline.admin_control_events`;
+  - on-demand runs, one `pipeline.on_demand_requests` record per run through the existing queues and dispatchers, with caps, no-overwrite and the 7,585 `manual_locks` records;
+  - pre-flight card and four-stage tracker.
+- F-OPS.10–.12 added and F-INT.06 corrected (`intake-dates-apply` and `coverage-admit-intakes` now run as admission rules). Operating model v1.23 (section 5), programme status (Operations control row), UI catalogue 1.20 (planned tabs).
+
+**Corrections to the brief, as documented:**
+- The new pages become tabs on Scheduled jobs, because F-OPS.03 rules out a duplicate screen.
+- `layer1-*` and `layer4-drain` are own jobs, not dispatchers.
+- The lease column is `leased_until`, not `lease_expires_at`.
+- No planner "slot" exists in the database.
+- The coverage rebuild takes a median of 11 s and up to 112 s; under 8 s is a target.
+- The current Automations controls open at rank 5; the new containment controls are rank 6 as asked.
+
+**Not done:** nothing is built.
+
+**Next executable action:** the Platform Admin decides on three open points:
+- what a planner slot is;
+- rank 6 for the new controls against rank 5 for Automations;
+- per-item priority columns.
+
+Then build the controls in slices, each with its own spec and a rolled-back dry run.
