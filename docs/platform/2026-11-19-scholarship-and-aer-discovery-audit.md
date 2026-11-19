@@ -1,6 +1,6 @@
 # Scholarship and AER discovery completeness audit: AU, NZ, CA
 
-**Read:** Thu 19 Nov 2026, about 11:30 to 11:55 AEDT, live project `fxcwkweaxjtknorudmwp`. S2-BOOST-Discovery, read-only.
+**Read:** Thu 19 Nov 2026, about 11:15 to 11:35 AEDT, live project `fxcwkweaxjtknorudmwp`. S2-BOOST-Discovery, read-only.
 **Method:** `select` statements only. No table, column, function, job or setting was added or changed (G3 stays 75 functions and 48 relations). No Firecrawl search, map or scrape was run, and no on-demand window was opened. Counts are as read; check the live system before relying on a figure older than a day.
 **Cached sources and their build times:** `pipeline.course_attribute_coverage` built 10:58 AEDT; `pipeline.scholarship_provider_coverage` refreshed 10:29; `pipeline.aer_provider_coverage` updated 10:27. Everything else is read from the base tables at the time above.
 
@@ -156,6 +156,12 @@ Provider ids for the 30 are in the appendix. The ranking changes as discovery pr
 - **Course entry requirements count as an entry-requirements source** even when only proposed (9,107 proposed rows exist), so providers with proposed rows are not on the list and may still have nothing admitted.
 - **Not measured:** page quality, whether a discovered scholarship page is current, domestic-only awards, and providers whose courses are all inactive.
 - **No change was made** to any setting, job, table or function; no Firecrawl credit was used.
+
+## 7. Decision (Platform Admin, 19 Nov 2026 11:36 AEDT)
+
+1. **Canada joins the AER programme in Wave 2.** All 52 Canadian providers with international courses (including UBC, Alberta and Conestoga) are approved to join the AER programme immediately after the 20 Nov handover. Section 3, point 1 is therefore a scheduled scope step, not an open question.
+2. **Today's remaining budget and queues stay on AU and NZ.** The priority read queue is the **355 providers that already have discovered pages and nothing read** for scholarships or entry requirements (AU 332, NZ 21, CA 2), read with no search credit, followed by the remaining AU and NZ AER and scholarship drains. The 2 Canadian providers in that group wait for Wave 2.
+3. **Nothing was started by this decision.** It is recorded in `docs/CURRENT-STATE.md` (11:40 entry) and the m2.4.7 runsheet files; no setting, job, table, function or migration changed.
 
 ## Appendix: provider ids for the top 30 (same order as section 5)
 
