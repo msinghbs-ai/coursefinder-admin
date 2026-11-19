@@ -14250,3 +14250,22 @@ Platform Admin 15:59. Script and workflow only (`scripts/aer-l4-drain.mjs`, `aer
 
 **Next executable action:**
 - S1-Build: merge #1410 on green CI; s815 (domestic-only scholarship rule; classifier and full-attribute time-outs).
+
+**S1-AER, 20 Nov 2026 11:05 AEDT: Boost DB AER and English lane — pre-flight, live gap read and mockup; no extraction, promotion or Main DB change yet**
+
+Read only; zero schema migrations, no data change, zero AI and Firecrawl spend. Specs s815 to s819 claimed for this lane (above S1-Build's s813/s814; none used yet). Live read through the rolled-back dry-run route (run on the Pilot carrier branch), head `20261120110000`, 2,208 history rows.
+- **Pre-flight:** no open Pilot PRs; one open admin PR (#609, S1-Courses, not touched). No course description, scholarship or Platform Health file touched.
+- **Live figures differ from the brief:** 36,031 active courses (brief 34,341); 25,452 active entry-requirement rows on 9,186 courses; courses with none: **AU 16,931, NZ 6,100, CA 3,814** (brief 7,876, 4,123, 1,798). Pending in Layer 4: 2,483 course first reads, 73 matrix first runs, 6 matrix changes (2,562). `aer.machine_mode` 2, `aer.v2_shadow_on` 0.
+- **Table 1, source-backed gaps** (course has a bound, stored page that was read; proxy: bound page with evidence and a read status; not yet proof the page states entry requirements): AU 12,222, NZ 4,522, CA 3,235 (19,979).
+- **Table 2, no source available yet** (no bound stored page; do not quote as verified): AU 4,709, NZ 1,578, CA 579 (6,866).
+- **Not done, and why:**
+  - "Boost DB" is the test project `coursefinder-boost-test` (69 seeded courses). It holds none of the stored pages, so it cannot mine the 19,979 pages. The Boost design keeps `aer_entry` shadow only and never promotable; AER v1 is frozen and AER v2 live admission stays paused (Decisions 276 and the 15:14 and 23:52 decisions) until chunking or an authorised frontier model.
+  - Layer 4 holds are gates, not slowness: completeness 1,892, audit sample 492, all rows held 111, page identity 55, matrix changes 6, host 4, other 2; none passes its rule (S753). A bulk approve of "verified" items can only act on items that already pass; approving held items would bypass the gates behind the 18 Nov P0 consumer findings.
+  - Decision time-outs are covered by S1-Build s813/s814 (`20261120110000`).
+- **Mockup (Design canvas):** Layer 4 Bulk Approve Verified AER and quote-verification drawer, hold counts live as at 19 Nov 17:35. Nothing in the product changed.
+
+**Decision needed (Platform Admin), in one line each:**
+1. Authorise Boost reading of `aer_entry` as promotable (reverses the Boost design and Decision 276 for AER), or keep it shadow and build only the deterministic and AER v1 route.
+2. Confirm the Boost target: a production-scale Boost database that holds the stored pages (none exists today) or the test project.
+
+**Next executable action (no decision needed):** S1-AER builds the deterministic English-score and ATAR/NCEA pattern reader as a shadow reader over the 19,979 stored pages in Main storage, with zero AI spend, writing only shadow readings beside Layer 4; run through workflows; then a read-back table of yield.
