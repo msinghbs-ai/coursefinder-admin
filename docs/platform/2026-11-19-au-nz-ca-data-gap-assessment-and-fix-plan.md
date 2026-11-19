@@ -28,7 +28,12 @@ Search index: AU 24,013, NZ 6,514, CA 3,814 (34,341 in all three; the brief coun
   - AU: 10 courses with active intakes (822 more have only withdrawn intakes, correctly not shown), 21 with active English rows, 3 links;
   - NZ: 75 intakes, 3 English, 22 links;
   - CA: 68 intakes, 1 English.
-- **AU did not move between 21:45 and 23:33** on any field. NZ (−457) and CA (−327) gained study loads, so the Boost reader was working through NZ and CA pages in that window.
+- **AU did not move between 21:45 and 23:33** on any field. NZ (−457) and CA (−327) gained study loads. The AU study-load reading is exhausted (read 00:04, 20 Nov):
+  - AU pages are all converted to text: 14,426 AU courses, and none in the last two hours.
+  - 14,415 AU study-load reads are verified.
+  - 6,153 AU courses with a verified read still have no load, because their page does not state one: 1,202 reviews were decided "not stated" and only 6 are open.
+  - About 8,000 AU courses without a load have no stored page at all.
+  - So more AU study loads need either stored pages for those courses (a crawl) or a rule (decision B7), not more reading.
 
 **AU by provider type (23:50)** — universities are the largest share of every AU gap:
 
@@ -69,9 +74,9 @@ Search index: AU 24,013, NZ 6,514, CA 3,814 (34,341 in all three; the brief coun
 |---|---|---|---|---|---|
 | A1 | AU no description 11,900 (universities 6,235) | Course AI reader (`enrich_ai`) claims timed out (52 HTTP 500s) | **s788** claim index and busy status (Pilot #1397) | Description reads resume at full rate inside the existing AI ceiling | Migration (repo-first, done) |
 | A2 | AU intake without date 6,900 (universities 4,231); NZ 2,008; CA 1,688 | Intake run and validation (F-INT) cannot page a whole university, keep stage history or verify / admit selected courses | **s790/s791** IntakeRunValidate: full pagination, saved cohorts, stage history, Verify / Admit read-back (no overwrite, locks kept) | Up to 6,900 AU courses can get exact dates from stored pages | Migration + UI; no spend |
-| A3 | AU study load 15,382 unchanged 21:45–23:33 | The Boost reader worked through NZ and CA in this window | **s793** check `boost.matrix` order puts AU first (brief: "Australia first"); claim limits under 15 s | AU share of the 1,200 pages an hour | Setting only |
+| A3 | AU study load 15,382 unchanged 21:45–23:33 | AU is already first (`boost.matrix.country_weight` AU 100, NZ 95, CA 90); every AU page that is held has been read, and the pages do not state a load | Nothing more to tune in the reader; see B7 for the remaining AU gain | NZ and CA keep gaining (−457 and −327 in two hours) | None |
 | A4 | Held but not projected: AU 10 intakes, 21 English, 3 links; NZ 75 / 3 / 22; CA 68 / 1 | Projection not re-run for those courses | **s794** re-project the named courses (bounded) | About 200 courses | None |
-| A5 | 20 search plans held on `day_budget` | Daily course-search share used | **s789** verify they resume at the day reset with no duplicate plans | Search resumes; no new authority | None |
+| A5 | 20 search plans held on `day_budget` | Daily course-search share used (1,200 credits on the Melbourne day) | **s789** checked at the reset (00:04, 20 Nov): the share is back to 1,200; held plans updated (26); 6 new plans started; no duplicate plan, no course in two running plans. The local page-text drain ran through the hold (1,200 pages an hour, Firecrawl 0) | Search resumes inside the existing daily share | None |
 | A6 | Fee reporting | "No fee" counts courses that do hold the register fee | Report "no provider fee" and "no fee at all" separately (dashboards and this register) | Clarity: AU true gap 169 | None |
 
 ### Part B: decisions or approvals needed
@@ -83,6 +88,7 @@ Search index: AU 24,013, NZ 6,514, CA 3,814 (34,341 in all three; the brief coun
 | B3 | IRU becomes the 2050 Alliance (REQ-77) | (a) rename the group and add ACU and VU; (b) keep IRU and add a new group | **(a)**, and check the held members: Canberra is held, Charles Darwin is not |
 | B4 | OET letter grades | (a) show the grade letters as held; (b) map letters to a band | **(a)** show as held; map only if the website asks |
 | B5 | Destination data (RM1D, RM1I) | (a) assess what the `destination` schema already holds; (b) import outside sources | **(a)** first: 1,577 career-outcome rows and 102 localities are already held |
+| B7 | AU study load for courses whose page does not state it | (a) international (CRICOS) courses are full time: the ESOS rules require international students on a student visa to study full time, so record `full_time` with the register as the source; (b) leave unknown | **(a)** for courses offered to international students only, with its own source label so it is never mistaken for a page reading; this is the only route to most of the 15,382 AU gap without new crawling |
 | B6 | New paid crawling | (a) none; (b) raise the daily course-search share | **(a)**: the local page-text drain and the stored-page readers have work for days at no Firecrawl cost |
 
 ## 4. Status of this plan
