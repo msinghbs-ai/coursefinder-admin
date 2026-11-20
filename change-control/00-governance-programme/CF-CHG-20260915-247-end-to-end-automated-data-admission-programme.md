@@ -19,3 +19,8 @@
   - 3 flagged as band pages;
   - 13 in flight.
 - **Next:** auto-merge this record, then Pilot #1451, then read live.
+
+### 21 Nov 2026 10:50 AEDT, S1-Coverage-Unlock-UI-Notes: standing mandate, immediate live activation (s917), recorded before merge
+
+- `CLAUDE.md` and `AGENTS.md` in both repositories: reported fixes and verified admission rules go live immediately upon deploy; no unrequested shadow, off-by-default flag or next-day cutover; no assumed future work.
+- The partial-admission cutover is carried by S1-Fast-Admission (Pilot #1450); this lane's duplicate build was stopped before merge.
