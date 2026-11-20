@@ -15116,3 +15116,10 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
 - **For the Platform Admin:**
   - lowering `link_rollover.items_per_call` (15) would keep calls inside the 120-second limit;
   - pages that need a browser (La Trobe, Melbourne) stay held at $0.
+
+### 21 Nov 2026 02:30 AEDT, S1-Ops-Capacity-Runtime: capacity and runtime audit (read only)
+
+- Audit `docs/platform/2026-11-21-capacity-runtime-audit.md`, $0, nothing changed.
+- **IQ-00510:** database 7,185 MiB (02:03) and 7,370 MiB (02:17) against the 7,168 MiB critical level; about 200 MiB a day; about 5% dead rows. For approval: A (raise the pilot levels once the disk is confirmed) and C (plain `VACUUM (ANALYZE)` on four tables).
+- **IQ-00445:** `coverage-reconcile` takes 9.1 s alone against p50 106 s and p95 137 s at :26, the busiest minute. For approval: move the job to :09, then close after two clean cycles.
+- Invariants: G3 75/48, locks 7,585, 137 active jobs, head `20261120235000`.
