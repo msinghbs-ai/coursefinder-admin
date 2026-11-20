@@ -14968,3 +14968,39 @@ The Platform Admin's decision came at 20 Nov 2026 22:07 AEDT: populate the remai
   - G1, G2 and G3 kept; US$0.
 - **Design:** `docs/platform/2026-11-20-s884-s886-elr-central-policy-route.md`.
 - **Next:** auto-merge this record, then Pilot #1439, then read live.
+
+## 20 Nov 2026 23:30 AEDT — S1-RM-Design: Website API v3 readiness, coverage and data gaps; v3 developer guide issue 1 and developer email drafted (no migration, no API change)
+
+The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3 readiness and coverage, a v3 developer guide, a developer email, and updates to the request and roadmap registers, highlighting data gaps, sources still to collect and admit, and data waiting for a person.
+
+- **Readiness, read live (read only).**
+  - All ten actions answer, and v3 is v2 plus additions: the guide's example search returns 36 at both v2 and v3.
+  - `sync` items carry the v3 course, provider and scholarship fields.
+  - The website made 0 v3 calls in 14 days; all its calls are on v2. v3 therefore stays open under Decision 277.
+  - Timing: v3 search 0.94 s against 0.44 s on v2.
+- **Shape gaps (not blockers).**
+  - The `reference.v3` closed lists and the section 3 null placeholder keys were never deployed.
+  - `primary_basis` also takes `highest_course_count`, which the field dictionary lacks.
+- **Coverage, 20 Nov.**
+  - Course study load 81.7%, main campus 95.2%, empty reason 99.9%, official page 66.8%, English 57.9%, intakes 37.4%, provider tuition 30.0%, description 43.8%.
+  - Academic entry 3.9%: 1,400 courses, and 26 providers' entry tables.
+- **Sources missing.**
+  - 9,348 courses whose page is still to be found, at 447 providers (AU 310, NZ 133, CA 4).
+  - 71 AU providers with no website on record (326 courses).
+  - 625 providers with no admitted course page.
+  - 1,860 providers with no academic entry table.
+  - About 13,150 values read and going through checks.
+- **Waiting for a person.**
+  - 1,956 Layer 4 items: academic entry 1,065, official link 267, description 159, tuition 145, duration 102, provider entry tables 84, no page 55, provider description 48, English 21, study load 10.
+  - Also 82 main campuses and 28 held campus locality matches.
+- **Delivered.**
+  - The v3 developer pack in `docs/integrations/developer-pack/v3/`: guide (md, docx, pdf, 15 pages), field dictionary CSV (910 website fields), OpenAPI 3.1, Postman (22 requests) and build scripts.
+  - The Gmail draft: a reply on the 14 Nov developer thread with the four files attached. **Not sent.**
+  - Request register: REQ-51, 52, 53, 57, 65, 67, 75 and 76 logged, with no status change. REQ-76 moves to Live in v3 when the email is sent.
+  - Roadmap: RM0B updated (In progress, new next action), one engagement row (Handover, 15 min).
+  - `API-V3-FIELD-DEFINITION.md` note, `WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.37, router row, `docs/CURRENT-STATE.md`.
+- **Report:** `docs/platform/2026-11-20-api-v3-readiness-and-coverage.md`.
+- **Next.**
+  1. The Platform Admin sends the email.
+  2. The website records its v3 go-live date; then v3 joins G3, the baseline and `s57`.
+  3. Optional S2-Build additions: `reference.v3` closed lists, a dictionary `primary_basis` re-sync, and a look at v3 search time.
