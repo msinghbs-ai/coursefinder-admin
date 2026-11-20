@@ -7656,3 +7656,27 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
   1. The Platform Admin sends the email.
   2. The website records its v3 go-live date; then v3 joins G3, the baseline and `s57`.
   3. Optional S2-Build additions: `reference.v3` closed lists, a dictionary `primary_basis` re-sync, and a look at v3 search time.
+
+## 20 Nov 2026 23:25 AEDT — S1-RM-Design: Platform Admin 22:54 and 23:07 decisions; s890 recorded before merge (migration `20261120231000`): Victoria University 02475D keeps its courses and takes the 00124K description
+
+**UTS (`uts.edu.au`): nothing to change.** The description was approved in Layer 4 Review (item `9e1d3b89`) and is live. No university-description item waits, and UTS is not on the Held universities list. Its remaining Layer 4 cards are 4 scholarship value questions and 1 course identity question; none is a description card.
+
+**Victoria University (`vu.edu.au`).**
+- **What the record is:** read live (rolled back), CRICOS 02475D (`0f5373c8`, `vu.edu.au/international`) is VU's separate registration for its Sydney City Centre and Brisbane campuses. It has 35 active international courses with their own CRICOS course codes, so it is not a copy of 00124K.
+- **The hold:** its only description reading was held on `provider_host_conflict`, because 00124K (`bac82321`) is the recorded owner of `vu.edu.au` (s766).
+- **Decision:** asked at 23:07, the Platform Admin chose to keep both records and clear the hold by giving 02475D the parent's description.
+- **s890 (Pilot #1440, migration `20261120231000`):**
+  - Applies the decision through the screen's own path, as the Platform Admin: Held universities › Open for writing, then Edit & Approve with 00124K's live text and no manual lock.
+  - Fixes a fault the rehearsal found. A university opened for writing kept its reading held, because the reading was not linked to the item and was then superseded. `security.layer4_description_human_admit_v1` now admits and links the reading the item names (md5-guarded edit `c332bdfe`).
+  - No lifecycle event, archive or re-parenting. 02475D's 35 courses stay live.
+- **Dry run passed, rolled back** (run 44734694071):
+  - 02475D's description is set and its reading admitted; no item waits; 35 courses kept.
+  - G3 75/48, no drift. Locks 7,585. $0.
+- **Spec:** `cf-247-s890-vu-02475d-parent-description-contract`.
+
+**Requests (confirmed, statuses unchanged).** S1-Build had already recorded these at 22:55 (#721); a dated confirmation line is added to each.
+- `REQ-59` stays standalone, not folded into RM1K (Open).
+- `REQ-69` is Partly delivered.
+- `REQ-66` stays Open.
+
+**Next.** Merge this record (automerge), then Pilot #1440 (automerge, after its dry-run check). Read back live, then sync Drive.
