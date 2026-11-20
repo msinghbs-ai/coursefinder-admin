@@ -1,0 +1,911 @@
+action,field_path,data_type,nullable,meaning
+course,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+course,contract_version,string,yes,"The contract the database function answered with (for example website-search-v2), beside api_version."
+course,item,object,no,The requested record.
+course,item.campus_city,string,yes,The first campus city of the course (the searched city first).
+course,item.campus_metro_area,string,yes,"Metro area of the first campus, where held (Australia)."
+course,item.campuses,array<object>,no,"Campuses where the course is taught, the searched city first."
+course,item.campuses[].city,string,yes,Campus city.
+course,item.campuses[].is_primary,boolean,yes,True for the provider's main campus (one per provider at most); false otherwise. primary_basis says why. Null where not held.
+course,item.campuses[].locality,object,yes,"The approved locality the campus postcode maps to: the primary match in an approved or published locality, newest boundary first; null until the postcode has one."
+course,item.campuses[].locality.boundary_vintage,string,no,"The boundary edition the locality is drawn on, for example ASGS_2021_ED3."
+course,item.campuses[].locality.geography_code,string,no,The source code of the locality in that geography.
+course,item.campuses[].locality.geography_type,string,no,"The official geography the locality belongs to, for example SUA."
+course,item.campuses[].locality.locality_id,string,no,Stable identifier of the locality (as in the destination action).
+course,item.campuses[].locality.match_share,number,yes,"Share of the postcode inside the locality, from 0 to 1."
+course,item.campuses[].locality.name,string,no,Name of the locality as the source publishes it.
+course,item.campuses[].metro_area,string,yes,"Metro area of the campus, where held (Australia)."
+course,item.campuses[].postcode,string,yes,"Campus postcode, where held (mostly Australia)."
+course,item.campuses[].primary_basis,string,yes,"Why the campus is the provider's main campus, when it is: cricos_head_office (the registered head office matches exactly this campus) or highest_course_count (no single head-office match, so the campus offering the most of the provider's courses). Null for a campus that is not the main campus."
+course,item.campuses[].regional_category,integer,yes,"Australian Home Affairs regional category: 1 major city, 2 regional city, 3 regional centre and other regional area."
+course,item.campuses[].regional_category_name,string,yes,Name of the regional category.
+course,item.campuses[].subdivision_code,string,yes,"State, province or region code (ISO 3166-2), for example AU-VIC."
+course,item.country_code,string,no,ISO 3166-1 alpha-2 country code.
+course,item.course_code,string,yes,The source system's code. Do not show it to visitors; show display_code.
+course,item.course_id,string,no,StudySearch course identifier. The key to store; it never changes.
+course,item.delivery_modes,array<string>,no,How the course is delivered.
+course,item.description,string,yes,Description as published or source-grounded; null when not held.
+course,item.display_code,string,no,"The code to show visitors: the printed code (kind own, for example a CRICOS course code) or a StudySearch code such as UBC-MA-014 (kind studysearch). It never changes."
+course,item.display_code_kind,string,no,Whether display_code is the course's own printed code or a StudySearch code.
+course,item.display_code_label,string,yes,"Label to show with display_code, for example ""CRICOS code""."
+course,item.duration_months,integer,yes,"Course duration in months, from the register or the course page. A duration given in semesters is not converted (null)."
+course,item.empty_reason_code,string,yes,Why fields such as the campus or study mode are empty for this course (REQ-53). Null when nothing needs explaining.
+course,item.english_note,string,yes,"A note about the English requirement, where held."
+course,item.english_requirements,array<object>,no,"English test requirements, one per test. An empty list means not held, not ""no requirement""."
+course,item.english_requirements[].min_band_score,number,yes,"Lowest band or section score asked, where stated."
+course,item.english_requirements[].min_overall_score,number,yes,Minimum overall score on the test's own scale.
+course,item.english_requirements[].score_grade,string,yes,"The overall grade the provider states for the test, as held (for example an OET letter grade A, B, C+ or C); null when no grade is held. Never derived from a number."
+course,item.english_requirements[].source,string,yes,Where the requirement comes from.
+course,item.english_requirements[].subtest_grades,object,yes,"Grades the provider states for each sub-test, as held (for example OET writing B); null when none is held."
+course,item.english_requirements[].test_code,string,no,"English test code from reference, for example IELTS, PTE, TOEFL_IBT, CAE, DET, OET, CELPIP."
+course,item.english_requirements[].test_name,string,yes,English test name.
+course,item.entry,object,yes,Academic entry requirements of the course (always present; null fields mean not held). With edu_country it also carries resolution.
+course,item.entry.benchmark_band,string,yes,"The provider's band this course names, only where the course page prints one."
+course,item.entry.min_score,number,yes,"The course's minimum entry score, shown with min_score_basis."
+course,item.entry.min_score_basis,string,yes,"The words the course page prints with the score, for example ""2027 Guaranteed ATAR""."
+course,item.entry.min_scores,array<object>,no,"Every entry score the course publishes, one per route, as printed. [] when none is held."
+course,item.entry.min_scores[].as_at,date,yes,Date the score was read (YYYY-MM-DD).
+course,item.entry.min_scores[].audience,string,yes,Who the score applies to.
+course,item.entry.min_scores[].basis,string,yes,Short label of the route.
+course,item.entry.min_scores[].quote,string,yes,The provider's own words; show it as the line.
+course,item.entry.min_scores[].scale,string,yes,Grading scale only where the provider states one; never worked out.
+course,item.entry.min_scores[].score,number,yes,The score as printed.
+course,item.entry.min_scores[].source_url,string,yes,The page the score is printed on.
+course,item.entry.prerequisites,array<object>,no,Prerequisites as published.
+course,item.entry.prerequisites[].quote,string,yes,The provider's words.
+course,item.entry.prerequisites[].text,string,yes,The prerequisite.
+course,item.entry.requirements_note,string,yes,Other published entry conditions.
+course,item.entry.resolution,object,yes,The requirement that applies to a student from edu_country; null without edu_country.
+course,item.entry.resolution.band,string,yes,The course band used to enter the provider's band table (step 3 only).
+course,item.entry.resolution.contact,string,yes,"The provider's website for the ""contact the provider"" link, when step is 5."
+course,item.entry.resolution.country,string,yes,"The edu_country sent, in capitals."
+course,item.entry.resolution.note,string,yes,"Why no table row applied, when step is 5."
+course,item.entry.resolution.outcome,string,yes,What to show.
+course,item.entry.resolution.rows,array<object>,no,The published requirement rows that apply.
+course,item.entry.resolution.rows[].as_at,date,yes,Date the row was read.
+course,item.entry.resolution.rows[].band,string,yes,"Provider band, where printed."
+course,item.entry.resolution.rows[].case_by_case,boolean,yes,"True when the row states no minimum on a scale: show ""considered case by case""."
+course,item.entry.resolution.rows[].conditions,object,yes,Extra conditions of the row.
+course,item.entry.resolution.rows[].conditions.alternatives,array<object>,no,Alternative routes.
+course,item.entry.resolution.rows[].conditions.alternatives[].min_grade,string,yes,"Minimum grade for the route, as printed."
+course,item.entry.resolution.rows[].conditions.alternatives[].route,string,yes,The alternative route as printed.
+course,item.entry.resolution.rows[].conditions.best_n,integer,yes,"Best N subjects counted, where stated."
+course,item.entry.resolution.rows[].conditions.place,object,yes,Where the row was read in the source document.
+course,item.entry.resolution.rows[].conditions.place.page,integer,no,Page number in the document.
+course,item.entry.resolution.rows[].conditions.place.x,number,yes,Horizontal position on the page.
+course,item.entry.resolution.rows[].conditions.place.y,number,yes,Vertical position on the page.
+course,item.entry.resolution.rows[].conditions.reader,string,yes,The reader that took the row from the document.
+course,item.entry.resolution.rows[].conditions.section,string,yes,The document section the row is in.
+course,item.entry.resolution.rows[].conditions.subject_minimums,array<object>,no,Subject minimums.
+course,item.entry.resolution.rows[].conditions.subject_minimums[].min_grade,string,yes,"Minimum grade in the subject, as printed."
+course,item.entry.resolution.rows[].conditions.subject_minimums[].subject,string,yes,Subject as printed.
+course,item.entry.resolution.rows[].edition,string,yes,Edition of the source document.
+course,item.entry.resolution.rows[].min_grade,string,yes,Minimum grade exactly as printed; null when none is stated.
+course,item.entry.resolution.rows[].min_score,number,yes,Minimum entry score of a course-page rule (step 1 only).
+course,item.entry.resolution.rows[].min_score_basis,string,yes,The words printed with min_score (step 1 only).
+course,item.entry.resolution.rows[].qualification,string,yes,Qualification as published.
+course,item.entry.resolution.rows[].quote,string,yes,The provider's words.
+course,item.entry.resolution.rows[].scale,string,yes,"Grading scale; ""none"" when the row states no minimum on a scale."
+course,item.entry.resolution.rows[].scale_stated,boolean,yes,False when the provider prints a grade without stating its scale.
+course,item.entry.resolution.rows[].source_url,string,yes,The page the row is printed on.
+course,item.entry.resolution.rows[].study_level,string,yes,The provider's own study level label.
+course,item.entry.resolution.rows[].text,string,yes,A course-page rule in the provider's words (step 1 only).
+course,item.entry.resolution.rule,string,yes,Name of the rule that applied.
+course,item.entry.resolution.step,integer,yes,"The rule that applied, 1 to 5."
+course,item.entry.selection_tasks,array<object>,no,"Selection tasks as published (interview, portfolio, test)."
+course,item.entry.selection_tasks[].quote,string,yes,The provider's words.
+course,item.entry.selection_tasks[].text,string,yes,The selection task.
+course,item.entry_requirements,object,yes,English entry summary. Academic entry is not implied here (see entry on course detail).
+course,item.entry_requirements.basis,string,yes,Where the summary comes from.
+course,item.entry_requirements.summary,string,yes,Short summary of the English requirement.
+course,item.field_of_study_codes,array<object>,no,"Field-of-study codes of the course from the national register, best first: ASCED for Australia today. Empty when none is held; never inferred or crosswalked."
+course,item.field_of_study_codes[].code,string,no,The code as the register publishes it.
+course,item.field_of_study_codes[].evidence_date,date,yes,When the code was read from the register.
+course,item.field_of_study_codes[].level,string,yes,"The level of the code in its scheme (for example broad, narrow or detailed)."
+course,item.field_of_study_codes[].name,string,yes,The name of the code in its scheme.
+course,item.field_of_study_codes[].rank,number,yes,"Order of the codes, 1 first."
+course,item.field_of_study_codes[].scheme,string,no,"The code scheme, for example ASCED."
+course,item.field_of_study_codes[].source_url,string,yes,The register page the code was read from.
+course,item.freshness,object,yes,When the record was last updated.
+course,item.freshness.projection_updated_at,timestamptz,yes,When the API copy of this record was last rebuilt.
+course,item.freshness.source_updated_at,timestamptz,yes,When the source data behind this record last changed.
+course,item.intakes,array<object>,no,Intakes of the course. Months for most courses; dates mostly null.
+course,item.intakes[].application_deadline,date,yes,"Application deadline (YYYY-MM-DD), where published."
+course,item.intakes[].label,string,no,"The intake as the provider names it, for example ""Semester 1""."
+course,item.intakes[].month,integer,no,"Month the intake starts, 1 to 12."
+course,item.intakes[].start_date,date,yes,"Exact start date (YYYY-MM-DD), where published."
+course,item.intakes[].start_date_status,string,yes,Why the exact start date is or is not given.
+course,item.intakes[].year,integer,yes,"Year of the intake, where stated."
+course,item.official_url,string,yes,The provider's own page for this record; null when not verified.
+course,item.other_matches,integer,yes,Number of other courses sharing the same source code.
+course,item.provider,object,yes,The provider (institution) of the record.
+course,item.provider.accreditation_crown,string,yes,"Business school accreditation label (REQ-57): triple_crown when AACSB, EQUIS and AMBA are all held now, double_crown for any two of them, null otherwise."
+course,item.provider.accreditations,array<object>,no,"Business school accreditations held now (REQ-57): active, not expired. An empty list when none is held."
+course,item.provider.accreditations[].accredited_since,date,yes,"When the accreditation was first granted, where the body states it."
+course,item.provider.accreditations[].accredited_unit_name,string,yes,"The school or faculty accredited, as the body lists it; null when the whole provider is."
+course,item.provider.accreditations[].body_code,string,no,"The accrediting body: AACSB, EQUIS or AMBA."
+course,item.provider.accreditations[].expires_at,date,yes,"When the accreditation ends, where the body states it; an expired one is not returned."
+course,item.provider.accreditations[].source_url,string,yes,The body's page the accreditation was read from.
+course,item.provider.accreditations[].verified_at,timestamptz,yes,When the platform last checked the accreditation on that page.
+course,item.provider.institution_type,object,yes,"Institution type from the regulators' registers (TEQSA, CRICOS, NZQA); null for Canada and a few Australian providers."
+course,item.provider.institution_type.basis,string,yes,The register the type comes from.
+course,item.provider.institution_type.code,string,no,Institution type code.
+course,item.provider.institution_type.name,string,no,Institution type name.
+course,item.provider.legal_name,string,yes,Legal name from the register.
+course,item.provider.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+course,item.provider.logo.attribution,string,yes,Attribution to show with the logo.
+course,item.provider.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+course,item.provider.logo.mime_type,string,yes,File type.
+course,item.provider.logo.source_url,string,yes,Where the logo was taken from.
+course,item.provider.logo.terms_status,string,yes,Whether the logo may be shown.
+course,item.provider.logo.updated_at,timestamptz,yes,When the logo last changed.
+course,item.provider.logo.url,string,yes,Signed link to the file; null if signing failed.
+course,item.provider.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+course,item.provider.name,string,no,Name as presented.
+course,item.provider.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+course,item.provider.ranking_summary,object,yes,Latest edition of each world ranking; null where not ranked.
+course,item.provider.ranking_summary.qs_wur,object,yes,"QS World University Rankings, latest edition; null where not ranked."
+course,item.provider.ranking_summary.qs_wur.edition_year,integer,no,Ranking edition year.
+course,item.provider.ranking_summary.qs_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+course,item.provider.ranking_summary.qs_wur.rank_low,integer,yes,Best rank of the published range.
+course,item.provider.ranking_summary.qs_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+course,item.provider.ranking_summary.the_wur,object,yes,"Times Higher Education World University Rankings, latest edition; null where not ranked."
+course,item.provider.ranking_summary.the_wur.edition_year,integer,no,Ranking edition year.
+course,item.provider.ranking_summary.the_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+course,item.provider.ranking_summary.the_wur.rank_low,integer,yes,Best rank of the published range.
+course,item.provider.ranking_summary.the_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+course,item.provider.university_groups,array<object>,no,University groups the provider belongs to.
+course,item.provider.university_groups[].code,string,no,Group code.
+course,item.provider.university_groups[].name,string,no,Group name.
+course,item.provider_outcomes,array<object>,no,"The provider's QILT statistics (Australia), by study level. Provider level only, never per course."
+course,item.provider_outcomes[].ci_high,number,yes,Upper bound of the confidence interval.
+course,item.provider_outcomes[].ci_low,number,yes,Lower bound of the confidence interval.
+course,item.provider_outcomes[].grain,string,yes,What the figure belongs to (for example provider and study level).
+course,item.provider_outcomes[].metric_code,string,yes,Measure code.
+course,item.provider_outcomes[].metric_name,string,yes,Measure name.
+course,item.provider_outcomes[].national_benchmark,number,yes,"National figure for the same measure, where published."
+course,item.provider_outcomes[].reference_year,integer,yes,Survey reference year.
+course,item.provider_outcomes[].responses,integer,yes,"Number of responses, where published."
+course,item.provider_outcomes[].study_level,string,yes,"Study level of the measure: UG, PGC, PGR or ALL."
+course,item.provider_outcomes[].study_level_name,string,yes,"Study level name of the measure (UG, PGC, PGR, ALL)."
+course,item.provider_outcomes[].survey,string,yes,QILT survey code.
+course,item.provider_outcomes[].survey_name,string,yes,QILT survey name.
+course,item.provider_outcomes[].unit,string,yes,Unit of the value.
+course,item.provider_outcomes[].value,number,yes,"Value of the measure, in unit."
+course,item.provider_outcomes_state,string,yes,Whether QILT statistics are held for the provider.
+course,item.publication_status,string,yes,Publication state of the record. Every record returned is published.
+course,item.recognition,array<object>,no,Official registrations of the course. CRICOS for Australia; empty when none is held.
+course,item.recognition[].authority,string,yes,The body that keeps the register.
+course,item.recognition[].checked_on,date,yes,Date StudySearch last checked the register.
+course,item.recognition[].code,string,no,Code on the register.
+course,item.recognition[].evidence_date,date,yes,Date of the register evidence.
+course,item.recognition[].scheme,string,yes,"Register, for example CRICOS."
+course,item.recognition[].source_url,string,yes,The register page.
+course,item.recognition[].status,string,yes,Status on the register.
+course,item.scholarship_count,integer,yes,Linked published scholarships.
+course,item.scholarships,array<object>,no,Scholarships linked to the course.
+course,item.scholarships[].amount_is_maximum,boolean,yes,"True for ""up to"" amounts."
+course,item.scholarships[].amount_note,string,yes,The amount as the provider words it.
+course,item.scholarships[].application_deadline,date,yes,"Application deadline (YYYY-MM-DD), where the page states one."
+course,item.scholarships[].name,string,no,Scholarship name.
+course,item.scholarships[].official_url,string,yes,The scholarship's official page.
+course,item.scholarships[].saving_currency,string,yes,Currency of saving_per_year.
+course,item.scholarships[].saving_per_year,number,yes,"Saving per year on this course, where it can be stated."
+course,item.scholarships[].scholarship_id,string,no,StudySearch scholarship identifier.
+course,item.study_area,object,yes,Field of study (ASCED narrow field in Australia).
+course,item.study_area.code,string,no,"Study area code from reference, for example asced-0603."
+course,item.study_area.name,string,no,Study area name.
+course,item.study_level,object,yes,Study level of the course.
+course,item.study_level.code,string,no,"Study level code from reference, for example bachelor or masters_coursework."
+course,item.study_level.name,string,no,Study level name.
+course,item.study_load,string,yes,"Study load the provider states for international students (REQ-52): full_time, part_time or both. Null until it has been read from the provider or a register."
+course,item.study_load_basis,string,yes,"Where the study load comes from (REQ-52): provider_page (read from the provider's page), register (stated by a register), register_rule (full_time from the CRICOS registration: international students on a student visa must study full time; replaced by any reading) or manual (a person decided). Null when no study load is held."
+course,item.subdivision_codes,array<string>,no,The states or provinces of the course's campuses; a Canadian course with no campus takes its provider's province.
+course,item.title,string,no,Course title as published.
+course,item.tuition,object,yes,The provider's current international tuition fee; null when not held. A whole-course total is never presented as per year.
+course,item.tuition.amount,number,yes,"The fee as published, in tuition.currency."
+course,item.tuition.annual_amount,number,yes,"The stated annual figure, or one derived from a course total for courses of 12 months or more (then annual_is_derived is true). Null for per-session and unspecified figures."
+course,item.tuition.annual_is_derived,boolean,yes,True when annual_amount was worked out from a whole-course total.
+course,item.tuition.basis,string,yes,What the amount covers.
+course,item.tuition.basis_label,string,yes,The provider's own words for the basis.
+course,item.tuition.currency,string,yes,"Currency of the fee: the course's own (AUD, NZD or CAD). There is no conversion."
+course,item.tuition.source,string,yes,Where the fee comes from: the provider's current fee page (preferred) or the CRICOS registered course total.
+course,item.tuition.year,integer,yes,"The year the fee applies to, where stated."
+course,item.tuition_history,array<object>,no,"Every tuition year held, latest first."
+course,item.tuition_history[].amount,number,yes,The fee as published.
+course,item.tuition_history[].basis,string,yes,What the amount covers (as tuition.basis).
+course,item.tuition_history[].currency,string,yes,Currency of the fee.
+course,item.tuition_history[].source,string,yes,Where the fee comes from (as tuition.source).
+course,item.tuition_history[].year,integer,yes,"The year the fee applies to, where stated."
+course,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+destination,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+destination,career_outcomes,array<object>,no,Approved occupation outcomes of the published edition. Empty until an edition is loaded and approved.
+destination,career_outcomes[].attribution,string,yes,Attribution to show with the figures.
+destination,career_outcomes[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+destination,career_outcomes[].currency_code,string,yes,ISO 4217 currency of the earnings.
+destination,career_outcomes[].dataset_edition,string,yes,The dataset edition the figures come from.
+destination,career_outcomes[].demand_rating,string,yes,The source outlook or demand rating.
+destination,career_outcomes[].earnings_period,string,no,"annual, weekly or hourly."
+destination,career_outcomes[].employment_count,number,yes,"Number employed in the occupation, as the source states it (JSA OSCA Table 1: employment in main job, 2021 Census). Null where the source gives none."
+destination,career_outcomes[].employment_rate_pct,number,yes,"Employment rate, per cent."
+destination,career_outcomes[].geography_level,string,no,"The area the figure is for: national, state (state_code is set) or locality (locality_id is set)."
+destination,career_outcomes[].locality_id,string,yes,Locality the figure is for; null for a national figure.
+destination,career_outcomes[].median_annual_earnings,number,yes,Median annual earnings; null when the source does not publish an annual figure.
+destination,career_outcomes[].median_earnings,number,yes,Median earnings for the period in earnings_period.
+destination,career_outcomes[].occupation_code,string,no,Occupation code in its native scheme.
+destination,career_outcomes[].occupation_scheme,string,no,"ANZSCO, NOC or SOC."
+destination,career_outcomes[].occupation_title,string,no,Occupation title as the source publishes it.
+destination,career_outcomes[].outcome_id,string,no,Stable identifier of the outcome row.
+destination,career_outcomes[].reference_period,string,yes,The period the figures refer to.
+destination,career_outcomes[].skill_shortage_status,string,yes,"national_shortage, regional_shortage, no_shortage or unknown."
+destination,career_outcomes[].source_url,string,no,The official page of the figures.
+destination,career_outcomes[].state_code,string,yes,State or territory code (for example NSW) when geography_level is state; otherwise null.
+destination,filters,object,no,"The filters applied: country_code, section, postcode, locality_id."
+destination,filters.country_code,string,yes,The country code the request filtered by.
+destination,filters.locality_id,string,yes,The locality the request filtered by.
+destination,filters.postcode,string,yes,The postcode the request filtered by.
+destination,filters.section,string,yes,"The section the request asked for: localities, study_rules or career_outcomes."
+destination,localities,array<object>,no,Approved localities (for example an ABS Significant Urban Area). Empty until data is loaded and approved.
+destination,localities[].attribution,string,no,Attribution to show with the locality and its figures.
+destination,localities[].boundary_vintage,string,no,"The boundary edition the locality is drawn on, for example ASGS_2021_ED3."
+destination,localities[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+destination,localities[].dataset_edition,string,no,The dataset edition the locality was loaded from.
+destination,localities[].geography_code,string,no,The source code of the locality in that geography.
+destination,localities[].geography_type,string,no,"The official geography the locality belongs to, for example SUA."
+destination,localities[].locality_id,string,no,Stable identifier of the locality.
+destination,localities[].metrics,array<object>,no,"Approved figures for the locality: population, climate and living cost."
+destination,localities[].metrics[].attribution,string,no,Attribution to show beside the figure.
+destination,localities[].metrics[].category,string,no,"population, climate or living_cost."
+destination,localities[].metrics[].currency_code,string,yes,ISO 4217 currency of a money figure; null otherwise.
+destination,localities[].metrics[].dataset_edition,string,no,The dataset edition the figure comes from.
+destination,localities[].metrics[].key,string,no,"The measure, for example erp_persons."
+destination,localities[].metrics[].reference_period,string,no,The date or period the figure refers to.
+destination,localities[].metrics[].source_url,string,no,The official page of the figure.
+destination,localities[].metrics[].unit,string,no,Unit of the figure.
+destination,localities[].metrics[].value,number,no,"The figure, in its native unit."
+destination,localities[].name,string,no,Name of the locality as the source publishes it.
+destination,page,integer,no,The page returned.
+destination,page_size,integer,no,Rows of each kind per page; capped by the platform.
+destination,request_id,string,no,"Identifier of this call, for support."
+destination,study_rules,array<object>,no,Approved study rules of the published edition that are in effect today. Empty until rules are loaded and approved.
+destination,study_rules[].applicability,array<object>,no,Where the rule is proven to apply or is excluded.
+destination,study_rules[].applicability[].entity_code,string,yes,"Code of the entity, for example a state code."
+destination,study_rules[].applicability[].entity_id,string,yes,Identifier of the entity; null for a state.
+destination,study_rules[].applicability[].entity_type,string,no,"country, state, locality, provider or course."
+destination,study_rules[].applicability[].evidence_url,string,no,The page that shows it.
+destination,study_rules[].applicability[].quote_on_page,string,yes,The words on that page.
+destination,study_rules[].applicability[].status,string,no,proven or excluded.
+destination,study_rules[].applicability[].verified_at,timestamptz,no,When it was verified.
+destination,study_rules[].applicant_scope,string,yes,"Who the rule applies to, as the source states it."
+destination,study_rules[].attribution,string,no,Attribution to show with the rule.
+destination,study_rules[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+destination,study_rules[].currency_code,string,yes,ISO 4217 currency of the threshold; null otherwise.
+destination,study_rules[].edition,string,no,Label of the published edition.
+destination,study_rules[].effective_from,date,yes,First day the rule applies.
+destination,study_rules[].effective_to,date,yes,Last day the rule applies; null when open.
+destination,study_rules[].evidence_date,date,yes,The day the page was read.
+destination,study_rules[].numeric_threshold,number,yes,"The amount or number the rule sets, when it sets one."
+destination,study_rules[].quote_on_page,string,yes,The words on the page the rule rests on.
+destination,study_rules[].rule_category,string,yes,"application_route, visa_funds, work_rights, post_study_work, visa_fee or processing_time; null for a visa summary row."
+destination,study_rules[].rule_id,string,no,Stable identifier of the rule.
+destination,study_rules[].source_url,string,no,The official page of the rule.
+destination,study_rules[].state_code,string,yes,State or province the rule is limited to; null for a national rule.
+destination,study_rules[].summary,string,yes,Plain summary of the rule.
+destination,study_rules[].title,string,yes,Short title of the rule.
+destination,study_rules[].visa,object,yes,"Visa summary (subclass, name, fee, funds, work hours, post-study work, processing times); null for a rule that is not a visa row."
+destination,totals,object,no,Rows available of each kind for these filters.
+destination,totals.career_outcomes,integer,no,Career outcomes available.
+destination,totals.localities,integer,no,Localities available.
+destination,totals.study_rules,integer,no,Study rules available.
+provider,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+provider,contract_version,string,yes,"The contract the database function answered with (for example website-search-v2), beside api_version."
+provider,item,object,no,The requested record.
+provider,item.accreditation_crown,string,yes,"Business school accreditation label (REQ-57): triple_crown when AACSB, EQUIS and AMBA are all held now, double_crown for any two of them, null otherwise."
+provider,item.accreditations,array<object>,no,"Business school accreditations held now (REQ-57): active, not expired. An empty list when none is held."
+provider,item.accreditations[].accredited_since,date,yes,"When the accreditation was first granted, where the body states it."
+provider,item.accreditations[].accredited_unit_name,string,yes,"The school or faculty accredited, as the body lists it; null when the whole provider is."
+provider,item.accreditations[].body_code,string,no,"The accrediting body: AACSB, EQUIS or AMBA."
+provider,item.accreditations[].expires_at,date,yes,"When the accreditation ends, where the body states it; an expired one is not returned."
+provider,item.accreditations[].source_url,string,yes,The body's page the accreditation was read from.
+provider,item.accreditations[].verified_at,timestamptz,yes,When the platform last checked the accreditation on that page.
+provider,item.campuses,array<object>,no,"Campuses of the provider, one item per campus."
+provider,item.campuses[].campus_id,string,no,StudySearch campus identifier.
+provider,item.campuses[].campus_name,string,yes,Campus name as the provider gives it; null when not held.
+provider,item.campuses[].city,string,yes,Campus city.
+provider,item.campuses[].course_count,integer,yes,Published courses linked to this campus.
+provider,item.campuses[].is_primary,boolean,no,True for the provider's main campus (one per provider at most); false otherwise. primary_basis says why. Null where not held.
+provider,item.campuses[].locality,object,yes,"The approved locality the campus postcode maps to: the primary match in an approved or published locality, newest boundary first; null until the postcode has one."
+provider,item.campuses[].locality.boundary_vintage,string,no,"The boundary edition the locality is drawn on, for example ASGS_2021_ED3."
+provider,item.campuses[].locality.geography_code,string,no,The source code of the locality in that geography.
+provider,item.campuses[].locality.geography_type,string,no,"The official geography the locality belongs to, for example SUA."
+provider,item.campuses[].locality.locality_id,string,no,Stable identifier of the locality (as in the destination action).
+provider,item.campuses[].locality.match_share,number,no,"Share of the postcode inside the locality, from 0 to 1."
+provider,item.campuses[].locality.name,string,no,Name of the locality as the source publishes it.
+provider,item.campuses[].metro_area,string,yes,"Metro area of the campus, where held (Australia)."
+provider,item.campuses[].postcode,string,yes,"Campus postcode, where held (mostly Australia)."
+provider,item.campuses[].primary_basis,string,yes,"Why the campus is the provider's main campus, when it is: cricos_head_office (the registered head office matches exactly this campus) or highest_course_count (no single head-office match, so the campus offering the most of the provider's courses). Null for a campus that is not the main campus."
+provider,item.campuses[].regional_category,integer,yes,"Australian Home Affairs regional category: 1 major city, 2 regional city, 3 regional centre and other regional area."
+provider,item.campuses[].regional_category_name,string,yes,Name of the regional category.
+provider,item.campuses[].subdivision_code,string,yes,"State, province or region code (ISO 3166-2), for example AU-VIC."
+provider,item.country_code,string,no,ISO 3166-1 alpha-2 country code.
+provider,item.course_count,integer,yes,Published courses.
+provider,item.description,string,yes,Description as published or source-grounded; null when not held.
+provider,item.entry_matrix,array<object>,no,Academic entry requirements the provider publishes by country of prior education; narrowed to one country with edu_country.
+provider,item.entry_matrix[].as_at,date,yes,Date the row was read.
+provider,item.entry_matrix[].band,string,yes,"Provider band, where printed."
+provider,item.entry_matrix[].conditions,object,yes,"Extra conditions of the row: best of N subjects, subject minimums and alternative routes."
+provider,item.entry_matrix[].conditions.alternatives,array<object>,no,Alternative routes.
+provider,item.entry_matrix[].conditions.alternatives[].min_grade,string,yes,"Minimum grade for the route, as printed."
+provider,item.entry_matrix[].conditions.alternatives[].route,string,yes,The alternative route as printed.
+provider,item.entry_matrix[].conditions.best_n,integer,yes,"Best N subjects counted, where stated."
+provider,item.entry_matrix[].conditions.place,object,yes,Where the row was read in the source document.
+provider,item.entry_matrix[].conditions.place.page,integer,no,Page number in the document.
+provider,item.entry_matrix[].conditions.place.x,number,yes,Horizontal position on the page.
+provider,item.entry_matrix[].conditions.place.y,number,yes,Vertical position on the page.
+provider,item.entry_matrix[].conditions.reader,string,yes,The reader that took the row from the document.
+provider,item.entry_matrix[].conditions.section,string,yes,The document section the row is in.
+provider,item.entry_matrix[].conditions.subject_minimums,array<object>,no,Subject minimums.
+provider,item.entry_matrix[].conditions.subject_minimums[].min_grade,string,yes,"Minimum grade in the subject, as printed."
+provider,item.entry_matrix[].conditions.subject_minimums[].subject,string,yes,Subject as printed.
+provider,item.entry_matrix[].country,string,yes,Country of prior education (ISO alpha-2).
+provider,item.entry_matrix[].course_code,string,yes,"Course code, only on rows for one course."
+provider,item.entry_matrix[].min_grade,string,yes,Minimum grade as printed.
+provider,item.entry_matrix[].qualification,string,yes,Qualification as published.
+provider,item.entry_matrix[].quote,string,yes,The provider's words.
+provider,item.entry_matrix[].scale,string,yes,"Grading scale; ""none"" means no minimum on a scale (case by case)."
+provider,item.entry_matrix[].scale_stated,boolean,yes,False when the provider prints a grade without stating its scale.
+provider,item.entry_matrix[].source_url,string,yes,The page the row is printed on.
+provider,item.entry_matrix[].study_level,string,yes,The provider's own study level label.
+provider,item.institution_type,object,yes,"Institution type from the regulators' registers (TEQSA, CRICOS, NZQA); null for Canada and a few Australian providers."
+provider,item.institution_type.basis,string,yes,The register the type comes from.
+provider,item.institution_type.code,string,no,Institution type code.
+provider,item.institution_type.name,string,no,Institution type name.
+provider,item.legal_name,string,yes,Legal name from the register.
+provider,item.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+provider,item.logo.attribution,string,yes,Attribution to show with the logo.
+provider,item.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+provider,item.logo.mime_type,string,yes,File type.
+provider,item.logo.source_url,string,yes,Where the logo was taken from.
+provider,item.logo.terms_status,string,yes,Whether the logo may be shown.
+provider,item.logo.updated_at,timestamptz,yes,When the logo last changed.
+provider,item.logo.url,string,yes,Signed link to the file; null if signing failed.
+provider,item.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+provider,item.name,string,no,Name as presented.
+provider,item.outcomes,array<object>,no,"QILT statistics for Australian providers, by study level. Provider level only. Empty for New Zealand and Canada."
+provider,item.outcomes[].ci_high,number,yes,Upper bound of the confidence interval.
+provider,item.outcomes[].ci_low,number,yes,Lower bound of the confidence interval.
+provider,item.outcomes[].grain,string,yes,What the figure belongs to (for example provider and study level).
+provider,item.outcomes[].metric_code,string,yes,Measure code.
+provider,item.outcomes[].metric_name,string,yes,Measure name.
+provider,item.outcomes[].national_benchmark,number,yes,"National figure for the same measure, where published."
+provider,item.outcomes[].reference_year,integer,yes,Survey reference year.
+provider,item.outcomes[].responses,integer,yes,"Number of responses, where published."
+provider,item.outcomes[].study_level,string,yes,"Study level of the measure: UG, PGC, PGR or ALL."
+provider,item.outcomes[].study_level_name,string,yes,"Study level name of the measure (UG, PGC, PGR, ALL)."
+provider,item.outcomes[].survey,string,yes,QILT survey code.
+provider,item.outcomes[].survey_name,string,yes,QILT survey name.
+provider,item.outcomes[].unit,string,yes,Unit of the value.
+provider,item.outcomes[].value,number,yes,"Value of the measure, in unit."
+provider,item.outcomes_state,string,yes,Whether QILT statistics are held for the provider.
+provider,item.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+provider,item.publication_status,string,yes,Publication state of the record. Every record returned is published.
+provider,item.ranking_summary,object,yes,Latest edition of each world ranking; null where not ranked.
+provider,item.ranking_summary.qs_wur,object,yes,"QS World University Rankings, latest edition; null where not ranked."
+provider,item.ranking_summary.qs_wur.edition_year,integer,no,Ranking edition year.
+provider,item.ranking_summary.qs_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+provider,item.ranking_summary.qs_wur.rank_low,integer,yes,Best rank of the published range.
+provider,item.ranking_summary.qs_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+provider,item.ranking_summary.the_wur,object,yes,"Times Higher Education World University Rankings, latest edition; null where not ranked."
+provider,item.ranking_summary.the_wur.edition_year,integer,no,Ranking edition year.
+provider,item.ranking_summary.the_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+provider,item.ranking_summary.the_wur.rank_low,integer,yes,Best rank of the published range.
+provider,item.ranking_summary.the_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+provider,item.rankings,array<object>,no,"Every ranking edition held, with indicators."
+provider,item.rankings[].attribution,string,yes,Attribution to show with every ranking.
+provider,item.rankings[].edition_year,integer,no,Ranking edition year.
+provider,item.rankings[].indicators,array<object>,no,Indicator scores as published.
+provider,item.rankings[].indicators[].code,string,no,Indicator code.
+provider,item.rankings[].indicators[].label,string,no,Indicator label.
+provider,item.rankings[].indicators[].rank_display,string,yes,"Indicator rank as published, where given."
+provider,item.rankings[].indicators[].value_display,string,yes,Indicator score as published.
+provider,item.rankings[].is_tied,boolean,yes,True when the rank is shared.
+provider,item.rankings[].methodology_url,string,yes,The publisher's methodology page.
+provider,item.rankings[].overall_score_display,string,yes,Overall score as published.
+provider,item.rankings[].publisher,string,yes,Ranking publisher.
+provider,item.rankings[].rank_display,string,no,"Rank exactly as published, for example 201-250."
+provider,item.rankings[].rank_high,integer,yes,Worst rank of the published range.
+provider,item.rankings[].rank_low,integer,yes,Best rank of the published range.
+provider,item.rankings[].source_url,string,yes,The source page.
+provider,item.rankings[].system_code,string,no,Ranking system.
+provider,item.rankings[].system_name,string,yes,Ranking system name.
+provider,item.rankings[].terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+provider,item.scholarship_count,integer,yes,Linked published scholarships.
+provider,item.scholarships_last_reviewed_at,timestamptz,yes,When that page was last read.
+provider,item.scholarships_page_url,string,yes,The provider's scholarships listing page StudySearch reads.
+provider,item.study_areas_offered,array<object>,no,"Study areas offered, with course counts."
+provider,item.study_areas_offered[].code,string,no,Study area code.
+provider,item.study_areas_offered[].courses,integer,yes,Courses in this area.
+provider,item.study_areas_offered[].name,string,no,Study area name.
+provider,item.study_levels_offered,array<object>,no,"Study levels offered, with course counts."
+provider,item.study_levels_offered[].code,string,no,Study level code.
+provider,item.study_levels_offered[].courses,integer,yes,Courses at this level.
+provider,item.study_levels_offered[].name,string,no,Study level name.
+provider,item.university_groups,array<object>,no,University groups the provider belongs to.
+provider,item.university_groups[].code,string,no,Group code.
+provider,item.university_groups[].name,string,no,Group name.
+provider,item.website,string,yes,Official website.
+provider,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+providers,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+providers,filters_not_applied,array<string>,no,"Filter keys sent that the API does not recognise. They are listed, never silently ignored."
+providers,items,array<object>,no,The items of this page.
+providers,items[].campuses,array<object>,no,"Campuses of the provider, one item per campus."
+providers,items[].campuses[].campus_id,string,no,StudySearch campus identifier.
+providers,items[].campuses[].campus_name,string,yes,Campus name as the provider gives it; null when not held.
+providers,items[].campuses[].city,string,yes,Campus city.
+providers,items[].campuses[].course_count,integer,yes,Published courses linked to this campus.
+providers,items[].campuses[].metro_area,string,yes,"Metro area of the campus, where held (Australia)."
+providers,items[].campuses[].postcode,string,yes,"Campus postcode, where held (mostly Australia)."
+providers,items[].campuses[].regional_category,integer,yes,"Australian Home Affairs regional category: 1 major city, 2 regional city, 3 regional centre and other regional area."
+providers,items[].campuses[].regional_category_name,string,yes,Name of the regional category.
+providers,items[].campuses[].subdivision_code,string,yes,"State, province or region code (ISO 3166-2), for example AU-VIC."
+providers,items[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+providers,items[].course_count,integer,yes,Published courses.
+providers,items[].institution_type,object,yes,"Institution type from the regulators' registers (TEQSA, CRICOS, NZQA); null for Canada and a few Australian providers."
+providers,items[].institution_type.basis,string,yes,The register the type comes from.
+providers,items[].institution_type.code,string,no,Institution type code.
+providers,items[].institution_type.name,string,no,Institution type name.
+providers,items[].legal_name,string,yes,Legal name from the register.
+providers,items[].logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+providers,items[].logo.attribution,string,yes,Attribution to show with the logo.
+providers,items[].logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+providers,items[].logo.mime_type,string,yes,File type.
+providers,items[].logo.source_url,string,yes,Where the logo was taken from.
+providers,items[].logo.terms_status,string,yes,Whether the logo may be shown.
+providers,items[].logo.updated_at,timestamptz,yes,When the logo last changed.
+providers,items[].logo.url,string,yes,Signed link to the file; null if signing failed.
+providers,items[].logo.url_expires_at,timestamptz,yes,When the signed link ends.
+providers,items[].name,string,no,Name as presented.
+providers,items[].provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+providers,items[].publication_status,string,yes,Publication state of the record. Every record returned is published.
+providers,items[].ranking_summary,object,yes,Latest edition of each world ranking; null where not ranked.
+providers,items[].ranking_summary.qs_wur,object,yes,"QS World University Rankings, latest edition; null where not ranked."
+providers,items[].ranking_summary.qs_wur.edition_year,integer,no,Ranking edition year.
+providers,items[].ranking_summary.qs_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+providers,items[].ranking_summary.qs_wur.rank_low,integer,yes,Best rank of the published range.
+providers,items[].ranking_summary.qs_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+providers,items[].ranking_summary.the_wur,object,yes,"Times Higher Education World University Rankings, latest edition; null where not ranked."
+providers,items[].ranking_summary.the_wur.edition_year,integer,no,Ranking edition year.
+providers,items[].ranking_summary.the_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+providers,items[].ranking_summary.the_wur.rank_low,integer,yes,Best rank of the published range.
+providers,items[].ranking_summary.the_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+providers,items[].scholarship_count,integer,yes,Linked published scholarships.
+providers,items[].scholarships_last_reviewed_at,timestamptz,yes,When that page was last read.
+providers,items[].scholarships_page_url,string,yes,The provider's scholarships listing page StudySearch reads.
+providers,items[].study_areas_offered,array<object>,no,"Study areas offered, with course counts."
+providers,items[].study_areas_offered[].code,string,no,Study area code.
+providers,items[].study_areas_offered[].courses,integer,yes,Courses in this area.
+providers,items[].study_areas_offered[].name,string,no,Study area name.
+providers,items[].study_levels_offered,array<object>,no,"Study levels offered, with course counts."
+providers,items[].study_levels_offered[].code,string,no,Study level code.
+providers,items[].study_levels_offered[].courses,integer,yes,Courses at this level.
+providers,items[].study_levels_offered[].name,string,no,Study level name.
+providers,items[].university_groups,array<object>,no,University groups the provider belongs to.
+providers,items[].university_groups[].code,string,no,Group code.
+providers,items[].university_groups[].name,string,no,Group name.
+providers,items[].website,string,yes,Official website.
+providers,page,integer,no,"This page number, from 1."
+providers,page_size,integer,no,Items per page asked for.
+providers,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+providers,sort,string,yes,"The order the items are in (the sort asked for, or the default)."
+providers,total,integer,no,"Number of items that match, over all pages."
+rankings,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+rankings,filters_not_applied,array<string>,no,"Filter keys sent that the API does not recognise. They are listed, never silently ignored."
+rankings,items,array<object>,no,The items of this page.
+rankings,items[].attribution,string,yes,Attribution to show with every ranking.
+rankings,items[].edition_year,integer,no,Ranking edition year.
+rankings,items[].indicators,array<object>,no,Indicator scores as published.
+rankings,items[].indicators[].code,string,no,Indicator code.
+rankings,items[].indicators[].label,string,no,Indicator label.
+rankings,items[].indicators[].rank_display,string,no,"Indicator rank as published, where given."
+rankings,items[].indicators[].value_display,string,yes,Indicator score as published.
+rankings,items[].is_tied,boolean,yes,True when the rank is shared.
+rankings,items[].methodology_url,string,yes,The publisher's methodology page.
+rankings,items[].overall_score_display,string,yes,Overall score as published.
+rankings,items[].provider,object,yes,The provider (institution) of the record.
+rankings,items[].provider.country_code,string,no,ISO 3166-1 alpha-2 country code.
+rankings,items[].provider.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+rankings,items[].provider.logo.attribution,string,yes,Attribution to show with the logo.
+rankings,items[].provider.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+rankings,items[].provider.logo.mime_type,string,yes,File type.
+rankings,items[].provider.logo.source_url,string,yes,Where the logo was taken from.
+rankings,items[].provider.logo.terms_status,string,yes,Whether the logo may be shown.
+rankings,items[].provider.logo.updated_at,timestamptz,yes,When the logo last changed.
+rankings,items[].provider.logo.url,string,yes,Signed link to the file; null if signing failed.
+rankings,items[].provider.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+rankings,items[].provider.name,string,no,Name as presented.
+rankings,items[].provider.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+rankings,items[].publisher,string,yes,Ranking publisher.
+rankings,items[].rank_display,string,no,"Rank exactly as published, for example 201-250."
+rankings,items[].rank_high,integer,yes,Worst rank of the published range.
+rankings,items[].rank_low,integer,yes,Best rank of the published range.
+rankings,items[].source_url,string,yes,The source page.
+rankings,items[].system_code,string,no,Ranking system.
+rankings,items[].system_name,string,yes,Ranking system name.
+rankings,items[].terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+rankings,page,integer,no,"This page number, from 1."
+rankings,page_size,integer,no,Items per page asked for.
+rankings,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+rankings,total,integer,no,"Number of items that match, over all pages."
+reference,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+reference,countries,array<object>,no,"Countries held, with their vocabularies and course counts."
+reference,countries[].cities,array<object>,no,Campus cities with course counts.
+reference,countries[].cities[].city,string,yes,Campus city name.
+reference,countries[].cities[].courses,integer,yes,Courses with a campus in the city.
+reference,countries[].cities[].metro_area,string,yes,"Metro area, where held."
+reference,countries[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+reference,countries[].courses,integer,yes,Courses held for the country.
+reference,countries[].english_tests,array<object>,no,English tests held for the country.
+reference,countries[].english_tests[].code,string,no,English test code.
+reference,countries[].english_tests[].courses,integer,yes,Courses holding a requirement for the test.
+reference,countries[].intake_months,array<object>,no,Intake months with course counts.
+reference,countries[].intake_months[].courses,integer,yes,Courses with an intake in the month.
+reference,countries[].intake_months[].month,integer,no,"Month, 1 to 12."
+reference,countries[].study_areas,array<object>,no,Study areas with course counts.
+reference,countries[].study_areas[].code,string,no,Study area code.
+reference,countries[].study_areas[].courses,integer,yes,Courses in the study area.
+reference,countries[].study_areas[].name,string,no,Study area name.
+reference,countries[].study_levels,array<object>,no,Study levels with course counts.
+reference,countries[].study_levels[].code,string,no,Study level code.
+reference,countries[].study_levels[].courses,integer,yes,Courses at the level.
+reference,countries[].study_levels[].name,string,no,Study level name.
+reference,countries[].subdivisions,array<object>,no,States and regions with course counts.
+reference,countries[].subdivisions[].code,string,no,Subdivision code.
+reference,countries[].subdivisions[].courses,integer,yes,Courses in the state or region.
+reference,course_sorts,array<string>,no,Sorts the search action takes.
+reference,generated_at,timestamptz,yes,When the reference lists were built.
+reference,institution_types,array<object>,no,Institution types with provider counts.
+reference,institution_types[].code,string,no,Institution type code.
+reference,institution_types[].description,string,yes,What the type covers.
+reference,institution_types[].name,string,no,Institution type name.
+reference,institution_types[].providers,integer,yes,Providers of the type.
+reference,provider_sorts,array<string>,no,Sorts the providers action takes.
+reference,ranking_systems,array<object>,no,Ranking systems held.
+reference,ranking_systems[].code,string,no,System code.
+reference,ranking_systems[].name,string,no,Ranking system name.
+reference,ranking_systems[].publisher,string,yes,Ranking publisher.
+reference,ranking_systems[].terms_status,string,yes,Whether the publisher's terms allow display.
+reference,regional_categories,array<object>,no,Australian regional categories.
+reference,regional_categories[].code,number,no,"Category, 1 to 3."
+reference,regional_categories[].name,string,no,Regional category name.
+reference,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+reference,scholarship_amount_types,array<string>,no,Scholarship amount types.
+reference,scholarship_student_types,array<string>,no,Scholarship student types.
+reference,scholarship_study_stages,array<string>,no,Scholarship study stages.
+reference,university_groups,array<object>,no,University groups the provider belongs to.
+reference,university_groups[].code,string,no,Group code.
+reference,university_groups[].members,integer,yes,Member providers held.
+reference,university_groups[].name,string,no,Group name.
+scholarship,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+scholarship,item,object,no,The requested record.
+scholarship,item.academic_minimum,object,yes,"Academic minimum with its scale (ATAR, GPA and percentages stay on their own scale)."
+scholarship,item.academic_minimum.scale,string,yes,"Scale of the minimum (for example ATAR, GPA, percent)."
+scholarship,item.academic_minimum.text,string,yes,The provider's words.
+scholarship,item.academic_minimum.value,number,yes,The academic minimum.
+scholarship,item.academic_year,integer,yes,Academic year of the award.
+scholarship,item.age_max,integer,yes,"Maximum age, where stated."
+scholarship,item.age_min,integer,yes,"Minimum age, where stated."
+scholarship,item.amount_currency,string,yes,Currency of a fixed amount.
+scholarship,item.amount_is_maximum,boolean,yes,"True for ""up to"" amounts."
+scholarship,item.amount_note,string,yes,The amount as the provider words it.
+scholarship,item.amount_type,string,yes,Kind of amount.
+scholarship,item.amount_type_detail,string,yes,Finer kind of amount.
+scholarship,item.amount_value,number,yes,"Amount or percentage, as amount_type says."
+scholarship,item.application,object,yes,How to apply.
+scholarship,item.application.method,string,yes,How the award is given.
+scholarship,item.application.rolling,boolean,yes,True when applications are rolling.
+scholarship,item.application.url,string,yes,Application page.
+scholarship,item.application_closing_date,date,yes,"Application closing date, where stated."
+scholarship,item.application_deadline,date,yes,"Application deadline (YYYY-MM-DD), only where the page states one."
+scholarship,item.application_open_date,date,yes,"Application opening date, where stated."
+scholarship,item.automatic_consideration,boolean,yes,True when students are considered without applying.
+scholarship,item.award_code,string,yes,The award's own code.
+scholarship,item.award_duration,object,yes,How long the award lasts.
+scholarship,item.award_duration.unit,string,yes,Unit of the duration (for example year).
+scholarship,item.award_duration.value,number,yes,Number of units the award lasts.
+scholarship,item.award_tiers,array<object>,no,Award tiers.
+scholarship,item.award_tiers[].amount,number,yes,Amount of the tier.
+scholarship,item.award_tiers[].basis,string,yes,Basis of the amount.
+scholarship,item.award_tiers[].currency,string,yes,Currency of the tier amount.
+scholarship,item.award_tiers[].label,string,no,Tier label.
+scholarship,item.award_tiers[].maximum_amount,number,yes,Maximum amount of the tier.
+scholarship,item.award_tiers[].notes,string,yes,"Notes on the tier, as published."
+scholarship,item.award_tiers[].percentage,number,yes,Percentage of tuition the tier covers.
+scholarship,item.award_type,string,yes,Kind of award.
+scholarship,item.benefits,array<object>,no,"What the award gives, one item per benefit."
+scholarship,item.benefits[].amount,number,yes,Amount of the benefit.
+scholarship,item.benefits[].currency,string,yes,Currency of the benefit amount.
+scholarship,item.benefits[].is_maximum,boolean,yes,"True for ""up to"" amounts."
+scholarship,item.benefits[].percentage,number,yes,Percentage of tuition the benefit covers.
+scholarship,item.benefits[].type,string,yes,Kind of benefit.
+scholarship,item.campus_city,string,yes,The first campus city of the course (the searched city first).
+scholarship,item.citizenship_eligibility,array<string>,no,Citizenship groups eligible.
+scholarship,item.course_count,integer,yes,Published courses.
+scholarship,item.current_status,string,yes,Application status.
+scholarship,item.deadline_is_rolling,boolean,yes,True when applications are taken on a rolling basis.
+scholarship,item.description,string,yes,Description as published or source-grounded; null when not held.
+scholarship,item.eligibility_summary,string,yes,Eligibility in short.
+scholarship,item.eligible_countries_list,array<string>,no,Eligible countries as stated.
+scholarship,item.excluded_nationality_codes,array<string>,no,Nationalities excluded (ISO alpha-2).
+scholarship,item.gender,string,yes,"Gender restriction, where stated."
+scholarship,item.last_verified_date,date,yes,Date the scholarship was last verified.
+scholarship,item.linked_courses,array<object>,no,"Linked courses, paged (courses_page, courses_page_size)."
+scholarship,item.linked_courses[].course_code,string,yes,Course code.
+scholarship,item.linked_courses[].course_id,string,no,StudySearch course identifier.
+scholarship,item.linked_courses[].saving_basis,string,yes,How the saving was worked out.
+scholarship,item.linked_courses[].saving_currency,string,yes,Currency of the saving.
+scholarship,item.linked_courses[].saving_per_year,number,yes,Saving per year on this course.
+scholarship,item.linked_courses[].title,string,no,Course title.
+scholarship,item.linked_courses_page,integer,yes,Page of linked courses.
+scholarship,item.linked_courses_page_size,integer,yes,Linked courses per page.
+scholarship,item.linked_courses_total,integer,yes,Linked courses in all.
+scholarship,item.linked_courses_truncated,boolean,yes,True when more linked courses exist than this page holds.
+scholarship,item.min_academic_score,number,yes,"Minimum academic score 0-100, only where the provider states a percentage or WAM."
+scholarship,item.name,string,no,Name as presented.
+scholarship,item.nationality_eligibility_status,string,yes,Whether eligibility is limited by nationality. An empty list is never unrestricted.
+scholarship,item.nationality_regions,array<string>,no,Regions as the source names them (never expanded).
+scholarship,item.official_scholarship_url,string,yes,The scholarship's official page.
+scholarship,item.official_url,string,yes,The provider's own page for this record; null when not verified.
+scholarship,item.programme,string,yes,Programme the award belongs to.
+scholarship,item.provider,object,yes,The provider (institution) of the record.
+scholarship,item.provider.cities,array<string>,no,Provider cities.
+scholarship,item.provider.country_code,string,no,ISO 3166-1 alpha-2 country code.
+scholarship,item.provider.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+scholarship,item.provider.logo.attribution,string,yes,Attribution to show with the logo.
+scholarship,item.provider.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+scholarship,item.provider.logo.mime_type,string,yes,File type.
+scholarship,item.provider.logo.source_url,string,yes,Where the logo was taken from.
+scholarship,item.provider.logo.terms_status,string,yes,Whether the logo may be shown.
+scholarship,item.provider.logo.updated_at,timestamptz,yes,When the logo last changed.
+scholarship,item.provider.logo.url,string,yes,Signed link to the file; null if signing failed.
+scholarship,item.provider.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+scholarship,item.provider.name,string,no,Name as presented.
+scholarship,item.provider.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+scholarship,item.publication_status,string,yes,Publication state of the record. Every record returned is published.
+scholarship,item.reference_code,string,yes,Not held (always null).
+scholarship,item.renewable,boolean,yes,True when the award can be renewed.
+scholarship,item.scholarship_id,string,no,StudySearch scholarship identifier.
+scholarship,item.scholarship_percentage,number,yes,"Percentage of tuition, where stated."
+scholarship,item.scholarship_type,string,yes,Scholarship type.
+scholarship,item.scholarship_type_bucket,string,yes,Scholarship type group.
+scholarship,item.sponsor,string,yes,Sponsor of the award.
+scholarship,item.student_type,string,yes,Students the scholarship is for.
+scholarship,item.study_area_codes,array<string>,yes,"Study area codes, from the linked courses."
+scholarship,item.study_levels,array<string>,no,"Study levels, from the linked courses."
+scholarship,item.study_levels_list,array<string>,no,Study levels as the scholarship lists them.
+scholarship,item.study_levels_source,string,yes,Where the study levels come from.
+scholarship,item.study_load,string,yes,"Study load the award requires, where stated."
+scholarship,item.study_stages,array<string>,no,Study stages the scholarship is for.
+scholarship,item.university_id,string,yes,Provider identifier of the scholarship.
+scholarship,item.value_classification,string,yes,Value class of the award.
+scholarship,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+scholarships,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+scholarships,filters_not_applied,array<string>,no,"Filter keys sent that the API does not recognise. They are listed, never silently ignored."
+scholarships,items,array<object>,no,The items of this page.
+scholarships,items[].academic_minimum,object,yes,"Academic minimum with its scale (ATAR, GPA and percentages stay on their own scale)."
+scholarships,items[].academic_minimum.scale,string,yes,"Scale of the minimum (for example ATAR, GPA, percent)."
+scholarships,items[].academic_minimum.text,string,yes,The provider's words.
+scholarships,items[].academic_minimum.value,number,yes,The academic minimum.
+scholarships,items[].academic_year,integer,yes,Academic year of the award.
+scholarships,items[].age_max,integer,yes,"Maximum age, where stated."
+scholarships,items[].age_min,integer,yes,"Minimum age, where stated."
+scholarships,items[].amount_currency,string,yes,Currency of a fixed amount.
+scholarships,items[].amount_is_maximum,boolean,yes,"True for ""up to"" amounts."
+scholarships,items[].amount_note,string,yes,The amount as the provider words it.
+scholarships,items[].amount_type,string,yes,Kind of amount.
+scholarships,items[].amount_type_detail,string,yes,Finer kind of amount.
+scholarships,items[].amount_value,number,yes,"Amount or percentage, as amount_type says."
+scholarships,items[].application,object,yes,How to apply.
+scholarships,items[].application.method,string,yes,How the award is given.
+scholarships,items[].application.rolling,boolean,yes,True when applications are rolling.
+scholarships,items[].application.url,string,yes,Application page.
+scholarships,items[].application_closing_date,date,yes,"Application closing date, where stated."
+scholarships,items[].application_deadline,date,yes,"Application deadline (YYYY-MM-DD), only where the page states one."
+scholarships,items[].application_open_date,date,yes,"Application opening date, where stated."
+scholarships,items[].automatic_consideration,boolean,yes,True when students are considered without applying.
+scholarships,items[].award_code,string,yes,The award's own code.
+scholarships,items[].award_duration,object,yes,How long the award lasts.
+scholarships,items[].award_duration.unit,string,yes,Unit of the duration (for example year).
+scholarships,items[].award_duration.value,number,yes,Number of units the award lasts.
+scholarships,items[].award_type,string,yes,Kind of award.
+scholarships,items[].benefits,array<object>,no,"What the award gives, one item per benefit."
+scholarships,items[].benefits[].amount,number,yes,Amount of the benefit.
+scholarships,items[].benefits[].currency,string,yes,Currency of the benefit amount.
+scholarships,items[].benefits[].is_maximum,boolean,yes,"True for ""up to"" amounts."
+scholarships,items[].benefits[].percentage,number,yes,Percentage of tuition the benefit covers.
+scholarships,items[].benefits[].type,string,yes,Kind of benefit.
+scholarships,items[].campus_city,string,yes,The first campus city of the course (the searched city first).
+scholarships,items[].citizenship_eligibility,array<string>,no,Citizenship groups eligible.
+scholarships,items[].course_count,integer,yes,Published courses.
+scholarships,items[].current_status,string,yes,Application status.
+scholarships,items[].deadline_is_rolling,boolean,yes,True when applications are taken on a rolling basis.
+scholarships,items[].description,string,yes,Description as published or source-grounded; null when not held.
+scholarships,items[].eligibility_summary,string,yes,Eligibility in short.
+scholarships,items[].eligible_countries_list,array<string>,no,Eligible countries as stated.
+scholarships,items[].excluded_nationality_codes,array<string>,no,Nationalities excluded (ISO alpha-2).
+scholarships,items[].gender,string,yes,"Gender restriction, where stated."
+scholarships,items[].last_verified_date,date,yes,Date the scholarship was last verified.
+scholarships,items[].min_academic_score,number,yes,"Minimum academic score 0-100, only where the provider states a percentage or WAM."
+scholarships,items[].name,string,no,Name as presented.
+scholarships,items[].nationality_eligibility_status,string,yes,Whether eligibility is limited by nationality. An empty list is never unrestricted.
+scholarships,items[].nationality_regions,array<string>,no,Regions as the source names them (never expanded).
+scholarships,items[].official_scholarship_url,string,yes,The scholarship's official page.
+scholarships,items[].official_url,string,yes,The provider's own page for this record; null when not verified.
+scholarships,items[].programme,string,yes,Programme the award belongs to.
+scholarships,items[].provider,object,yes,The provider (institution) of the record.
+scholarships,items[].provider.cities,array<string>,no,Provider cities.
+scholarships,items[].provider.country_code,string,no,ISO 3166-1 alpha-2 country code.
+scholarships,items[].provider.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+scholarships,items[].provider.logo.attribution,string,yes,Attribution to show with the logo.
+scholarships,items[].provider.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+scholarships,items[].provider.logo.mime_type,string,yes,File type.
+scholarships,items[].provider.logo.source_url,string,yes,Where the logo was taken from.
+scholarships,items[].provider.logo.terms_status,string,yes,Whether the logo may be shown.
+scholarships,items[].provider.logo.updated_at,timestamptz,yes,When the logo last changed.
+scholarships,items[].provider.logo.url,string,yes,Signed link to the file; null if signing failed.
+scholarships,items[].provider.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+scholarships,items[].provider.name,string,no,Name as presented.
+scholarships,items[].provider.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+scholarships,items[].publication_status,string,yes,Publication state of the record. Every record returned is published.
+scholarships,items[].reference_code,string,yes,Not held (always null).
+scholarships,items[].renewable,boolean,yes,True when the award can be renewed.
+scholarships,items[].scholarship_id,string,no,StudySearch scholarship identifier.
+scholarships,items[].scholarship_percentage,number,yes,"Percentage of tuition, where stated."
+scholarships,items[].scholarship_type,string,yes,Scholarship type.
+scholarships,items[].scholarship_type_bucket,string,yes,Scholarship type group.
+scholarships,items[].sponsor,string,yes,Sponsor of the award.
+scholarships,items[].student_type,string,yes,Students the scholarship is for.
+scholarships,items[].study_area_codes,array<string>,yes,"Study area codes, from the linked courses."
+scholarships,items[].study_levels,array<string>,no,"Study levels, from the linked courses."
+scholarships,items[].study_levels_list,array<string>,no,Study levels as the scholarship lists them.
+scholarships,items[].study_levels_source,string,yes,Where the study levels come from.
+scholarships,items[].study_load,string,yes,"Study load the award requires, where stated."
+scholarships,items[].study_stages,array<string>,no,Study stages the scholarship is for.
+scholarships,items[].university_id,string,yes,Provider identifier of the scholarship.
+scholarships,items[].value_classification,string,yes,Value class of the award.
+scholarships,page,integer,no,"This page number, from 1."
+scholarships,page_size,integer,no,Items per page asked for.
+scholarships,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+scholarships,total,integer,no,"Number of items that match, over all pages."
+search,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+search,contract_version,string,yes,"The contract the database function answered with (for example website-search-v2), beside api_version."
+search,filters_not_applied,array<string>,no,"Filter keys sent that the API does not recognise. They are listed, never silently ignored."
+search,items,array<object>,no,The items of this page.
+search,items[].campus_city,string,yes,The first campus city of the course (the searched city first).
+search,items[].campus_metro_area,string,yes,"Metro area of the first campus, where held (Australia)."
+search,items[].campuses,array<object>,no,"Campuses where the course is taught, the searched city first."
+search,items[].campuses[].city,string,yes,Campus city.
+search,items[].campuses[].is_primary,boolean,yes,True for the provider's main campus (one per provider at most); false otherwise. primary_basis says why. Null where not held.
+search,items[].campuses[].locality,object,yes,"The approved locality the campus postcode maps to: the primary match in an approved or published locality, newest boundary first; null until the postcode has one."
+search,items[].campuses[].locality.boundary_vintage,string,no,"The boundary edition the locality is drawn on, for example ASGS_2021_ED3."
+search,items[].campuses[].locality.geography_code,string,no,The source code of the locality in that geography.
+search,items[].campuses[].locality.geography_type,string,no,"The official geography the locality belongs to, for example SUA."
+search,items[].campuses[].locality.locality_id,string,no,Stable identifier of the locality (as in the destination action).
+search,items[].campuses[].locality.match_share,number,yes,"Share of the postcode inside the locality, from 0 to 1."
+search,items[].campuses[].locality.name,string,no,Name of the locality as the source publishes it.
+search,items[].campuses[].metro_area,string,yes,"Metro area of the campus, where held (Australia)."
+search,items[].campuses[].postcode,string,yes,"Campus postcode, where held (mostly Australia)."
+search,items[].campuses[].primary_basis,string,yes,"Why the campus is the provider's main campus, when it is: cricos_head_office (the registered head office matches exactly this campus) or highest_course_count (no single head-office match, so the campus offering the most of the provider's courses). Null for a campus that is not the main campus."
+search,items[].campuses[].regional_category,integer,yes,"Australian Home Affairs regional category: 1 major city, 2 regional city, 3 regional centre and other regional area."
+search,items[].campuses[].regional_category_name,string,yes,Name of the regional category.
+search,items[].campuses[].subdivision_code,string,yes,"State, province or region code (ISO 3166-2), for example AU-VIC."
+search,items[].country_code,string,no,ISO 3166-1 alpha-2 country code.
+search,items[].course_code,string,yes,The source system's code. Do not show it to visitors; show display_code.
+search,items[].course_id,string,no,StudySearch course identifier. The key to store; it never changes.
+search,items[].delivery_modes,array<string>,no,How the course is delivered.
+search,items[].description_excerpt,string,yes,"First part of the course description, cut at a whole word. Null when no description is held."
+search,items[].display_code,string,no,"The code to show visitors: the printed code (kind own, for example a CRICOS course code) or a StudySearch code such as UBC-MA-014 (kind studysearch). It never changes."
+search,items[].display_code_kind,string,no,Whether display_code is the course's own printed code or a StudySearch code.
+search,items[].display_code_label,string,yes,"Label to show with display_code, for example ""CRICOS code""."
+search,items[].duration_months,integer,yes,"Course duration in months, from the register or the course page. A duration given in semesters is not converted (null)."
+search,items[].empty_reason_code,string,yes,Why fields such as the campus or study mode are empty for this course (REQ-53). Null when nothing needs explaining.
+search,items[].english_requirements,array<object>,no,"English test requirements, one per test. An empty list means not held, not ""no requirement""."
+search,items[].english_requirements[].min_band_score,number,yes,"Lowest band or section score asked, where stated."
+search,items[].english_requirements[].min_overall_score,number,yes,Minimum overall score on the test's own scale.
+search,items[].english_requirements[].score_grade,string,yes,"The overall grade the provider states for the test, as held (for example an OET letter grade A, B, C+ or C); null when no grade is held. Never derived from a number."
+search,items[].english_requirements[].source,string,yes,Where the requirement comes from.
+search,items[].english_requirements[].subtest_grades,object,yes,"Grades the provider states for each sub-test, as held (for example OET writing B); null when none is held."
+search,items[].english_requirements[].test_code,string,no,"English test code from reference, for example IELTS, PTE, TOEFL_IBT, CAE, DET, OET, CELPIP."
+search,items[].english_requirements[].test_name,string,yes,English test name.
+search,items[].entry_requirements,object,yes,English entry summary. Academic entry is not implied here (see entry on course detail).
+search,items[].entry_requirements.basis,string,yes,Where the summary comes from.
+search,items[].entry_requirements.summary,string,yes,Short summary of the English requirement.
+search,items[].freshness,object,yes,When the record was last updated.
+search,items[].freshness.projection_updated_at,timestamptz,yes,When the API copy of this record was last rebuilt.
+search,items[].freshness.source_updated_at,timestamptz,yes,When the source data behind this record last changed.
+search,items[].intakes,array<object>,no,Intakes of the course. Months for most courses; dates mostly null.
+search,items[].intakes[].application_deadline,date,yes,"Application deadline (YYYY-MM-DD), where published."
+search,items[].intakes[].label,string,no,"The intake as the provider names it, for example ""Semester 1""."
+search,items[].intakes[].month,integer,no,"Month the intake starts, 1 to 12."
+search,items[].intakes[].start_date,date,yes,"Exact start date (YYYY-MM-DD), where published."
+search,items[].intakes[].start_date_status,string,yes,Why the exact start date is or is not given.
+search,items[].intakes[].year,integer,yes,"Year of the intake, where stated."
+search,items[].official_url,string,yes,The provider's own page for this record; null when not verified.
+search,items[].provider,object,yes,The provider (institution) of the record.
+search,items[].provider.accreditation_crown,string,yes,"Business school accreditation label (REQ-57): triple_crown when AACSB, EQUIS and AMBA are all held now, double_crown for any two of them, null otherwise."
+search,items[].provider.accreditations,array<object>,no,"Business school accreditations held now (REQ-57): active, not expired. An empty list when none is held."
+search,items[].provider.accreditations[].accredited_since,date,yes,"When the accreditation was first granted, where the body states it."
+search,items[].provider.accreditations[].accredited_unit_name,string,yes,"The school or faculty accredited, as the body lists it; null when the whole provider is."
+search,items[].provider.accreditations[].body_code,string,no,"The accrediting body: AACSB, EQUIS or AMBA."
+search,items[].provider.accreditations[].expires_at,date,yes,"When the accreditation ends, where the body states it; an expired one is not returned."
+search,items[].provider.accreditations[].source_url,string,yes,The body's page the accreditation was read from.
+search,items[].provider.accreditations[].verified_at,timestamptz,yes,When the platform last checked the accreditation on that page.
+search,items[].provider.institution_type,object,yes,"Institution type from the regulators' registers (TEQSA, CRICOS, NZQA); null for Canada and a few Australian providers."
+search,items[].provider.institution_type.basis,string,yes,The register the type comes from.
+search,items[].provider.institution_type.code,string,no,Institution type code.
+search,items[].provider.institution_type.name,string,no,Institution type name.
+search,items[].provider.legal_name,string,yes,Legal name from the register.
+search,items[].provider.logo,object,yes,Provider logo; null when not held. Copy the file and serve your copy.
+search,items[].provider.logo.attribution,string,yes,Attribution to show with the logo.
+search,items[].provider.logo.content_hash,string,yes,Hash of the file; it changes when the file changes.
+search,items[].provider.logo.mime_type,string,yes,File type.
+search,items[].provider.logo.source_url,string,yes,Where the logo was taken from.
+search,items[].provider.logo.terms_status,string,yes,Whether the logo may be shown.
+search,items[].provider.logo.updated_at,timestamptz,yes,When the logo last changed.
+search,items[].provider.logo.url,string,yes,Signed link to the file; null if signing failed.
+search,items[].provider.logo.url_expires_at,timestamptz,yes,When the signed link ends.
+search,items[].provider.name,string,no,Name as presented.
+search,items[].provider.provider_id,string,no,"StudySearch provider identifier, for example provider:cricos:00025b."
+search,items[].provider.ranking_summary,object,yes,Latest edition of each world ranking; null where not ranked.
+search,items[].provider.ranking_summary.qs_wur,object,yes,"QS World University Rankings, latest edition; null where not ranked."
+search,items[].provider.ranking_summary.qs_wur.edition_year,integer,no,Ranking edition year.
+search,items[].provider.ranking_summary.qs_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+search,items[].provider.ranking_summary.qs_wur.rank_low,integer,yes,Best rank of the published range.
+search,items[].provider.ranking_summary.qs_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+search,items[].provider.ranking_summary.the_wur,object,yes,"Times Higher Education World University Rankings, latest edition; null where not ranked."
+search,items[].provider.ranking_summary.the_wur.edition_year,integer,no,Ranking edition year.
+search,items[].provider.ranking_summary.the_wur.rank_display,string,no,"Rank exactly as published, for example 201-250."
+search,items[].provider.ranking_summary.the_wur.rank_low,integer,yes,Best rank of the published range.
+search,items[].provider.ranking_summary.the_wur.terms_status,string,yes,Whether the publisher's terms allow the item to be shown.
+search,items[].provider.university_groups,array<object>,no,University groups the provider belongs to.
+search,items[].provider.university_groups[].code,string,no,Group code.
+search,items[].provider.university_groups[].name,string,no,Group name.
+search,items[].publication_status,string,yes,Publication state of the record. Every record returned is published.
+search,items[].scholarship_count,integer,yes,Linked published scholarships.
+search,items[].study_area,object,yes,Field of study (ASCED narrow field in Australia).
+search,items[].study_area.code,string,no,"Study area code from reference, for example asced-0603."
+search,items[].study_area.name,string,no,Study area name.
+search,items[].study_level,object,yes,Study level of the course.
+search,items[].study_level.code,string,no,"Study level code from reference, for example bachelor or masters_coursework."
+search,items[].study_level.name,string,no,Study level name.
+search,items[].study_load,string,yes,"Study load the provider states for international students (REQ-52): full_time, part_time or both. Null until it has been read from the provider or a register."
+search,items[].study_load_basis,string,yes,"Where the study load comes from (REQ-52): provider_page (read from the provider's page), register (stated by a register), register_rule (full_time from the CRICOS registration: international students on a student visa must study full time; replaced by any reading) or manual (a person decided). Null when no study load is held."
+search,items[].subdivision_codes,array<string>,no,The states or provinces of the course's campuses; a Canadian course with no campus takes its provider's province.
+search,items[].title,string,no,Course title as published.
+search,items[].tuition,object,yes,The provider's current international tuition fee; null when not held. A whole-course total is never presented as per year.
+search,items[].tuition.amount,number,yes,"The fee as published, in tuition.currency."
+search,items[].tuition.annual_amount,number,yes,"The stated annual figure, or one derived from a course total for courses of 12 months or more (then annual_is_derived is true). Null for per-session and unspecified figures."
+search,items[].tuition.annual_is_derived,boolean,yes,True when annual_amount was worked out from a whole-course total.
+search,items[].tuition.basis,string,yes,What the amount covers.
+search,items[].tuition.basis_label,string,yes,The provider's own words for the basis.
+search,items[].tuition.currency,string,yes,"Currency of the fee: the course's own (AUD, NZD or CAD). There is no conversion."
+search,items[].tuition.source,string,yes,Where the fee comes from: the provider's current fee page (preferred) or the CRICOS registered course total.
+search,items[].tuition.year,integer,yes,"The year the fee applies to, where stated."
+search,page,integer,no,"This page number, from 1."
+search,page_size,integer,no,Items per page asked for.
+search,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
+search,sort,string,yes,"The order the items are in (the sort asked for, or the default)."
+search,total,integer,no,"Number of items that match, over all pages."
+sync,api_version,string,no,The API and version that answered: website-v3 or zoho-v3.
+sync,as_of,timestamptz,yes,Time of the reply.
+sync,checked_through,timestamptz,yes,When the platform last finished checking every item for changes (null until the first check after a full load has finished).
+sync,full_load_complete,boolean,yes,True on the last page of a full load.
+sync,has_more,boolean,no,True while another page follows: call again with next_cursor.
+sync,items,array<object>,no,The items of this page.
+sync,items[].change,string,no,upsert: store item by id; remove: delete or mark inactive the record with that id (no item).
+sync,items[].entity,string,no,The kind of record.
+sync,items[].id,string,no,The record's identifier (store and match by it).
+sync,items[].item,object,yes,"The record: for course the search item, provider the provider detail, logo {provider_id, logo}, rankings {provider_id, rankings[]}, scholarship the scholarship detail, reference the reference lists. Absent for remove."
+sync,items[].seq,integer,no,Position in the change stream.
+sync,mode,string,no,"full for a full load, delta for changes since the cursor."
+sync,next_cursor,string,no,"Opaque cursor for the next call. Store it as it is, only after the page is written."
+sync,request_id,string,no,Identifier of this request. Quote it when reporting a problem.
