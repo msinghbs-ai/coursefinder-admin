@@ -2,7 +2,7 @@
 
 **Chat:** S1-RM-Design · **Trigger:** Platform Admin 20 Nov 2026 14:40 and 14:41 AEDT (parity with the approved s820–s827 mockup); lane roster 15:25 (specs s836–s839, migrations ≤ `20261120145500`)
 **Release:** PIM Admin **v2.16.68** (package 0.1.490) · **Pilot PR:** #1424 (`cf247-s836-s838-ui-parity`) · **Migration:** `20261120145000_cf247_s836_s838_rule_groups_pulse_rates.sql`
-**Status (20 Nov 2026 16:20 AEDT): live.** Admin #694 (`fd310dcb`), Pilot #1424 (`13256fba`, v2.16.68); migration applied by Deploy on merge, history md5 `8f00baa9` = file; read back and checked signed in (runsheet entry of 16:20). Follow-up **s839** (Pilot #1429, v2.16.69): plain hold reason on course description cards in every view, and Preview the batch read ahead so it opens in under 300 ms.
+**Status (20 Nov 2026 16:20 AEDT): live.** Admin #694 (`fd310dcb`), Pilot #1424 (`13256fba`, v2.16.68); migration applied by Deploy on merge, history md5 `8f00baa9` = file; read back and checked signed in (runsheet entry of 16:20). Follow-up **s839** live 16:35 AEDT (admin #699, Pilot #1429 `4a0695c8`, v2.16.69): plain hold reason on course description cards in every view, and Preview the batch read ahead so it opens in under 300 ms.
 
 ## 1. Pre-flight (read only)
 

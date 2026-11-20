@@ -14647,3 +14647,20 @@ Pre-flight:
 **Observation, not changed here:** the s819 word strip can leave an awkward ", and" where a removed word joined a list. For example, "decision-making, and motivating people". The cleaned text passes every check. It is recorded as a gap.
 
 **Next:** merge this record, then Pilot #1429 on green CI; read back the deployed frontend; Drive row, Summary and backup pair; closing report.
+
+## 20 Nov 2026 16:40 AEDT — S1-RM-Design (S1-UI-Parity): s839 live and read back; S1-UI-Parity closed
+
+**s839 is live.**
+- **Merges:** admin #699 (`76219159`), then Pilot #1429 (`4a0695c8`, v2.16.69), on green CI after re-reading main. Main had moved by #1427, which shares no file with #1429.
+- **Migration:** none.
+- **Deploy:** Pilot Frontend Build and Release Currentness Deployed both passed.
+
+**Signed-in check on production (v2.16.69):**
+- The hold reasons now read "Page match not clear enough" and "More than one page could be this course" (before the fix they showed the machine codes).
+- Preview the batch for Contains a banned word: 8 records shown in 4 ms from the click (database 271 ms, read ahead when the rule was chosen).
+- Nothing was approved or rejected.
+
+**S1-UI-Parity (s836 to s839) is complete.**
+- Releases: v2.16.68 and v2.16.69.
+- Migration: one, `20261120145000`.
+- G3 75/48. Manual locks 7,585. Spend $0.
