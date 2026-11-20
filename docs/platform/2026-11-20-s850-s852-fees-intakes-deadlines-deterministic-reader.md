@@ -19,3 +19,20 @@ Platform Admin 20 Nov 2026 15:11 and 15:22 AEDT (lane block s850 to s859, migrat
   The first run of the batch query took 808 ms against the 300 ms post-check (a table-wide scan of `course_fees`), so it was rewritten as an indexed keyset loop before the PR.
 - **Parallel lanes.** S1-AER #1423 (migration `20261120163000`, merged 15:49 AEDT) is below this lane's renumbered files; S1-Structure-Outcomes #1427 (`20261120163500`) merged first with worker v1.0.33, so this change is rebuilt on main as worker v1.0.34 (20 Nov 2026 16:40 AEDT). Whichever merges second re-bumps the worker version on rebase. S1-UI-Parity #1424 uses `20261120145000`, which is below this slot.
 - **Next:** merge this admin record, then Pilot #1425 on green CI and the passing rolled-back dry run. Then read back the deployed worker, the job and the first sweep batches with their admitted values. Close with Drive Monitoring, the two gap tables and the closing records.
+
+**S1-Fees-Intakes, 20 Nov 2026 18:25 AEDT: s850 to s852 live and read back; closing records; parked**
+
+Admin #695 merged first (`5f7b8576`) by the `automerge` label, then Pilot #1425 (`57efdea8`); Deploy on merge succeeded. Before merging, #1425 was rebuilt on main twice. Its migrations were renumbered to `20261120175000` and `20261120175100`, above S1-ELR `20261120170000` and S1-Structure-Outcomes `20261120172000`. The worker went out as v1.0.34, because #1427 had taken v1.0.33. Its import was moved off S1-ELR's import-line comment, and the batch post-check is now timed warm. All reads below were through the rolled-back dry-run workflow (runs 44692806423, 44693048168 and 44694432114), with no interactive SQL.
+
+- **Live (18:19 AEDT).** Both migrations installed (2,228 history rows). `fid_det_read` replies come from `coverage-sweep-worker-v1.0.34`, reader `fid-det-v1.0`. G3 75/48, no drift. Manual locks 7,585. Firecrawl US$0; no model was called by this lane. Account AI spend today is US$1.06 of US$14, all from other lanes.
+- **Fee reader (AI).** The stuck item `940bdc00…` got its one more try and finished `done` at 18:06 AEDT; 0 queued, 0 leased. The Platform health watchdog now reads `nothing_left: 6 fee pages the ai could not read` (18:19), no longer "stuck".
+- **Sweep `fid-det-sweep`.** 18 job runs in the first 20 minutes, 18 succeeded, 0 failed. 20 worker calls recorded and 600 pages read. The batch query measured about 300 ms on production. A tick that records five replies (150 pages, each admission through `coverage_apply_course_v1`) takes up to 21 s (p95). That is background job time, not a screen query; the follow-up is to record one reply per tick.
+- **Readings and outcomes (fid-det-v1.0, 600 pages).**
+  - Admitted: 1 yearly international fee (NZ), intakes on 5 courses (AU 3, CA 2), and 3 application deadlines (AU).
+  - Layer 4: 1 fee.
+  - Held because a value is already held (no overwrite): 7 fees and 242 intakes.
+  - Not admitted: 4 rolling statements; 3 deadlines not tied to one intake; 2 deadlines and 3 intakes incomplete; 10 ambiguous lines.
+  - Most pages read so far already hold intakes, so yield per page is low; the sweep keeps going through the keyset.
+- **Gaps (18:19 AEDT).** Table 1, verified source-backed (stored page text): fee NZ 1,086, CA 1,477; intakes AU 7,086, NZ 565, CA 731; deadlines AU 14,385, NZ 1,781, CA 1,906. Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,402, NZ 3,728, CA 1,393; deadlines AU 9,572, NZ 4,700, CA 1,694. AU international fee: 0 gaps (CRICOS registered totals).
+- **Branches.** `cf247-s853-readback-probe` and `cf247-s854-gaps-probe` were removed by the probe clean-up after their dry runs. `cf247-s840-fees-probe` and `cf247-s850-fees-probe` were still present at 18:11; they are left to the idle-probe sweep.
+- **Follow-ups (for a later session).** Record one reply per tick so a tick stays short. Map trimester and semester labels to months through the university calendars (3 intakes incomplete). A deadline with no intake on the page (3 not tied to one intake) waits for its intakes.
