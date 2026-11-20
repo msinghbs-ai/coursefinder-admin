@@ -14916,3 +14916,19 @@ Pilot #1437 (s856) merged by `automerge` (`86f373a1`), but Deploy on merge (run 
 
 - **s857 fix.** The unapplied file is removed, and `20261120200000` does the same pacing with no drop. Queued calls wait in a new table, `pipeline.fid_det_call_queue` (`run_id` is set when the call is sent), and the existing state check is unchanged. The settings `fid.calls_open_max` 2 and `fid.replies_per_tick` 1 are as recorded for s856. Spec s856 gains a test that the file has nothing the deploy refuses and that the old file is gone. The deploy's rule was checked against the file locally.
 - **Probe branches.** `cf247-s840-fees-probe`, `cf247-s850-fees-probe` and `cf247-s855-readback-probe` were deleted by the Auto-merge probe clean-up after their dry runs.
+
+**S1-Fees-Intakes, 20 Nov 2026 20:10 AEDT: s856 and s857 live and read back; parked**
+
+Admin #713 (`b81912dd`) and #714 (`73188414`) merged first. Pilot #1437 (`86f373a1`; its deploy refused the file, nothing applied) and #1438 (`13575474`) merged by `automerge`. Deploy on merge run 44706192536 succeeded. Read back through the rolled-back dry run (run 44707126431), with no interactive SQL.
+
+- **Live (20:02 AEDT).** History holds `20261120200000` and not `20261120193000`. Worker v1.0.34. G3 75/48, no drift. Manual locks 7,585. AI spend today US$1.08 of US$14, from other lanes (this lane US$0, Firecrawl US$0). Fee reader watchdog `nothing_left`. Settings `fid.calls_open_max` 2 and `fid.replies_per_tick` 1.
+- **Paced sweep.** One call sent a minute; the 5 calls of the batch went out one by one. Ticks 0.2 to 2.8 s from 19:57, against 84 to 120 s before; the last unpaced tick, at 19:56, took 118 s. 0 job failures and 0 worker failures in the 15 minutes after the change.
+- **Totals.**
+  - 3,270 pages read, 109 calls recorded. The 5 failed calls are the 18:50 burst.
+  - Admitted: 6 yearly international fees (NZ), intakes on 50 courses (AU 25, CA 24, NZ 1) and 4 deadlines (AU).
+  - 2 fees in Layer 4.
+- **Gaps (20:02 AEDT).**
+  - Table 1, verified source-backed: fee NZ 1,081, CA 1,477; intakes AU 7,075, NZ 565, CA 710; deadlines AU 14,384, NZ 1,781, CA 1,906.
+  - Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,391, NZ 3,727, CA 1,392; deadlines AU 9,572, NZ 4,700, CA 1,694.
+- **Branches.** Every probe branch of this lane was removed by the probe clean-up, and the PR branches were deleted at merge.
+- **Follow-ups (later session).** Trimester and semester labels to months via the university calendars; deadlines that wait for their intakes.
