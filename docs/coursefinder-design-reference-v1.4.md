@@ -2684,6 +2684,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Layer 4 batch triage stays decision-safe:** Waiting, grouped by rule only groups and narrows the cards on the page; each card is still decided on its own bar, and only Grid › Grouped decisions (server-checked) decides a group in one step.
 - **Contextual help:** each main screen carries a ? drawer with three steps and the role note, kept in step with Guides › Platform guide.
 
+### S1-Structure-Outcomes design decisions (20 Nov 2026, s860 and s861; Platform Admin 15:19 and 15:22 AEDT)
+
+- **Course structure is read deterministically from the stored course page, at $0.** Duration, study load and delivery mode are read by `struct-det-v1.0` (no model, no fetch); every reading carries a verbatim quote that is a line of the stored page.
+- **Only the full-time length is a duration.** A range, a maximum or minimum, a part-time-only length, a trimester, term or credit-point length is never turned into a duration; the catalogue keeps its units (years, months, weeks, semesters) and no new unit is introduced (the consumer API reads them).
+- **A table of several courses is never split by guesswork.** A collapsed line (two or more qualification titles, or a table separator beside two or more lengths) is never admitted; a page bound to more than one course goes to Layer 4.
+- **Admission is automatic only when nothing is in doubt:** every reading on the page agrees, the field is empty (no overwrite of any source), no manual lock covers it, the page is the course's bound page and its identity admits course facts (the course description identity set). Anything else goes to Layer 4 with a plain reason, capped by `struct_det.layer4_max_pending`.
+- **Every admitted value is recorded with the value before it** (`pipeline.struct_det_outcomes`), so it can be audited or rolled back course by course.
+- **Not held, so not admitted:** NZQF level and credits and PGWP eligibility have no catalogue field or register; they are reported as gaps for a Platform Admin decision, never written into another field.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.
