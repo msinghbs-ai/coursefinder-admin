@@ -14909,3 +14909,10 @@ Platform Admin 20 Nov 2026 19:15 AEDT. Pre-flight: Admin #695 (`5f7b8576`), #710
   - Table 1, verified source-backed: fee NZ 1,082, CA 1,477; intakes AU 7,081, NZ 565, CA 717; deadlines AU 14,384, NZ 1,781, CA 1,906.
   - Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,396, NZ 3,728, CA 1,392; deadlines AU 9,572, NZ 4,700, CA 1,694.
 - **Next:** merge this record, then Pilot s856 by `automerge` with `live-dry-run`; read back a paced tick; Drive Monitoring row; park.
+
+**S1-Fees-Intakes, 20 Nov 2026 20:00 AEDT: s857 recorded before merge: s856 re-issued without a drop (migration `20261120200000`)**
+
+Pilot #1437 (s856) merged by `automerge` (`86f373a1`), but Deploy on merge (run 44704221314) refused `20261120193000` before applying anything. It widened the `pipeline.fid_det_runs` state check with `alter table … drop constraint`, and the deploy refuses any top-level drop (the Platform Admin pastes those). Nothing reached the database, so the sweep kept running unpaced on the s852 tick.
+
+- **s857 fix.** The unapplied file is removed, and `20261120200000` does the same pacing with no drop. Queued calls wait in a new table, `pipeline.fid_det_call_queue` (`run_id` is set when the call is sent), and the existing state check is unchanged. The settings `fid.calls_open_max` 2 and `fid.replies_per_tick` 1 are as recorded for s856. Spec s856 gains a test that the file has nothing the deploy refuses and that the old file is gone. The deploy's rule was checked against the file locally.
+- **Probe branches.** `cf247-s840-fees-probe`, `cf247-s850-fees-probe` and `cf247-s855-readback-probe` were deleted by the Auto-merge probe clean-up after their dry runs.
