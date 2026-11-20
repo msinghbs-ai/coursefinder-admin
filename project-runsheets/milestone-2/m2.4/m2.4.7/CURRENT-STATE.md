@@ -14,3 +14,9 @@
 - **Live after #1447:** G3 75/48; manual locks 7,585; 133 active cron jobs, 0 unregistered; on-demand request open until 15:41 AEDT, estimate 52 credits, 67,177 credits left.
 - **Validation:** spec s910 3 of 3; the guards pass.
 - **Next:** auto-merge this record, then Pilot #1448, then read live.
+
+### 21 Nov 2026 10:10 AEDT, S1-Coverage-Unlock-UI-Notes: partial entry-table admission approved (Platform Admin 09:57); s912 recorded before merge
+
+- Approved, superseding the all-or-nothing completeness hold under Decision 276: admit every country row of a university-wide or course entry table that passes the domain, identity and source-evidence checks; hold only missing or unverified country rows in Layer 4.
+- s912 (`20261121130000`): the shadow now counts university-wide and course rows. Dry run: would admit 1,158 rows (17 course) at 31 providers.
+- Cutover 22 Nov 2026 09:30 AEDT after the 24-hour shadow report.

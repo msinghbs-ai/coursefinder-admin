@@ -91,3 +91,14 @@
 ## 5. IQ-00445 follow-up
 
 `IQ-00445` is closed after two clean unattended cycles at :09: run time under 100 seconds and no time-out. The first ran at 09:09 AEDT in 85.7 seconds (it took 136.2 seconds at :26 an hour earlier); the second is due at 10:09.
+
+## 6. Partial admission approved (Platform Admin, 21 Nov 2026 09:57 AEDT)
+
+**Decision, verbatim:** "partial entry-table admission is approved (superseding the all-or-nothing hold under Decision 276): admit all country rows in a university-wide or course entry table that pass domain, identity, and source-evidence checks, while holding only the missing or unverified country rows in Layer 4 for human review. Proceed with the 24-hour shadow report and cutover tomorrow at 09:30 AEDT."
+
+- **s912** (migration `20261121130000`) widens the shadow to course rows of the same read.
+  - Dry run: would admit 1,158 rows (17 course rows) at 31 providers.
+- **The cutover** (22 Nov 2026 09:30 AEDT) changes what the machine admission does with a read that only completeness stops:
+  - It admits the rows that pass every item-level check and every machine row rule.
+  - It leaves the missing countries and any failing rows in Layer 4.
+  - A new setting switches it on, and the shadow rule retires.
