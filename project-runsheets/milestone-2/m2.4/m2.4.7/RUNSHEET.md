@@ -14338,3 +14338,13 @@ Read through the rolled-back dry-run route only; G3 75 functions / 48 tables, no
 
 **Next executable action:**
 - S1-Courses (when asked): the final yield and spend read once the picker has drained the 4,412; nothing to run in the meantime.
+
+## 20 Nov 2026 12:10 AEDT — S1-Build: s818 live; s819 recorded before merge
+
+**Done:**
+- **s818 live 11:32 AEDT:** Pilot #1415 merged; `20261120115000` applied (history md5 `22b0d329` = file). 195 of 277 tied main campuses settled, 82 Unset; 257 NZ and CA courses linked to their only campus; 6 NZ campus regions. NZ documents without a region (4,066) wait on 271 queued refreshes.
+- **s819 recorded before merge (Pilot #1416, `20261120116000`, dry-run md5 `ca390bbc`):** the Layer 4 Inbox item read is planned with its arguments known. Dry run: same rows; Held scholarship decisions 237–318 ms (were 989–1,326 ms); every kind 138–398 ms; full Inbox read 6.9 s → 1.6 s.
+- **Lanes:** AER (s816/s817) left wholly to S1-AER (Platform Admin 11:54 AEDT).
+
+**Next executable action:**
+- S1-Build: merge #1416; confirm the 12:29 and 13:29 classifier windows and the domestic-only rule; verify in PIM Admin; final sync.
