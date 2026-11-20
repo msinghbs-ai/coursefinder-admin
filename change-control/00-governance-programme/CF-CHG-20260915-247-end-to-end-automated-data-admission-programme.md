@@ -13796,3 +13796,11 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
 - **Validation:** specs s895 and s896 5/5; the guards pass. G3 75/48, locks and the cron count are checked in the migration; US$0.
 - **Design:** `docs/platform/2026-11-21-s895-s896-elr-central-v11-all-universities.md`.
 - **Next:** auto-merge this record, then Pilot #1443, then read live.
+
+### 21 Nov 2026 08:45 AEDT, S1-Coverage-Unlock-UI-Notes: IQ-00510 and IQ-00445 fixes (s900), recorded before merge
+
+- Platform Admin 07:48 approved:
+  - IQ-00510: pilot alert levels 8,192 / 9,216 / 10,240 MiB; a non-locking `VACUUM (ANALYZE)` of 4 tables as `docs/paste/PASTE-20261121-s900-vacuum-analyze.sql`.
+  - IQ-00445: `coverage-reconcile` :26 → :09; `scholarship-coverage-classify` :29 → :40.
+- Pilot migration `20261121090000`: rolled-back dry run passed (134 active jobs unchanged; nothing dropped).
+- Drive variance of 45 minutes explained and aligned: 4 S1-Courses rows (60 minutes) restored here from Drive (their admin #609 was never merged); Drive row 183 corrected from 15 to 30.

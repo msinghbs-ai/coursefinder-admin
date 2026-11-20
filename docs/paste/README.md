@@ -8,6 +8,7 @@ Each paste file is added in the same release cycle as the change that prepares i
 
 | File | Run on or after | Prepared by | md5 |
 |---|---|---|---|
+| `PASTE-20261121-s900-vacuum-analyze.sql` | Any time after Pilot migration `20261121090000` (s900) is live. Run each `vacuum (analyze)` line on its own; non-locking, deletes nothing, changes no setting | S1-Coverage-Unlock-UI-Notes, IQ-00510 option C (Platform Admin 21 Nov 2026 07:48) | `580891df70f6743cca96f888d590b351` |
 | `PASTE-20261118-rm1f-amba-accreditations.sql` | Any time. Data only (no schema change). Loads the 13 AMBA-accredited schools in AU, NZ and CA as `under_review` (API v3 returns only `active`); switch them on with the commented block once the reuse position is confirmed. Guarded: stops unless all 13 providers still carry the matched names | S1-RM-Design, RM1F / REQ-57 (Platform Admin 18 Nov 2026 14:23) | `c1ebf1b37c19a41dc75e1648b92e11d1` |
 | `PASTE-20261115-cron-legacy-jobs-drop.sql` | Part A any time; Part B from 29 Nov 2026 | Pilot migration `20261115200500_cf247_cron_quick_wins` | `b15d3ad9bcde75ea86b18e3f24fca4d0` |
 | `PASTE-20261116-retired-settings-drop.sql` | 29 Nov 2026 | Pilot migration `20261116010000_cf247_settings_tidy_phase1` | `fdb433eae91edcd5fe4cceb5084e2fea` |
