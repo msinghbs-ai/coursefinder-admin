@@ -14404,3 +14404,15 @@ Specs: s828 (reader, Pilot #1412, live), s829 (precision rules and runner, Pilot
 
 **Next executable action:**
 - S1-RM-Design or S1-Build: merge this admin record first, then apply `coursefinder-pilot-s823-s827-v2.patch`, green CI, rolled-back dry run, merge, read back, signed-in check, Drive `Monitoring` row (45 minutes, engagement `20261120T125000+1100-claude-rm0-s1ux-s823-s827-ops-pulse-dashboard-board-handoff-7d1e`).
+
+## 20 Nov 2026 13:40 AEDT — S1-Build: s813–s819 closed
+
+**Done:**
+- **Classifier budget live (Pilot #1419, `20261120117000`, history md5 `10d0c52f`):** 700 candidate pages a run. Classifier 12:29 AEDT 17.5 s and 13:29 AEDT 14.7 s, both clean (no time-out); alone it runs in 5.2 s, at :29 it shares the minute with about 30 jobs.
+- **Layer 4:** every decision kind 44–290 ms live (Rebuild 402 ms); Inbox loads in 0.8–0.9 s; UTS Jumbunna refused by rule.
+- **Campuses:** 195 tied main campuses settled, 82 Unset (filter shows 82); 257 NZ and CA courses linked; NZ documents without a region 3,906 and falling.
+- **Checks:** G3 75/48 no drift; 7,585 locks; Firecrawl and AI spend US$0.
+
+**Open:**
+- Platform Admin: move `scholarship-coverage-classify` off :29 for under 10 s at its scheduled time (scheduler change).
+- S1-Build: 14:29 classifier read-back at 14:33 AEDT.
