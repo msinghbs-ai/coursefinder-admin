@@ -86,8 +86,8 @@
 - **The s902 cutover** is a separate change. It follows the 24-hour shadow report (`security.aer_uniwide_partial_shadow_report_v1()`) and the Platform Admin's decision.
   - Decision 276 freezes AER v1. s902 adds no reader, word list or recovery path; it measures admission over existing reads.
   - The cutover decision should confirm that partial admission is allowed under Decision 276.
-- **The s903 window** is closed with `security.on_demand_close_v1` after it has run. Its actual use and the credit left are reported then.
+- **The s903 window** (`ad97c846`, open 09:09 to 15:09 AEDT, 67,193 plan credits before) is closed with `security.on_demand_close_v1` after it has run. Its actual use and the credit left are reported then.
 
 ## 5. IQ-00445 follow-up
 
-`IQ-00445` is closed after two clean unattended cycles at :09: run time under 100 seconds and no time-out. The first is due 21 Nov 2026 09:09 AEDT.
+`IQ-00445` is closed after two clean unattended cycles at :09: run time under 100 seconds and no time-out. The first ran at 09:09 AEDT in 85.7 seconds (it took 136.2 seconds at :26 an hour earlier); the second is due at 10:09.

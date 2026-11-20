@@ -13838,3 +13838,14 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
   - `20261121101000` (s902): shadow admission rule, records only.
   - `20261121102000` (s903): on-demand cap, and one window for 109 universities capped at 20,000.
 - Design record `docs/platform/2026-11-21-s900-s903-coverage-unlock-ui-notes.md`.
+
+### 21 Nov 2026 09:20 AEDT, S1-Coverage-Unlock-UI-Notes: s900 to s903 live and read back; parked
+
+- Pilot #1444 (s900) and #1446 (s901–s903, v2.16.74) merged by automerge; migrations applied, history md5 matching.
+- Read back:
+  - `coverage-reconcile` 85.7 s at 09:09 (was 136.2 s at 08:26).
+  - Shadow: would admit 1,141 rows at 27 providers; admitted 0.
+  - Window `ad97c846`: 09:09 to 15:09, 109 universities, cap 20,000, 67,193 credits before.
+  - UI checked signed in: notes closed by default on three pages, Destination and Source country filters, Charles Sturt course shows 7 rows waiting in Layer 4.
+- G3 75/48; locks 7,585; 135 jobs.
+- Follow-ups: IQ-00445 second cycle 10:09; close the window after 15:09; shadow report from 22 Nov 09:09; VACUUM paste file for the Platform Admin.
