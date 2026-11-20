@@ -13530,3 +13530,18 @@ Admin #695 merged first (`5f7b8576`) by the `automerge` label, then Pilot #1425 
 - **Parked.** Open for the Platform Admin:
   - S677 and the 6 entry-matrix changes.
   - The entry-matrix holds in System Queues (about 55 Completeness gate items with no course read to re-read).
+
+**S1-Fees-Intakes, 20 Nov 2026 19:30 AEDT: s856 recorded before merge: the deterministic sweep is paced (Pilot s856, migration `20261120193000`)**
+
+Platform Admin 20 Nov 2026 19:15 AEDT. Pre-flight: Admin #695 (`5f7b8576`), #710 (`ccb7980a`) and Pilot #1425 (`57efdea8`) were already merged, and Deploy on merge had succeeded; no check was failing. Stale probe branches `cf247-s840-fees-probe` and `cf247-s850-fees-probe` were given one rolled-back dry run each (runs 44701250430 and 44701298645), so the Auto-merge workflow's probe clean-up deletes them.
+
+- **Live read-back (19:18 AEDT, runs 44701411953 and 44701584244, read only).** Worker v1.0.34. G3 75/48. Manual locks 7,585. AI spend today US$1.07 of US$14 (other lanes; this lane US$0, Firecrawl US$0). Fee reader watchdog `nothing_left: 6 fee pages the ai could not read` (19:04).
+- **Sweep progress.** 74 of 74 job runs succeeded; 2,100 pages read, 70 calls recorded. Admitted so far: 5 yearly international fees (NZ), intakes on 31 courses (AU 14, CA 17) and 4 deadlines (AU). 2 fees went to Layer 4. Held because a value is already held: 789 intakes, 31 fees and 7 deadlines.
+- **Two problems found.**
+  - A tick that recorded all five replies of a batch (150 pages) in one transaction took 84 to 120 s, holding catalogue row locks that long.
+  - At 18:50 all five calls of one batch went to `coverage-sweep` at once, alongside the other lanes' sweeps, and all failed with `WORKER_RESOURCE_LIMIT` (HTTP 546). Those 150 pages were never recorded, so they come round again in the next pass.
+- **s856 (migration `20261120193000`; replaces the burst; retires nothing).** A batch (still 100 to 250 courses, `fid.batch_size` 150) is cut into calls of `fid.items_per_call` that wait as `queued` in `pipeline.fid_det_runs` (new column `payload`). Each minute the job sends one queued call while fewer than `fid.calls_open_max` (2, new) are waiting for a reply, and records at most `fid.replies_per_tick` (1, new) reply. A run then records about 30 pages (about 20 s), and throughput stays about 1,800 pages an hour. The gates, the batch query and the reader are unchanged. The post-check runs a tick inside a subtransaction that is always rolled back. Spec s856. G3 checked before and after.
+- **Gaps (19:18 AEDT).**
+  - Table 1, verified source-backed: fee NZ 1,082, CA 1,477; intakes AU 7,081, NZ 565, CA 717; deadlines AU 14,384, NZ 1,781, CA 1,906.
+  - Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,396, NZ 3,728, CA 1,392; deadlines AU 9,572, NZ 4,700, CA 1,694.
+- **Next:** merge this record, then Pilot s856 by `automerge` with `live-dry-run`; read back a paced tick; Drive Monitoring row; park.
