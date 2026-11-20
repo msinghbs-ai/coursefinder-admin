@@ -13012,3 +13012,13 @@ Read through the rolled-back dry-run route only; G3 75 functions / 48 tables, no
 
 **Next executable action:**
 - Platform Admin: read `/.well-known/security.txt` live; watch the next hourly settle admit the promotional-word holds; decide whether to release the waiting fee reader item.
+
+## 20 Nov 2026 12:50 AEDT — S1-Build: s819 Layer 4 speed live; classifier budget recorded before merge
+
+**Done:**
+- **Layer 4 speed live (Pilot #1416, `20261120116000`, history md5 `16827344`):** every decision kind 44–290 ms live (rolled back), Rebuild 402 ms; Inbox loads in 0.8–0.9 s in PIM Admin; UTS Jumbunna refused by the domestic-only rule and no longer held.
+- **Classifier:** 12:29 AEDT succeeded in 17.5 s (the three earlier windows were cancelled at 120 s).
+- **Recorded before merge (Pilot #1419, `20261120117000`, dry-run md5 `10d0c52f`):** classifier candidate budget 1,500 → 700; a batch timed 5.2 s.
+
+**Next executable action:**
+- S1-Build: merge #1419; confirm the 13:29 classifier window; closing sync.
