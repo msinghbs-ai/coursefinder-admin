@@ -14689,3 +14689,47 @@ Pre-flight:
 
 - **Finding for the next lane step:** the course-page route will clear only a small share of Table 1. The remaining value is on the providers' central English pages (the existing policy route, `provider_english_plan_v1`), which is a policy decision for the Platform Admin, not a reader change.
 - **Housekeeping:** the temporary probe branches `cf247-s834-elr-det` and `cf247-s844-elr-probe` (never merged) could not be deleted through this session's proxy. The Platform Admin deletes them.
+
+## 20 Nov 2026 17:30 AEDT — S1-RM-Design: s870 and s871 recorded before merge (Pilot #1432, v2.16.70, migration `20261120145500`): AER re-read from the stored copy ($0); stale partial-table holds re-queued
+
+**Directive:** Platform Admin, 20 Nov 2026 16:28.
+
+**Found live.**
+- The job layer4-groups files 2,069 AER items under Technical recovery (class `repair:completeness_gate`, "not yet: the platform is recovering it").
+- 1,985 of them are AI course first reads (gpt-4.1-mini, qwen3-30b) held by the completeness gate. 1,952 of those have a bound stored copy. 66 are entry-matrix first runs and 6 are entry-matrix changes.
+- Nothing was recovering these items. aer-det-v1.3 skips a course while the AI read's proposed rows (`has_rows`) or its Layer 4 item (`earlier_read`) stand.
+- The cards had no buttons.
+
+**s870.** A new function, `security.aer_det_reread_v1` (check, apply, fetch), reached through three new actions of `public.admin_layer4_inbox`: `aer_det_reread_check`, `aer_det_reread` and `aer_page_fetch` (md5-guarded edit).
+- **Re-read from stored copy ($0).** The stale item is superseded, with a supersession row (reason `decided_before`, mode `reconcile`). Its proposed rows go inactive through the item's own trigger. The course reopens to aer-det-v1.3, which reads the stored copy with no model and no Firecrawl, then proposes through the unchanged machine rule and Layer 4.
+- **Queue stored-page fetch.** When no page is stored, the course goes on the Course page needed list (`security.course_page_needed_add_v1`).
+- Both actions are the Platform Admin's (A3).
+- **Rule rail.** It now separates System recovery / Re-read available (`aerb:` groups) from Waiting for a reviewer. A recovery card's status reads System recovery, not Waiting for a reviewer.
+- **Proposer fix.** The deterministic proposer no longer counts a superseded earlier read (md5-guarded, one fragment of S1-AER's `security.aer_det_propose_v1`).
+- **New index** on proposed entry rows by review item. Without it, the existing item trigger scanned the whole table once per item and the bulk timed out.
+
+**s871.** The stale holds (machine reason `gate_incomplete`, bound stored copy, AI reader) are superseded once by the migration.
+- Not touched: entry matrices, S677 and the 6 matrix changes.
+- Not touched: audit samples, manual locks (7,585) and active rows.
+
+**Validation.** Rolled-back live dry runs through the workflow (md5 `0c632f37`), the second after a rebase on main `720d6963e`:
+- 1,818 holds superseded.
+- 7,232 AI-proposed rows inactive.
+- 68 deterministic-reader pages reopened.
+- Course first reads still waiting: 693.
+- G3 75/48. Locks 7,585.
+- AER rail after the run:
+  - Waiting for a reviewer: Audit sample 464.
+  - System recovery: all rows held 111, gate 60, no stored page 33, audit sample 28, matrix changes 6.
+- Locally, 1,282 Layer 4, AER and governance tests pass on desktop and phone.
+- New spec: `cf-247-s870-s871-aer-stale-partial-read-reread-contract`.
+
+**Numbering.**
+- Spec numbers s870–s871: the S1-RM-Design window s836–s839 is used up, and s840–s869 are held by S1-ELR, S1-Fees-Intakes and S1-Structure-Outcomes.
+- Migration `20261120145500`: the last number in the S1-RM-Design window.
+
+**Next.**
+- Merge this record, then Pilot #1432 on green CI.
+- Read back the migration and the first aer-det-sweep ticks.
+- Check Layer 4 signed in: System recovery apart from Waiting for a reviewer, and the Audit sample ready.
+- Update Drive and write the closing report.
