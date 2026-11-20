@@ -14452,3 +14452,13 @@ Claimed: s833 (used), above s832 (S1-AER's s828 to s832 untouched); migration `2
 
 **Next executable action:**
 - Merge Pilot #1422 after this admin PR (admin first so deploy-on-merge never outruns the mirror); then read back both calls as a Platform Admin and the stored row, and record it.
+
+**S1-Courses, 20 Nov 2026 14:55 AEDT: s833 live and read back (Pilot #1422 merged, migration `20261120143000`); correction to the 14:50 record**
+
+- **Correction:** the 14:50 record said the banned-word strip (Pilot #1411) had not merged. That was wrong: #1411 merged at 12:01 AEDT (v2.16.66, migrations 20261120121000 and 20261120121100). The promotional-word holds were cleaned automatically; what remains held for promotional wording is 8 readings. The yield figures in the 14:50 record are unchanged.
+- **Merged:** Pilot #1422 (squash `98656714`), after admin #690. CI green (security gates, build-and-smoke, provider-description, six evidence shards, rolled-back live dry run). Deploy on merge, Deployed UAT, Security gates and Frontend Build all succeeded on `98656714`.
+- **Live read-back (rolled-back dry-run route, reads only):** migration head `20261120143000`; `pipeline.cdesc_queue_snapshot` holds one row, 144 cards, rebuilt in 38.7 s, 2 minutes old at the read; job `cdesc-queue-refresh` active; both calls answer from the stored copy (same `stored_at`). As a Platform Admin: `admin_course_description_queue` summary **43 ms** (was 37 s) and items **86 ms** (was 15 s), 25 cards a page, 159 pending. Target of under 300 ms met. No Layer 4 server error.
+- **Unchanged:** consumer API frozen (75 functions, 48 tables, nothing touched); 7,585 manual locks; Firecrawl US$0; AI spend today US$2.023 of US$14. No other lane's work or probe branch was touched.
+
+**Next executable action:**
+- None open for s833. Remaining description gaps are in the closing report (Table 1 source-backed, Table 2 no source yet).
