@@ -14883,3 +14883,12 @@ Admin #713 (`b81912dd`) and #714 (`73188414`) merged first. Pilot #1437 (`86f373
   - Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,391, NZ 3,727, CA 1,392; deadlines AU 9,572, NZ 4,700, CA 1,694.
 - **Branches.** Every probe branch of this lane was removed by the probe clean-up, and the PR branches were deleted at merge.
 - **Follow-ups (later session).** Trimester and semester labels to months via the university calendars; deadlines that wait for their intakes.
+
+## 20 Nov 2026 23:00 AEDT — S1-Build: Platform Admin 22:41 decisions recorded
+
+**Done:**
+- REQ-49 Delivered (live v3 read-back of campus names and course counts), kept separate from RM1K; REQ-59 kept standalone and Open; REQ-69 back to Partly delivered (4,877 exact intake dates live against 17,440 source-backed gaps; intake cohort stages still draining); REQ-66 stays Open until the AER sweep and legacy promotion complete.
+- UTS description confirmed live (approved in Layer 4).
+
+**Waiting for a decision:**
+- Victoria University: the second record (CRICOS 02475D, Sydney and Brisbane, 35 courses with their own CRICOS codes) is a separate registration, and `vu.edu.au` already has one owner (00124K). Platform Admin: keep it as a separate registration, retire it, or merge it.
