@@ -390,3 +390,10 @@ Catalogue › Entry requirements › Sources, reads and holds (no new tab or das
 ### 14.5 Open
 
 Qualification rows are not yet in the consumer API (a consumer API change, needs Platform Admin approval under Decision 266). Most matrix declines are incomplete reads (D-R3): reader completeness is the next lever. Phase 2 (European destination universities) remains recorded only.
+
+## Deterministic academic reader and promotion (s834, s835; Platform Admin 20 Nov 2026 15:08 AEDT)
+
+- **Scope.** AER only. English tests are never read, held or proposed by this path (the English requirement is its own pipeline, `english_group_match_v1`). Keys: `atar`, `year12`, `ncea_l3`, `university_entrance`, `ib`, `alevel`, `india_board`, `ca_secondary`, `bachelor_gpa`.
+- **Reader.** `aer-det-v1.3` (`supabase/functions/coverage-sweep/aer-det-reader.ts`): pure, no model, every reading's quote is a substring of the stored page text; flattened table lines are skipped; a value is never taken across another test or qualification; a credit count is never the level number; Year 12 needs a stated threshold. Requirement lines it does not read (prerequisite, portfolio, interview, work experience, bridging) are returned as `uncovered`.
+- **Promotion.** `security.aer_det_propose_v1` writes ordinary `proposed` rows (provenance reader `aer_det`) and one Layer 4 `course_entry_first_read` item per course. Admission is only by the unchanged machine rule `aer-machine-v1` or a person; the completeness gate holds a read whose page printed an uncovered line (`det_other_requirement`). AI and Boost `aer_entry` stay shadow only (Decision 276).
+- **Sweep.** Job `aer-det-sweep` (every 5 minutes) runs `security.aer_det_sweep_v1`: collects worker answers from `net._http_response`, records them (`security.aer_det_record_v2`), sends the next stored pages (worker mode `aer_det_read`), proposes. Controls are `aer_det.*` settings and `batch.aer_det_read` (40). US$0.
