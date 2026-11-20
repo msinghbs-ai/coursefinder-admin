@@ -1,15 +1,16 @@
 
 
-**S1-ELR-Bands-And-Crawl, 21 Nov 2026 10:05 AEDT: s904 to s909 recorded before merge: band label fix, English band to course matching (`elr-band-v1.0`) and a one-off bounded fetch of 52 known central English pages (Pilot #1447, migration `20261121110000`)**
+**S1-ELR-Bands-And-Crawl, 21 Nov 2026 10:15 AEDT: s904 to s909 merged (Pilot #1447, f779b439; migration `20261121110000`; deployed 09:41 AEDT). The live check found `elr-det-sweep` failing on every run since 08:47 AEDT; s910 is recorded before merge (Pilot #1448, migration `20261121120000`)**
 
-- **Request:** Platform Admin, 21 Nov 2026 09:00 AEDT.
-- **Audit:**
-  - The v1.1 band flag fired on 27 of 63 pages, every sampled trigger being IELTS score wording.
-  - 89 universities (561 gap courses) have central pages found but not stored. 52 of those pages, at 40 universities, are fit to fetch.
-- **s904:** reader v1.2; IELTS sub-score wording is no longer a band scheme.
-- **s905:** band definitions are kept per university, never a study-level default.
-- **s906:** a course whose page names exactly one defined band gets that band's values (insert only, s842 gates). Regulated disciplines and ambiguous cases go to Layer 4.
-- **s907:** one-off fetch of at most 100 pages (52 queued) under an on-demand request scoped to central. Estimate 52 Firecrawl credits, from 67,187 left. No model.
-- **Validation:** 85 specs passed and the rolled-back dry run passed. G3 75/48, manual locks 7,585, no new job.
-- **Design:** `docs/platform/2026-11-21-s904-s909-elr-bands-and-central-fetch.md`.
-- **Next:** auto-merge this record, then Pilot #1447, then read live.
+- **The failure:**
+  - The central writer re-read a page whose identical text already had a superseded elr-central proposal, and its insert hit the unique key `provider_policy_proposals_key`.
+  - The error was raised during the answer read-back, before the lost-call step. So every run failed on the same answer (request 898146, sent 08:42 AEDT), and nothing after it ran.
+  - Nothing reached Firecrawl. The s907 fetch has not started: 52 pages are queued and no credits have been used.
+  - The fault came in with s896, which explains why the earlier closing record's "5 of 5 runs succeeded" was true only up to 08:47.
+- **s910 fix:**
+  - A page text that already has a proposal is not proposed again, and its reads are held with that reason.
+  - Each answer is recorded in its own sub-transaction; one that fails is marked failed and the run goes on.
+  - Rolled-back proof: one sweep run completed in 1.2 s, reading back the stuck answer, applying 2 policies and sending 11 central pages and 10 fetch pages.
+- **Live after #1447:** G3 75/48; manual locks 7,585; 133 active cron jobs, 0 unregistered; on-demand request open until 15:41 AEDT, estimate 52 credits, 67,177 credits left.
+- **Validation:** spec s910 3 of 3; the guards pass.
+- **Next:** auto-merge this record, then Pilot #1448, then read live.
