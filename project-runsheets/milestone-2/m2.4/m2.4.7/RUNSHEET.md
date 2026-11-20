@@ -14666,3 +14666,12 @@ Pre-flight:
 - Releases: v2.16.68 and v2.16.69.
 - Migration: one, `20261120145000`.
 - G3 75/48. Manual locks 7,585. Spend $0.
+
+**S1-Structure-Outcomes, 20 Nov 2026 16:55 AEDT: s861 live and read back (Pilot #1427 `24317d50`); s862 recorded before merge: shared-page check indexed (Pilot #1430, migration `20261120172000`)**
+
+- **Merged in order.** Admin #696 (`9526ea2c`) first, then Pilot #1427 on green CI (16 of 16 checks; the PR dry-run job is label-only and the manual rolled-back dry run of the same file, run 44677214117, passed). Deploy on merge applied `20261120163500` (history md5 `905d8d23` = file) and deployed coverage-sweep v1.0.33. Live head `20261120163500`, 2,222 rows; G3 75/48, 0 drift; locks 7,585; spend US$0.
+- **First live results (16:42 AEDT, three ticks):** 160 stored pages read (4 calls ok), 73 decided, 87 with no reading. Admitted: duration 26 (NZ 13, CA 13), study load 4 (NZ 1, CA 3). Held: duration has a value 20, study load 7, delivery mode 37 (the campus already holds a mode); identity not admitted 3; Layer 4: 3 duration conflicts and 1 shared page (4 items, plain reasons). Readings: duration 78 (5 collapsed, never admitted), study load 14, delivery mode 42 (1 collapsed), 19 notes (ranges, credits, part-time only).
+- **Found:** ticks took 6.6 s and 9.8 s. The promoter's shared-page check took 2,842 ms for 160 pages: its "same stored copy OR same address" test could not use an index (23,989 bound pages scanned per page).
+- **s862 (migration `20261120172000`, above every open pull request: #1425 holds `20261120165000` and `165100`, #1428 `20261120170000`).** A partial index on the bound pages' evidence id and the test written as two EXISTS (stored copy; address on the existing bound-address index). Guarded by the live md5 of `security.struct_det_promote_v1` (`bf0bc0d6`); its post-check proves the same shared pages and fails above 300 ms. Rolled-back dry run passed (run 44683159633). No worker, setting or job change.
+- **Lane note (S1-Fees-Intakes, 16:33 AEDT):** the request to bump this lane's worker to v1.0.34 arrived after Pilot #1427 had merged with coverage-sweep v1.0.33. Pilot #1425 (S1-Fees-Intakes) must therefore rebase on main and take v1.0.34; its migrations (`20261120165000`, `165100`) are already above this lane's.
+- **Next:** merge this record, then Pilot #1430 on green CI; read back the tick time; final gap read and the two gap tables; Drive sync.
