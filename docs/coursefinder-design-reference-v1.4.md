@@ -2675,6 +2675,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 
 ---
 
+### S1-UX design decisions (20 Nov 2026, s823 to s827; Platform Admin 10:31, 10:46 and 11:24 AEDT)
+
+- **Admin screens read stored operational figures, not live scans.** Platform Health, the top-bar health dot and the Dashboard read one stored row (`pipeline.ops_pulse_snapshot`, rebuilt every 5 minutes); if it is older than `ops.pulse_max_age_minutes` the read counts live, so a stopped job never shows stale figures as current. An unknown figure is shown as unknown, never as 0.
+- **Telemetry records state transitions, not idle polls.** Consecutive idle worker calls for one mode and worker update one ledger row for up to `telemetry.idle_collapse_minutes`; work, failures and errors are always written as their own rows. Lane liveness (latest `run_at`) is preserved.
+- **Platform Health is read as a 4-stage pipeline** (Official Registers → Page Capture → AI Extraction & Auto-Clean → Live Catalogue), placed under the s817 executive view. Which check reports under which stage is data (`pipeline.ops_pulse_stage_map`), not code. A stage links to the screen that already holds its controls; Platform Health starts no work itself.
+- **Role workspaces:** a Viewer or Counsellor (rank 1–2) makes no pipeline or telemetry read; Curators and above get the KPI cards with country completeness bars; operators also get Active failures.
+- **Layer 4 batch triage stays decision-safe:** Waiting, grouped by rule only groups and narrows the cards on the page; each card is still decided on its own bar, and only Grid › Grouped decisions (server-checked) decides a group in one step.
+- **Contextual help:** each main screen carries a ? drawer with three steps and the role note, kept in step with Guides › Platform guide.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.

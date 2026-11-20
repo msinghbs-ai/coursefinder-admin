@@ -14386,3 +14386,19 @@ Specs: s828 (reader, Pilot #1412, live), s829 (precision rules and runner, Pilot
 
 **Next executable action:**
 - S1-Build: merge #1419; confirm the 13:29 classifier window; closing sync.
+
+## 20 Nov 2026 12:50 AEDT — S1-UX: s823 to s827 rebased on main after PR 1411, migration renumbered to `20261120140000`; handed off (read-only session; not merged, not live)
+
+**Trigger:** Platform Admin 20 Nov 2026 10:31, 10:46, 11:24 and 12:35 AEDT (s817 to s821 are S1-RM-Design's, merged as PR 1411, v2.16.66).
+
+**Built and tested (Pilot branch on `main` `3279126`; v2.16.67, package 0.1.489):**
+- **s823, migration `20261120140000`** (not `20261120130000`, which S1-AER's open #1418 holds): Platform Health and the top-bar health dot read one stored row (`pipeline.ops_pulse_snapshot`, job `ops-pulse-refresh` every 5 minutes) instead of read-time counts of `pipeline.jobs`, evidence, Layer 2 attempts, Layer 3 interpretations and scholarships; live fallback after `ops.pulse_max_age_minutes` (15). A run of idle worker calls updates one `pipeline.mode_outcome_ledger` row (`telemetry.idle_collapse_minutes`, 15) instead of an insert and two updates per call. No new public object (G3 75/48 asserted before and after); md5- and fragment-guarded edits (no merged migration since 3 Nov touched either function); rolled-back post-checks.
+- **s824** Dashboard: five KPI cards with icons, AU/NZ/CA completeness bars, Active failures (operators); no pipeline or telemetry read for rank 1–2. **s825** 4-stage pipeline board under the s817 summary. **s826** Layer 4 Inbox: Waiting, grouped by rule (left panel; reads and decides nothing; PR 1411's card and bar untouched). **s827** ? help drawer on Dashboard, Platform Health, Layer 4 Review, Courses and Providers.
+- **Tests (US$0):** s823–s827 spec 9 of 9; with PR 1411's specs 31 of 31; affected suite 972 passed, 1 failed (also fails on unmodified main: catalogue course description "Show all"), 1 flaky (s227 Approve except; 9 of 9 alone). Release contract, UI tokens, CSS classes, build: PASS.
+- **Parity at hand-off (12:40):** live 2,215 rows, head `20261120121100` = Pilot main. #1419 (S1-Build) carries `20261120117000`, below the live head.
+- **Design record:** `docs/platform/2026-11-20-s823-s827-ops-pulse-dashboard-conveyor-rule-groups-help.md`.
+
+**Not done, stated plainly:** no push from this session (its `GH_TOKEN` is invalid), so no PR, merge, dry run, live apply, live read-back, signed-in check, Drive `Monitoring` row or workbook rebuild.
+
+**Next executable action:**
+- S1-RM-Design or S1-Build: merge this admin record first, then apply `coursefinder-pilot-s823-s827-v2.patch`, green CI, rolled-back dry run, merge, read back, signed-in check, Drive `Monitoring` row (45 minutes, engagement `20261120T125000+1100-claude-rm0-s1ux-s823-s827-ops-pulse-dashboard-board-handoff-7d1e`).
