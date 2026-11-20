@@ -2,7 +2,8 @@
 
 **Chat:** S1-UX · **Trigger:** Platform Admin 20 Nov 2026 10:31, 10:46 and 11:24 AEDT (the 11:24 brief rescoped S1-UX to five additive upgrades on top of S1-RM-Design's Pilot PR 1411)
 **Release:** PIM Admin **v2.16.67** (package 0.1.489), on Pilot `main` `3279126` (PR 1411 merged as v2.16.66) · **Migration:** `20261120140000_cf247_s823_ops_pulse_snapshot_state_transition_logging.sql` (renumbered at 12:45 from `20261120130000`, which S1-AER's open #1418 holds)
-**Status (20 Nov 2026 12:50 AEDT):** rebased onto the real `main` after PR 1411 merged, built and tested; **not merged and not applied live.** This session has read-only GitHub access (the session's `GH_TOKEN` is invalid for github.com; push was refused), so the change is handed to S1-RM-Design or S1-Build as patches and drop-in bundles (section 8). Nothing applied to Supabase; no interactive `execute_sql`; spend US$0.
+**Status (20 Nov 2026 13:40 AEDT): live.** Applied by S1-RM-Design: admin #686 (`546f165e`), Pilot #1420 (`d219e7d7b`); migration applied, history md5 `b9db78b4` = file; read back and checked signed in (see the runsheet entry of 13:40). One change from the handoff: `security.worker_idle_collapse_v1`'s body is delimited `$function$` so spec s42 passes (no behaviour change); the `?` was added to the s820 hold banner.
+**Status at hand-off (20 Nov 2026 12:50 AEDT):** rebased onto the real `main` after PR 1411 merged, built and tested; **not merged and not applied live.** This session has read-only GitHub access (the session's `GH_TOKEN` is invalid for github.com; push was refused), so the change is handed to S1-RM-Design or S1-Build as patches and drop-in bundles (section 8). Nothing applied to Supabase; no interactive `execute_sql`; spend US$0.
 
 ## 1. Pre-flight and coordination (read only)
 
