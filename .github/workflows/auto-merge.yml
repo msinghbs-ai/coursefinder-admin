@@ -1,0 +1,65 @@
+# CF-247 s870 (Platform Admin 20 Nov 2026 17:00): no session stops to ask for a merge or a branch clean-up.
+# A pull request labelled `automerge` is squash-merged once it is mergeable and every check is green, and its branch is deleted.
+# scripts/ci/auto-merge.sh is the same file as in Coursefinder-Pilot. A merge made with GITHUB_TOKEN does not start the push-to-main
+# workflows, so the script starts Security gates after it (POST_MERGE=admin). Merge this repository's pull request before the Pilot one.
+name: Auto-merge
+
+on:
+  pull_request:
+    types: [labeled, synchronize, reopened]
+  check_suite:
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Pull request number to check and merge now
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+  checks: read
+  statuses: read
+
+jobs:
+  wait-and-merge:
+    name: auto-merge
+    if: >-
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'automerge')
+        && github.event.pull_request.head.repo.full_name == github.repository)
+      || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 130
+    concurrency:
+      group: auto-merge-pr-${{ github.event.pull_request.number || inputs.pr }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for green checks and merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number || inputs.pr }}
+          MODE: wait
+          MIN_CHECKS: '3'
+          POST_MERGE: admin
+        run: bash scripts/ci/auto-merge.sh
+
+  on-check-suite:
+    name: auto-merge
+    if: github.event_name == 'check_suite' && github.event.check_suite.head_branch != 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Merge any labelled pull request on this commit that is now green
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.check_suite.head_sha }}
+        run: |
+          for pr in $(gh api "repos/$REPO/commits/$SHA/pulls" --jq '.[] | select(.state == "open" and any(.labels[]; .name == "automerge")) | .number'); do
+            PR=$pr MODE=once MIN_CHECKS=3 POST_MERGE=admin bash scripts/ci/auto-merge.sh
+          done
