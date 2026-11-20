@@ -13344,3 +13344,33 @@ Pre-flight:
 
 **Next executable action:**
 - S1-Build: label this pull request `automerge` and confirm it merges itself; then the same for Pilot #1433.
+
+**S1-ELR, 20 Nov 2026 17:20 AEDT: s840 to s843 closed: live and read back (Pilot #1428 `5873a131`, #1431 `27fa9f79`; admin #698 `67644eaf`)**
+
+- **Deploy.** Pilot #1428 merged on green CI with the labelled dry run passing. `deploy-on-merge` applied migration `20261120170000` at about 16:57 AEDT (history md5 `b362663d` = file) and deployed `coverage-sweep` with mode `elr_det_read`. Pilot #1431 (s843, script only) fixed the workflow's status read: the status function is not granted to the read-only role, so the script now reads it through the owner connection.
+- **Live read-back** (rolled-back probe, 17:17 AEDT):
+  - Head `20261120172000`, 2,224 rows.
+  - G3: 75 functions, 48 relations, no drift.
+  - Manual locks: 7,585, unchanged.
+  - Spend: AI and Firecrawl US$0.
+  - Job `elr-det-sweep`: 5 of 5 runs succeeded, the longest 4.7 s (these include reading back 8 worker answers and the search refresh).
+  - The claim query took 190 ms for 250 pages.
+  - `admission-rule-runner-b`: 0 failures since the fix. `provider-english-defaults`: 40.8 s and 44.3 s after the fix (180 plans, about 0.24 s a plan), against 41 to 107 s in the 3 hours before.
+- **First yield** (17:15 AEDT; about 1,200 pages sent, 1,000 read): 12 courses promoted (12 IELTS rows, `elr-det:` key), 5 to Layer 4 (conflict, shared page or audit sample), 985 held. The held reasons:
+  - 979: the page states no English test requirement. Course pages mostly point to a central English page rather than printing the score.
+  - 3: no reading passed every check.
+  - 2: adapter-title identity not accepted for English.
+  - 1: page refused.
+
+  Nothing was written over an existing requirement or a lock.
+- **Gaps, as read live 17:15 AEDT.** These are still draining; the sweep reads about 200 pages every 5 minutes.
+
+| Country | Table 1: verified source-backed gaps (stored page bound) | Table 2: no source available yet |
+|---|---:|---:|
+| AU | 3,771 | 5,496 |
+| NZ | 1,093 | 3,028 |
+| CA | 1,341 | 456 |
+| Total | 6,205 | 8,980 |
+
+- **Finding for the next lane step:** the course-page route will clear only a small share of Table 1. The remaining value is on the providers' central English pages (the existing policy route, `provider_english_plan_v1`), which is a policy decision for the Platform Admin, not a reader change.
+- **Housekeeping:** the temporary probe branches `cf247-s834-elr-det` and `cf247-s844-elr-probe` (never merged) could not be deleted through this session's proxy. The Platform Admin deletes them.
