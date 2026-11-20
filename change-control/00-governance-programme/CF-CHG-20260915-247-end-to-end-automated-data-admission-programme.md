@@ -12951,3 +12951,13 @@ Claimed numbers: s822 (used), s823 to s825 (held for this lane, unused); migrati
 
 **Next executable action:**
 - S1-Build: merge #1414; two clean classifier windows; s816 to s818.
+
+## 20 Nov 2026 11:35 AEDT — S1-Build: s815 live; s818 recorded before merge
+
+**Done:**
+- **s815 live 11:30 AEDT:** Pilot #1414 merged; `20261120112000` applied (history md5 `6411b3c5` = file). First classifier windows on the new code: 12:29 and 13:29.
+- **s818 recorded before merge (Pilot #1415, `20261120115000`, v2.16.65, dry-run md5 `22b0d329`):** 195 of 277 tied main campuses settled from register data; Main campus filter on Catalogue › Providers; 257 NZ and CA courses linked to their provider's only campus; 6 NZ campus regions.
+- **Lanes:** AER (s816/s817) left to S1-AER.
+
+**Next executable action:**
+- S1-Build: merge #1415; confirm the 12:29 and 13:29 classifier windows; s819 verify and sync.
