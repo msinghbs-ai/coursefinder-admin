@@ -14941,3 +14941,28 @@ Admin #713 (`b81912dd`) and #714 (`73188414`) merged first. Pilot #1437 (`86f373
 
 **Waiting for a decision:**
 - Victoria University: the second record (CRICOS 02475D, Sydney and Brisbane, 35 courses with their own CRICOS codes) is a separate registration, and `vu.edu.au` already has one owner (00124K). Platform Admin: keep it as a separate registration, retire it, or merge it.
+
+**S1-ELR-Central, 20 Nov 2026 23:20 AEDT: s884 to s886 recorded before merge: central English pages read at $0 (`elr-central-v1.0`) through the governed English policy route, inside `elr-det-sweep` (Pilot #1439, migration `20261120220000`)**
+
+The Platform Admin's decision came at 20 Nov 2026 22:07 AEDT: populate the remaining Table 1 gaps from central English pages via the governed provider English policy route, at $0.
+
+- **Audit, read live and rolled back.** Table 1 is 6,160 courses on 792 providers.
+  - 115 providers (1,829 courses) have an approved policy, with 0 waiting to cascade. All are held: level not covered 1,173, no research requirement 362, no default for the level 266, named 186, double degree or exit award 61.
+  - 15 providers (648 courses) have a reading waiting for a person.
+  - 69 providers (1,051 courses) have a stored page that gave no values.
+  - 70 providers (346 courses) have a page found but not stored; that needs Firecrawl, which is out of scope.
+  - 523 providers (2,286 courses) have no central page.
+- **s884, reader `elr-central-v1.0`.** It reads by tier (undergraduate, postgraduate coursework, research, VET/diploma), keeps verbatim quotes and PTE decimals, and keeps tiers strict. Conflicts are left out, and regulated disciplines are reported rather than used as a default.
+- **s885, the governed route.**
+  - Each university gets one proposal, holding only the tiers its approved policy lacks.
+  - It is auto-approved only with no conflict and no other reading waiting, and the course-page disagreement check still applies.
+  - The plan adds a VET tier only when the policy states one, and holds regulated disciplines.
+  - The plans of the 8 largest existing policies are unchanged row for row.
+- **s886, sweep.** There is no new cron job. `elr-det-sweep` now also reads central pages (6 universities a run), applies 2 approved central policies a run, and sends regulated-discipline courses to Layer 4. `provider-english-defaults` skips these policies.
+- **Validation:**
+  - Specs: s884 7/7, s885 and s886 6/6, and the guards pass.
+  - The rolled-back dry run of the final file passed; the claim finds 604 pages for 263 universities.
+  - Rolled-back smoke test: one proposal; the auto-approve refused it on the disagreement check (synthetic values); VET and bachelor defaults by tier; the sweep run took 1.1 s.
+  - G1, G2 and G3 kept; US$0.
+- **Design:** `docs/platform/2026-11-20-s884-s886-elr-central-policy-route.md`.
+- **Next:** auto-merge this record, then Pilot #1439, then read live.
