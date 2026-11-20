@@ -2724,6 +2724,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **A value without a study level is never spread across levels.** Pages that sort courses into English bands or levels are held with that reason until a reader can tie each band to its courses.
 - **A new reader version reads every page again; the governed route's name stays the same.** Approval, the plan and the apply runs do not change with the reader version.
 
+### S1-ELR-Bands-And-Crawl design decisions (21 Nov 2026, s904 to s909; Platform Admin 09:00 AEDT)
+
+- **An English band is never a study-level default.** A band's values are used only for a course whose own page names exactly one band the university defines, and only through the course-page gates. Regulated disciplines and ambiguous pages go to Layer 4.
+- **IELTS sub-score wording is not a band scheme.** Only "English band(s)" or "English level(s)", or a line, row, column or heading labelled with a band, counts as one.
+- **A one-off Firecrawl fetch a session asks for runs under its own on-demand request.** It is scoped to its purpose group, bounded, sent once (a lost call is never re-sent) and closed by the job when done, with its estimate and report kept.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.
