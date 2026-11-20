@@ -14833,3 +14833,14 @@ Platform Admin 20 Nov 2026 15:11 and 15:22 AEDT (lane block s850 to s859, migrat
 - **Audit matrix:** `docs/platform/2026-11-20-s872-s874-layer4-19-queue-card-contract.md`.
 
 **Next.** Merge this record (automerge), then Pilot (automerge) on green CI. Read back, check signed in, then Drive and park.
+
+## 20 Nov 2026 18:15 AEDT — S1-Build: s881 live; 136 active cron jobs, 0 unregistered
+
+**Done:**
+- Pilot #1434 merged itself by the `automerge` label; Deploy on merge (started by the workflow with the exact commits) applied `20261120181000` (history md5 `b0ae0cb4`).
+- Read back 18:00 AEDT: 136 active with every idle-paused job on, 0 unregistered; the 7 jobs retiring until 4 Dec; protected sweeps and pipelines on; G3 75/48; 7,585 locks; spend US$0.
+- Drive `Monitoring` synced (rows 215–216, hours summary from `925c324d`, latest-only backup pair).
+
+**Next executable action:**
+- Platform Admin, from 5 Dec 2026: `docs/paste/PASTE-20261205-s881-idle-jobs-unschedule.sql` (guarded).
+- S1-Build: parked.
