@@ -14554,3 +14554,47 @@ Pre-flight:
   - G1, G2 and G3 kept; US$0 spend; no interactive `execute_sql`.
 - **Design:** `docs/platform/2026-11-20-s840-s842-elr-deterministic-reader-and-sweep.md`. The decisions are in the design reference under "S1-ELR design decisions".
 - **Next:** merge this admin record, then Pilot #1428 on green CI. Then read back the worker version, the job, the first ticks, promotions and Layer 4 items. After that: closing records, the Drive Monitoring row, and Table 1 and Table 2 re-measured.
+
+## 20 Nov 2026 16:20 AEDT — S1-RM-Design (S1-UI-Parity): s836 to s838 live and read back; s839 recorded before merge (Pilot #1429, v2.16.69)
+
+**s836 to s838 are live.**
+- **Merges:** admin #694 (`fd310dcb`), then Pilot #1424 (`13256fba`, v2.16.68), on green CI after re-reading main and the open PRs.
+- **Deploy on merge:** applied `20261120145000`; the history md5 `8f00baa9` equals the file.
+- **Read back (rolled-back probe):**
+  - 2,221 history rows; head `20261120163000` (S1-AER's #1423 had merged in between).
+  - G3 75/48 with no drift; manual locks 7,585.
+  - The four settings are present; `admin_layer4_inbox` carries `rule_groups`.
+  - The stored pulse shows a cap of US$14 and the rates.
+
+**Signed-in check on production as Platform Admin (v2.16.68):**
+- **Dashboard:**
+  - The order is role line, cards, Active failures (5), then Continue (3).
+  - No legacy section remains.
+  - The spend card reads "US$3.27 of the US$14.00 daily cap" with its bar.
+  - Active failures shows genuine items only: the Website API probe, the scholarship course loader's last run, the database over its high level, the Fee reader stuck, and course search at 3.2 s.
+  - The `?` opens 3 steps and Escape closes it.
+- **Platform Health:**
+  - Page Capture shows "10,544 pages in the last 24 h · 4.0× normal".
+  - AI Extraction & Auto-Clean shows "84.6% … normal 69.7% (+14.9 points)".
+  - The `?` opens 3 steps and Escape closes it.
+- **Layer 4 Review** opens on Review by rule for descriptions (207):
+  - The groups are Page match not clear enough 71, More than one page 64, Waiting for the machine check 48, The page changed 15, Contains a banned word 8 and Not a course overview page 1, grouped in 900 ms.
+  - One focused card is shown, and the older views are under Other views.
+  - The banned-word card shows "Contains 1 banned word — leading", with the word marked and the cleaned text above Remove "leading" & Admit, and a three-button bar.
+  - Preview the batch listed 8 records, 6 of them ready.
+  - The `?` on the hold banner opens 3 steps and Escape (a real key press) closes it.
+  - Nothing was approved or rejected.
+
+**Two findings, fixed in s839 (Pilot #1429, v2.16.69, no migration):**
+- **Finding 1:** a course description card's Main hold reason showed the machine code ("identity margin thin").
+  - **Fix:** it now names the rule ("Page match not clear enough") in every view.
+- **Finding 2:** Preview the batch took about 880 ms from the click (database 87 ms).
+  - **Fix:** the chosen rule's records are now read as soon as the rule is chosen, so the preview opens in under 300 ms.
+
+**Tests:**
+- New spec: `cf-247-s839-l4-plain-hold-title-batch-prefetch-contract`.
+- All 350 Layer 4 tests pass on desktop and phone.
+
+**Observation, not changed here:** the s819 word strip can leave an awkward ", and" where a removed word joined a list. For example, "decision-making, and motivating people". The cleaned text passes every check. It is recorded as a gap.
+
+**Next:** merge this record, then Pilot #1429 on green CI; read back the deployed frontend; Drive row, Summary and backup pair; closing report.
