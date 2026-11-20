@@ -13155,3 +13155,48 @@ Platform Admin 20 Nov 2026 15:19 and 15:22 AEDT (chat S1-Structure-Outcomes): cl
 - **Yield note.** 107 of 120 pages state no academic threshold in a form the reader accepts (it needs an explicit number or grade); this is the cost of skipping vague boilerplate, as instructed. Courses whose pages state their rules only in tables are for the table reader (S2 lanes), not this path.
 - **Gaps (as read 20 Nov, no row activated since).** Table 1, verified source-backed (a stored page is bound; no active entry rule): AU 12,226, NZ 4,522, CA 3,235, total 19,983 (120 of these pages now read, 3 proposed). Table 2, no source available yet (*No source available — do not quote as verified*): AU 4,705, NZ 1,578, CA 579, total 6,862.
 - **Open for a person:** authorise S677; decide the 6 matrix changes; watch the machine rule's first admissions (the next :24 and :54 runs) and Layer 4 volume; delete branch `cf247-s676-probe`.
+
+## 20 Nov 2026 15:50 AEDT — S1-RM-Design (S1-UI-Parity): s836 to s838 recorded before merge (Pilot #1424, v2.16.68, migration `20261120145000`)
+
+**Directive:** Platform Admin, 20 Nov 2026 14:40 and 14:41: bring the live Dashboard and Layer 4 Review into one-to-one parity with the approved s820–s827 mockup, and add rate meters to Platform Health.
+
+**Numbering** follows the 15:25 lane roster: specs s836–s838 (window s836–s839) and migration `20261120145000` (window ≤ `20261120145500`, above the live head `20261120143000`). An earlier draft used s834–s836 and `20261120150000`; both were renumbered before any PR.
+
+- **s836 Dashboard.**
+  - The page now shows, in order: the role line, the five cards, Active failures (operators and above), then Continue where you left off (the 3 most recent).
+  - Removed: Waiting for your approval, Waiting for you, Also, the four summary cards and the Layer 2/3 › Operations link.
+  - Spend card: it now shows "of the US$14.00 daily cap" with its bar. The pulse reads `ai_daily_ceiling_usd` (a md5-guarded fragment of `security.ops_pulse_refresh_v1`), and the screen falls back to the budgets check in the same answer.
+  - Active failures shows genuine failures and warnings only. It excludes the "Fields below target are moving" and "Work queues are moving" watchdogs; stuck work shows as "X is stuck".
+- **s837 Layer 4 Review opens on Review by rule.**
+  - Rule rail: groups every waiting item of the chosen queue by its rule, across the whole queue. It uses a new read-only `rule_groups` action of `public.admin_layer4_inbox` (a md5-guarded inserted branch) backed by `security.layer4_rule_groups_v1`.
+  - One focused card at a time, read by key (`rule_group_items`).
+  - Preview the batch: lists the exact records; about 200 ms for 50 live records.
+  - Batch admit: only the banned-word description group, after a confirmation, as one `decide` `edit_approve` per record with its reason. AER and every other group are worked card by card.
+  - By university, By kind, Grid and Decided are under Other views.
+- **s838 Cards and rates.**
+  - Every held card shows the amber Main hold reason banner, with `?` and Technical detail.
+  - Banned words are marked inline in soft yellow.
+  - The cleaned text sits directly above Remove "word" & Admit.
+  - The action bar is three buttons in one row: Save Edit & Admit, Approve As-Is, and Reject on the right.
+  - Platform Health: Page Capture shows the capture rate against normal, and AI Extraction & Auto-Clean shows the auto-clean pass rate against normal. Both come from the stored 5-minute pulse (`security.ops_pulse_rates_v1`); there is no extra screen read.
+  - The `?` help is kept on all five screens.
+- **Guardrails.**
+  - No new public function, table or view. G3 was read before and after: 75/48, no drift.
+  - The windows and limits are settings: `layer4.rule_group_refs_max` 500, `layer4.rule_batch_max` 50, `pulse.rate_window_hours` 24 and `pulse.baseline_days` 7.
+  - Manual locks: 7,585. Spend: $0. No interactive `execute_sql`.
+- **Validation.**
+  - Rolled-back live dry run through the non-interactive workflow (migration md5 `8f00baa9`): passed.
+  - Description groups: identity_margin_thin 71, binding_ambiguous 64, first_provider_sample 48, evidence_moved 15, banned_word 8, wrong_page_kind 1. Grouping took 250 ms; a keyed card read about 200 ms.
+  - Capture: 4.45× normal (11,200 against 2,519 per 24 h). Auto-clean pass rate: 84.6% against a normal of 69.7%.
+  - Local tests: the Layer 4 and Dashboard set (342 tests before the updates) and the governance specs (s32, s42, s57, s120, s553, s557, s616, s810, s811, m245) pass.
+- **Tests.**
+  - New: `cf-247-s836-dashboard-parity-contract`, `cf-247-s837-layer4-rule-rail-focus-contract` and `cf-247-s838-card-polish-rates-help-contract`.
+  - Seven Dashboard tests were retired with their sections (including the s179 Scholarships ready to publish row); the reasons are in the retirement log.
+  - Layer 4 browser tests now open `?view=university`; their guards are unchanged.
+  - The register was regenerated on main after S1-AER #1423, with the in-flight rows of the open Pilot PRs #1425 and #1427 kept.
+- **Not done here.**
+  - The old branch name `cf247-s834-s836-ui-parity` could not be deleted through this session's GitHub proxy. It is identical to `cf247-s836-s838-ui-parity` and can be deleted by hand.
+- **Next.** Merge this admin record, then Pilot #1424 on green CI. After that:
+  - Apply the migration on deploy and read it back.
+  - Verify both screens signed in on production, including the `?` and Escape on the Dashboard, Platform Health and the Layer 4 hold banner.
+  - Close the record, update Drive and report the two gap tables.
