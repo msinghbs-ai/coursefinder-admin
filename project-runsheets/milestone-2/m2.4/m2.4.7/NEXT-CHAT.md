@@ -15119,3 +15119,11 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
   - IQ-00445: `coverage-reconcile` :26 → :09; `scholarship-coverage-classify` :29 → :40.
 - Pilot migration `20261121090000`: rolled-back dry run passed (134 active jobs unchanged; nothing dropped).
 - Drive variance of 45 minutes explained and aligned: 4 S1-Courses rows (60 minutes) restored here from Drive (their admin #609 was never merged); Drive row 183 corrected from 15 to 30.
+
+## 21 Nov 2026 08:40 AEDT — S1-CourseLink-2027-CRICOS: s894 re-issued as `20261121093000` (its first version was taken by S1-ELR-Central-Policy); nothing of s894 was live
+
+- **What happened.** Pilot #1442 (`a4709441`) merged s894 with migration `20261121080000`. S1-ELR-Central-Policy had already applied that version for s895–s896 (#1443). Deploy on merge refused the second file with the same version and ran nothing. So neither the s894 migration nor its worker change went live; items per call stayed at 15.
+  - Lane lesson: claim the version against the open pull requests and the merged head at the moment of merge, not only at the start.
+- **Fix (Pilot #1445).** The same migration is issued again as `20261121093000`, above the live head `20261121090000` (s900), and one comment line in the worker makes Deploy on merge deploy `coverage-sweep`. The s894 spec now checks that only one file uses `20261121080000`.
+- **Dry run passed, rolled back** (run 44821326058): per call 8; 119 to try, 69 with a stored copy; G3 75/48; locks 7,585; 135 active jobs.
+- **Next.** Merge this record, then Pilot #1445. Read back the next runs, then sync Drive and park.
