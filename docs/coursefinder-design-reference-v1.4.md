@@ -2693,6 +2693,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Every admitted value is recorded with the value before it** (`pipeline.struct_det_outcomes`), so it can be audited or rolled back course by course.
 - **Not held, so not admitted:** NZQF level and credits and PGWP eligibility have no catalogue field or register; they are reported as gaps for a Platform Admin decision, never written into another field.
 
+### S1-ELR design decisions (20 Nov 2026, s840 to s842; Platform Admin 15:10 and 15:21 AEDT)
+
+- **English language requirements are read deterministically from the stored course page, at $0.** The reader is `elr-det-v1.0` (no model, no fetch). Every reading carries a verbatim quote that is a line of the stored page, and its value must be printed in that quote. English is its own pipeline; academic entry (AER) is never read or written by it.
+- **Only the internet-based and academic forms count:** TOEFL iBT (not PBT, ITP or Essentials) and PTE Academic (not General, Core or Home). PTE decimals are kept. Cambridge C1 Advanced and C2 Proficiency are both stored under the one Cambridge test code, with the level in the note.
+- **A table of several programmes is never split by guesswork.** A line with two or more programme titles, or one test with two values, is skipped. Two different values of a test on one page, or a page shared by several courses, go to Layer 4.
+- **Automatic promotion only fills an empty field.** It inserts only (no overwrite of any source, including policy rows). It never writes over a manual lock or a pending review. It needs a page identity the country accepts for English, a stated minimum and a complete value. A fixed audit sample (`elr_det.audit_pct`) goes to Layer 4.
+- **A pathway, foundation or ELICOS score is never a course's English requirement.**
+- **A function the English plan calls once per course must not carry a configuration switch it does not need.** When the answer cannot change (no group bindings), the call is not made. The plan's answer is proved unchanged before the replacement is kept.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.
