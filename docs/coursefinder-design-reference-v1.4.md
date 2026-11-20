@@ -2709,6 +2709,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Fees that need a person go to Layer 4 with the reason in words.** A fee per semester, per unit or for the whole course, two yearly figures, a foreign currency or an old fee year is raised as `provider_current_tuition_validation`, capped per run by a setting (`fid.layer4_per_run`). Whole-course fees stay with a person (Decision of 30 Sep 2026). Rolling-admission statements are recorded and write nothing.
 - **The worker stays read-only and the database decides.** The scheduled sweep sends batches through `pipeline.svc_pilot_submit_nonce` and reads the reply back from `net._http_response`. No public function, table or view is added for the worker to write through (G3 stays 75/48).
 
+### S1-ELR-Central design decisions (20 Nov 2026, s884 to s886; Platform Admin 22:07 AEDT)
+
+- **Remaining English gaps are filled from the university's central English page through the governed English policy route, at $0.** The reader is deterministic (`elr-central-v1.0`), and a reading becomes a policy proposal, never a direct write.
+- **A central reading never replaces an approved policy.** It only adds the study-level tiers the approved policy does not give, and carries that policy's named courses and exceptions.
+- **Study-level tiers are strict.** The tiers are undergraduate, postgraduate coursework, research, and VET and diploma. A value goes only to the tier its line, row or heading names. "All courses" means undergraduate and postgraduate. VET and diploma courses take a VET default only when the policy states one.
+- **Regulated disciplines are held for a person** whenever the central page gives them higher bands: nursing, midwifery, medicine, allied health, teaching and education, law, social work. They go to Layer 4 with a plain reason.
+- **Approval stays governed.** A deterministic central reading is approved automatically only when it has no conflict and no other reading of the university is waiting for a person, under the existing course-page disagreement check (setting `central.auto_approve_elr_central`). Otherwise a person approves it.
+- **No new cron job for this work.** The existing English requirement sweep carries it in bounded runs, and the provider-english-defaults run does not grow with it.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.
