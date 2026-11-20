@@ -14650,3 +14650,12 @@ Pre-flight:
 
 - **Lane coordination:** Pilot #1427 merged with coverage-sweep v1.0.33 before the 16:33 S1-Fees-Intakes note arrived. Pilot #1425 should rebase on main and take worker v1.0.34. Its migrations (`20261120165000`, `165100`) are now below the live head (`20261120172000`), so they also need renumbering above it.
 - **Open for a person:** (1) whether NZQF level and credits get a catalogue field (a design and API v3 decision); (2) a source for PGWP programme eligibility; (3) the 13 Layer 4 structure items (field codes `duration`, `study_load`, `delivery_mode`, reader `struct_det`). The dedicated Inbox card is a follow-up for the S1-RM-Design Layer 4 universal-card work.
+
+## 20 Nov 2026 17:30 AEDT — S1-Build: s870 automatic merging recorded before merge
+
+**Done:**
+- **Recorded before merge:** Pilot #1433 (no migration) and this repository's Auto-merge workflow. A pull request labelled `automerge` merges itself on green checks (a migration also needs its rolled-back dry run), its branch is deleted, and the push-to-main workflows are started for it (Pilot: Deploy on merge with the exact commits, Security gates, Deployed UAT; here: Security gates). Probe branches are deleted after their dry run; idle `…-probe` branches are swept.
+- **Rule in both `CLAUDE.md` files:** never ask a person to merge or delete a branch; admin first, then Pilot.
+
+**Next executable action:**
+- S1-Build: label this pull request `automerge` and confirm it merges itself; then the same for Pilot #1433.
