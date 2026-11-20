@@ -14302,3 +14302,15 @@ Claimed numbers: s822 (used), s823 to s825 (held for this lane, unused); migrati
 
 **Next executable action:**
 - S1-Build: merge #1415; confirm the 12:29 and 13:29 classifier windows; s819 verify and sync.
+
+**S1-Courses, 20 Nov 2026 11:50 AEDT: s822 live; re-read yield, link and "Course page needed" sizing — read only, no migration, no data change**
+
+s822 is merged (Pilot #1413 `aecc7d56`, admin #676) and live: head `20261120114000`, 4,412 readings marked `reread:`, one audit row, G3 75/48 with no drift. No number above s822 used; S1-UX's s823 to s827 untouched. All reads through the rolled-back dry-run route.
+- **Yield so far (read 11:45, the picker is still working through the set):** descriptions 15,311 to **15,328** (+17). Of the 4,412 courses: 1,982 not yet picked up, 1,671 queued, 725 with the AI, 17 filled, 17 in review. The banned-word strip (S1-RM-Design, Pilot #1411) is still open, so it has not cleared any promotional-word holds.
+- **Spend:** all AI lanes today US$0.98 in total (description-related `enrich_fields` US$0.34 over 970 calls; this and other lanes share the ledger, so s822's own share is not separable). Inside the US$14 a day cap. Firecrawl US$0.
+- **210 unverified links (all `official_course`):** 163 are on a host the provider already uses for an active link; 47 are on a host the provider has no active link on; 3 courses already hold an active official course link; 129 have the same URL and course on a stored page with evidence, but only 9 equal a bound page. Identity is not proven for the rest, so no deterministic admission is safe. No batch shipped; the 210 stay unverified.
+- **Course page needed (1,689 waiting, all active courses, 198 providers):** none has a bound page that was read with evidence. Their stored pages are identity mismatches (about 1,300), refused, blocked, robots-disallowed or fetch-failed (about 400). Binding a mismatched or refused page would break the identity rule, so none is bound. The count stays with S2-BOOST-Discovery's page rules (Adapter has nothing ready 317, Course link 422).
+- **Table 1 (verified source-backed gaps, 10,712) and Table 2 (no source yet, 10,009: AU 5,546, NZ 3,198, CA 849, link-only 416)** carry over from the 11:02 block; Table 1 shrinks as the re-read fills.
+
+**Next executable action:**
+- S1-Courses: read back the final yield and spend once the picker has drained the 1,982 not yet picked up; admit nothing by hand.
