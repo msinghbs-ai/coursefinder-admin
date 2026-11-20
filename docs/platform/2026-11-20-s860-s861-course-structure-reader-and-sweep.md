@@ -50,3 +50,28 @@ To stop it: set `struct_det.sweep_on` and `struct_det.promote_on` to 0.
 - NZQF level and credits: 6,267 NZ course titles state "(Level N)" from the NZQA register; credits are in the stored register evidence. No catalogue field holds them.
 - PGWP eligibility: no register of eligible programmes is held.
 - Layer 4 shows these items as `layer4_review_items` (fields `duration`, `study_load`, `delivery_mode`, reader `struct_det`); a dedicated Inbox kind is a follow-up for the UI lane.
+
+## 6. Live results and remaining gaps (20 Nov 2026 17:05 AEDT)
+- **Admitted by 17:05 AEDT** (seven ticks, 400 stored pages read): duration 77, study load 7, delivery mode 1 (NZ and CA; AU had no structure gap with a stored page). 13 items in Layer 4 (conflicting durations and shared pages, each with a plain reason). 2,082 stored pages still to read, about two hours at the current pace.
+- **Tick time:** the promoter takes 25 ms and the shared-page check is indexed (s862). The tick still runs for 8.7 to 10.9 s, because a tick sends up to 80 pages and parses up to 80 answers. The send query alone took up to 1.7 s when it was measured over the whole backlog. One tick at 16:56 failed with "job startup timeout": pg_cron could not start its worker in time. That is platform contention, not this job; the next tick ran normally. Next optimisation: cut the send query below 300 ms by marking the gap courses once rather than re-testing each tick.
+- **Table 1 — Verified source-backed gaps** (a stored course page is bound, so the sweep reads it; 17:05 AEDT):
+
+| Field | AU | NZ | CA |
+|---|---:|---:|---:|
+| Duration | 0 | 620 | 1,101 |
+| Study load | 1 | 687 | 973 |
+| Study mode | 3 | 262 | 151 |
+| NZQF level and credits (register-backed, no catalogue field) | n/a | 6,267 titles state the level | n/a |
+
+- **Table 2 — No source available yet** (no stored course page and no register value; *No source available — do not quote as verified*):
+
+| Field | AU | NZ | CA |
+|---|---:|---:|---:|
+| Duration | 0 | 3,433 | 1,307 |
+| Study load | 23 | 3,496 | 1,391 |
+| Study mode | 17 | 3,124 | 1,052 |
+| PGWP eligibility (no register of eligible programmes held) | n/a | n/a | 3,814 |
+
+- **Lane coordination:** Pilot #1427 merged with coverage-sweep v1.0.33 before the 16:33 S1-Fees-Intakes note arrived. Pilot #1425 should rebase on main and take worker v1.0.34. Its migrations (`20261120165000`, `165100`) are now below the live head (`20261120172000`), so they also need renumbering above it.
+- **Open for a person:** (1) whether NZQF level and credits get a catalogue field (a design and API v3 decision); (2) a source for PGWP programme eligibility; (3) the 13 Layer 4 structure items (field codes `duration`, `study_load`, `delivery_mode`, reader `struct_det`). The dedicated Inbox card is a follow-up for the S1-RM-Design Layer 4 universal-card work.
+
