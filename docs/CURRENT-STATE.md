@@ -1510,6 +1510,18 @@ Read only; zero schema migrations, no data change, zero AI and Firecrawl spend. 
 
 **Next executable action (no decision needed):** S1-AER builds the deterministic English-score and ATAR/NCEA pattern reader as a shadow reader over the 19,979 stored pages in Main storage, with zero AI spend, writing only shadow readings beside Layer 4; run through workflows; then a read-back table of yield.
 
+**S1-AER, 20 Nov 2026 12:05 AEDT: s828 recorded (parity fix): Pilot #1412 live, `20261120120000`; deterministic entry reader in shadow; s829 to s832 claimed**
+
+Numbering (Platform Admin 20 Nov 2026 11:55): the S1-AER work of Pilot #1412 is **s828**, not s815 (s815 belongs to S1-Build, Pilot #1414). S1-AER claims **s829 to s832** for the rest of this block. Pilot spec `cf-247-s815-aer-det-reader-contract` is renamed to s828 in the s829 release.
+- **Repo-first lapse, disclosed:** Pilot #1412 merged on green CI and a passing rolled-back dry run (run 44642273650), and deploy-on-merge applied `20261120120000` before this mirror existed. This block closes that gap. From here any new migration is mirrored here and merged here **before** its Pilot PR merges.
+- **What is live:** worker `coverage-sweep-worker-v1.0.32`, read-only mode `aer_det_read` (reader `aer-det-v1.0`); shadow tables `pipeline.aer_det_pages` and `pipeline.aer_det_readings` (RLS on, no public grants); `security.aer_det_record_v1` (service role only, idempotent, never writes `catalogue.*` or Layer 4); setting `batch.aer_det_read` (20; 5 to 40). Workflow `aer-det-read` (status, run). G3 unchanged (75 functions, 48 tables, zero new public objects). Nothing admitted. AI and Firecrawl spend $0.
+- **First shadow batch (200 stored pages, keyset by course):** 258 readings on 83 courses (IELTS 78, Year 12 96, ATAR 25, PTE 14, TOEFL iBT 10, University Entrance 10, NCEA L3 8, Canadian secondary 8, Cambridge 5, Bachelor GPA 4). Run time about 15 minutes, so the sequential runner would need about 25 hours for all 19,981 pages.
+- **Precision read (30 sampled readings, checked by eye against the quote):** numeric IELTS and ATAR readings correct, quotes on the page. Findings for s829: Year 12 "stated" readings are often boilerplate with no value; University Entrance and NCEA L3 fired inside a long IELTS-only sentence (320-character window too wide); IELTS band minimums ("no lower than 5.0 in any subtest") are missed (recall).
+- **Promotion:** none. It needs a new writer into the Layer 4 and `catalogue.*` path under the existing gates (second sign-off). Decision 276 holds: AI and Boost `aer_entry` stay shadow only.
+- **Left alone for the Platform Admin:** S677 (`security.aer_machine_admit_v1`) and the 6 entry-matrix changes. Branch `cf247-s676-probe` stays until the read-only probes finish; the Platform Admin deletes it.
+- **Next:** s829 tighten the four reader rules and parallelise the runner, then a verification batch; s830 diagnose the 1,892 partial-table-read holds; s831 Layer 4 hold-reason table and quote drawer; s832 closing sync, Drive Monitoring row and the two gap tables.
+
+
 **S1-AER, 19 Nov 2026 05:30 AEDT: morning read-back — would-admit course reads still NOT admitted; 0 P0 findings; replay pause confirmed**
 
 Read only; no migration, no data change (zero schema migrations in this lane). Live reads: `aer-validation-renew.yml` status run 44369257782 (05:24) and a rolled-back probe (run 44370612954 on the carrier branch).
