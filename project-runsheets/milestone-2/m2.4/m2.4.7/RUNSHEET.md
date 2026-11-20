@@ -15144,3 +15144,21 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
 - **Spec:** `cf-247-s894-link-rollover-stored-copy-contract`.
 
 **Next.** Merge this record (automerge), then Pilot #1442 on green CI. Read back the next runs, then sync Drive and park.
+
+**S1-ELR-Central-Policy, 21 Nov 2026 08:35 AEDT: s895 and s896 recorded before merge: `elr-central-v1.1` reads level-column tables and value-first phrasing and reports band pages; every university's stored central page is read again at $0 (Pilot #1443, migration `20261121080000`)**
+
+The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remaining source-backed gaps across all universities from central pages by study level, at $0, with no hardcoded exclusions.
+
+- **Audit, read live and rolled back.** Table 1 is 5,930 (AU 3,538, NZ 1,091, CA 1,301); the claim had 0 left. By route (universities / courses):
+  - elr-central approved: 19 / 73;
+  - waiting for a person: 28 / 730;
+  - approved policy only: 75 / 1,353;
+  - read, no proposal: 70 / 1,132;
+  - page not stored: 70 / 346;
+  - no central page: 523 / 2,296.
+- 319 genuine requirement pages gave no value tied to a level. No provider is excluded by name, type or list.
+- **s895, reader v1.1:** reads level-column tables and "a score of 6.5 in IELTS", and reports values without a study level (English bands) rather than spreading them across levels.
+- **s896, second pass:** every stored central page of a university without an elr-central reading is read again by v1.1. The route name, approval, plan, apply and Layer 4 holds are unchanged. No new job, table or setting.
+- **Validation:** specs s895 and s896 5/5; the guards pass. G3 75/48, locks and the cron count are checked in the migration; US$0.
+- **Design:** `docs/platform/2026-11-21-s895-s896-elr-central-v11-all-universities.md`.
+- **Next:** auto-merge this record, then Pilot #1443, then read live.
