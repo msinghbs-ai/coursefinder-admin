@@ -13200,3 +13200,42 @@ Platform Admin 20 Nov 2026 15:19 and 15:22 AEDT (chat S1-Structure-Outcomes): cl
   - Apply the migration on deploy and read it back.
   - Verify both screens signed in on production, including the `?` and Escape on the Dashboard, Platform Health and the Layer 4 hold banner.
   - Close the record, update Drive and report the two gap tables.
+
+**S1-ELR, 20 Nov 2026 16:55 AEDT: s840 to s842 recorded before merge: admission-rule-runner-b time-outs fixed, deterministic English requirement reader `elr-det-v1.0`, gated automatic promotion and a scheduled sweep at $0 (Pilot #1428, migration `20261120170000`)**
+
+The Platform Admin's requests came at 20 Nov 2026 15:10 and 15:21 AEDT (chat S1-ELR). The scope is English language requirements only, with no AER. The lane block is specs s840 to s849, migrations 20261120150000 to 20261120152900 and dry-run slot 1.
+
+Pre-flight:
+- Both repositories were rebased on `origin/main`. s840 to s842 are claimed and unused.
+- The migration was written in the slot, then renumbered `20261120170000` to stay strictly above the live head (`20261120163000`, S1-AER) and the open lanes' files (163500, 165000, 165100, 145000).
+- Every dry run waited for an empty shared queue.
+
+- **Baseline, read live 15:12 AEDT** (rolled-back dry-run workflow, read only). The head was `20261120143000` with 2,219 rows. G3 75/48, 7,585 manual locks.
+
+| Country | Active | With English requirement | Table 1: gap, stored page bound | Table 2: gap, no stored page |
+|---|---:|---:|---:|---:|
+| AU | 25,703 | 16,427 | 3,780 | 5,496 |
+| NZ | 6,514 | 2,392 | 1,094 | 3,028 |
+| CA | 3,814 | 2,017 | 1,341 | 456 |
+| Total | 36,031 | 20,836 | 6,215 (6,151 read) | 8,980 |
+
+- **s840, runner-b.** There were 2 statement time-outs in 24 h. The context was `english_group_match_v1` inside `security.provider_english_plan_v1`, and rule `provider-english-defaults` ran at a median of 52 s and a maximum of 119 s against a 122 s budget.
+  - Cause: the match was called once per course, and again per course × other policy. It cannot be inlined (`SET search_path`), and none of the 180 approved policies has a binding, so every call returned `[]`.
+  - Fix: the calls now run only when a binding exists, and the title key is written out in place. The md5-guarded live text was replaced. The plans of the 8 largest providers are equal row for row before and after.
+  - Same-transaction timings: 230 to 5,649 ms before, 151 to 676 ms after (one run reached 2,223 ms under other lanes' load). EXPLAIN on the largest provider: 176 ms.
+- **s841, reader `elr-det-v1.0`** (worker mode `elr_det_read`, read only). It reads IELTS (overall and bands), TOEFL iBT (total and sections), PTE Academic (decimals kept), OET (grades or scores), CELPIP and Cambridge C1/C2, by acronym or spelled-out name. A collapsed multi-programme line is skipped. Pathway and foundation quotes are flagged and never promoted.
+- **s842, promotion and sweep.** The single writer is `security.elr_det_record_v1`. Its gates:
+  - the page is still bound and read;
+  - its identity is allowed for English;
+  - the page is not refused, and the course is not Layer 4 blocked;
+  - the course has no active requirement (insert only), no lock and no pending review;
+  - every reading of a test agrees, states a minimum and has its value in its own quote, and is complete.
+
+  Conflicts, shared pages and the 5% audit sample go to Layer 4 (`course_english`). Promoted courses are refreshed in `search.course_documents`. The job `elr-det-sweep` runs every 5 minutes: it reads pg_net answers back and sends the next keyset batch of 200 pages, 25 a call, at most 8 calls open. That drains about 6,151 pages in roughly 2.6 hours. There are seven settings, the workflow is `elr-det-read.yml`, and the status read is `security.elr_det_status_v1()`.
+- **Validation:**
+  - Specs: s841 7/7, s840 to s842 6/6; s42, s57, s120, s616 and s828 pass. The s32 browser test needs Chromium, which CI runs.
+  - The rolled-back live dry run of the final file passed.
+  - Synthetic writer run on 40 real gap pages, rolled back: 29 promoted, 9 to Layer 4, 2 held, search refreshed.
+  - G1, G2 and G3 kept; US$0 spend; no interactive `execute_sql`.
+- **Design:** `docs/platform/2026-11-20-s840-s842-elr-deterministic-reader-and-sweep.md`. The decisions are in the design reference under "S1-ELR design decisions".
+- **Next:** merge this admin record, then Pilot #1428 on green CI. Then read back the worker version, the job, the first ticks, promotions and Layer 4 items. After that: closing records, the Drive Monitoring row, and Table 1 and Table 2 re-measured.
