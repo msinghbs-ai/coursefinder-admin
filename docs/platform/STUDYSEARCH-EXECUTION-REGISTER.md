@@ -7724,3 +7724,30 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
   - 70 providers (346 courses) have a page found but not stored, which needs Firecrawl.
   - Non-AQF, school and short courses (751) have no tier.
   - Pages that state no requirement by tier stay held.
+
+## 21 Nov 2026 00:20 AEDT — S1-CourseLink-2027-CRICOS: s891 to s893 recorded before merge (v2.16.73, migration `20261120235000`): course links move to the current year by themselves
+
+**Audit (read only, 20 Nov 23:45–23:59).** 545 Course link items wait. 158 hold a page whose address carries a year, all with a CRICOS code and none locked.
+- By year: 2012 1, 2014 3, 2015 6, 2016 4, 2017 11, 2018 12, 2019 34, 2020 12, 2021 18, 2022 16, 2023 21, 2024 20.
+- By provider: Macquarie 51, ANU 33, Melbourne 27, Sydney 19, La Trobe 18 (for example `handbook.latrobe.edu.au/courses/2023/PHDLJ`, CRICOS 0100697), and 10 across 6 others.
+- How their pages were read: 91 directly, 55 through Firecrawl, 12 never read.
+- Rule l4-link-accept-v1 holds every one, because it never uses an old year.
+
+**s891, rule `course_link_year_rollover_v1`.**
+- Each held address is tried at 2027, then 2026, then 2025, then as held, by plain reads only (no Firecrawl, no AI).
+- The newest that answers on the provider's own host, at its own year, without "not found" or "no longer offered" words, and proves the exact CRICOS code is admitted.
+- Admission goes through the existing decision path under the system automation account, and the page is stored at once for the $0 sweeps.
+- Never admitted: locked, refused-before or off-host pages, and archived handbooks.
+- **Platform Admin decision recorded (22:58):** a held address with a past year may be admitted when it answers and proves the exact CRICOS code.
+- **No new job.** It runs inside `link-refresh` (every 10 minutes). Nine settings in the Layer 4 section; two tables, `pipeline.link_rollover_requests` and `pipeline.link_rollover_checks`.
+
+**s892.** Layer 4 Review › By university: Preview & Settle Batch on a single-queue rule group, including Course link.
+
+**s893.** Worker mode `link_year_rollover` (coverage-sweep, `link-rollover.ts`).
+
+**Checks**
+- Dry run passed, rolled back (run 44742560840): 158 to try; 137 active jobs; G3 75/48; locks 7,585.
+- Rehearsal on PHDLJ: set to `/courses/2027/PHDLJ` by the system account.
+- A plain read of the 2027 La Trobe page shows the course (PHDLJ) but not the course CRICOS code in its text. It is admitted only if the platform's identity rule or La Trobe's adapter proves it; otherwise it stays held with what was tried.
+
+**Next.** Merge this record (automerge), then Pilot #1441 (automerge, after its dry-run check). Read back the first runs, then sync Drive.
