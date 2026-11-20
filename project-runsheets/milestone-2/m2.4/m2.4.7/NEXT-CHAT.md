@@ -14832,3 +14832,16 @@ Admin #695 merged first (`5f7b8576`) by the `automerge` label, then Pilot #1425 
 - Local: release contract PASS, build, 38 targeted specs pass.
 
 **Next.** Merge this record (automerge), then Pilot #1436 (automerge) on green CI. Read back the deployed version, then Drive and park.
+
+## 20 Nov 2026 18:55 AEDT — S1-RM-Design: s875 live and checked signed in (v2.16.72); lane parked
+
+- **Merges:** admin #711 (`80982d6c`), then Pilot #1436 (`ebae623e`, v2.16.72). Security gates, Release Currentness Deployed and Deployed UAT passed. No migration.
+- **Signed in (Platform Admin, built-in browser, v2.16.72), Layer 4 Review, entry requirements:**
+  - Human Action Required 641, System Queues (Auto-Recovering) 308.
+  - An entry-matrix card in the Completeness gate group says "System recovery: the platform is working on it", with no re-read button.
+  - A Page identity card says the same and shows Re-read from stored copy ($0).
+  - Nothing approved, rejected or settled.
+- **Read back (rolled-back dry run 44698488654):** migration history 2,229 rows (s872 md5 `c701feda`). G3 75/48, no drift. Locks 7,585. The aer-det reader read 2,880 pages in 2 hours and proposed 139. $0.
+- **Parked.** Open for the Platform Admin:
+  - S677 and the 6 entry-matrix changes.
+  - The entry-matrix holds in System Queues (about 55 Completeness gate items with no course read to re-read).
