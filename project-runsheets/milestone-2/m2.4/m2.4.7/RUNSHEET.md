@@ -14863,3 +14863,23 @@ Admin #695 merged first (`5f7b8576`) by the `automerge` label, then Pilot #1425 
 - **Gaps (18:19 AEDT).** Table 1, verified source-backed (stored page text): fee NZ 1,086, CA 1,477; intakes AU 7,086, NZ 565, CA 731; deadlines AU 14,385, NZ 1,781, CA 1,906. Table 2, no source available yet: fee NZ 3,936, CA 1,605; intakes AU 7,402, NZ 3,728, CA 1,393; deadlines AU 9,572, NZ 4,700, CA 1,694. AU international fee: 0 gaps (CRICOS registered totals).
 - **Branches.** `cf247-s853-readback-probe` and `cf247-s854-gaps-probe` were removed by the probe clean-up after their dry runs. `cf247-s840-fees-probe` and `cf247-s850-fees-probe` were still present at 18:11; they are left to the idle-probe sweep.
 - **Follow-ups (for a later session).** Record one reply per tick so a tick stays short. Map trimester and semester labels to months through the university calendars (3 intakes incomplete). A deadline with no intake on the page (3 not tied to one intake) waits for its intakes.
+
+## 20 Nov 2026 18:35 AEDT — S1-RM-Design: s872 to s874 live and checked signed in; s875 recorded before merge (v2.16.72, no migration)
+
+**s872 to s874 are live.**
+- **Merges:** admin #708 (`925c324d`), then Pilot #1435 (`d3fbed00`, v2.16.71). Deploy on merge, Frontend Build, Release Currentness and Deployed UAT passed.
+- **Migration:** `20261120174700` applied; the history md5 `c701feda` matches the file. G3 75/48, no drift. Locks 7,585. $0.
+- **Signed in (Platform Admin, built-in browser, v2.16.71), Layer 4 Review:**
+  - Entry requirements: Human Action Required 607, System Queues (Auto-Recovering) 309. Audit sample (459) leads Human Action Required.
+  - Site down: System Queues only (149); the hold reasons read in plain words ("Website did not answer: home page not read").
+  - Cards show "Main hold reason: …" with no machine codes. The action bar runs admit, then edit, then set-aside on the right.
+  - Preview & Settle Batch opened on "No stored page bound" (33 records, 1.7 s): 0 re-readable, 33 to queue for a stored-page fetch. Closed without acting. Nothing approved, rejected or settled.
+- **Re-read check (read only, `aer_det_reread_check`):**
+  - All rows held: 44 of 50 re-readable. Page identity: 8 of 8.
+  - Completeness gate in System Queues: 50 of 50 are entry matrices (`not_a_course_read`), so there is nothing to re-read; they stay with the Platform Admin.
+
+**s875 (found in the signed-in check).** The entry-matrix recovery cards said "System recovery: re-read available" although they cannot be re-read. A card in System Queues now says "System recovery: the platform is working on it". Re-read from stored copy ($0) shows only where the check says it can be re-read.
+- Pilot #1436 (v2.16.72). No migration and no database change.
+- Local: release contract PASS, build, 38 targeted specs pass.
+
+**Next.** Merge this record (automerge), then Pilot #1436 (automerge) on green CI. Read back the deployed version, then Drive and park.
