@@ -13812,3 +13812,19 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
 - **Fix (Pilot #1445).** The same migration is issued again as `20261121093000`, above the live head `20261121090000` (s900), and one comment line in the worker makes Deploy on merge deploy `coverage-sweep`. The s894 spec now checks that only one file uses `20261121080000`.
 - **Dry run passed, rolled back** (run 44821326058): per call 8; 119 to try, 69 with a stored copy; G3 75/48; locks 7,585; 135 active jobs.
 - **Next.** Merge this record, then Pilot #1445. Read back the next runs, then sync Drive and park.
+
+**S1-ELR-Central-Policy, 21 Nov 2026 09:05 AEDT: s895 and s896 closed and parked: admin #732 (b001d30d) then Pilot #1443 (3bace2e7) merged by automerge; migration `20261121080000` applied; coverage-sweep deployed 08:13 AEDT; read live 08:55 AEDT**
+
+- **Live checks:** G3 75/48 with no drift; manual locks 7,585; 135 active cron jobs; US$0. `elr-det-sweep`: 5 of 5 runs succeeded since the deploy, longest 5.5 s.
+- **v1.1 second pass, first 40 minutes:** 63 central pages read again (47 read, 16 in flight), 354 left, about 4 hours at the current pace.
+  - 2 pages gave values tied to a study level; both universities already hold an approved policy for those levels.
+  - 14 pages give values with no study level: held, never spread.
+  - No new proposal yet.
+- **Tables:** Table 1 is unchanged at 5,930 (AU 3,538, NZ 1,091, CA 1,301). Table 2 (no stored page) is 8,837 (AU 5,359, NZ 3,023, CA 455).
+- **Found after release:** the reader's "English bands" test also matches IELTS sub-score wording (for example "band 6.0"). The held reason "the page sorts courses into English bands or levels" is therefore over-applied.
+  - The effect is limited to that label. No value is written or spread because of it.
+  - Fix in the next reader version: the band test should need a band letter or "English band".
+- **Next:** none in this lane; the sweep finishes the second pass by itself.
+  - The 730 courses whose central readings wait for a person are in Universities › English.
+  - 346 courses need Firecrawl and 2,296 have no central page; both are outside this $0 lane.
+  - **Platform Admin decision:** a reader for pages that sort courses into bands, with each band tied to its courses.
