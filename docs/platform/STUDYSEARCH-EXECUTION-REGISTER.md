@@ -7030,3 +7030,13 @@ Specs: s828 (reader, Pilot #1412, live), s829 (precision rules and runner, Pilot
   - So the gate is working: the readings the AI reader proposed did not quote the page verbatim, or gave a score with no basis. The fix is a new read with verbatim quotes (the S744 row chunker with a qualified model, AER v2, still paused, or the deterministic reader once it has a promotion path), not a looser gate. Left alone: S677 and the 6 matrix changes (Platform Admin).
 - **s831 (Pilot #1418, recorded before merge; repo-first).** Migration `20261120130000` (dry-run md5 `a7ad6ac9`): `security.layer4_aer_hold_base_v1`, `security.layer4_aer_hold_reasons_v1` (revoked from public, anon, authenticated, read only) and one new branch in `public.admin_layer4_aer_queue` (`{hold_reasons: true}`; live definition md5 `800198d6` checked first; no new public function, table or view; G3 75 and 48). Rolled-back reads: summary 92 ms, list 108 ms; total 2,562 equals Layer 4. UI: Layer 4 › Inbox › Course entry first read › "Why items are held (N pending)" (reason, count, Show items, Show the audit sample) opens the existing Source quote drawer, which now has four rule checks (exact quotes, page identity, completeness gate, no overwrite: checked again on approval); decisions stay in the Inbox card (Approve, Approve except, Reject, each with a reason). No "Approve the verified batch" button. Not built: highlighted full stored-page text (no read of the stored text from the browser exists; the drawer shows the verbatim quotes kept from the stored page and links the stored copy). No release version bump and no SOP edit here (S1-Build owns v2.16.x and SOP 2.78); both are owed at the next bump.
 - **Open for a person or the Platform Admin:** S677, the 6 matrix changes, promotion path and second sign-off for deterministic readings, a larger `batch.aer_det_read`, deleting branch `cf247-s676-probe`.
+
+## 20 Nov 2026 12:50 AEDT — S1-Build: s819 Layer 4 speed live; classifier budget recorded before merge
+
+**Done:**
+- **Layer 4 speed live (Pilot #1416, `20261120116000`, history md5 `16827344`):** every decision kind 44–290 ms live (rolled back), Rebuild 402 ms; Inbox loads in 0.8–0.9 s in PIM Admin; UTS Jumbunna refused by the domestic-only rule and no longer held.
+- **Classifier:** 12:29 AEDT succeeded in 17.5 s (the three earlier windows were cancelled at 120 s).
+- **Recorded before merge (Pilot #1419, `20261120117000`, dry-run md5 `10d0c52f`):** classifier candidate budget 1,500 → 700; a batch timed 5.2 s.
+
+**Next executable action:**
+- S1-Build: merge #1419; confirm the 13:29 classifier window; closing sync.
