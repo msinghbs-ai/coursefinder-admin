@@ -14624,3 +14624,29 @@ Pre-flight:
 - **s862 (migration `20261120172000`, above every open pull request: #1425 holds `20261120165000` and `165100`, #1428 `20261120170000`).** A partial index on the bound pages' evidence id and the test written as two EXISTS (stored copy; address on the existing bound-address index). Guarded by the live md5 of `security.struct_det_promote_v1` (`bf0bc0d6`); its post-check proves the same shared pages and fails above 300 ms. Rolled-back dry run passed (run 44683159633). No worker, setting or job change.
 - **Lane note (S1-Fees-Intakes, 16:33 AEDT):** the request to bump this lane's worker to v1.0.34 arrived after Pilot #1427 had merged with coverage-sweep v1.0.33. Pilot #1425 (S1-Fees-Intakes) must therefore rebase on main and take v1.0.34; its migrations (`20261120165000`, `165100`) are already above this lane's.
 - **Next:** merge this record, then Pilot #1430 on green CI; read back the tick time; final gap read and the two gap tables; Drive sync.
+
+**S1-Structure-Outcomes, 20 Nov 2026 17:15 AEDT: s860 to s862 closed: course structure reader live, sweep draining at $0 (Pilot #1427 `24317d50`, #1430 `720d6963`; admin #696, #701)**
+
+- **Merged in order:** admin #701 (`cae00ed1`) first, then Pilot #1430 on green CI (15 of 15; rolled-back dry run 44683159633 passed). Live head `20261120172000`, 2,224 rows; index `coverage_course_pages_bound_evidence_idx` present; G3 75/48, 0 drift; locks 7,585; spend US$0 (no model, no Firecrawl).
+- **Admitted by 17:05 AEDT** (seven ticks, 400 stored pages read): duration 77, study load 7, delivery mode 1 (NZ and CA; AU had no structure gap with a stored page). 13 items in Layer 4 (conflicting durations and shared pages, each with a plain reason). 2,082 stored pages still to read, about two hours at the current pace.
+- **Tick time:** the promoter takes 25 ms and the shared-page check is indexed (s862). The tick still runs for 8.7 to 10.9 s, because a tick sends up to 80 pages and parses up to 80 answers. The send query alone took up to 1.7 s when it was measured over the whole backlog. One tick at 16:56 failed with "job startup timeout": pg_cron could not start its worker in time. That is platform contention, not this job; the next tick ran normally. Next optimisation: cut the send query below 300 ms by marking the gap courses once rather than re-testing each tick.
+- **Table 1 — Verified source-backed gaps** (a stored course page is bound, so the sweep reads it; 17:05 AEDT):
+
+| Field | AU | NZ | CA |
+|---|---:|---:|---:|
+| Duration | 0 | 620 | 1,101 |
+| Study load | 1 | 687 | 973 |
+| Study mode | 3 | 262 | 151 |
+| NZQF level and credits (register-backed, no catalogue field) | n/a | 6,267 titles state the level | n/a |
+
+- **Table 2 — No source available yet** (no stored course page and no register value; *No source available — do not quote as verified*):
+
+| Field | AU | NZ | CA |
+|---|---:|---:|---:|
+| Duration | 0 | 3,433 | 1,307 |
+| Study load | 23 | 3,496 | 1,391 |
+| Study mode | 17 | 3,124 | 1,052 |
+| PGWP eligibility (no register of eligible programmes held) | n/a | n/a | 3,814 |
+
+- **Lane coordination:** Pilot #1427 merged with coverage-sweep v1.0.33 before the 16:33 S1-Fees-Intakes note arrived. Pilot #1425 should rebase on main and take worker v1.0.34. Its migrations (`20261120165000`, `165100`) are now below the live head (`20261120172000`), so they also need renumbering above it.
+- **Open for a person:** (1) whether NZQF level and credits get a catalogue field (a design and API v3 decision); (2) a source for PGWP programme eligibility; (3) the 13 Layer 4 structure items (field codes `duration`, `study_load`, `delivery_mode`, reader `struct_det`). The dedicated Inbox card is a follow-up for the S1-RM-Design Layer 4 universal-card work.
