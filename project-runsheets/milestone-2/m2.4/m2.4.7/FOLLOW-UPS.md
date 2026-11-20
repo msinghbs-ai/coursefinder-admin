@@ -1531,3 +1531,19 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
 - **Validation:** specs s895 and s896 5/5; the guards pass. G3 75/48, locks and the cron count are checked in the migration; US$0.
 - **Design:** `docs/platform/2026-11-21-s895-s896-elr-central-v11-all-universities.md`.
 - **Next:** auto-merge this record, then Pilot #1443, then read live.
+
+**S1-ELR-Central-Policy, 21 Nov 2026 09:05 AEDT: s895 and s896 closed and parked: admin #732 (b001d30d) then Pilot #1443 (3bace2e7) merged by automerge; migration `20261121080000` applied; coverage-sweep deployed 08:13 AEDT; read live 08:55 AEDT**
+
+- **Live checks:** G3 75/48 with no drift; manual locks 7,585; 135 active cron jobs; US$0. `elr-det-sweep`: 5 of 5 runs succeeded since the deploy, longest 5.5 s.
+- **v1.1 second pass, first 40 minutes:** 63 central pages read again (47 read, 16 in flight), 354 left, about 4 hours at the current pace.
+  - 2 pages gave values tied to a study level; both universities already hold an approved policy for those levels.
+  - 14 pages give values with no study level: held, never spread.
+  - No new proposal yet.
+- **Tables:** Table 1 is unchanged at 5,930 (AU 3,538, NZ 1,091, CA 1,301). Table 2 (no stored page) is 8,837 (AU 5,359, NZ 3,023, CA 455).
+- **Found after release:** the reader's "English bands" test also matches IELTS sub-score wording (for example "band 6.0"). The held reason "the page sorts courses into English bands or levels" is therefore over-applied.
+  - The effect is limited to that label. No value is written or spread because of it.
+  - Fix in the next reader version: the band test should need a band letter or "English band".
+- **Next:** none in this lane; the sweep finishes the second pass by itself.
+  - The 730 courses whose central readings wait for a person are in Universities › English.
+  - 346 courses need Firecrawl and 2,296 have no central page; both are outside this $0 lane.
+  - **Platform Admin decision:** a reader for pages that sort courses into bands, with each band tied to its courses.
