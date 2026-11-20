@@ -14810,3 +14810,28 @@ Platform Admin 20 Nov 2026 15:11 and 15:22 AEDT (lane block s850 to s859, migrat
 
 **Next executable action:**
 - S1-Build: merge this by the `automerge` label, then Pilot #1434; read back active count and unregistered.
+
+## 20 Nov 2026 18:05 AEDT — S1-RM-Design: s870 and s871 live; s872 to s874 recorded before merge (v2.16.71, migration `20261120174700`): one card contract for the 19 Layer 4 queues
+
+**s870 and s871 are live.**
+- **Merges:** admin #703 (`3dbb9460`), then Pilot #1432 (`fb182018`, v2.16.70).
+- **Migration:** `20261120145500` applied; the history md5 `0c632f37` matches the file.
+- **Read back:**
+  - 1,818 stale AER partial-table holds superseded; 7,232 AI-proposed rows inactive; 84 reader pages reopened.
+  - The aer-det-sweep picked them up (calls sent at 06:23 UTC).
+  - G3 75/48. Locks 7,585. Active rows 25,462 (none removed). $0.
+
+**s872 to s874 (Platform Admin 20 Nov 2026 17:13, universal minimum-effort Layer 4 overhaul).**
+- **s872.** In every queue, items an existing rule settles or the platform is recovering (layer4-groups A and B) are keyed `sys~`. The rail shows Human Action Required apart from System Queues (Auto-Recovering).
+  - Live: site down 149, nothing ready 317, course links 24, onboarding failed 1, entry requirements about 270.
+  - Migration `20261120174700`: md5-guarded replacement of `security.layer4_rule_groups_v1`. Dry run passed, md5 `c701feda`.
+  - It is numbered above the live head because S1-RM-Design's window ended at `20261120145500`, which is used.
+- **s873.** One plain-English card contract across the 19 queues:
+  - The Main hold reason drops machine codes; they stay under Technical detail.
+  - One action bar: admit, then edit (Save Edit & Admit), re-categorise, and set-aside on the right.
+- **s874.** Preview & Settle Batch on every rule group: one decision, one reason, a typed `SETTLE n`, and one decide per record at its own rank. It is never available for entry requirements, departures or descriptions.
+- **CI contract:** `cf-247-s872-s874-l4-universal-card-contract` covers all 19 queues.
+- **Local results:** 1,295 Layer 4, AER and governance tests pass on desktop and phone.
+- **Audit matrix:** `docs/platform/2026-11-20-s872-s874-layer4-19-queue-card-contract.md`.
+
+**Next.** Merge this record (automerge), then Pilot (automerge) on green CI. Read back, check signed in, then Drive and park.
