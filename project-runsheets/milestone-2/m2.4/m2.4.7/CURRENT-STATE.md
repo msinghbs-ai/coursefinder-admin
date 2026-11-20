@@ -15192,3 +15192,13 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
   - The 730 courses whose central readings wait for a person are in Universities › English.
   - 346 courses need Firecrawl and 2,296 have no central page; both are outside this $0 lane.
   - **Platform Admin decision:** a reader for pages that sort courses into bands, with each band tied to its courses.
+
+### 21 Nov 2026 09:05 AEDT, S1-Coverage-Unlock-UI-Notes: s901 to s903 (v2.16.74), recorded before merge
+
+- s900 live 08:27 AEDT (Pilot #1444, history md5 matches). Read back 08:49: levels 8192/9216/10240 MiB; `coverage-reconcile` at :09; `scholarship-coverage-classify` ran at 08:40 (21.6 s); 135 active jobs; G3 75/48; locks 7,585.
+- Decisions 08:20: on-demand up to 20,000 Firecrawl credits; university-wide partial admission in shadow for 24 hours; inheritance in PIM Admin and v3 only.
+- Pilot migrations:
+  - `20261121100000` (s901): AER Destination and Source country filters, the university-wide table on Course detail, and the counsellor notes panel.
+  - `20261121101000` (s902): shadow admission rule, records only.
+  - `20261121102000` (s903): on-demand cap, and one window for 109 universities capped at 20,000.
+- Design record `docs/platform/2026-11-21-s900-s903-coverage-unlock-ui-notes.md`.
