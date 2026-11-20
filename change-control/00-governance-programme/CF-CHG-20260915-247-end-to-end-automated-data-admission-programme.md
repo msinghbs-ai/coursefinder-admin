@@ -13662,3 +13662,15 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
 - `REQ-66` stays Open.
 
 **Next.** Merge this record (automerge), then Pilot #1440 (automerge, after its dry-run check). Read back live, then sync Drive.
+
+## 20 Nov 2026 23:40 AEDT — S1-RM-Design: s890 live and read back; Victoria University 02475D off the held list
+
+- **Merges:** admin #724 (`f46d1d60`), then Pilot #1440 (`f0b8d751`). Deploy on merge, Security gates and Deployed UAT passed.
+- **Migration:** `20261120231000` applied; the history md5 `ed2cb2f8` matches the file. It is now the live head.
+- **Read back (rolled-back dry run 44737187281):**
+  - 02475D is active and published, with 35 courses and the 00124K description.
+  - Its reading `3559c277` is admitted, and no description item waits.
+  - Decision event recorded: item `f2a6d34f`, no manual lock.
+  - UTS description live (449 characters), no item waits.
+  - G3 75/48, no drift. Locks 7,585. $0.
+- **Signed in (Platform Admin):** Held universities lists neither Victoria University nor UTS.
