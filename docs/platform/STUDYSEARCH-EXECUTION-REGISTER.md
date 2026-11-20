@@ -7453,3 +7453,12 @@ Platform Admin 20 Nov 2026 15:11 and 15:22 AEDT (lane block s850 to s859, migrat
   The first run of the batch query took 808 ms against the 300 ms post-check (a table-wide scan of `course_fees`), so it was rewritten as an indexed keyset loop before the PR.
 - **Parallel lanes.** S1-AER #1423 (migration `20261120163000`, merged 15:49 AEDT) is below this lane's renumbered files; S1-Structure-Outcomes #1427 (`20261120163500`) merged first with worker v1.0.33, so this change is rebuilt on main as worker v1.0.34 (20 Nov 2026 16:40 AEDT). Whichever merges second re-bumps the worker version on rebase. S1-UI-Parity #1424 uses `20261120145000`, which is below this slot.
 - **Next:** merge this admin record, then Pilot #1425 on green CI and the passing rolled-back dry run. Then read back the deployed worker, the job and the first sweep batches with their admitted values. Close with Drive Monitoring, the two gap tables and the closing records.
+
+## 20 Nov 2026 18:05 AEDT — S1-Build: s880 automatic merging live; s881 idle cron jobs recorded before merge
+
+**Done:**
+- **s880 (renumbered from s870; S1-RM-Design's #1432 holds s870–s871) live:** admin #704 and Pilot #1433 merged themselves by the `automerge` label; branches deleted; Security gates and Deployed UAT started on main.
+- **s881 recorded before merge (Pilot #1434, `20261120181000`, dry-run md5 `b0ae0cb4`):** 7 idle cron jobs switched off and retiring; active 143 → 136, 0 unregistered (rolled back). Reconciliation in `docs/platform/2026-11-20-s881-cron-job-reconciliation.md`; unschedule paste file from 5 Dec.
+
+**Next executable action:**
+- S1-Build: merge this by the `automerge` label, then Pilot #1434; read back active count and unregistered.
