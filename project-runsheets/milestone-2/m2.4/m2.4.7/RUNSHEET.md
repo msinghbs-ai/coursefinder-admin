@@ -14416,3 +14416,21 @@ Specs: s828 (reader, Pilot #1412, live), s829 (precision rules and runner, Pilot
 **Open:**
 - Platform Admin: move `scholarship-coverage-classify` off :29 for under 10 s at its scheduled time (scheduler change).
 - S1-Build: 14:29 classifier read-back at 14:33 AEDT.
+
+## 20 Nov 2026 13:40 AEDT — S1-UX s823 to s827 live and read back (applied by S1-RM-Design: Pilot #1420 `d219e7d7b`, v2.16.67; admin #686 `546f165e`)
+
+**Done (S1-RM-Design for S1-UX, which has no GitHub write access):**
+- **Pre-flight (13:08, rolled-back dry-run workflow):** live 2,217 rows, head `20261120130000`, 1-to-1 with Pilot main (today's 21 versions match, including #1419's `20261120117000`); nothing at or above `20261120140000`; v2.16.67 free; no open PRs; `public.svc_worker_report_v1` live md5 `b110a648…` = the migration's guard.
+- **Admin first:** #686 merged (`546f165e`): S1-UX's admin patch v2 (`git am -3`, clean), plus the same runsheet entry in the change-control document (the patch wrote `FOLLOW-UPS.md` in its place; both kept) and the workbook rebuilt from the CSV.
+- **Pilot #1420 merged (`d219e7d7b`):** S1-UX's two commits (`git am -3`; `Layer4Inbox.jsx` merged with #1418 automatically), plus one S1-RM-Design commit: the `?` help on the s820 hold banner (the action bar untouched), and in the migration `security.worker_idle_collapse_v1`'s body delimited `$function$` (was `$f$`) so spec s42 (housekeeping) reads its two runtime `delete` lines as the function's, not the migration's; no behaviour change. CI 20 of 20 green.
+- **Dry run (rolled back, md5 `b9db78b4`):** every post-check passed; first rebuild 1,405 ms with no errors; four stages (Page Capture warning, the others ok); Layer 4 waiting 5,718; completeness AU 68.0%, NZ 40.1%, CA 52.1%; job scheduled; G3 75/48, no drift.
+- **Live read-back (13:32, dry-run workflow only):** 2,218 rows, head `20261120140000`, history md5 `b9db78b4` = file; `pipeline.ops_pulse_snapshot` refreshed 115 s before the read (build 3,768 ms, no errors); `ops-pulse-refresh` active, `*/5 * * * *`, 13:30 run succeeded; settings `ops.pulse_max_age_minutes` 15 and `telemetry.idle_collapse_minutes` 15; 9 idle ledger rows in 30 minutes carry `idle_polls` (largest 32), 16 idle runs open; G3 75/48, no drift; manual locks 7,585. Spend US$0.
+- **Signed in (PIM Admin v2.16.67, Platform Admin):** Platform Health shows the 4-stage board under the s817 summary (stage 2 amber, others green; stored figures from 13:30); the Dashboard shows five cards with five icons, AU 68%, NZ 40%, CA 52% bars and Active failures (two Page Capture checks); Layer 4 › Inbox › University description shows "Waiting, grouped by rule" (Waiting for the machine check 16, The page changed after it was read 9); `?` is on Dashboard, Platform Health, Layer 4 Review, Courses and Providers, opens three steps with a link to `#platform-guide`, and Escape closes it; every description hold banner carries its `?`. `/.well-known/security.txt` read live: 200, `text/plain; charset=utf-8` (the s811 check, now closed).
+
+**Not done, stated plainly:**
+- The Viewer view of the Dashboard (search only, no pipeline read) was not checked signed in: there is no Viewer account in this browser. It is covered by the mocked spec (s823-s827) only.
+- A call that finds nothing because a budget is held is folded into the running idle row, keeping the first idle call's outcome and hold reason (telemetry only).
+- Observed, not caused by this release: `public.admin_course_description_queue` (Layer 4 course descriptions) took 36.9 s (summary) and 14.8 s (items) in a rolled-back read at 13:34, past the app role's 8 s limit, so the Inbox logs two HTTP 500s. Neither #1411 nor #1420 touches it; it is S1-Courses' queue.
+
+**Next executable action:**
+- S1-Courses: `admin_course_description_queue` time-outs. S1-UX: the next item on its list (stage meters as rates, Catalogue keyset paging).
