@@ -12973,3 +12973,14 @@ s822 is merged (Pilot #1413 `aecc7d56`, admin #676) and live: head `202611201140
 
 **Next executable action:**
 - S1-Courses: read back the final yield and spend once the picker has drained the 1,982 not yet picked up; admit nothing by hand.
+
+**S1-Courses, 20 Nov 2026 12:00 AEDT: interim re-read yield and Drive Summary fix — read only, no migration, no data change; parked**
+
+Read through the rolled-back dry-run route only; G3 75 functions / 48 tables, no drift; locks 7,585; no number above s822 claimed.
+- **Re-read yield at 11:59 (the picker had not finished, so this is not the final check):** descriptions 15,311 to **15,386** (+75). Of the 4,412 re-queued courses: filled 75, in Layer 4 review 7, with the AI 1,391, and 2,939 skipped (not yet picked up, or read again and still held by the quote, length or originality rules). The banned-word strip (S1-RM-Design, Pilot #1411) is still open.
+- **Spend today (all AI lanes):** US$1.211, of which `enrich_fields` (the description reader's lane) US$0.553. Inside the US$14 a day cap. Firecrawl US$0.
+- **Drive `Monitoring` ledger:** Counted minutes (column P) filled for rows 188 to 191 (120, 45, 90, 45); Summary rebuilt on its formulas: the activity list lacked Release and Build, so it summed to 3,025 against 3,300; both added, plus a "20 Nov 2026 only" row (780). The Engagements sheet does not hold the S1-Build 10:05 row (s813/s814, 60 minutes) that the repository CSV holds; left for its owner.
+- **Table 1 (verified source-backed gaps) and Table 2 (no source yet: AU 5,546, NZ 3,198, CA 849, link-only 416)** carry over from the 11:50 block.
+
+**Next executable action:**
+- S1-Courses (when asked): the final yield and spend read once the picker has drained the 4,412; nothing to run in the meantime.
