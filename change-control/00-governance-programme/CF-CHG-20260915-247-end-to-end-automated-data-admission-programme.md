@@ -20,3 +20,25 @@
 - Approved, superseding the all-or-nothing completeness hold under Decision 276: admit every country row of a university-wide or course entry table that passes the domain, identity and source-evidence checks; hold only missing or unverified country rows in Layer 4.
 - s912 (`20261121130000`): the shadow now counts university-wide and course rows. Dry run: would admit 1,158 rows (17 course) at 31 providers.
 - Cutover 22 Nov 2026 09:30 AEDT after the 24-hour shadow report.
+
+### 21 Nov 2026 10:35 AEDT, S1-Fast-Admission: s913 to s915 recorded before merge (Pilot migration `20261121140000`)
+
+- **Decision (Platform Admin, 10:03 AEDT):** admit verified data into the live canonical tables today.
+  - This brings forward the s912 cutover planned for 22 Nov 09:30 AEDT. **That cutover is this change and is not made again.**
+- **s913:** rule `aer-partial-admit` goes live every 15 minutes and replaces the shadow `aer-uniwide-partial-shadow` (switched off, retiring).
+  - It looks only at entry-table reads stopped by completeness alone.
+  - It admits each university-wide or course row that passes every machine row rule, with no course lock, no conflicting active row and no shared identity.
+  - The countries a read did not cover, and the rows held, stay in Layer 4.
+  - It can be reversed with `security.aer_matrix_machine_withdraw_v1`.
+- **s914:** the course and entry-table audit samples go to 0%.
+  - 491 verified course reads (1,450 rows) were waiting only as audit samples. Their ledger rows are kept so a person can check them after admission.
+  - `aer-machine-admission` moves to :06, :21, :36 and :51.
+  - The proposer takes 150 courses a tick (was 50) and up to 1,200 waiting items (was 400).
+- **s915:** `aer-reconcile` moves to :12, :27, :42 and :57.
+  - aer-det-sweep NUL fix: 71 of 72 calls had failed since 03:00 AEDT. The edit is md5-guarded (`9856b441`).
+  - aer_det calls 3 → 9 and open calls 4 → 12. ELR in flight 8 → 24, batch 200 → 600, central sources 6 → 18.
+- **Rolled-back dry run, 10:30 AEDT:**
+  - First partial run: 38 reads, 1,133 rows at 31 providers (Charles Sturt 7, Hong Kong held).
+  - Active entry-table rows 5,576 → 6,709.
+  - G3 75/48; locks 7,585; active jobs unchanged (135).
+- **Design record:** `docs/platform/2026-11-21-s913-s915-fast-admission.md`.
