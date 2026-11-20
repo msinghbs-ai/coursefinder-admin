@@ -12941,3 +12941,13 @@ Claimed numbers: s822 (used), s823 to s825 (held for this lane, unused); migrati
 
 **Next executable action:**
 - Merge Pilot #1413 on green CI (merge is blocked for this lane: one click). Then apply, read back the 4,412 marks and the daily filled count, and report the yield and the spend.
+
+## 20 Nov 2026 11:12 AEDT — S1-Build: s813/s814 live; s815 recorded before merge
+
+**Done:**
+- **s813/s814 live 10:52 AEDT:** Pilot #1410 merged; `20261120110000` applied (history md5 `fe308586` = file).
+- **s815 recorded before merge (Pilot #1414, `20261120112000`, dry-run md5 `6411b3c5`):** domestic-only scholarship rule (9 of the held refused in the dry run, UTS Jumbunna among them); Coverage snapshot 70 to 120 s down to 3.2 s on its own rollup target; classifier run 2.5 s with a candidate budget; full attribute sync in chunks within a time budget.
+- **Lanes:** the Platform Admin named S1-Build the sole writer for s815 to s819 (10:48); duplicate-session PRs #1411 and #1412 are not merged by S1-Build.
+
+**Next executable action:**
+- S1-Build: merge #1414; two clean classifier windows; s816 to s818.
