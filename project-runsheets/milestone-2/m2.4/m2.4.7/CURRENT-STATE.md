@@ -15121,3 +15121,24 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
 - **IQ-00510:** database 7,185 MiB (02:03) and 7,370 MiB (02:17) against the 7,168 MiB critical level; about 200 MiB a day; about 5% dead rows. For approval: A (raise the pilot levels once the disk is confirmed) and C (plain `VACUUM (ANALYZE)` on four tables).
 - **IQ-00445:** `coverage-reconcile` takes 9.1 s alone against p50 106 s and p95 137 s at :26, the busiest minute. For approval: move the job to :09, then close after two clean cycles.
 - Invariants: G3 75/48, locks 7,585, 137 active jobs, head `20261120235000`.
+
+## 21 Nov 2026 07:50 AEDT — S1-CourseLink-2027-CRICOS: Platform Admin 07:35 decisions; s894 recorded before merge (migration `20261121080000`): 8 items a call, held address proved by its stored copy
+
+**Platform Admin 07:35.**
+- Keep the old-year fallback: a held address is admitted when 2027 and 2026 prove nothing and it proves the exact CRICOS code without "discontinued / no longer offered" words.
+- Two tuning fixes before parking (below).
+
+**Read live (rolled back, 07:40).** All 158 held items have been tried.
+- 39 admitted: 5 at a newer year, 34 at the held address. 119 not proved.
+- 69 of the 119 have a stored copy bound to the held address (60 read with the exact CRICOS code).
+- 4 of 15 worker calls failed, at least one at the 120-second limit with 15 items in the call.
+
+**s894 (Pilot #1442).**
+- Setting `link_rollover.items_per_call` 15 → 8.
+- When no live read proves the course, the worker reads the stored copy already bound to the held address ($0, evidence store, no fetch). It admits the held address only by the platform's identity rule and with none of the "not found / no longer offered" words.
+- `security.link_rollover_claim_v2` replaces v1 (v1 retiring, retire after 5 Dec 2026). The tick and recorder get md5-guarded edits.
+- The 119 not proved are due again at once.
+- **Dry run passed, rolled back** (run 44814096356): per call 8; 119 to try, 69 with a stored copy; G3 75/48; locks 7,585; 137 active jobs.
+- **Spec:** `cf-247-s894-link-rollover-stored-copy-contract`.
+
+**Next.** Merge this record (automerge), then Pilot #1442 on green CI. Read back the next runs, then sync Drive and park.
