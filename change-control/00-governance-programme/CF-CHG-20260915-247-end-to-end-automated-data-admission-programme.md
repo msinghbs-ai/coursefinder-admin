@@ -13733,3 +13733,20 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
 - A plain read of the 2027 La Trobe page shows the course (PHDLJ) but not the course CRICOS code in its text. It is admitted only if the platform's identity rule or La Trobe's adapter proves it; otherwise it stays held with what was tried.
 
 **Next.** Merge this record (automerge), then Pilot #1441 (automerge, after its dry-run check). Read back the first runs, then sync Drive.
+
+## 21 Nov 2026 01:45 AEDT — S1-CourseLink-2027-CRICOS: s891 to s893 live; first rollover runs read back; parked
+
+- **Merges:** admin #728 (`3b740982`), then Pilot #1441 (`a0f9cece`, v2.16.73). Full test evidence green before the automerge label.
+- **Deploy:** migration `20261120235000` applied (history md5 `77f94395` matches); worker `coverage-sweep` deployed. Deployed UAT and Release Currentness passed.
+- **Signed in (Platform Admin, v2.16.73):** By university › Macquarie University › Course link shows Preview & Settle Batch on the year rule groups (Keep / Use / Refuse, `SETTLE n`). It was opened, not used.
+- **First runs** (`link-refresh` 14:11, 14:21, 14:31 UTC; read back rolled back 14:44 UTC):
+  - 120 of 158 held items tried. 14 admitted: 2 at a newer year (Melbourne `handbook.unimelb.edu.au/2027/courses/bh-envs`, ANU 1), and 12 at the held address with the exact code proved (ANU 10, Macquarie 1, Flinders 1). 46 not proved. 60 in flight.
+  - Why an address did not prove the course: no answer 69, page needs a browser 55, HTTP 404 33, "page not found" 4, call time used 5.
+  - One worker call of 15 items reached the 120-second call limit. Its items are due again at once.
+  - Year holds waiting: 158 → 144.
+  - La Trobe PHDLJ is in the batch in flight (4 La Trobe items not proved so far).
+- **Invariants:** G3 75/48, no drift. Locks 7,585. Active jobs 137. $0 (plain reads only).
+- **Parked.** The rule keeps running every 10 minutes. Items not proved are tried again after 7 days.
+- **For the Platform Admin:**
+  - lowering `link_rollover.items_per_call` (15) would keep calls inside the 120-second limit;
+  - pages that need a browser (La Trobe, Melbourne) stay held at $0.
