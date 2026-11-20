@@ -15164,3 +15164,23 @@ The Platform Admin's request came at 21 Nov 2026 07:48 AEDT: populate the remain
   - UI checked signed in: notes closed by default on three pages, Destination and Source country filters, Charles Sturt course shows 7 rows waiting in Layer 4.
 - G3 75/48; locks 7,585; 135 jobs.
 - Follow-ups: IQ-00445 second cycle 10:09; close the window after 15:09; shadow report from 22 Nov 09:09; VACUUM paste file for the Platform Admin.
+
+## 21 Nov 2026 09:20 AEDT — S1-CourseLink-2027-CRICOS: s894 live and read back; La Trobe PHDLJ admitted from its stored copy; parked
+
+- **Merges:** admin #734 (`80bdf5de`), then Pilot #1445 (`2bf2b592`). Full test evidence green.
+- **Deploy:** migration `20261121093000` applied (history md5 `dcaf5c46` matches); `coverage-sweep` deployed with the stored-copy proof.
+- **Read back** (rolled-back dry run 44827514855, 22:15 UTC):
+  - 58 admitted so far: 8 at a newer year (ANU 4, Melbourne 4), and 50 at the held address, of which 16 were proved by the stored copy. 68 not proved; 32 in flight.
+  - Year holds waiting: 158 → 100.
+  - No worker call has failed since items per call became 8.
+  - La Trobe `handbook.latrobe.edu.au/courses/2023/PHDLJ` (CRICOS 0100697) was admitted at its held address from its stored copy. A plain read of 2027 did not show the code.
+- **By provider:**
+  - ANU: 33 of 33 admitted.
+  - Macquarie: 14 admitted, 22 not proved, 15 in flight.
+  - Melbourne: 4 admitted, 18 not proved, 5 in flight.
+  - La Trobe: 2 admitted, 10 not proved, 6 in flight.
+  - Sydney: 14 not proved, 5 in flight. Its addresses are archived handbooks, which are never admitted from the held address.
+  - UOW College: 3 admitted.
+- **Invariants:** G3 75/48, no drift. Locks 7,585. Active jobs 135. $0.
+- **Worth a look.** The 3 UOW College pages admitted are its "college-insider" articles that show the exact CRICOS code. They passed the rule, but a person may prefer the course page itself.
+- **Parked.** The rule keeps running in `link-refresh`. Items not proved are tried again after 7 days.
