@@ -15040,3 +15040,35 @@ The Platform Admin asked at 20 Nov 2026 23:02 AEDT for a check of Website API v3
   - UTS description live (449 characters), no item waits.
   - G3 75/48, no drift. Locks 7,585. $0.
 - **Signed in (Platform Admin):** Held universities lists neither Victoria University nor UTS.
+
+**S1-ELR-Central, 21 Nov 2026 00:05 AEDT: s884 to s886 closed: live and read back (Pilot #1439 `718106fc`; admin #722 `ac9cb169`)**
+
+- **Deploy.** Pilot #1439 auto-merged on green CI with the labelled dry run passing. `Deploy on merge` applied migration `20261120220000` (history md5 `6492bf95` = file) and deployed `coverage-sweep` with mode `elr_central_read`.
+  - The first PR dry run waited on a lock held by the running jobs. The new tables therefore have no foreign keys and no existing table is altered: central calls have their own table, `pipeline.elr_central_requests`.
+- **Live read-back** (rolled-back probe, 21 Nov 2026 00:00 AEDT):
+  - G3: 75 functions, 48 relations, no drift.
+  - Manual locks: 7,585, unchanged.
+  - Active cron jobs: 135 (ceiling 140); no job was added.
+  - Spend: AI and Firecrawl US$0.
+  - `elr-det-sweep`: 8 of 8 runs succeeded in 40 minutes. The longest took 6.8 s, which includes applying central policies. The central claim takes 58 ms.
+- **First 40 minutes:**
+  - 85 central pages read, with 13 more in flight.
+  - 41 universities proposed tiers: VET 19, VET and undergraduate 10, undergraduate and postgraduate 6, VET and research 3, VET and postgraduate 3.
+  - 41 pages state no English test requirement by tier.
+  - 3 pages added no tier the approved policy lacks.
+- **Governed approval.** 8 elr-central policies were approved automatically and 6 wait for a person: they had a conflict, another reading waiting, or failed the course-page disagreement check.
+- **Applied:** 6 policies, 53 rows written by the sweep, 120 active rows from elr-central policies, and 2 regulated-discipline courses sent to Layer 4. No course rule or manual lock was overwritten (insert-only plan outcomes).
+- **Gaps** (live, 00:00 AEDT; still draining at 6 universities a run, so about 3 more hours for the rest of the 263):
+
+| Country | Table 1: verified source-backed gaps (stored page bound) | Table 2: no source available yet |
+|---|---:|---:|
+| AU | 3,687 | 5,485 |
+| NZ | 1,091 | 3,028 |
+| CA | 1,340 | 456 |
+| Total | 6,118 | 8,969 |
+
+- **What stays out of reach in this $0 lane:**
+  - 523 providers (2,286 Table 1 courses) have no central English page.
+  - 70 providers (346 courses) have a page found but not stored, which needs Firecrawl.
+  - Non-AQF, school and short courses (751) have no tier.
+  - Pages that state no requirement by tier stay held.
