@@ -2718,6 +2718,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Approval stays governed.** A deterministic central reading is approved automatically only when it has no conflict and no other reading of the university is waiting for a person, under the existing course-page disagreement check (setting `central.auto_approve_elr_central`). Otherwise a person approves it.
 - **No new cron job for this work.** The existing English requirement sweep carries it in bounded runs, and the provider-english-defaults run does not grow with it.
 
+### S1-ELR-Central-Policy design decisions (21 Nov 2026, s895 and s896; Platform Admin 07:48 AEDT)
+
+- **No university or provider is excluded from the central English route by name, type or list.** Every university in an admission country with a stored central English page and a course without an English requirement is read.
+- **A value without a study level is never spread across levels.** Pages that sort courses into English bands or levels are held with that reason until a reader can tie each band to its courses.
+- **A new reader version reads every page again; the governed route's name stays the same.** Approval, the plan and the apply runs do not change with the reader version.
+
 ## Appendix A — Foundation principles (Design Decisions v1.0–v1.4)
 
 These early, unnumbered principles shaped the admin interface. Where a numbered decision covers the same ground, the numbered decision prevails.
