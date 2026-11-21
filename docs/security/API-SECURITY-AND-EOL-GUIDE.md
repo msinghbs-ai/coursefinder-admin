@@ -1,6 +1,6 @@
 # API security and end-of-life guide
 
-**Owner:** Platform Admin · **Issued:** 20 Nov 2026 (AEDT), s808 · **ISM controls addressed:** 1798 and 2053 (API authentication, authorisation and error handling), 1817 to 1911 (software and platform currency, supported versions), 1424 and 1717 (browser security headers).
+**Owner:** Platform Admin · **Issued:** 20 Nov 2026 (AEDT), s808 · **ISM controls addressed:** 1798 and 2053 (API authentication, authorisation and error handling), 1817 to 1911 (software and platform currency, supported versions), 1424 and 1717 (browser security headers). **Amended:** 21 Nov 2026, s935 (one key per consumer and version; version register).
 **Status words:** *Met*, *Partly*, *Gap*. The consumer API is frozen (G3). Nothing in this guide changes its shape; the controls below are read-only checks or sit beside it.
 
 ## 1. The APIs
@@ -9,21 +9,24 @@
 |---|---|---|---|---|
 | Website API v2 | The website | `website-api-v2`, `website-course-api`, `wix-course-api` | Bearer key; frozen | Frozen by G3 |
 | Zoho API v2 | Zoho | `zoho-api-v2`, `zoho-course-api` | Bearer key; frozen | Frozen by G3 |
-| Website API v3 | The website, after go-live | `website-api-v3` | Same keys and rate limit as v2 | Beside v2; joins the frozen list at go-live (Decision 277) |
-| Zoho API v3 | Zoho | `zoho-api-v3` | Same | Beside v2 |
+| Website API v3 | The website, after go-live | `website-api-v3` | Its own key (`website_developer_v3`, s935), signed in with `pipeline.api_key_auth_v1('website', 'v3', hash)`; until it is issued the v2 key works on v3 as its previous key for `api.new_key_bridge_days` (14) | Beside v2; joins the frozen list at go-live (Decision 277) |
+| Zoho API v3 | Zoho | `zoho-api-v3` | Its own keys (`zoho_creator_v3`, `zoho_crm_sync_v3`, s935), signed in with `pipeline.api_key_auth_v1('zoho', 'v3', hash)`; a v2 key is refused | Beside v2 |
 | Admin reads and writes | The admin app | Database functions behind `admin_read` and governed writes | Supabase sign-in plus server-side role rank | Not public |
+
+Every version is a row in `pipeline.api_versions` (platform, version, endpoint, key store, frozen). Settings › API usage reads that register and every key store, so a new version or key shows with no screen change (standing rule Self-Sustaining API & Key Governance, s935).
 
 ## 2. Authentication and authorisation (ISM-1798, ISM-2053)
 
 | Control | How | Status |
 |---|---|---|
-| Key held only as a hash | The function hashes the presented bearer key (SHA-256) and looks the hash up; the key itself is not stored (`website_api_v2_auth`) | Met |
+| Key held only as a hash | The function hashes the presented bearer key (SHA-256) and looks the hash up; the key itself is not stored (`website_api_v2_auth`, and from v3 `pipeline.api_key_auth_v1`) | Met |
+| One key per consumer and version (s935) | A key is scoped to one consumer and one version; `pipeline.api_key_auth_v1` matches only keys of the platform and version asked, so a v2 key is not a v3 key. The only exception is the time-limited bridge: an earlier version's key held as the new key's previous key until the new key is issued | Met |
 | Why `verify_jwt` is off on consumer functions | They do their own key authentication; the setting is recorded per function in `.github/edge-functions.json`, and a live function that differs fails the daily drift check | Met |
 | Per-key rate limit | `website_api_v2_rate`, `rate_per_minute` per key; over the limit returns `RATE_LIMITED` | Met |
-| Every call logged | `website_api_v2_log`: action, item count, bytes, error code, request id and the key's name (never the key) | Met |
+| Every call logged | `website_api_v2_log` (v2) and `pipeline.api_request_log_v1` (v3 on): version, action, status, time, item count, bytes, error code, request id and the key's name (never the key). v1 (`website-course-api`, `wix-course-api`, `zoho-course-api`) has no per-call log; Settings › API usage shows it as Not logged | Partly (v1) |
 | Least privilege | Each action maps to one fixed database function chosen in code; a caller cannot name a function | Met |
 | Method and input checks | POST only; unknown action, malformed JSON and invalid input are rejected with a fixed code | Met |
-| Key rotation and revocation | Keys are managed on the API console; a rotation schedule is **not** recorded here | Partly |
+| Key rotation and revocation | Keys rotate on Settings › API usage with a dual-key overlap (`api.key_rotate_overlap_hours`); the new key is shown once and only its hash is kept; a new version's key starts Not issued. A rotation schedule is **not** recorded here | Partly |
 
 ## 3. Error handling (ISM-1278)
 
