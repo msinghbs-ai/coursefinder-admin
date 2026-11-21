@@ -1,6 +1,6 @@
 # IQ-00313: start days taken from general course-page wording (S1-Fix-IQ00313, 21 Nov 2026)
 
-**Status:** recorded before merge. Pilot spec s925, migration `20261121170000`, Pilot #1453. Rolled-back live dry run passed 21 Nov 2026 11:16 AEDT (file md5 `6e562e2d`). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
+**Status:** live and verified (21 Nov 2026 13:33 AEDT). Pilot spec s925, migration `20261121170000`, Pilot #1453 (`899c9986`), admin #747 (`c636a5dd`). Rolled-back live dry run passed 21 Nov 2026 11:16 AEDT (file md5 `6e562e2d`). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
 **Directive:** Platform Admin, 21 Nov 2026 10:57 AEDT, P0.
 **Session:** S1-Fix-IQ00313.
 
@@ -73,6 +73,33 @@ The audit read, live at 11:05 AEDT, every active intake that holds a start day a
   - 7,585 locks; G3 75/48; active jobs ≤ 140, 0 unregistered; US$0 AI and 0 Firecrawl credits.
 - Two clean unattended `intake-dates-apply` cycles after deploy, with no new day admission from general wording.
 
-## 5. Results
+## 5. Results (live)
 
-To be appended after the merge and the read-back.
+**Merge and deploy.** Admin #747 merged 11:18 AEDT, Pilot #1453 at 11:31 AEDT, both by the `automerge` label. `Deploy on merge` succeeded. The migration was applied at 11:31:36 AEDT, and the planner body md5 reads `cf7fff50`.
+
+**Read-back (11:32 AEDT).** The three intakes:
+
+| CRICOS | Before | After | Website v2 item | Stored Website item | Stored Zoho item | Search document |
+|---|---|---|---|---|---|---|
+| 086244B | 22 Feb 2027 | February 2027, no day | 2027, no day | 2027, no day | 2027, no day | 2027, no day |
+| 060895C | 22 Feb 2027 | February 2027, no day | 2027, no day | 2027, no day | 2027, no day | 2027, no day |
+| 083819C | 22 Feb 2027 | February 2027, no day | 2027, no day | 2027, no day | 2027, no day | 2027, no day |
+
+- **History kept.** Each intake keeps its original `filled` event and has one `withdrawn` event whose before value is 22 Feb 2027.
+- **Audit event.** `IQ-00313-GENERIC-WORDING-20261121` is in `pipeline.admin_control_events`, with three results, all Website-verified.
+
+**Two unattended `intake-dates-apply` cycles:**
+
+| Cycle (AEDT) | Rows decided | Outcome | New day admissions |
+|---|---|---|---|
+| 12:26 | 9 | The three ECU intakes came out `nothing_new` (year and month) with the reason "the course page names this intake only in general wording". 6 others were skipped: "the course page names no study period of the calendar (month only)". | 0 |
+| 13:26 | 5 | All 5 were skipped: "names no study period (month only)". | 0 |
+
+**Guards at 13:33 AEDT:**
+- Consumer API 75/48 with 0 drift.
+- Manual locks 7,585.
+- Active cron jobs 137, 0 unregistered. They read 136 before; 135 to 137 since, from other lanes' changes; this change left them unchanged.
+- US$0 AI and 0 Firecrawl credits.
+- Live head `20261121190000`. Later lanes are above `20261121170000`.
+
+**Open:** the Platform Admin decides on Massey MY0418 (section 2).
