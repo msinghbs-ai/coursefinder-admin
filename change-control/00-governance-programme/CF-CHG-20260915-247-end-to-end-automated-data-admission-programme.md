@@ -40,3 +40,5 @@ The Platform Admin asked at 21 Nov 2026 12:19 AEDT for daily gap registers in Dr
   - New scheduled task "Data gap register to Drive (08:07)" (`trig_019UmEjiuMzPiWfev6ospuFJ`, automatic approval). It uploads the CSVs, keeping the latest only and the closed files for 14 days, then refreshes the sheet. It never shares anything.
 - **Docs:** runbook `docs/platform/DATA-GAP-REGISTER.md`; test register row s927.
 - **Next:** dispatch the workflow once now and run the task once, so today's first register is live; share only when the Platform Admin says so.
+
+**S1-Dynamic-Lookups, 21 Nov 2026 12:45 AEDT: s930 recorded before merge (Pilot migration `20261121190000`, v2.16.75).** The Entry requirements Provider list held an arbitrary 300 of 843 providers; it now holds every active provider (3,090) with its matrix row counts. New `public.admin_lookups_v1` (countries, study levels, rolling intake years) and setting `lookups.intake_years_ahead`; seven screens and the Platform guide read it; standing rule "Dynamic Database-Driven Lookups" in CLAUDE.md and AGENTS.md. IQ-00445 closed (37.6 s, 50.9 s, 49.8 s). G3 75/48, locks 7,585, cron 135.
