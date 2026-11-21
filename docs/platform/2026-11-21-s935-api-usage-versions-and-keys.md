@@ -1,6 +1,6 @@
 # s935 — API usage for every version and key; one key per consumer and version
 
-**Lane:** S1-RM-Design · **Asked:** Platform Admin, 21 Nov 2026 13:11 AEDT · **Release:** v2.16.76 / 0.1.498 · **Pilot:** #1458 · **Migration:** `20261121200000_cf247_s935_api_usage_versions_and_keys.sql`
+**Lane:** S1-RM-Design · **Asked:** Platform Admin, 21 Nov 2026 13:11 AEDT · **Release:** v2.16.78 / 0.1.500 · **Pilot:** #1458 (merged `44f68a06`) · **Migration:** `20261121230000_cf247_s935_api_usage_versions_and_keys.sql` (live 21 Nov 2026)
 **Standing rule:** Self-Sustaining API & Key Governance (Pilot and admin `CLAUDE.md` and `AGENTS.md`).
 
 ## Business objective

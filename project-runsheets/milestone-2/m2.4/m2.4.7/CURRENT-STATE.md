@@ -40,3 +40,20 @@
 - **Next.** Merge this record, then Pilot #1458; read back live, check the screen signed in, sync Drive and park.
 
 **S1-Impl-Layer4-Human-UI-Guide, 21 Nov 2026 14:20 AEDT: s931 live and read back (Pilot #1457 `502e7cc2`, admin #753); s932 recorded before merge (v2.16.77).** Migration `20261121200000` md5s read back as written. Signed-in desktop and 375 px: old toolbar retired, primary row, Advanced filters (N), three-decision bar, pills and upgraded guide render; AER counts agree (997; Hong Kong 36). 12 course descriptions admitted by the code proof (157 to 145). s932: the description queue is named by what it holds. G3 75/48, locks 7,585, cron 137.
+
+## 21 Nov 2026 14:50 AEDT — S1-RM-Design s935 live and read back: Settings › API usage shows every version and key; Pilot #1458 merged as v2.16.78 with migration `20261121230000`; parked
+
+- **Renumbered before merge (correction to the 13:45 entry).** Two other lanes merged first: s931 (#1457) took v2.16.76 and migration `20261121200000`, and s932 (#1460) took v2.16.77; s940 (#1459) held `20261121220000`. s935 was re-issued as **v2.16.78 / 0.1.500** with migration **`20261121230000`**, above all three. Its dry run passed again and rolled back (run on `20261121230000`, md5 d46bba6f).
+- **Merged and deployed.** Pilot #1458 merged as `44f68a06`. Deploy on merge applied `20261121230000` (history md5 d46bba6f matches the file) and deployed `website-api-v3` and `zoho-api-v3`. The migration's live post-checks passed: the website v2 key signs in to v3 only as the bridge; Zoho v3 refuses a v2 key.
+- **Read back live (rolled-back probe).** Live head `20261121230000`. G3: 75 functions / 48 tables, no drift. Manual locks 7,585. Active jobs 137 (≤ 140, none added). Coverage check empty. Six versions are on the read path:
+  - Website v1: 3 credentials, not logged.
+  - Zoho v1: 1 credential, not logged.
+  - Website v2: 15,866 calls in 30 days.
+  - Zoho v2: 3 keys (194 calls on `zoho_creator_v2`).
+  - Website v3: `website_developer_v3` is Rotating / Grace; the bridge ends 5 Dec 2026 14:39 AEDT. The v2 key shows 653 calls on v3.
+  - Zoho v3: 2 keys, Not issued.
+- **Screen, signed in (built-in browser).** Settings › API usage at v2.16.78 shows all six version cards with key status, masked key, created, rotated, last used, 24 h / 7 d / 30 d calls, 2xx/4xx/5xx, error rate and p95. Website v3 shows Rotating / Grace with "website_developer_v2 also works here until 5 Dec 2026, 2:39 pm"; Zoho v3 shows both keys Not issued with Issue key.
+- **Platform Admin to do.**
+  - Press Issue key on `website_developer_v3` before 5 Dec 2026 and send the key to the website developer securely.
+  - Press Issue key on `zoho_creator_v3` and `zoho_crm_sync_v3` when Zoho moves to v3.
+- **Parked.** AI $0, Firecrawl $0.
