@@ -77,3 +77,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
   - G3 stays at 75 functions and 48 relations; no key changed.
   - The rule text (Pilot `CLAUDE.md`, key governance item 1) now names the entry points.
 - **Also noticed, not changed:** `provider-contact-import` and `ranking-publisher-import` write to `pipeline` tables with `.schema("pipeline")`. They are likely refused the same way and should be checked.
+
+**S1-API-Frontend-Delivery, 21 Nov 2026 21:35 AEDT: Step 0.** Continuous Delivery Master Plan v0.1 (drafted from the Lane 1 brief) in `docs/platform/` and Drive `M3`; standing rule in `CLAUDE.md` and `AGENTS.md` of both repositories; `INTERNAL-REQUESTS.csv` created. Next: Zoho v3 export (REQ-34, REQ-35).
