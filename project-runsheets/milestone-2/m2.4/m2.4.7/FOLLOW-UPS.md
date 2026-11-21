@@ -1,25 +1,30 @@
 
 
-**S1-ELR-Unblock-IQ00624, 21 Nov 2026 11:20 AEDT: IQ-00624 cleared and s926 recorded before merge (Pilot #1454, migration `20261121173000`)**
+**S1-ELR-Bands-And-Crawl and S1-ELR-Unblock-IQ00624, 21 Nov 2026 13:20 AEDT: closed and parked. s926 (Pilot #1454, 22d12bfd) merged by automerge after one re-run of a failed Workers preview build; migration `20261121173000` applied 12:28 AEDT; read live 13:15 AEDT**
 
-The Platform Admin's message came at 10:57 AEDT.
-
-- **IQ-00624:**
-  - s910 (Pilot #1448, d741077c) merged at 10:09 and deployed at 10:10. Its admin record #740 merged first.
-  - Since then `elr-det-sweep` has run 11 of 11 times unattended (10:12 to 11:02 AEDT, 2.6 to 4.5 s) with no `provider_policy_proposals_key` error.
-  - Superseded elr-central-v1.0 proposals are never reactivated. A page text that was already proposed is held with that reason (4 pages so far).
-- **Downstream processing has started:** v1.2 central reads are running. So far:
-  - 50 give values without a study level;
-  - 48 state no English test by level;
-  - 29 add no level the approved policy lacks;
-  - 10 are flagged band pages;
-  - 4 are page texts already proposed;
-  - 11 are in flight.
-
-  No band definitions yet: no page read so far labels a band with test values.
-- **s913 (Pilot #1451, 31699db9)** merged and was deployed at 10:50. The worker modes are reachable, and pages lost to calls the worker refused went back to the queue.
-- **Fetch:** the s907 request had been closed at 10:42 with 0 Firecrawl units used, while every call was refused.
-  - The Platform Admin answered "Reopen and fetch" at 11:05.
-  - s926 opens one new on-demand request (Firecrawl only, scope central) for the 52 queued pages. Estimate 52 credits (at most 78), from 67,120 left; AI US$0.
-- **Live:** G3 75/48; manual locks 7,585; 136 active cron jobs, 0 unregistered.
-- **Next:** auto-merge this record, then Pilot #1454; read the fetch live; close; sync Drive.
+- **IQ-00624 accepted:**
+  - 34 completed `elr-det-sweep` runs since s910, every one succeeded (the 35th was still running at the read). The longest took 8.2 s, inside the 10 s limit.
+  - There has been no `provider_policy_proposals_key` error since the fix.
+- **Fetch under the new on-demand request:**
+  - 48 pages stored, 2 failed (no content), 2 still in flight. About 61 Firecrawl credits were reported against an estimate of 52 (at most 78).
+  - The sweep closes the request when the last two are in.
+  - The first s907 request used 0 units.
+- **Fetched pages read by v1.2:**
+  - 9 gave new study-level proposals;
+  - 18 state no test by level;
+  - 11 give values without a study level, 2 of them band pages;
+  - 1 adds no new level;
+  - 8 are in flight.
+- **All v1.2 proposals:** 4 approved (approved automatically under the disagreement check), 5 waiting for a person in Universities › English, 1 superseded.
+- **Band reader:** live, but no university's central page labels a band with test values, so there are 0 band definitions and 0 band rows. Nothing has been spread or written.
+- **Table 1:** 5,919 (AU 3,527, NZ 1,091, CA 1,301), down from 5,930.
+- **Table 2:** 8,836 (AU 5,358, NZ 3,023, CA 455).
+- **Live:** G3 75/48, no drift; manual locks 7,585; 136 active cron jobs, 0 unregistered. AI: US$0.
+- **Lessons:**
+  - Mode blocks are now guarded for reachability (spec s913).
+  - An on-demand request must not close while calls are being refused (s913 returns their pages to the queue).
+  - One answer can no longer stop a run (s910).
+- **Next:** none in this lane.
+  - 5 central readings wait for a person in Universities › English.
+  - The sweep keeps reading pages by itself.
+  - A band-to-course rule needs a university whose central page actually labels bands with values; none does today.
