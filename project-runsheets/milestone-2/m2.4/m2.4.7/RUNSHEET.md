@@ -1,80 +1,25 @@
-### 21 Nov 2026 11:35 AEDT, S1-Fast-Admission: s914 to s916 live and read back (Pilot #1450 `2c2ad53a`, admin #742 and #744 `6207f659`); parked
-
-- **Merged and applied:**
-  - Merged by the automerge label: admin #742, then #744 (the renumber), then Pilot #1450.
-  - Deploy on merge (run 44843028863) applied `20261121150000` at 11:19:59 AEDT. History md5 `69451f7a` matches the file.
-- **Read back live (11:21 to 11:32 AEDT):**
-  - **s914, partial entry tables:**
-    - The first run at deploy admitted **1,133 rows from 38 reads at 31 providers**.
-    - Charles Sturt: 7 rows live; Hong Kong stays in Layer 4.
-    - Active entry-table rows went from 5,576 to 6,720 (the extra 11 were admitted by the table rule).
-    - The rule's :29 run looked at 17 reads with 0 errors and found nothing new (7.9 s).
-  - **s915, course entry reads:**
-    - The :21 `aer-machine-admission` run admitted **75 verified course reads**.
-    - Active course entry rows went from 25,544 to 25,741 (+197).
-    - Audit-sample reads left: 491 → 416. The next 15-minute runs take the rest (about 75 a run, so roughly 6 runs).
-    - The proposer is no longer held at its cap: proposed rows went from 2,721 to 3,086.
-  - **s916:**
-    - The aer-det-sweep fix is live: the stuck call was collected and its 40 pages recorded.
-    - `elr-det-sweep` ticks are clean (3 of 3).
-    - Central English calls: 7 done in 40 minutes, 1 in flight.
-    - Schedules: `aer-machine-admission` 6,21,36,51; `aer-reconcile` 12,27,42,57.
-  - **ELR, fees, intakes and scholarships:** no new canonical rows since the deploy. This change only speeds the $0 readers, and the English central reads still propose no new level values (see the S1-ELR lanes).
-  - **Invariants:**
-    - G3 75/48; manual locks 7,585.
-    - Active jobs 134 at deploy, then 137 after another lane's `20261121170000`; ≤ 140, 0 unregistered. No job was added by this change.
-    - `aer.machine_suspended` 0; US$0.
-- **Follow-ups:**
-  - The audit-sample reads finish over the next 15-minute runs.
-  - A person can check them after admission. The list is `pipeline.aer_machine_admissions` with `reason_code = 'audit_sample'` and a later `admitted` row.
-  - If the central English call times out, set `batch.elr_central` back to 6.
-
-### 21 Nov 2026 10:50 AEDT, S1-Fast-Admission: s914 to s916 recorded before merge (Pilot migration `20261121150000`, Pilot #1450)
-
-- **Decision (Platform Admin, 10:03 AEDT):** admit verified data into the live canonical tables today.
-  - This brings forward the s912 cutover planned for 22 Nov 09:30 AEDT. **That cutover is this change and is not made again.**
-- **s914:** rule `aer-partial-admit` goes live every 15 minutes and replaces the shadow `aer-uniwide-partial-shadow` (switched off, retiring).
-  - It looks only at entry-table reads stopped by completeness alone.
-  - It admits each university-wide or course row that passes every machine row rule, with no course lock, no conflicting active row and no shared identity.
-  - The countries a read did not cover, and the rows held, stay in Layer 4.
-  - It can be reversed with `security.aer_matrix_machine_withdraw_v1`.
-- **s915:** the course and entry-table audit samples go to 0%.
-  - 491 verified course reads (1,450 rows) were waiting only as audit samples. Their ledger rows are kept so a person can check them after admission.
-  - `aer-machine-admission` moves to :06, :21, :36 and :51.
-  - The proposer takes 150 courses a tick (was 50) and up to 1,200 waiting items (was 400).
-- **s916:** `aer-reconcile` moves to :12, :27, :42 and :57.
-  - aer-det-sweep NUL fix: 71 of 72 calls had failed since 03:00 AEDT. The edit is md5-guarded (`9856b441`).
-  - aer_det calls 3 → 9 and open calls 4 → 12. ELR in flight 8 → 24, batch 200 → 600, central sources 6 → 18.
-- **Rolled-back dry run, 10:30 AEDT:**
-  - First partial run: 38 reads, 1,133 rows at 31 providers (Charles Sturt 7, Hong Kong held).
-  - Active entry-table rows 5,576 → 6,709.
-  - G3 75/48; locks 7,585; active jobs unchanged (135).
-- **Design record:** `docs/platform/2026-11-21-s914-s916-fast-admission.md`.
-- **Renumbered 10:45 AEDT:** S1-ELR-Bands-And-Crawl claimed s913 and `20261121140000` at the same time (Pilot #1451). This change is now **s914 to s916**, Pilot migration `20261121150000` (Pilot #1450).
 
 
+**S1-ELR-Unblock-IQ00624, 21 Nov 2026 11:20 AEDT: IQ-00624 cleared and s926 recorded before merge (Pilot #1454, migration `20261121173000`)**
 
-**S1-ELR-Bands-And-Crawl, 21 Nov 2026 10:45 AEDT: s910 merged (Pilot #1448, d741077c; deployed 10:10 AEDT) and `elr-det-sweep` runs again (3 of 3 succeeded, 3.7 to 4.5 s). The live check found the two new worker modes unreachable; s913 is recorded before merge (Pilot #1451, migration `20261121140000`)**
+The Platform Admin's message came at 10:57 AEDT.
 
-- **The fault:**
-  - Every s907 fetch call came back HTTP 422 "supported modes" from coverage-sweep.
-  - In #1447 the band and fetch mode blocks sat after mode `read`'s return and before its closing brace, so they were unreachable code. esbuild and the type check both accept that.
-  - Nothing was fetched and no Firecrawl credit was used. 30 pages were marked lost by the three refused calls.
-- **s913 fix:**
-  - The worker: the brace moves, so both modes are reachable. Spec s913 fails against the #1447 worker and passes with the fix.
-  - The sweep: a fetch call refused with HTTP 422 returns its pages to the queue.
-  - This migration queues the lost pages again. Rolled-back proof: 42 queued and 10 in flight, under the same on-demand request, open until 15:41 AEDT.
-- **Live:** G3 75/48; manual locks 7,585; 137 active cron jobs, 0 unregistered.
-- **v1.2 reads so far:**
-  - 13 gave values without a study level;
-  - 13 state no English test by level;
-  - 6 add no level the approved policy lacks;
-  - 4 are page texts already proposed (now held by s910);
-  - 3 flagged as band pages;
-  - 13 in flight.
-- **Next:** auto-merge this record, then Pilot #1451, then read live.
+- **IQ-00624:**
+  - s910 (Pilot #1448, d741077c) merged at 10:09 and deployed at 10:10. Its admin record #740 merged first.
+  - Since then `elr-det-sweep` has run 11 of 11 times unattended (10:12 to 11:02 AEDT, 2.6 to 4.5 s) with no `provider_policy_proposals_key` error.
+  - Superseded elr-central-v1.0 proposals are never reactivated. A page text that was already proposed is held with that reason (4 pages so far).
+- **Downstream processing has started:** v1.2 central reads are running. So far:
+  - 50 give values without a study level;
+  - 48 state no English test by level;
+  - 29 add no level the approved policy lacks;
+  - 10 are flagged band pages;
+  - 4 are page texts already proposed;
+  - 11 are in flight.
 
-### 21 Nov 2026 10:50 AEDT, S1-Coverage-Unlock-UI-Notes: standing mandate, immediate live activation (s917), recorded before merge
-
-- `CLAUDE.md` and `AGENTS.md` in both repositories: reported fixes and verified admission rules go live immediately upon deploy; no unrequested shadow, off-by-default flag or next-day cutover; no assumed future work.
-- The partial-admission cutover is carried by S1-Fast-Admission (Pilot #1450); this lane's duplicate build was stopped before merge.
+  No band definitions yet: no page read so far labels a band with test values.
+- **s913 (Pilot #1451, 31699db9)** merged and was deployed at 10:50. The worker modes are reachable, and pages lost to calls the worker refused went back to the queue.
+- **Fetch:** the s907 request had been closed at 10:42 with 0 Firecrawl units used, while every call was refused.
+  - The Platform Admin answered "Reopen and fetch" at 11:05.
+  - s926 opens one new on-demand request (Firecrawl only, scope central) for the 52 queued pages. Estimate 52 credits (at most 78), from 67,120 left; AI US$0.
+- **Live:** G3 75/48; manual locks 7,585; 136 active cron jobs, 0 unregistered.
+- **Next:** auto-merge this record, then Pilot #1454; read the fetch live; close; sync Drive.
