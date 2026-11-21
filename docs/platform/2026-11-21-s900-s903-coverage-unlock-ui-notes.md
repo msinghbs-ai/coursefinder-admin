@@ -102,3 +102,14 @@
   - It admits the rows that pass every item-level check and every machine row rule.
   - It leaves the missing countries and any failing rows in Layer 4.
   - A new setting switches it on, and the shadow rule retires.
+
+## 7. The coverage window closed (21 Nov 2026 15:25 AEDT, s945)
+
+The window `ad97c846` expired at 15:09 AEDT and was closed with `security.on_demand_close_v1` (Pilot migration `20261121235000`).
+
+| Measure | Value |
+|---|---|
+| Firecrawl used, against the 20,000 cap | **110** (scholarship pages 94, provider facts 11, listing pages 5) |
+| Firecrawl credits left on the plan | **66,863** (67,193 before the window opened; other lanes' scheduled work is also in the difference) |
+| OpenRouter spend in the window (all lanes) | US$0.0561 |
+
