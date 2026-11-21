@@ -1,6 +1,6 @@
 # IQ-00313: start days taken from general course-page wording (S1-Fix-IQ00313, 21 Nov 2026)
 
-**Status:** live and verified (21 Nov 2026 13:33 AEDT). Pilot spec s925, migration `20261121170000`, Pilot #1453 (`899c9986`), admin #747 (`c636a5dd`). Rolled-back live dry run passed 21 Nov 2026 11:16 AEDT (file md5 `6e562e2d`). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
+**Status:** live and verified (s925 21 Nov 2026 13:33 AEDT; s940 14:30 AEDT). Pilot spec s925, migration `20261121170000`, Pilot #1453 (`899c9986`), admin #747 (`c636a5dd`). Rolled-back live dry run passed 21 Nov 2026 11:16 AEDT (file md5 `6e562e2d`). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
 **Directive:** Platform Admin, 21 Nov 2026 10:57 AEDT, P0.
 **Session:** S1-Fix-IQ00313.
 
@@ -127,4 +127,30 @@ Course-specific wording is kept, for example "Semester 1: Study full-time at Cit
 - the Website and Zoho items are reconciled in the same transaction;
 - the audit event is `IQ-00313-GENERAL-SEMESTER-SPANS-20261121`.
 
-**Results:** to be appended after the merge and the read-back.
+**Results (live).** Admin #757 merged first (`0e6434ed`), then Pilot #1459 (`ad95b073`), both by the `automerge` label. `Deploy on merge` succeeded. The migration was applied at 14:24 AEDT. The live function body md5 reads `184872c2`; the planner is unchanged at `cf7fff50`.
+
+| Where | MY0418 July intake after s940 |
+|---|---|
+| Catalogue | July 2027, no day (was 12 Jul 2027) |
+| Website v2 item | year 2027, month 7, no start date |
+| Stored Website item | 2027, no day |
+| Search document | 2027, no day |
+| Stored Zoho item | none: the Zoho feed holds no Massey course, so no Zoho copy can show the day |
+
+- **History kept.** MY0418 has 3 events, one of them `withdrawn` with a before value of 12 Jul 2027. No hold was placed.
+- **Audit event.** `IQ-00313-GENERAL-SEMESTER-SPANS-20261121`, with one result, Website-verified.
+
+**Unattended `intake-dates-apply` cycle at 14:26 AEDT.** 5 rows were decided:
+- MY0418 came out `nothing_new` (year and month) with the reason "the course page names this intake only in general wording";
+- 4 were skipped, month only.
+
+There were 0 new day admissions. The three ECU intakes still read February 2027 with no day.
+
+**Guards at 14:30 AEDT:**
+- Consumer API 75/48 with 0 drift.
+- Manual locks 7,585.
+- Active cron jobs 135, 0 unregistered. They read 134 to 137 during the afternoon, from other lanes' changes.
+- US$0 AI and 0 Firecrawl credits.
+- Live head `20261121220000`.
+
+IQ-00313 is closed for this lane.
