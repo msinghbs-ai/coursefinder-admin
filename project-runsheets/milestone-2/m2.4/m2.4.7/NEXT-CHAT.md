@@ -148,3 +148,14 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 - **Next.** Merge this record, then Pilot #1472; read the figures back; park.
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 02:45 AEDT: v2.16.83 live (REQ-100 Delivered); Lane 1 parked.** Items 1 and 3 done; item 2: 12 of 17 Delivered (REQ-105 next; REQ-94, 95, 99 with Lane 2; REQ-108 waits on scope); item 4 acceptance read done, deployed spec and REQ-59 QA next.
+
+## 22 Nov 2026 01:45 AEDT — Lane 2 s965 live and read back: 75 draft Tasmania-wide living-cost figures (Pilot #1472 `34e31e05`); parked
+
+- **Merged and deployed.** Admin #774, then Pilot #1472 (`34e31e05`). Deploy on merge applied `20261122100000` (history md5 3f42f69c matches the file).
+- **Read back live.** 75 figures, all draft, in edition `Migration Tasmania weekly living costs (Tasmania-wide), page of 28 Jul 2026`; Hobart whole-house rent reads $550 a week.
+- **Guardrails.** Live head `20261122100000`; G3 75/48, no drift; locks 7,585; 137 active jobs, 0 unregistered; $0 AI, $0 Firecrawl.
+- **Platform Admin.**
+  - Sign off the terms and approve the figures (`admin_destination_figures_bulk_approve`).
+  - IR-009: the NZ and CA course-campus decision.
+  - IR-010: the person queues.
+- **Lane 2 next.** Item 4 (NZQCF, NZSCED and CIP); NZQA reuse terms are still flagged. Parked.
