@@ -41,7 +41,7 @@ Order of work: each item ships as one admin and Pilot pull request pair, live on
 
 | # | Item | Requests | Status | Releases |
 |---|---|---|---|---|
-| 1 | Zoho API v3 export: TOEFL iBT, Cambridge CAE, DET and OET (`score_grade`, `subtest_grades`) columns on the course export (Z2); NZ and CA in `zoho.sync_countries` (Z3) | REQ-34, REQ-35 | Not started | |
+| 1 | Zoho API v3 export: TOEFL iBT, Cambridge CAE, DET and OET (`score_grade`, `subtest_grades`) columns on the course export (Z2); NZ and CA in `zoho.sync_countries` (Z3) | REQ-34, REQ-35 | In progress: s955 built, merging | Pilot #1465 |
 | 2 | India app feedback backlog of 20 Nov: UI fixes, label corrections, endpoint adjustments; checked signed in on desktop and at 375 px | REQ-92 to REQ-108 | Not started | |
 | 3 | Scholarship hygiene: 23 contradicting value notes; the last 3 text-only scholarships re-read; no expired scholarship marked open after the Melbourne-date round-state refresh | REQ-64, REQ-71, REQ-72 | Not started | |
 | 4 | Pre-production acceptance: Australia page golden fixtures (one verified record per section, Admin and Website API v3); 10-provider QA including research scholarships | RM1K, REQ-59 | Not started | |
