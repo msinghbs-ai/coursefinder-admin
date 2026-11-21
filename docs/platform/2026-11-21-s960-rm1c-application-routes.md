@@ -1,6 +1,6 @@
 # s960: Australian application routes (RM1C) into a draft edition
 
-**Lane:** 2 (`S2-Data-Destination-Continuous`) · **Asked:** Platform Admin, 21 Nov 2026 21:16 AEDT (first item chosen 21:19: AU rule drafts) · **Pilot:** #1466 · **Migration:** `20261122040000_cf247_s960_rm1c_au_application_routes.sql` · **Spec:** s960
+**Lane:** 2 (`S2-Data-Destination-Continuous`) · **Asked:** Platform Admin, 21 Nov 2026 21:16 AEDT (first item chosen 21:19: AU rule drafts) · **Pilot:** #1466 (merged `de3ddba5`, live 21 Nov 2026 22:40 AEDT) · **Migration:** `20261122040000_cf247_s960_rm1c_au_application_routes.sql` · **Spec:** s960
 
 ## Business objective
 
