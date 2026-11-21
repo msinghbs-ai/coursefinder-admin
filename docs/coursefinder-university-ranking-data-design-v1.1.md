@@ -168,6 +168,17 @@ Per edition report:
 - Missing/unranked is not rank 0.
 
 
+## Amendment, 22 Nov 2026: attributed public readers (s966, IR-005)
+
+Platform Admin, 22 Nov 2026 09:22 AEDT: THE and QS World University Rankings are attributed public rankings, used directly, with no publisher-file upload or `terms = restricted` hold.
+
+- Current editions come from automated Layer 1 readers in `ranking-layer1-etl` (v1.8.0). THE is read from its public ranking JSON and QS from its public results endpoint, each with a plain GET. robots.txt and its crawl-delay are honoured. There is no Firecrawl, browser automation or AI.
+- A read is retained as Evidence, applied, and published at once as `access_status = 'public'`, with the attribution in `licensing_note` and the publisher's ranking page as `source_url`. Other revisions of the same edition are superseded.
+- Provider matching adds one deterministic rule: one part of the provider's register name, in the same country, with exactly one provider matching. Register names are split on "/" and cut before ", including". Unmatched rows remain review work.
+- A bot challenge is reported and never bypassed; the edition held stays live.
+- The upload route below remains only for past editions.
+- Record: `docs/platform/2026-11-22-s966-public-ranking-readers-the-qs.md`.
+
 ## Manual publisher artifact fallback
 
 When a historical publisher page/download is unavailable to automation because of authentication, registration, paywall or bot controls, CourseFinder must not circumvent the restriction.
