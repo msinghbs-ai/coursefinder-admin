@@ -122,3 +122,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 21 Nov 2026 22:55 AEDT: s955 live; s956 recorded before merge (Pilot #1467, v2.16.79).** Zoho v3 English test columns and NZ/CA sync live (REQ-34 Live in v3, REQ-35 Delivered); India team UI fixes REQ-92, 97, 101, 102, 103, 106, 107 merging.
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 00:05 AEDT: s956 live (v2.16.79, 7 India requests Delivered); s957 recorded before merge (Pilot #1468, v2.16.80: REQ-93, 96, 98, 104).**
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 01:00 AEDT: s957 live (v2.16.80; REQ-93, 96, 98, 104 Delivered); s958 recorded before merge (Pilot #1469, v2.16.81, REQ-100).**
