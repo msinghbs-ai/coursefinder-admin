@@ -1,6 +1,6 @@
 # IQ-00313: start days taken from general course-page wording (S1-Fix-IQ00313, 21 Nov 2026)
 
-**Status:** recorded before merge. Pilot spec s925, migration `20261121170000` (Pilot PR to follow this record). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
+**Status:** recorded before merge. Pilot spec s925, migration `20261121170000`, Pilot #1453. Rolled-back live dry run passed 21 Nov 2026 11:16 AEDT (file md5 `6e562e2d`). Live on deploy, no switch and no shadow (standing mandate, 21 Nov 2026 10:07 AEDT).
 **Directive:** Platform Admin, 21 Nov 2026 10:57 AEDT, P0.
 **Session:** S1-Fix-IQ00313.
 
@@ -49,7 +49,7 @@ The audit read, live at 11:05 AEDT, every active intake that holds a start day a
 ## 3. The fix (s925, live on deploy)
 
 1. **Course-specific wording** (`security.intake_wording_specific_v1`). The planner removes general sentences before it looks for study periods. These are:
-   - sentences about most, many, some or all courses, programs, degrees, units or students;
+   - sentences about most, many, some, all, several, "a lot of" or "a number of" courses, programs, degrees, units or students (083819C also carries "A lot of our courses start in Semester 2", found by the first dry run);
    - hedged sentences ("usually", "generally", "typically", "normally", "in most cases") that do not say "this course" or "this program".
 2. **No start day from general wording** (`security.intake_dates_plan_v3`, md5-guarded edit `020a047e` → `cf7fff50`). When the period or the month is named only in general wording, no route takes a start day. This covers the named period, the unique month and Rule B nearest start. The intake takes the year of the calendar's next start in that month within the horizon (year and month), or it stays month only. A year that was withdrawn before is not admitted again.
 3. **Start-day withdrawal** (`security.intake_date_day_withdraw_v1`). This is the existing withdrawal, for the start day only.
