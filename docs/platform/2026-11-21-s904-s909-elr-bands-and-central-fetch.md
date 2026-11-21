@@ -141,3 +141,11 @@ The Platform Admin's message came at 10:57 AEDT.
 - **Next:** auto-merge this record, then Pilot #1454; read the fetch live; close; sync Drive.
 
 ## 6. Comments and replies
+
+## s950: the fetch request closes when its window times out (21 Nov 2026 18:30 AEDT, Pilot #1462, migration `20261122010000`)
+
+- **Found (read live, rolled back).** The sweep closed an open fetch request only when none of its pages was queued or in flight. The claim sends nothing once `expires_at` has passed, so a request that timed out with pages still queued stayed open past its window, with no report of its use, and its pages were never sent. The s907 request needed a migration (s926) for the same reason.
+- **Today nothing is affected.** Request `c48a9a42` (s926) closed at 13:02 AEDT: 52 Firecrawl units, 50 pages stored, 2 failed. No fetch request is open.
+- **What changes (logic only, live on deploy).** Step 7 also closes a timed-out fetch request once none of its pages is in flight, through `security.on_demand_close_v1`, keeping its report with `closed_by: window_expired` and `left_queued`. Pages left queued stay queued for a person to reopen (as s926 did). No request is opened and nothing is sent ($0 Firecrawl, $0 AI).
+- **Proof (rolled back).** With `c48a9a42` set open and timed out and its 2 failed pages queued: the old run left it open; the new run closed it with `left_queued: 2` and sent nothing; a second run did nothing. md5 `602ee934` → `2a09bbdb`.
+- **Guard.** `tests/uat/cf-247-s950-elr-fetch-window-expiry-contract.spec.mjs`. G3 75/48; locks 7,585; no new job or setting.
