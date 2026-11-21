@@ -63,3 +63,17 @@
 **S1-ELR-Fetch-Window, 21 Nov 2026 18:30 AEDT: s950 recorded before merge (Pilot #1462, migration `20261122010000`).** The central English page fetch now closes its on-demand request when the window times out (once nothing is in flight), keeping its report and counting the pages left queued. Logic only: no request opened, nothing sent, $0. Rolled-back proof: a timed-out request with 2 queued pages stayed open under the old run and closed under the new one with nothing sent.
 
 **S1-ELR-Fetch-Window, 21 Nov 2026 18:45 AEDT: s950 live and read back; parked.** Admin #762, Pilot #1462 (`41572ace`); migration `20261122010000` is the live head; sweep md5 `2a09bbdb`; first run after deploy succeeded (8.9 s); no fetch request open; G3 75/48; locks 7,585; 137 cron; $0.
+
+## 21 Nov 2026 20:30 AEDT — S1-RM-Design: s951 P0, website-api-v3 and zoho-api-v3 answered 503 since s935
+
+The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3` (search and destination; request ids `2cd7d848-f518-4276-90f3-8cdfdf6b7e2e` and `abe9f30c-afd7-4ad8-be33-984ca86c162f`).
+
+- **Cause, read live.** Since s935 (#1458, deployed about 18:11 AEDT), both v3 functions call `pipeline.api_key_auth_v1` and `pipeline.api_request_log_v1` with `svc.schema("pipeline")`.
+  - The API gateway serves only the public schema, so every call got HTTP 406 (edge logs, 07:11 to 09:11 UTC). Every v3 call answered 503 before any key was checked.
+  - The v2 and v1 APIs were not affected.
+- **Fix: Pilot migration `20261122020000` (s951), live on deploy.**
+  - It adds the service-role-only entry points `public.api_key_auth_v1` and `public.api_request_log_v1`, which call the pipeline functions unchanged.
+  - Both v3 functions now call these with `svc.rpc`. Spec s935 now fails any `.schema("pipeline"|"security"|"private").rpc(` in the v3 functions.
+  - G3 stays at 75 functions and 48 relations; no key changed.
+  - The rule text (Pilot `CLAUDE.md`, key governance item 1) now names the entry points.
+- **Also noticed, not changed:** `provider-contact-import` and `ranking-publisher-import` write to `pipeline` tables with `.schema("pipeline")`. They are likely refused the same way and should be checked.
