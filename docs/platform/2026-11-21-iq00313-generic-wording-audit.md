@@ -103,3 +103,28 @@ The audit read, live at 11:05 AEDT, every active intake that holds a start day a
 - Live head `20261121190000`. Later lanes are above `20261121170000`.
 
 **Open:** the Platform Admin decides on Massey MY0418 (section 2).
+
+## 6. Massey MY0418 and general semester descriptions (s940, Platform Admin 21 Nov 2026 13:51 AEDT)
+
+**Decision:** Massey MY0418 goes back to July 2027 with no day. General semester descriptions on provider or calendar pages give month only (year and month), never an inferred day.
+
+**The rule (s940).** `security.intake_wording_specific_v1` also removes a sentence that describes a study period as a span of months with a vague bound. Examples:
+- "Semesters One: late February to June";
+- "Semester Two: July to early November";
+- "Trimester 1: mid-March to the end of June".
+
+Such a sentence describes the university's calendar, not this course's start.
+
+The planner (`cf7fff50`) is unchanged. It reads periods and months from this text only, so the intake takes year and month, or month only. The function body is md5-guarded (`b2a128a1` → `184872c2`). Live on deploy, with no switch and no shadow.
+
+Course-specific wording is kept, for example "Semester 1: Study full-time at City Campus", "Start date First Semester (February), Second Semester (July)" and "Semester two (July) Apply directly to Monash …".
+
+**Live audit (13:55 AEDT).** Of the 3,548 active calendar-v3 day admissions, the widened rule changes only MY0418.
+
+**Remediation.** It is done once, in migration `20261121220000` (Pilot #1459; dry run passed, md5 `8b933573`):
+- the same rule re-finds MY0418;
+- `security.intake_date_day_withdraw_v1` takes back the day only, adds no hold, and keeps the history, evidence and locks;
+- the Website and Zoho items are reconciled in the same transaction;
+- the audit event is `IQ-00313-GENERAL-SEMESTER-SPANS-20261121`.
+
+**Results:** to be appended after the merge and the read-back.
