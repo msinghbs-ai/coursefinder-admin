@@ -146,3 +146,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
   - Nothing is rule-resolvable at $0.
 - **Platform Admin.** IR-009 (an NZ and CA course-campus decision) and IR-010 (the person queues).
 - **Next.** Merge this record, then Pilot #1472; read the figures back; park.
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 02:45 AEDT: v2.16.83 live (REQ-100 Delivered); Lane 1 parked.** Items 1 and 3 done; item 2: 12 of 17 Delivered (REQ-105 next; REQ-94, 95, 99 with Lane 2; REQ-108 waits on scope); item 4 acceptance read done, deployed spec and REQ-59 QA next.
