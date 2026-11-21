@@ -102,3 +102,19 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
   - All three `destination-*` jobs are paused.
 - **Gaps.** QTAC (statement not in static HTML) and TISC (no official page) are not captured.
 - **Next.** Merge this record, then Pilot #1466; run the static read; read back; RM1I living costs.
+
+## 21 Nov 2026 22:50 AEDT — Lane 2 s960 live and read back: RM1C application routes are draft rules with state scope (Pilot #1466 `de3ddba5`); RM1I source gap; parked
+
+- **Merged and deployed.** Admin #767, then Pilot #1466 (`de3ddba5`). Deploy on merge applied `20261122040000` (history md5 82f54517 matches the file) and deployed `layer1-destination-geo-loader` v1.6.0.
+- **Live on deploy.** Workflow "Destination page facts (static read)" (run 44898091961) read 9 static facts: 5 rules written, 4 unchanged, 0 not found, 0 pages failed. No rendered (Firecrawl) page was read: $0.
+- **Read back.** Five draft rules in "Australian application routes (Study Australia and admissions centres)":
+  - apply directly (country AU)
+  - education agent (country AU)
+  - UAC (AU-NSW, AU-ACT)
+  - SATAC (AU-SA, AU-NT)
+  - VTAC (AU-VIC, `state_code` AU-VIC)
+- **Guardrails.** Live head `20261122040000`; G3 75/48, no drift; locks 7,585; 137 active jobs, 0 unregistered.
+- **Platform Admin.**
+  - IR-003: set the edition's terms, approve the five rules and publish.
+  - IR-008: Study Tasmania's living-expenses page no longer gives figures; choose the Hobart living-cost source (Migration Tasmania gives Tasmania-wide weekly costs; the national Study Australia calculator is not a page of figures).
+- **Next (Lane 2).** Item 1 continues: RM1I once IR-008 is decided; RM1H Fair Work terms (restricted). Then item 3, queues and NZ/CA geography. Parked.
