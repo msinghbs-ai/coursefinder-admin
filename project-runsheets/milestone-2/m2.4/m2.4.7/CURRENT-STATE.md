@@ -1,3 +1,34 @@
+### 21 Nov 2026 11:35 AEDT, S1-Fast-Admission: s914 to s916 live and read back (Pilot #1450 `2c2ad53a`, admin #742 and #744 `6207f659`); parked
+
+- **Merged and applied:**
+  - Merged by the automerge label: admin #742, then #744 (the renumber), then Pilot #1450.
+  - Deploy on merge (run 44843028863) applied `20261121150000` at 11:19:59 AEDT. History md5 `69451f7a` matches the file.
+- **Read back live (11:21 to 11:32 AEDT):**
+  - **s914, partial entry tables:**
+    - The first run at deploy admitted **1,133 rows from 38 reads at 31 providers**.
+    - Charles Sturt: 7 rows live; Hong Kong stays in Layer 4.
+    - Active entry-table rows went from 5,576 to 6,720 (the extra 11 were admitted by the table rule).
+    - The rule's :29 run looked at 17 reads with 0 errors and found nothing new (7.9 s).
+  - **s915, course entry reads:**
+    - The :21 `aer-machine-admission` run admitted **75 verified course reads**.
+    - Active course entry rows went from 25,544 to 25,741 (+197).
+    - Audit-sample reads left: 491 → 416. The next 15-minute runs take the rest (about 75 a run, so roughly 6 runs).
+    - The proposer is no longer held at its cap: proposed rows went from 2,721 to 3,086.
+  - **s916:**
+    - The aer-det-sweep fix is live: the stuck call was collected and its 40 pages recorded.
+    - `elr-det-sweep` ticks are clean (3 of 3).
+    - Central English calls: 7 done in 40 minutes, 1 in flight.
+    - Schedules: `aer-machine-admission` 6,21,36,51; `aer-reconcile` 12,27,42,57.
+  - **ELR, fees, intakes and scholarships:** no new canonical rows since the deploy. This change only speeds the $0 readers, and the English central reads still propose no new level values (see the S1-ELR lanes).
+  - **Invariants:**
+    - G3 75/48; manual locks 7,585.
+    - Active jobs 134 at deploy, then 137 after another lane's `20261121170000`; ≤ 140, 0 unregistered. No job was added by this change.
+    - `aer.machine_suspended` 0; US$0.
+- **Follow-ups:**
+  - The audit-sample reads finish over the next 15-minute runs.
+  - A person can check them after admission. The list is `pipeline.aer_machine_admissions` with `reason_code = 'audit_sample'` and a later `admitted` row.
+  - If the central English call times out, set `batch.elr_central` back to 6.
+
 ### 21 Nov 2026 10:50 AEDT, S1-Fast-Admission: s914 to s916 recorded before merge (Pilot migration `20261121150000`, Pilot #1450)
 
 - **Decision (Platform Admin, 10:03 AEDT):** admit verified data into the live canonical tables today.
