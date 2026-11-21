@@ -128,3 +128,21 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 22 Nov 2026 01:40 AEDT: s958 live (v2.16.81, REQ-100 groups); s959 recorded before merge (Pilot #1470, v2.16.82: REQ-64, REQ-71, REQ-72 checked; one-page levels).**
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 02:20 AEDT: s959 live (REQ-64 Delivered; REQ-71, REQ-72 confirmed); RM1K acceptance read (every Australia section served by v3); v2.16.83 recorded before merge (Pilot #1471).**
+
+## 22 Nov 2026 01:00 AEDT — Lane 2 s965: RM1I Tasmania-wide living costs as draft figures (Pilot #1472); item 3 audit, nothing rule-resolvable at $0
+
+- **Asked (Platform Admin, 00:11).**
+  - IR-008 approved: Migration Tasmania's Tasmania-wide weekly living costs into a draft edition at $0.
+  - Then item 3: settle what a rule can settle, and check the NZ and CA sweeps.
+- **Change (Pilot #1472, migration `20261122100000`, data only).**
+  - Migration Tasmania registered in Layer 1.
+  - 75 draft `living_cost` figures: 15 weekly figures for each of the 5 Tasmanian localities held (found as SUA code `6…`), each with its verbatim line. Edition `Migration Tasmania weekly living costs (Tasmania-wide), page of 28 Jul 2026`.
+  - Dry run passed, rolled back: 75 rows; G3 75/48; locks 7,585; 137 jobs.
+  - Design: `docs/platform/2026-11-22-s965-rm1i-tasmania-living-costs.md`.
+- **Item 3 audit (read-only).** `docs/platform/2026-11-22-lane2-item3-queues-and-nz-ca-geography-audit.md`.
+  - 82 primary-campus ties (all providers with several campuses), 160 postcodes and 69 waiting campuses, and 5 English readings: all for a person.
+  - NZ: 2,692 of 6,514 courses have a campus. CA: 2,290 of 3,825. Every other course carries a reason except 16.
+  - `fid-det` is running (1,061 NZ/CA readings in 24 h). `struct-det` has read what it holds.
+  - Nothing is rule-resolvable at $0.
+- **Platform Admin.** IR-009 (an NZ and CA course-campus decision) and IR-010 (the person queues).
+- **Next.** Merge this record, then Pilot #1472; read the figures back; park.
