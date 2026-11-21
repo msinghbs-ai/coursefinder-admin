@@ -41,8 +41,8 @@ Order of work: each item ships as one admin and Pilot pull request pair, live on
 
 | # | Item | Requests | Status | Releases |
 |---|---|---|---|---|
-| 1 | Zoho API v3 export: TOEFL iBT, Cambridge CAE, DET and OET (`score_grade`, `subtest_grades`) columns on the course export (Z2); NZ and CA in `zoho.sync_countries` (Z3) | REQ-34, REQ-35 | In progress: s955 built, merging | Pilot #1465 |
-| 2 | India app feedback backlog of 20 Nov: UI fixes, label corrections, endpoint adjustments; checked signed in on desktop and at 375 px | REQ-92 to REQ-108 | Not started | |
+| 1 | Zoho API v3 export: TOEFL iBT, Cambridge CAE, DET and OET (`score_grade`, `subtest_grades`) columns on the course export (Z2); NZ and CA in `zoho.sync_countries` (Z3) | REQ-34, REQ-35 | Done 21 Nov 22:50 (REQ-34 Live in v3, REQ-35 Delivered) | Pilot #1465, admin #766 |
+| 2 | India app feedback backlog of 20 Nov: UI fixes, label corrections, endpoint adjustments; checked signed in on desktop and at 375 px | REQ-92 to REQ-108 | In progress: s956 (REQ-92, 97, 101, 102, 103, 106, 107) merging; next REQ-93, 96, 98, 100, 104, 105; REQ-94, 95, 99 handed to Lane 2; REQ-108 waits on scope | Pilot #1467 |
 | 3 | Scholarship hygiene: 23 contradicting value notes; the last 3 text-only scholarships re-read; no expired scholarship marked open after the Melbourne-date round-state refresh | REQ-64, REQ-71, REQ-72 | Not started | |
 | 4 | Pre-production acceptance: Australia page golden fixtures (one verified record per section, Admin and Website API v3); 10-provider QA including research scholarships | RM1K, REQ-59 | Not started | |
 | 5 | Close the loop: registers, Drive `Monitoring` and `M3`, park | all of the above | Repeats after each item | |
@@ -67,6 +67,9 @@ The `destination-abs-load`, `destination-climate-load` and `destination-page-fac
 | Date | From | To | Item | State |
 |---|---|---|---|---|
 | 21 Nov 2026 | Lane 2 | Platform Admin | RM1C edition terms, approval and publish; RM1A 701 departures; RM1J THE 2027 file; Wave 2 AI Auto-Map budget; RM1I Hobart living-cost source | Waiting (IR-003 to IR-006, IR-008) |
+| 21 Nov 2026 | Lane 1 | Lane 2 | REQ-94 (course-level entry rows for providers missing from Course entry requirements), REQ-95 (scholarship pages for providers with none published), REQ-99 (accepted English tests missing on courses): data work | Open |
+| 21 Nov 2026 | Lane 1 | Lane 2 | OET letter grades (`score_grade`, `subtest_grades`): none stored yet; the Zoho v3 export columns are ready (REQ-34) | Open |
+| 21 Nov 2026 | Lane 1 | Platform Admin | REQ-108 premium placement statistics: scope and priority | Waiting |
 
 ## 6. Status log
 
@@ -75,3 +78,4 @@ One line per session before it parks: date and time (AEDT), lane, what shipped (
 - 21 Nov 2026 21:30 AEDT, Lane 1: plan v0.1 drafted from the brief; standing rule added to `CLAUDE.md` and `AGENTS.md` in both repositories; `docs/integrations/INTERNAL-REQUESTS.csv` created. Next: item 1.
 - 21 Nov 2026 22:00 AEDT, Lane 2: started; section 5 filled in; s960 RM1C application routes recorded before merge (Pilot #1466). Next: merge, static read on deploy, then RM1I living costs.
 - 21 Nov 2026 22:50 AEDT, Lane 2: s960 live (admin #767, Pilot #1466 `de3ddba5`): 5 RM1C routes are draft rules with state scope, read at $0; RM1I needs a source decision (IR-008). Parked. Next: item 3 (queues and NZ/CA geography) while IR-003 and IR-008 wait.
+- 21 Nov 2026 22:55 AEDT, Lane 1: item 1 done (s955 live, admin #766, Pilot #1465 `ffb11140`; REQ-34 Live in v3, REQ-35 Delivered). Item 2 first part s956 (Pilot #1467, v2.16.79) merging. Next: REQ-93, 96, 98, 100, 104, 105.
