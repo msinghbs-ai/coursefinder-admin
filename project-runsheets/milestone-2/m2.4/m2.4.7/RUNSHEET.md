@@ -81,3 +81,24 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 21 Nov 2026 21:35 AEDT: Step 0.** Continuous Delivery Master Plan v0.1 (drafted from the Lane 1 brief) in `docs/platform/` and Drive `M3`; standing rule in `CLAUDE.md` and `AGENTS.md` of both repositories; `INTERNAL-REQUESTS.csv` created. Next: Zoho v3 export (REQ-34, REQ-35).
 
 **S1-API-Frontend-Delivery, 21 Nov 2026 22:05 AEDT: s955 recorded before merge (Pilot #1465, migration `20261122030000`).** Zoho v3 course export adds TOEFL iBT, CAE, DET and OET columns (REQ-34, Z2); `zoho.sync_countries` AU, NZ, CA for v2 and v3 (REQ-35, Z3). Live on deploy; $0.
+
+## 21 Nov 2026 22:00 AEDT — Lane 2 (S2-Data-Destination-Continuous) s960: RM1C Australian application routes into a draft edition, state scope, $0 static read (Pilot #1466)
+
+- **Asked (Platform Admin, 21:16; first item chosen 21:19: AU rule drafts).** Lane 2 brief. The master plan (Lane 1, admin #765) names this lane; its section 5 is now filled in.
+- **Change (Pilot #1466, migration `20261122040000`, renumbered above s955's `20261122030000`).**
+  - `destination.page_facts.state_codes`.
+  - Four Layer 1 Register sources: Study Australia, UAC, VTAC and SATAC.
+  - Draft edition "Australian application routes (Study Australia and admissions centres)", terms pending.
+  - Five application-route facts: direct (AU), agent (AU), UAC (NSW, ACT), VTAC (VIC), SATAC (SA, NT).
+  - Loader function: state applicability (md5 `a81d0f62` → `c34e7946`).
+  - Edge loader v1.6.0: scope `static` ($0).
+  - Workflow "Destination page facts (static read)", run on deploy.
+  - Design: `docs/platform/2026-11-21-s960-rm1c-application-routes.md`.
+- **Dry run passed, rolled back (synthetic load).** 5 found, 5 written as drafts, each with the right country or state scope. G3 75/48; locks 7,585; 135 jobs.
+- **Corrections to the brief.**
+  - RM1A's 1,953 CRICOS rows were applied on 17 Nov; 701 departures wait for the Platform Admin.
+  - RM1D JSA careers is published (1,577 rows).
+  - RM1H Home Affairs rules are published; the Fair Work edition is draft with terms restricted.
+  - All three `destination-*` jobs are paused.
+- **Gaps.** QTAC (statement not in static HTML) and TISC (no official page) are not captured.
+- **Next.** Merge this record, then Pilot #1466; run the static read; read back; RM1I living costs.

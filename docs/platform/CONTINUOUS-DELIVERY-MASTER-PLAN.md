@@ -49,16 +49,28 @@ Order of work: each item ships as one admin and Pilot pull request pair, live on
 
 ## 5. Lane 2 status
 
-*To be filled in by the Lane 2 session (`S2-Data-Destination-Continuous`) at its next start.*
+Lane 2 (`S2-Data-Destination-Continuous`) works from the Platform Admin's brief of 21 Nov 2026 21:16 AEDT. The Platform Admin chose the first item at 21:19: AU rule drafts. Each item ships as one admin and Pilot pull request pair, live on deploy. Approving rules and publishing editions stay with the Platform Admin.
+
+| # | Item | Roadmap / requests | Status | Releases |
+|---|---|---|---|---|
+| 1 | Australian rule drafts: application routes (RM1C), Home Affairs and Fair Work rules (RM1H), Hobart living costs (RM1I) | RM1C, RM1H, RM1I | RM1C: draft edition with 5 official routes (direct, agent, UAC NSW/ACT, VTAC VIC, SATAC SA/NT), state scope, $0 (s960); QTAC and TISC are gaps. RM1H: Home Affairs rules are published; the Fair Work minimum-wage edition is draft with terms restricted (Platform Admin). RM1I: no living-cost reader yet (next) | Pilot #1466 |
+| 2 | Australian datasets waiting on the Platform Admin | RM1A, RM1D, RM1J | RM1A: the 1,953 CRICOS rows were applied on 17 Nov; 701 departures wait for approval. RM1D: JSA careers published (1,577 rows); QILT permission gates outcomes. RM1J: needs the THE 2027 file uploaded | |
+| 3 | Human and rule queues; NZ and CA course-campus geography | RM1E, RM2A, RM4B, REQ-39, REQ-81 | Not started: 82 unset primary campuses and 5 central English items (a person), 28 ambiguous postcodes; NZQA and DLI geography; `struct-det` and `fid-det` drain checks | |
+| 4 | NZ and CA recognition and classification | RM4A, RM4C, RM2B | Not started. NZQA reuse terms flagged for management | |
+| 5 | Wave 2 sources: UK, Ireland, USA | RM3A, RM5A, RM6A | Not started. Needs an approved AI Auto-Map budget (this lane runs at $0 AI) | |
+| 6 | Close the loop: registers, Drive `Monitoring` and `M3`, park | all | After each item | |
+
+The `destination-abs-load`, `destination-climate-load` and `destination-page-facts-load` jobs are paused live. Static page facts are read on deploy by workflow "Destination page facts (static read)" ($0).
 
 ### Items handed between lanes
 
 | Date | From | To | Item | State |
 |---|---|---|---|---|
-| | | | | |
+| 21 Nov 2026 | Lane 2 | Platform Admin | RM1C edition terms, approval and publish; RM1A 701 departures; RM1J THE 2027 file; Wave 2 AI Auto-Map budget | Waiting (IR-003 to IR-006) |
 
 ## 6. Status log
 
 One line per session before it parks: date and time (AEDT), lane, what shipped (pull requests), what is next.
 
 - 21 Nov 2026 21:30 AEDT, Lane 1: plan v0.1 drafted from the brief; standing rule added to `CLAUDE.md` and `AGENTS.md` in both repositories; `docs/integrations/INTERNAL-REQUESTS.csv` created. Next: item 1.
+- 21 Nov 2026 22:00 AEDT, Lane 2: started; section 5 filled in; s960 RM1C application routes recorded before merge (Pilot #1466). Next: merge, static read on deploy, then RM1I living costs.
