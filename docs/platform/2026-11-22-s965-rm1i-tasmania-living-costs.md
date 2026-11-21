@@ -1,6 +1,6 @@
 # s965: Tasmania-wide living costs (RM1I) as draft figures
 
-**Lane:** 2 (`S2-Data-Destination-Continuous`) · **Asked:** Platform Admin, 22 Nov 2026 00:11 AEDT (IR-008 approved) · **Pilot:** #1472 · **Migration:** `20261122100000_cf247_s965_rm1i_tasmania_living_costs.sql` · **Spec:** s965
+**Lane:** 2 (`S2-Data-Destination-Continuous`) · **Asked:** Platform Admin, 22 Nov 2026 00:11 AEDT (IR-008 approved) · **Pilot:** #1472 (merged `34e31e05`, live 22 Nov 2026 01:40 AEDT) · **Migration:** `20261122100000_cf247_s965_rm1i_tasmania_living_costs.sql` · **Spec:** s965
 
 ## Business objective
 
