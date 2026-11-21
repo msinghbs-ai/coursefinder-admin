@@ -59,3 +59,5 @@
 - **Parked.** AI $0, Firecrawl $0.
 
 **S1-Coverage-Unlock-UI-Notes, 21 Nov 2026 15:25 AEDT: coverage window `ad97c846` closed (s945, Pilot migration `20261121235000`).** 110 Firecrawl units of the 20,000 cap (scholarships 94, provider facts 11, listings 5); 66,863 credits left on the plan; OpenRouter US$0.0561 in the window (all lanes). Closed with `security.on_demand_close_v1`; report kept.
+
+**S1-ELR-Fetch-Window, 21 Nov 2026 18:30 AEDT: s950 recorded before merge (Pilot #1462, migration `20261122010000`).** The central English page fetch now closes its on-demand request when the window times out (once nothing is in flight), keeping its report and counting the pages left queued. Logic only: no request opened, nothing sent, $0. Rolled-back proof: a timed-out request with 2 queued pages stayed open under the old run and closed under the new one with nothing sent.
