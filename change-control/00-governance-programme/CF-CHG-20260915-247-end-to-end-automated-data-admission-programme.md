@@ -159,3 +159,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
   - IR-009: the NZ and CA course-campus decision.
   - IR-010: the person queues.
 - **Lane 2 next.** Item 4 (NZQCF, NZSCED and CIP); NZQA reuse terms are still flagged. Parked.
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 10:20 AEDT: rankings decision recorded (Platform Admin 09:22, IR-005, RM1J); s966 THE and QS public readers recorded before merge.** THE 2027 (3,146 rows) and QS 2027 (1,504 rows) read from the publishers' public JSON with a plain GET, published live with attribution, $0; rehearsal links AU 37/37, NZ 8/8, CA 32/34 (THE) and 28/30 (QS).

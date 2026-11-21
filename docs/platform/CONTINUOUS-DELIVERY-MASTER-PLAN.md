@@ -2,6 +2,7 @@
 
 **Version:** 0.1 (draft for Platform Admin review)
 **Drafted:** 21 Nov 2026 21:30 AEDT by Claude (S1-API-Frontend-Delivery), from the Platform Admin's Lane 1 brief of 21 Nov 2026 21:15 AEDT. The brief is the only source so far. Parts it does not cover are marked *to be confirmed*.
+**Updated:** 22 Nov 2026 10:20 AEDT: rankings decision (IR-005, RM1J) recorded; Lane 1 item 6 added.
 **Copies:** this file is the source of truth. Google Drive `M3 / CONTINUOUS-DELIVERY-MASTER-PLAN.md` is a mirror, refreshed whenever this file changes.
 
 ## 1. How every session uses this plan
@@ -46,6 +47,7 @@ Order of work: each item ships as one admin and Pilot pull request pair, live on
 | 3 | Scholarship hygiene: 23 contradicting value notes; the last 3 text-only scholarships re-read; no expired scholarship marked open after the Melbourne-date round-state refresh | REQ-64, REQ-71, REQ-72 | Done 22 Nov 02:15: 28 values by the rule upper figure marked up to (REQ-64 Delivered); 0 text-only; 0 expired open | Pilot #1470 |
 | 4 | Pre-production acceptance: Australia page golden fixtures (one verified record per section, Admin and Website API v3); 10-provider QA including research scholarships | RM1K, REQ-59 | In progress: acceptance read done (every section served by v3, `docs/platform/2026-11-22-rm1k-australia-golden-acceptance.md`); next a deployed spec of the golden records; 10-provider QA waits on Saurabh and Sujata's list and pass criteria | admin docs |
 | 5 | Close the loop: registers, Drive `Monitoring` and `M3`, park | all of the above | Repeats after each item | |
+| 6 | Rankings: automated Layer 1 readers for THE and QS World University Rankings from the publishers' public JSON, published live with attribution; no publisher file or terms hold (Platform Admin 22 Nov 2026 09:22). Taken from Lane 2 on the Platform Admin's instruction | IR-005, RM1J, REQ-91 | In progress: s966 recorded before merge; rolled-back rehearsal: THE 2027 3,146 rows, QS 2027 1,504 rows; AU 37/37, NZ 8/8, CA 32/34 (THE) and 28/30 (QS) linked | Pilot s966 |
 
 ## 5. Lane 2 status
 
@@ -54,7 +56,7 @@ Lane 2 (`S2-Data-Destination-Continuous`) works from the Platform Admin's brief 
 | # | Item | Roadmap / requests | Status | Releases |
 |---|---|---|---|---|
 | 1 | Australian rule drafts: application routes (RM1C), Home Affairs and Fair Work rules (RM1H), Hobart living costs (RM1I) | RM1C, RM1H, RM1I | RM1C: **live as drafts** 21 Nov 22:40, 5 official routes (direct, agent, UAC NSW/ACT, VTAC VIC, SATAC SA/NT) with state scope, $0 (s960); waiting for the Platform Admin to set terms and publish (IR-003); QTAC and TISC are gaps (IR-007). RM1H: Home Affairs rules are published; the Fair Work minimum-wage edition is draft with terms restricted (Platform Admin). RM1I: IR-008 approved 22 Nov 00:11; 75 draft Tasmania-wide weekly living-cost figures from Migration Tasmania (15 for each of 5 Tasmanian localities), **live as drafts** 22 Nov 01:40, $0 (s965); waiting for the Platform Admin to sign off terms and approve | Pilot #1466 (`de3ddba5`), admin #767; Pilot #1472 (`34e31e05`), admin #774 |
-| 2 | Australian datasets waiting on the Platform Admin | RM1A, RM1D, RM1J | RM1A: the 1,953 CRICOS rows were applied on 17 Nov; 701 departures wait for approval. RM1D: JSA careers published (1,577 rows); QILT permission gates outcomes. RM1J: needs the THE 2027 file uploaded | |
+| 2 | Australian datasets waiting on the Platform Admin | RM1A, RM1D, RM1J | RM1A: the 1,953 CRICOS rows were applied on 17 Nov; 701 departures wait for approval. RM1D: JSA careers published (1,577 rows); QILT permission gates outcomes. RM1J: taken by Lane 1 on 22 Nov (Platform Admin 09:22: automated THE and QS readers, no upload; s966) | |
 | 3 | Human and rule queues; NZ and CA course-campus geography | RM1E, RM2A, RM4B, REQ-39, REQ-81 | Audited 22 Nov (read-only): nothing rule-resolvable at $0. 82 primary-campus ties (all multi-campus), 160 postcodes and 69 waiting campuses, and 5 English readings are for a person (IR-010). NZ 2,692 of 6,514 and CA 2,290 of 3,825 courses have a campus; the rest carry reasons (mostly not published by the provider), and the NZQA and DLI registers do not link courses to sites (IR-009). `fid-det` running; `struct-det` has read what it holds | `docs/platform/2026-11-22-lane2-item3-queues-and-nz-ca-geography-audit.md` |
 | 4 | NZ and CA recognition and classification | RM4A, RM4C, RM2B | Not started. NZQA reuse terms flagged for management | |
 | 5 | Wave 2 sources: UK, Ireland, USA | RM3A, RM5A, RM6A | Not started. Needs an approved AI Auto-Map budget (this lane runs at $0 AI) | |
@@ -66,6 +68,7 @@ The `destination-abs-load`, `destination-climate-load` and `destination-page-fac
 
 | Date | From | To | Item | State |
 |---|---|---|---|---|
+| 22 Nov 2026 | Platform Admin | Lane 1 | IR-005 / RM1J: THE and QS rankings as attributed public data, read by automated Layer 1 readers (a Layer 1 item, done by Lane 1 on the Platform Admin's instruction of 09:22); the THE 2027 upload request is withdrawn | In progress (s966) |
 | 22 Nov 2026 | Lane 2 | Platform Admin | RM1C edition terms, approval and publish (IR-003); RM1A 701 departures (IR-004); RM1J THE 2027 file (IR-005); Wave 2 AI budget, $0 this cycle (IR-006); RM1I figures terms and approval; NZ and CA course-campus decision (IR-009); person queues (IR-010) | Waiting |
 | 21 Nov 2026 | Lane 1 | Lane 2 | REQ-94 (course-level entry rows for providers missing from Course entry requirements), REQ-95 (scholarship pages for providers with none published), REQ-99 (accepted English tests missing on courses): data work | Open |
 | 21 Nov 2026 | Lane 1 | Lane 2 | OET letter grades (`score_grade`, `subtest_grades`): none stored yet; the Zoho v3 export columns are ready (REQ-34) | Open |
@@ -86,3 +89,4 @@ One line per session before it parks: date and time (AEDT), lane, what shipped (
 - 22 Nov 2026 01:00 AEDT, Lane 2: IR-008 approved; s965 RM1I Tasmania-wide living costs as 75 draft figures recorded before merge (Pilot #1472); item 3 audited, nothing rule-resolvable at $0 (IR-009, IR-010).
 - 22 Nov 2026 02:45 AEDT, Lane 1: v2.16.83 live (Pilot #1471 `7aead3bf`): REQ-100 Delivered. Parked. Next session, in order: REQ-105 (Courses load), the RM1K deployed spec, REQ-59 once its list arrives; REQ-108 waits on the Platform Admin's scope.
 - 22 Nov 2026 01:45 AEDT, Lane 2: s965 live (admin #774, Pilot #1472 `34e31e05`): 75 draft Tasmania-wide living-cost figures read back; parked. Next: item 4 (NZQCF, NZSCED, CIP).
+- 22 Nov 2026 10:20 AEDT, Lane 1: Platform Admin 09:22 decision on rankings recorded (standing rule "Attributed Public Rankings (THE and QS)" in `CLAUDE.md` and `AGENTS.md`, both repositories); s966 (THE and QS public readers, `ranking-layer1-etl` v1.8.0, migration `20261122110000`) recorded before merge. Next: merge, the initial runs on deploy, read back on Website v3.
