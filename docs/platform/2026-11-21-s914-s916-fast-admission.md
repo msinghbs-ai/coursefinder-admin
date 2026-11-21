@@ -1,7 +1,7 @@
-# S1-Fast-Admission: s913 to s915, verified entry data admitted today (21 Nov 2026)
+# S1-Fast-Admission: s914 to s916, verified entry data admitted today (21 Nov 2026)
 
 **Chat:** S1-Fast-Admission. **Decision:** Platform Admin, 21 Nov 2026 10:03 AEDT. **Change control:** CF-CHG-20260915-247.
-**Pilot:** migration `20261121140000_cf247_s913_s915_fast_admission.sql`, spec `tests/uat/cf-247-s913-s915-fast-admission-contract.spec.mjs`. No UI change, so no version bump.
+**Pilot:** migration `20261121150000_cf247_s914_s916_fast_admission.sql`, spec `tests/uat/cf-247-s914-s916-fast-admission-contract.spec.mjs`. No UI change, so no version bump.
 
 ## 1. The decision
 
@@ -32,7 +32,7 @@ Accelerate verified data admission into the live canonical tables today:
 
 ## 3. What the change does
 
-### s913: partial entry-table admission is live
+### s914: partial entry-table admission is live
 
 - **Rule:** `aer-partial-admit`, run by admission-rule-runner at :14, :29, :44 and :59. It calls `security.aer_partial_admit_v1()`.
 - **Settings:** `aer.partial_admit_on` (1) and `batch.aer_partial_admit` (200).
@@ -56,7 +56,7 @@ Accelerate verified data admission into the live canonical tables today:
 - **Grid reads** stay held while `aer.grid_machine_admission_on` is 0.
 - **Undo:** the ledger row is `aer_matrix_machine_admissions` (rule `aer-partial-v1`), so `security.aer_matrix_machine_withdraw_v1(item, reason)` reverses it. The first run happens inside the migration, so the cutover is live as soon as it deploys.
 
-### s914: verified course reads are admitted
+### s915: verified course reads are admitted
 
 - **Audit sample set to 0:** `aer.machine_audit_pct` and `aer.matrix_machine_audit_pct` go to 0. The 491 course reads (1,450 rows) held only as audit samples are admitted by the next runs. Every other check stays.
 - **After-the-fact audit:** each read's `audit_sample` ledger row is kept, so a person can still check these reads after admission. A withdrawal suspends the rule (`aer_machine_suspend_check_v1`, unchanged).
@@ -64,7 +64,7 @@ Accelerate verified data admission into the live canonical tables today:
 - **Schedule:** `aer-machine-admission` moves from :24 and :54 to :06, :21, :36 and :51. The command is unchanged.
 - **Deterministic proposer:** `aer_det.propose_per_run` goes from 50 to 150, and `aer_det.propose_max_pending` from 400 to 1,200.
 
-### s915: cadence and $0 throughput
+### s916: cadence and $0 throughput
 
 - **aer-reconcile** moves from :27 to :12, :27, :42 and :57. It runs one at a time. The command is unchanged.
 - **aer-det-sweep NUL fix:** the NUL escape is now dropped before the cast. This is an md5-guarded edit of `security.aer_det_sweep_v1` (`9856b441`), and only the cast line changes. The stuck 40 pages are read on the next tick.
@@ -96,3 +96,5 @@ Accelerate verified data admission into the live canonical tables today:
 ## 6. Live read-back after deploy
 
 This section is filled in after the deploy.
+
+**Renumbered 10:45 AEDT:** S1-ELR-Bands-And-Crawl claimed s913 and `20261121140000` at the same time (Pilot #1451). This change is now **s914 to s916**, Pilot migration `20261121150000` (Pilot #1450).
