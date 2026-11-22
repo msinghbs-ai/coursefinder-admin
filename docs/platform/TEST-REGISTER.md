@@ -961,6 +961,7 @@ Local suite (`--grep-invert @deployed`): 4254 tests, one run each (desktop; phon
 
 ## Retirement log
 
+| cf-247-s976-firecrawl-hard-zero-contract | regression | S3 P1 22 Nov 2026 zero Firecrawl spending: old svc_fc_spend md5 guarded and in-place when firecrawl.daily_budget_total=0; normal, scholarship and on-demand paths all refuse, no G3/cron/locks/new infrastructure | 1 / 0 static; exact rolled-back live test 3/3 PASS | SQL + source | no | Pilot s976 staged | not run in final CI |
 <!-- G4 retirement log: one line per retired test, added in the PR that retires it. scripts/test-register.mjs carries it into the register. -->
 
 - 11 Nov 2026, Pilot #1024 (CF-247 F-PDESC prompt-based provider descriptions, Platform Admin 11 Nov 2026 14:57): `cf-247-f-pdesc-run-validate-phone` (3 phone tests) retired with the Run & Validate card it guarded (component `ProviderDescriptionRunValidate`, retiring); the card's browser walk `tests/integration-provider-description/provider-description-postgres.spec.mjs` (4 tests, outside `tests/uat`) and its fixture server went with it. The new design is guarded by `cf-247-pdesc-prompt-based-contract` (12 tests).
