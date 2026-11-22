@@ -19,3 +19,23 @@ What this is: one verified Australian record for each section of the Australia p
 **Still to do:**
 1. Turn this table into a deployed spec (`@deployed`) that opens each record in Admin and reads it from Website API v3 with the v3 key (the Website v3 key is still Not issued, so the spec reads with the bridged v2 key until it is).
 2. Run the 10-provider QA (REQ-59) once Saurabh and Sujata send the list of 10 providers and what must pass for each, including whether research scholarships show on the website.
+
+## Deployed check (s973, 22 Nov 2026 16:35 AEDT)
+
+The golden acceptance now runs after every deploy. Pilot spec `cf-247-s973-rm1k-golden-acceptance` (`@deployed`, signed in) calls
+`public.admin_golden_acceptance_v1` with the fixture `tests/fixtures/rm1k/australia-golden.json`. For each section, the function reads the record through Admin (the Course detail read and the tables Admin shows) and through Website API v3, and says whether the two agree. All ten sections must agree.
+
+| Section | Golden record | What must agree |
+|---|---|---|
+| Course detail | Graduate Certificate in Publishing, The University of Sydney (`course:cricos:00026a:058180a`) | Title, course code, provider, study level |
+| Entry requirements | "A bachelor's degree from the University of Sydney, with a major in the humanities or social sciences, …" | The website's requirement note is one of the course's active entry rows |
+| English requirements | IELTS 6.5 | Tests and overall scores, both ways |
+| Tuition fees | A$26,950 course total (CRICOS registered) | The website's amount is one Admin holds, in the same currency |
+| Scholarships | 8 shown | Each one shown (name and page) is mapped to the course on Admin; the count matches |
+| Campuses | Camperdown 2050 | City and postcode, both ways |
+| Accreditations | CRICOS 058180A registered | The website's registration codes are ones Admin holds |
+| Study rules | Student visa (subclass 500) Overseas Student Health Cover | Title and source page |
+| Career outcomes | OSCA 1111 Corporate Services Managers, 10,000 employed | Code, title and employment count |
+| Rankings | THE =51, QS 28, ARWU =79 | Each ranking body's latest published rank and year, side by side |
+
+Rehearsal (rolled back, 22 Nov 2026 16:10 AEDT): 10 of 10 sections agree. The 10-provider QA (REQ-59) stays queued until its list and pass criteria arrive.
