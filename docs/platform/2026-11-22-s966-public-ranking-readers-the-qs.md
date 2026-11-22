@@ -64,3 +64,18 @@ The uploaded QS 2027 file had 70 links. The public read has 73, and the uploaded
 - `tests/uat/cf-247-s966-public-ranking-readers-contract.spec.mjs` (new): the parsers, ties and bands, robots.txt, the challenge check, the attribution, and the migration's shape.
 - `cf-067` (updated): the reader applies and publishes public JSON.
 - `cf-068` (updated, deployed, `@live-acting`): QS 2027 reads the public endpoint, or reports a challenge without bypassing it.
+
+## 6. Live results, 22 Nov 2026
+
+| Time (UTC) | Release | What happened |
+|---|---|---|
+| 23:55 (21 Nov) | s966 live (Pilot #1473) | Reader v1.8.0 deployed; first runs queued |
+| 00:05 | first runs | THE: apply batches of 200 rows passed the 8 s statement limit; 600 rows had landed, and the edition (accepted on its first batch) was briefly shown partial. QS: Cloudflare challenge (HTTP 403), reader stopped without bypassing it |
+| 00:37 | s967 live (Pilot #1474) | Apply skips provider searches outside the provider countries; a public revision is held as `parsed` until published; the partial THE 2027 was held (website back on THE 2026) |
+| 00:49 | s967 re-run | **THE 2027 published**: accepted, access `public`, 3,146 rows, 18,876 indicator values, 77 AU/NZ/CA rows linked (3 by the register-name rule); the website serves THE 2027 |
+| 01:08 | s968 live (Pilot #1475) | The Australian reconciliation preview gets Australian rows only (v1.8.1) |
+| 01:47 | s969 live (Pilot #1476) | Apply batch size is the pipeline setting `reading.ranking_apply_batch_rows` (50); a re-read keeps `public` access (v1.8.2). Re-reads of THE completed at 01:25 and again after the setting |
+| next | s970 | The preview, only a report, is not run for an apply; in a dry run a preview time-out is reported, not fatal (v1.8.3). Its first call on a cold database passed 8 s even with 37 rows |
+
+QS: 13 reads from the edge function, all challenged. The uploaded QS 2027 stays published (1,504 rows, 70 linked). The access route is a Platform Admin decision (IR-011): an API key or allowlisting from QS, or continued upload. Routing the request through another server to avoid the challenge would be getting around a bot check, so it is not done.
+

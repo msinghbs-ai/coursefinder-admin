@@ -21,7 +21,7 @@ Background: the Study Square destination brief (Australia sheet) is confidential
 Supabase project fxcwkweaxjtknorudmwp only (never coursefinder-demo). Verify live before claiming anything.
 
 Steps, in order (stop and ask me only at a real decision):
-1. RM1J: load THE 2027 through the existing ranking import; accept the edition; read it back on Website v3 provider ranking_summary and rankings. Record in the register and milestones.
+1. RM1J: done 22 Nov 2026. THE 2027 is live from the automated public reader (no upload). QS's public endpoint challenges the reader; the access route is a Platform Admin decision, and the uploaded QS 2027 stays published.
 2. Wave 2 per the delivery plan: RM0C destination core (destination schema, dataset_edition, locality, campus_locality, city_observation, publication_generation) plus the three new pipeline.sources columns from F9 (rights_mode, cadence, page_section). Dry run, md5-guarded, full suite 0 failed / 0 skipped, PR-first.
 3. RM1B: register ABS ERP and the postcode-to-urban-area correspondence in Layer 1 › Sources with rights; load one edition; map campuses; ambiguous matches to Layer 4.
 4. Wave 3: RM0D study rules core, then RM0F Destination data module with the Study rules tab first (match the mockup views 1, 2 and 4), then RM1C application routes.
