@@ -167,3 +167,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 22 Nov 2026 12:00 AEDT: s967 live (partial THE 2027 held; website on THE 2026); s968 preview fix (v1.8.1) recorded before merge.**
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 12:45 AEDT: THE 2027 live (public, attributed, 3,146 rows, 77 AU/NZ/CA linked); QS 2027 public read blocked by a Cloudflare challenge (uploaded QS 2027 stays live); s969 batch-size setting recorded before merge.**
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 13:20 AEDT: rankings item delivered for THE (THE 2027 public and attributed, 3,146 rows, 77 AU/NZ/CA linked; REQ-91 and RM1J Delivered); QS public read blocked by a Cloudflare challenge, access route to the Platform Admin (IR-011); s970 recorded before merge.**

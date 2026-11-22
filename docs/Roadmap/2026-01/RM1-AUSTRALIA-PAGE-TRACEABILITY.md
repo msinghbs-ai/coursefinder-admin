@@ -17,7 +17,7 @@
 | # | Finding | Effect | Roadmap |
 |---|---|---|---|
 | F1 | No destination, policy, city, climate, living-cost, labour or accreditation tables exist; `pipeline.city_regions` has 0 AU rows | Five page sections have no data path yet | RM0C, RM0D, RM0F, RM1B–RM1I |
-| F2 | Rankings hold QS 2026 and 2027 and THE 2026; THE 2027 (released 30 Sep 2026) is not loaded | Universities section shows last year's THE | **RM1J (new)** |
+| F2 | Rankings hold QS 2026 and 2027 and THE 2026; THE 2027 (released 30 Sep 2026) is not loaded | Universities section shows last year's THE | **RM1J: delivered 22 Nov 2026** (THE 2027 live from the public ranking JSON) |
 | F3 | QILT outcomes are live (3,164 rows) but republishing needs QILT permission (Study Square, 13 Nov) | Live data cannot be shown on the website until permission is recorded | RM1D (gate) |
 | F4 | 20 AU search items have no delivery mode; study load is not held | Page rule "on-campus, full-time only" cannot be applied fully | RM1G |
 | F5 | CELPIP held on 80 courses, OET on 0 (letter grades not read) | Test requirements row partly met | AER / O14 |
@@ -86,7 +86,7 @@ A passing extraction never activates a rule by itself. Activation is a separate 
 | 5 | Institutions · TEQSA provider category | Yes: `institution_type` from TEQSA register (45 / 8 / 137) | — | existing | L1 register | Providers › Institution type rules | `providers.institution_type` | Delivered |
 | 6 | Universities · student satisfaction (QILT SES) | Yes: 3,164 outcome rows | **Republishing needs QILT permission** (REQ-68) | `catalogue.provider_outcomes` | Dataset ETL | Rankings & statistics | `provider.outcomes` | RM1D (rights) |
 | 7 | Universities · graduate outcomes (QILT GOS) | Yes | Same permission | same | Dataset ETL | Rankings & statistics | `provider.outcomes` | RM1D (rights) |
-| 8 | Universities · rankings (QS, THE) | QS 2026 and 2027, THE 2026 | **THE 2027 edition (released 30 Sep 2026) not loaded** | `ranking.editions`, `observations` | Dataset ETL (ranking import) | Rankings & statistics › Datasets | `provider.ranking_summary`, `rankings` | **RM1J (new)** |
+| 8 | Universities · rankings (QS, THE) | QS 2026 and 2027, THE 2026 and **2027** (live 22 Nov 2026, 3,146 rows, attributed) | QS public reader blocked by a publisher challenge; QS 2027 comes from the uploaded file | `ranking.editions`, `observations` | Layer 1 ranking readers (`ranking-layer1-etl` v1.8) | Layer 1 › Sources; Rankings & statistics › Datasets | `provider.ranking_summary`, `rankings` | RM1J delivered |
 | 9–11 | Universities · AACSB, EQUIS, AMBA | No | Whole item; global scope confirmed by Study Square 13 Nov | **`catalogue.provider_accreditations`** (provider, school/programme scope, accreditor, grant type, valid_from/to, source, evidence) | Page capture or accreditor list | Provider detail | `provider.accreditations[]` | RM1F (D-3) |
 | 12 | Scholarships · university and government scholarships | Yes: 1,202 published | Coverage | `scholarship.*` | L2/L3 scholarship lane | Scholarships | `scholarships`, `scholarship` | S2-Scholarship |
 | 13 | Visa & money · application process (portal, deadlines, offer dates) | Partly: provider application windows in `important_dates` | Route facts | `destination.policy_rule` topic `application_route`; dates stay in `pipeline.important_dates` | Page capture + review | Destination data › Study rules; Key dates | `destination study_rules`; `course.application_route` (optional) | RM1C |
@@ -159,7 +159,7 @@ Values are illustrative until a version is approved. `status` follows the design
 |---|---|---|
 | RM1H | Scope note: includes processing-time snapshots with expiry, the admission-tests general note, and excludes the 485 English item (Study Square, 13 Nov) | Rows 4, 18, 21 |
 | RM1D | Scope note: QILT republishing permission (REQ-68) is a release gate for rows 6–7 even though the data is live | Rows 6–7 |
-| **RM1J (new)** | Ranking edition refresh: load THE 2027 (and any later QS/THE edition) through the existing ranking import | Row 8 gap found live 13 Nov |
+| **RM1J** | Ranking edition refresh: THE and QS read by automated Layer 1 readers from the publishers' public JSON, published live with attribution (Platform Admin 22 Nov 2026 09:22). THE 2027 live 22 Nov | Row 8 gap found live 13 Nov; delivered 22 Nov |
 | **RM1K (new)** | Australia page acceptance: one golden fixture per brief row (this page §3) checked on Admin and Website v3 before the AU page is called complete | Gives RM1 a measurable finish line |
 
 Indicative effort: RM1J 4–8 engineering hours (existing import path); RM1K 6–10 hours (fixtures and read-back), both inside the RM1 allowance in the destination design.
