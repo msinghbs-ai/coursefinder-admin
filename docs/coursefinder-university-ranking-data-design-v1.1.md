@@ -179,6 +179,15 @@ Platform Admin, 22 Nov 2026 09:22 AEDT: THE and QS World University Rankings are
 - The upload route below remains only for past editions.
 - Record: `docs/platform/2026-11-22-s966-public-ranking-readers-the-qs.md`.
 
+## Amendment, 22 Nov 2026 14:22: QS by upload, ARWU added, publish and roll back (s971, IR-011)
+
+- **QS** stays on the annual file upload. Its public endpoint challenges the platform and is never read automatically or by any other route.
+- **ARWU** (Academic Ranking of World Universities, ShanghaiRanking; system `arwu`) is the third institutional ranking, read by the Layer 1 reader from `shanghairanking.com/api/pub/v1/arwu/rank?version=<year>`:
+  - ranks are kept as printed, a repeated rank is a tie, and bands have no score;
+  - its six indicators are kept under their publisher names, with the national rank alongside.
+- **Publish and roll back:** the Platform Admin publishes an edition, or unpublishes it to roll back, with a reason (`public.admin_ranking_editions_v1`, logged in `ranking.edition_status_changes`). Systems stay independent and are never combined.
+- **Runbook:** `docs/platform/RANKINGS-OPERATIONS-RUNBOOK.md`.
+
 ## Manual publisher artifact fallback
 
 When a historical publisher page/download is unavailable to automation because of authentication, registration, paywall or bot controls, CourseFinder must not circumvent the restriction.
