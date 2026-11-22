@@ -171,3 +171,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 22 Nov 2026 13:20 AEDT: rankings item delivered for THE (THE 2027 public and attributed, 3,146 rows, 77 AU/NZ/CA linked; REQ-91 and RM1J Delivered); QS public read blocked by a Cloudflare challenge, access route to the Platform Admin (IR-011); s970 recorded before merge.**
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 14:55 AEDT: consolidated batch started (S2 stands down); IR-011 and IR-005 Delivered Live (QS by annual upload); s971 v2.16.84 (ARWU reader, ranking editions publish and roll back, ranking SOP and runbook) recorded before merge.**
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 16:35 AEDT: s971 live (ARWU 2026 public, 1,000 rows, 59 AU/NZ/CA linked; THE, QS and ARWU side by side); s972 (REQ-105, Courses list on its Active index, filter lists by semi-join) and s973 (RM1K golden acceptance across Admin and Website v3, 10 of 10) recorded before merge.**
