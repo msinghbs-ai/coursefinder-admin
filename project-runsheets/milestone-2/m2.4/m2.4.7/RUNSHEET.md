@@ -173,3 +173,5 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 **S1-API-Frontend-Delivery, 22 Nov 2026 14:55 AEDT: consolidated batch started (S2 stands down); IR-011 and IR-005 Delivered Live (QS by annual upload); s971 v2.16.84 (ARWU reader, ranking editions publish and roll back, ranking SOP and runbook) recorded before merge.**
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 16:35 AEDT: s971 live (ARWU 2026 public, 1,000 rows, 59 AU/NZ/CA linked; THE, QS and ARWU side by side); s972 (REQ-105, Courses list on its Active index, filter lists by semi-join) and s973 (RM1K golden acceptance across Admin and Website v3, 10 of 10) recorded before merge.**
+
+**S1-API-Frontend-Delivery, 22 Nov 2026 17:30 AEDT: s972 and s973 live (default Courses read 0.87-1.23 s signed in, filter lists 0.27-0.56 s; golden acceptance 10 of 10 live); s974 (one list read on opening Courses, v2.16.85) and s975 (OET letter grades for 256 requirements) recorded before merge.**
