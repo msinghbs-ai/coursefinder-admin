@@ -178,7 +178,7 @@ The charter is the authority; each lane applies its own part in its next change.
 
 | Item | Live today (read 23 Nov 2026 18:55 AEDT) | Owner |
 |---|---|---|
-| US$5.00 a day cap as a setting | Firecrawl `daily_budget_total` is 0 with `daily_budget_on` true (S3 containment), so paid Firecrawl stays off until the setting is changed with a reason | Platform Admin or S3 (setting change), then the platform enforces it |
+| US$5.00 a day cap as a setting | `budgets.paid_daily_cap_usd` = US$5.00 a day (s997, returned by `admin_boost_queue_read` as `budget_cap`); Firecrawl `daily_budget_total` 0 to 5 credits a day with the Platform Admin's reason (s1010, Platform Admin 23 Nov 2026 19:59), budget guard still on | S1-Build (settings); enforcement of the US$ cap across Firecrawl and AI together is not built (each lane reads the day's logged spend before a paid call) |
 | $0 direct read of copy-less pages | Scholarship and AER lanes run stored-first and skip copy-less pages | Each lane in its next change |
 | Auto-enqueue on URL or snapshot | Not built | S2-CF, with S2-Build as integration owner |
 | Rule B for every provider | Listed per provider in `intake_dates.nearest_start_providers` (s988) | S2-INT |
