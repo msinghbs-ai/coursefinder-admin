@@ -1,6 +1,6 @@
 # Counsellor feedback rounds 1 to 3: traceability and reconciliation
 
-**Prepared:** 23 Nov 2026 16:10 AEDT, decisions added 16:30 AEDT, by Claude (`S1-RM-Design`, roadmap, request register and governance) · **Roadmap item:** RM0G
+**Prepared:** 23 Nov 2026 16:10 AEDT, decisions added 16:30 AEDT, v1.1 prototype baseline and backend prerequisites added 17:25 AEDT, by Claude (`S1-RM-Design`, roadmap, request register and governance) · **Roadmap item:** RM0G
 **Sources (Google Drive, `Feedback` folder):** `studySearch-Feedback-1` (India team, 20 Nov 2026, points 1 to 19), `studySearch-Feedback-2.docx` (India counselling team, 22 Nov 2026, sections 1 to 4 and suggestions 1 to 4), `Feedback StudySearch-3.docx` (23 Nov 2026, items FB3-1 to FB3-6). Also the `UI-UX-and-Architecture-Audit` Drive folder (`design-and-ui-audit/04-live-findings-counsellor-and-admin.md`, `Mockups/MOCKUP-SPEC-AND-RETIREMENT-MAP.md`, 23 Nov 2026).
 **Changes made by this work:** register CSVs and governance documents in `coursefinder-admin` only. No Pilot code, migration, live data, setting or job was changed. The live figures below come from read-only queries on project `fxcwkweaxjtknorudmwp` at about 16:00 AEDT on 23 Nov 2026.
 
@@ -109,3 +109,34 @@ Proposed rules: it is entered by Study Square staff in Admin (or imported from t
 | REQ-110: GPA ordering | Never sort raw numbers across different grading scales. Sort by the normalised percentage (0 to 100) from `grade_scale_conversions`, scoped to the selected applicant country and qualification scale: India percentage or 10-point CGPA by default for Indian applicants, otherwise AU 7.0 GPA or ATAR. Courses with no score sort last (`NULLS LAST`). | `S2-RM-Design` defines the deterministic conversion rows and lookup rule. Live 23 Nov 16:25: `ref.grade_scale_conversions` already exists (`scale_code`, `raw_min_value`, `raw_max_value`, `normalized_0_100`, `source_url`) and holds 0 rows. Then `S1-API-Frontend-Delivery` exposes the GPA sort. |
 | REQ-114 routing (FB3-2) | La Trobe's 8 unpublished Nursing courses and James Cook's single Nursing course go to `S2-CF` (course publication and discovery), beside `S3` (the 8 s statement time-out, IR-022) and `S2-RM-Design` Priority 2 (AER coverage). | As listed. |
 | Drive mirror of the master plan | Left to `S2-Build` on its next integration pass. | `S2-Build` |
+
+## 8. S1-UI-UX v1.1 prototype baseline and backend prerequisites (23 Nov 2026 17:25 AEDT)
+
+**Baseline:** `MOCKUP-SPEC-AND-RETIREMENT-MAP.md` v1.1 and `acceptance-results.json` in Drive `UI-UX-and-Architecture-Audit/Mockups` (owner `S1-UI-UX`, next consumer `S1-API-Frontend-Delivery`). The run gave **44 of 44 Playwright renders passing** (22 at 1440 px, 22 at 375 px), with:
+- 0 px overflow, including inside drawers, modals and the compare grid;
+- 0 bad requests and 0 page errors;
+- no legacy classes;
+- the Counsellor menu exactly Courses, Universities & Providers, Scholarships, Guide;
+- a clean stylesheet lint.
+
+A mutation test broke the prototype six ways, and every break failed the run. No database, Pilot or register write was made by that work.
+
+| Request | Covered in v1.1 | Screens |
+|---|---|---|
+| REQ-115 (with REQ-111) | Save toggle, Saved view, Compare up to 4 with seven practical columns; "Comparing N of M selected" with N = M (rule 6, the FB3-3 defect guard); CSV export shown but not wired | 01, 01b, 01c, 02 |
+| REQ-116 | Contacts empty state "No partner contacts recorded for this provider", apart from public contact points (rule 8) | 03b, 03c |
+| REQ-117 | State and campus names grouped by state, "+N more"; no "N regions" anywhere (rule 5) | 01, 01b, 01c, 02, 03, 03a |
+| REQ-118 / IR-023 | Badge (Represented, Direct, Not represented, Not recorded), market chip, Study Square and Student nationality filters (rule 7); sample values are illustrative | 01, 01c, 02, 03, 03a, 06 |
+| IR-021 | The audit acceptance rules (no operator call or text for a Counsellor, no overflow, `ui-` classes only) | all |
+
+**Prerequisites before `S1-API-Frontend-Delivery` ships these screens** (checked live, read-only, 23 Nov 17:20):
+
+| # | Prerequisite | Live state | Owner | Register |
+|---|---|---|---|---|
+| P1 | Two additive Admin reads: `public.counsellor_scholarships_list` (Screen 4; status computed on the `Australia/Melbourne` date) and `public.admin_integrations_status` (Screen 9b; `healthy`, `degraded` or `unknown` with `last_checked_at`; a failed check returns `unknown`, never a 403 or 500). Both sit outside the frozen consumer API: G3 v2 stays at 75 fields / 48 endpoints and neither name matches a frozen pattern | Neither function exists | `S1-API-Frontend-Delivery` (reads), `S2-Build` (any schema) | IR-025 |
+| P2 | Dry-Lane banner (Screen 5). The spec names `pipeline.settings` `ai.firecrawl_budget_cap`, but there is no `pipeline.settings` table. Under G2 the live cap is `pipeline.platform_toolset_settings`, toolset `firecrawl`: `daily_budget_total` = 0 credits and `daily_budget_on` = true. **Recommended: map, do not seed.** `admin_boost_queue_read` returns `budget_cap` and `budget_on` from those two settings (read with `security.toolset_setting`); the banner shows when `budget_on` and `budget_cap = 0` and `queued > 0`, and clears by itself otherwise. A new `ai.firecrawl_budget_cap` key would hold the same value twice | `admin_boost_queue_read` exists and reads neither setting | `S2-Build` (read), `S1-API-Frontend-Delivery` (banner); Platform Admin confirms the mapping | IR-026 |
+| P3 | Representation contract: one `restriction_mode` field with `include`, `exclude` or `none`, plus `restriction_markets` (ISO 3166-1 alpha-2, empty when `none`). It replaces the prototype's `restriction_scope` (`all_markets` / `listed`) and `restriction_mode` (`only` / `except`): `none` = `all_markets`, `include` = `only`, `exclude` = `except`. Additive v3 only, never v2 | No field or table exists | `S2-RM-Design` confirms in `DESTINATION-DATA-DESIGN.md`; then `S1-API-Frontend-Delivery` | REQ-118, IR-023 |
+| P4a | Saved courses: a per-user store (`user_id`, `course_id`, `saved_at`; row-level security to the user's own rows), a toggle read and `is_saved` on the course-list read | No store exists (only `pipeline.saved_views`, which holds saved filters) | `S2-Build` (schema) | REQ-115 |
+| P4b | Partner contacts from Study Square partner records and the Zoho CRM partner import (decision 16:22), returned with `active_count` and `inactive_count` so the screen can say "none held" rather than "none match". The empty state ships first | No partner table exists | `S2-Build` | REQ-116, REQ-22 |
+
+`campuses[]` on the course reads (REQ-117) is also needed from course offerings, with locality quality from `S2-GEO` (REQ-123).
