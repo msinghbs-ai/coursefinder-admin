@@ -272,6 +272,7 @@ Every v2 provider field (`provider_id`, `name`, `legal_name`, `website`, `instit
 | `accreditations[]` **(new)** | Business school accreditations held now: `{ body_code, accredited_unit_name, accredited_since, expires_at, source_url, verified_at }`. `body_code` is `AACSB`, `EQUIS` or `AMBA`. An expired one is not returned. `[]` when none is held |
 | `accreditation_crown` **(new)** | `triple_crown` when AACSB, EQUIS and AMBA are all held, `double_crown` for any two, null otherwise. Use it instead of a hand-kept list |
 | `scholarships_page_url`, `scholarships_last_reviewed_at` **(new)** | The provider's scholarships listing page we read, and when we last reviewed it |
+| `restriction_mode`, `restriction_markets` **(new)** | Study Square's market restriction for this provider: `include` (Study Square represents it only for students from the listed markets), `exclude` (for every market except those listed) or `none` (no restriction). `restriction_markets` lists ISO 3166-1 alpha-2 country codes, empty when the mode is `none`. Both are null when no agreement is recorded or it has ended; null means not held, not "no restriction" |
 | `entry_matrix[]` | As in v2, plus `quote` and `source_url` on each row **(new)** |
 
 ## 7.5 scholarships and scholarship (Scholarship Finder)
@@ -460,3 +461,4 @@ Changes within Website API v3 are additive. A change to the API (a new field, fi
 | Date | Change |
 |---|---|
 | 20 November 2026 (issue 1) | First issue of Website API v3: Website API v2 plus the `destination` action; course `study_load`, `study_load_basis`, `empty_reason_code`, `description_excerpt` (search), `intakes[].start_date_status`, `recognition[]`, `field_of_study_codes[]`, `campuses[].primary_basis` and `campuses[].locality`; provider named `campuses[]` with `campus_id`, `campus_name`, `course_count`, `is_primary`, `accreditations[]`, `accreditation_crown`, `scholarships_page_url`, `scholarships_last_reviewed_at`; `entry_matrix[]` `quote` and `source_url`; search filter `has_academic_entry`; scholarship `description`, `award_type`, `sponsor`, `programme`, `award_code`, `benefits[]`, `application`, `award_duration`, `academic_year`, `nationality_eligibility_status`, `excluded_nationality_codes[]`, `nationality_regions[]` and linked-course paging; English tests `OET` and `CELPIP`. With the field dictionary (CSV), OpenAPI file and Postman collection |
+| 24 November 2026 | Provider items: `restriction_mode` and `restriction_markets` (Study Square market restriction; null when not held) |
