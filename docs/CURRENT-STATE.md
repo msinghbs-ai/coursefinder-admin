@@ -1,6 +1,11 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-Build, 24 Nov 2026 07:50 AEDT: s1020 live (Pilot #1520); s1021 recorded before merge (Pilot branch `s1-build-s1021-gpa-scale-gate`).**
+- **s1020 pre-admission gates (live 07:37):** machine writes of a tuition fee outside the year window, a PTE or TOEFL iBT row without four bands on an IELTS course, or a cross-provider campus link are held for Layer 4; active rows are never withdrawn. Switches on Settings › Pipeline settings › Pre-admission gates. Log: `pipeline.preadmission_gate_events`.
+- **s1021 scholarship GPA scale (pending merge):** a course-linked GPA threshold with no stated scale, or above its scale, is held and opens a Layer 4 Inbox item *Scholarship GPA scale*, grouped per provider. A person sets the scale (4, 7 or another); the threshold is re-admitted only if it fits. Switch `gates.gpa_scale_on`.
+- **Live:** migration head `20261124080000`; G3 75/48, no drift; locks 7,585; cron 134.
+
 **S1-RM-Design, 24 Nov 2026 06:25 AEDT (Platform Admin 05:33): s1017 live (Pilot #1515, admin #866; migration 20261124060000 applied; worker v1.0.36 deployed).**
 - **$0 ruled-grid reader:** a proven ruled PDF table that is a course-by-qualification grid is read without a model (`entry-ruled-grid.ts` into `entry-grid.ts`; worker v1.0.36; settings `reading.entry_ruled_grid_reader_on`, `_min_rows`, `_min_columns`). `reading.entry_grid_headings` names "Additional programme entry" a course fact.
 - **No-model lease:** `svc_entry_matrix_next` leases stored PDFs with `det_only` and no model while the `entry_matrices` route has no usable model (`reading.entry_det_only_lease_on`); a PDF no deterministic reader proves is held (`held_unparsed`), never sent to a model. Non-PDF pages wait.
