@@ -87,7 +87,8 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s989` | S2-Build | Scholarship fire job counts only items the picker can take (Platform Admin 15:39) | Pilot #1496 |
 | `s990` | S1-API-Frontend-Delivery | Additive v3 reads `public.counsellor_scholarships_list` and `public.admin_integrations_status` for the v1.1 Counsellor and Admin UI (Platform Admin 23 Nov 2026, Phase 1) | Pilot #1498 (draft) |
 | `s991` | S2-CF | Official course URL and course description, batch 1 (UBC, UTS, Waikato): source binding, stored-page reuse, description admission; queue rows claimed by PR | Claimed (Pilot PR to follow) |
-| `s992` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s992` |
+| `s992` | S2-Build | Scholarship slice 2: $0 direct reads for Charles Darwin and Lincoln (listing sources, direct-first listing read, copy-less pages read directly under the Firecrawl hold); queue rows claimed by PR | Claimed |
+| `s993` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s993` |
 | `s1000` | S2-RM-Design | Platform Admin Priority 1, 23 Nov 12:29 (AER admission recovery) | Open, Pilot #1491 |
 | `s1001`, `s1002`, `s1004` to `s1008` | S2-Build | Handed by S2-RM-Design, 23 Nov 12:10 (design v1.12) | Not started |
 | `s1003` | Unassigned | RM1C and RM1I publish checklists (Platform Admin decides the lane) | Open |
