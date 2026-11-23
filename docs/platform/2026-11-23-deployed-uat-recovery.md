@@ -129,3 +129,10 @@ Each is built under a lock retry. GIN maintenance applies to course writes only.
   - no password field holds a value;
   - no secret text appears.
 - The drawer check is unchanged: it shows "Configured in Vault" or "Not configured", and its key field is write-only.
+
+## 8. Role-specific accounts wired (24 Nov 2026 09:55 AEDT)
+
+- Secrets set by the Platform Admin 24 Nov 09:05: `SS_UATR4_Email`, `SS_UATR4_PWD` (rank 4 Pipeline Operator), `SS_UATR2_Email`, `SS_UATR2_PWD` (rank 2 Counsellor). Passed to `deployed-uat.yml` (preflight requires them) and `deployed-weekly.yml` as `UAT_R4_*` and `UAT_R2_*`.
+- `loginAsUatUser(page, rank)` picks the account and asserts the role pill (Pipeline Operator, Counsellor).
+- `layer1-operations` (Platform Admin boundary for Layer 1 source settings) runs as rank 4: passes (integration run 45277046831).
+- Failures seen in the same run come from the v1.1 Admin shell (s999, Pilot #1519, 07:44 AEDT) and are handed to S1-API-Frontend-Delivery: admin-navigation, A21 Layer navigation, layer2-provider (2), a13 tablet filter, performance (3).
