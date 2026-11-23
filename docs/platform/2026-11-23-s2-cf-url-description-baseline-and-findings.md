@@ -46,5 +46,12 @@ UBC (229 missing URLs, 501 missing descriptions), UTS (169, 289), Waikato (170, 
 ## 5a. Measurement status
 The exact per-class count of the refused links needs `security.course_page_check_v1` over about 20,000 unlocked links. The interactive route times out at about 1,500 links a call, so the exact count is taken in the governed rolled-back run (Pilot `db-migration-dry-run`). Sample so far (250 refused-page courses): shared fee or list page about 60%, address or title names another course about 19%, other qualification or award version about 6%, older handbook year about 5%, other about 10%. These are sample shares, not counts.
 
+## 5b. Standing batch rule: upstream AER source capture (Platform Admin, 23 Nov 2026 18:42)
+In every `url_desc_status` batch, while verifying official provider domains:
+1. When a provider-wide International Academic Entry Requirements page or PDF is found (country equivalency table, international admission guide, ATAR, IB or CBSE entry matrix), confirm it is on the provider's own domain with a plain `$0` HTTP check, and save a clean snapshot to Supabase Storage at `aer-artifacts/<provider>/entry-matrix.<ext>`.
+2. When the batch's advance PR is raised, write the verified URL to `aer_source_url`, set `source_type` (`PDF_TABLE`, `HTML_TABLE`, `HTML_ACCORDION` or `COURSE_PAGE`) and record `storage_artifact_path` in `docs/monitoring/PROVIDER-ENRICHMENT-QUEUE.csv`. `aer_status` stays untouched (S2-RM-Design).
+3. Zero extra spend: only links found organically during the existing `$0` HTTP pass; no paid Firecrawl searches for them.
+Limit noted: the Claude session's shell cannot reach provider sites, so the plain HTTP check and the Storage write run through the existing worker route, not by hand from the session.
+
 ## 6. Guardrails at measurement time
 G3 untouched, manual locks untouched, no cron change, $0 Firecrawl, $0 AI spent by this lane (read-only SQL only).
