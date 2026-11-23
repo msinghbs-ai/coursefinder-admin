@@ -426,3 +426,9 @@ What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT alrea
 
 **Outcome (23 Nov 2026 17:00 AEDT):** s988 live (Pilot #1495). Rule B dated 131 intakes (Federation 41, Waikato 55, Canterbury 35), every one a start in the month the page names, with quote and calendar; the 2 Waikato February to 1 March days are held by a recorded withdrawal; Southern Cross remains unlisted. Exact-date courses 3,041 to 3,119.
 
+## 17. S2-INT — strict same-month rule for all new Rule B admissions (23 November 2026)
+
+**Platform Admin decision (23 Nov 2026 17:49 AEDT):** leave Monash and RMIT's existing Decision 271 admitted rows untouched (do not regress live admitted rows); enforce the strict same-month rule (stated month equals calendar start month) on every new admission from now on.
+
+**Rule (s994, Pilot #1499):** in `security.intake_nearest_start_v1` the candidate is the one main-teaching start in the stated month. The next-month path (the one start within `intake_dates.nearest_start_days` after the stated month, for example February to 1 March) is removed; with no start in the month the row is skipped (month only). All other checks are unchanged. The edit changes no admitted value: rows already dated are "nothing new" to the planner. The setting `nearest_start_days` stays as the function's look-ahead window. This supersedes the cross-month part of Decision 271 for new admissions only.
+
