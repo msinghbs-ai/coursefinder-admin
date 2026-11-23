@@ -92,3 +92,16 @@ Each is built under a lock retry. GIN maintenance applies to course writes only.
 | performance (CRICOS interactions) and cf-061 | The Courses list returns 77 fields a row, 412,855 bytes a page (budget 250,000); under the suite's parallel load it took 3.3 to 4.8 s, so cf-061's 6 s wait missed by about a second (the data is correct: 113126B row 22 of 51 with the screen's arguments, 227 ms warm) | Open, S1-Build: server-side payload |
 | performance (Adapters) | `admin_layer23('universities_page')` 6.8 s against 3 s | Open, S1-Build |
 | layer1-operations | Asserts the Pipeline Operator view; UAT2 is Platform Admin | Needs the rank 4 UAT account (Platform Admin) |
+
+## 6. Acceptance after the spec fixes (Pilot #1512, 24 Nov 2026 00:20 AEDT)
+
+**Run:** 45180623329, UAT2 as Platform Admin, live-acting off. 65 passed, 7 failed. The run before tonight's work had 13 failures; the one after s1014 had 9.
+
+**Now passing:** admin-navigation, a23 and a26–a28. CF-061 now finds the RMIT row and fails one step later.
+
+| Remaining | Finding | Needs |
+|---|---|---|
+| cf-061 | RMIT row found; the course's QILT outcome card (`.ci-outcome-card`) is not shown | Check the course's QILT provider-context data against the card's rule (S1-Build) |
+| layer2-provider ×2 | The text "Credentials stay write-only" no longer exists anywhere in `src/`, and Scrape.do is not listed in the embedded registry | A decision on the equivalent credential-boundary check on today's screen. The assertion is security-relevant, so it is not loosened without one |
+| performance ×3 | Courses list `courses_page` latency and payload (412,855 bytes against 250,000: `last_admitted` 168,857 bytes, carrying full before and after values for a 160-character tooltip; `field_states` 69,336); `admin_layer23('universities_page')` 7.7 s cold, 1.3 s warm | A decision on trimming the list payload; trace the Adapters cold path (S1-Build) |
+| layer1-operations | Asserts the Pipeline Operator view | The rank 4 UAT account (Platform Admin) |
