@@ -53,5 +53,10 @@ In every `url_desc_status` batch, while verifying official provider domains:
 3. Zero extra spend: only links found organically during the existing `$0` HTTP pass; no paid Firecrawl searches for them.
 Limit noted: the Claude session's shell cannot reach provider sites, so the plain HTTP check and the Storage write run through the existing worker route, not by hand from the session.
 
+## 5c. Measured: the 659 and the migration-call limit (23 Nov 2026, 19:00 AEDT)
+- **The 659 courses with no description reading are not enqueueable under current policy.** 352 have a stored, proven page but belong to hidden providers (`security.provider_hidden_v1`, a policy hold not overridden here); 272 are held (`security.enrich_item_held_v1`); 35 have no stored page. The approved US$0.50 ceiling is unused (spent: US$0.00).
+- **The demotion migration cannot run in one call.** Branch `s2-cf-s991-wrong-url-demotion` (Pilot, not yet a pull request) reuses the governed `security.binding_remediation_apply_v1` route (hold record, no re-bind, link set to `unverified`, locks and manual bindings skipped). Rolled-back rehearsals 45133441199 (all links) and 45133864799 (a quarter, hash range 0 to 3) both stopped at the migration API's two-minute limit (HTTP 524). The page check was measured at 12 ms a link on a small slice, but a quarter of the links, with the demotion calls, still exceeds two minutes.
+- **Next:** split into 16 ranges (one hex character each, about 1,150 links) or run the pass per university through a governed Management API workflow with the batch limit `remediation.max_batch_courses`; rehearse one range, read its counts from the probe on `pipeline.admin_control_events`, then report the exact class counts before any merge. No demotion has been applied.
+
 ## 6. Guardrails at measurement time
 G3 untouched, manual locks untouched, no cron change, $0 Firecrawl, $0 AI spent by this lane (read-only SQL only).
