@@ -55,6 +55,7 @@ Platform Admin, 24 Nov 2026 05:51 AEDT. Next S1-Build backend slice after s1016.
   - Only a person's Layer 4 decision changes a locked value; no machine path does.
   - G3 is untouched (live values are read through the existing frozen views).
   - No new cron job: the shadow check runs inside the existing fee and intake sweeps. Any batch size or bulk limit is a G2 setting.
+- **Status (24 Nov 2026 09:20 AEDT).** Backend built and rehearsed as s1023. The shadow audit sits in the lock guard (`security.manual_fact_guard`), where every machine write to a locked field already arrives, so the sweeps are unchanged and no job is added. Inbox kind `locked_field_update`; single decisions through the Inbox; bulk through `public.admin_layer4_locked_update_bulk(p_refs, p_choice, p_reason)`, limit `layer4.locked_update_bulk_max` (100).
 - **Split.**
   - S1-Build: shadow audit, item kind, RPCs `approve_keep_lock` (single and bulk), specs, rehearsed live dry run.
   - S1-API-Frontend-Delivery: the Layer 4 queue card and bulk bar for the new kind (master plan hand-off).
