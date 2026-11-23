@@ -59,6 +59,7 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | Scholarships | `S2-Build` | `scholarship.*`; `pipeline.scholarship_*`; `security.scholarship_*`; the scholarship readers in `coverage-sweep`; `s1001` (handed 12:10) | every `scholarship-*` job; off: `scholarship-listing`, `scholarship-read`, `scholarship-discover`, `scholarship-discover-refill`, `scholarship-discovery-settle` | Active (`s984` live) |
 | Backend pipeline unblock and Layer 4 hygiene | `S3-Backend-Pipeline` | Spend gate (`public.svc_fc_spend`), Firecrawl containment, its P1 IQ fixes, Layer 4 hygiene under approved policy | `firecrawl-credit`, `firecrawl-targets`; off: `firecrawl-runs`, `firecrawl-panel-figures` | Unchanged (section 3). A fix inside a domain above is made by that domain's owner or with its agreement |
 | AER University Reader Status register (monitoring) | `S1-Build` (handed over by the Platform Admin, 23 Nov 2026 15:54 AEDT; taken over from `S2-Build` and `S2-RM-Design`) | `docs/monitoring/AER_University_Reader_Status.csv` in this repository (canonical) and its method note `docs/monitoring/AER_University_Reader_Status.md` (columns and `reader_status` rules); the Drive sheet `Monitoring / AER_University_Reader_Status` (rows, definitions and the Summary tab). Read only: no table, function, reader or job. The AER readers, resolvers and Layer 4 AER work stay with `S2-RM-Design` | Daily refresh at 08:00 AEDT (scheduled task, Platform Admin 23 Nov 2026 16:33): rolled-back reads only when the shared dry-run queue is clear, numeric `daily_admitted_delta`, then the Drive sheet tabs `AU_Universities`, `NZ_Universities`, `CA_Universities` and the Summary. Runbook and scripts: `docs/monitoring/aer-reader-status-refresh/` | Active: first snapshot 23 Nov 16:40 AEDT, 1,886 providers (admin #815). The Drive sheet is now writable (Platform Admin, 23 Nov 16:33); if it is ever unavailable, the CSV is committed and the sheet is skipped |
+| Daily Executive Status Digest and provider enrichment queue (monitoring) | `S1-Build` (digest and register upkeep); design by `S1-CD-Orchestrator` (23 Nov 2026) | `docs/monitoring/DAILY-EXECUTIVE-STATUS.md` (the one daily report for the Platform Admin) and `docs/monitoring/PROVIDER-ENRICHMENT-QUEUE.csv` (shared work queue; each lane writes only its own status column and the claim fields on its own rows). Read only: no table, function, reader or job | Digest update at **08:00 AEDT daily** (S1-Build; alongside the AER register refresh) | Template and queue seeded 23 Nov 2026 (1,886 providers). Design: `docs/platform/2026-11-23-file-driven-continuous-delivery-design.md` |
 
 ### One integration owner: `S2-Build`
 
@@ -91,6 +92,10 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s1009` | Spare | | Open |
 
 S2-CF and S2-GEO hold no spec numbers yet; each claims its first number here when it opens a Pilot pull request. S2-INT holds `s986`, `s987` and `s988`.
+
+### File-driven delivery (design linked 23 Nov 2026)
+
+Lanes pull batches from the shared queue by the six-step loop (`PULL -> CLAIM -> EXECUTE -> SHIP -> ADVANCE -> LOOP`). Batch sizes, `HELD` reason codes, the 24-hour stale-claim release and artifact reuse are in [`2026-11-23-file-driven-continuous-delivery-design.md`](2026-11-23-file-driven-continuous-delivery-design.md). The Platform Admin reads one daily report, `docs/monitoring/DAILY-EXECUTIVE-STATUS.md` (08:00 AEDT). Ownership in this section is unchanged.
 
 ### What every lane reports for each release
 
@@ -179,6 +184,7 @@ The `destination-abs-load`, `destination-climate-load` and `destination-page-fac
 
 | Date | From | To | Item | State |
 |---|---|---|---|---|
+| 23 Nov 2026 | S1-UI-UX (via Platform Admin, 17:14) | S1-API-Frontend-Delivery | Four backend prerequisites for the v1.1 Counsellor prototype (REQ-111, REQ-115 to REQ-118 / IR-023): (1) additive v3 RPCs `public.counsellor_scholarships_list` and `public.admin_integrations_status`, G3 v2 75/48 stays frozen; (2) seed or map `ai.firecrawl_budget_cap` in `pipeline.settings` for the Screen 5 dry-lane banner; (3) confirm `restriction_mode` (`include`, `exclude`, `none`) on the additive v3 StudySquare provider representation contract (S2-RM-Design); (4) confirm saved-courses persistence (REQ-115) and the partner-contacts source (REQ-116) with S2-Build | Waiting |
 | 23 Nov 2026 | Platform Admin (16:22) | S2-RM-Design | REQ-118 / IR-023: finalise the additive v3 representation-status contract (traceability section 5; v2 frozen). REQ-110: define the `ref.grade_scale_conversions` rows and lookup rule (table live, 0 rows) before the GPA sort | Waiting |
 | 23 Nov 2026 | Platform Admin (16:22) | S2-Build | REQ-116 / REQ-22: partner contact source from Study Square records (Admin entry and/or Zoho CRM partner import), no scraping; the Drive mirror of this plan on the next integration pass | Waiting |
 | 23 Nov 2026 | Platform Admin (16:22) | S2-CF | REQ-114: La Trobe's 8 unpublished Nursing courses (publication) and James Cook Nursing (discovery), beside S3 IR-022 and S2-RM-Design Priority 2 | Waiting |
@@ -211,6 +217,7 @@ One line per session before it parks: date and time (AEDT), lane, what shipped (
 - 23 Nov 2026 13:17 AEDT, S2-RM-Design: s1000 live (Pilot #1491): academic entry 2,250 → 10,441 courses; NZ/CA campus-link audit recorded. Next: course-identity recovery and Layer 4 technical unblocking (Platform Admin order); s1001 with S2-Build.
 - 23 Nov 2026 16:09 AEDT, S2-RM-Design: s1009 (strict-proof AER rule, reader aer-det-v1.4, $0 re-read) recorded before merge; spec s1009 from the lane's reserved block.
 - 23 Nov 2026 17:12 AEDT, S2-RM-Design: s1009 live (strict proof +24 courses first tick; v1.4 re-read under way, 720 pages). Next: Step 2, course identity for unlinked entry-table rows (UNSW 622, UQ 113), then CDU first run.
+- 23 Nov 2026 17:20 AEDT, S1-CD-Orchestrator: file-driven delivery design, `PROVIDER-ENRICHMENT-QUEUE.csv` (1,886 providers; tiers 64, 50, 1,772) and `DAILY-EXECUTIVE-STATUS.md` added (documents and CSVs only); S1-UI-UX v1.1 baseline logged with four backend prerequisites handed to S1-API-Frontend-Delivery. Next: launcher prompts to S2-RM-Design, S2-CF, S2-INT, S2-Build and S2-GEO.
 - 21 Nov 2026 21:30 AEDT, Lane 1: plan v0.1 drafted from the brief; standing rule added to `CLAUDE.md` and `AGENTS.md` in both repositories; `docs/integrations/INTERNAL-REQUESTS.csv` created. Next: item 1.
 - 21 Nov 2026 22:00 AEDT, Lane 2: started; section 5 filled in; s960 RM1C application routes recorded before merge (Pilot #1466). Next: merge, static read on deploy, then RM1I living costs.
 - 21 Nov 2026 22:50 AEDT, Lane 2: s960 live (admin #767, Pilot #1466 `de3ddba5`): 5 RM1C routes are draft rules with state scope, read at $0; RM1I needs a source decision (IR-008). Parked. Next: item 3 (queues and NZ/CA geography) while IR-003 and IR-008 wait.
