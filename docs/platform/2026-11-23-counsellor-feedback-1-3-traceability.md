@@ -1,6 +1,6 @@
 # Counsellor feedback rounds 1 to 3: traceability and reconciliation
 
-**Prepared:** 23 Nov 2026 16:10 AEDT by Claude (`S1-RM-Design`, roadmap, request register and governance) · **Roadmap item:** RM0G
+**Prepared:** 23 Nov 2026 16:10 AEDT, decisions added 16:30 AEDT, by Claude (`S1-RM-Design`, roadmap, request register and governance) · **Roadmap item:** RM0G
 **Sources (Google Drive, `Feedback` folder):** `studySearch-Feedback-1` (India team, 20 Nov 2026, points 1 to 19), `studySearch-Feedback-2.docx` (India counselling team, 22 Nov 2026, sections 1 to 4 and suggestions 1 to 4), `Feedback StudySearch-3.docx` (23 Nov 2026, items FB3-1 to FB3-6). Also the `UI-UX-and-Architecture-Audit` Drive folder (`design-and-ui-audit/04-live-findings-counsellor-and-admin.md`, `Mockups/MOCKUP-SPEC-AND-RETIREMENT-MAP.md`, 23 Nov 2026).
 **Changes made by this work:** register CSVs and governance documents in `coursefinder-admin` only. No Pilot code, migration, live data, setting or job was changed. The live figures below come from read-only queries on project `fxcwkweaxjtknorudmwp` at about 16:00 AEDT on 23 Nov 2026.
 
@@ -95,7 +95,17 @@ Proposed rules: it is entered by Study Square staff in Admin (or imported from t
 | `S1-API-Frontend-Delivery` | REQ-113 (with S3), REQ-115, REQ-116, REQ-117, REQ-118 (after the decision), REQ-122 (display), IR-021 |
 | `S3-Backend-Pipeline` | IR-022 (time-outs on counsellor reads and raw database errors), REQ-113 search read, REQ-114 |
 | `S2-RM-Design` | REQ-114 entry coverage (Priority 2, after s1000; Admin and v3 reads already on `security.entry_resolve_v3`, checked in `pg_proc` 23 Nov 16:00), IR-023 (contract, after the decision) |
-| `S2-CF` | REQ-119 (NZ course coverage), REQ-120 (La Trobe title), James Cook Nursing coverage (REQ-114) |
+| `S2-CF` | REQ-119 (NZ course coverage), REQ-120 (La Trobe title), REQ-114 (La Trobe's 8 unpublished Nursing courses: publication; James Cook Nursing: discovery) |
 | `S2-GEO` | REQ-117 (campus locality), REQ-123 campus part |
-| `S2-Build` | REQ-121 (scholarship), IR-024 (duplicate IR-017 number) |
-| Platform Admin | REQ-116 / REQ-22 (contacts import), REQ-118 / IR-023 (representation source), REQ-110 (GPA figure), clarifications in REQ-113, REQ-119, REQ-121, REQ-123 for the India team |
+| `S2-Build` | REQ-121 (scholarship), IR-024 (duplicate IR-017 number), REQ-116 / REQ-22 partner contact source (decision 16:22), the Drive mirror of the master plan on its next integration pass |
+| India team | Clarifications in REQ-113, REQ-119, REQ-121, REQ-123 |
+
+## 7. Platform Admin decisions (23 Nov 2026 16:22 AEDT)
+
+| Item | Decision | Next |
+|---|---|---|
+| REQ-116 / REQ-22: university contacts | No web scraper for university staff contacts. Source: Study Square partner records, entered in Admin and/or imported from Zoho CRM partner contacts. Data owner: `S2-Build` (partner and Zoho sync). | `S2-Build` builds the partner contact source. `S1-API-Frontend-Delivery` shows "No partner contacts recorded for this provider" when none is held. |
+| REQ-118 / IR-023: representation status and market restrictions | Approved on the contract in section 5. Source of truth: the Study Square partner agreement register (Admin, plus CSV or Zoho sync), never scraped. | `S2-RM-Design` finalises the additive v3 schema and contract (v2 stays frozen under G3); then `S1-API-Frontend-Delivery` builds the Counsellor badge and filter. |
+| REQ-110: GPA ordering | Never sort raw numbers across different grading scales. Sort by the normalised percentage (0 to 100) from `grade_scale_conversions`, scoped to the selected applicant country and qualification scale: India percentage or 10-point CGPA by default for Indian applicants, otherwise AU 7.0 GPA or ATAR. Courses with no score sort last (`NULLS LAST`). | `S2-RM-Design` defines the deterministic conversion rows and lookup rule. Live 23 Nov 16:25: `ref.grade_scale_conversions` already exists (`scale_code`, `raw_min_value`, `raw_max_value`, `normalized_0_100`, `source_url`) and holds 0 rows. Then `S1-API-Frontend-Delivery` exposes the GPA sort. |
+| REQ-114 routing (FB3-2) | La Trobe's 8 unpublished Nursing courses and James Cook's single Nursing course go to `S2-CF` (course publication and discovery), beside `S3` (the 8 s statement time-out, IR-022) and `S2-RM-Design` Priority 2 (AER coverage). | As listed. |
+| Drive mirror of the master plan | Left to `S2-Build` on its next integration pass. | `S2-Build` |
