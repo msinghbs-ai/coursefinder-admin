@@ -222,3 +222,9 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Specs:** claimed centrally in the plan; next free `s985`; `s1003` unassigned. No migration timestamp or version is held in advance.
 - **Checked live 13:05:** every scheduled job is mapped to one owner; the only open pull request is #1491.
 - **Duplicate avoided:** S2-Build had measured the same AER resolver gap 12:47-12:58 and stopped before writing any file, because `s1000` covers it.
+
+**S2-Build, 23 Nov 2026 13:20 AEDT: Platform Admin ownership decisions of 13:13 recorded in plan section 3a; documents only.**
+- **City statistics:** `destination.*` passes from parked Lane 2 to S2-GEO. S2-GEO stays read-only until it reports its discovery findings and the Platform Admin unlocks writes.
+- **English requirements** (`enrich:english`): stays with S1-ELR, or a dedicated S2-ELR session when one opens, and is parked. None of the five active lanes writes ELR code.
+- **Rest of the 12:47 AER brief:** the CDU two-column layout, the 284 reads at confidence 0.70, the high-yield universities and ingress hash de-duplication go to S2-RM-Design as Priority 2, strictly after Pilot #1491 (`s1000`) merges on green.
+- **Next:** S2-Build starts `s1001` (scholarship coverage for Charles Darwin, Lincoln and Torrens, plus the guardrail against scholarship extraction answers being cut off).
