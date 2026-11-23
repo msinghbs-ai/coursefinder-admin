@@ -39,12 +39,19 @@ Active courses: 36,046 (denominator).
 | G3 frozen API (functions and relations) | 75 and 48, no drift | | |
 | Manual locks | 7,585 | | |
 | Active cron jobs | 140 or fewer | | |
-| Firecrawl spend | $0 | | |
-| Unapproved AI spend | $0 | | |
+| Platform spend (Firecrawl and AI, micro-budget) | US$5.00 a day or less (charter 23 Nov 2026) | | |
+
+### Spend log (micro-budget, US$5.00 a day)
+
+Each paid call by a lane is one line: time (AEDT), lane, provider or course, service (Firecrawl or AI), US$ amount, and the running total for the day.
+
+| Time (AEDT) | Lane | Target | Service | US$ | Day total |
+|---|---|---|---|---|---|
+| None | | | | | |
 
 ## 4. Approvals needed (exceptions only)
 
-Only rows held for `HELD:BUDGET_GATE` or `HELD:G3_FREEZE` appear here. If the list is empty, no decision is needed today.
+Only exceptions appear here (charter 23 Nov 2026): `HELD:BUDGET_GATE` (above US$5.00 a day, or paid Tier 2 or Tier 3 crawling), `HELD:G3_FREEZE`, and any change that would touch the 7,585 manual locks, take active cron jobs above 140, or withdraw live admitted records in bulk without replacements. If the list is empty, no decision is needed today.
 
 | Provider | Lane | Reason code | What is needed | Cost or impact |
 |---|---|---|---|---|

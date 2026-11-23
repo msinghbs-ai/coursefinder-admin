@@ -1,6 +1,6 @@
 # File-Driven Continuous Delivery and Multi-Lane Consolidation Design
 
-**Version:** 1.0
+**Version:** 1.1 (section 10 added 23 Nov 2026 18:52 AEDT: Standing Authority Charter)
 **Date:** 23 Nov 2026 (AEDT)
 **Owner:** `S1-CD-Orchestrator` (governance only). **Register owner after merge:** `S1-Build`.
 **Linked from:** `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md`, section 3a.
@@ -33,7 +33,7 @@ Batches are grouped by identical `source_type` so one reader pattern serves the 
 |---|---|
 | 1. PULL | Read the queue. Take the next `N` rows in `queue_rank` order where `<lane>_status == PENDING` and `source_type` matches (N from section 2). A row with `active_claim_lane` already set is skipped |
 | 2. CLAIM | Open a lightweight Admin PR that changes only the chosen rows: `<lane>_status = CLAIMED:<lane>`, `active_claim_lane = <lane>`, `active_spec_id = <central spec_id>`. The spec number is claimed in the section 3a register first. Merge it on green CI before any work starts, so two lanes cannot take the same row |
-| 3. EXECUTE | Work offline against stored artifacts (`storage_artifact_path`). `$0` Firecrawl, `$0` unapproved AI, no new live fetch where a stored artifact exists |
+| 3. EXECUTE | Stored artifact first (`storage_artifact_path`), then a $0 plain-HTTP direct read where there is no stored copy; paid Firecrawl or pinned AI only within the US$5.00 a day micro-budget for Tier 1 universities and linked courses (section 10.2) |
 | 4. SHIP | Merge Admin first, then Pilot, on green CI and a passing live dry run. This is the existing release order and the section 3a release report (five points) still applies |
 | 5. ADVANCE | Set each row to `DONE`, or to `HELD:<reason_code>` (section 6). Clear `active_claim_lane` and `active_spec_id`. Update `last_updated_aedt` |
 | 6. LOOP | Go straight back to PULL. Stop only when no `PENDING` row remains for the lane, or the lane reaches about 75% of its context capacity, and then park with a one-line session entry |
@@ -87,7 +87,7 @@ Ties are broken by provider name, then provider ID, so the file is reproducible.
 |---|---|---|
 | `HELD:NO_SOURCE` | No usable official source or stored artifact | S2-CF finds one |
 | `HELD:SITE_BLOCKED` | Site refuses reads (robots, 403 or 429) | Platform Admin decision |
-| `HELD:BUDGET_GATE` | Needs paid fetch or AI spend that is not approved | Platform Admin approval |
+| `HELD:BUDGET_GATE` | Would take platform spend above US$5.00 a day, or needs paid crawling of a Tier 2 or Tier 3 provider (section 10.2) | Platform Admin approval |
 | `HELD:G3_FREEZE` | Would change a frozen consumer API (G3, 75 functions and 48 relations) | Platform Admin approval |
 | `HELD:IDENTITY_UNRESOLVED` | The course identity cannot be matched with confidence | S2-CF |
 | `HELD:NON_ACADEMIC_ONLY` | Provider offers only non-academic or non-award courses | Closed unless scope changes |
@@ -121,3 +121,59 @@ To be added with the queue, in the existing admin doc checks:
 | Fully Working seeding | Uses the register's `reader_status`, not the percentage alone | 141 providers are at 80% or more, but only 10 also have a read source and no open Layer 4 item |
 | ELR owner name | Section 3a says S1-ELR or a future S2-ELR | Row stays `PARKED` until named |
 | `source_type` mostly `Unknown` (1,713 of 1,886) | S2-CF improves it as it verifies sources | Batches grouped by `source_type` will be weak until then |
+
+## 10. Standing Authority Charter: gate upgrades (Platform Admin, 23 Nov 2026 18:52 AEDT)
+
+These rules are permanent. They are also in both repositories' `CLAUDE.md`, and they mean a lane runs its loop end to end without per-batch or micro-spend sign-off.
+
+### 10.1 AER v2 readers are pre-authorised
+
+AER v1 stays frozen (Decision 276). Two things are permanently pre-authorised:
+
+- AER v2 proven-structure sources: `PDF_TABLE` cell-grid matchers, `HTML_TABLE` and `HTML_ACCORDION`.
+- Deterministic degree-abbreviation expansions: `B` → Bachelor, `M` → Master, `Hons` → Honours, `GradDip` → Graduate Diploma.
+
+A course matched through an expanded title goes to Layer 4 for a person and is never admitted by the machine. The existing v2 safeguards still apply (design §9.4: one catalogue course per course minimum, the printed course in the row identity, fail closed).
+
+### 10.2 Two-tier fetch and the US$5.00 a day micro-budget
+
+| Tier | What | Authority |
+|---|---|---|
+| Fetch tier 1 | Stored artifact first, then a $0 plain-HTTP direct read of a page with no stored copy. This retires the 3 Nov 2026 stored-first block for $0 HTTP reads. robots.txt and site policies apply; a challenge page is never bypassed | Always authorised |
+| Fetch tier 2 | Paid Firecrawl fetches or pinned AI description cascades for Tier 1 universities and courses already linked to an official page | Authorised up to US$5.00 a day across the whole platform, logged in the digest |
+| Above the cap, or paid crawling of Tier 2 or Tier 3 providers | | `HELD:BUDGET_GATE` |
+
+The cap is a G2 setting, changed on Settings with a reason. Until the platform enforces it, a lane reads the day's logged spend before each paid call.
+
+### 10.3 Downstream work is enqueued automatically
+
+When `S2-CF` admits an official course URL or saves a snapshot to `aer-artifacts/<provider>/`, the Descriptions, AER, Intakes and Scholarships items for that course are enqueued in the same change, so no course sits unqueued.
+
+### 10.4 Intake Rule B is global, with international calendar inheritance
+
+- Rule B (the stated month equals the calendar start month) is permanent for every provider. A day is never inferred from a month.
+- A university's official International Academic Calendar dates apply to its international courses, even when a course page does not say "international".
+
+### 10.5 Escalation is by exception only
+
+A lane never pauses mid-loop for a batch approval. It halts and records `HELD:<reason>` in the 08:00 digest only when a change would:
+
+- (a) touch the frozen G3 v2 surface (75 / 48);
+- (b) touch the 7,585 manual locks;
+- (c) take active cron jobs above 140;
+- (d) take spend above US$5.00 a day;
+- (e) delete or withdraw live admitted records in bulk without replacements.
+
+Every other rule still applies: single-writer domains, Layer 4 human decisions, no drop or delete by an applied migration, and live dry runs.
+
+### 10.6 What this charter changes in the live system (follow-up, by the owning lane)
+
+The charter is the authority; each lane applies its own part in its next change.
+
+| Item | Live today (read 23 Nov 2026 18:55 AEDT) | Owner |
+|---|---|---|
+| US$5.00 a day cap as a setting | Firecrawl `daily_budget_total` is 0 with `daily_budget_on` true (S3 containment), so paid Firecrawl stays off until the setting is changed with a reason | Platform Admin or S3 (setting change), then the platform enforces it |
+| $0 direct read of copy-less pages | Scholarship and AER lanes run stored-first and skip copy-less pages | Each lane in its next change |
+| Auto-enqueue on URL or snapshot | Not built | S2-CF, with S2-Build as integration owner |
+| Rule B for every provider | Listed per provider in `intake_dates.nearest_start_providers` (s988) | S2-INT |
+| International calendar inheritance | Not built | S2-INT |

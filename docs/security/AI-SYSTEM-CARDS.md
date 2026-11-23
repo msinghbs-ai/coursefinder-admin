@@ -45,7 +45,7 @@ Layer 3 AI validation was retired on 12 Oct 2026; the university adapters admit 
 | API rate per key | `website_api_v2_rate`, `rate_per_minute` per API key | Over the limit returns `RATE_LIMITED` |
 | Per-call time-out | Fixed in code, marked `-- fixed:` | One slow call cannot hold a run |
 
-Platform-wide cap on spend by an unattended Claude session: US$0 for AI and Firecrawl unless the Platform Admin opens an on-demand request (20 Nov 2026 directive).
+Platform-wide cap on spend by an unattended Claude session: **US$5.00 a day** combined for AI and Firecrawl, for Tier 1 universities and courses already linked to an official page; above that, or for paid crawling of other providers, the work is held for the Platform Admin (Standing Authority Charter, 23 Nov 2026 18:52 AEDT; replaces the US$0 directive of 20 Nov 2026). Each paid call is logged in `docs/monitoring/DAILY-EXECUTIVE-STATUS.md`. The service ceilings in the table above still stop work when reached.
 
 ## 4. Untrusted page text (ISM-2156 to 2159)
 
