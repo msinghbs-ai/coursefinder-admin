@@ -1,0 +1,24 @@
+-- Read-only diagnostic (S1-Build daily digest: live coverage and guardrails); rolled back, never merged.
+-- Replaces: nothing
+-- Retires: nothing
+do $d$
+declare o jsonb; v_sch bigint;
+begin
+  begin
+    select count(*) into v_sch from scholarship.scholarships x where x.publication_status = 'published' and x.lifecycle_status = 'active';
+  exception when others then v_sch := null;
+  end;
+  select jsonb_build_object(
+    'active_courses', (select count(*) from catalogue.courses c where c.lifecycle_status = 'active'),
+    'coverage', (select jsonb_object_agg(a.attribute, a.n) from (select a.attribute, count(*) filter (where a.state = 'admitted') n
+                   from pipeline.course_attribute_coverage a join catalogue.courses c on c.id = a.course_id and c.lifecycle_status = 'active' group by 1) a),
+    'exact_intake_courses', (select count(distinct i.course_id) from catalogue.course_intakes i join catalogue.courses c on c.id = i.course_id and c.lifecycle_status = 'active'
+                              where i.status = 'active' and i.start_date is not null),
+    'scholarships_published', v_sch,
+    'api', security.consumer_api_check_v1(),
+    'locks', (select count(*) from pipeline.manual_locks),
+    'cron_active', (select count(*) from cron.job where active),
+    'read_at', to_char(now() at time zone 'Australia/Melbourne', 'YYYY-MM-DD HH24:MI'))
+  into o;
+  perform set_config('cf.diag', 'C0~' || o::text, true);
+end $d$;

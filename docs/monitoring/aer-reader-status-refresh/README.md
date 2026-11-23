@@ -20,6 +20,8 @@
 | `build_register.py` | Builds the CSV: ranks, percentage, source type, `reader_status`, and `daily_admitted_delta` against the previous CSV. It also builds `sheet.json` for the Drive sync |
 | `refresh.sh` | The whole run: 90 A slices and 40 B slices in three dispatches, completeness checks, then the build |
 | `sheet_payloads.py` | Turns `sheet.json` into the exact Sheets writes (one JSON file per call: clear, tab chunks of 100 rows, Summary rows, KPI cells), so no number is retyped |
+| `sliceC.sql.tmpl` | One rolled-back read of live coverage (per field, active courses) and the guardrails (G3, manual locks, active cron jobs), run in the same dispatch as the B slices |
+| `daily_digest.py` | Releases stale claims (older than 24 hours) in `PROVIDER-ENRICHMENT-QUEUE.csv`, writes `S1-BLOCKER-QUEUE.csv` (every `HELD:*` cell with its solver) and regenerates `DAILY-EXECUTIVE-STATUS.md`, keeping the lanes' spend log and solver entries |
 
 ## Daily procedure
 
@@ -39,7 +41,10 @@
    - Columns M (`aer_admitted_pct`) and V (`daily_admitted_delta`) carry plain number formats (`0.0` and `+0;-0;0`) from row 2; never change other formats.
    - **Verify** with `get_values`: row 1 is the header, row 2 is rank 1, the last data row is at row `rows + 1`, and `Summary!C14:M14` (Total Combined) equals `Summary!C15:M15` (the register CSV).
    - **If the sheet cannot be written** (permission or connector unavailable): leave it, say so in the report, and do not fail the run. The CSV in git is the canonical register.
-5. Report:
+5. Daily digest, in the same admin pull request as the register: run `python3 daily_digest.py --admin <admin clone> --live <work>/C.out --now "<YYYY-MM-DD HH:MM, Melbourne>"`.
+   - It changes `PROVIDER-ENRICHMENT-QUEUE.csv` only to release stale claims (a dated note on each row), and writes `S1-BLOCKER-QUEUE.csv`, `DAILY-EXECUTIVE-STATUS.md` and `daily-digest-state.json`.
+   - If the live probe did not answer, the guardrail rows show "not read" and the run reports it; nothing is guessed.
+6. Report:
    - providers per country and the counts per `reader_status`;
    - the admitted courses and their change against the previous snapshot;
    - the five universities blocked in Layer 4 with the most active courses;
