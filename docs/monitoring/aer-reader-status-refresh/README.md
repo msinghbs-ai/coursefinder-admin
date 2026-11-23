@@ -44,7 +44,8 @@
 5. Daily digest, in the same admin pull request as the register: run `python3 daily_digest.py --admin <admin clone> --live <work>/C.out --now "<YYYY-MM-DD HH:MM, Melbourne>"`.
    - It changes `PROVIDER-ENRICHMENT-QUEUE.csv` only to release stale claims (a dated note on each row), and writes `S1-BLOCKER-QUEUE.csv`, `DAILY-EXECUTIVE-STATUS.md` and `daily-digest-state.json`.
    - If the live probe did not answer, the guardrail rows show "not read" and the run reports it; nothing is guessed.
-6. Report:
+6. Drive mirror (Platform Admin 23 Nov 2026 19:59): upload `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md` and `docs/monitoring/DAILY-EXECUTIVE-STATUS.md` from merged `main` to the Drive folder `1NyLe89dtY1DBn32TXyR3le2p3uUdxfXN` (Drive `create_file` with a file reference, `text/markdown`, no conversion, same title). After both uploads succeed, trash the older copies with exactly the same title in that folder, so one current copy of each is left. Never trash any other file.
+7. Report:
    - providers per country and the counts per `reader_status`;
    - the admitted courses and their change against the previous snapshot;
    - the five universities blocked in Layer 4 with the most active courses;
