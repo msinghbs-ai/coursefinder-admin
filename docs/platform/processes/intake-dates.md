@@ -414,3 +414,5 @@ What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT alrea
 
 **Still open (Platform Admin decisions, not built):** Rule B listing of the 4 qualified providers; page-printed dates without a stated audience; fresh 2027 calendars for stale-edition universities (S3 zero Firecrawl cap).
 
+**Outcome (23 Nov 2026 16:00 AEDT):** live as s986 (planner md5 `f05b31dd…`, Pilot #1493) and s987 (Pilot #1494: the same apply function run once for the freed courses, three parts). Exact-date intakes 4,914 to 5,242 (+328 rows); exact-date courses 2,845 to 3,041 (+196 net-new, since 132 of the 328 courses already had another dated intake); one row filled year and month only. All new dates are `calendar-v3`, in 2027, in the intake's own month, with quote and calendar stored; Website v3 and Zoho v3 show them. Held "starts sooner" decisions 815 to 483 (the rest fail the month-stated condition or are not active). Deadlines unchanged. The earlier rehearsal figure "329 courses" counted courses with a newly dated intake including one year-and-month row; the distinct-course gain is +196.
+
