@@ -85,14 +85,16 @@ Ties are broken by provider name, then provider ID, so the file is reproducible.
 
 | Code | Meaning | Who clears it |
 |---|---|---|
-| `HELD:NO_SOURCE` | No usable official source or stored artifact | S2-CF finds one |
+| `HELD:NO_SOURCE` | No usable official source or stored artifact | `S1-Build` (S2-CF finds one) |
 | `HELD:SITE_BLOCKED` | Site refuses reads (robots, 403 or 429) | Platform Admin decision |
 | `HELD:BUDGET_GATE` | Would take platform spend above US$5.00 a day, or needs paid crawling of a Tier 2 or Tier 3 provider (section 10.2) | Platform Admin approval |
 | `HELD:G3_FREEZE` | Would change a frozen consumer API (G3, 75 functions and 48 relations) | Platform Admin approval |
-| `HELD:IDENTITY_UNRESOLVED` | The course identity cannot be matched with confidence | S2-CF |
+| `HELD:IDENTITY_UNRESOLVED` | The course identity cannot be matched with confidence | `S1-Build` (S2-CF for duplicate catalogue courses) |
 | `HELD:NON_ACADEMIC_ONLY` | Provider offers only non-academic or non-award courses | Closed unless scope changes |
+| `HELD:PARSER_EDGE_CASE` | The source is stored and readable, but the AER v2 proven-structure reader fails closed on a layout it does not yet handle | `S1-RM-Design` (Opus escalation): fix the reader; the blocker entry carries the snippet, the file and function, and the error |
+| `HELD:WAF_OR_JS_BLOCK` | The platform's $0 plain-HTTP read is refused (WAF, 403) or the page needs JavaScript; paid Firecrawl is not available (`firecrawl.daily_budget_total` is 0) or would exceed US$5.00 a day | `S1-Build`: Settings budget unlock or another route; the blocker entry carries the URL, the HTTP status and headers, and a credit estimate |
 
-Only `HELD:BUDGET_GATE` and `HELD:G3_FREEZE` appear in the digest's approval list. The others are worked by lanes.
+Only `HELD:BUDGET_GATE` and `HELD:G3_FREEZE` appear in the digest's approval list. Every other `HELD` row gets a structured entry in the digest's *Technical Blockers & Ready-to-Solve S1 Queue* (provider, spec, code, solver lane, source URL or storage path, exact error, proposed fix), and is worked by the solver lane named above (Platform Admin, 23 Nov 2026 19:13).
 
 ## 7. Daily Executive Status Digest
 

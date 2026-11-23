@@ -57,6 +57,16 @@ Only exceptions appear here (charter 23 Nov 2026): `HELD:BUDGET_GATE` (above US$
 |---|---|---|---|---|
 | None | | | | |
 
+## 4a. Technical Blockers & Ready-to-Solve S1 Queue
+
+One entry per `HELD` provider (except `HELD:BUDGET_GATE` and `HELD:G3_FREEZE`, which are in section 4), so the solver lane can start without asking.
+
+| Provider | Spec | Code | Solver | Source | Exact error | Proposed fix |
+|---|---|---|---|---|---|---|
+| University of Auckland (`e096aba7-e1eb-4903-9a63-2bfb71e9a8b8`) | s993 → s996 | `HELD:PARSER_EDGE_CASE` | `S1-RM-Design` (Opus) | Stored: `layer2/NZ/entry-matrix/e096aba7-e1eb-4903-9a63-2bfb71e9a8b8/7cd70eba-dbf9-424f-b1d7-6024fc0266c4/7fda9075….pdf.gz` (A–I) and `…/ffb992a7-f91a-433d-b038-28130055e26d/308a1c39….pdf.gz` (J–Z); read direct, HTTP 200, 28 Oct 2026 | `held_unparsed: PDF page 2: "No direct entry for secondary qualifications. Applicants wil" crosses a column edge` (and `"for secondary qualifications" crosses a column edge`). Thrown by `gridRows` in Pilot `supabase/functions/coverage-sweep/pdf.ts` line 143; entry-matrix runs failed, 0 rows | Add a horizontally merged cell to `gridRows`: when an item crosses a column edge and no vertical rule runs at that edge inside the item's row band, place it in one cell spanning those columns (a note, never a minimum); still fail closed when a vertical rule is there. Re-run the two stored PDFs ($0) and admit through the strict-proof verifier |
+| UNSW Sydney (`22657140-1cb0-4fa7-91df-90518ea8b35b`) | s993 | `HELD:IDENTITY_UNRESOLVED` | `S1-Build` (duplicates with S2-CF, IR-027) | `layer2/AU/entry-matrix/22657140-…` (2027 international UG entry table PDF) | 622 table rows (21 labels) excluded by a Layer 4 reviewer; relink found 0 one-to-one courses; 4 labels match 2 active unpublished courses each | Resolve the 4 duplicate course pairs (IR-027), then re-run the relink as Layer 4 cards; the other 17 labels need the printed course mapped by a person |
+| The University of Queensland (`e55396d2-869a-46ef-9d17-841c7eab1313`) | s993 | `HELD:IDENTITY_UNRESOLVED` | `S1-Build` (duplicate with S2-CF, IR-027) | `layer2/AU/entry-matrix/e55396d…` (International minimum entry score guide PDF) | 113 table rows (5 labels) excluded by a Layer 4 reviewer; Bachelor of Pharmacy (Honours) matches 2 active unpublished courses | Resolve the duplicate (IR-027), then relink as Layer 4 cards |
+
 ## 5. Notes
 
 Stale claims released in the last 24 hours, lanes parked, and anything the Platform Admin should know in one line each.
