@@ -12,6 +12,16 @@
 - **Live (23 Nov 2026 20:08 AEDT):** Pilot #1504 merged 20:05 (Deploy on merge and Security gates green); `coverage-sweep` redeployed 20:05:42 AEDT (version 348, no migration, worker version string unchanged). **Not yet done:** the two Auckland entry-matrix runs (`entry_matrix_runs` `838d1a42` A-I and `498a46c6` J-Z) are still `failed` with the old page-2 error (cost 0, 28 Oct). Re-reading them goes through `entry_ai` with `openai/gpt-4.1-mini` (a few cents), which is not the $0 re-run asked for; a decision is open (see the S1-RM-Design hand-off). Exact one-to-one abbreviation expansions (`B`, `M`, `Hons`, `GradDip`) go to Layer 4 cards, never to machine admission. Queue: Auckland `CLAIMED:S1-RM-Design` (s996).
 - **Guardrails:** G3 75/48 untouched; locks 7,585; cron unchanged; $0; no migration in this change (live head `20261123200000`).
 
+**S1-Build, 23 Nov 2026 21:15 AEDT: s1011 is live (Pilot #1508, merge `b3fddcc0`; Deploy on merge and Security gates green).**
+- **Live migration head:** `20261123220000`.
+- **Row-level security:** 0 application tables have it off (both Zoho tables on). `ref.nationality_terms` has its read policy.
+- **saved_courses:** all three policies use `(SELECT auth.uid())`.
+- **Indexes:** both foreign-key indexes are present.
+- **API usage coverage:** no gaps.
+- **Guardrails:** G3 75/48 with no drift, 7,585 locks, 135 active cron jobs.
+- **Component register:** `docs/platform/COMPONENT-REGISTER.md` is refreshed from the snapshot of 23 Nov 2026 21:10. The previous copy dated from 15 Oct.
+- **Still pending:** the duplicate-index paste file (Platform Admin).
+
 **S1-Build, 23 Nov 2026 21:00 AEDT (Platform Admin 20:38): hardening slice from the architecture audit bundle.**
 - **Row-level security:** s1011 turns it on for the 93 tables that had it off. The audit named 13; the live catalogue holds 93, including `private.zoho_integration_credentials` and `private.zoho_integration_rate_windows`. All 93 are owned by `postgres` and read only by `postgres`-owned definer functions or bypass roles, so no read or write changes. `ref.nationality_terms` keeps its read for signed-in users through a policy.
 - **saved_courses:** its policies use `(select auth.uid())`.
