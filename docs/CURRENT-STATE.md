@@ -19,7 +19,7 @@
 - **s1021 scholarship GPA scale (pending merge):** a course-linked GPA threshold with no stated scale, or above its scale, is held and opens a Layer 4 Inbox item *Scholarship GPA scale*, grouped per provider. A person sets the scale (4, 7 or another); the threshold is re-admitted only if it fits. Switch `gates.gpa_scale_on`.
 - **Live:** migration head `20261124080000`; G3 75/48, no drift; locks 7,585; cron 134.
 
-**S1-RM-Design, 24 Nov 2026 07:40 AEDT (Platform Admin 07:01): s1024 live (Pilot #1527, admin #889); s1026 speed fix recorded before merge (Pilot branch `s1-rm-design-s1025-gpa-speed`; renumbered from s1025).**
+**S1-RM-Design, 24 Nov 2026 07:40 AEDT (Platform Admin 07:01): s1024 live (Pilot #1527, admin #889); s1026 speed fix live (Pilot #1531; India, 70%, meets-minimum, sort by GPA 2.2 s live, was about 21 s).**
 - **Counsellor GPA sort and filter (REQ-110 follow-up):** optional `gpa_*` arguments and `sort: 'gpa'` on `courses_page`; percentage-scale minimums only (`security.course_gpa_min_percent_v1`); student result as a percentage or a listed scale (`security.gpa_student_percent_v1`, setting `lookups.gpa_comparable_scales`, empty). Admin read only; G3 75/48 unchanged. Frontend control is S1-API-Frontend-Delivery's.
 - **Speed (s1026):** s1024 took about 21 s live for India, 70%, meets-minimum, sort by GPA (4,080 courses); the minimums are now read once per call into two maps (`security.gpa_min_maps_v1`).
 
