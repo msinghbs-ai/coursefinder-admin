@@ -73,3 +73,22 @@ Each is built under a lock retry. GIN maintenance applies to course writes only.
 **Source record:**
 - `public.admin_toolsets_read` existed live only.
 - s1014 keeps its exact production definition (md5 `df2380c6`, guarded before and after) in source.
+
+## 5. s1014 live and acceptance after it (23 Nov 2026 23:30 to 23:50 AEDT)
+
+**s1014 read-back (Pilot #1511, `5df82e85`; Deploy on merge and Security gates green):**
+- Migration head: `20261123235000`.
+- `pg_trgm` 1.6 with 4 trigram indexes; `admin_course_page_fast_base` md5 `22eb2f5e`; `admin_toolsets_read` md5 `df2380c6`, unchanged.
+- G3 75/48 with no drift; 7,585 manual locks; 136 active cron jobs.
+- The eight representative lists are identical to the baseline (totals, ordered ids, 113126B rows).
+- The live plan uses all four trigram indexes. Warm timings: title search 245 ms, no keyword 165 ms.
+
+**Full acceptance 45174909735 (UAT2 as Platform Admin, live-acting off):** 62 passed, 9 failed, 1 flaky. Before s1013 the same run had 13 failed. CF-073, s167 and both Data Quality tests now pass, and the `admin_toolsets_read` 500s are gone.
+
+| Remaining | Cause | Action |
+|---|---|---|
+| admin-navigation, layer2-provider ×2, a26–a28, a23 | Deployed specs still opened the Fetchers tab merged into Services & limits (Decision 269) and the registry now in Details folds (v2.16.12); the source contracts (`ss020`) already reflect the move | Pilot: specs follow the current screens through one shared helper; no assertion removed |
+| performance (core workspaces) | Waited for `admin_read('dashboard')`; the Dashboard reads `admin_read('platform_health')` since v2.16.35 | Pilot: measures the read the Dashboard makes; same budget |
+| performance (CRICOS interactions) and cf-061 | The Courses list returns 77 fields a row, 412,855 bytes a page (budget 250,000); under the suite's parallel load it took 3.3 to 4.8 s, so cf-061's 6 s wait missed by about a second (the data is correct: 113126B row 22 of 51 with the screen's arguments, 227 ms warm) | Open, S1-Build: server-side payload |
+| performance (Adapters) | `admin_layer23('universities_page')` 6.8 s against 3 s | Open, S1-Build |
+| layer1-operations | Asserts the Pipeline Operator view; UAT2 is Platform Admin | Needs the rank 4 UAT account (Platform Admin) |
