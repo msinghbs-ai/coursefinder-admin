@@ -107,6 +107,12 @@ Platform Admin, 24 Nov 2026 06:03 AEDT. API facts read from Firecrawl's document
   - delivery id, monitor, check, URL and status;
   - `diff.json` (keyed by JSON path, `{previous, current}`);
   - matched provider and course, the routing result and the received time.
+- **Immutable evidence first (Platform Admin 24 Nov 2026 06:10; Immutable Evidence & Field-Level Provenance).** For every `monitor.page` event whose status is `changed` or `new`, before any routing:
+  1. The raw delivery body is archived, byte for byte, in the Supabase Storage evidence bucket under `aer-artifacts/` (path by provider, date and delivery id). Storage objects are written once and never overwritten.
+  2. Its SHA-256 hash is computed over the stored bytes.
+  3. An evidence record (`pipeline.evidence_artifacts`) is attached with `storage_path`, `sha256_hash`, `source_url` (the monitored page) and the delivery and check ids. A repeated delivery with the same hash reuses its record.
+  4. Only then does the event route. Every admission or Layer 4 item it creates carries that evidence id, so each field value points to its evidence.
+  - If the archive or the evidence record fails, the event is stored as `held_no_evidence` and nothing routes. Firecrawl's retry, or a re-read, tries again.
 - **Routing.** Page text is untrusted (`fenceUntrusted`) and no model reads it (judge off).
   - A diff on an unlocked course or provider field goes through deterministic validation and admission (the slice 6 gates).
   - A diff on a field with a manual lock (7,585) opens a slice 5 **Periodic Audit — Locked Field Update** item in Layer 4 › Human Edits & Periodic Audit, decided by Approve & Keep Lock. Nothing is written to a locked value.
@@ -118,7 +124,10 @@ Platform Admin, 24 Nov 2026 06:03 AEDT. API facts read from Firecrawl's document
 - **Cost and limits.**
   - Scrape checks cost 1 credit per URL per check plus format add-ons; search costs 2 credits per 10 results; there are no judge credits.
   - No cron job is added: Firecrawl pushes the events.
-  - Spend is checked against the platform cap (US$5.00 a day) and the Firecrawl daily budget setting before any monitor is registered.
+  - **Budget (Platform Admin 24 Nov 2026 06:25):** monitors have their own weekly credit cap, a new G2 setting `firecrawl.monitor_weekly_credits` (150 credits a week, changed on Settings with a reason).
+    - A monitor is registered only when its estimated weekly credits fit the cap; the estimate is 24 to 120 credits for the Tier 1 pages plus about 4 for the search, about US$0.10 a week.
+    - `firecrawl.daily_budget_total` (5 credits a day) stays for scheduled scraping.
+    - The US$5.00 a day platform cap still applies.
 - **Screen.** Active monitors, last check, status and credits used, shown on Admin › Integrations and Services & limits. Handed to S1-API-Frontend-Delivery on an additive v3 read that S1-Build posts.
 - **Guardrails.**
   - G3 75/48 frozen.
