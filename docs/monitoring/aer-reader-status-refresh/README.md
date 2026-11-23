@@ -30,10 +30,14 @@
    - The active courses per country are the live denominator.
    - Every provider with active courses is one row.
 3. Copy the CSV to `docs/monitoring/AER_University_Reader_Status.csv` on a branch from `origin/main`. Open an admin pull request with the `automerge` label, and confirm it merged.
-4. Sync the sheet from `sheet.json`, using the Google Sheets connector. Run `python3 sheet_payloads.py <work>/sheet.json <work>/sheet --snapshot "<snapshot line>"` and send each file in name order.
-   - **Tab rows:** for each `*_Universities` tab, clear from `A1` and write the tab's rows in chunks of 100 or fewer. Add grid rows first if the tab is too short.
-   - **Tab scope:** AU takes university, university college and higher-education institute. NZ takes university, wānanga and polytechnic. CA takes every provider (no provider type is held).
-   - **Summary tab:** write `summary_rows` to `Summary!A11:M15` (column A is blank), the snapshot line to `Summary!B3`, and the KPI lines to `B6`, `B7`, `F6`, `F7`, `J6` and `J7`.
+4. Sync the sheet with the Google Sheets and Google Drive connectors. Each `*_Universities` tab has the header in row 1, a merged note in row 2 (A2:X2) and the data from row 3.
+   - Run `python3 sheet_payloads.py <work>/sheet.json <work>/sheet --snapshot "<B3 line>" --stamp "<YYYY-MM-DD HH:MM>"`. It writes `upload.csv`, `plan.json`, `90_summary.json` and `91_kpi_*.json`, and prints the sha256 of `upload.csv`.
+   - **Rows are never typed.** Upload `upload.csv` with Drive `create_file` (title `tmp_AER_reader_status_sync_<date>`, `contentMimeType` `text/csv`, `base64Content` the file reference `sha256:<hex>:<absolute path>`). It converts to a temporary Google Sheet. Copy its first tab into the target with `copy_sheet_to_another_spreadsheet`.
+   - Add grid rows where a tab is shorter than `plan.append_rows` (`appendDimension`). Clear `plan.clear` with `batch_clear_values`.
+   - Fill `plan.requests_template` (`@TMP@` = the copied tab's sheetId, `@<tab>@` = each tab's sheetId) and send it in one `update_spreadsheet` call. It pastes values, writes the row 2 note and `updated_at_aedt` as text, and deletes the copied tab. Then trash the temporary file (the only file this run trashes).
+   - **Summary tab:** send `90_summary.json` (`Summary!A11:M15`, column A blank) and each `91_kpi_*.json` (B3, B6, B7, F6, F7, J6, J7) with `update_values`.
+   - Columns M (`aer_admitted_pct`) and V (`daily_admitted_delta`) carry plain number formats (`0.0` and `+0;-0;0`) from row 3; never change other formats.
+   - **Verify** with `get_values`: row 1 is the header, row 3 is rank 1, and the last data row is at row `rows + 2`.
    - **If the sheet cannot be written** (permission or connector unavailable): leave it, say so in the report, and do not fail the run. The CSV in git is the canonical register.
 5. Report:
    - providers per country and the counts per `reader_status`;
