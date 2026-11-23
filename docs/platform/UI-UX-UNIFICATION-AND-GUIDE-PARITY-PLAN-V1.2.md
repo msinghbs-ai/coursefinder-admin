@@ -97,6 +97,8 @@ Platform Admin, 24 Nov 2026 05:54 AEDT.
   - Layer 4 triage: each submission opens a Counsellor feedback review item for its course, and the triage decision is recorded on both.
 - **Screen.** The feedback button on Counsellor Course detail, and the triage view, are handed to S1-API-Frontend-Delivery.
 
+- **Status (24 Nov 2026 10:30 AEDT).** Backend built and rehearsed as s1025 (S1-Build): table with row-level policies, categories as rows, `counsellor_feedback_submit_v1` and `counsellor_feedback_list_v1`, Inbox kind `counsellor_feedback`. Zoho counsellor reports unchanged. Screens with S1-API-Frontend-Delivery.
+
 ### Slice 8: Firecrawl Monitor webhook ingestion (S1-Build backend; S1-API-Frontend-Delivery screen)
 Platform Admin, 24 Nov 2026 06:03 AEDT. API facts read from Firecrawl's documentation on 24 Nov 2026 (monitoring, webhook events, webhook security).
 

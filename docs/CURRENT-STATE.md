@@ -1,6 +1,10 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-Build, 24 Nov 2026 10:30 AEDT: role-specific UAT accounts wired; s1025 counsellor feedback recorded before merge.**
+- **UAT:** rank 6, 4 and 2 accounts are used by the deployed runs; the Layer 1 boundary check passes as rank 4. Deployed specs broken by the v1.1 Admin shell (s999) are with S1-API-Frontend-Delivery.
+- **s1025 (pending merge):** in-app counsellor feedback backend (slice 7); triage in the Layer 4 Inbox kind *Counsellor feedback (in app)*. Screens with S1-API-Frontend-Delivery.
+
 **S1-Build, 24 Nov 2026 09:20 AEDT (Platform Admin 08:22): feedback-4 courses confirmed served; s1023 Locked Field Update recorded before merge.**
 - **Serving:** the website API (v2 and v3) serves 1,401 of the 1,402 feedback-4 courses; no publication flag was changed (course `publication_status` is not the serving switch). Victoria University's CRICOS 02475D record (Sydney and Brisbane) is a separate registration kept by the Platform Admin's decision of 20 Nov (s890); both VU records stay served.
 - **s1023 (live 08:47, Pilot #1525; read back: head `20261124100000`, guard on its four tables records locked re-reads, Inbox lists the kind, G3 75/48 no drift, locks 7,585, cron 133):** a machine re-read of a locked tuition or intake value is never written and opens one Layer 4 item *Periodic Audit - Locked Field Update*. Approve & Keep Lock (rank 3+, reason required) writes the value and keeps the lock; Reject changes nothing; bulk through `public.admin_layer4_locked_update_bulk`. Screen card and bulk bar: S1-API-Frontend-Delivery.
