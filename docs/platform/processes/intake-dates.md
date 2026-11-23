@@ -424,3 +424,5 @@ What blocks each (approved calendars, dated starts from 10 Nov 2026): RMIT alrea
 
 **Rehearsal (rolled back):** Federation 41, Waikato 55, Canterbury 35 = 131 rows dated, 0 outside the stated month. Monash and RMIT keep the earlier Decision 271 listing (including February to 1 March); a re-read of that rule in the light of the 23 Nov decisions is the Platform Admin's call.
 
+**Outcome (23 Nov 2026 17:00 AEDT):** s988 live (Pilot #1495). Rule B dated 131 intakes (Federation 41, Waikato 55, Canterbury 35), every one a start in the month the page names, with quote and calendar; the 2 Waikato February to 1 March days are held by a recorded withdrawal; Southern Cross remains unlisted. Exact-date courses 3,041 to 3,119.
+
