@@ -237,3 +237,10 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Charles Darwin and Lincoln:** refused by their own pages (domestic only, international not stated, not a scholarship page); no refusal came from a cut answer. Their international awards sit on listing pages that need the listing reader (job `scholarship-listing` has been off since 08:29), which is the discovery gap for slice 2.
 - **Not built:** a nationality rule. The readings mix code formats (AUS against the host code AU), so domestic awards would publish.
 - **Spec claim:** `s985` taken (central table); `s1001` stays for the P1-P10 reconciliation fixture.
+
+**S2-Build, 23 Nov 2026 14:45 AEDT: s985 live (Pilot #1492 merged 13:58; admin #804).** Live read-backs 14:05 to 14:40:
+- **Deployed:** migration head `20261123110000`. The legal-name switch is on. `svc_scholarship_ai_record` now sends a cut answer to the next model as the two-part read (`sectioned-v1`).
+- **Torrens University Australia:** 3 candidates admitted. The 14:29 auto-publish tick published **Family scholarship** and **Motivational scholarship**, so Torrens went from 0 to 2 published. Published scholarships overall went from 1,078 to 1,080.
+- **Cut-off guardrail not yet seen live:** no extraction has run since 03:21 AEDT. All 39 queued items are `admit` items with no stored page copy. Stored-first is on and the scholarship Firecrawl lane is on budget hold ("no room left in today's Firecrawl share for scholarships"; $0 Firecrawl, S3 containment), so the picker takes nothing. The fire job still calls the worker about 255 times an hour, and each call returns 0 items after 16 to 32 seconds, because its "due" count includes items the picker cannot take. Both the guardrail check and that wasted-call fix are S2-Build scholarship work.
+- **Guards:** locks 7,585; active cron 133; $0 Firecrawl; no new AI use.
+- **Charles Darwin and Lincoln:** unchanged at 0 published. Their international awards are on listing pages; slice 2 is a $0 listing read.
