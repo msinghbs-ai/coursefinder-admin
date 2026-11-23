@@ -1,9 +1,13 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-Build, 24 Nov 2026 12:05 AEDT: s1027 Firecrawl Monitor live and registered; s1028 recorded before merge.**
+- **Monitors:** 10 active (8 universities, 3 course pages each; search monitors for Monash and Adelaide). Firecrawl estimates about 148 credits a week (cap 150). First check Monday 03:17 AEDT. Status: `public.admin_monitor_status_v1`; register, status or pause through workflow *Firecrawl Monitor*.
+- **s1028 (pending merge):** search checks counted at the search price, so the cap does not pause the monitors by mistake.
+
 **S1-Build, 24 Nov 2026 11:30 AEDT: s1025 live (Pilot #1530); s1027 Firecrawl Monitor recorded before merge.**
 - **s1025 (live):** in-app counsellor feedback backend; read back: head `20261124115000`, three policies, ten categories, both RPCs, Inbox kind listed; G3 75/48; locks 7,585; cron 134.
-- **s1027 (pending merge):** Firecrawl Monitor webhook and watchlist (8 universities, 2 search monitors, 124 of 150 credits a week). Changes are archived first, then sent to Layer 4 or Locked Field Update; nothing is admitted by the machine. Also fixes s1020: gate items are no longer rerouted to the adapter.
+- **s1027 (live 10:39, Pilot #1532):** Firecrawl Monitor webhook and watchlist (8 universities, 2 search monitors, 124 of 150 credits a week). Changes are archived first, then sent to Layer 4 or Locked Field Update; nothing is admitted by the machine. Also fixes s1020: gate items are no longer rerouted to the adapter.
 
 **S1-Build, 24 Nov 2026 10:30 AEDT: role-specific UAT accounts wired; s1025 counsellor feedback recorded before merge.**
 - **UAT:** rank 6, 4 and 2 accounts are used by the deployed runs; the Layer 1 boundary check passes as rank 4. Deployed specs broken by the v1.1 Admin shell (s999) are with S1-API-Frontend-Delivery.
@@ -12,7 +16,7 @@
 **S1-Build, 24 Nov 2026 09:20 AEDT (Platform Admin 08:22): feedback-4 courses confirmed served; s1023 Locked Field Update recorded before merge.**
 - **Serving:** the website API (v2 and v3) serves 1,401 of the 1,402 feedback-4 courses; no publication flag was changed (course `publication_status` is not the serving switch). Victoria University's CRICOS 02475D record (Sydney and Brisbane) is a separate registration kept by the Platform Admin's decision of 20 Nov (s890); both VU records stay served.
 - **s1023 (live 08:47, Pilot #1525; read back: head `20261124100000`, guard on its four tables records locked re-reads, Inbox lists the kind, G3 75/48 no drift, locks 7,585, cron 133):** a machine re-read of a locked tuition or intake value is never written and opens one Layer 4 item *Periodic Audit - Locked Field Update*. Approve & Keep Lock (rank 3+, reason required) writes the value and keeps the lock; Reject changes nothing; bulk through `public.admin_layer4_locked_update_bulk`. Screen card and bulk bar: S1-API-Frontend-Delivery.
-- **Governance gap:** `pipeline.layer4_inbox_kind_hooks` and `security.layer4_inbox_hooks_v1` are live only (no migration in Pilot).
+- **Kind hooks (corrected 24 Nov 12:05):** `pipeline.layer4_inbox_kind_hooks` and `security.layer4_inbox_hooks_v1` are in git in the squash baseline (`supabase/live-capture/baseline/schema.sql`) and match live; no gap.
 
 **S1-Build, 24 Nov 2026 08:00 AEDT: s1021 live (Pilot #1521); s1022 golden-course validator recorded before merge.**
 - **s1021 (live):** course-linked scholarship GPA thresholds with no stated scale are held for the Layer 4 Inbox kind *Scholarship GPA scale*. Live head `20261124090000`; G3 75/48, no drift; locks 7,585; cron 135.
