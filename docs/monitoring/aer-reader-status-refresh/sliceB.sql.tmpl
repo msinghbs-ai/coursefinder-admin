@@ -1,0 +1,27 @@
+-- Read-only diagnostic (S1-Build AER reader status register); rolled back, never merged.
+-- Replaces: nothing
+-- Retires: nothing
+do $d$
+declare o text;
+begin
+with prov as materialized (
+  select p.id from catalogue.providers p join ref.countries co on co.id=p.country_id
+   where co.iso_alpha2::text in ('AU','NZ','CA') and exists(select 1 from catalogue.courses c where c.provider_id=p.id and c.lifecycle_status='active')
+     and (exists(select 1 from pipeline.entry_matrix_sources s where s.provider_id=p.id)
+          or exists(select 1 from pipeline.aer_det_pages d join catalogue.courses c on c.id=d.course_id where c.provider_id=p.id))
+   order by p.id offset @OFF@ limit @LIM@),
+best as (select distinct on (s.provider_id) s.provider_id, s.url, s.evidence_id from pipeline.entry_matrix_sources s where s.provider_id in (select id from prov)
+          order by s.provider_id, (s.status='read') desc, s.status<>'inactive' desc, s.rank nulls last, s.read_at desc nulls last),
+det as (select distinct on (c.provider_id) c.provider_id, d.evidence_id from pipeline.aer_det_pages d join catalogue.courses c on c.id=d.course_id
+         where c.provider_id in (select id from prov) and c.provider_id not in (select provider_id from best) order by c.provider_id, d.read_at desc nulls last),
+rows as (
+  select p.id::text||'|'||coalesce(regexp_replace(b.url,'[|~]','','g'),'')||'|'||
+         coalesce((select split_part(i.shape,':',1) from pipeline.aer_source_inventory i where i.provider_id=p.id and i.shape is not null order by i.recorded_at desc limit 1),'')||'|'||
+         coalesce((select e.storage_path from pipeline.evidence_artifacts e where e.id=coalesce(b.evidence_id, dt.evidence_id)),'')||'|'||
+         (select count(*) from catalogue.provider_entry_matrix m where m.provider_id=p.id and m.status='active'
+             and m.evidence_id in (select s.evidence_id from pipeline.entry_matrix_sources s where s.provider_id=p.id and s.evidence_id is not null))||'|'||
+         (select count(*) from catalogue.provider_entry_matrix m where m.provider_id=p.id and m.status='active') r
+    from prov p left join best b on b.provider_id=p.id left join det dt on dt.provider_id=p.id)
+select 'B@K@~' || coalesce(string_agg(r, '~'),'') into o from rows;
+perform set_config('cf.diag', o, true);
+end $d$;
