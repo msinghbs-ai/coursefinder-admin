@@ -1,6 +1,10 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-RM-Design, 24 Nov 2026 00:20 AEDT (Platform Admin overnight brief 23:47): s1015 recorded before merge (Pilot branch `s1-rm-design-s1015-v3-restriction`).**
+- **REQ-118 on v3:** every Website API v3 provider item gains `restriction_mode` and `restriction_markets` from `pipeline.provider_representation` (null when nothing is held or the agreement ended); `representation_status` is not served. v2 and the G3 surface are unchanged (75/48). v3 developer guide updated (section 7 provider rows, section 13).
+- **Auckland, `HELD:MODEL_NOT_QUALIFIED` (was `HELD:ROUTE_OFF`):** the `entry_matrices` route was switched off by the Platform Admin on 16 Nov (Qwen3 failed the benchmark); it can come back on only with a qualified model, and recording a qualification is the Platform Admin's own act. `gpt-4.1-mini` is allowed but unqualified for this service. Nothing switched; $0 spent.
+
 **S1-RM-Design, 23 Nov 2026 21:40 AEDT (Platform Admin 20:38): s1012 recorded before merge (Pilot branch `s1-rm-design-s1012-representation-grade-scale`); REQ-118 and REQ-110 built, Auckland read held.**
 - **REQ-118 (provider level, approved contract section 5):** `pipeline.provider_representation` (representation_status represented, direct or not_represented; no row = Not recorded; restriction_mode include, exclude or none; restriction_markets ISO alpha-2, empty when none; dates, source, reason) with `pipeline.provider_representation_events`; Admin save needs PIM Admin and a reason; read needs Counsellor. Empty until the partner agreement register is loaded. Not served to the website or Zoho (G3 untouched, 75/48).
 - **REQ-110:** `ref.grade_scale_conversions` gets seven rows only: CBSE Class X grade points 10 to 4 x 9.5 (https://www.cbse.gov.in/circulars/cir24-2010.pdf). Not seeded, no official 0 to 100 statement found: NCEA, AU GPA, ATAR, gaokao and the other Indian boards.
