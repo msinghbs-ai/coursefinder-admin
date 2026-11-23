@@ -92,6 +92,7 @@ current operations; historical acceptance gates are not silently reopened.
 | Release / Version Control & Recovery | `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md` | CURRENT |
 | University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
 | Rankings operations runbook (THE and ARWU readers, QS upload, publish and roll back, six-step SOP) | `docs/platform/RANKINGS-OPERATIONS-RUNBOOK.md` | CURRENT |
+| AER University Reader Status register: every AU, NZ and CA provider's academic entry reader (source, admission, Layer 4 blockers, status), owner `S1-Build`; method note beside it | `docs/monitoring/AER_University_Reader_Status.csv` | CURRENT |
 | Legal and Transparency Pack (draft policies and a gap register; not published, not reviewed by legal counsel; not a current rule for any other document) | `docs/studysearch-legal-transparency-pack-v0.1.md` | DRAFT FOR REVIEW — not reviewed by legal counsel |
 
 ## Active milestone router
