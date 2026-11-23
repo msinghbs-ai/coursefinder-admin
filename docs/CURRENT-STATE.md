@@ -1,6 +1,11 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-RM-Design, 24 Nov 2026 06:25 AEDT (Platform Admin 05:33): s1017 recorded before merge (Pilot branch `s1-rm-design-det-matrix`).**
+- **$0 ruled-grid reader:** a proven ruled PDF table that is a course-by-qualification grid is read without a model (`entry-ruled-grid.ts` into `entry-grid.ts`; worker v1.0.36; settings `reading.entry_ruled_grid_reader_on`, `_min_rows`, `_min_columns`). `reading.entry_grid_headings` names "Additional programme entry" a course fact.
+- **No-model lease:** `svc_entry_matrix_next` leases stored PDFs with `det_only` and no model while the `entry_matrices` route has no usable model (`reading.entry_det_only_lease_on`); a PDF no deterministic reader proves is held (`held_unparsed`), never sent to a model. Non-PDF pages wait.
+- **Auckland:** runs `838d1a42` and `498a46c6` are read by the next `entry-matrix-read` tick after deploy; the first matrix read is a Layer 4 item a person approves.
+
 **S1-RM-Design, 24 Nov 2026 00:20 AEDT (Platform Admin overnight brief 23:47): s1015 recorded before merge (Pilot branch `s1-rm-design-s1015-v3-restriction`).**
 - **REQ-118 on v3:** every Website API v3 provider item gains `restriction_mode` and `restriction_markets` from `pipeline.provider_representation` (null when nothing is held or the agreement ended); `representation_status` is not served. v2 and the G3 surface are unchanged (75/48). v3 developer guide updated (section 7 provider rows, section 13).
 - **Auckland, `HELD:MODEL_NOT_QUALIFIED` (was `HELD:ROUTE_OFF`):** the `entry_matrices` route was switched off by the Platform Admin on 16 Nov (Qwen3 failed the benchmark); it can come back on only with a qualified model, and recording a qualification is the Platform Admin's own act. `gpt-4.1-mini` is allowed but unqualified for this service. Nothing switched; $0 spent.
