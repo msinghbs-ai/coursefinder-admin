@@ -1,0 +1,23 @@
+# Provider enrichment queue check (Platform Admin 23 Nov 2026 20:38 AEDT; design docs/platform/2026-11-23-file-driven-continuous-delivery-design.md
+# sections 3, 6 and 8). Fails a pull request that breaks the queue file's shape, uses a status or HELD code outside the design, claims a column
+# for a lane that does not own it, or changes the status columns of more than one owner lane.
+name: Provider queue check
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/monitoring/PROVIDER-ENRICHMENT-QUEUE.csv
+      - scripts/check-provider-queue.py
+      - .github/workflows/provider-queue-check.yml
+permissions:
+  contents: read
+jobs:
+  queue-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check the queue file
+        run: python3 scripts/check-provider-queue.py --base "origin/${{ github.base_ref }}"
