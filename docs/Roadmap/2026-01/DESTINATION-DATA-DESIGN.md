@@ -1,6 +1,6 @@
 # StudySearch destination data design
 
-**Version 1.10 · 17 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.10 records the [Admin UI fitout live as v2.16.19 and the parallel lanes](#admin-ui-fitout-live-and-parallel-lanes-17-november-2026); v1.9 recorded the [standing execution mandate and the pre-authorised post-squash run](#standing-execution-mandate-and-post-squash-run-17-november-2026); v1.8 recorded [decisions G-1 to G-5 as approved](#decisions-g-1-to-g-5-approved-17-november-2026); v1.7 added the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
+**Version 1.11 · 23 November 2026 AEDT · Proposed production design · RM0–RM6** (v1.11 adds the [frozen design and governance contracts](#frozen-design-and-governance-contracts-s2-rm-design-23-november-2026): AER admission, scholarship publishability, Layer 4 triage, the remaining Australian items, the API v3 freeze audit, NZ and Canada, Wave 2, and the single Platform Admin sign-off checklist; v1.10 recorded the [Admin UI fitout live as v2.16.19 and the parallel lanes](#admin-ui-fitout-live-and-parallel-lanes-17-november-2026); v1.9 recorded the [standing execution mandate and the pre-authorised post-squash run](#standing-execution-mandate-and-post-squash-run-17-november-2026); v1.8 recorded [decisions G-1 to G-5 as approved](#decisions-g-1-to-g-5-approved-17-november-2026); v1.7 added the companion [Admin UI fitout, API v3 blueprint and bulk ingestion plan](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) with its [wireframe](mockups/destination-data-admin-fitout-mockup.html), and proposes the career outcomes grain, decision G-1; v1.6 recorded the [roadmap schema pack shipped before the squash](#roadmap-schema-pack-before-the-squash-17-november-2026), which supersedes the Wave 2 schema hold and the M3 and M4 table names; v1.5 recorded the [ABS source approvals for RM1B and the Wave 2 schema hold](#abs-source-approvals-and-wave-2-schema-hold-17-november-2026); v1.4 added [Platform state, Wave 1B delivery and Wave 2 readiness](#platform-state-wave-1b-delivery-and-wave-2-readiness-17-november-2026); v1.3 added [Roadmap alignment and Wave 1 delivery](#roadmap-alignment-and-wave-1-delivery-16-november-2026); v1.2 the [RM delivery plan](#rm-delivery-plan--database-design-source-data-and-admin-module-by-roadmap-item-13-november-2026); v1.1 the [S1-RM-Design database design and v3 handoffs](#s1-rm-design--database-design-and-v3-delivery-handoffs-13-november-2026); v1.0, 11 November 2026)
 
 ## Scope and release order
 
@@ -823,6 +823,471 @@ Platform Admin, 17 November 2026 13:12 AEDT: the hold until the 19 November squa
 The Admin UI fitout shipped as v2.16.19 (Pilot #1197, migration `20261117131500`). What was built, what differs from the design, and what the loaders need to know are in [`DESTINATION-DATA-UI-AND-INGESTION-SPEC.md`](DESTINATION-DATA-UI-AND-INGESTION-SPEC.md) v1.2, section 6.
 
 S2-Build shipped G-1 (career outcomes key `career_outcomes_area_key`) and the dictionary load of the `destination` fields the same afternoon (Pilot #1196, migrations `20261117060000` and `20261117061000`). Still open in this design: `campuses[].locality` in the field dictionary, and in-page highlighting of a rule's quote.
+
+## Frozen design and governance contracts (S2-RM-Design, 23 November 2026)
+
+**Lane:** `S2-RM-Design` (roadmap and destination architecture; governance). **Asked:** Platform Admin, 23 Nov 2026 11:11 AEDT. **Scope:** documents and registers in `coursefinder-admin` only. Nothing was built, deployed or changed in Pilot or the live database by this section. `S2-Build` owns every Pilot change (`s983` and above).
+
+**What "frozen" means here.** Each rule below is written as a predicate over live columns, an enum, or a precedence order. Build implements it as written. A rule changes only by a new dated section in this document. Where this section needed a person's decision, the decision is a row of the single sign-off checklist in [section H](#h-platform-admin-sign-off-checklist); until a row is signed, its stated default applies and nothing waits on it.
+
+**Reserved numbers.** This lane writes no Pilot spec. Contract specs that Build derives from this section use the block `s1000` to `s1009` (above S2-Build's running numbers, so the two never collide): `s1000` AER, `s1001` scholarships, `s1002` Layer 4, `s1003` RM1C/RM1I, `s1004` RM1D, `s1005` RM1G, `s1006` v3 dictionary issue 2, `s1007` NZ/CA, `s1008` Wave 2, `s1009` spare.
+
+### How each name in this section was checked
+
+No live read was made (standing rules of 17 and 19 Nov: live reads go through the GitHub Actions read-back workflow, which this session could not start). Names come from the checked-in Pilot source at `18e0a17e` and the admin documents at `df2b250d`.
+
+| Mark | Meaning | Build's first step |
+|---|---|---|
+| **[V]** | Name and values read in checked-in Pilot source (migration, field dictionary seed or function text) | None |
+| **[D]** | Name taken from an admin document that describes the live system | Confirm with the conformance query in the same row or section before coding |
+| **[N]** | New value or field proposed by this section; additive, no table change | Build as written once its checklist row is signed |
+
+Counts quoted from the brief or from documents (for example 82, 160, 69, 5, 701, 3,822, 1,535) are the latest recorded figures, not a fresh read. Each batch in section C is defined by a query, so the batch is whatever the query returns on the day it is signed.
+
+### Conflicts between the brief and the live contract, and how each is settled
+
+| # | The brief asked | What is live | Frozen resolution |
+|---|---|---|---|
+| X-1 | AER reasons in `empty_reason_code`: `not_published_by_provider`, `pathway_only`, `domestic_only`, `source_blocked` | `catalogue.courses.empty_reason_code` [V] is already served in v3 as `item.empty_reason_code` for campus and study mode (REQ-53), with the closed list `not_published_by_provider`, `not_listed_on_register`, `online_only_no_campus`, `pending_extraction`, `source_unavailable` [V] | The course column and its v3 list are **not** widened. The AER reason is a separate field, `item.entry.resolution.empty_reason_code` [N], present only when `resolution.step = 5`. No column is added: the resolver derives it (section A.2). `source_blocked` is an AER value only; it is not a synonym for the campus value `source_unavailable` |
+| X-2 | Scholarship round state `open` / `closed` / `upcoming` | v3 `scholarship.item.current_status` [V] is `open`, `closed`, `opening_soon`, `check_provider` | The live values stay. "Upcoming" in the brief is `opening_soon`. `check_provider` is the state when the dates do not decide it. No rename |
+| X-3 | "Crosswalks" for NZQCF, NZSCED and CIP | v3 `field_of_study_codes[]` is defined as "never inferred or crosswalked" [V] | Native codes only in v3. The one mapping table is level-to-level (section F.1). A cross-scheme subject crosswalk is not built and not served |
+| X-4 | NZ 3,822 and CA 1,535 courses "without campus links" | The 22 Nov audit: NZ 6,514 − 2,692 = 3,822 without a campus, of which 3,507 carry `not_published_by_provider`; CA 3,825 − 2,290 = 1,535, of which 1,368 carry it | The contract in F.2 covers every course without a campus, by reason, not only the "not published" ones |
+| X-5 | A final QTAC and TISC route rule | Neither centre's own page states an international application route in text a plain read returns (section D.1) | The contract fixes the allowed pages, the match rule and the outcome when no quote is found. No route is written from a university's or a school's page |
+
+---
+
+### A. AER admission contract (REQ-94, REQ-99, IQ-00367)
+
+AER v1 stays frozen (Decision 276). `security.entry_resolve_v1(course, country)` [D] is not changed in its rule order. This contract maps the brief's precedence onto the resolver's five rules and adds only the reason at rule 5. Build's home for the addition is the AER v2 lane's in-place `CREATE OR REPLACE` (no new table or function; G3 stays 75 functions and 48 tables).
+
+#### A.1 Precedence
+
+The first tier that returns at least one **active** row for the course and the applicant's country wins. A lower tier is never merged into a higher one.
+
+| Tier (brief) | Resolver rule, `resolution.step` and `resolution.rule` [V] | Row set | Predicate (all must hold) |
+|---|---|---|---|
+| 1. Course-specific row | step 1 `course_override`; step 2 `course_country_row` | `catalogue.course_entry_requirements` [D] rows bound to this course | `course_id = :course` and `lifecycle_status = 'active'` and (`country_id = :country` or `country_id is null` for step 1 only) |
+| 2. Faculty or award-level rule | step 3 `band_ladder` | The provider's band table row for the band the course page prints | `provider_id = course.provider_id` and `band = course.benchmark_band` and `country_id = :country` and the row's study level equals the course's study level or its listed equivalent; `course.benchmark_band is not null` |
+| 3. Provider-level minimum | step 4 `provider_minimum` | The provider's minimum for the country and level | `provider_id = course.provider_id` and `country_id = :country` and the row's study level equals the course's study level or its listed equivalent |
+| 4. Explicit reason | step 5 `contact_provider` | none | `resolution.empty_reason_code` set by A.2 |
+
+Rules that close the gaps the brief names:
+
+1. **A faculty or school row is tier 2 only when bound.** A row whose `conditions.section` [V] names a faculty, school or award is applied to a course only where the shared-page binding (s670) binds that course to that section. An unbound section row is never applied at tier 3 as if it were provider-wide; it stays held with hold reason `section_unbound`.
+2. **Outcome.** `minimum_published` when at least one winning row has `min_grade` or `min_score`; `case_by_case` when every winning row has `case_by_case = true`; `contact_provider` at step 5 [V].
+3. **No derived value.** A band is never derived from an ATAR or a score, and a provider minimum is never applied across countries.
+4. **Country fallback.** There is none. A row for another country is never returned.
+
+#### A.2 `resolution.empty_reason_code` [N]
+
+Set only when `step = 5`. Evaluated top to bottom; the first true row wins. Null when none is true (the read has not finished, so no final reason is claimed).
+
+| Order | Value | Predicate |
+|---|---|---|
+| 1 | `source_blocked` | The provider has at least one registered entry source and every one is in a blocked state: its last fetch was refused (HTTP 401, 403, 429 after the retry budget, a bot challenge page, or robots.txt disallow), or the source is on a terms or identity hold, or it is a held PDF source awaiting a reader decision. No stored copy was read by a current reader |
+| 2 | `domestic_only` | The provider has active entry rows that would match the course at tier 1, 2 or 3 if the country were ignored, and every such row has `audience = 'domestic'` [V] (none `international` or `all`) |
+| 3 | `pathway_only` | Every row read for the course from a current stored copy carries `conditions.column_role = 'pathway'` [N] (A.3), and no row carries `direct` |
+| 4 | `not_published_by_provider` | A current stored copy of the provider's entry page for the course's level and of the course page was read by a current reader version, the read finished, and it returned no row for any country at tiers 1 to 3 |
+| – | null | Anything else: no stored copy, a stale copy, a read in progress, or rows waiting in Layer 4 |
+
+"Current stored copy" and "current reader version" are the checks the machine admission already makes (`security.aer_matrix_machine_check_v1` [D]: copy present and current, fetched from the official address on the provider's own host). The reason reuses those checks; it adds none.
+
+Serving: `resolution.note` keeps its text. `resolution.empty_reason_code` is added beside it on Website v3 and Zoho v3 `course`. Allowed values: the four above. It joins the field dictionary in issue 2 (section E).
+
+#### A.3 Multi-column and pathway tables (CDU and the same shape elsewhere)
+
+Applies to every table reader for academic and English requirements (`aer-det`, `elr-det`, `elr-central`, the course-page readers). The current deterministic English reader skips flattened multi-column tables by design; this rule replaces the skip with a decision.
+
+| # | Rule |
+|---|---|
+| N1 | **Grid first.** A table is read as a grid: header cells, then one record per body cell, each carrying its row header and its column header. A table whose cells cannot be aligned to one header row (a flattened copy with no cell boundaries) is not guessed: every value from it is held with `table_unaligned`. It is never read by position in a text run |
+| N2 | **Column role.** Each column header is classed by the first match, case-insensitive: `pathway` if it matches `pathway\|foundation\|diploma (of\|in) \|bridging\|preparatory\|enabling\|ELICOS\|english (language )?program\|direct entry program\|packaged`; `level` if it names a study level (`undergraduate\|bachelor\|postgraduate\|master\|graduate (certificate\|diploma)\|doctor\|phd\|research\|higher degree\|VET\|certificate (i\|ii\|iii\|iv)\|diploma\|associate degree`); otherwise `direct`. A header that matches both `pathway` and a level is `pathway` |
+| N3 | **Column choice.** For a course, take the `level` column whose level equals the course's study level or its listed equivalent. If there is none, take the single `direct` column. If there are several `direct` columns and no level match, hold every row with `column_ambiguous`. A `pathway` column is never the source of a course's requirement |
+| N4 | **Pathway rows are kept, labelled.** Values in a `pathway` column are written as rows with `conditions.column_role = 'pathway'` and are not admitted as the course's requirement. They are what makes `pathway_only` (A.2) true when nothing else is published |
+| N5 | **Every row label is resolved or held.** A row label is matched to a test or qualification by the alias table (A.4). A label with no match is held with `unmapped_test` or `unmapped_qualification`, with its quote. No row is dropped |
+| N6 | **Merged and repeated cells.** A cell that spans columns applies to each column it spans. An empty cell under a spanning header takes no value and writes no row. "As above", "same as" and ditto marks resolve to the cell they point to only inside the same column; otherwise the row is held |
+| N7 | **Sub-scores.** "6.5 (no band less than 6.0)", "58 with no communicative skill below 50" and the same shape for other tests write the overall score and one minimum for all sub-tests. Named sub-scores ("writing 6.5") write that sub-test's minimum. A value that parses to neither is held with its quote |
+| N8 | **Proof.** Each written row keeps the verbatim cell text, the row header and the column header in its quote, and the table's place (`conditions.place`, `conditions.section`) [V]. A row whose minimum does not appear in its own quote is held (the existing machine row rule) |
+| N9 | **Re-read.** When a reader version adopts N1 to N8, pages it already read are re-read from stored copies ($0), and rows it wrote from a `pathway` column are superseded by the corrected rows through the existing supersede path. CDU is the acceptance fixture: a master's course reads PTE 58, not the pathway column's 50, and IELTS is found under "International English Language Testing System (IELTS) Academic test" |
+
+Hold reasons introduced: `table_unaligned`, `column_ambiguous`, `section_unbound`, `unmapped_test`, `unmapped_qualification` [N]. They are text values in the existing Layer 4 hold-reason field (s831); no table change.
+
+#### A.4 Non-standard English and academic grade mappings
+
+**English tests.** A label maps to one `english_test_id` in `catalogue.course_english_requirements` [D] by the first matching alias. Aliases are rows in the existing reference data, not code (standing rule s930).
+
+| Canonical test | Aliases matched (case-insensitive, punctuation ignored) |
+|---|---|
+| IELTS Academic | `IELTS`, `IELTS Academic`, `International English Language Testing System`, with or without `(Academic)` or `Academic test`. `IELTS General` never maps here: held `unmapped_test` |
+| PTE Academic | `PTE`, `PTE Academic`, `PTE-A`, `Pearson Test of English`, `Pearson PTE` |
+| TOEFL iBT | `TOEFL`, `TOEFL iBT`, `TOEFL internet-based`, `Test of English as a Foreign Language` when the score is 0 to 120. A paper-based score (310 to 677) is `TOEFL PBT`, a separate test; if the platform holds no such test, held |
+| Cambridge C1 Advanced | `CAE`, `C1 Advanced`, `Cambridge English: Advanced`, `Cambridge Advanced` |
+| Cambridge C2 Proficiency | `CPE`, `C2 Proficiency`, `Cambridge English: Proficiency` |
+| Duolingo English Test | `DET`, `Duolingo` |
+| OET | `OET`, `Occupational English Test`; letter grades and numeric scores both kept (`score_grade`, `subtest_grades`) [V] |
+| CELPIP | `CELPIP`, `CELPIP-General` |
+
+A test the reference list does not hold is held `unmapped_test`. Adding a test is a reference-data row, after which held rows are re-read from stored copies.
+
+**Scores.** The score is stored as printed. Bounds per test are reference data; a score outside its test's range is held `score_out_of_range` (for example IELTS 0 to 9 in steps of 0.5, PTE 10 to 90, TOEFL iBT 0 to 120, Cambridge scale 80 to 230, DET 10 to 160). No score is converted from one test to another.
+
+**Academic grades.** The minimum is stored as printed in `min_grade` with its `grade_scale` [D]. `scale_stated` [V] is true only when the page prints the scale. Conversions live only in `ref.grade_scale_conversions` [D] and are applied at read time for comparison, never written back over the printed value. A grade whose scale is neither printed nor identified by an approved conversion row for that country and qualification is admitted as printed with `scale_stated = false`; it is not held and not dropped. A qualification name is matched to the qualification reference by alias; no match is held `unmapped_qualification`.
+
+#### A.5 Partial admissions and P0 findings
+
+A read that admits some rows and holds others is a **partial admission**, not a defect.
+
+| Rule | Predicate |
+|---|---|
+| A row counts as admitted | It is `active` in its canonical table **or** it is named by a non-withdrawn ledger row in `aer_matrix_machine_admissions` [V] (rules `aer-partial-v1` and later) |
+| A P0 "consumer data" finding is raised | Only when a row is served to a consumer and is neither of the above; or an admitted row has no quote; or two active rows share one identity |
+| A pending Layer 4 item does not raise P0 | When every one of its rows is either admitted (above) or held with a reason. The item's reason lists the countries not covered and the count of rows held |
+| A partial admission is P1, not P0 | When held rows have waited longer than `layer4.sla_days` [N setting; default 14] |
+
+This is the rule s978 applied to clear the 31 false findings (IQ-00367); it is frozen here so a later check does not reintroduce them.
+
+#### A.6 Acceptance for Build (spec `s1000`)
+
+1. CDU fixture (A.3 N9) passes for one bachelor and one master's course.
+2. A provider with only ATAR tables returns step 5 with `domestic_only`.
+3. A provider whose entry source answers a challenge page returns `source_blocked`, and never `not_published_by_provider`.
+4. A provider with a current read and no rows returns `not_published_by_provider`; the same provider with a stale copy returns null.
+5. No row count falls between a read and its re-read except by supersede; every unmatched label appears in Layer 4 with a hold reason.
+6. `aer:p0` stays at 0 after a partial admission run.
+
+---
+
+### B. Scholarship publishability contract (REQ-95, REQ-64, REQ-71, REQ-72)
+
+A candidate scholarship is promoted to `publication_status = 'published'` by rule when every predicate P1 to P10 holds. It is unpublished by rule when any of P1 to P8 stops holding. No row-by-row review is needed for a scholarship that passes; one that fails is held with the list of failed predicates (the existing `missing text[]` of `security.scholarship_publishability_v1()` [V]). The live function is the home of these checks; Build reconciles it to this table by in-place edit, under its md5 guard.
+
+| # | Check | Predicate over `scholarship.scholarships s` [V] | Failure label |
+|---|---|---|---|
+| P1 | Active | `s.lifecycle_status = 'active'` | `not active` |
+| P2 | Canonical title | `btrim(s.name) <> ''` and `char_length(s.name) between 5 and 200` and `s.name !~* '^(scholarships?\|apply now\|home\|untitled)$'` and no other active scholarship of the same provider has the same `lower(regexp_replace(s.name, '\s+', ' ', 'g'))` with the same academic year | `no canonical title` |
+| P3 | Verified provider | `s.provider_id` is not null; the provider is `active` and published; and the host of `s.source_url` is one of that provider's verified hosts (the host check the listing claim already uses, s982). A sponsor-run scholarship (government or foundation) passes instead when its host is in the approved sponsor host list and `s.provider_id` names the provider it is tenable at | `provider not verified` |
+| P4 | Canonical source URL | `s.source_url ~* '^https://'`; no fragment; tracking parameters removed; not an aggregator or government listing page (`studyaustralia.gov.au` and the listed aggregator hosts); the page's last read is `read_status = 'read'` in `pipeline.scholarship_pages` [V] with HTTP 200 on the final address; redirects are followed and the final address is stored | `no provider page` |
+| P5 | International | `s.audience ~* 'international'`, and the page facts do not say `international = false`, and the eligibility excerpt does not limit it to citizens or residents without naming international students (the existing three checks [V]) | `not for international students` |
+| P6 | Award value or classification | One of: (a) `s.award_value_type = 'percentage'` and `s.award_percentage > 0 and <= 100`; (b) `s.award_value_type = 'fixed_amount'` and `s.award_amount > 0` and `s.award_currency_code` is set; (c) a classified non-numeric benefit: `award_type in ('tuition_waiver', 'stipend')` [V] with the benefit recorded in `benefits[]`, served as `amount_type = 'full_tuition'` for a full waiver. `award_value_type = 'text_only'` with no classified benefit fails | `no stated award value` |
+| P7 | "Up to" upper bound | When the provider's wording (`s.award_value_text`) is a range or says "up to": the stored value is the **upper** figure and `s.award_value_is_maximum = true`. Patterns: `^Up to (\d+(\.\d+)?)%`, `^Up to [A-Z]{0,2}\$[0-9,]+`, `(\d+)% to (\d+)%`, `\$X to \$Y`. A stored value that is not the upper figure, or an upper figure not flagged, fails. A single figure with no range has `award_value_is_maximum = false`. A value under a manual lock is never changed by rule (it is reported) | `value disagrees with its note` |
+| P8 | Study-level applicability | At least one study level, from the scholarship's own list or from its mapped courses; and at least one `scholarship.course_mappings` [V] row with `mapping_state = 'mapped'`; and, where every mapping has `mapping_basis = 'explicit_provider_scope'`, the title names no level or discipline (the existing "link broader than the scholarship" check [V]) | `no study level` / `no linked course` / `course link broader than the scholarship` |
+| P9 | Evidence and freshness | `s.evidence_id` is not null, and the later of `s.updated_at` and the evidence capture date is within 12 months [V] | `no evidence` / `not verified in 12 months` |
+| P10 | Round state decided | `current_status` is computed by the rule below and is one of the four live values | `round state not decided` |
+
+**Round state (Melbourne date).** `today := (now() at time zone 'Australia/Melbourne')::date` [V, s710]. Evaluated top to bottom:
+
+| Order | `current_status` [V] | Predicate |
+|---|---|---|
+| 1 | `closed` | `closes_on < today`; or the round is withdrawn |
+| 2 | `opening_soon` | `opens_on > today` |
+| 3 | `open` | (`opens_on <= today` or `opens_on is null`) and `closes_on >= today`; or the scholarship is rolling (`deadline_is_rolling = true`) with no `closes_on` and its page was read within 12 months |
+| 4 | `check_provider` | No `closes_on` and not rolling; or the only dates held belong to a past academic year |
+
+The closing day itself is `open` until the Melbourne date changes. A deadline the provider prints with its own time zone is compared on the Melbourne date all the same (one rule, stated to consumers). Refresh stays hourly (`scholarship-flow-guard` and `rollup-scheduler`); no new job. `closed` and `check_provider` scholarships stay published: P10 fails only when no status can be computed.
+
+**Promotion and withdrawal.** The promotion runs in the existing scholarship flow, in batches under the existing settings. Each promotion and each rule-withdrawal writes `pipeline.scholarship_sweep_changes` [V] with the predicate list. A scholarship under a manual lock on publication is never changed by rule.
+
+**What this settles.** The 48 candidates held on 23 Nov each fail one or more of P1 to P10; after Build reconciles the function, each either promotes or carries its failure labels, and the Layer 4 scholarship queue shows the label as its reason. The REQ-95 providers with no stored scholarship page are a discovery gap, not a publishability gap; they are out of this contract.
+
+**Acceptance (spec `s1001`).** A fixture of twelve scholarships, one failing each of P1 to P10 and two passing (one percentage "up to", one stipend), promotes exactly the two; the closing-day case is `open` at 23:59 Melbourne and `closed` at 00:00; no published scholarship has `current_status = 'open'` with a past `closes_on`.
+
+---
+
+### C. Layer 4 triage and supersede policy (IR-010, IR-004)
+
+#### C.1 Closed by rule (no person)
+
+An item is closed with status `superseded` or `closed_by_rule` and a rule name when its predicate holds. Every closure is logged with the rule name and is reversible from the log.
+
+| Rule | Predicate | Result |
+|---|---|---|
+| `l4-superseded-by-newer-read` | A later read of the same entity, field and source exists, from a current stored copy, by a reader version equal or newer, and the item has no manual lock, claim or human edit | Older item `superseded`; the newer one stands |
+| `l4-value-already-admitted` | The item's proposed value equals the active canonical value after normalisation (case, whitespace, currency format, date format), from any source | `closed_by_rule` |
+| `l4-duplicate-proposal` | Two pending items share entity, field, normalised value and evidence hash | The later one `closed_by_rule`; the earlier stands |
+| `l4-entity-retired` | The entity is no longer `active` (course, provider, campus, scholarship) or its source registration ended | `closed_by_rule`; reopened if the entity returns |
+| `l4-source-withdrawn` | The stored copy the item quotes was replaced and the quote is no longer on the current copy | `superseded`; the field is queued for a re-read from the current copy |
+| `l4-locked-field` | The field has a manual lock and the proposal differs from the locked value | `closed_by_rule`; the lock wins |
+| `l4-partial-admitted-remainder` | Every row of the item is admitted or held with a reason under A.5, and no held row is older than `layer4.sla_days` | Item stays open but leaves the "needs a person" count |
+
+Never closed by rule: the 5% AER audit sample; any item with a human edit or claim; any item in a queue listed in C.2; any item whose rule would change a value under a manual lock (7,585 locks stay untouched).
+
+#### C.2 A person decides (true human-decision items)
+
+Only these kinds: a choice between two valid, source-backed values (ties, conflicts between two official sources); an identity question (which provider owns a host or a name); a policy reading (regulated-discipline English holds); a lifecycle change proposed by a register (departures); the audit sample.
+
+#### C.3 Batch approval table
+
+One signature per row approves the row's **default decision for every item its query returns**, with the listed exceptions left in the queue. Counts are the last recorded figures.
+
+| Batch | Items (recorded) | Query that defines the batch | Default decision applied by rule on sign-off | Left for a person after sign-off | Undo |
+|---|---|---|---|---|---|
+| L4-B1 Primary-campus ties | 82 providers (AU 80, NZ 2), each with two or more campuses tied in different cities | Active providers with at least one active campus and none with `is_primary = true` [V] | Extend `security.campus_primary_tiebreak_v1` [V] with two further steps, in order: (d) the tied campus in the locality with the largest approved population figure; (e) the lowest register campus code, then the oldest record. `primary_basis` stays `highest_course_count`; the step used is kept in the audit row (`campus_primary_tiebreak`) | None: step (e) always decides | Clear the flag on Providers; audit row names every provider set |
+| L4-B2 Split postcodes | 160 postcodes (169 locality rows) | Postcodes whose best locality share is below `destination.postcode_primary_min_share` (0.9) [V] and that have no decision | Accept the locality with the largest share when that share is at least `destination.postcode_batch_min_share` [N setting; default 0.5] **and** leads the next by at least 0.2; `match_share` serves the true share | Postcodes below 0.5 or within 0.2 of the next: recorded as "no single locality" (campus `locality` stays null) unless a person chooses | `admin_destination_postcode_resolve` [V] per postcode |
+| L4-B3 Waiting campuses | 69 campuses | Campuses whose postcode is in L4-B2 | No decision of their own: each takes its postcode's outcome from L4-B2 | None | Follows L4-B2 |
+| L4-B4 Central English readings | 5 readings | Central English readings pending in Universities › English | Approve where the reading passes every machine row rule (verbatim quote, minimum in quote, mapped test by A.4, mapped level) and is not a regulated-discipline hold | Any regulated-discipline hold, and any reading that fails a row rule | Withdraw the reading |
+| L4-B5 CRICOS register departures | 701 registrations of the 11 Nov 2026 edition | Registrations active on the previous edition and absent from the 11 Nov edition, not yet applied | End-date the registration at the edition date where the same code is also absent from the next complete edition (two consecutive complete editions), the edition's row count is within 5% of the previous one, and the course has no manual lock. The course itself is not retired by this rule; it stops serving `recognition[]` | Departures seen in one edition only (they wait for the next edition); any locked course; any edition outside the 5% band | Restore the end date from the audit row (as RM1A-3 did for 1,596) |
+
+After sign-off the same rules keep running: a new tie, split postcode, reading or departure that meets the default is settled without returning to the Platform Admin. Only the "left for a person" column produces queue items.
+
+---
+
+### D. Australia (RM1A to RM1K)
+
+#### D.1 RM1C: QTAC (QLD) and TISC (WA) source contract (IR-007)
+
+What a plain read found on 23 Nov 2026 ($0, no Firecrawl, no browser automation):
+
+| Centre | Page | Result |
+|---|---|---|
+| QTAC | `https://www.qtac.edu.au/international-applications/` | Read. It states no application route for international applicants; it covers IB result handling and key dates |
+| QTAC | `https://www.qtac.edu.au/applying/how-to-apply` | States that its information is "only for domestic applicants applying for courses through QTAC" (already recorded under IR-007) |
+| QTAC | `https://www.qtac.edu.au/international-students` | Assessment of international Year 12 qualifications; no route statement |
+| TISC | `https://www.tisc.edu.au/` and its guide pages | Not read: the site refused the plain read (client error). No official TISC page with an international route was reached |
+| Not allowed as a source | University and school pages (for example a university saying its international Year 12 students apply through QTAC; school slides saying international students apply direct in WA) | Seen, not used: a rule about an admissions centre is quoted only from that centre or from a government page |
+
+Frozen contract for the two sources, in the shape of s960 (`destination.page_facts`, category `application_route`, scope "international student", `state_codes`) [V]:
+
+| Field | QTAC | TISC |
+|---|---|---|
+| Authority and allowed hosts | Queensland Tertiary Admissions Centre; `qtac.edu.au`, `www.qtac.edu.au`, `web.qtac.edu.au` | Tertiary Institutions Service Centre; `tisc.edu.au`, `www.tisc.edu.au` |
+| Allowed pages (exact, no crawl) | The three QTAC pages above | The home page and pages it links to on the same host whose address or title contains `international` or `overseas` (at most five) |
+| Read | Plain HTTP GET; robots.txt and crawl-delay honoured; one read a month; a challenge or refusal is reported and never bypassed | Same |
+| State scope | `AU-QLD` | `AU-WA` |
+| Match rule | A sentence on an allowed page that names international (or overseas, or student-visa) applicants **and** an application channel (apply through the centre, apply direct to the institution, or through an agent) | Same |
+| Outcome `route_captured` | A draft rule with the verbatim sentence, state applicability and the page address, as for UAC, VTAC and SATAC | Same |
+| Outcome `no_official_statement` | No sentence matches, or the page cannot be read. **No rule is written for the state.** The two national rules (apply directly; apply through an agent) already apply to QLD and WA, as they do to Tasmania. The source stays registered, is re-read monthly, and a later match creates a draft rule in a new edition | Same |
+| Never | A rule inferred from a domestic-only statement; a rule quoted from a university, school or agent page | Same |
+
+Result today: both are `no_official_statement`. The edition "Australian application routes (Study Australia and admissions centres)" is therefore complete as drafted: five rules, with QLD, WA and TAS covered by the two national rules. IR-007 closes on sign-off of row H-05; it does not hold the edition.
+
+#### D.2 Publish checklists
+
+**RM1C edition "Australian application routes" (IR-003).** In order; each is a server check or one recorded decision.
+
+| # | Check | Pass condition |
+|---|---|---|
+| 1 | Rows | Exactly five draft rules; category `application_route`; each has a quote, a page address and an evidence date within 35 days |
+| 2 | Applicability | AU ×2 (direct, agent); `AU-NSW` and `AU-ACT` (UAC); `AU-VIC` (VTAC); `AU-SA` and `AU-NT` (SATAC); none for QLD, WA, TAS |
+| 3 | Re-read | The static read run on the day of publishing finds all five quotes unchanged |
+| 4 | Terms | Recorded as **approved** with attribution: Study Australia (Australian Government) with its attribution text; UAC, VTAC and SATAC as short factual quotes with the centre named and linked. This is the Platform Admin's decision (row H-01) |
+| 5 | Approve rows | The five rules approved with one reason |
+| 6 | Publish | Publish edition; the server requires approved terms and at least one approved row |
+| 7 | Read back | v3 `destination` with `rule_category = application_route` returns five rules for AU with the applicability above; RM1K golden acceptance stays 10 of 10 |
+
+**RM1I Tasmania living costs (IR-008 approved).**
+
+| # | Check | Pass condition |
+|---|---|---|
+| 1 | Rows | 75 draft figures: 15 for each of 5 Tasmanian localities; each with attribution text, source address, weekly basis and AUD |
+| 2 | Scope label | Every figure is labelled Tasmania-wide (the source does not give city figures); no figure is presented as Hobart-specific |
+| 3 | Localities | The 5 localities are approved, or are approved in the same sign-off |
+| 4 | Terms | Recorded as approved with Migration Tasmania (Tasmanian Government) attribution (row H-02) |
+| 5 | Approve figures | Bulk approve the edition's drafts with one reason |
+| 6 | Publish | Publish edition |
+| 7 | Read back | v3 `destination` `localities[].metrics[]` returns the figures for the 5 localities with attribution; nothing for other states changes |
+
+#### D.3 RM1D: JSA attribution and the QILT gate
+
+**JSA careers rows (`destination.career_outcomes` [V], served as `destination.career_outcomes[]`).** A row is served only when all hold:
+
+| Field | Contract |
+|---|---|
+| `attribution` [V] | Not null and exactly: `Source: Jobs and Skills Australia, <dataset name>, <reference period>. Licensed under CC BY 4.0.` The licence text is as recorded on the edition; if the edition's recorded licence differs, the edition's text is used |
+| `dataset_edition`, `reference_period`, `source_url` [V] | Not null; `source_url` on `jobsandskills.gov.au` |
+| `occupation_scheme`, `occupation_code` [V] | Scheme as the dataset publishes it (`ANZSCO` or `OSCA`); the code as published, never crosswalked |
+| `geography_level` [V] | `national`, `state` or `locality` (decision G-1) |
+| `skill_shortage_status` [V] | `national_shortage`, `regional_shortage`, `no_shortage` or `unknown` |
+| Row and edition state | Row `approved` or `published`; edition `published`; edition terms `approved` |
+
+One JSA edition is current at a time: publishing a newer edition supersedes the older (existing rule). Earnings and employment figures keep their native unit and period.
+
+**QILT outcomes (`provider.outcomes[]`, `course.item.provider_outcomes[]` [V]).** The gate is one setting, `api.qilt_outcomes_released` [N; G2 setting, default `0`], read by the v3 read path only. v2 is frozen and unchanged.
+
+| Setting | v3 behaviour |
+|---|---|
+| `0` (default, until permission is recorded) | `provider_outcomes` and `outcomes` are returned as an **empty array**, never null and never omitted, so the shape does not change. Search filters on QILT measures return `INVALID_INPUT` naming the gate. No QILT figure, attribution or count is returned by any v3 action |
+| `1` | Rows are returned as held, each with QILT attribution. Turning it on requires a recorded permission (who, date, reference) entered as the reason; the change is logged |
+
+Permission landing is a setting change, not a release: no migration, no contract change, no developer change beyond rendering a non-empty array. If v3 already serves QILT rows live today, Build's change to an empty array under `0` is a behaviour change to announce to the developers before v3 freezes (row H-12).
+
+#### D.4 RM1G: teaching language and study load
+
+**Teaching language (`teaching_language`, ISO 639-1; defined in the v3 field definition, not yet served).**
+
+| Rule | Contract |
+|---|---|
+| Scope | Destinations where English is the sole language of instruction in the catalogue scope: AU, NZ, GB, IE, US. Canada is bilingual and is read per course |
+| AU, NZ, GB, IE, US | `teaching_language = 'en'` with `teaching_language_basis = 'destination_rule'` [N], unless the course page or register states another language, in which case that language with basis `provider_page` or `register` |
+| CA | `fr` when the provider is registered as francophone or the course title and page are in French and the register lists the programme in French; `en` when the provider is anglophone and nothing says otherwise; both codes (`["en","fr"]`) only when the page states bilingual delivery; otherwise null with no basis. Basis `register` or `provider_page` |
+| Never | Inferred from the provider's country alone for CA; inferred from an English-language requirement; a language-course's subject (a Bachelor of French taught in English is `en`) |
+| Shape | `teaching_languages` array of ISO 639-1 codes and `teaching_language_basis`, added to v3 `course` and `search` in dictionary issue 2. Empty array when not held |
+
+**Study load (`study_load` and `study_load_basis` [V]: `provider_page`, `register`, `register_rule`, `manual`).** Precedence, first that applies; a higher basis always replaces a lower one, and `register_rule` is replaced by any reading (existing rule):
+
+| Order | Basis | AU | NZ | CA |
+|---|---|---|---|---|
+| 1 | `manual` | A person decided | same | same |
+| 2 | `provider_page` | Read from the course page | same | same |
+| 3 | `register` | The register states the load | NZQA register states it | Provincial or DLI register states it |
+| 4 | `register_rule` | `full_time`: the course has an active CRICOS registration (live, s797) | `full_time` where the course is offered to international students by a Code of Practice signatory **and** is longer than 12 weeks | `full_time` where the provider is an active DLI **and** the programme is PGWP-eligible or a degree, diploma or certificate programme of at least 8 months |
+| – | null | Otherwise | Otherwise (short courses, English-language courses, micro-credentials) | Otherwise (continuing education, part-time-only certificates) |
+
+Why the NZ and CA rules are safe: a student visa (NZ) and a study permit with PGWP eligibility (CA) require full-time study, the same ground as the Australian rule. The rule states only `full_time`; `part_time` and `both` come only from a page or a register. NZ and CA rule values are counted separately in the daily admittance telemetry. RM1G closes when H-08 is signed, the two rules are live and teaching language is served.
+
+---
+
+### E. API v3 and developer pack freeze audit (RM0B, RM0E)
+
+Audit of `API-V3-FIELD-DEFINITION.md` (revision 0.3), the developer pack v3 (issue 1, 20 Nov 2026: 910 website fields) and the RM1K golden acceptance (10 of 10, s973), against what shipped after issue 1 and what this section adds. v3 is still open (Decision 277: additions only until the website records its go-live). Every item below is additive: no field is removed, renamed, retyped or narrowed.
+
+| # | Finding | Evidence | Action before freeze (dictionary issue 2, spec `s1006`) |
+|---|---|---|---|
+| E-1 | ARWU is live (s971, 22 Nov) but issue 1 has no `ranking_summary.arwu` field; `rankings.items[].system_code` is described without its allowed values | Dictionary CSV: 0 rows for `arwu`; `the_wur` and `qs_wur` only | Add `ranking_summary.arwu.{rank_display, rank_low, edition_year, terms_status}` on `course` and `provider`; state `system_code` values `qs_wur`, `the_wur`, `arwu` |
+| E-2 | `campuses[].primary_basis` allowed values list holds only `cricos_head_office`; the meaning text also names `highest_course_count`, and the data holds it | Dictionary seed row vs meaning text | Allowed values: `cricos_head_office`, `highest_course_count` |
+| E-3 | `teaching_language` is defined in the field definition (section 3) but the null placeholder keys were never deployed | Field definition deployed-state note | Add `teaching_languages` and `teaching_language_basis` (D.4) |
+| E-4 | `entry.resolution.empty_reason_code` | New in A.2 | Add with its four values; null allowed |
+| E-5 | `item.empty_reason_code` could be mistaken for the AER reason | X-1 | Meaning text states it is about campus and study mode only, and points to E-4 |
+| E-6 | `scholarship.item.current_status` | Values `open`, `closed`, `opening_soon`, `check_provider` [V] | Meaning text states the Melbourne-date rule (section B) and that the closing day is `open` |
+| E-7 | `scholarship.item.amount_is_maximum` | "True for up to amounts" | Meaning text states the upper-figure rule (P7) |
+| E-8 | QILT gate | D.3 | `provider_outcomes` / `outcomes`: state "empty array while QILT permission is not recorded" |
+| E-9 | `destination.study_rules[].applicability[].status` and `rule_category` | Allowed values missing or partial in the seed | State `proven`, `excluded`; and the six categories already in the meaning text |
+| E-10 | `destination.career_outcomes[].attribution` nullable "yes" | D.3 requires it | Nullable stays "yes" in the type (no narrowing); meaning states a served JSA row always carries it |
+| E-11 | `study_load_basis` | D.4 | Meaning states the NZ and CA `register_rule` grounds |
+| E-12 | The OpenAPI file describes actions and envelopes, not every field | OpenAPI holds no per-field entries for the names sampled | No change: the dictionary CSV is the per-field contract; the guide says so in issue 2 |
+| E-13 | Golden acceptance covers Australia in ten sections; it has no fixture for E-1 ARWU beyond the rankings section, for E-4 or for E-3 | `2026-11-22-rm1k-australia-golden-acceptance.md` | Add three golden rows: one step-5 course with a reason, one course with `teaching_languages`, and keep ARWU in the rankings row |
+
+**Freeze rule.** v3 freezes when: (1) dictionary issue 2 is generated from `ref.api_field_dictionary` with E-1 to E-11; (2) `security.api_usage_coverage_v1()` is empty; (3) golden acceptance passes with the E-13 rows; (4) the Platform Admin sends the developer email and the website records its go-live date. After freeze, a new field is a new minor issue of the dictionary; a removal, rename, retype or narrowed enum needs v4.
+
+**Enum growth rule (stated to developers in issue 2).** A consumer must treat an unknown enum value as "other" and must not fail. This is what makes the additions in this section non-breaking.
+
+---
+
+### F. New Zealand and Canada (RM2A, RM2B, RM4A to RM4C, IR-009)
+
+Everything below fits the schemas shipped in Pilot #1155 and #1194: `catalogue.course_registrations` (`registration_scheme`, `registration_code`), `catalogue.course_field_observations`, `ref.registration_schemes` (schemes `nzqa`, `nzsced`, `cip`, `ircc_dli`, `pgwp`, `mtcu` already registered) [V]. No table, column or constraint is added.
+
+#### F.1 Classification codes
+
+| Scheme | Source of the code | Stored | Served in v3 | Rule |
+|---|---|---|---|---|
+| NZQCF (recognition) | NZQA qualifications search per provider: qualification number, title, type, level, status | `catalogue.course_registrations`, scheme `nzqa`, code = qualification number | `recognition[]` `{scheme: "NZQCF", code, status: "listed"}` | Matched by qualification number only. Of the stored codes, the four-digit ones are candidates; provider-style codes (for example `AC1062`) are provider codes, not NZQCF numbers, and are never served as recognition. Served only for a current (not expiring, not discontinued) qualification |
+| NZSCED (field of study) | The NZQCF record's own NZSCED code | `catalogue.course_field_observations`, scheme `nzsced`, with level `broad` (2 digits), `narrow` (4) or `detailed` (6) by code length | `field_of_study_codes[]` `{scheme: "NZSCED", level, code, name, rank}` | Native only. A course with no NZQCF match has no NZSCED code |
+| CIP (field of study, Canada) | The provincial or institutional register's own CIP code where it prints one; Statistics Canada CIP Canada 2021 names | `catalogue.course_field_observations`, scheme `cip`, level `series` (2 digits), `subseries` (4, `NN.NN`) or `class` (6, `NN.NNNN`) | `field_of_study_codes[]` `{scheme: "CIP", level, code, name, rank}` | Native only. A CIP code is never derived from a programme title. `pgwp` eligibility stays a separate scheme and is matched to a course only by a CIP code the register itself prints |
+
+**Normalisation (deterministic).** NZSCED: digits only, left-padded to an even length of 2, 4 or 6; anything else is rejected with `code_malformed`. CIP: `NN`, `NN.NN` or `NN.NNNN` after removing spaces; a five-digit `NN.NNN` is rejected, not padded. Names come from the scheme's reference rows, never from the page.
+
+**The one mapping table: NZQCF level to platform study level.** A level mapping, not a subject crosswalk.
+
+| NZQCF level | Qualification type as registered | Platform study level |
+|---|---|---|
+| 1 to 4 | Certificate | certificate (level kept as printed) |
+| 5 to 6 | Diploma | diploma |
+| 5 to 6 | Certificate | certificate |
+| 7 | Bachelor's degree | bachelor |
+| 7 | Diploma | diploma |
+| 7 | Graduate certificate, graduate diploma | graduate_certificate, graduate_diploma |
+| 8 | Bachelor honours degree | bachelor_honours |
+| 8 | Postgraduate certificate, postgraduate diploma | graduate_certificate, graduate_diploma |
+| 9 | Master's degree | masters_coursework, or masters_research where the register type says research |
+| 10 | Doctoral degree | doctorate |
+
+Level **and** type decide the row; a pair not in the table is held `level_unmapped`. Platform level codes are those in the live study-level reference; Build confirms each code exists before seeding and seeds no new level. For Canada the credential type as the register prints it maps the same way through the existing study-level reference; no CIP code decides a level.
+
+Reuse terms: NZQA material is CC BY 4.0 with credit; commercial reuse of NZQCF details is a management flag, not an admission gate (standing rule). It is row H-10.
+
+#### F.2 Courses with no campus link (IR-009)
+
+Contract for every active NZ and CA course with no `catalogue.course_campuses` row. Evaluated in order; the first that applies sets `catalogue.courses.empty_reason_code` [V] or links a campus. Only the five live values are used.
+
+| Order | Condition | Result |
+|---|---|---|
+| 1 | The course is delivered online only | `online_only_no_campus`; no campus |
+| 2 | The provider has exactly one active campus | Link that campus as primary (live rule, s818); reason cleared |
+| 3 | The course page or the provider's own course list names one or more of the provider's campuses | Link those campuses; reason cleared |
+| 4 | A current stored copy of the course page was read and names no campus, and the provider has two or more campuses | `not_published_by_provider` — **final** (row H-09). `campuses[]` on the course is empty; the consumer shows the provider's campuses from the `provider` action |
+| 5 | No stored copy, or the copy is stale | `pending_extraction` |
+| 6 | The source refuses reads or is on hold | `source_unavailable` |
+| 7 | The course is not on the register's current edition | `not_listed_on_register` |
+
+Fallback served to consumers (no new field): for a course with `not_published_by_provider`, the course's `campuses[]` is `[]` and `empty_reason_code` says why; the `provider` action's `campuses[]` (with `is_primary`) is the fallback list. A provider campus is never copied onto the course as if the course ran there: the register (NZQA, DLI) lists sites, not course-to-site links.
+
+Default if H-09 is not signed: the same contract, with reason 4 treated as final. Rendered (Firecrawl) reads of per-course pages stay off ($0 rule) and are a separate, costed decision.
+
+---
+
+### G. Wave 2: UK (RM3A), Ireland (RM5A), USA (RM6A) (IR-006)
+
+Each source is a row in `pipeline.sources` with its `pipeline.layer1_source_operations` row [V], built from the draft already staged in `pipeline.layer1_source_inductions` (nine drafts, Pilot #1228) [D]. Readers run through `layer1-declarative-runner` with a parser spec; no country-prefixed table (spec s627), no new table.
+
+#### G.1 Layer 1 adapter contracts
+
+| Source (scheme key [V]) | Authority and allowed hosts | Form and read | Unique key | Target table and columns | Cadence | Admission proof |
+|---|---|---|---|---|---|---|
+| OfS Register (`uk_ofs`) | Office for Students; `officeforstudents.org.uk` | Register download (spreadsheet), plain GET | UKPRN | `catalogue.providers` (name, `country_id` GB); `catalogue.provider_registrations` (`registration_scheme = 'uk_ofs'`, `registration_code` = UKPRN, `provider_classification` = registration category, status and dates) | Check weekly; load monthly | Row count within 5% of the last edition; every UKPRN 8 digits; England only (the register's scope) recorded as coverage |
+| UKVI Register of Licensed Sponsors: Students (`uk_ukvi`) | Home Office; `gov.uk`, `assets.publishing.service.gov.uk` | CSV, plain GET | Sponsor name + town (the register has no UKPRN) | `catalogue.provider_registrations` (`registration_scheme = 'uk_ukvi'`, code = register row key, classification = sponsor status); never creates a provider | Check daily; load weekly | A sponsor row joins a provider only by an attested UKPRN match from another source or an accepted mapping; name-only matches are held |
+| HESA / Discover Uni (`uk_hesa`, field scheme `hecos`) | HESA (Jisc); `hesa.ac.uk`, `discoveruni.gov.uk` | Dataset download (XML or CSV), plain GET | UKPRN + course identifier (KISCOURSEID) + mode | `catalogue.courses` (title, level, `delivery_mode`, `study_load`); `catalogue.course_registrations` (`uk_hesa`); `catalogue.course_field_observations` (`hecos`, native codes) | Check monthly; load per publisher release | Undergraduate scope stated as coverage (the dataset is undergraduate); postgraduate comes from provider pages later |
+| Irish Register of Qualifications (`ie_qqi`) | QQI; `irq.ie`, `qqi.ie` | Register pages or download, plain GET | Provider ID; programme / award ID | `catalogue.providers`, `catalogue.provider_registrations` (`ie_qqi`); `catalogue.courses`, `catalogue.course_registrations` (`ie_qqi`, code = award ID, NFQ level kept) | Check weekly; load monthly | Awarding body and NFQ level present on every programme row |
+| ILEP (`ie_ilep`) | Department of Justice (Irish Immigration Service); `irishimmigration.ie` | Published list (PDF or spreadsheet), plain GET | Provider name + programme title + award | `catalogue.course_registrations` (`ie_ilep`, work-and-visa eligibility); never creates a course | Check weekly; load per publication | Marked deprecating: moves to the TrustEd Ireland list when that replaces ILEP; a programme not matched to an IRQ award is held |
+| IPEDS institution directory (`us_ipeds`, with `us_opeid`) | NCES; `nces.ed.gov` | Annual CSV (HD file), plain GET | UNITID | `catalogue.providers` (name, `country_id` US); `catalogue.provider_registrations` (`us_ipeds` = UNITID; `us_opeid` = OPE ID from the same file); `catalogue.campuses` (address, state, postcode) | Check monthly; load annually and on a revised release | Bachelor-or-higher institutions only (scope filter stated as coverage) |
+| IPEDS completions (`us_ipeds_completions`, field scheme `cip`) | NCES; `nces.ed.gov` | Annual CSV (C file), plain GET | UNITID + CIP code + award level | `catalogue.course_field_observations` (`cip`) at provider grain as programme evidence; **never** creates a current course listing | Annual | Completions are historical output: a current course needs the institution's own page |
+
+Every source: robots.txt honoured; a challenge or refusal reported, never bypassed; terms recorded on the source and approved by a person before any edition is published (REQ-68); first run is a dry-run preview; activation saves the source paused; a partial fetch never retires rows; identity joins across registers are by attested identifier only.
+
+Wave 2 destination sources (population, climate, visa rules, careers) for GB, IE and US are already registered (s715) and are outside this table.
+
+#### G.2 AI Auto-Map budget schedule (for approval, IR-006)
+
+AI Auto-Map proposes a field mapping and parser spec from a sample file; a person accepts every mapping. It runs on the pinned route `layer1_induction_map` (one qualified model; no auto-routing). The schedule is a **ceiling**, enforced by the route's cap; it is not an estimate of spend.
+
+| # | Source | Attempts allowed | Ceiling per attempt (US$) | Ceiling (US$) |
+|---|---|---|---|---|
+| 1 | OfS Register | 2 | 0.50 | 1.00 |
+| 2 | UKVI Register of Licensed Sponsors | 2 | 0.50 | 1.00 |
+| 3 | HESA / Discover Uni dataset | 3 | 0.75 | 2.25 |
+| 4 | Irish Register of Qualifications: providers | 2 | 0.50 | 1.00 |
+| 5 | Irish Register of Qualifications: programmes | 3 | 0.75 | 2.25 |
+| 6 | ILEP | 3 | 0.75 | 2.25 |
+| 7 | IPEDS institution directory | 2 | 0.50 | 1.00 |
+| 8 | IPEDS completions | 2 | 0.50 | 1.00 |
+| 9 | Contingency (any one source, one further attempt each, at most four) | 4 | 0.75 | 3.00 |
+| | **Total ceiling** | **23 attempts** | | **US$14.75** |
+
+Rules: the route's daily cap is set to the total and its per-call cap to US$0.75 for the duration; an attempt that would exceed a ceiling is refused, not queued; every attempt is a row in `pipeline.ai_invocations` [V]; the budget ends when the eight sources are activated or 30 days after approval, whichever is first, and the cap returns to zero; no Firecrawl; nothing is admitted by a model. If the ceiling is not approved, the mappings are written by hand from the sample files at $0 and the lane proceeds.
+
+---
+
+### H. Platform Admin sign-off checklist
+
+One table. Each row is a yes or no. "Default if unsigned" is what the design already assumes, so Build never waits.
+
+| Row | Request | Decision asked | Default if unsigned | Effect of yes |
+|---|---|---|---|---|
+| H-01 | IR-003 | Record the "Australian application routes" edition's terms as approved (D.2), approve its five rules and publish | Edition stays draft; nothing served | RM1C delivered for five routes |
+| H-02 | IR-008 | Record the Tasmania living-costs edition's terms as approved, approve 75 figures and 5 localities, publish (D.2) | Stays draft | RM1I living costs delivered for Tasmania |
+| H-03 | IR-004 | Approve batch L4-B5: end-date CRICOS departures seen in two consecutive complete editions (C.3) | The 701 stay pending | RM1A register departures settle by rule from now on |
+| H-04 | IR-010 | Approve batches L4-B1 to L4-B4 with their defaults (C.3) | The 82, 160, 69 and 5 stay in the queues | The four queues clear to their "left for a person" remainder |
+| H-05 | IR-007 | Accept `no_official_statement` for QTAC and TISC: no state rule; national rules cover QLD and WA; monthly re-read (D.1) | Same (already assumed) | IR-007 closed; RM1C not held |
+| H-06 | IR-006 | Approve the AI Auto-Map ceiling of US$14.75 over 23 attempts, 30 days (G.2) | $0: mappings by hand | Wave 2 mappings proposed by the model, accepted by a person |
+| H-07 | New (IR-017) | Adopt this section as the frozen contract, including the additive v3 fields (E-1 to E-11) | Build proceeds on sections A to G except new v3 fields, which wait | Dictionary issue 2 and v3 freeze can proceed |
+| H-08 | New (IR-018) | Approve the NZ and CA `register_rule` study-load grounds and the teaching-language rule (D.4) | NZ and CA loads come from pages and registers only; teaching language not served | RM1G closes |
+| H-09 | IR-009 | Accept `not_published_by_provider` as final for NZ and CA course-campus links, with the provider's campuses as the consumer fallback (F.2); rendered reads stay off | Same (already assumed) | IR-009 closed; RM2A and RM4B move to Delivered on that basis |
+| H-10 | New (IR-019) | NZQA: note the commercial-reuse flag as accepted for citing NZQCF details with credit, or instruct an application to NZQA (F.1) | Admission proceeds with credit (standing rule) | Flag closed |
+| H-12 | New (IR-020) | QILT gate (D.3): add the setting `api.qilt_outcomes_released`, default off, so v3 returns no QILT figure until permission is recorded. If v3 serves QILT rows today, this withdraws them from v3 until then | v3 behaviour unchanged; QILT figures are not to be shown by the website (REQ-68) | QILT is gated in the API, not only by agreement |
+| H-11 | IR-001 | Confirm the `S2-RM-Design` lane and its boundaries in the master plan | Lane stays as recorded | IR-001 can close for this lane |
+
+Requests IR-005, IR-011, IR-012, IR-013, IR-014, IR-015 and IR-016 are already decided or delivered and need nothing here. IR-002 is delivered.
+
+### What Build does with this section
+
+| Order | Work | Section | Spec | Needs |
+|---|---|---|---|---|
+| 1 | Scholarship publishability reconcile and promotion | B | `s1001` | Nothing (in-place function edit) |
+| 2 | Table reader rules N1 to N9 and the CDU re-read | A.3, A.4 | `s1000` | Nothing ($0, stored copies) |
+| 3 | Layer 4 close-by-rule predicates | C.1 | `s1002` | Nothing |
+| 4 | Layer 4 batches | C.3 | `s1002` | H-03, H-04 |
+| 5 | NZ and CA campus reasons; NZQCF, NZSCED, CIP loads | F | `s1007` | Nothing (H-09 default) |
+| 6 | Resolver reason, teaching language, QILT gate, dictionary issue 2 | A.2, D.3, D.4, E | `s1000`, `s1004` to `s1006` | H-07, H-08, H-12 |
+| 7 | Wave 2 source activation | G | `s1008` | Terms per source; H-06 or hand mapping |
 
 ## Design references
 
