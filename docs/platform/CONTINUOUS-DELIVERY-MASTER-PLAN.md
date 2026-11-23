@@ -93,7 +93,8 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s995` | S2-INT | Intake queue loop (read-only classification, no code or data change): each provider is read against live data and set DONE or HELD with a reason code | Done (Admin #834 to #839): queue has 0 PENDING rows |
 | `s996` | S1-RM-Design | AER v2 proven-structure reader: horizontally merged cells in the aligned-grid PDF reader (University of Auckland A-I and J-Z), then HTML_TABLE batch (Monash, Melbourne, Macquarie); Standing Authority Charter 23 Nov 2026 18:52 | Claimed (next S1-RM-Design chat) |
 | `s997` | S1-Build | Shared v1.1 UI backend prerequisites (MOCKUP-SPEC v1.1 sections 2 and 5; Platform Admin 23 Nov 2026 18:55): budget cap on `admin_boost_queue_read` (Dry-Lane banner) with the G2 setting `budgets.paid_daily_cap_usd` (US$5.00); per-user saved courses with RLS, toggle and `is_saved` (REQ-115); Study Square partner contacts with active and inactive counts (REQ-116 / REQ-22) | Pilot PR to follow (rehearsed) |
-| `s998` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s998` |
+| `s998` | S1-API-Frontend-Delivery | Layer 4 Review description diff: Proposed value and Live value now share the row in equal columns (CSS and wrapper class only, Platform Admin 23 Nov 19:49) | Pilot (this change) |
+| `s999` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s998` |
 | `s1000` | S2-RM-Design | Platform Admin Priority 1, 23 Nov 12:29 (AER admission recovery) | Open, Pilot #1491 |
 | `s1001`, `s1002`, `s1004` to `s1008` | S2-Build | Handed by S2-RM-Design, 23 Nov 12:10 (design v1.12) | Not started |
 | `s1003` | Unassigned | RM1C and RM1I publish checklists (Platform Admin decides the lane) | Open |
