@@ -1,6 +1,10 @@
 # StudySearch – current state (read this first)
 
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
+**S1-Build, 24 Nov 2026 11:30 AEDT: s1025 live (Pilot #1530); s1027 Firecrawl Monitor recorded before merge.**
+- **s1025 (live):** in-app counsellor feedback backend; read back: head `20261124115000`, three policies, ten categories, both RPCs, Inbox kind listed; G3 75/48; locks 7,585; cron 134.
+- **s1027 (pending merge):** Firecrawl Monitor webhook and watchlist (8 universities, 2 search monitors, 124 of 150 credits a week). Changes are archived first, then sent to Layer 4 or Locked Field Update; nothing is admitted by the machine. Also fixes s1020: gate items are no longer rerouted to the adapter.
+
 **S1-Build, 24 Nov 2026 10:30 AEDT: role-specific UAT accounts wired; s1025 counsellor feedback recorded before merge.**
 - **UAT:** rank 6, 4 and 2 accounts are used by the deployed runs; the Layer 1 boundary check passes as rank 4. Deployed specs broken by the v1.1 Admin shell (s999) are with S1-API-Frontend-Delivery.
 - **s1025 (pending merge):** in-app counsellor feedback backend (slice 7); triage in the Layer 4 Inbox kind *Counsellor feedback (in app)*. Screens with S1-API-Frontend-Delivery.

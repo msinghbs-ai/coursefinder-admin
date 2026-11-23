@@ -173,3 +173,5 @@ Both fixes ship in one Pilot pull request (S1-Build, `s1018`). No gate is weaken
    - It runs on pull requests that change: its workflow; the provider-description worker (`supabase/functions/coverage-sweep/`); the archived and current provider-description migrations and prompts; the `pdesc` and provider-description fixtures; its own contract and Playwright specs; the provider-description source files.
    - Every spec it runs is also in the full Test evidence suite on every pull request, so nothing loses coverage.
 
+
+- **Status (24 Nov 2026 11:30 AEDT).** Built and rehearsed as s1027 (S1-Build). Unlocked changes go to Layer 4 for a person (Platform Admin decision "Layer 4 review", 24 Nov); locked fields to Locked Field Update; every change archived with its SHA-256 first. Watchlist 26 targets, 124 of 150 credits a week. Status read `public.admin_monitor_status_v1`; screen with S1-API-Frontend-Delivery.
