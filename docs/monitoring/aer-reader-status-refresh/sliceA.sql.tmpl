@@ -1,0 +1,57 @@
+-- Read-only diagnostic (S1-Build AER reader status register); rolled back, never merged.
+-- Replaces: nothing
+-- Retires: nothing
+do $d$
+declare o text;
+begin
+with prov as materialized (
+  select p.id, co.iso_alpha2::text cc, coalesce(pt.code,'') ptype, regexp_replace(coalesce(p.display_name,p.canonical_name),'[|~"\\]',' ','g') name,
+         coalesce((select i.identifier from catalogue.provider_identifiers i where i.provider_id=p.id and i.scheme = case co.iso_alpha2::text when 'AU' then 'cricos' when 'NZ' then 'nzqa' else 'ircc_dli' end order by i.is_primary desc nulls last, i.identifier limit 1),'') code
+    from catalogue.providers p join ref.countries co on co.id=p.country_id left join ref.provider_types pt on pt.id=p.provider_type_id
+   where co.iso_alpha2::text in ('AU','NZ','CA') and exists(select 1 from catalogue.courses c where c.provider_id=p.id and c.lifecycle_status='active')
+   order by p.id offset @OFF@ limit @LIM@),
+crs as materialized (select c.id, c.provider_id, c.study_level_id from catalogue.courses c join prov on prov.id=c.provider_id where c.lifecycle_status='active'),
+lv as (select l.id, array_remove(array[l.id] || array(select l2.id from jsonb_array_elements_text(coalesce(security.toolset_setting('pipeline', 'entry.level_equivalents'), '[]'::jsonb)) q join ref.study_levels l2 on l2.short_code = split_part(q, '=', 2) where split_part(q, '=', 1) = l.short_code), null) ids from ref.study_levels l),
+pm as (select m.provider_id, array_agg(distinct x) levels from catalogue.provider_entry_matrix m cross join lateral unnest(array_remove(array[m.study_level_id], null) || coalesce(security.entry_label_levels_v1(m.level_label), '{}'::uuid[])) x
+        where m.provider_id in (select id from prov) and m.status = 'active' and m.course_id is null and m.matrix_kind = 'provider_minimum' and m.min_grade is not null and m.grade_scale is distinct from 'none' group by 1),
+cov_old as materialized (
+  select c.id from crs c join lv on lv.id = c.study_level_id join pm on pm.provider_id = c.provider_id and pm.levels && lv.ids
+  union select m.course_id from catalogue.provider_entry_matrix m where m.course_id in (select id from crs) and m.status = 'active' and m.min_grade is not null and m.grade_scale is distinct from 'none'
+  union select r.course_id from catalogue.course_entry_requirements r where r.course_id in (select id from crs) and r.status = 'active' and r.kind = 'override' and r.audience in ('international', 'all') and (r.min_grade is not null or r.min_entry_score is not null)),
+cov_new as materialized (
+  select r.course_id id from catalogue.course_entry_requirements r where r.course_id in (select id from crs) and r.status = 'active' and r.kind in ('minimum_grade', 'prior_qualification', 'subject_prerequisite') and r.audience in ('international', 'all')
+     and r.evidence_id is not null and nullif(btrim(r.quote), '') is not null
+     and not (r.min_entry_score is not null and (coalesce(r.min_entry_score_basis, '') ~* '(\mage\M|years? (old|of age)|years (or|and) (over|older|above))' or r.quote ~* '(minimum age|years of age|years old)'))),
+cov as (select id from cov_old union select id from cov_new),
+off as (select distinct l.course_id from catalogue.course_links l where l.course_id in (select id from crs) and l.link_type='official_course' and l.status='active'),
+pg as materialized (select cp.course_id, cp.url, cp.http_status, cp.read_at from pipeline.coverage_course_pages cp where cp.course_id in (select id from crs)),
+shr as (select distinct pg.course_id from pg where pg.url is not null and exists(select 1 from pipeline.coverage_course_pages x where x.url=pg.url and x.course_id<>pg.course_id)),
+l4 as materialized (
+  select i.id, coalesce(c.provider_id, i.entity_id) provider_id, i.field_code,
+         (select a.reason_code from pipeline.aer_machine_admissions a where a.review_item_id=i.id order by a.created_at desc limit 1) rc
+    from pipeline.layer4_review_items i left join catalogue.courses c on c.id=i.entity_id and i.field_code='course_entry_first_read'
+   where i.status='pending' and i.field_code in ('course_entry_first_read','entry_matrix_first_run','entry_matrix_change')
+     and coalesce(c.provider_id, i.entity_id) in (select id from prov)),
+src as (select s.provider_id, count(*) filter (where s.status='read') nread, count(*) filter (where s.status not in ('read','inactive')) nother,
+               count(*) filter (where s.status='robots_disallowed' or s.http_status in (403,429)) nblk, max(s.read_at) rd
+          from pipeline.entry_matrix_sources s where s.provider_id in (select id from prov) group by 1),
+rows as (
+  select p.id::text||'|'||p.cc||'|'||p.ptype||'|'||p.code||'|'||p.name||'|'||
+    (select count(*) from crs where crs.provider_id=p.id)||'|'||
+    (select count(*) from crs where crs.provider_id=p.id and crs.id in (select id from cov))||'|'||
+    (select count(*) from crs where crs.provider_id=p.id and crs.id in (select course_id from off))||'|'||
+    (select count(*) from crs where crs.provider_id=p.id and crs.id in (select course_id from shr))||'|'||
+    (select count(*) from crs where crs.provider_id=p.id and crs.id not in (select course_id from off) and not exists(select 1 from pg where pg.course_id=crs.id and pg.url is not null))||'|'||
+    (select count(*) from l4 where l4.provider_id=p.id and l4.rc is not null)||'|'||
+    (select count(*) from l4 where l4.provider_id=p.id and l4.rc is null)||'|'||
+    coalesce((select rc from l4 where l4.provider_id=p.id and rc in ('all_rows_held','gate_incomplete','identity_not_admitted','no_bound_page','active_rows_exist') group by rc order by count(*) desc, rc limit 1),'NONE')||'|'||
+    (select count(*) from crs where crs.provider_id=p.id and crs.id in (select id from cov_new) and crs.id not in (select id from cov_old))||'|'||
+    coalesce(to_char(greatest((select max(d.read_at) from pipeline.aer_det_pages d where d.course_id in (select id from crs where crs.provider_id=p.id)), (select rd from src where src.provider_id=p.id),
+                              (select max(a.created_at) from pipeline.aer_machine_admissions a where a.provider_id=p.id)) at time zone 'UTC','YYYY-MM-DD"T"HH24:MI"Z"'),'')||'|'||
+    (select count(*) from pg join crs on crs.id=pg.course_id where crs.provider_id=p.id and pg.http_status is not null)||'|'||
+    (select count(*) from pg join crs on crs.id=pg.course_id where crs.provider_id=p.id and pg.http_status in (403,429))||'|'||
+    coalesce((select nread||'|'||nother||'|'||nblk from src where src.provider_id=p.id),'0|0|0') r
+  from prov p)
+select 'A@K@~' || coalesce(string_agg(r, '~'),'') into o from rows;
+perform set_config('cf.diag', o, true);
+end $d$;

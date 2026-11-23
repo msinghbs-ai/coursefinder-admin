@@ -27,7 +27,7 @@
 | `aer_pending_queue_count` | Pending Layer 4 AER items not yet checked |
 | `l4_blocker_reason` | The most common held reason among the provider's pending items: `all_rows_held`, `gate_incomplete`, `identity_not_admitted`, `no_bound_page` or `active_rows_exist`. `NONE` if there is none |
 | `last_reader_run_utc` | The latest of: the deterministic AER page read, the source read, and the machine check |
-| `daily_admitted_delta` | `n/a` on this first snapshot; from the next one, the change in `aer_admitted_courses` against the previous CSV |
+| `daily_admitted_delta` | The change in `aer_admitted_courses` against the previous CSV on `main` (a signed whole number, `0` when unchanged); `new` for a provider with no row in the previous CSV; `n/a` only on the first snapshot |
 
 ## `reader_status`
 
@@ -39,3 +39,7 @@ Rules are applied in this order. The first match wins.
 4. **Stuck in Layer 4:** a source (`Yes` or `Draft`), pending Layer 4 items, and either under 25% admitted or a blocking reason (`all_rows_held`, `gate_incomplete`, `identity_not_admitted`, `no_bound_page`).
 5. **Partial - Low Confidence:** anything else with at least one course admitted. This includes 80% or more with Layer 4 items still open, and course-page admission without a registered source.
 6. **No Reader Yet** (remainder): a source is registered but nothing is admitted and nothing waits in Layer 4.
+
+## Daily refresh
+
+The register is refreshed every day at 08:00 AEDT by `S1-Build`'s scheduled task (Platform Admin, 23 Nov 2026 16:33). Runbook and scripts: [`aer-reader-status-refresh/`](aer-reader-status-refresh/README.md). The reads are rolled-back dry runs that start only when the shared dry-run queue is clear; nothing is applied.
