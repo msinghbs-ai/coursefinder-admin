@@ -155,3 +155,16 @@ Consumer API G3 (75 functions, 48 relations) frozen (`s57`), reads use additive 
 ## 5. Delivery rule for this plan
 
 Each port is a Pilot PR preceded by its Admin PR (register, UI map, plan row). A legacy CSS file is deleted only in the PR after which the import graph shows no importer. Status is kept in `CONTINUOUS-DELIVERY-MASTER-PLAN.md` (Lane 1 status log).
+
+## 6. CI efficiency and gate integrity (Platform Admin decision, 24 Nov 2026 06:15 AEDT)
+
+Both fixes ship in one Pilot pull request (S1-Build, `s1018`). No gate is weakened, removed or made optional.
+
+1. **Test evidence is no longer cancelled by a label.** Adding a label to a pull request (for example `automerge`) started a Test evidence run, whose concurrency cancelled the evidence run already going and left skipped placeholder checks on the commit. Merges then waited on re-runs, and a skipped placeholder could look like the latest check.
+   - Test evidence runs on `opened`, `synchronize`, `reopened` and `ready_for_review` only (no `labeled`), and a new push still cancels the older run.
+   - The label `full-suite-evidence` keeps its meaning through a small separate workflow, `test-evidence-label.yml`: it acts only for that label and starts Test evidence by `workflow_dispatch` with the pull request number (the existing hand-started path).
+   - No other label starts, cancels or adds a check to Test evidence.
+2. **Provider description isolated acceptance runs when its inputs change.** The gate stays.
+   - It runs on pull requests that change: its workflow; the provider-description worker (`supabase/functions/coverage-sweep/`); the archived and current provider-description migrations and prompts; the `pdesc` and provider-description fixtures; its own contract and Playwright specs; the provider-description source files.
+   - Every spec it runs is also in the full Test evidence suite on every pull request, so nothing loses coverage.
+
