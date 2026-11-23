@@ -274,3 +274,12 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Firecrawl window (Platform Admin 17:49):** not opened. s976's zero total refuses on-demand spend too, so a window needs `firecrawl.daily_budget_total` raised. That is S3's setting and a Platform Admin decision.
 - **TEST-REGISTER** regenerated (961 specs, 4,400 tests): s985 to s989, s992 and s1000; s990 joins when Pilot #1498 merges.
 - **Queue:** Charles Darwin and Lincoln stay `CLAIMED:S2-Build` (s992) until the live read-back after deploy.
+
+**S2-Build, 23 Nov 2026 19:35 AEDT: s992 live (Pilot #1500, merged 19:13, deployed 19:15; migration renumbered to `20261123200000` after S2-INT s994 took `20261123190000`); parked.**
+- **Live read-back 19:25:** `lanes.stored_first_on` is 0. Worker v1.0.35 read both new Charles Darwin listing sources directly ($0, 2 items each). The only linked award is Australia Awards, already held; the Global Merit and International College awards are printed in sections with no per-award link. Lincoln #10's direct copy gave no items, fell back to the scraper and was refused (`waiting_scraper`); an earlier scraper read found only 2 items, so Firecrawl would not fix it. The next S2-Build step is a heading-based award splitter that feeds each section to the two-part read.
+- **Cut-off escalation live:** 3 cut answers since 14:30 and 1 next-model item queued as `sectioned-v1`.
+- **Stuck items:** the 39 admit items were tried directly, did not open, and wait 30 minutes ($0).
+- **Published:** 1,081 (1,078 this morning; Torrens +2). G3 75/48 with no drift; locks 7,585; active cron 136; scholarship AI $0.01 in 12 hours; Firecrawl $0.
+- **Firecrawl window (Charles Darwin and Lincoln):** not opened. S3 s976's zero total refuses on-demand spend, and the blocker is the page layout, not fetching.
+- **Queue:** both rows stay `CLAIMED:S2-Build` (s992) with notes, because the section splitter continues them.
+- **Docs:** design doc section 10 mirrors Drive blueprint Section 6 (Platform Admin 18:48). TEST-REGISTER regenerated from Pilot main (965 specs, 4,419 tests; adds s990 and s994).
