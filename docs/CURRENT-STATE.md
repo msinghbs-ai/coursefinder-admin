@@ -7,6 +7,17 @@
 - **Live (23 Nov 2026 20:08 AEDT):** Pilot #1504 merged 20:05 (Deploy on merge and Security gates green); `coverage-sweep` redeployed 20:05:42 AEDT (version 348, no migration, worker version string unchanged). **Not yet done:** the two Auckland entry-matrix runs (`entry_matrix_runs` `838d1a42` A-I and `498a46c6` J-Z) are still `failed` with the old page-2 error (cost 0, 28 Oct). Re-reading them goes through `entry_ai` with `openai/gpt-4.1-mini` (a few cents), which is not the $0 re-run asked for; a decision is open (see the S1-RM-Design hand-off). Exact one-to-one abbreviation expansions (`B`, `M`, `Hons`, `GradDip`) go to Layer 4 cards, never to machine admission. Queue: Auckland `CLAIMED:S1-RM-Design` (s996).
 - **Guardrails:** G3 75/48 untouched; locks 7,585; cron unchanged; $0; no migration in this change (live head `20261123200000`).
 
+**S1-Build, 23 Nov 2026 21:00 AEDT (Platform Admin 20:38): hardening slice from the architecture audit bundle.**
+- **Row-level security:** s1011 turns it on for the 93 tables that had it off. The audit named 13; the live catalogue holds 93, including `private.zoho_integration_credentials` and `private.zoho_integration_rate_windows`. All 93 are owned by `postgres` and read only by `postgres`-owned definer functions or bypass roles, so no read or write changes. `ref.nationality_terms` keeps its read for signed-in users through a policy.
+- **saved_courses:** its policies use `(select auth.uid())`.
+- **Indexes:** two foreign-key indexes are added (`course_entry_requirements.country_id`, `provider_entry_matrix.study_level_id`).
+- **Pending paste file:** `docs/paste/PASTE-20261123-s1011-duplicate-indexes-drop.sql` drops the three exact duplicate indexes. It is for the Platform Admin to run.
+- **Live telemetry:** `docs/platform/2026-11-23-live-telemetry-readback.md` (settings, guardrails, RLS, indexes, dead tuples, largest tables).
+- **Governance:**
+  - Section 3a and the queue use S1 lane names (6 claims renamed; their specs unchanged).
+  - The design has one section 10 (the charter) and one matrix (section 11).
+  - The CI job `Provider queue check` enforces the queue's shape, HELD codes and single writer per column, with S2 names accepted as aliases.
+
 **S1-Build, 23 Nov 2026 20:20 AEDT (Platform Admin 19:59 and 20:03): Deployed UAT cause found; s997 merging; s1010 claimed.**
 - **Deployed UAT red on Pilot `main`, including `af26ad7` (s992):** every sign-in by the UAT account fails with `400: Invalid login credentials` (Supabase auth log). A password reset was requested for that account at 22 Nov 2026 22:51 UTC (23 Nov 09:51 AEDT), and the password was changed a minute later. Every UAT run since then has failed at sign-in (`tests/uat/support/runtime-evidence.mjs` line 95), whatever the change under test. `Deploy on merge` and `Security gates` are green on the same commits. **Fix:** the Platform Admin sets the repository secret `UAT_PASSWORD` (Coursefinder-Pilot, Actions) to the account's current password, or resets the account to the stored one. No code change can fix it, and Claude does not handle passwords.
 - **s997** (Pilot #1503): every check green, including the live dry run; merging by label.

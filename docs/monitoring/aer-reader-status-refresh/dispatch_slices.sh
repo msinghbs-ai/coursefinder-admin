@@ -12,10 +12,16 @@ git add -A supabase/migrations && git commit -q -m "diag $tag (read-only, never 
 busy() { gh api "repos/$repo/actions/workflows/$wf/runs?per_page=10" --jq '[.workflow_runs[]|select(.status!="completed")]|length'; }
 for k in $(seq 1 90); do [ "$(busy)" = "0" ] && break; sleep 20; done
 [ "$(busy)" = "0" ] || { echo "queue never cleared; skipped $tag" >&2; exit 3; }
-git push -q -f origin HEAD:refs/heads/s1-build-diag; sleep 2
 before=$(gh api "repos/$repo/actions/workflows/$wf/runs?event=workflow_dispatch&branch=s1-build-diag&per_page=1" --jq '.workflow_runs[0].id // 0')
 list=$(IFS=,; echo "${names[*]}")
-gh api -X POST "repos/$repo/actions/workflows/$wf/dispatches" -f ref=s1-build-diag -f "inputs[files]=$list" -f "inputs[probe]=current_setting('cf.diag', true)" -f "inputs[confirm_project]=fxcwkweaxjtknorudmwp"
+# the Auto-merge clean-up deletes a -diag branch once its last dry run finished, which can race a new push: re-push and retry
+ok=0
+for try in 1 2 3 4 5; do
+  git push -q -f origin HEAD:refs/heads/s1-build-diag; sleep 3
+  if gh api -X POST "repos/$repo/actions/workflows/$wf/dispatches" -f ref=s1-build-diag -f "inputs[files]=$list" -f "inputs[probe]=current_setting('cf.diag', true)" -f "inputs[confirm_project]=fxcwkweaxjtknorudmwp" >/dev/null 2>&1; then ok=1; break; fi
+  sleep 10
+done
+[ "$ok" = 1 ] || { echo "could not dispatch the dry run on s1-build-diag" >&2; exit 7; }
 for k in $(seq 1 60); do id=$(gh api "repos/$repo/actions/workflows/$wf/runs?event=workflow_dispatch&branch=s1-build-diag&per_page=1" --jq '.workflow_runs[0].id'); [ "$id" != "$before" ] && break; sleep 3; done
 until [ "$(gh api repos/$repo/actions/runs/$id --jq .status)" = completed ]; do sleep 10; done
 echo "run $id $(gh api repos/$repo/actions/runs/$id --jq .conclusion)" >&2
