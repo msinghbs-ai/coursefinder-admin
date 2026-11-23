@@ -215,3 +215,10 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Coverage-sweep:** no 5xx since 22:37 UTC. The one 5xx in the last hour came from the Boost bulk-ingest worker, a different lane.
 - **Guardrails:** G3 75/48, no drift; locks 7,585; active cron 136 (coverage-read and coverage-read-2 switched back on outside S2-Build; cap 140); Layer 4 pending 1,483 (the 347 course items stay for their held rows); $0 Firecrawl and AI by S2-Build.
 - **Left for a person:** 284 deterministic course reads at confidence 0.70 (unreliable reads; a better reader is AER v2 work); 31 hand-checked and 14 citizens-only scholarships; the CDU two-column pathway layout (REQ-99) needs a new layout reader, which Decision 276 sends to AER v2.
+
+**S2-Build, 23 Nov 2026 13:10 AEDT (Platform Admin 13:00: parallel data-admission lane registration): ownership recorded in `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md` section 3a; documents only.**
+- **Single-writer domains:** S2-CF (official course URL, course description), S2-INT (exact intake dates, application deadlines), S2-GEO (campus locality, city statistics; read-only until the Platform Admin confirms `destination.*` passes from parked Lane 2), the AER/ELR owner (English requirements; the Platform Admin names the next writing chat), AER (`s1000` preserved with S2-RM-Design, Pilot #1491), S2-Build (scholarships, `s1001`) and S3 (spend gate, Firecrawl containment, Layer 4 hygiene).
+- **Integration owner:** S2-Build, for dispatchers and schedules, `course_coverage_build_v1`, health and consumer checks, v3 serving and the developer hold, migration numbering at merge, versions, spec claims and shared registers.
+- **Specs:** claimed centrally in the plan; next free `s985`; `s1003` unassigned. No migration timestamp or version is held in advance.
+- **Checked live 13:05:** every scheduled job is mapped to one owner; the only open pull request is #1491.
+- **Duplicate avoided:** S2-Build had measured the same AER resolver gap 12:47-12:58 and stopped before writing any file, because `s1000` covers it.
