@@ -59,6 +59,41 @@ Platform Admin, 24 Nov 2026 05:51 AEDT. Next S1-Build backend slice after s1016.
   - S1-Build: shadow audit, item kind, RPCs `approve_keep_lock` (single and bulk), specs, rehearsed live dry run.
   - S1-API-Frontend-Delivery: the Layer 4 queue card and bulk bar for the new kind (master plan hand-off).
 
+### Slice 6: Pre-admission sanity gates and golden-record validator (S1-Build; academic entry gate by S1-RM-Design)
+Platform Admin, 24 Nov 2026 05:54 AEDT. Next S1-Build backend slice, with slice 5. Benchmark: UAT feedback-4 (Portal, 23 Nov 2026). The 22 `UAT_FEEDBACK:P1` rows in `docs/monitoring/S1-BLOCKER-QUEUE.csv` cover:
+- Victoria University (EBCL; held under two VU provider records, a duplicate identity);
+- Adelaide University;
+- The University of Newcastle;
+- The University of Notre Dame Australia.
+
+- **Gates before admission.** An anomaly goes to Layer 4 as a review item; nothing is admitted silently.
+  - **Tuition fee year.** A fee is admitted only with a fee year the source states, 2026 or 2027, and never a year inferred from the reading date. A source year that differs from the held year becomes a review item.
+  - **English sub-band completeness.** Wherever IELTS is held for a course, PTE and TOEFL each need an overall score and four band scores (or a recorded "not stated by the source"). A partial set becomes a review item. Owner: S1-ELR domain, solved by S1-Build per the blocker queue.
+  - **Canonical campus matching.** A course is linked only to a campus of its own provider's canonical campus list, including Adelaide University's (the merged university). An unmatched or cross-provider campus becomes a review item.
+  - **Course-linked scholarship GPA criteria.** A scholarship linked to a course needs its GPA or grade criterion stated with its scale. A criterion with no scale, or one that conflicts with the course's level, becomes a review item.
+- **Golden-record validator.** `scripts/ci/validate-golden-courses.mjs` asserts live completeness of the feedback-4 benchmark courses through the additive v3 read path, then reports what is missing for each field: fee year, English bands, campus, scholarship criteria and academic entry. The course list is read from a fixture listing the benchmark course ids, not written into the script. It runs in CI against live data and in the 08:00 AEDT digest.
+- **Guardrails.**
+  - G3 75/48 frozen; reads through additive v3 RPCs only.
+  - No admitted record is withdrawn in bulk. A gate holds new admissions; held values are checked by the validator and listed, not deleted.
+  - Manual locks unchanged.
+
+### Slice 7: In-app counsellor feedback (S1-Build backend; S1-API-Frontend-Delivery screen)
+Platform Admin, 24 Nov 2026 05:54 AEDT.
+
+- **Table.** `pipeline.counsellor_feedback`, with:
+  - `course_id`, `provider_id` and `campus_id`;
+  - `issue_categories text[]`, from a reference list, not free codes;
+  - `notes`, `source_url` and `displayed_snapshot jsonb` (what the counsellor saw);
+  - the submitter, the time, a triage status and a link to the Layer 4 item.
+- **Row-level security.**
+  - Rank 2 (Counsellor) inserts and reads only their own rows.
+  - Rank 3 and above read and triage all rows.
+- **Additive v3 RPCs.**
+  - `counsellor_feedback_submit_v1` checks the ids exist and caps notes and snapshot size with G2 settings.
+  - `counsellor_feedback_list_v1` lists own rows for rank 2 and all rows with filters for rank 3 and above.
+  - Layer 4 triage: each submission opens a Counsellor feedback review item for its course, and the triage decision is recorded on both.
+- **Screen.** The feedback button on Counsellor Course detail, and the triage view, are handed to S1-API-Frontend-Delivery.
+
 ## 3. Acceptance
 
 | Slice | Scope | Owner | Gate |
@@ -68,6 +103,8 @@ Platform Admin, 24 Nov 2026 05:51 AEDT. Next S1-Build backend slice after s1016.
 | 3 | Dashboard, Coverage, Layer 1 Register, Layer 2/3, Platform health, Scheduled jobs | S1-API-Frontend-Delivery | No hardcoded version string; live cron, lock and coverage figures verified |
 | 4 | Admin catalogue, four pills, route-driven guides, 58 CSS files deleted | both | Zero legacy CSS imports; guide-to-route parity check green; `v2.16.61` gone |
 | 5 | Shadow-check and lock-preserving fee and intake refresh | S1-Build (backend), S1-API-Frontend-Delivery (Layer 4 screen) | Locked fields never written by a sweep (rehearsed); a fee or year delta on a locked field creates one Locked Field Update item; Approve & Keep Lock (single and bulk) updates the value, logs the reason and leaves the lock count at 7,585 |
+| 6 | Pre-admission sanity gates and golden-record validator | S1-Build (S1-RM-Design for academic entry) | Each gate routes its anomaly to Layer 4 (rehearsed on the feedback-4 universities); `validate-golden-courses.mjs` green in CI or naming every missing field; G3 75/48 |
+| 7 | In-app counsellor feedback | S1-Build (backend), S1-API-Frontend-Delivery (screen) | RLS: rank 2 own rows only, rank 3+ all; submit and list RPCs answer; each submission opens one Layer 4 item |
 
 ## 4. Guardrails
 
