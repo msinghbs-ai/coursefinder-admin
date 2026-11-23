@@ -70,8 +70,8 @@ uni=[r for r in recs if r['provider_type'] in ('university','university_college'
 print('universities',collections.Counter(r['country_code'] for r in uni), collections.Counter(r['reader_status'] for r in uni))
 
 if a.sheet_json:
-    HE={'AU':('university','university_college','higher_education_institute'),'NZ':('university','wananga','tafe_polytechnic'),'CA':None}
-    tabcols=['rank','provider_id','provider_name','national_code','has_registered_source','source_count','reader_status','aer_source_url','source_type','storage_artifact_path','active_courses','aer_admitted_courses','aer_admitted_pct','courses_with_official_url','courses_on_shared_hub_s670','courses_no_url','aer_held_l4_count','aer_pending_queue_count','l4_blocker_reason','fallback_to_course_row_count','last_reader_run_utc','daily_admitted_delta','owner_lane','updated_at_aedt','provider_type']
+    # each country tab holds every provider with active courses in that country (Platform Admin, 23 Nov 2026 17:07)
+    tabcols=['rank','provider_id','provider_name','national_code','has_registered_source','source_count','reader_status','aer_source_url','source_type','storage_artifact_path','active_courses','aer_admitted_courses','aer_admitted_pct','courses_with_official_url','courses_on_shared_hub_s670','courses_no_url','aer_held_l4_count','aer_pending_queue_count','l4_blocker_reason','fallback_to_course_row_count','last_reader_run_utc','daily_admitted_delta','owner_lane','updated_at_aedt']
     tabs={}; summ=[]
     def agg(rs):
         c=collections.Counter(r['reader_status'] for r in rs); act=sum(r['active_courses'] for r in rs); ad=sum(r['aer_admitted_courses'] for r in rs)
@@ -79,12 +79,11 @@ if a.sheet_json:
     names={'AU':'Australia (AU_Universities)','NZ':'New Zealand (NZ_Universities)','CA':'Canada (CA_Universities)'}
     allscope=[]
     for cc in ['AU','NZ','CA']:
-        rs=[r for r in recs if r['country_code']==cc and (HE[cc] is None or r['provider_type'] in HE[cc])]
+        rs=[r for r in recs if r['country_code']==cc]
         for i,r in enumerate(rs,1): r=dict(r); r['rank']=i
         tabs[cc+'_Universities']=[tabcols]+[[ (i if c=='rank' else r[c]) for c in tabcols] for i,r in enumerate(rs,1)]
         summ.append(['',names[cc]]+agg(rs)); allscope+=rs
-    summ.append(['','Total (university and higher-education tabs)']+agg(allscope))
-    summ.append(['','Whole register (every provider with active courses; CSV in git)']+agg(recs))
+    summ.append(['','Register CSV in git (reconciliation target; should equal Total Combined)']+agg(recs))
     tot_ad=sum(r['aer_admitted_courses'] for r in recs); tot_act=sum(r['active_courses'] for r in recs)
     delta=(sum(r['aer_admitted_courses'] for r in recs)-sum(prev.values())) if prev else None
     json.dump({'tabs':tabs,'summary_rows':summ,'kpi':{'admitted':tot_ad,'active':tot_act,'delta':delta,
