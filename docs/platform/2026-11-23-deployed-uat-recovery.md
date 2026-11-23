@@ -105,3 +105,27 @@ Each is built under a lock retry. GIN maintenance applies to course writes only.
 | layer2-provider ×2 | The text "Credentials stay write-only" no longer exists anywhere in `src/`, and Scrape.do is not listed in the embedded registry | A decision on the equivalent credential-boundary check on today's screen. The assertion is security-relevant, so it is not loosened without one |
 | performance ×3 | Courses list `courses_page` latency and payload (412,855 bytes against 250,000: `last_admitted` 168,857 bytes, carrying full before and after values for a 160-character tooltip; `field_states` 69,336); `admin_layer23('universities_page')` 7.7 s cold, 1.3 s warm | A decision on trimming the list payload; trace the Adapters cold path (S1-Build) |
 | layer1-operations | Asserts the Pipeline Operator view | The rank 4 UAT account (Platform Admin) |
+
+## 7. Decisions of 24 Nov 2026 00:30 and s1016
+
+**Course list payload (approved: cap the tooltip and send only the shown columns).** Measured live, rolled back:
+- One 50-row page carried 412,855 bytes. `last_admitted` was 168,857 of them: whole before and after values, up to 13,409 characters, for a tooltip that shows 160. `field_states` was 69,336, although the default columns read none.
+- s1016 sends the 160-character preview, and only the field states a caller names.
+
+| Case | Bytes |
+|---|---|
+| Preview cap alone (live on deploy) | 256,105 |
+| Default columns, once the screen names its keys | 186,869 |
+| Every field-state column shown | 230,374 |
+
+- Same course ids and order; callers that name no keys keep every field state.
+- The screen side belongs to S1-API-Frontend-Delivery (master plan hand-off, 24 Nov 2026). Until it ships, the payload check stays about 6 KB over its 250,000-byte budget.
+
+**Credential check (approved: assert the real boundary).**
+- Since v2.16.12, Firecrawl has its own service card. Scrape.do (registered, switched off, credential saved) is listed in the Other page services fold, and the page-level "Credentials stay write-only" notice no longer exists.
+- The deployed check now asserts:
+  - the Firecrawl card is shown;
+  - Direct HTTP and Scrape.do are listed, each showing only whether its credential is set;
+  - no password field holds a value;
+  - no secret text appears.
+- The drawer check is unchanged: it shows "Configured in Vault" or "Not configured", and its key field is write-only.
