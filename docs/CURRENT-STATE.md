@@ -12,6 +12,14 @@
 - **Live (23 Nov 2026 20:08 AEDT):** Pilot #1504 merged 20:05 (Deploy on merge and Security gates green); `coverage-sweep` redeployed 20:05:42 AEDT (version 348, no migration, worker version string unchanged). **Not yet done:** the two Auckland entry-matrix runs (`entry_matrix_runs` `838d1a42` A-I and `498a46c6` J-Z) are still `failed` with the old page-2 error (cost 0, 28 Oct). Re-reading them goes through `entry_ai` with `openai/gpt-4.1-mini` (a few cents), which is not the $0 re-run asked for; a decision is open (see the S1-RM-Design hand-off). Exact one-to-one abbreviation expansions (`B`, `M`, `Hons`, `GradDip`) go to Layer 4 cards, never to machine admission. Queue: Auckland `CLAIMED:S1-RM-Design` (s996).
 - **Guardrails:** G3 75/48 untouched; locks 7,585; cron unchanged; $0; no migration in this change (live head `20261123200000`).
 
+**S1-Build, 23 Nov 2026 23:55 AEDT: s1014 live (Pilot #1511, `5df82e85`).**
+- **Live migration head:** `20261123235000`.
+- **Search:** results identical to the baseline; plans use the trigram indexes.
+- **Guardrails:** G3 75/48, locks 7,585, cron 136.
+- **Acceptance:** 9 failed / 62 passed (was 13 failed). Six of the failures are deployed specs still on the pre-Decision 269 screens; the Pilot fix is in this release cycle.
+- **Open:** Courses list payload (413 KB against 250 KB) and `admin_layer23` (6.8 s); the rank 4 UAT account (Platform Admin).
+- **Main shows red** only for Deployed UAT. Build, Deploy on merge and Security gates are green.
+
 **S1-Build, 23 Nov 2026 23:05 AEDT: s1013 live (Pilot #1510, `8070bf4d`; Deploy on merge and Security gates green).**
 - **Live migration head:** `20261123233000`.
 - **Admin reads:** `admin_toolsets_read` 769 ms and `admin_course_audit` 212 ms under production load.
