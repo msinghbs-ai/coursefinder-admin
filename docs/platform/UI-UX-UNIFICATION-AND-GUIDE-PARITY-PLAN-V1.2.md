@@ -94,6 +94,38 @@ Platform Admin, 24 Nov 2026 05:54 AEDT.
   - Layer 4 triage: each submission opens a Counsellor feedback review item for its course, and the triage decision is recorded on both.
 - **Screen.** The feedback button on Counsellor Course detail, and the triage view, are handed to S1-API-Frontend-Delivery.
 
+### Slice 8: Firecrawl Monitor webhook ingestion (S1-Build backend; S1-API-Frontend-Delivery screen)
+Platform Admin, 24 Nov 2026 06:03 AEDT. API facts read from Firecrawl's documentation on 24 Nov 2026 (monitoring, webhook events, webhook security).
+
+- **Edge function `firecrawl-monitor-webhook`.**
+  - It verifies `X-Firecrawl-Signature: sha256=<hex>`: an HMAC-SHA256 of the raw request body with the account's webhook secret, compared timing-safe. A failed check is answered 401.
+  - The secret is set by the Platform Admin as an Edge Function secret; no session handles it.
+  - It answers 2xx within Firecrawl's 10-second limit, then processes the event.
+  - It is idempotent on `webhookId` (Firecrawl retries 3 times and signs no timestamp).
+  - `monitor.page` events are kept when `status` is `changed` or `new`; `monitor.check.completed` is kept as the check summary.
+- **Storage.** Additive table `pipeline.monitor_events`, holding:
+  - delivery id, monitor, check, URL and status;
+  - `diff.json` (keyed by JSON path, `{previous, current}`);
+  - matched provider and course, the routing result and the received time.
+- **Routing.** Page text is untrusted (`fenceUntrusted`) and no model reads it (judge off).
+  - A diff on an unlocked course or provider field goes through deterministic validation and admission (the slice 6 gates).
+  - A diff on a field with a manual lock (7,585) opens a slice 5 **Periodic Audit — Locked Field Update** item in Layer 4 › Human Edits & Periodic Audit, decided by Approve & Keep Lock. Nothing is written to a locked value.
+- **Initial Tier 1 watchlist.** Weekly, JSON-schema `changeTracking` mode, `judgeEnabled: false`:
+  - **Universities:** Victoria University, Adelaide University, The University of Newcastle, The University of Notre Dame Australia, Monash, Melbourne, Macquarie and QUT.
+  - **Pages:** each university's international entry-matrix, English language requirement (ELR) and 2027 fee hub pages, taken from their registered official sources.
+  - **Web-scale search monitor:** a weekly search for Monash and Adelaide University 2027 entry and fee schedules.
+  - Monitors are registered as rows in a watchlist table, never in code. Registering them calls the Firecrawl account (paid spend); see the budget gate below.
+- **Cost and limits.**
+  - Scrape checks cost 1 credit per URL per check plus format add-ons; search costs 2 credits per 10 results; there are no judge credits.
+  - No cron job is added: Firecrawl pushes the events.
+  - Spend is checked against the platform cap (US$5.00 a day) and the Firecrawl daily budget setting before any monitor is registered.
+- **Screen.** Active monitors, last check, status and credits used, shown on Admin › Integrations and Services & limits. Handed to S1-API-Frontend-Delivery on an additive v3 read that S1-Build posts.
+- **Guardrails.**
+  - G3 75/48 frozen.
+  - Catalogued as a component (G1).
+  - The webhook endpoint follows the API security guide (fixed error codes, no raw database messages).
+  - Manual locks unchanged.
+
 ## 3. Acceptance
 
 | Slice | Scope | Owner | Gate |
@@ -105,6 +137,7 @@ Platform Admin, 24 Nov 2026 05:54 AEDT.
 | 5 | Shadow-check and lock-preserving fee and intake refresh | S1-Build (backend), S1-API-Frontend-Delivery (Layer 4 screen) | Locked fields never written by a sweep (rehearsed); a fee or year delta on a locked field creates one Locked Field Update item; Approve & Keep Lock (single and bulk) updates the value, logs the reason and leaves the lock count at 7,585 |
 | 6 | Pre-admission sanity gates and golden-record validator | S1-Build (S1-RM-Design for academic entry) | Each gate routes its anomaly to Layer 4 (rehearsed on the feedback-4 universities); `validate-golden-courses.mjs` green in CI or naming every missing field; G3 75/48 |
 | 7 | In-app counsellor feedback | S1-Build (backend), S1-API-Frontend-Delivery (screen) | RLS: rank 2 own rows only, rank 3+ all; submit and list RPCs answer; each submission opens one Layer 4 item |
+| 8 | Firecrawl Monitor webhook ingestion | S1-Build (backend), S1-API-Frontend-Delivery (screen) | Signed deliveries accepted and unsigned ones refused (401); a repeated `webhookId` stored once; a locked-field diff opens one Layer 4 item and writes nothing; weekly Tier 1 monitors registered within the spend cap; no new cron job |
 
 ## 4. Guardrails
 
