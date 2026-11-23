@@ -60,6 +60,7 @@ Only exceptions appear here (charter 23 Nov 2026): `HELD:BUDGET_GATE` (above US$
 | University of the Sunshine Coast | Intakes and deadlines | `HELD:BUDGET_GATE` | Platform Admin decision | intake: 0/148 courses exact-dated (before=after; s994 changes no row); 212 undated, calendar is a stale 2026 edition; no $0 read |
 | Australian Pacific College, Southern Cross High School, English Unlimited Sydney, English Unlimited Melbourne | Intakes and deadlines | `HELD:BUDGET_GATE` | Platform Admin decision | intake: 0/63 courses exact-dated (before=after); calendar is a stale 2026 edition; no $0 read |
 | King's Own Institute | Intakes and deadlines | `HELD:BUDGET_GATE` | Platform Admin decision | intake: 0/25 courses exact-dated (before=after); calendar is a stale 2026 edition; no $0 read |
+| University of Auckland (and four older queued entry reads) | Academic entry (AER) | `HELD:ROUTE_OFF` | Platform Admin: switch the `entry_matrices` route on in Models & services, or qualify a model for it (qwen3-30b is not qualified) | Parser fix s996 is live; the re-read is a few cents of AI spend once the route is on; $0 spent so far |
 
 ## 4a. Technical Blockers & Ready-to-Solve S1 Queue
 
