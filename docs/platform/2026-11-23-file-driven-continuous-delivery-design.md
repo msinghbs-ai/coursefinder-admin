@@ -227,3 +227,35 @@ Mirrored from section 6 of the Google Drive design (`File-Driven Continuous Deli
 
 1. **Upstream capture by `S1-Build`.** On every `url_desc_status` domain pass, `S1-Build` captures any official provider-wide international academic entry page or PDF it finds on the provider's domain ($0 plain HTTP), saves it to `aer-artifacts/<provider>/entry-matrix.<ext>`, and fills `aer_source_url`, `source_type` and `storage_artifact_path` in the queue without changing `aer_status`. The downstream items are enqueued in the same change (section 10.3).
 2. **Downstream use by `S1-RM-Design`.** `S1-RM-Design` takes `PENDING` Tier 1 universities whose `aer_source_url` and `storage_artifact_path` are already filled first. It runs the AER v2 readers on the stored copy at $0 and routes ambiguous rows to Layer 4 for a person, never to machine admission.
+
+## 10. Asset acquisition, lane ownership, related jobs and toolset matrix (mirror of Drive blueprint Section 6)
+
+Mirrored from the Drive document "File-Driven Continuous Delivery & Multi-Lane Consolidation Design (S1)", Section 6, on 23 Nov 2026 (Platform Admin 18:48). It is numbered 10 here so the references to sections 6 to 9 of this file stay valid. Where the two differ, this repository is the source of truth (Platform Admin, 16 Nov 2026).
+
+### 10.1 Asset and link acquisition ownership (who gets what and where it lives)
+
+| Asset / source type | Responsible discovery lane | Capture and storage path | Queue / registry target | Downstream consumer lanes |
+|---|---|---|---|---|
+| Individual official course pages | S2-CF (`url_desc_status`) | Plain HTTP direct fetch ($0) to Supabase Storage (`aer-artifacts/<provider>/`) | `catalogue.courses` + `PROVIDER-ENRICHMENT-QUEUE.csv` (`storage_artifact_path`, `url_desc_status`) | S2-RM-Design, S2-ELR, S2-INT, S2-Build |
+| University-wide international entry matrix pages and PDFs (discovered on provider domains) | S2-CF (upstream domain pass) and S2-RM-Design | Plain HTTP direct download ($0) to Supabase Storage (`aer-artifacts/<provider>/entry-matrix.<ext>`) | `PROVIDER-ENRICHMENT-QUEUE.csv` (`aer_source_url`, `source_type`, `storage_artifact_path`) + `pipeline.entry_matrix_sources` | S2-RM-Design (AER v2 readers) |
+| Provider academic calendars and intake schedules | S2-INT (`intake_status`) | Reuses stored snapshots in `aer-artifacts/<provider>/` ($0; stale unstored 2026 calendars held as `HELD:BUDGET_GATE`) | `catalogue.intakes` + `PROVIDER-ENRICHMENT-QUEUE.csv` (`intake_status`) | Website v3, Zoho v3, Counsellor UI |
+| Provider scholarship listing pages and multi-award pages | S2-Build (`scholarship_status`) | Stored snapshots or plain HTTP direct read ($0; scoped Firecrawl window only when explicitly approved by the Platform Admin) | `catalogue.scholarships` + `PROVIDER-ENRICHMENT-QUEUE.csv` (`scholarship_status`) | `public.counsellor_scholarships_list`, Website v3, Zoho v3 |
+| Campus postcodes, localities and city profiles | S2-GEO (`geo_status`) | Read-only discovery against L1 CRICOS/NZQA + stored evidence (writes locked until Platform Admin unlock) | `catalogue.campuses` and `destination.city_profiles` + `PROVIDER-ENRICHMENT-QUEUE.csv` (`geo_status`) | Website v3, Zoho v3, Counsellor UI (REQ-117) |
+
+### 10.2 End-to-end lane, job and toolset architecture matrix
+
+| Lane / owner | Queue column / scope | Related jobs, specs and edge functions | Approved toolset and parsers | Cost and governance guardrails |
+|---|---|---|---|---|
+| S2-CF | `url_desc_status` | Identity matcher, soft-404 guard, s662/s664 description readers (do not touch s670), s991 wrong-URL quarantine | Plain HTTP fetch, Supabase Storage (`aer-artifacts/`), Qwen3/pinned description cascade, Postgres rolled-back dry-run | $0 Firecrawl; US$0.50 hard cap approved for 659 unqueued description reads; 3,436 URL manual locks immutable |
+| S2-RM-Design | `aer_status` | AER v2 readers (s1000, s1009 v1.4, s993), `pipeline.entry_matrix_sources`, Layer 4 resolver and `admin_layer4_inbox` | AER v2 deterministic parsers (PDF_TABLE cell-grid matcher, HTML_TABLE, HTML_ACCORDION), strict-proof validator, 0.8 confidence + 5% audit sample | AER v1 frozen (Decision 276); $0 external spend; single-subject marks and "up to" misreads blocked; 7,585 manual locks immutable |
+| S1-ELR / S2-ELR | `elr_status` | Central English rules and provider English readers (currently PARKED until the lane opens) | Deterministic ELR parser + stored artifacts in `aer-artifacts/` | `elr_status = PARKED` across all 1,886 rows until the Platform Admin names the owner; $0 spend |
+| S2-INT | `intake_status` | Calendar and intake readers (s986 to s988), Rule B same-month validator | Offline calendar parser on stored snapshots, Postgres rolled-back dry-run | Strict same-month rule (no month-to-day invention); unstated audience held; $0 spend |
+| S2-Build | `scholarship_status` + shared ops | Scholarship fire job and queue picker (s989), two-part multi-award listing reader, TEST-REGISTER.md generator | Stored-first and plain HTTP direct reader, two-part split reader, Firecrawl (only under explicit Platform Admin approval) | $0 scheduled Firecrawl; scoped one-off Firecrawl window only for Charles Darwin and Lincoln after a credit quote |
+| S2-GEO | `geo_status` | Campus locality and NZ/CA link evidence audit, `destination.city_profiles` discovery | Read-only SQL and rolled-back dry-run yield model, 90% primary-locality threshold rule | Strictly read-only until the Platform Admin unlocks writes; never infer links from single-campus providers |
+| S1-API-Frontend-Delivery | Pilot UI and additive v3 RPCs | Pilot #1498 (s990), `public.counsellor_scholarships_list`, `public.admin_integrations_status`, ui-v1 Counsellor shell | React/Vite, `tokens.css`, `ui-kit.css`, Playwright CI (1440x900 and 375x812), stylesheet lint CI | G3 v2 (75/48) strictly frozen (s57); 4-item Counsellor nav lock (IR-021); legacy CSS deletion staged in a separate PR |
+| S1-Build | Daily digest and register sync | Daily 08:00 AEDT cron sync, `AER_University_Reader_Status.csv` and Google Sheet mirror, `DAILY-EXECUTIVE-STATUS.md` | Scheduled GitHub/Supabase sync job, Google Sheets API | Read/sync reconciliation only; escalates `HELD:BUDGET_GATE` and `HELD:G3_FREEZE` exceptions to the Platform Admin |
+
+### 10.3 Cross-lane artifact handoff rules (AER links and PDFs)
+
+1. **Upstream capture by S2-CF:** during every `url_desc_status` domain pass, S2-CF captures any official provider-wide International Academic Entry Requirements page or PDF found on the provider's domain ($0 plain HTTP), saves it to Supabase Storage (`aer-artifacts/<provider>/entry-matrix.<ext>`), and populates `aer_source_url`, `source_type` and `storage_artifact_path` in `PROVIDER-ENRICHMENT-QUEUE.csv` without modifying `aer_status`.
+2. **Downstream consumption by S2-RM-Design:** S2-RM-Design prioritises PENDING Tier 1 universities where `aer_source_url` and `storage_artifact_path` are already populated, running AER v2 PDF_TABLE or HTML_TABLE parsers offline at $0 spend and routing ambiguous rows to Layer 4 human review rather than machine auto-admission.
