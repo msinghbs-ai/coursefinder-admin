@@ -88,11 +88,12 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s990` | S1-API-Frontend-Delivery | Additive v3 reads `public.counsellor_scholarships_list` and `public.admin_integrations_status` for the v1.1 Counsellor and Admin UI (Platform Admin 23 Nov 2026, Phase 1) | Pilot #1498 (draft) |
 | `s991` | S2-CF | Official course URL and course description, batch 1 (UBC, UTS, Waikato): source binding, stored-page reuse, description admission; queue rows claimed by PR | Claimed (Pilot PR to follow) |
 | `s992` | S2-Build | Scholarship slice 2: $0 direct reads for Charles Darwin and Lincoln (listing sources, direct-first listing read, copy-less pages read directly under the Firecrawl hold); queue rows claimed by PR | Claimed |
-| `s993` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s993` |
+| `s993` | S2-RM-Design | AER v2 proven-structure PDF-table record source, batch 1 (UNSW, Sydney, UQ, Auckland): printed table rows linked to one catalogue course, fail closed (Decision 276 §9.1 and §9.4; Platform Admin 23 Nov 2026 17:43, v2 route chosen 18:00); queue rows claimed by PR | Claimed |
+| `s994` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s994` |
 | `s1000` | S2-RM-Design | Platform Admin Priority 1, 23 Nov 12:29 (AER admission recovery) | Open, Pilot #1491 |
 | `s1001`, `s1002`, `s1004` to `s1008` | S2-Build | Handed by S2-RM-Design, 23 Nov 12:10 (design v1.12) | Not started |
 | `s1003` | Unassigned | RM1C and RM1I publish checklists (Platform Admin decides the lane) | Open |
-| `s1009` | Spare | | Open |
+| `s1009` | S2-RM-Design | AER strict-proof row rule and reader aer-det-v1.4 (Platform Admin 15:52) | Live (Pilot #1497) |
 
 S2-CF and S2-GEO hold no spec numbers yet; each claims its first number here when it opens a Pilot pull request. S2-INT holds `s986`, `s987` and `s988`.
 
