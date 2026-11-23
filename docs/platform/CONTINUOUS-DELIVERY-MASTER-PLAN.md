@@ -90,7 +90,8 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s992` | S2-Build | Scholarship slice 2: $0 direct reads for Charles Darwin and Lincoln (listing sources, direct-first listing read, copy-less pages read directly under the Firecrawl hold); queue rows claimed by PR | Pilot #1500 |
 | `s993` | S2-RM-Design | AER v2 proven-structure PDF-table record source, batch 1 (UNSW, Sydney, UQ, Auckland): printed table rows linked to one catalogue course, fail closed (Decision 276 §9.1 and §9.4; Platform Admin 23 Nov 2026 17:43, v2 route chosen 18:00); queue rows claimed by PR | Claimed: Sydney DONE, UNSW and UQ HELD:IDENTITY_UNRESOLVED (relink 0 one-to-one matches; IR-027), Auckland shadow read open |
 | `s994` | S2-INT | Rule B strict same-month rule for new admissions (Platform Admin decision 23 Nov 17:49; Monash and RMIT admitted rows untouched) | Pilot #1499 |
-| `s995` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s995` |
+| `s995` | S2-INT | Intake queue loop, Tier 1 classification (read-only; no code change): each Tier 1 provider is read against live data and set DONE or HELD with a reason code | Claimed, admin record only |
+| `s996` onward | Claimed one at a time, in this table, by the lane opening the pull request | First come in this table; the integration owner reconciles | Next free: `s996` |
 | `s1000` | S2-RM-Design | Platform Admin Priority 1, 23 Nov 12:29 (AER admission recovery) | Open, Pilot #1491 |
 | `s1001`, `s1002`, `s1004` to `s1008` | S2-Build | Handed by S2-RM-Design, 23 Nov 12:10 (design v1.12) | Not started |
 | `s1003` | Unassigned | RM1C and RM1I publish checklists (Platform Admin decides the lane) | Open |
