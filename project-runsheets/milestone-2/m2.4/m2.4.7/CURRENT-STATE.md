@@ -204,3 +204,12 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 - **Not changed:** the 0.70-confidence reads and the hand-checked or citizens-only scholarships (a person's holds and genuine rules); FID intake readings (months, no dates); Firecrawl fetches ($0 rule).
 
 Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
+
+**S2-Build, 23 Nov 2026 12:40 AEDT: s983 and s984 live (Pilot #1489 and #1490; migrations `20261123050000` and `20261123060000` applied by Deploy on merge); parked.** Read back live at 12:31:
+- **AER:** active course entry rows rose from **26,996 to 27,929** (+933). All are from rule `aer-course-partial-v1`, on 347 courses, with 0 open P0 findings.
+- **Scholarships:** the 12:29 publishing tick read values from 16 stored notes and **published 12**, so published is now **1,078**. Before the change the count was 1,066, because 8 scholarships whose closing date had passed (Melbourne date) were withdrawn automatically at 11:29 (REQ-72).
+- **Unchanged at $0:** exact intakes 4,896 (FID readings carry months, not dates) and provider descriptions 2,216 (identity and source policy holds).
+- **Health:** one critical check is open, `alerts:not_collected`. Five platform alerts have waited since 08:30 because the alert destination (the "Work queue alerts" scheduled task, not owned by this account) is not collecting them. It is unrelated to these releases and needs its owner to restart it.
+- **Coverage-sweep:** no 5xx since 22:37 UTC. The one 5xx in the last hour came from the Boost bulk-ingest worker, a different lane.
+- **Guardrails:** G3 75/48, no drift; locks 7,585; active cron 136 (coverage-read and coverage-read-2 switched back on outside S2-Build; cap 140); Layer 4 pending 1,483 (the 347 course items stay for their held rows); $0 Firecrawl and AI by S2-Build.
+- **Left for a person:** 284 deterministic course reads at confidence 0.70 (unreliable reads; a better reader is AER v2 work); 31 hand-checked and 14 citizens-only scholarships; the CDU two-column pathway layout (REQ-99) needs a new layout reader, which Decision 276 sends to AER v2.
