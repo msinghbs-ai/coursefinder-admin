@@ -14,11 +14,11 @@
 
 | # | Spec | Root cause (evidence) | Fix | Status |
 |---|---|---|---|---|
-| 1 | `admin_toolsets_read` HTTP 500 (admin-navigation, cf-073, a23 and others on Services & limits) | Statement timeout at the signed-in limit (8 s): 25 timeouts in 24 h, 13 of them before s1011. Live parts: 14-day scholarship AI spend read 2.0 s (39,309 of 74,684 wide rows from the heap), coverage AI-match spend 1.8 s (no `created_at` index, 125 MB scanned), `toolset_plan_status` 1.2 s (vendor usage by `acquisition_provider_id`, no index, 251,678 rows) | s1013: three covering indexes. Rehearsed: 133 ms, 14 ms, 18 ms; whole function 163 ms | Pilot s1013 |
-| 2 | `cf-073` Acquisition route | The old address opens Services & limits; since v2.16.12 (15 Nov 2026) each service keeps its acquisition settings inside its Details fold, so `.l2p-shell` and the "Acquisition providers" heading appear only once a fold is opened. Its landing also called `admin_toolsets_read` (item 1) | Spec checks the direct route on today's screen (`[data-services-limits]`, the Firecrawl card, no workspace error, Back recovers); item 1 removes the 500 | Pilot s1013 |
-| 3 | `data-quality` exceptions paging | Two pagers on the screen (the exceptions list and Field coverage below the filters); the locator matched both | Locator scoped to `.dq-exceptions .dq-pager`; the four page assertions unchanged | Pilot s1013 |
-| 4 | `cf-061` QILT course detail | Data verified: RMIT Advanced Diploma of Accounting (113126B) is active and is row 22 of 53 for that search. The Courses keyword search took 2.5 to 3.5 s quiet and 7.2 to 8.2 s under load (the filter alone 4.3 s: `ilike '%…%'` over title, display title, provider name, code and stable key with no trigram index, `pg_trgm` not installed), beyond the test's 6 s wait and near the 8 s limit | Not a fixture or data problem. Needs a search change (trigram indexes and a predicate the planner can use), decision below | Open: Platform Admin decision |
-| 5 | `s167` DP020 course detail | `admin_course_audit` timed out at 11:01:09 and 11:01:11 UTC, when the test opened the evidence overlay: it reads a course's evidence by `metadata->>'course_id'`, which no index serves (236,106 rows, 497 MB): over 15 s for DP020 | s1013: partial expression index (10 MB, built in 0.8 s). Rehearsed: read 2 ms, whole function 173 ms | Pilot s1013 |
+| 1 | `admin_toolsets_read` HTTP 500 (admin-navigation, cf-073, a23 and others on Services & limits) | Statement timeout at the signed-in limit (8 s): 25 timeouts in 24 h, 13 of them before s1011. Live parts: 14-day scholarship AI spend read 2.0 s (39,309 of 74,684 wide rows from the heap), coverage AI-match spend 1.8 s (no `created_at` index, 125 MB scanned), `toolset_plan_status` 1.2 s (vendor usage by `acquisition_provider_id`, no index, 251,678 rows) | s1013: three covering indexes. Rehearsed: 133 ms, 14 ms, 18 ms; whole function 163 ms | Live (s1013, Pilot #1510) |
+| 2 | `cf-073` Acquisition route | The old address opens Services & limits; since v2.16.12 (15 Nov 2026) each service keeps its acquisition settings inside its Details fold, so `.l2p-shell` and the "Acquisition providers" heading appear only once a fold is opened. Its landing also called `admin_toolsets_read` (item 1) | Spec checks the direct route on today's screen (`[data-services-limits]`, the Firecrawl card, no workspace error, Back recovers); item 1 removes the 500 | Live (s1013, Pilot #1510) |
+| 3 | `data-quality` exceptions paging | Two pagers on the screen (the exceptions list and Field coverage below the filters); the locator matched both | Locator scoped to `.dq-exceptions .dq-pager`; the four page assertions unchanged | Live (s1013, Pilot #1510) |
+| 4 | `cf-061` QILT course detail | Data verified: RMIT Advanced Diploma of Accounting (113126B) is active, row 22 of 53. The Courses keyword search took 2.5 to 3.5 s quiet and 7.2 to 8.2 s under load: one `ilike '%…%'` OR across courses and providers read every course (filter alone 734.7 ms, `pg_trgm` not installed) | s1014 (approved 22:55): `pg_trgm`, four trigram indexes, keyword test as one lookup per column. See section 4 | Pilot s1014 |
+| 5 | `s167` DP020 course detail | `admin_course_audit` timed out at 11:01:09 and 11:01:11 UTC, when the test opened the evidence overlay: it reads a course's evidence by `metadata->>'course_id'`, which no index serves (236,106 rows, 497 MB): over 15 s for DP020 | s1013: partial expression index (10 MB, built in 0.8 s). Rehearsed: read 2 ms, whole function 173 ms | Live (s1013, Pilot #1510) |
 
 ## 3. Recorded findings (failing before 23 Nov; not changed in this pass)
 
@@ -30,3 +30,46 @@
 | `performance` (3 tests) | Courses page interaction 4.6 s against a 3 s budget; a courses page payload 412,855 bytes against 250,000; Adapters `admin_layer23` timeouts (21 in the last hour of runs) | S1-Build |
 | `data-quality` (field coverage) | `admin_field_coverage` timed out once under the acceptance run | S1-Build |
 | `layer1-operations` | Asserts the Pipeline Operator view; passes with an operator account (section 1) | S1-Build |
+
+## 4. s1013 live and s1014 measurements
+
+**s1013 read-back (live, 23 Nov 2026 22:58 AEDT, production load):**
+- Migration head: `20261123233000`.
+- All four indexes present.
+- `admin_toolsets_read`: 769 ms. It was timing out at 8 s.
+- `admin_course_audit` for DP020: 212 ms. It was over 15 s.
+- G3 75/48 with no drift; 7,585 manual locks; 133 active cron jobs.
+
+**s1014 rehearsal (rolled back, live, scheduled jobs running).** Each case was called through `admin_read('courses_page')` twice; times are the first and second call.
+
+| Case | Before (ms) | After (ms) | Total | Same ids, same order | 113126B row |
+|---|---|---|---|---|---|
+| Code `113126B` | 1,471 / 314 | 315 / 63 | 1 | yes | 1 |
+| Provider `RMIT` | 6,456 / 3,660 | 1,035 / 207 | 515 | yes | 1 |
+| Title `Advanced Diploma of Accounting` | 4,059 / 3,031 | 783 / 168 | 53 | yes | 22 |
+| Partial `Accounting` | 2,942 / 988 | 642 / 152 | 716 | yes | |
+| No keyword (default) | 725 / 154 | 535 / 174 | 44,734 | yes | |
+| AU + `Accounting`, by provider | 1,750 / 734 | 930 / 529 | 538 | yes | |
+| NZ page 2, provider descending (no keyword) | 770 / 195 | 1,024 / 413 | 6,536 | yes | |
+| CA + `Nursing` page 2, course descending | 878 / 376 | 794 / 443 | 216 | yes | |
+
+The NZ and CA rows do not go through the keyword path. Their EXPLAIN ANALYZE plan is the same before and after (16.9 ms and 14.5 ms), so their spread is load.
+
+**Plans:**
+- The keyword filter took 734.7 ms as a sequential scan of 44,734 courses and 3,106 providers.
+- With the trigram indexes it takes 27.0 ms: one bitmap index scan per column on `courses_title_trgm_idx`, `courses_display_title_trgm_idx`, `courses_code_trgm_idx` and `courses_stable_key_trgm_idx`, providers read on their own (3,106 rows), and the existing identifier prefix index.
+
+**Indexes (size, build time):**
+
+| Index | Size | Build time |
+|---|---|---|
+| Title | 5,496 kB | 6.9 s |
+| Display title | 5,496 kB | 4.2 s |
+| Code | 2,552 kB | 1.6 s |
+| Stable key | 5,136 kB | 4.0 s |
+
+Each is built under a lock retry. GIN maintenance applies to course writes only.
+
+**Source record:**
+- `public.admin_toolsets_read` existed live only.
+- s1014 keeps its exact production definition (md5 `df2380c6`, guarded before and after) in source.
