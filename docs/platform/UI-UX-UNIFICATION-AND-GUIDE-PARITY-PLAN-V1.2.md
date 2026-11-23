@@ -35,6 +35,30 @@
 - CI parity guard: the build fails if any guide link, screen name or filter label names a route or control absent from `docs/UI-MAP.md`.
 - Legacy CSS retirement: delete the 58 legacy CSS files once no route imports them (checked by import graph, not assumed).
 
+### Slice 5: Shadow-check and lock-preserving fee and intake refresh (S1-Build backend; S1-API-Frontend-Delivery Layer 4 screen)
+Platform Admin, 24 Nov 2026 05:51 AEDT. Next S1-Build backend slice after s1016.
+
+- **Shadow audit of locked records.**
+  - The periodic fee and intake sweeps also read records whose field holds a manual lock (7,585 locks), in shadow-audit mode.
+  - A sweep never writes a locked value: nothing in `catalogue.*` changes for a locked field.
+- **Layer 4 item.**
+  - When the upstream value differs from the live locked value, the sweep emits one **Periodic Audit — Locked Field Update** diff item into Layer 4 (Human Edits & Periodic Audit). Example: a new tuition year (2026 to 2027) or a fee delta.
+  - The item shows live value, proposed value, the source quote and evidence, and the lock (who set it, when).
+  - One open item per course, field and proposed value (no duplicates on re-read).
+- **Approve & Keep Lock (single and bulk RPC).**
+  - The action sets the live value to the proposed value and records the operator's audit reason (required).
+  - It keeps the manual lock as it is (same row, same owner) and closes the item.
+  - Bulk applies the same reason to the selected items, up to a G2 setting.
+  - Reject closes the item and leaves the live value and the lock as they are.
+- **Guardrails.**
+  - The count of manual locks never changes.
+  - Only a person's Layer 4 decision changes a locked value; no machine path does.
+  - G3 is untouched (live values are read through the existing frozen views).
+  - No new cron job: the shadow check runs inside the existing fee and intake sweeps. Any batch size or bulk limit is a G2 setting.
+- **Split.**
+  - S1-Build: shadow audit, item kind, RPCs `approve_keep_lock` (single and bulk), specs, rehearsed live dry run.
+  - S1-API-Frontend-Delivery: the Layer 4 queue card and bulk bar for the new kind (master plan hand-off).
+
 ## 3. Acceptance
 
 | Slice | Scope | Owner | Gate |
@@ -43,10 +67,11 @@
 | 2 | Settings, Integrations, API usage, Backup & restore; `firecrawl.daily_budget_total` = 5.00 | S1-Build and S1-API-Frontend-Delivery | Every live setting editable with an audit reason; saved-courses RLS live |
 | 3 | Dashboard, Coverage, Layer 1 Register, Layer 2/3, Platform health, Scheduled jobs | S1-API-Frontend-Delivery | No hardcoded version string; live cron, lock and coverage figures verified |
 | 4 | Admin catalogue, four pills, route-driven guides, 58 CSS files deleted | both | Zero legacy CSS imports; guide-to-route parity check green; `v2.16.61` gone |
+| 5 | Shadow-check and lock-preserving fee and intake refresh | S1-Build (backend), S1-API-Frontend-Delivery (Layer 4 screen) | Locked fields never written by a sweep (rehearsed); a fee or year delta on a locked field creates one Locked Field Update item; Approve & Keep Lock (single and bulk) updates the value, logs the reason and leaves the lock count at 7,585 |
 
 ## 4. Guardrails
 
-Consumer API G3 (75 functions, 48 relations) frozen (`s57`), reads use additive v3 RPCs only; 7,585 manual locks immutable; at most 140 active cron jobs; paid spend at most US$5.00 a day. Every PR keeps Playwright at 1440x900 and 375x812, `docs/UI-MAP.md` and `TEST-REGISTER.md` green.
+Consumer API G3 (75 functions, 48 relations) frozen (`s57`), reads use additive v3 RPCs only; 7,585 manual locks immutable (no lock row is added, removed or changed; under slice 5 a locked value changes only by a person's Approve & Keep Lock in Layer 4); at most 140 active cron jobs; paid spend at most US$5.00 a day. Every PR keeps Playwright at 1440x900 and 375x812, `docs/UI-MAP.md` and `TEST-REGISTER.md` green.
 
 ## 5. Delivery rule for this plan
 
