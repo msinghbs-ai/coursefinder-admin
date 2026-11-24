@@ -3,7 +3,7 @@
 **Purpose:** one page a new coding session reads before anything else, so it starts from the live system and not from chat history. It says where each exact fact lives and what is in flight right now.
 **S1-Build, 24 Nov 2026 12:05 AEDT: s1027 Firecrawl Monitor live and registered; s1028 recorded before merge.**
 - **Monitors:** 10 active (8 universities, 3 course pages each; search monitors for Monash and Adelaide). Firecrawl estimates about 148 credits a week (cap 150). First check Monday 03:17 AEDT. Status: `public.admin_monitor_status_v1`; register, status or pause through workflow *Firecrawl Monitor*.
-- **s1028 (pending merge):** search checks counted at the search price, so the cap does not pause the monitors by mistake.
+- **s1028 (live 11:00, Pilot #1533):** search checks counted at the search price, so the cap does not pause the monitors by mistake. Read back: head `20261124123000`, 26 targets registered, no deliveries yet, G3 75/48 no drift, locks 7,585, cron 136 (other lanes, under 140).
 
 **S1-Build, 24 Nov 2026 11:30 AEDT: s1025 live (Pilot #1530); s1027 Firecrawl Monitor recorded before merge.**
 - **s1025 (live):** in-app counsellor feedback backend; read back: head `20261124115000`, three policies, ten categories, both RPCs, Inbox kind listed; G3 75/48; locks 7,585; cron 134.
