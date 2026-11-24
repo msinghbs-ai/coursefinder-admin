@@ -574,3 +574,113 @@ Cohort: the 16 sources whose runs failed before s1085 with "no deterministic rea
 
 Spend this wave so far (from the run rows): about $0.19 in lean-model calls (Mistral Small 3.2), no Firecrawl. Not claimed: any admission, newly covered course, or consumer read-back.
 
+
+
+## AER named acquisition wave 1 — 25 November 2026
+
+Platform Admin: finite Steps 1–2 only; 100 distinct providers selected from the existing country-wise reader register, excluding recorded active claims and the existing AU wave register; live checked active courses, no matrix source, no active matrix and no queued/leased/running matrix run at selection. Recheck immediately before action; claims may change, so this is a coordination assignment, not a production lease. No substitution without orchestrator reconciliation. Existing production pipelines continue. S1-Build canonical writer; orchestrator updates existing Sheet after outcomes.
+
+| Chat | Batch | Country | Provider | Provider ID | Active courses | Initial status |
+|---|---:|---|---|---|---:|---|
+| S1-AER-Claude | 1 | AU | La Trobe University | 4f86e09a-557c-4544-a0a3-3eb5dc8468a9 | 248 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Collarts | 53eaf404-8f22-46ff-a208-b0e82da4284e | 139 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Le Cordon Bleu Australia Pty Limited | 2968fe36-b879-4b53-8318-664ed56d291a | 69 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Australian Pacific College, Southern Cross High School, English Unlimited Sydney, English Unlimited Melbourne | 658d593d-cd4a-4940-9927-0d471776284e | 63 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Australia Institute of Business and Technology | eb9e3903-6d92-4502-a2b3-51cb231b21fc | 56 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Excelsia University College | c537423d-028a-4b06-b135-003f2c6c393d | 51 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Holmesglen, Holmesglen Institute | 4b0e9d62-2ad7-4467-911c-1571e30a74d6 | 44 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | George Brown College | 80e8f5fd-1b38-4292-90ab-adafc9884381 | 44 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Greenwich English College, Greenwich Management College | 21e1cb6d-9c85-431f-b354-43b7370e5f40 | 42 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Box Hill Institute | 104f3038-862c-445d-aaf3-b8727ff756f3 | 37 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | William Angliss Institute | 5c234f7f-a84c-46ae-b2ef-bfa75b59badd | 37 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Reach Community College Pty Ltd | 8495927d-cbd8-426d-814c-fa87d1a966e7 | 37 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | York Business Institute Pty. Ltd. | 9aa61e05-ec5e-4468-8d2e-c3c6fb984f37 | 36 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | Aventia Institute Pty Ltd | c33ab783-ac3e-43a6-b00d-ce9ac4356ec5 | 36 | Assigned, not acquired |
+| S1-AER-Claude | 1 | AU | AAPoly, AMI Education | f0c0f1dc-e628-4bb7-9943-727f32b26d50 | 36 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Gold Coast Learning Centre | f2ec4927-522c-42a7-8de4-33ada6684595 | 36 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Lead College Pty Ltd | 4b41907a-5f10-4aaf-863d-ec5f5cec37a8 | 34 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Melbourne College of Hair and Beauty; Melbourne College of Training & Assessment | 566d1775-00c8-49da-8029-8d8a1291fe48 | 32 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | The Canberra Training School Pty Ltd, Canberra Business and Technology College | 9aed1f1c-6281-494f-a141-d8ebd4572b85 | 32 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Australian Vocational Training Academy Pty Ltd | e2b73078-8636-459c-8d19-9129122fb301 | 32 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | TasTAFE | f16868c3-5487-487f-92cd-88e63116765c | 32 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | AUSTRALIAN HEALTH AND MANAGEMENT INSTITUTE PTY LTD | 1df6d6f3-f957-46c1-8611-9047a84b1e61 | 31 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Educare College | 28ffde14-bf9d-404e-bbe7-fd97bdf56bb1 | 30 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Macallan College Pty Ltd | 87e9331c-a879-483c-8df7-337a2be7731d | 30 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Acquire Training Solutions Pty Ltd, Laneway International College | f71e9851-e4eb-4855-9931-eb42a4daef8d | 30 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Apex Australia Vocational Education | 4bd30aeb-ffe4-4c0d-9794-db5ff7513628 | 29 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Education Training & Employment Australia | 92355fb2-bf7a-42ed-81a4-598b5953145a | 29 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Signet Institute of Australia | fe18f1f7-a15a-4328-a5db-fd67af56ca6c | 29 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Australian Sovereign College | 496cda02-c474-41f7-9358-3cf435164dc7 | 28 | Assigned, not acquired |
+| S1-AER-Claude | 2 | AU | Supreme Business College Pty Ltd | 71362bf9-2a99-4eb1-a76f-b5382dab9130 | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Business College Online, Dragon College of Business, Australian City International College,Australian Vocational Institute, Sydney City English College | 7304f7c0-3097-49a6-a1e2-37b46e4e75ce | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Institute Of Science Management And Technology | 89addf70-055c-4895-8e54-df7b9ffae4d6 | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Britts College Pty Ltd | 93aaad55-812a-482c-ad1e-7df0ac0a5a76 | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Australian Institute of Language and Further Education | 9b833af0-5ac9-4764-9266-318e81641f1c | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | NATIONAL POLYTECHNIC OF AUSTRALIA PTY LTD | 9e69f830-39aa-4d64-a55d-1ccb12d420b6 | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | The Sydney Business & Travel Academy,  Sydney English Language Academy | e3e541d8-c2f4-4923-a54a-024ee209276e | 28 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Trinity Institute (Australia) | b93a1c45-c912-4711-a381-df226f3db646 | 27 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Keystone College of Business and Technology | c188e2fc-deb4-45a4-a593-6c4560890bcb | 27 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Cairns College of English & Business | 26eabe05-21e4-4257-9bd2-6c0cf161b23d | 26 | Assigned, not acquired |
+| S1-AER-Claude | 3 | AU | Invicta Technical College | 2ca823cc-8641-4828-926a-e0627055582b | 26 | Assigned, not acquired |
+| S2-AER | 1 | AU | Brisbane College of Australia ; Brisbane College of English | 8cc6fece-de98-424d-8033-0fdd92cdee00 | 26 | Assigned, not acquired |
+| S2-AER | 1 | AU | Australian College of Studies Co. | 981b9811-9f4e-4825-b7af-cc47b5ebf6f5 | 26 | Assigned, not acquired |
+| S2-AER | 1 | AU | TrEd College | bba5dcf0-c9dc-4fa3-bd00-bc0638c78c22 | 26 | Assigned, not acquired |
+| S2-AER | 1 | AU | West Australian Institute of Further Studies | bd32bbd0-d59f-4201-bb23-8eadd2a4afb7 | 26 | Assigned, not acquired |
+| S2-AER | 1 | AU | Cass Training International College | 0cca4a32-4649-4d79-bb46-49cfecf161b9 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | WIN English Centre /  WIN College | 36db369a-8c74-440f-b561-455262867050 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Southern Cross Education Institute, North Melbourne Grammar College | 5d21e4d4-73b4-4ad6-b100-199264540e72 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Envirotech Education | 6c79c82b-5cde-49b7-9998-13af66d28b47 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Abbey College Australia, Abbey Training | 8e7141b4-d366-4860-819e-86c54586dc12 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Entrepreneur Education | ad99fbcf-e690-499b-bbae-bc81ef892fc8 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Australian College of Technology | e6396c9e-c655-47b5-b2a1-820f48910206 | 25 | Assigned, not acquired |
+| S2-AER | 1 | AU | Nortwest Pty Ltd | 15e47a21-94a7-4984-aca8-cbbbecbfaab6 | 24 | Assigned, not acquired |
+| S2-AER | 1 | AU | ILSC - Australia; ILSC - Brisbane; ILSC - Sydney; ILSC Perth; ILSC Adelaide; ILSC Melbourne; Greystone College | 5d0e3147-4dcb-4152-8f21-6a2a5ce51bc6 | 24 | Assigned, not acquired |
+| S2-AER | 1 | AU | Australian International College of Skills & Education Pty Ltd | 70b6688c-2ca3-49cd-8eb8-9f35297d6c35 | 24 | Assigned, not acquired |
+| S2-AER | 1 | AU | Auscanus Institute of Australia | 98f6df2b-f06c-4963-8aa1-7375e4b367d4 | 24 | Assigned, not acquired |
+| S2-AER | 2 | AU | The Centre of Excellence | f7281274-2d50-49d2-98db-a68d3467a86b | 24 | Assigned, not acquired |
+| S2-AER | 2 | AU | Pivot Education Pty Ltd | 03f447ae-f200-44f1-b58a-6581c00b9743 | 23 | Assigned, not acquired |
+| S2-AER | 2 | AU | INTERNATIONAL INSTITUTE OF EDUCATION | 1241fe08-1fff-45c7-9c76-2857ec5a53dc | 23 | Assigned, not acquired |
+| S2-AER | 2 | AU | Lexis TESOL Training Centres | 159328df-fb4b-4bb8-a6b8-5f24546437a3 | 23 | Assigned, not acquired |
+| S2-AER | 2 | AU | Albright Institute of Business and Language; Albright Institute of English | 4790a6ab-7e93-42d6-b0ac-757d68040f7d | 23 | Assigned, not acquired |
+| S2-AER | 2 | AU | Alliance College | 9edc07c5-fc46-407e-8432-6ac240f34da8 | 23 | Assigned, not acquired |
+| S2-AER | 2 | AU | Canterbury Technical Institute Pty Ltd | 28828d80-3ce9-47af-b2b2-b9b08ee5d514 | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Aboard Training Australia | 449f1b2d-5f7f-4ef3-9fe1-a89c2f8bbe49 | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Protea College | 823d398f-5e99-47c9-96a8-eff642853fa8 | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Glen Institute | a7499e11-54b6-4edf-a301-390b0d4f39ad | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | English in Paradise; ELSTON EDUCATION & TRAINING | ae1a5efb-620e-4690-849b-155ff6390d3b | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Queensland Academy of Technology | aead951c-991f-4bd6-b969-ac047a083276 | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Helix College Pty Ltd | bb0e5aed-a647-48f0-b625-80038c3a2cdf | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Rockford College | d446e6a4-14a8-4e15-8646-5b8e2906adf3 | 22 | Assigned, not acquired |
+| S2-AER | 2 | AU | Fusion College of Technology Pty Ltd | ef15a84d-4edf-4d20-9eef-3cee7b315f10 | 22 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn) | 1b8f2f2f-d3d2-455e-a9fd-5a65744352ec | 229 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Eastern Institute of Technology | ea5a3fa6-31f4-4553-9cfd-6bff49c36a6b | 189 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Toi Ohomai Institute of Technology | 38f8ea71-2269-407c-aab6-68a5f09fc01a | 157 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | NorthTec | d72e0120-a3a2-4909-8ddf-bcad1ec60150 | 122 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Te Wānanga o Aotearoa | ea0f4e14-e790-4c62-886f-3ec5bc040b4a | 86 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | New Zealand Institute of Skills and Technology (NZIST) | 27349414-019b-4c0b-a38d-db92aaaf5e68 | 72 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Skills Group Training Limited | 014118a6-54ea-4f36-ba05-a363b73b7979 | 63 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Te Whare Wānanga o Awanuiārangi | 5c067273-5f41-4da0-a16c-b2eac17f4306 | 52 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Tai Poutini Polytechnic | faa04942-5af1-418c-8214-c5aa2523c39d | 42 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Skills Active Te Mahi Ako Limited | 0ede4eef-4117-4362-8a64-131efcb31c38 | 41 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Skills Update Limited | 3f48840c-8038-42a0-805e-8f7974301b23 | 33 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | BCITO Limited | 7bf176e6-4c08-4068-a837-d991c5be8f22 | 33 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | NZ | Te Rūnanga-o-Tūranganui-a-Kiwa | 2a97c91d-9340-49fa-a437-6c76ea01edd9 | 32 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | CA | Canadore College | 425b1fad-a4ef-4a21-8590-c7fa9b671107 | 52 | Assigned, not acquired |
+| S3-AER-ChatGPT | 1 | CA | College of the Rockies | d5a30625-74a1-43ff-83bb-81b2bf587cb2 | 41 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | British Columbia Institute of Technology | 60b274ad-14cf-4343-9e1a-9779fd5466b1 | 30 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Burman University | 9e46baf2-694b-4d79-889e-b956d144c930 | 27 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Selkirk College | 6cc65e88-af6c-4fa9-b4a8-512d37b01d4f | 14 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Emily Carr University of Art and Design | 8bcdcee6-a7cb-4731-83cc-4f116e423914 | 12 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Aurora College | 69ac4368-98a0-4471-b265-d1e16fcb1ed0 | 11 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Vancouver Community College | 5a2a154f-1e11-4851-aa96-0a172ba5314d | 9 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Alberta University of the Arts | ea8e3df4-564a-4b12-907d-c8af9d38865e | 5 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Northwestern Polytechnic | 21818449-895c-45eb-82a6-b91bee0cece0 | 4 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | North Island College | 1386ffc1-e991-463c-bb22-39380cca67a1 | 3 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Mohawk College | 0af6c3f4-752e-42e3-b818-74c2eaf31671 | 2 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Justice Institute of British Columbia | b0f95837-8e85-4936-8166-b40b48e1044f | 2 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Yukon University | ca2dacb0-297a-4067-a899-59eb7b381ae6 | 2 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Coast Mountain College | 3a48beb7-d61f-468c-b93c-6fa61ab96921 | 1 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | Olds College | a29ecd44-67c5-4839-820e-3a5778dbc1df | 1 | Assigned, not acquired |
+| S3-AER-ChatGPT | 2 | CA | College of New Caledonia | e7af5ef9-f719-4b94-b6b5-abf88071b9ce | 1 | Assigned, not acquired |
+
+Completion: one outcome per named ID with official URL, source ID, evidence ID, hash, stored artifact, type, scope/edition, acquisition method, credits/USD, exact blocker/next action. No new tracking file or queue.
