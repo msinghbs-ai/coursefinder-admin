@@ -1,5 +1,7 @@
 # StudySearch – current state (read this first)
 
+**S2-Scholarship-Readers, 24 Nov 2026 13:55 AEDT: s1035 live (Pilot #1539).** Read back: head 20261124150000, `firecrawl.daily_budget_total` 1500, heading award keys accepted by the listing-record and admit functions, 128 Batch 1 listing pages queued (about 36 an hour), G3 75/48, locks 7,585, cron 133. No heading award member exists yet (`award_members` 0); the queue is still draining.
+
 **S2-Scholarship-Readers (Platform Admin brief 24 Nov 13:08), 24 Nov 2026 13:30 AEDT: s1035 recorded before merge** (heading-based multi-award splitter in `scholarship.ts`; heading award keys `S-<slug>` accepted by the listing-record and admit functions; `firecrawl.daily_budget_total` 5 -> 1500; Batch 1 hub listings read now; migration 20261124150000). Rehearsed rolled back: G3 75/48, locks 7,585, cron 133. Hand-off: test register regeneration to S1-Build.
 
 **S1-RM-Design (S2-RM-Design AER v2 Batch 1 brief), 24 Nov 2026 12:20 AEDT: s1029 live (Pilot #1535, merged 11:53; admin #900).**
