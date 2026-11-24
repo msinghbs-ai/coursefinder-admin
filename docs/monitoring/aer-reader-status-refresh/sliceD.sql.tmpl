@@ -1,0 +1,10 @@
+-- Read-only diagnostic (S1-Build scholarship reader status register): next-action dictionary and refresh time; rolled back, never merged.
+-- Replaces: nothing
+-- Retires: nothing
+do $d$
+declare o text;
+begin
+select 'D0~'||coalesce((select to_char(max(refreshed_at) at time zone 'UTC','YYYY-MM-DD"T"HH24:MI"Z"') from pipeline.scholarship_provider_coverage),'')||'~'||
+       coalesce((select string_agg(regexp_replace(a,'[|~]',' ','g'),'~' order by a) from (select distinct next_action a from pipeline.scholarship_provider_coverage where next_action is not null) z),'') into o;
+perform set_config('cf.diag', o, true);
+end $d$;

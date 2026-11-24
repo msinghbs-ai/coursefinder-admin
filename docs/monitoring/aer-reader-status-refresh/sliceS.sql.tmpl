@@ -1,0 +1,41 @@
+-- Read-only diagnostic (S1-Build scholarship reader status register); rolled back, never merged.
+-- Replaces: nothing
+-- Retires: nothing
+do $d$
+declare o text;
+begin
+with prov as materialized (
+  select p.id from catalogue.providers p join ref.countries co on co.id=p.country_id
+   where co.iso_alpha2::text in ('AU','NZ','CA') and exists(select 1 from catalogue.courses c where c.provider_id=p.id and c.lifecycle_status='active')
+   order by p.id offset @OFF@ limit @LIM@),
+crs as materialized (select c.id, c.provider_id, c.study_level_id from catalogue.courses c join prov on prov.id=c.provider_id where c.lifecycle_status='active'),
+sch as materialized (select s.id, s.provider_id, s.publication_status from scholarship.scholarships s where s.provider_id in (select id from prov) and s.lifecycle_status='active'),
+lnk as materialized (  -- one award's scopes narrow together: its course scopes (if any) and its study-level scopes (if any); a provider scope alone covers every course
+  select distinct c.id, c.provider_id from crs c join sch on sch.provider_id=c.provider_id
+   where exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.include_exclude is distinct from 'exclude')
+     and (not exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.scope_type='course' and sc.include_exclude is distinct from 'exclude')
+          or exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.scope_type='course' and sc.include_exclude is distinct from 'exclude' and sc.course_id=c.id))
+     and (not exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.scope_type='study_level' and sc.include_exclude is distinct from 'exclude')
+          or exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.scope_type='study_level' and sc.include_exclude is distinct from 'exclude' and sc.study_level_id=c.study_level_id))
+     and not exists(select 1 from scholarship.scopes sc where sc.scholarship_id=sch.id and sc.include_exclude = 'exclude' and ((sc.scope_type='course' and sc.course_id=c.id) or (sc.scope_type='study_level' and sc.study_level_id=c.study_level_id)))),
+gpa as (select sch.provider_id, count(*) filter (where security.gpa_scale_of_v1(cr.value_json, cr.human_text) is not null) scaled,
+               count(*) filter (where security.gpa_scale_of_v1(cr.value_json, cr.human_text) is null) unscaled
+          from scholarship.criteria cr join sch on sch.id=cr.scholarship_id
+         where cr.status='active' and cr.criterion_type='academic_minimum' and coalesce(cr.value_text,'') ~* '^GPA' group by 1),
+hub as (select distinct on (l.provider_id) l.provider_id, l.url from pipeline.scholarship_listing_pages l where l.provider_id in (select id from prov)
+         order by l.provider_id, l.active desc nulls last, case when jsonb_typeof(l.items)='array' then jsonb_array_length(l.items) else 0 end desc, l.read_at desc nulls last),
+rows as (
+  select p.id::text||'|'||
+    (select count(*) from crs where crs.provider_id=p.id)||'|'||
+    (select count(*) from lnk where lnk.provider_id=p.id)||'|'||
+    (select count(*) from sch where sch.provider_id=p.id)||'|'||
+    (select count(*) from sch where sch.provider_id=p.id and sch.publication_status='published')||'|'||
+    coalesce(cv.candidates::text,'')||'|'||coalesce(cv.listing_pages::text,'')||'|'||coalesce(cv.layer4_open::text,'')||'|'||
+    coalesce(round(cv.firecrawl_credits_30d)::text,'')||'|'||coalesce(cv.scholarships_published::text,'')||'|'||
+    coalesce(lower(split_part(split_part(cv.reject_reasons::text,';',1),' ',1)),'')||'|'||coalesce(cv.disposition,'')||'|'||
+    coalesce((select count(distinct x.next_action) from pipeline.scholarship_provider_coverage x where x.next_action < cv.next_action)::text,'')||'|'||coalesce(g.scaled,0)||'|'||coalesce(g.unscaled,0)||'|'||
+    coalesce(regexp_replace(h.url,'[|~]','','g'),'')||'|'||coalesce(cv.candidates_admitted::text,'') r
+    from prov p left join pipeline.scholarship_provider_coverage cv on cv.provider_id=p.id left join gpa g on g.provider_id=p.id left join hub h on h.provider_id=p.id)
+select 'S@K@~' || coalesce(string_agg(r, '~'),'') into o from rows;
+perform set_config('cf.diag', o, true);
+end $d$;

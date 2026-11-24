@@ -4,6 +4,7 @@
 **Outputs:**
 - `docs/monitoring/AER_University_Reader_Status.csv`: the canonical register. Columns and rules are in `docs/monitoring/AER_University_Reader_Status.md`.
 - The Drive sheet `Monitoring / AER_University_Reader_Status`: tabs `AU_Universities`, `NZ_Universities` and `CA_Universities`, and the `Summary` tab.
+- `docs/monitoring/Scholarship_University_Reader_Status.csv` and its Drive copy in `M3` (added by the Platform Admin, 24 Nov 2026 15:10). Column rules are under "Scholarship register" below.
 
 **Read only.** The live project is read through the shared rolled-back dry run (`db-migration-dry-run.yml`, workflow_dispatch, Pilot branch `s1-build-diag`).
 - No migration is merged, nothing is applied, and no interactive SQL is used.
@@ -18,9 +19,12 @@
 | `sliceB.sql.tmpl` | One slice of the providers that have a registered source or a stored course-page read (12): best source URL, inventory shape, stored snapshot path and matrix rows |
 | `dispatch_slices.sh` | Runs a list of slice files in one rolled-back dispatch, then collects each slice's text |
 | `build_register.py` | Builds the CSV: ranks, percentage, source type, `reader_status`, and `daily_admitted_delta` against the previous CSV. It also builds `sheet.json` for the Drive sync |
-| `refresh.sh` | The whole run: 90 A slices and 40 B slices in three dispatches, completeness checks, then the build |
+| `refresh.sh` | The whole run: 90 A slices and 40 B slices in three dispatches, completeness checks, then the build; then 90 S slices and the dictionary in two more dispatches, and the scholarship build |
 | `sheet_payloads.py` | Turns `sheet.json` into the exact Sheets writes (one JSON file per call: clear, tab chunks of 100 rows, Summary rows, KPI cells), so no number is retyped |
 | `sliceC.sql.tmpl` | One rolled-back read of live coverage (per field, active courses) and the guardrails (G3, manual locks, active cron jobs), run in the same dispatch as the B slices |
+| `sliceS.sql.tmpl` | One slice of providers (24, ordered by id, the same set as the A slices) for the scholarship register: active and linked courses, active and published awards, candidate and listing pages, Layer 4 items, Firecrawl credits (30 days), first rejection reason, disposition, next action (by index), GPA thresholds with and without a stated scale, and the listing hub |
+| `sliceD.sql.tmpl` | The next-action dictionary (every distinct `next_action`, in database order) and the coverage refresh time |
+| `build_scholarship_register.py` | Builds `Scholarship_University_Reader_Status.csv` from the S slices and the AER CSV of the same run (country, rank, code and name) |
 | `daily_digest.py` | Releases stale claims (older than 24 hours) in `PROVIDER-ENRICHMENT-QUEUE.csv`, writes `S1-BLOCKER-QUEUE.csv` (every `HELD:*` cell with its solver) and regenerates `DAILY-EXECUTIVE-STATUS.md`, keeping the lanes' spend log and solver entries |
 
 ## Daily procedure
@@ -41,12 +45,32 @@
    - Columns M (`aer_admitted_pct`) and V (`daily_admitted_delta`) carry plain number formats (`0.0` and `+0;-0;0`) from row 2; never change other formats.
    - **Verify** with `get_values`: row 1 is the header, row 2 is rank 1, the last data row is at row `rows + 1`, and `Summary!C14:M14` (Total Combined) equals `Summary!C15:M15` (the register CSV).
    - **If the sheet cannot be written** (permission or connector unavailable): leave it, say so in the report, and do not fail the run. The CSV in git is the canonical register.
+4a. Scholarship register, in the same admin pull request: copy `<work>/Scholarship_University_Reader_Status.csv` to `docs/monitoring/Scholarship_University_Reader_Status.csv`. Upload it to the Drive folder `1NyLe89dtY1DBn32TXyR3le2p3uUdxfXN` (Drive `create_file` with a file reference, `text/csv`, no conversion, title `Scholarship_University_Reader_Status.csv`); after the upload succeeds, trash only the older copies with exactly that title in that folder.
+   - The Google Sheet `Scholarship_University_Reader_Status` in `M3` is refreshed the same way as the AER sheet (a temporary converted upload, copy the tab, paste values, trash the temporary file) only when the connector can edit it. On 24 Nov 2026 it reports `canEdit: false`: then leave it, say so in the report, and do not fail the run. The CSV in git and its Drive copy are the current register.
 5. Daily digest, in the same admin pull request as the register: run `python3 daily_digest.py --admin <admin clone> --live <work>/C.out --now "<YYYY-MM-DD HH:MM, Melbourne>"`.
    - It changes `PROVIDER-ENRICHMENT-QUEUE.csv` only to release stale claims (a dated note on each row), and writes `S1-BLOCKER-QUEUE.csv`, `DAILY-EXECUTIVE-STATUS.md` and `daily-digest-state.json`.
    - If the live probe did not answer, the guardrail rows show "not read" and the run reports it; nothing is guessed.
 6. Drive mirror (Platform Admin 23 Nov 2026 19:59): upload `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md` and `docs/monitoring/DAILY-EXECUTIVE-STATUS.md` from merged `main` to the Drive folder `1NyLe89dtY1DBn32TXyR3le2p3uUdxfXN` (Drive `create_file` with a file reference, `text/markdown`, no conversion, same title). After both uploads succeed, trash the older copies with exactly the same title in that folder, so one current copy of each is left. Never trash any other file.
 7. Report:
-   - providers per country and the counts per `reader_status`;
+   - providers per country and the counts per `reader_status` (AER and scholarship registers);
    - the admitted courses and their change against the previous snapshot;
    - the five universities blocked in Layer 4 with the most active courses;
    - the merged admin pull request.
+
+## Scholarship register
+
+`Scholarship_University_Reader_Status.csv` has one row per provider in the AER register (same country, rank, code and name). Every value is read live; nothing is typed.
+
+| Column | Rule |
+|---|---|
+| `country_code`, `rank`, `provider_code`, `provider_name` | From the AER register of the same run: rank by active courses within the country, then name (the first, hand-made copy of 24 Nov used another tie order) |
+| `has_registered_source`, `source_count` | `Yes` when the provider has scholarship candidate pages or listing pages (`pipeline.scholarship_provider_coverage.candidates + listing_pages`); the count is that sum |
+| `scholarship_hub_url` | The provider's listing page (`pipeline.scholarship_listing_pages`): active first, then the most items, then the latest read |
+| `parser_mode` | `Listing reader (direct-first, s992) + page reads` with a listing page; `Candidate page reads (direct-first)` with candidate pages only; otherwise `None` |
+| `active_courses`, `scholarship_linked_courses`, `scholarship_coverage_pct` | Active courses, and those an active award of the same provider covers. An award's scopes narrow together: its course scopes (if it has any) and its study-level scopes (if it has any) must both match; an award with only a provider scope covers every course; an excluded course or level is not covered |
+| `published_awards` | `scholarships_published` in the coverage table |
+| `gpa_scale_status` | Active GPA thresholds (`academic_minimum`, value starting `GPA`) on the provider's active awards: `Scale stated (n)` where `security.gpa_scale_of_v1` finds a scale, `No scale stated (n)` where it does not (s1021 holds those in Layer 4), or `No GPA thresholds` |
+| `firecrawl_credits_used` | `firecrawl_credits_30d` in the coverage table |
+| `l4_blocker_reason` | `LAYER4_OPEN (n)` while Layer 4 items are open; otherwise the provider's most frequent rejection reason, in capitals; otherwise `NONE` |
+| `reader_status` | `Stuck in L4`: Layer 4 items are open, or awards are admitted but none is published. `Fully Working`: published awards, nothing open, and at least 80% of active courses linked. `Partial - Low Confidence`: published awards with less than 80% linked. `No Reader Yet`: nothing published or admitted |
+| `next_action` | `next_action` in the coverage table (`No scholarship coverage row yet` when the provider has no coverage row) |
