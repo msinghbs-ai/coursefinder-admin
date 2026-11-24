@@ -1,5 +1,15 @@
 # StudySearch – current state (read this first)
 
+**S2-RM-Design, 24 Nov 2026 23:05 AEDT (AER admission validator and Layer 4 triage): 13 change items triaged; s995 re-rehearsed; no live change.**
+- **Triage (Execution Register, S2-AER section):** 0 of 13 can be bulk-approved now. Every item is `technical_blocked` (`matrix_source`) because its read dropped published rows; Approve is refused.
+  - Across the 13 reads: 1,269 proposed rows; 449 unchanged, 7 changed scores, 813 added; 187 active rows would be superseded; 541 rows fail value proof; 50 have a blank level.
+  - Remedy: corrected re-reads from stored copies by the reader owners.
+- **Reusable fix routed:** six country aliases (Hong Kong (China), HK, Taiwan(China), SG, Macedonia, and the misspellings Bangaldesh and Phillipines). No equivalence is inferred.
+- **s995 (Pilot #1502):** not superseded. `security.aer_matrix_machine_exclusions_v1` is unchanged (md5 `51ad50c5…`) and UWA's 194 rows still wait. Re-rehearsed 23:00: 186 rows admitted; active matrix 7,261 → 7,447; counter 10,729 → 10,795 (+66); real answers 0 (UWA India answers: 152 course_override, 176 contact_provider before and after).
+  - Remaining value: correct bachelor ATAR-band rows that answer only once UWA courses carry an ATAR band. Kept as a draft; if it is merged, its migration timestamp must be renumbered above the head.
+- **Baseline for the 00:10 read-back:** active matrix 7,261; covered 10,729; 0 machine admissions in the last 24 hours.
+- **Guardrails:** G3 75/48, locks 7,585, cron and $0 all unchanged.
+
 **S3-Scholarship-ChatGPT / SCH-FU-04, 24 Nov 2026 22:28 AEDT:** Pilot #1574 / Admin #981 live; request `625e62fc-fd69-47d1-9858-216dcb4a76e7` audit 66899, expiry 25 Nov 03:40 AEDT, remains open. All 84/84 listings read, no failures (Auckland 31, Canterbury 37, Otago 11, VUW 3, Lincoln 2); 501 new award sections. NZ published 112/12 providers unchanged; active unpublished 54→56; two new admission events (Lincoln and VUW), two duplicate and five rejected events. Later linked-candidate snapshot: 545 distinct candidates, 506 unread, 39 read (5 admitted status, 5 duplicate, 21 rejected, 8 unclassified); statuses are not new admission counts. Lincoln candidate 44346, evidence 1948b015-e6b5-4d4e-a3c9-d71b101d71c6, stored HTML exists, deterministic value null and no admit status; source excerpt shows B average for NZ$10,000, do not assume B+; reuse stored evidence and qualified extraction before patch. Four Lincoln canonical monetary awards 2500/3000/5000/10000, only 10000 published. FC request 39/84, account 63077, AI all lanes $0.1026; scholarship lane Qwen 114 calls $0.06768208 (not NZ-attributed; tokens not retrieved). G3 75/48 no drift, locks 7585, cron 137. Independent existing listings: AUT 3, Massey 7, Waikato 5, NZIST 0; no fresh source claimed. Resume: let existing candidate reader settle, prioritise stored Lincoln 44346 via existing extraction, verify canonical/consumer and two cycles, close request after settlement; no extension or global changes. S1-Build owns status CSV sync. M3 mirror pending.
 
 

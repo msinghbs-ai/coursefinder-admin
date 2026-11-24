@@ -178,6 +178,16 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 24 Nov 2026 23:05 AEDT (AER admission validator and Layer 4 triage): 13 change items triaged; s995 re-rehearsed; no live change.**
+- **Triage (Execution Register, S2-AER section):** 0 of 13 can be bulk-approved now. Every item is `technical_blocked` (`matrix_source`) because its read dropped published rows; Approve is refused.
+  - Across the 13 reads: 1,269 proposed rows; 449 unchanged, 7 changed scores, 813 added; 187 active rows would be superseded; 541 rows fail value proof; 50 have a blank level.
+  - Remedy: corrected re-reads from stored copies by the reader owners.
+- **Reusable fix routed:** six country aliases (Hong Kong (China), HK, Taiwan(China), SG, Macedonia, and the misspellings Bangaldesh and Phillipines). No equivalence is inferred.
+- **s995 (Pilot #1502):** not superseded. `security.aer_matrix_machine_exclusions_v1` is unchanged (md5 `51ad50c5…`) and UWA's 194 rows still wait. Re-rehearsed 23:00: 186 rows admitted; active matrix 7,261 → 7,447; counter 10,729 → 10,795 (+66); real answers 0 (UWA India answers: 152 course_override, 176 contact_provider before and after).
+  - Remaining value: correct bachelor ATAR-band rows that answer only once UWA courses carry an ATAR band. Kept as a draft; if it is merged, its migration timestamp must be renumbered above the head.
+- **Baseline for the 00:10 read-back:** active matrix 7,261; covered 10,729; 0 machine admissions in the last 24 hours.
+- **Guardrails:** G3 75/48, locks 7,585, cron and $0 all unchanged.
+
 **S2-RM-Design, 24 Nov 2026 22:15 AEDT (cross-country AER admission and blocker gate): active-course counts added for the 12 change-item providers; no live change.**
 - **Counts:** the 12 providers carry 3,024 active courses, 1,167 of them covered now, under 13 pending `entry_matrix_change` items (1,284 proposed rows). The table is in the Execution Register's S2-AER blocker section.
 - **Correction:** Top Education Institute's two items read two different source pages, so they are not duplicates.
