@@ -1,0 +1,37 @@
+wave,batch,provider_id,provider,active_courses,official_source_url,evidence_id,sha256,acquisition_status,blocker,spend_usd,next_action
+1,4,310f6537-ef7e-4e76-8697-30b06fa2af6c,Australian Performing Arts Conservatory,11,https://apac.edu.au/media/q2elac5h/international-academic-entry-requirements-v2-1.pdf,37b0af62-3f38-41f4-9830-bff48f5e5b11,78850689cd0e506fd795729f4cfbcae8bbd763a5e486a60b12b24e90afc0bfc6,STORED,,0.00,S1-AER-Claude Steps 3-5
+1,4,d263eab5-2ead-443f-82d1-37800b29a6b0,ICHM,27,https://www.ichm.edu.au/future-students/international-students/entry-requirements,85875baf-f3a7-4c85-9ab8-a1ed4bf3877d,40d6aec429c8b02bfbd6003e0b385b283ac5dbbb35104250a31a7c1e867cc6d7,STORED (existing 16 Nov capture),,0.00,S1-AER-Claude Steps 3-5
+1,4,c001e5eb-bb39-4bf9-8284-ad13b7dd912f,SAIBT,9,https://saibt.sa.edu.au/wp-content/uploads/admissions-entry-criteria-v12.1_public.pdf,,,REGISTERED (v12.0 404; v12.1 via s1092),fetch pending,0.00,"Confirm v12.1 stored, then hand off"
+1,4,97eedc7f-8a5d-495d-b101-35d22160e97e,Chisholm Institute,32,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,Re-search with a browser-capable lane
+1,4,ac672bf2-086b-4d9f-8aa6-6f3057f58a51,ACAP University College,27,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,Re-search with a browser-capable lane
+1,4,95a1f220-4617-4ea1-81e5-b50debd72404,Australian University of Theology,29,,,,HELD:NO_SOURCE,No by-country table,0.00,Re-search with a browser-capable lane
+1,4,11e427cd-da7a-4f6f-b18a-99426b4d3b25,Australian University College of Divinity,41,,,,HELD:NO_SOURCE,No by-country table,0.00,Re-search with a browser-capable lane
+1,4,f4ed3151-b81e-46d9-8a6c-d7e302ab63ae,University of Divinity,17,,,,HELD:NO_SOURCE,No by-country table,0.00,Re-search with a browser-capable lane
+1,4,eed2d475-89f6-4ab2-952a-d0f92a6236b0,Strathfield College,30,,,,HELD:NO_SOURCE,No official page found,0.00,Re-search with a browser-capable lane
+1,4,220519f2-4569-4fc7-8327-aaade6bbe3a0,Skills Institute Australia,27,,,,HELD:NO_SOURCE,No official page found,0.00,Re-search with a browser-capable lane
+1,4,6f1787f2-0f50-47e6-aa90-4017c67986c8,Kingston International College,27,,,,HELD:NO_SOURCE,Age and English criteria only,0.00,Re-search with a browser-capable lane
+1,4,4657669f-02e9-4da8-91ee-d96d79ef7fe3,Pacific College of Technology,41,,,,HELD:NO_SOURCE,English criteria only,0.00,Re-search with a browser-capable lane
+1,4,5ce077c2-61ba-4a88-a588-cbba554b0f50,Macquarie English / Institute,34,,,,HELD:NO_SOURCE,No official page found,0.00,Re-search with a browser-capable lane
+1,4,864f2e01-b243-45c3-87c7-71547d508f47,Australian Harbour International College,31,,,,HELD:NO_SOURCE,Only third-party pages,0.00,Re-search with a browser-capable lane
+1,4,03ce3beb-f0a5-4237-852a-40a33ef44dcf,Australian College of Business Intelligence,34,,,,HELD:NO_SOURCE,Only third-party pages,0.00,Re-search with a browser-capable lane
+1,4,3bda5c67-79e4-4f12-b22a-14b93c77b481,Stott's Colleges,35,,,,HELD:NO_SOURCE,No official page found,0.00,Re-search with a browser-capable lane
+1,4,8b4c406b-75ec-4bc6-b16d-277ae707ef2c,Australis Institute of Technology and Education,32,,,,HELD:NO_SOURCE,Only third-party pages,0.00,Re-search with a browser-capable lane
+1,4,170df0d3-0fee-463c-93b2-3113495444f2,Australian Ideal College,32,,,,HELD:NO_SOURCE,Only third-party pages,0.00,Re-search with a browser-capable lane
+1,4,ceb870e6-9048-412f-93fc-f6b711b8c897,Charlton Brown,29,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,Re-search with a browser-capable lane
+1,4,04cb74c1-7e5a-41ce-9e43-fe89c9e662ab,Australian College of Physical Education,23,,,,HELD:NO_SOURCE,Only an outdated 2020 by-country PDF found; current link not exposed,0.00,Re-search with a browser-capable lane
+1,4,429aa292-fa6c-4b07-8f23-23f790dece92,Gordon Institute of TAFE,17,,,,HELD:NO_SOURCE,Country-equivalencies page not found,0.00,Re-search with a browser-capable lane
+2,1,b3d3ae78-318c-4061-b19a-a734b86c9f85,Kent Institute Australia,21,https://kent.edu.au/wp-content/uploads/DOC-Academic-Entry-Equivalences.pdf,,,REGISTERED (s1093),fetch pending,0.00,"Confirm stored, then hand off"
+2,1,131ef262-b6e4-40a3-b8bf-7e4d6098eba8,Holmes Institute,25,,,,HELD:NO_SOURCE,"Policy document referenced, no country table found",0.00,Find Admissions Requirements Policy PDF
+2,1,343dbbcf-8ce8-4b0c-93cf-397a1f7472dc,Academies Australasia Institute,26,,,,HELD:NO_SOURCE,Per-course Year 11/12 criteria only,0.00,None
+2,1,7d4300d7-7126-438b-a49f-8150fa39eb9a,CIHE Australia,25,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,None
+2,1,2c4d14af-22a8-42a2-a3d2-526816dbfc0e,Stanley College,25,,,,HELD:NO_SOURCE,"Policy criteria only, no country table",0.00,None
+2,1,75d56305-a611-412a-aced-c2dd4c831c00,VIT (Victorian Institute of Technology),23,,,,HELD:NO_SOURCE,Course pages cite an HE country-specific requirements document; link not exposed to search,0.00,Locate link via browser; general v25.0 entry PDF is not a country table
+2,1,b30efc1b-e9c1-4604-9f47-f6dbb0b98dfc,Gippsland Institute of Technology,24,,,,HELD:NO_SOURCE,Search returned a different organisation (git.edu.au),0.00,Confirm official domain
+2,1,391ed8c7-bd08-4184-a8ec-7ee7d2f1ac2a,Canberra College of Management and Technology,24,,,,HELD:NO_SOURCE,No results,0.00,Confirm official domain
+2,1,29abe8aa-2ab1-4113-b65b-83edba3d8451,Imagine Education Australia,25,,,,HELD:NO_SOURCE,No results,0.00,Confirm official domain
+2,1,546ea6f8-5f27-47bb-9a50-147bbae214fc,Xavier International College,25,,,,HELD:NO_SOURCE,Year 12 equivalent per course only,0.00,None
+2,1,a9404a57-5068-4562-ab0f-838347335118,Skyline International College,26,,,,HELD:NO_SOURCE,No results,0.00,Confirm official domain
+2,1,6e0e0d29-a011-4085-b273-09b904be79fa,Global College Australasia,25,,,,HELD:NO_SOURCE,"Admission policy only, no country table",0.00,None
+2,1,e9c64aaf-132e-4236-b29c-7ba76e404b12,Sunraysia Institute of TAFE,24,,,,HELD:NO_SOURCE,English criteria only,0.00,None
+2,1,56cdc7ef-24ca-46d7-af37-4dfd91d3d0e1,Adelaide Institute of Health,24,,,,HELD:NO_SOURCE,"General academic criteria, no country table",0.00,None
+2,1,8e7e04ea-33dc-4c8d-8cb6-2325448d7b57,Academy of Interactive Technology,41,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,None
