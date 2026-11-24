@@ -178,6 +178,10 @@ A shared spec, `// Guards: P0 cross-domain operator contract (Platform Admin 10 
 
 ### F-AER — Academic entry requirements (IQ-00060 / IQ-00293 / current AER families)
 
+#### F-AER handover acceptance contract — 24 November 2026 (S2-AER)
+
+A reader counts as delivered only when its eligible rows are active canonical rows (`aer_matrix_machine_admissions` outcome `admitted`), a consumer read-back shows them, and two unattended cycles pass without unsafe change. `entry_matrix_runs.rows_admitted` means proposed rows and is never evidence of admission. The record fields, reason codes and owners are in [AER-TECHNICAL-DESIGN.md](AER-TECHNICAL-DESIGN.md#24-november-2026-s2-aer--reader-handover-contract-and-counter-meanings). Territorial lanes verify admission outcomes and do not change shared admission functions.
+
 #### AER source-to-admission recovery mandate — 24 November 2026 (Platform Admin direction)
 
 Complete existing AER extraction and normalisation (pipeline stages 3 and 4) through machine admission, canonical verification and recurring execution; do not restart discovery or replace the pipeline. Live read-only baseline 24 Nov: 206 matrix-source providers, 200 with runs, 57 with active matrix data; 149 sourced without active matrix (AU 100, NZ 19, CA 30), 68 sourced without any active AER. At 16:21 AEDT 39 providers received 42 new sources; 36 providers had new reader runs, 25 failed runs, 150 machine-admitted rows from existing activity (not attributed to new sources without lineage). Failure evidence: 17 unproved deterministic tables/no qualified model, 5 PDF layout failures, 3 model timeouts. Canadian internal run counters are not canonical admission proof.

@@ -401,3 +401,27 @@ Qualification rows are not yet in the consumer API (a consumer API change, needs
 ## 24 November 2026 — AER extraction-to-admission recovery
 
 Apply the [standing AER recovery mandate](AGENT-OPERATING-MODEL.md#aer-source-to-admission-recovery-mandate--24-november-2026-platform-admin-direction) and [F-AER acceptance contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md). S1-AER-Claude AU, S3-AER-ChatGPT NZ/CA, S2-AER (formerly S2-RM-Design AER lane) shared mapping/admission, S1-Build shared runner and register regeneration. Prioritise existing 149 sourced providers without active matrix, steps 3/4 through eligible canonical admission, consumer readback and two unattended cycles. No duplicate pipeline or relaxed gates. This is a delivery requirement, not a claim of new admissions. Preserve historical entries and use the existing lane status and execution register for measured outcomes.
+
+## 24 November 2026 (S2-AER) — reader handover contract and counter meanings
+
+**One contract, existing structures only.** Every AER reader (AU, NZ, CA, any new one) hands over the same typed record, written to `catalogue.provider_entry_matrix` with its run in `pipeline.entry_matrix_runs`. No second schema or admission engine; `security.aer_matrix_machine_check_v1` and `aer-partial-v1` stay the only admission path.
+
+| Required content | Field(s) | Checked by |
+|---|---|---|
+| Provider identity and source ownership | `provider_id`, `source_id` (the source is registered to the provider in `pipeline.entry_matrix_sources`) | `source_not_official_host`, `host_shared` (host aliases and primary resolution; the registered source, not the active-course count, is the ownership proof) |
+| Course identity or provider/level scope | `course_id`, `course_label`, `study_level_id`, `aer_level` | exact code/title/level match only; AI suggestions never decide identity |
+| Applicant country and qualification | `country_id`, `country_code`, `qualification_name` | `unknown_country`, `unknown_qualification` |
+| Minimum grade, value, scale, band | `min_grade`, `min_value`, `grade_scale`, `benchmark_band` | `grade_not_in_quote`, `value_not_in_quote`, `band_not_in_quote`, `value_without_scale` |
+| Conditions, audience, edition | `conditions`, `audience`, `edition`, `intake_year` | audit sample |
+| Evidence | `evidence_id`, `source_url`, `content_hash`, `quote` | `quote_not_on_page`, `missing_quote_or_qualification`, stale copy |
+| Mapping and verification outcome | `status`, `status_reason`, `confidence`, `provenance` | `low_confidence`, machine check rules in order |
+
+**Reason codes for readers (what to fix where).**
+- `unknown_country`, `unknown_qualification`: shared mapping alias gap (S2-AER).
+- `quote_not_on_page`, `grade_not_in_quote`, `band_not_in_quote`, `value_not_in_quote`, `value_without_scale`, `missing_quote_or_qualification`: reader or parser output (S1-AER-Claude for AU, S3-AER-ChatGPT for NZ/CA).
+- `host_shared`: provider identity (S2-AER); held unless the registered source and the host rule agree.
+- `change_of_admitted_table`: a previously admitted table changed; stays held for a person.
+
+**Counter meanings (24 Nov 2026 read).** `entry_matrix_runs.rows_admitted` is the number of rows the reader wrote after its own checks, as `proposed` rows. It is not a canonical admission. Canonical admission is a row with `status = 'active'` in `provider_entry_matrix`, recorded in `pipeline.aer_matrix_machine_admissions` (`outcome = 'admitted'`, rule `aer-matrix-machine-v1` or `aer-partial-v1`). Live: 317 runs report 10,059 rows; the matrix holds 6,865 active and 2,090 proposed. Canada: 32 runs, 33 rows reported, all 33 proposed, 0 active (4 items all_rows_held, 2 gate_incomplete, 20 runs failed). Reports must say "extracted/proposed" for the run counter and "admitted" only for the ledger.
+
+**Completion test for a reader.** Source-backed extraction, strict mapping check passed, eligible rows active, consumer read-back verified, two unattended cycles without unsafe change. A valid no-data outcome carries its evidence-backed reason and is not reported as delivery.
