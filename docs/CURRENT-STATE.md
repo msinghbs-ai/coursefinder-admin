@@ -1,5 +1,32 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 24 Nov 2026 21:05 AEDT: s1054 live; s1055 recorded before merge; AER-FU-11 diagnosis.**
+- **s1054 live** (Pilot #1571, merged 20:18). Results in the first 30 minutes (to 20:48):
+  - 3 scholarship-discover and 6 scholarship-read runs.
+  - 210 candidates read, 70 each for AU, NZ and CA, across 42 providers.
+  - Outcomes: 14 admitted, 37 rejected, 8 duplicates; 143 sit in the AI extraction queue.
+  - 17 new scholarships. Published 1,146 (was 1,143), across 127 providers.
+  - 161 scholarship_extraction calls on Qwen3 30B: 280,919 input and 135,752 output tokens, US$0.0688. 0 Firecrawl (every read was direct).
+  - 1,706 unread candidates are still due.
+- **Held follow-ups (controls unchanged):**
+
+  | Hold | Candidates | Note |
+  |---|---|---|
+  | Firecrawl provider hold | 821 (AU 600, CA 216, NZ 5) | includes the UTAS prize pages, which stay under their provider hold |
+  | Discovery priority 2 (AU) | 164 | |
+  | Not yet due | 304 | |
+  | Three tries exhausted | 46 | |
+
+- **s1055 (SCH-FU-04, Admin #937):** integration of branch `s3-nz-scholarship-on-demand-recovery-20261124`.
+  - Rebased on main. The migration is renumbered to `20261125130000`.
+  - Live `security.fc_sch_held_v1` md5 `1b9bbe30` equals its guard. Without the change, a scholarships-scoped on-demand request leaves the four NZ universities held, so the existing route does not meet the need.
+  - The committed fixture now runs inside the migration and always rolls back. Rehearsal passed: purpose, provider scope, expiry, the non-discovery path and the Canadian behaviour are all unchanged; cron 136.
+- **AER-FU-11 (diagnosis):** entry_matrices calls in 48 hours are 52 answered on Mistral Small 3.2 (US$0.0313). 10 runs failed after three tries, Canadian colleges at 16:11 to 17:57, with "reply unreadable: TimeoutError".
+  - Each slice call has a 90 s time-out (`AbortSignal.timeout(90000)`), set against `entry.matrix_max_tokens` 16,000 and 8,000-character slices, inside a 110 s worker budget.
+  - After the first time-out there is less time left than two 15 s attempts, so the cascade never reaches Qwen3 30B or GPT-4.1 mini.
+  - Each run then repeats unchanged three times (`entry.matrix_attempts` 3).
+  - Failed attempts are not in `pipeline.ai_invocations`; only answered calls are.
+
 **S1-Build, 24 Nov 2026 20:20 AEDT (Platform Admin 19:48, SCH-FU-09): s1054 recorded before merge.**
 - **Why the readers were off:** `scholarship-read`, `scholarship-discover`, `scholarship-discover-refill` and `calendar-reread` were paused on 17 Nov 2026 13:34 by migration `20261117051700` (Pilot #1195, Platform Admin 13:11). Its reason reads "Temporarily paused for bulk REQ and Roadmap ingestion: no or almost no work moved in 72 hours. Resume on Automations", and the events are marked temporary. No protected policy is attached. Only `scholarship-discover`'s candidate phase reads candidates, so the listing reader's candidates waited.
 - **Backlog (live 19:55):**
