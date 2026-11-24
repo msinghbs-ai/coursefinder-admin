@@ -1,15 +1,15 @@
 {
- "at": "2026-11-24 08:18",
+ "at": "2026-11-25 08:22",
  "coverage_pct": {
-  "Academic entry (AER)": 29.0,
+  "Academic entry (AER)": 30.1,
   "Campus locality (geo: campus city held)": 83.1,
-  "Course descriptions": 44.3,
+  "Course descriptions": 44.5,
   "English requirements (ELR)": 59.2,
   "Exact intake dates (courses with a dated active intake)": 8.8,
   "Official course URLs": 66.8
  },
  "done": {
-  "aer_status": 12,
+  "aer_status": 13,
   "elr_status": 0,
   "geo_status": 0,
   "intake_status": 5,
