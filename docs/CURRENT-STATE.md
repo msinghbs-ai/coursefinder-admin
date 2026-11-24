@@ -64,6 +64,11 @@
   - It then alternates countries and providers. In rehearsal, a 60-page pick changed from AU 60 (5 providers) to AU 20, CA 20, NZ 20 (40 providers). Holds are unchanged and are checked before the window.
   - `scholarship-discover` and `scholarship-read` are resumed with their commands, sizes and budgets unchanged (cron 138 in rehearsal). `scholarship-discover-refill`, `scholarship-listing` and `calendar-reread` stay as they are.
 
+**S1-API-Frontend-Delivery, 24 Nov 2026 22:35 AEDT brief: s1090 Layer 4 Review fix (UI v2.17.0 stays; migration `20261125210000`).**
+- **Only the Layer 4 Review screen changed.** One University box filters the tiles, the held-reason table and the items; the grouping log is gone from the header; an empty list says so in both panes.
+- **Hold reasons:** `admin_layer4_aer_queue` hold_reasons takes `provider_id` and `country`; every reason is named (no `Other`). Matrix change and first run list open with an Approve Selected bar (each item decided through the Inbox `decide`; the server gate still applies).
+- **Frozen until lifted:** Slice 3/4 ports and legacy CSS deletion.
+
 **S1-Build, 24 Nov 2026 18:50 AEDT: s1053 live (Pilot #1566, merged 18:18; head `20261125060000` with other lanes).**
 - **English:** 1,041 rows added from the published equivalence tables: Adelaide 525 (PTE, TOEFL iBT and CAE on 175 courses), Newcastle 516 (172 courses, applied by the trigger when its procedure was stored).
 - **Scholarships:** GPA thresholds that say "on a 7.0 scale" now count as stating their scale. The Vice-Chancellor's postgraduate GPA (4.5 out of 7) is live. The two Newcastle terms pages are queued for the scholarship reader.
