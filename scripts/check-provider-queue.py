@@ -31,6 +31,13 @@ def lane(name):
     return ALIAS.get(name, name)
 
 
+def owner_for(row, column):
+    """Platform Admin 24 Nov 2026: S3 owns NZ/CA AER; S1 owns AU AER."""
+    if column == 'aer_status' and row.get('country_code') in ('NZ', 'CA'):
+        return 'S3-AER-ChatGPT'
+    return OWNER[column]
+
+
 def load(text):
     rows = list(csv.reader(io.StringIO(text)))
     return rows[0], [dict(zip(rows[0], r)) for r in rows[1:]], rows[1:]
@@ -60,8 +67,11 @@ def main():
             if v.startswith('HELD:') and v[5:] not in HELD:
                 errs.append(f"{r.get('provider_name')}: {c} = {v} is not a HELD code from design section 6")
             if v.startswith('CLAIMED:'):
-                if lane(v[8:]) != own:
-                    errs.append(f"{r.get('provider_name')}: {c} is owned by {own}, but {v} names another lane")
+                expected = owner_for(r, c)
+                # Old S1 NZ/CA claims are historical and stay valid until their current owner closes them.
+                legacy = c == 'aer_status' and expected == 'S3-AER-ChatGPT' and lane(v[8:]) == 'S1-RM-Design'
+                if lane(v[8:]) != expected and not legacy:
+                    errs.append(f"{r.get('provider_name')}: {c} is owned by {expected}, but {v} names another lane")
                 claims.add(lane(v[8:]))
         acl = r.get('active_claim_lane', '')
         if claims and lane(acl) not in claims:
@@ -86,7 +96,7 @@ def main():
                 for c, own in OWNER.items():
                     same_claim = o[c].startswith('CLAIMED:') and r[c].startswith('CLAIMED:') and lane(o[c][8:]) == lane(r[c][8:])
                     if r[c] != o[c] and not same_claim and not (o[c].startswith('CLAIMED:') and r[c] == 'PENDING'):
-                        touched.setdefault(own, set()).add(c)
+                        touched.setdefault(owner_for(r, c), set()).add(c)
             if len(touched) > 1:
                 errs.append('one pull request changes status columns of more than one owner lane (single writer per column): '
                             + '; '.join(f'{k}: {", ".join(sorted(v))}' for k, v in sorted(touched.items())))
