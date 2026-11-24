@@ -1,5 +1,8 @@
 # StudySearch – current state (read this first)
 
+**S3-AER-ChatGPT (NZ/CA only), 24 Nov 2026 14:26 AEDT, s1041 in progress (NOT RELEASED).** Pilot branch `s1041-nzca-aer-heading-reader-linker` contains a country-heading headerless HTML table parser for Otago Polytechnic/Wintec and a md5-guarded NZ-only Auckland/VUW course-label abbreviation normaliser. Live SQL rehearsal was rolled back; unique Auckland Bachelor of Commerce and Engineering linked under test, conjoint heading stayed unlinked. Admin source queue: 9 NZ/CA rows claimed; AU unchanged. No production rerun, admission, model spend or Firecrawl spend yet. Source registration requires actual official academic matrix proof (not an English-only page), tests/green CI and Admin-first/Pilot-second release remain outstanding.
+
+
 **S1-RM-Design (S2-RM-Design brief 14:21), 24 Nov 2026 15:05 AEDT: s1038 recorded before merge** (list setting `aer.provider_host_aliases`, Adelaide University to `adelaide.edu.au`; one md5-guarded edit of `security.aer_matrix_machine_check_v1`; migration 20261124170000). Adelaide now clears the host rule and stops at `gate_incomplete`.
 
 **S2-Scholarship-Readers, 24 Nov 2026 13:55 AEDT: s1035 live (Pilot #1539).** Read back: head 20261124150000, `firecrawl.daily_budget_total` 1500, heading award keys accepted by the listing-record and admit functions, 128 Batch 1 listing pages queued (about 36 an hour), G3 75/48, locks 7,585, cron 133. No heading award member exists yet (`award_members` 0); the queue is still draining.
