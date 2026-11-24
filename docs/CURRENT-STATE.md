@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 24 Nov 2026 18:50 AEDT: s1053 live (Pilot #1566, merged 18:18; head `20261125060000` with other lanes).**
+- **English:** 1,041 rows added from the published equivalence tables: Adelaide 525 (PTE, TOEFL iBT and CAE on 175 courses), Newcastle 516 (172 courses, applied by the trigger when its procedure was stored).
+- **Scholarships:** GPA thresholds that say "on a 7.0 scale" now count as stating their scale. The Vice-Chancellor's postgraduate GPA (4.5 out of 7) is live. The two Newcastle terms pages are queued for the scholarship reader.
+- **Fees (not done):** all four official pages are stored (on-demand request closed, 9 Firecrawl credits). The fee reader admitted no 2027 fee: it read the Adelaide guide (207k characters) with 0 rows for US$0.0035, and its model call timed out on both Newcastle lists. Adelaide's deterministic parse found 109 rows on the first direct read, but the later scrape copy parses to none. Every current fee is still 2026, and none was relabelled.
+- **Guardrails:** locks 7,585; cron 135; G3 75/48.
+
 **S1-RM-Design, 24 Nov 2026 18:50 AEDT (Platform Admin 18:02): scholarship publication recovery from existing data; s1073 recorded before merge (Pilot branch `s1-rm-design-s1073-sch-intl-wording`).** Baseline 1,096 published, 114 providers, 492 active unpublished (AU 335, CA 108, NZ 49), Layer 4 pending 72 (31 providers). Blocker reconciliation and decisions for a person: `docs/platform/2026-11-24-s1-rm-design-scholarship-publication-recovery.md`. s1073 clears 9 false citizens-only holds; 18 publishable awards wait for the hourly auto-publish. $0.
 
 **S1-Build, 24 Nov 2026 17:50 AEDT (Platform Admin 17:14): s1053 recorded before merge (Item 2 completed from the official university sources).**
