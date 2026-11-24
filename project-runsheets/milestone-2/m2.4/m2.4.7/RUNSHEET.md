@@ -283,3 +283,5 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Firecrawl window (Charles Darwin and Lincoln):** not opened. S3 s976's zero total refuses on-demand spend, and the blocker is the page layout, not fetching.
 - **Queue:** both rows stay `CLAIMED:S2-Build` (s992) with notes, because the section splitter continues them.
 - **Docs:** design doc section 10 mirrors Drive blueprint Section 6 (Platform Admin 18:48). TEST-REGISTER regenerated from Pilot main (965 specs, 4,419 tests; adds s990 and s994).
+
+- **24 Nov 2026 15:55 AEDT, S1-AER-Claude (s1042):** ACU official by-country PDF registered (`entry_matrix_sources` 224bc22d), fetched direct and archived, run c7e1586e `held_unparsed` (no ruled table, no aligned grid). UOW, RMIT, Monash, Newcastle, Macquarie, QUT, Murdoch, La Trobe, SCU, JCU and UniSC recorded HELD with reasons in the queue. Adelaide alias already delivered by s1038. AI $0, Firecrawl 0 credits. No Pilot change.

@@ -4029,3 +4029,5 @@ The Platform Admin's message came at 10:57 AEDT.
   - IR-009: the NZ and CA course-campus decision.
   - IR-010: the person queues.
 - **Lane 2 next.** Item 4 (NZQCF, NZSCED and CIP); NZQA reuse terms are still flagged. Parked.
+
+- **24 Nov 2026 15:55 AEDT, S1-AER-Claude (s1042):** ACU official by-country PDF registered (`entry_matrix_sources` 224bc22d), fetched direct and archived, run c7e1586e `held_unparsed` (no ruled table, no aligned grid). UOW, RMIT, Monash, Newcastle, Macquarie, QUT, Murdoch, La Trobe, SCU, JCU and UniSC recorded HELD with reasons in the queue. Adelaide alias already delivered by s1038. AI $0, Firecrawl 0 credits. No Pilot change.
