@@ -1,5 +1,21 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 24 Nov 2026 20:20 AEDT (Platform Admin 19:48, SCH-FU-09): s1054 recorded before merge.**
+- **Why the readers were off:** `scholarship-read`, `scholarship-discover`, `scholarship-discover-refill` and `calendar-reread` were paused on 17 Nov 2026 13:34 by migration `20261117051700` (Pilot #1195, Platform Admin 13:11). Its reason reads "Temporarily paused for bulk REQ and Roadmap ingestion: no or almost no work moved in 72 hours. Resume on Automations", and the events are marked temporary. No protected policy is attached. Only `scholarship-discover`'s candidate phase reads candidates, so the listing reader's candidates waited.
+- **Backlog (live 19:55):**
+
+  | Country | Pickable | Firecrawl hold | Not due | Three tries | Other |
+  |---|---|---|---|---|---|
+  | AU | 966 (21 providers) | 600 (11 providers) | 208 | 25 | discovery priority 2: 164 |
+  | CA | 283 (26 providers) | 216 (2 providers) | 76 | 19 | |
+  | NZ | 92 (14 providers) | 5 (1 provider) | 20 | 2 | |
+
+  Oldest pickable: AU 12 Nov, CA 16 Nov, NZ 20 Nov.
+- **s1054:**
+  - The picker puts first only providers in a queued or running Find scholarships task, so a stale `requested_at` no longer jumps the queue (c209b8f0).
+  - It then alternates countries and providers. In rehearsal, a 60-page pick changed from AU 60 (5 providers) to AU 20, CA 20, NZ 20 (40 providers). Holds are unchanged and are checked before the window.
+  - `scholarship-discover` and `scholarship-read` are resumed with their commands, sizes and budgets unchanged (cron 138 in rehearsal). `scholarship-discover-refill`, `scholarship-listing` and `calendar-reread` stay as they are.
+
 **S1-Build, 24 Nov 2026 18:50 AEDT: s1053 live (Pilot #1566, merged 18:18; head `20261125060000` with other lanes).**
 - **English:** 1,041 rows added from the published equivalence tables: Adelaide 525 (PTE, TOEFL iBT and CAE on 175 courses), Newcastle 516 (172 courses, applied by the trigger when its procedure was stored).
 - **Scholarships:** GPA thresholds that say "on a 7.0 scale" now count as stating their scale. The Vice-Chancellor's postgraduate GPA (4.5 out of 7) is live. The two Newcastle terms pages are queued for the scholarship reader.
