@@ -45,3 +45,14 @@ wave,batch,provider_id,provider,active_courses,official_source_url,evidence_id,s
 3 (returned #1019),1,727b40ab-7ef4-4027-a5ee-928bcf0dc1f1,Melbourne City Institute of Education,20,,,,HELD:NO_SOURCE,"Year 11/12 criteria only, already stored",0.00,None
 3 (returned #1019),1,9f5fa4cc-78e1-4b4b-a2f7-2fdac7db99d7,Datum College; Fluent Education,29,,,,HELD:NO_SOURCE,"Per-course criteria only, already stored",0.00,None
 3 (returned #1019),1,213bfb2b (full ID to confirm),Shafston International College,31,,,,HELD:NO_SOURCE,Search returned no official pages,0.00,Re-search with browser-capable lane
+3 (returned #1019),2,kent b3d3ae78-318c-4061-b19a-a734b86c9f85,Kent Institute Australia,0,https://kent.edu.au/wp-content/uploads/DOC-Academic-Entry-Equivalences.pdf,,,"REGISTERED (s1096, re-register)",s1094 file never applied: version 20261126003000 clashed with another lane's migration,0.00,Confirm stored
+3 (returned #1019),2,c4160a2b-7787-4be9-a772-b6f095c334c8,"Skills Australia Institute, Western Australia College International",15,https://skillsaustralia.edu.au/?p=70; https://skillsaustralia.edu.au/allpdfs/international-student-brochure.pdf,,,REGISTERED (s1096),Brochure dated 28 Aug 2024,0.00,Confirm stored
+3 (returned #1019),2,a1193021-e436-4e0f-8591-4fef64a53476,Ozford Institute of Higher Education,14,https://ozford.edu.au/?p=16376; https://ozford.edu.au/?p=22597,,,"REGISTERED (s1096, additional)",,0.00,Confirm stored
+3 (returned #1019),2,12924d5c-3e7d-4c99-a10f-10fc36bb244a,AIH Higher Education,29,https://aih.edu.au/?p=930,,,"REGISTERED (s1096, additional)",s1095 URL /students/entry-requirements/international-students/ was not search-verified; may fail,0.00,Confirm stored; drop the s1095 URL if it fails
+3 (returned #1019),2,5b88537f,Academy of Education and Innovation,19,,,,HELD:NO_SOURCE,No official site found by search,0.00,Browser-capable lane or Platform Admin supplied URL
+3 (returned #1019),2,9ef5bb2c,Australian National Academy of Education,19,,,,HELD:NO_SOURCE,Search returned unrelated institutions,0.00,As above
+3 (returned #1019),2,77ca68dd,Durban International College,19,,,,HELD:NO_SOURCE,Only aggregator pages found,0.00,As above
+3 (returned #1019),2,e6f73072,Perth College of Business and Technology,18,,,,HELD:NO_SOURCE,Official domain not identified (perthcollege.wa.edu.au is a school),0.00,As above
+3 (returned #1019),2,c397e4e9,Institute of Management and Computing,17,,,,HELD:NO_SOURCE,Search returned unrelated institutions,0.00,As above
+3 (returned #1019),2,0bf6298f,Jabin Hopkins Institute of Technology,16,,,,HELD:NO_SOURCE,Search returned only Johns Hopkins University,0.00,As above
+3 (returned #1019),2,90c64303,Lyons College,17,,,,HELD:NO_SOURCE,Only aggregator pages found,0.00,As above
