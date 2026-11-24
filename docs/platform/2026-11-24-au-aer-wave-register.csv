@@ -56,3 +56,14 @@ wave,batch,provider_id,provider,active_courses,official_source_url,evidence_id,s
 3 (returned #1019),2,c397e4e9,Institute of Management and Computing,17,,,,HELD:NO_SOURCE,Search returned unrelated institutions,0.00,As above
 3 (returned #1019),2,0bf6298f,Jabin Hopkins Institute of Technology,16,,,,HELD:NO_SOURCE,Search returned only Johns Hopkins University,0.00,As above
 3 (returned #1019),2,90c64303,Lyons College,17,,,,HELD:NO_SOURCE,Only aggregator pages found,0.00,As above
+3 (returned #1019),3,c53d394b-bd68-4437-85c8-b9d78f2f83e8,Western Sydney University International College,15,https://internationalcollege.westernsydney.edu.au/wp-content/uploads/Academic-entry-requirements-June-2025.pdf; .../Academic-Entry-Requirements-Flyer-2104.pdf,,,"REGISTERED (s1100, replaces 404 flyer)",s1095 flyer URL returned HTTP 404,0.00,Confirm stored
+3 (returned #1019),3,a1193021-e436-4e0f-8591-4fef64a53476,Ozford Institute of Higher Education,14,https://ozford.edu.au/high-school/entry-requirements,,,"REGISTERED (s1100, replaces 404 page)",s1095 high-school URL returned HTTP 404,0.00,Confirm stored
+3 (returned #1019),3,4972562c-c01f-4634-8f44-abe4ad16a93c,Queensland International Business Academy,12,https://www.qiba.edu.au/?p=445; https://www.qiba.edu.au/?p=82,,,REGISTERED (s1100),,0.00,Confirm stored
+3 (returned #1019),3,2ca4b4ae-eb75-4d22-a65a-14f4d02062ab,Academia International & Academia Australia,14,https://www.academia21.com/international-students/entry-requirements,,,REGISTERED (s1100),,0.00,Confirm stored
+3 (returned #1019),3,213bfb2b,Shafston International College,31,,,,HELD:NO_SOURCE (second attempt),Search tool returned nothing for the official domain,0.00,Browser-capable lane
+3 (returned #1019),3,Sydney State College 0620e38b,Sydney State College,16,,,,HELD:NO_SOURCE,Only unrelated institutions returned,0.00,As above
+3 (returned #1019),3,1bce5fd3,Mercury Institute of Victoria,12,,,,HELD:NO_SOURCE,Only unrelated institutions returned,0.00,As above
+3 (returned #1019),3,20c50fa6,Edvantage Institute,12,,,,HELD:NO_SOURCE,Aggregator pages only,0.00,As above
+3 (returned #1019),3,872b91b4,Pioneer International College,10,,,,HELD:NO_SOURCE,Aggregator pages only,0.00,As above
+3 (returned #1019),3,5c0204aa,Elite Education Institute,10,,,,HELD:NO_SOURCE,Aggregator pages only,0.00,As above
+3 (returned #1019),3,debd2e22,Training Masters,10,,,,HELD:NO_SOURCE,Only unrelated institutions returned,0.00,As above
