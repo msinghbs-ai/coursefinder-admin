@@ -35,3 +35,13 @@ wave,batch,provider_id,provider,active_courses,official_source_url,evidence_id,s
 2,1,e9c64aaf-132e-4236-b29c-7ba76e404b12,Sunraysia Institute of TAFE,24,,,,HELD:NO_SOURCE,English criteria only,0.00,None
 2,1,56cdc7ef-24ca-46d7-af37-4dfd91d3d0e1,Adelaide Institute of Health,24,,,,HELD:NO_SOURCE,"General academic criteria, no country table",0.00,None
 2,1,8e7e04ea-33dc-4c8d-8cb6-2325448d7b57,Academy of Interactive Technology,41,,,,HELD:NO_SOURCE,Per-course criteria only,0.00,None
+3 (returned #1019),1,c53d394b-bd68-4437-85c8-b9d78f2f83e8,Western Sydney University International College,15,https://internationalcollege.westernsydney.edu.au/wp-content/uploads/WSUIC240910-1200-Academic-Entry-Requirements-Flyer-final.pdf,,,REGISTERED (s1095),,0.00,"Confirm stored (edition 2024-09 per file name, unconfirmed)"
+3 (returned #1019),1,bd473ff9-d45a-4447-9b84-cead3c11c01c,"UWS College, Western Sydney University",5,https://www.westernsydney.edu.au/content/dam/digital/pdf/international/INTL0910_Entry_Qualifications_v07.pdf,,,REGISTERED (s1095),"University table, not the college's own document",0.00,Confirm stored; confirm it covers the college diploma column
+3 (returned #1019),1,93c852cf-6df7-4161-82bd-ca95941cc227,UNSW College,23,https://www.unswcollege.edu.au/content/dam/pdfs/unsw-college/global-student-guide.pdf; https://www.unswcollege.edu.au/important-notice,,,REGISTERED (s1095),Guide edition 2025 (search page age 1282 days),0.00,Confirm stored; confirm current edition
+3 (returned #1019),1,a1193021-e436-4e0f-8591-4fef64a53476,Ozford Institute of Higher Education,14,https://ozford.edu.au/admissions/entry-requirements/high-school/,,,REGISTERED (s1095),,0.00,Confirm stored
+3 (returned #1019),1,12924d5c-3e7d-4c99-a10f-10fc36bb244a,AIH Higher Education,29,https://aih.edu.au/students/entry-requirements/international-students/,,,REGISTERED (s1095),,0.00,Confirm stored
+3 (returned #1019),1,4b077832-f9b8-428d-a90e-024c9e57f4ca,Central Australian College,29,,,,HELD:NO_SOURCE,Only the already-stored generic page and per-course Year 11/12 criteria,0.00,None
+3 (returned #1019),1,3bad45da-7e87-41e7-9c27-ea3c3fb2aaf6,Bentley College,27,,,,HELD:NO_SOURCE,Per-qualification criteria already in stored page; no equivalency table,0.00,None
+3 (returned #1019),1,727b40ab-7ef4-4027-a5ee-928bcf0dc1f1,Melbourne City Institute of Education,20,,,,HELD:NO_SOURCE,"Year 11/12 criteria only, already stored",0.00,None
+3 (returned #1019),1,9f5fa4cc-78e1-4b4b-a2f7-2fdac7db99d7,Datum College; Fluent Education,29,,,,HELD:NO_SOURCE,"Per-course criteria only, already stored",0.00,None
+3 (returned #1019),1,213bfb2b (full ID to confirm),Shafston International College,31,,,,HELD:NO_SOURCE,Search returned no official pages,0.00,Re-search with browser-capable lane
