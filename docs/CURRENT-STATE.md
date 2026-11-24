@@ -1,5 +1,13 @@
 # StudySearch – current state (read this first)
 
+**S2-RM-Design, 24 Nov 2026 22:15 AEDT (cross-country AER admission and blocker gate): active-course counts added for the 12 change-item providers; no live change.**
+- **Counts:** the 12 providers carry 3,024 active courses, 1,167 of them covered now, under 13 pending `entry_matrix_change` items (1,284 proposed rows). The table is in the Execution Register's S2-AER blocker section.
+- **Correction:** Top Education Institute's two items read two different source pages, so they are not duplicates.
+- **Live state:** active matrix rows 7,261; covered courses 10,729; 0 machine admissions in the last 24 hours (9 declines).
+- **Gates unchanged:** the 13 human change items, blank-level rows and host_shared RMIT Pathways all stay gated.
+- **Rules:** none shipped. The 53 value-not-in-quote rows are reader misreads.
+- **Guardrails:** G3 75/48, locks 7,585, cron and $0 all unchanged.
+
 **S1-Build, 24 Nov 2026 21:05 AEDT: s1054 live; s1055 recorded before merge; AER-FU-11 diagnosis.**
 - **s1054 live** (Pilot #1571, merged 20:18). Results in the first 30 minutes (to 20:48):
   - 3 scholarship-discover and 6 scholarship-read runs.
