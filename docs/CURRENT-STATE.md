@@ -1,5 +1,7 @@
 # StudySearch – current state (read this first)
 
+**S2-Scholarship-Readers (Platform Admin brief 24 Nov 13:08), 24 Nov 2026 13:30 AEDT: s1035 recorded before merge** (heading-based multi-award splitter in `scholarship.ts`; heading award keys `S-<slug>` accepted by the listing-record and admit functions; `firecrawl.daily_budget_total` 5 -> 1500; Batch 1 hub listings read now; migration 20261124150000). Rehearsed rolled back: G3 75/48, locks 7,585, cron 133. Hand-off: test register regeneration to S1-Build.
+
 **S1-RM-Design (S2-RM-Design AER v2 Batch 1 brief), 24 Nov 2026 12:20 AEDT: s1029 live (Pilot #1535, merged 11:53; admin #900).**
 - **Live read-back:** head `20261124140000` (history md5 `92ec98ad` matches), `coverage-sweep` v1.0.37 deployed, both settings on, lease takes stored HTML, re-read logged (3 runs, 13 proposed rows and 1 item superseded); G3 75/48 no drift, locks 7,585, cron 134 (other lanes), $0.
 - **First reads (entry-matrix-read, 12:04 and 12:09):** Lincoln 110 rows proposed (all three tables, levels from their headings; was 13); Waikato 40 (bachelor table; five non-country tables not read); Macquarie HTML page and VU 02475D held (no proven table). Both reads are Layer 4 page-change items (`change_of_admitted_table`): the earlier admitted rows (Lincoln 58, Waikato 35) are replaced only when a person approves, so admitted coverage is unchanged until then.
