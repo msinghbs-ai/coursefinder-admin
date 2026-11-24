@@ -767,3 +767,51 @@ Platform Admin authorises the same 40 S1-AER AU IDs under Admin #1049 to advance
 - 25 Nov 2026 08:20 AEDT, S1-AER-Claude (s1109b, documents only): **Hand-off to S1-Build for the P0 meaningful-content and qualification brief (08:05 AEDT); S1-AER-Claude does not do S1-Build's shared reader, qualification or settings work.** Regression cohort reconciled for S1-Build, correcting how Admin #1061 read as "53 already read": the 53 courses (6 at La Trobe, 4 Collarts, 8 Sydney Business & Travel Academy, 8 Excelsia, 5 Australian Pacific College, 4 AIBT, 3 York, 2 each Holmesglen, Keystone, Educare, Cairns, and 1 each at 9 other providers) each have a Layer 4 `course_entry_first_read` item that is **superseded** and **152 canonical rows that are all `inactive`** (113 at 47 courses with outcome no_requirement_published, 39 at 6 courses with admitted_provider). They are earlier paid AI answers, not current canonical delivery, so the parity target is those earlier answers' rows (quote, kind, score, audience), not live published data. Unread backlog is 172 courses at 19 providers: La Trobe 67, Collarts 50, Sydney Business & Travel Academy 13, AAPoly 10, Excelsia 5, Gold Coast Learning Centre 4, then 13 providers with 1 to 3 each (101 courses with outcome no_requirement_published at 18 providers; 71 admitted_provider at 2 providers). Reproducible conditions: `pipeline.aer_course_outcomes` with `identity_basis` in (cricos_code, adapter_code, manual), `page_status` bound, `outcome` in (no_requirement_published, admitted_provider), `read_state` skipped, provider in the 40 of the s1108 CSV; page text and hash from `pipeline.aer_det_academic_pages` (evidence_id, sha256, chars) joined to `pipeline.evidence_artifacts` (storage_path, content_hash); earlier answers from `catalogue.course_entry_requirements` and `pipeline.layer4_review_items` field_code `course_entry_first_read`; token and USD from `pipeline.ai_invocations` service_code `course_entry_requirements` (1,357 answered, 3,317,749 in, 826,078 out, US$0.5768, 15 to 16 Nov). Not measured yet, and not claimed: recall of selected sections against those answers, actual token reduction, qualification outcome. Controlled activation (one qualified model and a bounded scope for these 172 pages) stays the Platform Admin's decision after S1-Build's sections-first change is released; this lane then runs the 172 and reports canonical delivery.
 
 **Correction after the first release (25 Nov 2026, about 08:30 AEDT).** s1114 (Pilot #1601) merged and queued nothing: all 36 courses with a failed read had already been read again afterwards (24 filled, 23 skipped), so the 39 failed items are history. Spend US$0. The measured gap is 16 eligible courses whose newest read was superseded by s871 and that the deterministic reader could not read (provider counts: Pivot Education 8, Cass Training 4, Envirotech, Australian College of Studies, WAIFS and Rockford 1 each). s1115 reads those 16 once through the same course-level reader (stored page, estimate about US$0.04). Rehearsal passed (md5 9b734bf1).
+
+
+## S2-AER AU wave 1 — Steps 3–5 outcome for the 30 named providers (Admin #1054) — 25 November 2026, about 08:50 AEDT
+
+**Result in one line.** The existing course-level pipeline had already extracted, normalised, mapped and admitted what these pages state: 776 active course-level rows covering 292 of 478 eligible courses before this wave, and the same after it so far. Nothing new is admitted yet because the last re-read is waiting for the shared model worker.
+
+**What was done.** (1) Measured all 30 providers against `catalogue.course_entry_requirements`, `pipeline.field_enrich_items`, the deterministic reader tables and Layer 4. (2) The deterministic academic reader read all stored pages and found no academic reading on any (VET and English pages state IELTS and a high school certificate; the English test is its own pipeline). (3) s1114 (Pilot #1601) queued nothing: all 36 courses with a failed read had already been read again. (4) s1115 (Pilot #1603, migration 20261126170000, rehearsal md5 9b734bf1) queued 15 course reads for courses whose newest read was superseded and unread (estimate US$0.0398) through `security.course_entry_read_enqueue_v1`. Admitted by hand: none.
+
+**Open item for S1-Build (not mine to change).** The 15 items sit in state `ai`, with 267 entry-requirements items in that state platform-wide (oldest 18 Nov; last update 22:22 AEDT). The AI worker is not draining that queue. Until it does, the 15 courses cannot report. Next action: when the queue moves, read the 15 results (rows proposed, completeness-gate holds, Layer 4 items) and record them here.
+
+**Skipped reasons (159):** page does not state it 59; no proven course page 34 (binding, belongs to the course-link lane); Layer 4 superseded 39 (16 courses unread, now queued; the rest read later); earlier read waits in Layer 4 8; corrected read refused 7; no row met the admission rules 7; no quoted requirement 4; route off 1.
+
+**Expenditure.** Model: US$0 recorded so far (15 queued, estimate US$0.0398, balance US$97.23, floor US$0.50). Firecrawl: US$0. **G3** 75/48 asserted by both migrations; manual locks unchanged (7,585). **Consumer verification:** no consumer object changed; admissions did not change, so no consumer read-back is due until the 15 reads finish.
+
+**Providers without usable evidence (Steps 1–2 blockers kept):** Brisbane College of Australia, Southern Cross Education Institute, ILSC Australia / Greystone, The Centre of Excellence (and Australian College of Technology has 3 pages, 0 covered).
+
+| Provider | Eligible courses | Active rows (before = after so far) | Courses covered (before = after so far) | Failed items (history) | Skipped | Layer 4 pending |
+|---|---|---|---|---|---|---|
+| Abbey College Australia | 23 | 64 | 23 | 9 | 1 | 0 |
+| Aboard Training Australia | 11 | 23 | 11 | 0 | 0 | 0 |
+| Albright Institute | 19 | 74 | 15 | 0 | 4 | 0 |
+| Alliance College | 17 | 40 | 16 | 0 | 1 | 0 |
+| Auscanus Institute of Australia | 23 | 56 | 23 | 2 | 0 | 0 |
+| Australian College of Studies | 17 | 44 | 11 | 9 | 9 | 0 |
+| Australian College of Technology | 3 | 0 | 0 | 0 | 3 | 0 |
+| Australian International College of Skills & Education | 22 | 59 | 14 | 5 | 19 | 0 |
+| Brisbane College of Australia | 0 | 0 | 0 | 0 | 0 | 0 |
+| Canterbury Technical Institute | 22 | 38 | 19 | 0 | 1 | 0 |
+| Cass Training International College | 21 | 14 | 9 | 0 | 12 | 0 |
+| English in Paradise / Elston | 20 | 2 | 2 | 0 | 18 | 0 |
+| Entrepreneur Education | 23 | 49 | 21 | 8 | 3 | 0 |
+| Envirotech Education | 22 | 20 | 8 | 0 | 14 | 0 |
+| Fusion College of Technology | 21 | 46 | 19 | 2 | 3 | 0 |
+| Glen Institute | 17 | 34 | 15 | 1 | 4 | 0 |
+| Helix College | 20 | 30 | 13 | 0 | 7 | 0 |
+| ILSC Australia | 0 | 0 | 0 | 0 | 0 | 0 |
+| International Institute of Education | 8 | 0 | 0 | 0 | 8 | 0 |
+| Lexis TESOL Training Centres | 7 | 8 | 7 | 0 | 0 | 0 |
+| Nortwest Pty Ltd | 6 | 4 | 2 | 0 | 5 | 0 |
+| Pivot Education | 11 | 5 | 3 | 0 | 8 | 0 |
+| Protea College | 15 | 30 | 15 | 0 | 0 | 0 |
+| Queensland Academy of Technology | 15 | 21 | 8 | 1 | 9 | 0 |
+| Rockford College | 22 | 87 | 20 | 1 | 3 | 0 |
+| Southern Cross Education Institute | 0 | 0 | 0 | 0 | 0 | 0 |
+| The Centre of Excellence | 0 | 0 | 0 | 0 | 0 | 0 |
+| TrEd College | 8 | 0 | 0 | 0 | 9 | 0 |
+| WIN College | 19 | 25 | 15 | 1 | 5 | 0 |
+| West Australian Institute of Further Studies | 16 | 3 | 3 | 0 | 13 | 0 |
