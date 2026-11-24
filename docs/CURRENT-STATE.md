@@ -1,5 +1,7 @@
 # StudySearch – current state (read this first)
 
+**S1-RM-Design, 24 Nov 2026 18:50 AEDT (Platform Admin 18:02): scholarship publication recovery from existing data; s1073 recorded before merge (Pilot branch `s1-rm-design-s1073-sch-intl-wording`).** Baseline 1,096 published, 114 providers, 492 active unpublished (AU 335, CA 108, NZ 49), Layer 4 pending 72 (31 providers). Blocker reconciliation and decisions for a person: `docs/platform/2026-11-24-s1-rm-design-scholarship-publication-recovery.md`. s1073 clears 9 false citizens-only holds; 18 publishable awards wait for the hourly auto-publish. $0.
+
 **S1-Build, 24 Nov 2026 17:50 AEDT (Platform Admin 17:14): s1053 recorded before merge (Item 2 completed from the official university sources).**
 **S2-Scholarship-Readers, 24 Nov 2026 18:20 AEDT — Canadian scholarship recovery in progress.** Canada: 325 active, 148 published. Unpublished holds are legitimate except 11 awaiting auto-publish. Open defect for S1-Build: no Canadian provider has a provider type (s1066/s1067 allow-list is a stopgap). Resume point is in the master plan log.
 

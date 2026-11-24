@@ -291,6 +291,13 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Queue:** both rows stay `CLAIMED:S2-Build` (s992) with notes, because the section splitter continues them.
 - **Docs:** design doc section 10 mirrors Drive blueprint Section 6 (Platform Admin 18:48). TEST-REGISTER regenerated from Pilot main (965 specs, 4,419 tests; adds s990 and s994).
 
+## 24 Nov 2026 18:50 AEDT — S1-RM-Design s1073: scholarship publication recovery from existing data (Platform Admin 18:02)
+
+- Assignment: existing admission and publication backlog only; no readers, no source discovery, no new jobs, US$0 AI, zero Firecrawl, no rule relaxation.
+- Baseline: 1,096 published, 114 providers, 492 active unpublished, 72 scholarship Layer 4 pending across 31 providers.
+- s1073 (rehearsed, md5 9677bd3e): the citizens-and-residents publication check accepts precise international wording; 9 awards. 18 more are already publishable for the hourly run.
+- Report and decisions for a person: `docs/platform/2026-11-24-s1-rm-design-scholarship-publication-recovery.md`.
+
 ## S2-AER reader handoffs — 24 November 2026 17:20 AEDT
 
 Source: live rolled-back read of the pending `entry_matrix_first_run` items stopped at `gate_incomplete` (machine check D-R3). Source artefacts are the stored copy of each run's source (`pipeline.entry_matrix_sources.url` via the run; stored under `aer-artifacts/<provider>/`). Admission validation is not weakened: the reader must produce rows whose quote is on the stored page and whose grade, band or value is printed in the quote.
