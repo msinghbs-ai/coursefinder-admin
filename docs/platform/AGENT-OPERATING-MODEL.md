@@ -3,6 +3,18 @@ v1.23, 19 Nov 2026 (v1.23 adds section 5 of the production architecture baseline
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
+## AER source-to-admission recovery mandate — 24 November 2026 (Platform Admin direction)
+
+Complete existing AER extraction and normalisation (pipeline stages 3 and 4) through machine admission, canonical verification and recurring execution; do not restart discovery or replace the pipeline. Live read-only baseline 24 Nov: 206 matrix-source providers, 200 with runs, 57 with active matrix data; 149 sourced without active matrix (AU 100, NZ 19, CA 30), 68 sourced without any active AER. At 16:21 AEDT 39 providers received 42 new sources; 36 providers had new reader runs, 25 failed runs, 150 machine-admitted rows from existing activity (not attributed to new sources without lineage). Failure evidence: 17 unproved deterministic tables/no qualified model, 5 PDF layout failures, 3 model timeouts. Canadian internal run counters are not canonical admission proof.
+
+- S1-AER-Claude owns AU extraction and provider-specific mapping; S3-AER-ChatGPT owns NZ/CA extraction and provider-specific mapping; S2-AER (formerly S2-RM-Design for this AER lane) owns shared normalisation/identity, qualification and admission; S1-Build owns shared runner and register regeneration. Existing Integration Controller remains single release owner. Do not rename historical RM identifiers.
+- P0: repair existing readers and mappings, recover stored evidence, verify machine validation before expiry (reported 26 Nov 06:29 AEDT), reuse aer-partial-v1. Prioritise 149 sourced providers without active matrix in controlled batches up to 15 within 45-provider waves; new discovery is subordinate to verified capacity. No duplicate readers, queues, sweepers or cron.
+- Reader output: verified provider, exact course or proven applicable scope, country, qualification, grade/value/scale/band, conditions/audience/edition, URL/evidence ID/content hash/quote. Preserve source relationships and uncertainty; never guess identity or thresholds. Reuse canonical fields, lookups and existing strict verifier. Layer 4 only genuine exceptions.
+- Completion requires extraction fixture proof, correct mapping, eligible canonical admission verified by provider and row lineage, existing consumer readback (or explicitly unresolved), two unattended cycles, accurate held reasons and next retry. Valid no-data outcomes are recorded separately, never labelled as data delivery. Distinguish registered/read/extracted/mapped/proposed/admitted/published; no historical or internal-run counter counted as new canonical gain.
+- Tier 1 stored evidence/plain HTTP/deterministic ($0); Tier 2 authorised qualified lean models on cleaned chunks; Tier 3 heavy AI/Firecrawl only on justified failure within existing authority. No false qualification, gate bypass or spend increase. Reuse paid answers first.
+- Preserve G3, manual locks, cron ceiling, consumer communication controls, green governed CI, rolled-back rehearsal and admin-first release. No independent production mutations by delegated agents. Update existing F-AER acceptance, Execution Register, CURRENT-STATE, Master Plan and AER reader-status CSV via its registered writer; generated TEST-REGISTER only by S1-Build. Report exact PRs, per-stage counts, before/after canonical and consumer results, two-cycle evidence, model calls/tokens/USD, Firecrawl used/remaining and live guardrails.
+
+
 ## Identity and role
 Claude is the **sole accountable StudySearch engineering and Integration Controller**
 under the Platform Admin's 9 November 2026 decision. Claude owns all code, integration,
