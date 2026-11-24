@@ -189,6 +189,7 @@ Registered by `S2-Build` as release and integration coordinator. Checked against
 | `s1094` | S1-RM-Design | AU AER Steps 1–2 Wave 2 Batch 1: Kent country-equivalences PDF registered; 14 further providers held. Provider-level results in `docs/platform/2026-11-24-au-aer-wave-register.csv`. Migration `20261126003000`. |
 | `s1095` | S1-RM-Design | AU AER returned-provider wave 1 (Admin #1019, #1027): 6 deeper official documents registered for WSU International College, UWS College, UNSW College, Ozford and AIH through `pipeline.entry_matrix_sources`; 5 of 10 attempted providers held. Migration `20261126013000`. No reader or rule change. |
 | `s1096` | S1-RM-Design | AU AER returned-provider wave 1 batch 2 plus Kent re-register: 6 sources (Kent, Skills Australia x2, Ozford x2, AIH). Migration `20261126023000`. The s1094 Kent file (version 20261126003000) clashed with S1-Build's s1094 Canadian migration and never applied; S1-Build to retire it. No reader or rule change. |
+| `s1100` | S1-RM-Design | AU AER returned-provider wave 1 batch 3: two s1095 URLs corrected after HTTP 404, 6 sources registered for WSU International College, Ozford, QIBA and Academia International. Migration `20261126033000`. No reader or rule change. |
 
 S2-CF and S2-GEO hold no spec numbers yet; each claims its first number here when it opens a Pilot pull request. S2-INT holds `s986`, `s987`, `s988`, `s994` and `s995`.
 
@@ -510,3 +511,4 @@ Close only on verified evidence or explicit recorded disposition; retain true ho
 
 - 25 Nov 2026 00:01 AEDT, S3-Scholarship-ChatGPT: Admin #1030 independent Steps 1–5 execution; two registered hubs and one programme-specific candidate; same W01 claims preserved; per-provider evidence in Execution Register.
 - 25 Nov 2026, S1-RM-Design: s1096 registered. Found that two migrations named s1094 share version 20261126003000 (mine for Kent never applied). Rule for all lanes: check the live schema_migrations version, not only the plan, before choosing a timestamp. 8 more returned providers searched, 3 with sources, 5 held. s1095 sources registered, awaiting worker read. Spend US$0.
+- 25 Nov 2026, S1-RM-Design: s1100 registered. 16 of 61 returned providers searched: 9 with registered sources, 7 held with no official source found. Next: remaining 45 returned providers, then wave register read-back. Spend US$0.
