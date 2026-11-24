@@ -1,5 +1,8 @@
 
 
+**S3-Scholarship-ChatGPT — NZQA only, 24 Nov 2026: atomic recovery patch preparation.** Platform Admin authorised a time-limited, purpose-scoped on-demand listing recovery for Auckland (31), Canterbury (37), Otago (11), VUW (3) and Lincoln (2). Existing Canadian eligibility exception preserved; ordinary caps, account reserves, human admission and manual locks unchanged. Prior audit 66524 queued Lincoln and Waikato; no new admission or publication claimed. Shared hold function change assigned to Integration Controller for governed release; spec and migration numbering subject to controller reconciliation. S1-Build owns scholarship_status sync. No paid extraction initiated.
+
+
 **S1-ELR-Bands-And-Crawl and S1-ELR-Unblock-IQ00624, 21 Nov 2026 13:20 AEDT: closed and parked. s926 (Pilot #1454, 22d12bfd) merged by automerge after one re-run of a failed Workers preview build; migration `20261121173000` applied 12:28 AEDT; read live 13:15 AEDT**
 
 - **IQ-00624 accepted:**
