@@ -61,3 +61,33 @@ no other reason moved for any record and the check only clears. Expected: 9 publ
 ## Spend
 
 No model calls, no tokens, US$0, no Firecrawl credits. No new job (active cron unchanged), G3 75/48, manual locks 7,585 unchanged.
+
+## Outcome (live, read back 24 Nov 2026 19:30 AEDT)
+
+s1073 shipped: Pilot #1567 (admin #954), migration `20261125060000`, applied and deployed 18:30 AEDT. Two unattended `scholarship-auto-publish`
+cycles ran with no intervention: 18:29 published 22, 19:29 published 25 (including all 9 s1073 awards).
+
+| Metric | Before (18:10) | After (19:30) | Gain |
+|---|---:|---:|---:|
+| Published scholarships | 1,096 | 1,143 | +47 |
+| Publishing providers | 114 | 127 | +13 |
+| Active unpublished | 492 live (brief: 488) | 476 | −16 net (reader lanes admitted new records during the window) |
+| Scholarship Layer 4 pending | 72 | 72 | 0 |
+| Providers affected by Layer 4 | 31 | 31 | 0 |
+
+| Country | Published before | After | Gain | Providers before | After |
+|---|---:|---:|---:|---:|---:|
+| AU | 837 | 861 | +24 | 66 | 67 |
+| CA | 148 | 171 | +23 | 37 | 49 |
+| NZ | 111 | 111 | 0 | 11 | 11 |
+
+Where the +47 came from: 9 from s1073 (8 CA, 1 AU); 18 were already publishable at the start and went out on the scheduled 18:29 run; 20 are new
+admissions by the reader lanes during the window (mostly S2-Scholarship-Readers' Canadian college replay). Consumer read-back: Benchmark Student
+Experience Scholarship (Niagara College, 18:29) and Ontario Graduate Scholarship (Queen's University, 19:29) both return from Website v3
+(`website_v3_scholarship`) and Zoho v3 (`api.zoho_scholarship_lookup_v1`).
+
+Expected maximum from existing data under the current rules: reached for the machine path. The remaining 476 are genuine (no stated value, closed,
+domestic-only, human holds) or wait on the person decisions above (4 values, 4 refused nationality verdicts, pathway-college scope).
+
+Spend: 0 model calls, 0 tokens, US$0, 0 Firecrawl credits. G3 75/48, active cron 136, manual locks 7,585 unchanged. Branch
+`s1-rm-design-s1073-sch-intl-wording` (superseded by `-r2` after a refused force-push) is left on the remote; the session proxy refuses deletion.

@@ -297,6 +297,7 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - Baseline: 1,096 published, 114 providers, 492 active unpublished, 72 scholarship Layer 4 pending across 31 providers.
 - s1073 (rehearsed, md5 9677bd3e): the citizens-and-residents publication check accepts precise international wording; 9 awards. 18 more are already publishable for the hourly run.
 - Report and decisions for a person: `docs/platform/2026-11-24-s1-rm-design-scholarship-publication-recovery.md`.
+- 19:35 AEDT outcome: s1073 live (Pilot #1567, migration `20261125060000`); unattended cycles 18:29 (22) and 19:29 (25, all 9 s1073); published 1,143 (+47), providers 127 (+13), active unpublished 476; Layer 4 pending 72 (31 providers). $0.
 
 ## S2-AER reader handoffs — 24 November 2026 17:20 AEDT
 
