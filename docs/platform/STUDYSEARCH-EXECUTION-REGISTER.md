@@ -290,3 +290,50 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 - **Firecrawl window (Charles Darwin and Lincoln):** not opened. S3 s976's zero total refuses on-demand spend, and the blocker is the page layout, not fetching.
 - **Queue:** both rows stay `CLAIMED:S2-Build` (s992) with notes, because the section splitter continues them.
 - **Docs:** design doc section 10 mirrors Drive blueprint Section 6 (Platform Admin 18:48). TEST-REGISTER regenerated from Pilot main (965 specs, 4,419 tests; adds s990 and s994).
+
+## S2-AER reader handoffs — 24 November 2026 17:20 AEDT
+
+Source: live rolled-back read of the pending `entry_matrix_first_run` items stopped at `gate_incomplete` (machine check D-R3). Source artefacts are the stored copy of each run's source (`pipeline.entry_matrix_sources.url` via the run; stored under `aer-artifacts/<provider>/`). Admission validation is not weakened: the reader must produce rows whose quote is on the stored page and whose grade, band or value is printed in the quote.
+
+**Allocation.** AU rows go to S1-AER-Claude; NZ and CA rows go to S3-AER-ChatGPT. Paste-ready instruction: *Re-read the listed provider sources from the stored copy ($0, tier 1). For each run below, output only rows whose `quote` is verbatim on the stored page (reason `quote_not_on_page`) or whose grade, band and value are printed inside the quote (reason `grade_not_in_quote`, `band_not_in_quote`, `value_not_in_quote`, `value_without_scale`). Do not change `security.aer_matrix_machine_check_v1` or `aer-partial-v1`; verify the admission outcome after the re-read and report proposed versus admitted from `pipeline.aer_matrix_machine_admissions`.*
+
+### Quotation not found on the page (13)
+
+| Country | Provider | Provider ID | Run ID | Reason |
+|---|---|---|---|---|
+| AU | Kaplan Business School | `5fac5555-18f9-4bc7-91e4-e1466f8e33e3` | `b6bb7a20-60e2-4608-863c-9929920bf8cb` | quote_not_on_page |
+| AU | Deakin College | `d090e283-9894-49ce-baf3-e9d47f80e468` | `0f18e898-4c90-430c-8618-52e9981e0d18` | quote_not_on_page |
+| AU | Australian Learning Group | `c433c71e-7ffd-4603-bfc7-06bc0a849bb4` | `350d0edb-926f-46c5-8e08-dc87badd58e3` | quote_not_on_page |
+| AU | Murdoch College | `1b8db821-3b4c-4c17-a7d7-6819923352d6` | `d6a696da-8f9b-4fe4-8f4d-598ec3fd2022` | quote_not_on_page |
+| AU | Federation University | `9cc8ef21-52ec-4c18-849a-598ba1072459` | `1f327610-269d-479d-b7d2-f34a22edc560` | quote_not_on_page |
+| AU | TAFE Queensland | `bf68c5a3-77c4-4ab8-8c84-6d99e435b1f5` | `fb537618-7e7e-44c4-85cd-f82423920395` | quote_not_on_page |
+| AU | Curtin College | `0ba022f8-dd06-49f5-9c96-2e80a3d71e16` | `9f4ca424-e02f-435f-8ef2-2eb208905cab` | quote_not_on_page |
+| AU | University of Wollongong | `62e61a02-9fcb-4c5e-bb11-1c43bed6eee6` | `0ff79fe4-77d0-4be6-946e-901a2c1180f3` | quote_not_on_page |
+| AU | Australian National University | `e47a940d-186f-4a17-bb22-2b794b73248c` | `f75baa9e-f4c2-448b-a413-ab2e133177c7` | quote_not_on_page |
+| NZ | Queenstown Resort College | `4f9da0a5-cdb7-4f6c-8b21-93e5d03840bb` | `03dd63da-74af-49eb-9944-7790b504b4f6` | quote_not_on_page |
+| NZ | School of Audio Engineering NZ | `cc164a3e-f622-40ca-91fb-99b4a2defe88` | `522d7e16-0737-4ad3-9ff7-e95ab738a3ef` | quote_not_on_page |
+| NZ | Yoobee Colleges | `e503631d-05b4-44dd-b438-77c9dfc0c1e5` | `1c65ac04-7ef1-435e-9f31-616503e75ec0` | quote_not_on_page |
+| CA | University of Northern (CA) | `0d47cf4f-7389-4d92-b7a7-8a2eba6ea1e6` | `a9d561ae-61b6-40d1-8fac-b4ae83b8b8c0` | quote_not_on_page |
+
+### Grade, band or value not supported by the quotation (14)
+
+| Country | Provider | Provider ID | Run ID | Reason |
+|---|---|---|---|---|
+| AU | Curtin University | `982fb12f-41ed-4358-9d1b-d7422b3089dd` | `8b4e3d3b-d402-4a6c-9b6e-b78ef1385732` | grade/band/value not in quote |
+| AU | University of Technology Sydney | `9d22a19e-c3f7-4012-b738-17bc0b481e7f` | `4ef170a5-6d2f-418a-9c31-ba7635b4127f` | grade/band/value not in quote |
+| AU | Sydney Institute of Higher Education | `8c43cfec-c6d4-42fc-a9d9-5f0896536681` | `1a614b73-be86-4aa3-882d-22b3c11475ab` | grade/band/value not in quote |
+| AU | Curtin College | `0ba022f8-dd06-49f5-9c96-2e80a3d71e16` | `31fdb5de-9a77-4c37-9fe0-373eebb9bf33` | grade/band/value not in quote |
+| AU | Australian Professional (APCI) | `ec4594c0-b71d-4c8d-8226-b6ee1c22a908` | `61b2e3cc-f436-4fa4-946d-a8a2ce15c674` | grade/band/value not in quote |
+| AU | TAFE South Australia | `f9f630ea-f6ca-43d9-85a2-571dec0255e2` | `92e8223b-6940-4f5c-88ec-48f4fc1e4974` | grade/band/value not in quote |
+| AU | Canberra Institute of Technology | `d02a8a1b-f4be-4d98-a857-242e66a0f354` | `2331fd3d-2fce-43a9-9079-3266cd2d4455` | grade/band/value not in quote |
+| AU | Charles Darwin University | `6f5cb7f7-7c70-4c06-970f-f368c3a786e2` | `3f8b9d04-a106-47a5-ab75-fabb769bc21f` | grade/band/value not in quote |
+| AU | Charles Sturt University | `f34fae5e-b5b9-4c82-a6ca-44bf0803020e` | `ab9e52d9-cd6b-4788-8cfd-04ce82270e8e` | grade/band/value not in quote |
+| AU | Macquarie University | `188103a5-1aba-4f99-bd3e-0416659086d3` | `19450c90-3991-43b1-a0b7-979f76c3fed3` | grade/band/value not in quote |
+| NZ | Laidlaw College | `4fdf1c36-59eb-47e8-802d-39aea9f39b37` | `e2d0c5d6-bbf5-4627-8772-572c3c914153` | grade/band/value not in quote |
+| NZ | Christchurch Institute (CIC) | `9fefeda5-cf10-4832-81f9-c2779e9cf45c` | `28201956-3a5b-447d-bf5c-b07cf2726f0b` | grade/band/value not in quote |
+| CA | MacEwan University | `50efbfe2-b917-4cf7-be50-4a53c9a718d7` | `a27ae540-5870-4109-9417-bf289880ae11` | grade/band/value not in quote |
+| CA | Kwantlen Polytechnic University | `3e436a48-1f61-4690-9fbd-4c749f3acfef` | `b3e7224a-4662-4459-ba71-b3bd84ea968b` | grade/band/value not in quote |
+
+### Blank-country rows (46 rows, 8 providers; reader output, not a mapping gap)
+
+Provider ID prefixes: `0e1532b8`, `16fd98a2`, `36086f5e`, `473c55a7`, `7dae6c50`, `83dea26c`, `8bec3062`, `db4c5deb`. The reader returned no country and an unrecognised qualification; owners fix the reader output for the country or qualification the page names. Regions (Europe, Pacific Islands) and scope words with an unrecognised qualification are not mapped by S2-AER (no inferred equivalence).
