@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 24 Nov 2026 16:55 AEDT (Platform Admin 15:10): s1046 and s1047 live; Firecrawl Monitor re-registered; scholarship register generated daily; test register regenerated.**
+- **s1046 (Pilot #1552, live 16:11):** `firecrawl.monitor_credits_per_url` 6 and `firecrawl.monitor_weekly_credits` 160, each with one logged event. Watchlist: 27 pages planned, none held, about 153 credits a week. Registered through workflow *Firecrawl Monitor* (run 45333883241, 16:31): 10 monitors, all accepted. First weekly check Monday 03:17 AEDT.
+- **s1047 (Pilot #1556, live 16:16):** an approved English policy's other tests (all four bands) are added where the course's level-default IELTS agrees. 168 rows on 84 Victoria University courses: PTE on 101 courses (89 with bands), CAE on 89. Adelaide University and The University of Newcastle policies hold IELTS only, so nothing was added there.
+- **Not done (needs a Platform Admin decision):** 2027 fee years and GPA-threshold scholarships for Adelaide and Newcastle, and their PTE and TOEFL. The official 2027 fee lists, English procedures and scholarship terms are not among the stored links, so no reader can register them.
+- **Scholarship register:** `docs/monitoring/Scholarship_University_Reader_Status.csv` is now built by `build_scholarship_register.py` in the 08:00 refresh. Rules are in the runbook. Today: 1,886 providers (AU 1,544, NZ 290, CA 52): No Reader Yet 1,758, Stuck in L4 79, Partial 27, Fully Working 22.
+- **Read back:** head `20261124234000`; locks 7,585; cron 136 (at most 140). G3 was checked by both migrations' post-checks.
+
 **S3-Scholarship-ChatGPT — NZQA only, 24 Nov 2026: atomic recovery patch preparation.** Platform Admin authorised a time-limited, purpose-scoped on-demand listing recovery for Auckland (31), Canterbury (37), Otago (11), VUW (3) and Lincoln (2). Existing Canadian eligibility exception preserved; ordinary caps, account reserves, human admission and manual locks unchanged. Prior audit 66524 queued Lincoln and Waikato; no new admission or publication claimed. Shared hold function change assigned to Integration Controller for governed release; spec and migration numbering subject to controller reconciliation. S1-Build owns scholarship_status sync. No paid extraction initiated.
 
 
