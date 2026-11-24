@@ -47,7 +47,7 @@ Each paid call by a lane is one line: time (AEDT), lane, provider or course, ser
 
 | Time (AEDT) | Lane | Target | Service | US$ | Day total |
 |---|---|---|---|---|---|
-| None | | | | | |
+| 24 Nov 11:25 | S1-RM-Design (s1029) | AER Batch 1 (10 Tier 1 providers) | None: deterministic HTML_TABLE reader, no Firecrawl, no model | 0.00 | 0.00 |
 
 ## 4. Approvals needed (exceptions only)
 
