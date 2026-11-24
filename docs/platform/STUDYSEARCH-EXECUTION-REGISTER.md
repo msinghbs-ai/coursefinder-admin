@@ -492,3 +492,20 @@ The 13 items stay with a person (Layer 4 Approve, Approve except or Reject); the
 
 **Reader contract gaps found (for the F-AER handover contract):** every proposed row must carry `course_id` or a `level_label` that is a course level (not an applicant qualification), and a named country or recognised qualification. Rows without them cannot be admitted by any rule and are not weakened.
 
+## S2-AER wave 1 (s1093 cohort) — 25 November 2026 00:20 AEDT, in flight
+
+Cohort: the 16 sources whose runs failed before s1085 with "no deterministic reader proved this table, and the entry_matrices route has no qualified model", read again by s1093 (Pilot #1585, migration `20261126001000`) plus Otago Polytechnic and Waikato Institute of Technology, which share the cohort's runs. Steps 1–2 (source discovery, stored evidence) were already held by the territorial lanes; this lane did not re-acquire. State read 00:15 AEDT: 6 done, 10 leased, 8 queued, 1 failed. Admission by the existing machine and partial rules follows on its 15-minute cycle; **no canonical gain is claimed yet.** Active matrix rows at the read: AU 6,706, NZ 540, CA 17; proposed 2,500.
+
+| Provider (country, ID prefix) | Active courses | Active matrix rows before | Run result | Proposed after | Layer 4 hold | Next action |
+|---|---|---|---|---|---|---|
+| Otago Polytechnic (NZ, `cd27693c`) | 182 | 0 | done, 112 rows, 12 dropped, $0.1104 | 112 | `earlier_rejection`: a person rejected an earlier read | Person decides in Layer 4 |
+| Waikato Institute of Technology (NZ, `742eef0a`) | 144 | 36 | done, 193 rows, 4 dropped, $0.0681 | 193 | `change_of_admitted_table` | Person decides |
+| Victoria University (AU, `0f5373c8`) | 35 | 0 | done, 5 rows, $0.0016 | 5 | none yet | Machine check on next cycle; identity rule `host_shared` applies |
+| Quality College of Australia (AU, `2f724366`) | 10 | 0 | done, 1 row, $0.0002 | 1 | none yet | Machine check on next cycle |
+| Victoria University of Wellington (NZ, `34616965`) | 273 | 0 | done, 0 rows, $0.0047 | 0 | earlier `applicability_unresolved` | Reader owner (S3) |
+| AUSTRA College (AU, `627b6f76`) | 28 | 0 | done, 0 rows, 1 dropped | 0 | none | Reader owner (S1) |
+| Macquarie University (AU, `188103a5`) | 380 | 49 | failed, 107 proposed rows from an earlier read | 107 | none | Inspect the failure on the next pass |
+| In flight (leased or queued): Canterbury (NZ `db910e88`), Alberta (CA `db436563`, two sources), Simon Fraser (CA `d47b6006`, two sources), Conestoga (CA `7b35d38d`), Salford College (AU `cda51a7c`), Open Polytechnic (NZ `f6b3e3a9`), Whitecliffe (NZ `29fabe13`), Victoria (CA `98e591df`), Manitoba (CA `cffa9cab`), UBC (CA `175462f3`), NZ School of ... (NZ `fe2e938f`), College of the North Atlantic (CA `4812a855`), Sheridan (CA `cc24d184`), Durham (CA `c79c40ee`), Lethbridge (CA `b509ab5c`), Calgary (CA `ad7bb2f7`) | see master plan | 0 | pending | n/a | n/a | Read outcomes after the worker drains, then group by result |
+
+Spend this wave so far (from the run rows): about $0.19 in lean-model calls (Mistral Small 3.2), no Firecrawl. Not claimed: any admission, newly covered course, or consumer read-back.
+
