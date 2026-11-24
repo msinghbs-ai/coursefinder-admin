@@ -8,6 +8,8 @@
 **S2-RM-Design, 24 Nov 2026 23:05 AEDT (AER admission validator and Layer 4 triage): 13 change items triaged; s995 re-rehearsed; no live change.**
 - **Triage (Execution Register, S2-AER section):** 0 of 13 can be bulk-approved now. Every item is `technical_blocked` (`matrix_source`) because its read dropped published rows; Approve is refused.
   - Across the 13 reads: 1,269 proposed rows; 449 unchanged, 7 changed scores, 813 added; 187 active rows would be superseded; 541 rows fail value proof; 50 have a blank level.
+**S2-AER, 25 Nov 2026 00:00 AEDT: overnight pass 1.** Active matrix rows AU 6,704, NZ 540, CA 17 (63 providers); proposed 2,498; 13 change holds kept. s1093 (Pilot, migration `20261126001000`) reads 16 pre-qualification failures again through the governed re-read. TAFE NSW combined-level mapping is blocked on the PDF bytes (details and resume point in the master plan 00:00 line). Full evidence in the master plan status log.
+
   - Remedy: corrected re-reads from stored copies by the reader owners.
 - **Reusable fix routed:** six country aliases (Hong Kong (China), HK, Taiwan(China), SG, Macedonia, and the misspellings Bangaldesh and Phillipines). No equivalence is inferred.
 - **s995 (Pilot #1502):** not superseded. `security.aer_matrix_machine_exclusions_v1` is unchanged (md5 `51ad50c5…`) and UWA's 194 rows still wait. Re-rehearsed 23:00: 186 rows admitted; active matrix 7,261 → 7,447; counter 10,729 → 10,795 (+66); real answers 0 (UWA India answers: 152 course_override, 176 contact_provider before and after).
