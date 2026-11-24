@@ -17,6 +17,10 @@ Acadia University, Algoma University, Douglas College, Kwantlen Polytechnic Univ
 
 Georgian College (2 official pages, 37 active courses), Yorkville University (1 page). Not registered: Humber College (official pages on humber.ca; the provider record's website is humberetc.ca, so the own-site check refuses them: a provider website data defect for S1-Build), North Island College (foundation host only, no international page).
 
+## Wave 5 outcome and Wave 6 (s1097): 2 hubs
+
+Wave 5 read: Georgian College 2 hubs (5 and 17 items), Yorkville University 1 hub (19 items): 41 items, 33 candidates, 8 Firecrawl units across all lanes in the window, $0 own AI. Canada after: 354 active, 182 published, 50 providers. Wave 6 (s1097): Okanagan College (80 active courses, central awards page) and Coast Mountain College (entrance awards page with the International Student Entrance Awards). Not registered: La Cite collegiale (no official international award page found), College of the North Atlantic (own page lists none), North Island College (foundation host only), Humber College (website data defect).
+
 ## Holds and retry dates
 
 - Nipissing University (167 pages), University of Toronto (45) and University of Lethbridge: per-university Firecrawl cap, windows roll about 13, 15 and 19 Dec 2026. Not bypassed.
