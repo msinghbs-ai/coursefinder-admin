@@ -178,6 +178,13 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 25 Nov 2026 00:16 AEDT (scheduled read-back against the 22:15 baseline): 3 first reads approved by a person; Website and Zoho v3 verified; no machine admission.**
+- **Active matrix rows:** 7,261 → 7,263 (+2 net). Five rows were made active from three Layer 4 first-read approvals: Australian Institute (23:18; AU Year 12 and AQF Certificate IV, bachelor), Conestoga College (00:18; CA OSSD 65%) and Simon Fraser University (00:18; CN Senior Middle School).
+- **Pending:** first-run reads 65 → 68 (new reads for Quality College of Australia and Victoria University, 23:45); change items 13, unchanged.
+- **No change:** covered courses 10,729 (the coverage table refreshes in chunks); active course rows 27,969, with none new; machine admissions in the last 24 hours: none (the 9 earlier declines have aged out).
+- **Consumer check:** a Conestoga bachelor course (country CA) resolves `provider_minimum` on `entry_resolve_v3`; Website v3 and Zoho v3 `item.entry` both serve "OSSD … minimum cumulative average of 65%", as at 24 Nov 2026. A Simon Fraser bachelor course (CN) serves today's row on Website v3; that row prints no minimum (`scale none`).
+- **Guardrails:** G3 75/48, locks 7,585, active cron 138, $0.
+
 **S2-RM-Design, 24 Nov 2026 23:05 AEDT (AER admission validator and Layer 4 triage): 13 change items triaged; s995 re-rehearsed; no live change.**
 - **Triage (Execution Register, S2-AER section):** 0 of 13 can be bulk-approved now. Every item is `technical_blocked` (`matrix_source`) because its read dropped published rows; Approve is refused.
   - Across the 13 reads: 1,269 proposed rows; 449 unchanged, 7 changed scores, 813 added; 187 active rows would be superseded; 541 rows fail value proof; 50 have a blank level.
