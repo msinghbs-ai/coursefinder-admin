@@ -1,6 +1,8 @@
 # StudySearch – current state (read this first)
 
 **S1-Build, 24 Nov 2026 17:50 AEDT (Platform Admin 17:14): s1053 recorded before merge (Item 2 completed from the official university sources).**
+**S2-Scholarship-Readers, 24 Nov 2026 18:20 AEDT — Canadian scholarship recovery in progress.** Canada: 325 active, 148 published. Unpublished holds are legitimate except 11 awaiting auto-publish. Open defect for S1-Build: no Canadian provider has a provider type (s1066/s1067 allow-list is a stopgap). Resume point is in the master plan log.
+
 - **Fees:** Adelaide's 2027 International Student Guide and Newcastle's 2027 undergraduate and postgraduate international fee lists are registered (manual, with the approval) and fetched through the governed queue under one on-demand request. The fee reader (job fee-reader, pinned model, logged as fee_ai) then reads each row with its printed fee year. 2026 rows are not relabelled.
 - **English:** the published equivalence tables are in `pipeline.english_concordance` (30 rows). Rehearsal for Adelaide: PTE, TOEFL iBT and CAE added to 175 courses (525 rows). Newcastle's applies by trigger the moment its procedure is stored. Rows are added only where the course's IELTS has four equal bands, and never for regulated disciplines.
 - **Scholarships:** GPA thresholds that say "on a 7.0 scale" now count as stating their scale (Adelaide's merit awards). Newcastle's Vice-Chancellor's merit award gets its postgraduate entry GPA, 4.5 out of 7, and both award terms are offered to the scholarship reader. The International Excellence 2027 terms state no entry GPA.
