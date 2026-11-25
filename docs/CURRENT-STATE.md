@@ -12,6 +12,8 @@
 - s1151 (Pilot, migration `20261127000000`): the 83-page cohort read on gpt-4.1-mini, gpt-5-mini and gpt-5-nano in the existing harness, same v6 selection, prompt and schema; estimate US$1.06 to 1.66 (run ceiling US$2). Earlier DeepSeek, Qwen, MiMo and Mistral results reused.
 - Scoring: against source-verified requirements (recall, unsupported rows, qualification and score accuracy, conditions and pathways, audience, consistency, tokens, cost, time), not row-count equality. The proposed acceptance criteria go to the Platform Admin for approval.
 - Then: the three missed lines corrected; bounded activation of the 172 and reconciliation of the 267 prepared on the selected model.
+- 17:30 AEDT: s1151 live. GPT-5 mini and GPT-5 nano are not suitable under the existing extraction contract: OpenRouter answers HTTP 404 to the request as sent (temperature 0 with provider parameters required), US$0 spent. gpt-4.1-mini is reading.
+- s1152 (Pilot, migration `20261127010000`, worker v1.0.45): the recall check records where each missed line sits on its stored page; the selector fix follows from it.
 
 **S1-Build, 25 Nov 2026 15:35 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 not met; nothing activated.**
 - s1150 live (Pilot #1611): DeepSeek V4 Flash read the 83 benchmark pages again under `lean-sections-v6` (worker v1.0.44), US$0.0659.
