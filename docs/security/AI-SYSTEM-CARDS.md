@@ -31,6 +31,7 @@ One card per service. "Reads" is what is sent to the model; "Writes" is what may
 | Adapter builder | Propose reading rules for a university's pages | Sample pages and the Platform Admin's marks | A draft adapter; nothing live | Platform Admin approves and activates after a dry run |
 | Layer 1 induction mapper | Map a new source's columns | Source headers and samples | A draft mapping | Curator prepares, Platform Admin activates |
 | Operations diagnosis | Explain a failing job | Job and error records | A note only | A person reads it |
+| Portal course search embeddings (`portal_search_embedding`, edge function `portal-search-embed`, s1153) | Meaning vectors for course search (`openai/text-embedding-3-small`, pinned in `portal_search.embedding_model`) | The platform's own projected course text (title, level and field, majors, stored description) and the topic a signed-in person types; hidden and control characters removed | Rows in `search.course_embeddings` (profile `portal-default`) and `search.query_embedding_cache`; nothing is admitted | None needed: vectors only order results; spend capped at `portal_search.embed_daily_ceiling_usd` (US$1) and the platform ceiling (US$5) |
 
 Layer 3 AI validation was retired on 12 Oct 2026; the university adapters admit values, and AI is used where a page cannot be read by rule.
 
