@@ -12,6 +12,11 @@
 - s1159 (Pilot, migration `20261128220000`): Window 4, the 131 courses passing the gate's own identity and page checks.
 - **Platform Admin decision:** identity for pages shared by records of one programme. It is the dominant block (2,028 unread courses, 513 deterministic readings). See `docs/platform/p0-aer-activation/2026-11-26-entry-identity-shared-programme-pages-decision.md`.
 
+**S1-API-Frontend-Delivery, 26 Nov 2026 07:15 AEDT: StudySearch Portal Release 2 screens built (Pilot s1200 to s1202; no migration).** Live head `20261128230000`, G3 75/48 no drift, locks 7,585, cron 138, US$0.
+- **Built in `portal/`:** Proposals list, proposal editor (reorder, notes, soft-lock and conflict handling), live refresh difference (Accept all changes / Keep my version) and the two-page student sheet with Save as PDF / Print (browser print, no Browser Rendering). Counsellor-only. Checked at 1280 px and 412 px.
+- **Pending cutover:** the screens call `portal_proposal_list_v1`, `_get_v1`, `_save_v1` and `_refresh_v1`, which are **not live yet** (none exist). Until S1-Build deploys them to the contract in `docs/platform/2026-11-25-studysearch-portal-design-decisions-and-plan.md` ("Release 2 contract: student proposals"), every Proposals screen shows "not switched on yet". Nothing else in the portal changed.
+- **Open for the Platform Admin:** retention period and privacy notice wording before real student data is entered.
+
 **S1-RM-Design, 26 Nov 2026 05:15 AEDT: s1171 live (Pilot #1636 + deploy fix #1639, applied by a hand-started deploy, md5 cfa271d9). Live head `20261128200000` (S1-Build s1157; s1171 applied below it, history matches).** G3 75/48, locks 7,585, cron 137, US$0.
 - **Bounded source revisit is live:** `security.pim_source_revisit_v1` and `_due_v1`, history in `pipeline.coverage_page_revisits`, setting `pim.source_revisit_batch` = 25.
   - Backoff on the existing `gaps.recheck_days` = 60 days, doubled per revisit. Never blocked, robots-refused or access-refused pages; no bulk reset.
