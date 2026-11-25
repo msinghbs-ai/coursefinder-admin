@@ -229,3 +229,4 @@ Every `HELD:*` cell in the queue is one line of `docs/monitoring/S1-BLOCKER-QUEU
 - 5 `HELD:BUDGET_GATE` rows cite a missing $0 read. The charter (design 10.2) now authorises $0 plain-HTTP reads, so the owning lane re-checks them before they are treated as approvals: Curtin University, La Trobe University, University of the Sunshine Coast, Australian Pacific College, Southern Cross High School, English Unlimited Sydney, English Unlimited Melbourne, King's Own Institute.
 
 - 25 Nov 2026 12:00 AEDT, S1-Build (P0 AER preprocessing qualification, Tier 2 micro-spend): run s1125-entry-qualify-2026-11-25 US$0.149 so far (ceiling US$2.00, on-demand request 0de69556); platform AI today US$2.01 of US$5.00.
+- 25 Nov 2026 15:45 AEDT, S1-Build (Decision 1, Tier 2 micro-spend): run s1125-entry-qualify-2026-11-25 complete at US$0.284; confirming re-read s1150 (83 DeepSeek V4 Flash pages) estimated US$0.07 under the same US$2 ceiling; platform AI today US$2.34 of US$5.00.
