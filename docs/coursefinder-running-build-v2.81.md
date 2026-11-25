@@ -6,6 +6,15 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Window 5 result (S1-Build, 26 Nov 2026 10:15 AEDT)
+
+- **s1193 live (Pilot #1648):** Window 5 read 346 courses that pass the proven sibling page, by 10:07.
+  - 57 filled: 113 active rows at 47 providers, all published.
+  - 269 to Layer 4 (923 proposed rows); 20 held by the read gate or row rules; 0 failed.
+  - US$0.79 on gpt-4.1-mini; Firecrawl $0.
+- **Verified:** `website_v2_course('120328M')` returns its admitted requirements under `item.entry`. The AI gate and recorder accept the proven sibling page unattended.
+- **s1194:** Window 5 closed (route off, request closed).
+
 ## Deterministic admission recovery, verified (S1-Build, 26 Nov 2026 08:55 AEDT)
 
 - **s1192 live 08:39:** first canonical admission under the approved rule (082307B), consumer read-back verified.
