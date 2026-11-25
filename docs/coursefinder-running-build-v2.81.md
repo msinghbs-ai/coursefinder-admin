@@ -6,6 +6,37 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Development closure (S1-Build, 26 Nov 2026 07:55 AEDT)
+
+- **Delivered functionality (course entry, S1-Build lane):**
+  - gpt-4.1-mini qualified for course entry requirements on source-verified labels (whole page; s1151, s1154).
+  - Bounded read windows on the existing route: US$0 daily cap, one scoped on-demand request each, route off after each window (s1154 to s1159, s1190).
+  - $0 retirement of superseded corrections (s1157).
+  - Window selection by the read gate's own identity and page checks (s1159).
+  - Proven sibling-page identity for academic entry requirements in the deterministic proposer (s1191, Platform Admin decision 06:57).
+  - Recall diagnostics for the selector (s1152).
+  - Hourly delivery measure (Daily Executive Status).
+- **Deployed PRs:**
+  - Pilot: #1611, #1614, #1615, #1617, #1619, #1621, #1638, #1640, #1641, #1642, #1644.
+  - Admin: #1081 to #1129.
+- **Verified in production:**
+  - Last 24 h at 07:29 AEDT: 212 courses newly populated, all published; 1,180 entry rows admitted; conversion 12.9%; US$0.012 entry AI per new course. AU backlog 14,138, clearance about 67 days at that rate (796 at 04:38).
+  - s1191 live 07:40: 69 deterministic pages released. 40 courses proposed from their own stored readings (48 rows; no row copied from a sibling); 23 no row.
+  - Route off and no session request open. G3 75/48, locks 7,585, cron 138. Platform AI today US$1.54 of US$5.00; Firecrawl 0 for every window.
+- **Outstanding acceptance criteria (not complete):**
+  1. s1191 canonical admission of the 40 proposals and consumer read-back (`website_v2_course`), after `aer-machine-admission` (next 08:03).
+  2. The proven sibling-page rule in the AI read gate (`security.enrich_fields_slice_v1`) and AI recorder (`security.enrich_entry_record_v1`), for the 2,028 never-AI-read identity-held courses. Shared identity code; S2-AER to agree.
+  3. Holmesglen escaped-markup converter fix (`lean-md-v3`), after a check that no lane reads pages again on the version change.
+- **Operational backlog and owners:**
+  - AU entry no page (5,432) and page bound not stored (1,503): S1-Build course pages; capped revisits are S1-RM-Design s1171.
+  - Read with no admissible rows (7,056):
+    - pages that state none (1,962): terminal;
+    - superseded losses (1,425): the EQUALS decision, S1-RM-Design and Platform Admin;
+    - identity-held: S1-Build and S2-AER under s1191.
+  - Layer 4 (651 pending): Platform Admin, with the existing machine admission.
+  - Further course entry windows run through the same bounded mechanism, inside the daily limit.
+- **Known CI fault:** the Secret scan check-run can stay "in progress" after its workflow ends, blocking auto-merge (admin #1127, Pilot #1644). An empty commit restarts it.
+
 ## Chat handover (S1-Build, 26 Nov 2026 05:40 AEDT)
 
 - **Windows:** Window 3 done (46 admitted, US$0.223). Window 4 (s1159) reads the 131 courses that pass the read gate's own checks. Always filter on `security.course_page_check_v1` and the entry identity rule, so no slot is spent on a page the gate refuses.
