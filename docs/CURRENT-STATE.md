@@ -1,5 +1,9 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 25 Nov 2026 16:30 AEDT: Portal data layer, migration `20261126230000` (Pilot s1143).**
+- New `portal` schema and read functions for providers, scholarships and saved shortlists; 5 settings under toolset `portal`. Additive; G3 75/48 checked in the migration. Live when Pilot s1143 merges and deploys.
+- Course search (`catalogue.portal_course_search_v1`) still belongs to S1-Build; the response shape the portal reads is in the design document.
+
 **S1-Build, 25 Nov 2026 15:45 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 in progress.**
 - s1150 (Pilot, migration `20261126233000`): confirming re-read of DeepSeek V4 Flash on the 83 benchmark pages under `lean-sections-v6`, about US$0.07. The course entry route stays off; nothing is admitted.
 - Next: if no-loss is met, DeepSeek V4 Flash is recorded as qualified, `lean-qualify` and `lean-sections-eval` pause, and Window 1 (the 172 courses, 20 AU providers) runs under a US$0 route cap and one scoped on-demand request; Window 2 (the 267 backlog) follows. Otherwise the exact failure is reported and nothing is activated.

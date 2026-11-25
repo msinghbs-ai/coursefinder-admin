@@ -165,3 +165,32 @@ Separate from the 192 to 296 hours in the phases above. These are estimates, not
 > * Mockups folder: all 24 screens as individual images (courses in five colour themes, Dashboard for Counsellor and Viewer, Proposals, Proposal editor, the two PDF pages, Saved, Providers, Scholarships, phone views, architecture, and the four plain-English search screens 21 to 24).  
 > * Live design canvas (editable): https\://claude.ai/artifact/Se7Yzvcd4Uq6NDzpYeWzNi  
 > * DRAFT-portal-proposals-schema.sql: reference only, not applied.
+
+## Release 1 data layer as built (Pilot s1143, 25 Nov 2026)
+
+Added 25 Nov 2026 by S1-API-Frontend-Delivery. Built and rehearsed (rolled back, live); live once Pilot s1143 merges. All objects are new and read-through; nothing the website, Zoho or the Admin app reads is changed (G3: 75 functions and 48 relations checked before and after in the migration).
+
+| Object | What it does | Who may call |
+| :---- | :---- | :---- |
+| `public.portal_settings_v1()` | The portal's limits (below) | Viewer (rank 1) and above |
+| `public.portal_lookups_v1()` | Destination countries that have published providers (live) and every student market | Viewer and above |
+| `public.portal_providers_v1(args)` | Published providers, paged on the server; filters: text, countries, provider types, states, Study Square route; the route is shown for the chosen student market | Viewer and above |
+| `public.portal_scholarships_v1(args)` | Published scholarships, paged; filters: text, countries, status, intake; status worked out from the stated dates on today's Melbourne date | Viewer and above |
+| `public.portal_saved_list_v1()` / `public.portal_saved_set_v1(course, saved)` | The person's own shortlist; the fee is the one the Admin app picks (`fee_used`) | Counsellor (rank 2) and above |
+| `portal.saved_courses` | One row per person and course; closed to direct reads | Functions only |
+
+**Publish rules (the same the website API v2 uses):** providers and scholarships are `lifecycle_status = 'active'` and `publication_status = 'published'` and are not in the Layer 4 blocked views. Live on 25 Nov 2026: 2,832 providers and 1,205 scholarships are published (providers: Australia 1,283, Canada 1,130, New Zealand 419). Courses on a shortlist are shown whatever their publish state, because Release 1 course search covers every active course.
+
+**Honest labels:** Study Square route comes from `pipeline.provider_representation`, which holds no rows yet, so every provider reads "Status not recorded". A scholarship with neither an opening nor a closing date is "Dates not published" (741 of the 1,205). Scholarship value is shown from the structured award fields (`award_value_type`, amount, percentage); the free-text value is not shown because it often holds page text.
+
+**Settings (toolset `portal`, G2, on Settings › Toolsets & limits):**
+
+| Key | Default | Range | Used by |
+| :---- | :---- | :---- | :---- |
+| `providers_page_size` | 24 providers | 6 to 60 | Universities & Providers |
+| `scholarships_page_size` | 20 scholarships | 5 to 50 | Scholarships |
+| `saved_courses_max` | 50 courses | 10 to 200 | Saved courses (save) |
+| `compare_courses_max` | 4 courses | 2 to 6 | Saved courses (compare) |
+| `recent_searches_shown` | 5 searches | 1 to 10 | Dashboard |
+
+**Course search contract the portal's Courses screen reads (for S1-Build, `catalogue.portal_course_search_v1` and its public entry `public.portal_course_search_v1(args jsonb)`):** returns `{understood: [{key, label, value, removable}], exact: [course], near_misses: [{course, misses: key}], relaxation: {key, label, from, to, would_return} | null, total}`; a course is `{course_id, title, provider_id, provider_name, level, country_code, state_code, city, duration_value, duration_unit, fee: {per_year, currency, year} | null, next_intake: {label, start_date} | null, topic_match: boolean, saved: boolean}`. A missing value is `null`, never a guess. Until the function is live the Courses screen says search is not switched on yet.
