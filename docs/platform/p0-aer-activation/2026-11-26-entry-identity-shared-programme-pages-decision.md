@@ -1,6 +1,6 @@
 # Course entry identity: pages shared by records of one programme
 
-**Status:** for Platform Admin decision. **Prepared:** S1-Build, 26 Nov 2026 05:40 AEDT, under the 03:59 AEDT accelerated delivery mandate. Nothing has been changed; the safeguard is in force.
+**Status:** decided. The Platform Admin approved option 2 at 06:57 AEDT on 26 Nov 2026, with the safeguards below. It is implemented in Pilot s1191. **Prepared:** S1-Build, 26 Nov 2026 05:40 AEDT, under the 03:59 AEDT accelerated delivery mandate. Nothing has been changed; the safeguard is in force.
 
 ## Why this matters now
 
@@ -40,3 +40,22 @@ In Window 3, the read gate's course page check (`security.course_page_check_v1`)
    - It changes the admission model, and needs a design and a G3 check of how the consumer API shows rows per record.
 
 Every option keeps the US$5.00 daily limit, the 7,585 manual locks, G3 and Layer 4 for genuine decisions.
+
+## Decision (Platform Admin, 26 Nov 2026 06:57 AEDT)
+
+Option 2 is approved for academic entry requirements only. Each safeguard is a condition in `security.entry_sibling_identity_v1` (s1191):
+
+| Safeguard | Condition |
+|---|---|
+| Provider, normalised programme title and qualification level match | Same `provider_id`; title normalised as in `security.course_entry_shared_page_v1`; same `study_level_id` |
+| The same official page is verified through CRICOS or an approved adapter | The sibling's own binding to the same URL has basis `cricos_code` or `adapter_code`. That basis comes from the sibling's own proof, never from another sibling, so the proof is not transitive. |
+| Applicability to the target variant and international audience | The target is open to international students; its page is bound and read; the page is not a domestic page; the read gate's course page check refuses it for no reason other than a shared page |
+| No contradictory campus, study mode, pathway, edition or programme-specific requirements | None of the target's own stored readings names a campus, study mode, pathway, edition or intake |
+| Existing safeguards stay enforced | Only the identity line of `security.aer_det_propose_v1` changes (md5 guarded). The shared-page, variant, over-row-limit, quote and score rules, Layer 4 and the fast admission are unchanged. |
+
+**Not permitted:** title-only identity, transitive sibling identity, copying canonical rows from the sibling (the course's own stored readings are proposed), and any change to fee, intake or other field identity. The post-check confirms `security.coverage_identity_allowed` is unchanged.
+
+**Rehearsal:** 69 deterministic pages released. The negative cases hold: no proven sibling is refused, not open to international students is refused, and the only sibling bases used are CRICOS. One proposer run proposed 20 of those pages to Layer 4.
+
+**Outstanding:** the AI read gate (`security.enrich_fields_slice_v1`) and the AI recorder (`security.enrich_entry_record_v1`) do not use the rule yet. The 2,028 never-AI-read identity-held courses wait for that.
+
