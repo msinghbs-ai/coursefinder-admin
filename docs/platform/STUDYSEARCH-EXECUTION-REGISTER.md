@@ -865,6 +865,20 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 09:00 AEDT: s1210 Portal Release 2 proposals layer live (Pilot #1646, migration `20261129003000`); read back as signed-in Counsellors.**
+- **Live read-back (through the deployed public functions, two real Counsellors, rolled back):**
+  - `save` as Counsellor 1 created v1, `SS-000001`, with the server course snapshot (fee held).
+  - `get` as Counsellor 2 showed Counsellor 1 in `others_recent`, limits 12 courses and a 15-minute window.
+  - Counsellor 2 saved on base 1 to make v2.
+  - Counsellor 1's save on the stale base 1 answered `saved_after_other_edit`: current 2, changes "Message to the student", nothing written.
+  - `refresh` gave 0 changes, with `built_at` set.
+  - `list` (mine, by reference) gave total 1, page size 20 and the facet counts.
+  - `get` gave v2 with 2 versions and `expires_at` 12 months out.
+- G3 75/48, drift 0; locks 7,585; active cron 136 (s1210 adds none); anon has no execute; US$0.
+- The Release 2 screens (s1200 to s1202) now have their functions; the Platform Admin can run the proposal UAT.
+- TEST-REGISTER regenerated: s1210 added, with s1172 and s1200 to s1202 now on Pilot main.
+- Leftover: the superseded branch `s2-s1182-portal-proposals` (never merged); the session proxy refuses branch deletion (HTTP 403).
+
 **S2-Build, 26 Nov 2026 08:25 AEDT: s1210 Portal Release 2 proposals layer recorded before merge (Pilot branch `s2-s1210-portal-proposals`, migration `20261129003000`).**
 - **What:** the database layer the live Release 2 screens (Pilot #1645, s1200 to s1202) are waiting for.
   - Tables:

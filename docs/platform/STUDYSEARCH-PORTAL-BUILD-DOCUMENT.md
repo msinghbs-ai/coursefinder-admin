@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 08:25 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`, with course search hardened (s1181). The Release 2 screens are live (s1200 to s1202) and wait for their database layer. s1210 (S2-Build) is built to the screens' contract and rehearsed as real users; it is recorded before merge.
+**Status at the last checkpoint (26 Nov 2026 09:00 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`, with course search hardened (s1181). Release 2 is complete end to end: the screens (s1200 to s1202) and their database layer (s1210, live and read back as signed-in Counsellors). Awaiting the Platform Admin's proposal UAT.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -49,7 +49,7 @@
 | 26 Nov 00:15 | s1180 hotfix: "Master of Nursing in Victoria" failed once its phrase vector was cached; the ranker's meaning branch had an ambiguous `course_id` (42702). Migration `20261128075000` | S2-Build | [#1633](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1633) | [#1113](https://github.com/msinghbs-ai/coursefinder-admin/pull/1113), [#1116](https://github.com/msinghbs-ai/coursefinder-admin/pull/1116) | Live |
 | 26 Nov 05:10 | s1181 hardening: search timed out (57014, limit 8 s) in the filter step, which read every candidate course's vector (10 to 15 s). Fix: typed text folded one way; malformed fields ignored; the vector index searched once, words through the text index, ranking fused over the matches; city matching in one query; empty searches answer at once; grad dip and grad cert as levels; 3 new settings. Migration `20261128105000` | S2-Build | [#1637](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1637) | [#1121](https://github.com/msinghbs-ai/coursefinder-admin/pull/1121), live record (this checkpoint) | Live; read back as a Counsellor: every spelling 21 courses in about 0.55 s |
 | 26 Nov 07:15 | s1200 to s1202 Release 2 screens: Proposals list, proposal editor (reorder, notes, soft-lock and conflict handling), live refresh difference (Accept all / Keep my version), and the two-page student sheet with Save as PDF / Print from browser print CSS. Built against the contract in the design document; the `portal_proposal_*_v1` functions are not live yet, so the screens show "not switched on yet". No migration | S1-API-Frontend-Delivery | Pilot (this change) | this change | Built; waiting for the functions |
-| 26 Nov 08:25 | s1210 Release 2 proposals layer: `pipeline.portal_proposals`, append-only `portal_proposal_versions`, `portal_activity`, `portal_user_prefs` (RLS, no table grants); `portal_proposal_list/get/save/refresh_v1` matching the screens, `portal_proposal_archive_v1`, `portal_activity_touch/list_v1`, `portal_prefs_save_v1`; eleven portal settings. Migration `20261129003000` | S2-Build | branch `s2-s1210-portal-proposals` | recorded before merge | Rehearsed as real users: clash, kept snapshot, refresh keep/accept, duplicate, archive/restore, access refusals |
+| 26 Nov 08:25 | s1210 Release 2 proposals layer: `pipeline.portal_proposals`, append-only `portal_proposal_versions`, `portal_activity`, `portal_user_prefs` (RLS, no table grants); `portal_proposal_list/get/save/refresh_v1` matching the screens, `portal_proposal_archive_v1`, `portal_activity_touch/list_v1`, `portal_prefs_save_v1`; eleven portal settings. Migration `20261129003000` | S2-Build | [#1646](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1646) | [#1133](https://github.com/msinghbs-ai/coursefinder-admin/pull/1133), live record (this checkpoint) | Live; read back as two Counsellors: save, get (others_recent), clash (nothing written), refresh, list |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -75,7 +75,7 @@
 | Google Docs connector in these sessions | Platform Admin (optional) | Updating this document in place with one link |
 | Deploy `portal_proposal_list_v1`, `_get_v1`, `_save_v1`, `_refresh_v1` and the proposal tables to the contract in the design document ("Release 2 contract: student proposals"), with the limits and soft-lock window as settings | S1-Build | Every Release 2 screen (they show "not switched on yet" until then). On deploy, repeat the checks signed in as a Counsellor: create, reorder, save, conflict, refresh, print |
 | Retention period and privacy notice wording for proposals (already listed above, now needed before real students are entered) | Platform Admin | Using Proposals with real student data |
-| Leftover Pilot branch `s2-s1170-portal-hybrid-fix` (no PR); the session proxy refuses branch deletion (HTTP 403) | Any session with delete rights | Housekeeping only |
+| Leftover Pilot branches `s2-s1170-portal-hybrid-fix` and `s2-s1182-portal-proposals` (no PR); the session proxy refuses branch deletion (HTTP 403) | Any session with delete rights | Housekeeping only |
 
 ## 6. Open issues seen during UAT
 
@@ -87,12 +87,19 @@
 
 ## 7. Next executable action
 
-S2-Build: merge s1210 (admin first, then Pilot), read it back live as a signed-in Counsellor (list, save, the clash, refresh, get), and update this document.
+Platform Admin: open Proposals on the portal (desktop and phone):
+1. Create a proposal from Saved courses.
+2. Edit it, mark it ready and refresh it.
+3. Save from two sign-ins at once and check the clash notice.
+4. Duplicate it, print the sheet and archive it.
+5. Repeat the course search UAT.
+6. Decide the privacy notice wording.
 
-Platform Admin: then open Proposals on the portal and create, edit, refresh, duplicate, print and archive a proposal. Repeat the earlier course search UAT on the phone.
+S2-Build: act on anything the UAT finds; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 09:00 AEDT, S2-Build: s1210 live (Pilot #1646); read back as two signed-in Counsellors (save, get, clash with nothing written, refresh, list); G3 75/48, locks 7,585, cron 136, US$0. Release 2 complete end to end; Drive mirror replaced.
 - 26 Nov 2026 08:25 AEDT, S2-Build: s1210 Release 2 proposals layer built to the screens' contract (Platform Admin decisions 07:30, brief 07:37), rehearsed as real users (rolled back), recorded before merge.
 
 - 26 Nov 2026 05:45 AEDT, S2-Build: s1181 live (Pilot #1637); read back as a signed-in Counsellor: every spelling of "Master of Nursing in Victoria" returns the same 21 courses in about 0.55 s; G3, locks and cron unchanged; US$0. Drive mirror replaced.
