@@ -4,7 +4,8 @@
 - Window 5: 346 courses passing the proven sibling page. 57 filled with 113 active rows (47 providers, all published), 269 to Layer 4 (923 proposed rows), 20 held, 0 failed; US$0.79.
 - Verified: consumer read-back `website_v2_course('120328M')` returns the admitted requirements under `item.entry`.
 - Hourly measure 10:11: last 24 h 278 courses newly populated, 1,305 entry rows, conversion 13.8%; AU backlog 14,072, clearance about 51 days. Platform AI today US$2.53 of US$5.00; G3 75/48, locks 7,585, cron 138.
-- s1194 (Pilot, migration `20261129030000`): course entry route off and Window 5 request closed.
+- s1194 live (Pilot #1650, 10:26): course entry route off and Window 5 request closed; read back head `20261129030000`, G3 75/48, locks 7,585, cron 136.
+- Still open, not S1-Build's: S3-Scholarship-ChatGPT on-demand request `625e62fc` (Admin #937, opened 24 Nov).
 
 **S1-API-Frontend-Delivery, 26 Nov 2026 09:20 AEDT: a browser tab left open across a deploy now reloads once and recovers (Pilot s1203; no migration).** Live head `20261129010000`, G3 75/48 no drift, locks 7,585, cron 137, US$0.
 - **Cause (confirmed by the Platform Admin):** the `Failed to fetch dynamically imported module: .../assets/access-roles-entry-*.js` error on `Administration › Users & roles` came from a tab holding the old `index.html` across a Worker deploy. A refresh fixed it; nothing was broken in the deploy.
