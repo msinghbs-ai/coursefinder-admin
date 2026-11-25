@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 06:30 AEDT: course entry windows 3 and 4 done; next windows wait on the identity decision.**
+- Delivery 06:25: last hour 43 courses newly populated (all published), 318 entry rows admitted; last 24 h 162 courses, 804 rows, conversion 11.3%, US$0.016 entry AI per new course; AU backlog 14,188, clearance about 88 days (796 at 04:38).
+- Window 4 (s1159): 93 to Layer 4, 36 held, 2 failed, US$0.75. Platform AI today US$1.50 of US$5.00.
+- s1190 (Pilot, migration `20261128230000`): course entry route off and Window 4 request closed.
+- The never-AI-read courses that pass the read gate are used up. The next 2,028 wait on the **shared programme page identity decision** (`docs/platform/p0-aer-activation/2026-11-26-entry-identity-shared-programme-pages-decision.md`).
+
 **S1-Build, 26 Nov 2026 05:40 AEDT: course entry Window 3 done; Window 4 in release; identity decision prepared.**
 - Window 3 (s1158, 446 university courses): 46 admitted with 153 active rows, 58 to Layer 4, 299 held at $0 by the read gate, US$0.223.
 - Delivery 05:29: last hour 62 courses newly populated (all published), 220 rows admitted; last 24 h 80 courses, conversion 6.2%, US$0.024 entry AI per new course; AU backlog 14,270, clearance about 178 days at the 24 h rate.
