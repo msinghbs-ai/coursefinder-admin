@@ -1,6 +1,6 @@
 # Course entry requirements: model comparison and proposed acceptance criteria
 
-**Status:** for Platform Admin decision. **Prepared:** S1-Build, 25 Nov 2026 18:05 AEDT, from the Platform Admin's 15:40 AEDT direction. **Release:** Pilot s1151 (#1614).
+**Status:** decided by the Platform Admin, 25 Nov 2026 18:26 AEDT: gpt-4.1-mini on the whole page; criteria approved; converter fix after the windows. **Prepared:** S1-Build, 25 Nov 2026 18:05 AEDT, from the Platform Admin's 15:40 AEDT direction. **Release:** Pilot s1151 (#1614).
 
 ## Summary
 
@@ -66,3 +66,10 @@ Under these criteria only gpt-4.1-mini on the whole page qualifies (95%, 94%, ro
 - **Where they are lost:** two of the three lines (CTI, Holmesglen) are lost when the page becomes lean text; the third (SP Jain) is in the lean text but its block is not selected.
 - **Diagnostic:** s1152 (worker v1.0.45) records where each one sits on the stored page, and the fix follows from that.
 - **If the whole page is chosen:** course entry reads no longer depend on the selector. The fix still matters to the other readers that use it.
+
+## s1152 findings (25 Nov 2026 18:20 AEDT)
+
+- **CTI:** the Diploma line is inside an HTML comment, so it is never shown. The label is wrong, and the lean text is right to leave it out (reclassified in the label file).
+- **SP Jain:** "Graduate with an / AUSTRALIAN DEGREE (AQF Level 9)" is a card about the award a graduate receives, not an entry requirement. The label is wrong (reclassified).
+- **Holmesglen:** the requirements are published as escaped HTML (`&lt;br&gt;`). The lean converter strips tags before decoding entities, so `<br>` stays in the text. The fix is a new converter version `lean-md-v3`, shared by the AER v2 readers. The Platform Admin chose to ship it after Windows 1 and 2, once it is checked that no lane reads pages again because the converter version changed.
+
