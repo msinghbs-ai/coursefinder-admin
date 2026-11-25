@@ -440,6 +440,87 @@ Note: approving an English item through the existing Layer 4 path adds an `engli
 - **24 Nov 2026 17:00 AEDT, S1-AER-Claude (s1045 live, Pilot #1549, Admin #920):** entry_matrices route live with the provisional cascade (route resolves to Mistral Small 3.2). ACU re-queued and held again: the worker never sends a PDF to a model, so it needs a Tier 1 layout reader. UOW not re-queued (already read 12 Nov, same hash). RMIT ladder reader and the 45-provider wave not done in this session.
 - 24 Nov 2026 17:30 AEDT, S1-AER-Claude: s1049 claimed (Admin then Pilot, `automerge`): stored-PDF export in entry_inspect for the ACU reader. Handoff: S3-AER-ChatGPT, the entry_matrices route is now global (Mistral Small 3.2 first, provisional; Qwen 2/50 with 18 timeouts on record; $20/day cap and strict-proof rules unchanged); the route table cannot say "operational but not benchmark-qualified" beyond the provisional flag, so the Integration Controller (S1-Build) is asked to confirm that representation.
 
+## 6. Global Autonomous PIM: final consolidation (25 Nov 2026 19:10 AEDT) — awaiting Platform Admin approval
+
+Status: **implementation-ready checkpoint, not approved**. Nothing here is built, no setting, permission or spend has changed. It applies the Platform Admin's ten corrections of 25 Nov 18:25 to the review in `docs/platform/data-ingestion/2026-11-25-pim-control-plane-review-and-mockup.md` and replaces that review's sections 4, 6, 7 and 9 where they differ. `S1-Build` is the sole Integration Controller. Acceptance: F-OPS.13 to F-OPS.20 in `STUDYSEARCH-FEATURE-ACCEPTANCE.md`. Mockup: `docs/platform/data-ingestion/mockups/pim-control-plane-mockup.html`.
+
+### 6.1 Retain, extend, retire
+
+| Decision | Component | Note |
+|---|---|---|
+| Retain | Enrichment planner (`security.enrich_plan_auto_v1`, `enrich_plan_tick_v1`, `enrich_plan_priority_v1`, `enrich_plan_start_step_v1`, `pipeline.enrich_plan_runs`) | The one planner |
+| Retain | Standing field-gap queue (`security.field_gap_scan_v1`, `field_gap_queue_tick_v1`, `field_gap_queue_run_v1`, `pipeline.field_gap_queue_*`) | The one gap mechanism |
+| Retain | Dispatcher lanes (`pipeline.field_execution_registry`), `pipeline.queue_watch`, `pipeline.on_demand_requests`, `pipeline.admin_control_events`; s768 controls (F-OPS.10 to .12) | No second worker or audit log |
+| Retain | Layer 4 Inbox with its existing choices and ranks; AER admission and rejection stay with the Platform Admin (decision A3) | No generic grouped approval |
+| Retain | AI permission split in `AiModelsServices.jsx`: model list, qualification, ceiling and key are the Platform Admin's; routes, caps and switches are the PIM Admin's where `can_control` is granted | Confirm each against its backend check before build |
+| Retain | Meaningful-content preprocessing (lean selector and input function) | Screen shows the stored payload actually sent |
+| Retain | Request Register Rules v1.3; the gap register stays unshared; G1 to G4, 7,585 manual locks, cron ceiling 140 | Unchanged |
+| Extend | `pipeline.field_register` and `pipeline.course_field_absence` | Applicability at field and entity grain; one typed outcome |
+| Extend | `enrich_plan_start_step_v1` | An academic entry step; scholarship step widened; request weight in `enrich_plan_priority_v1` |
+| Extend | Data Delivery (`src/DataDelivery.jsx`, read `admin_layer23`), drawn in Layer 2/3 Build & enrich › Operations | Matrix, requests and refresh views live here |
+| Extend | `pipeline.ai_invocations` | Token split and the link from a read to its canonical row |
+| Extend | Supersession writers | Guard before replacement (6.2, interface 4) |
+| Retire (from the design; never built) | Intake Engine v0.1 `intake-planner` lane, its ledger table and the "Operations › Intake" screen; the Coverage & completeness "Data delivery" tab; "Approve group" in Layer 4; Qualify at Pipeline Operator; cost per admission from estimated cost ÷ recall | Superseded by this section |
+
+### 6.2 Shared component interfaces
+
+Names marked *new* are proposals; `S1-Build` assigns the final names, spec numbers and migrations at merge time.
+
+| # | Interface | Contract |
+|---|---|---|
+| 1 | Applicability | `pipeline.field_register` gains, per field: the entity grain (course, course × student country, course × test, award × course, provider × edition, country × edition) and the rule that says whether the field applies to an entity. One read, *new* `security.field_applicable_v1(field, entity)`, used by the gap scan, the planner and the delivery read |
+| 2 | Typed outcome | One outcome per applicable field instance, held with `pipeline.course_field_absence` evidence: `verified`, `partial`, `stale`, `no_source` (evidenced), `unknown`, `protected_held` (manual lock, G3, licence or Layer 4 hold). Queued, running and failed are job states and stay on Scheduled jobs. Only `verified` and `stale` count as canonical coverage |
+| 3 | Planner step | `enrich_plan_start_step_v1` accepts an academic entry step that hands to the existing AER lanes; a step ends by writing an interface 2 outcome, never "done" alone |
+| 4 | Replacement guard | *New* `security.supersede_guard_v1`: a reading is superseded only in the transaction that admits a verified successor covering the same value kinds; otherwise the writer stops with `HELD:NO_SUCCESSOR`. A check two cycles later is a second safeguard that flags for review. Nothing restores an invalid, withdrawn or protected record automatically |
+| 5 | Delivery read | `admin_layer23` returns, by country and domain: applicable, each outcome count, consumer read-back count and fresh count. Functional API delivery, canonical coverage, consumer coverage and freshness are four separate figures |
+| 6 | Request weight | Request scope (country, domain, field) and weight feed `enrich_plan_priority_v1`; a request shows "Delivered" only on its own functional check, with the three coverage figures beside it. Rules v1.3 govern what a requester sees |
+| 7 | AI attribution | `pipeline.ai_invocations` gains static prompt, selected content and reasoning token counts beside billed input and output, and each read links to the canonical row it produced. Cost per retained outcome = actual billed spend for a service and model (every attempt, retry and failure) ÷ canonical rows from those reads still held and verified |
+| 8 | Control and audit | Every control writes `pipeline.admin_control_events` (actor, reason, previous state). Qualification, route settings, activation and roll-back are four actions with their own check; a qualification pass activates nothing |
+
+### 6.3 Sequence (smallest autonomous lifecycle first)
+
+| Step | Work | Owner (existing chat) | Depends on | Active hours |
+|---|---|---|---|---|
+| 1 | Interfaces 1 and 2 for academic entry and scholarships | `S1-Build` | Approval | 2–3 |
+| 2 | Interface 4, the replacement guard, on the entry and scholarship writers | `S1-Build` (shared), with `S2-AER` | 1 | 2–3 |
+| 3 | Interface 3: academic entry step in the planner | `S1-Build` | 1 | 2–3 |
+| 4 | First lifecycle: the 1,563 courses left without a reading by s871, from stored copies at $0: gap → plan → read → validate → admit or Layer 4 → publish → consumer read-back → outcome → refresh date | `S2-AER` (shared admission); `S1-AER-Claude` (AU readers); `S3-AER-ChatGPT` (NZ, CA) | 2, 3 | 3–5 |
+| 5 | Two unattended result-bearing cycles, read back live | `S1-Build` | 4 | 1 |
+| 6 | Scholarships reuse steps 1 to 5 | `S1-Build`, with `S1-Scholarship-Claude` (AU) and `S3-Scholarship-ChatGPT` (NZ) | 5 | 3–5 |
+| 7 | Interface 5 and the Data Delivery views | `S1-Build` (read); `S1-API-Frontend-Delivery` (screen) | 1 | 4–6 |
+| 8 | Interfaces 6 and 7; Models & services and Layer 4 regrouping | `S1-Build` (reads); `S1-API-Frontend-Delivery` (screens); StudySearch requirements register (request scope and rules only) | 1 | 4–6 |
+
+**Critical path:** steps 1 to 5, about 10 to 15 active hours. Steps 7 and 8 run beside steps 3 to 6 once step 1 is merged. Each chat changes only its own row; shared functions, migrations, versions and registers go through `S1-Build`. `S1-RM-Design` keeps AU source acquisition and is not on this path.
+
+### 6.4 Capacity, read live 25 Nov 2026 about 18:30 AEDT (read-only)
+
+| Item | Measured | Constraint? |
+|---|---|---|
+| Database compute | 120 connections max (45 in use, 14 active); shared buffers 1 GB; statement limit 120 s; 6 worker processes | Consistent with a 4 GB instance; the tier itself is on the Supabase dashboard and was not read |
+| Database size | 7,585 MiB, growing about 54 MiB a day; alert level 7,168 MiB | Provisioned disk not readable by SQL; **Platform Admin to confirm tier and disk** |
+| Scheduled jobs | 136 active of the 140 ceiling | Yes: no new cron job; new work rides existing lanes |
+| Dispatcher | 21 lanes, 18 live; median tick 39 ms, longest 1,476 ms; none failing | No |
+| Planner | Runs have reached the 120 s statement limit | Yes: step 3 must keep the planner inside it |
+| Cloudflare | Two static front-end Workers; no processing runs there and no limits are configured | No |
+| Edge Functions | Plan limits not read | To confirm on the dashboard |
+| OpenRouter | Key limit US$50 a day, US$49.12 left; no key-limit refusals; the key payload carries no rate limit | Per-model rate limits not read |
+| AI spend, 30 days | 110,187 attempts (4,575 failed), US$34.86, highest day US$10.03; daily ceiling now US$5.00 | No at current volumes |
+| Firecrawl | **Scheduled budget is 1,500 credits a day** (`daily_budget_total`, set 24 Nov 13:08 under s1035), not 5; on-demand allowance of 2,000 a day is reference only since 12 Nov (on-demand is held by the plan only); Monitor 160 a week; 30-day use 108,456 units, 13,164 in the last 7 days, all on demand | Plan balance not read (66,863 on 21 Nov) |
+
+### 6.5 Decisions for approval
+
+| # | Decision | Recommendation | Why |
+|---|---|---|---|
+| D1 | Approve sections 6.1 to 6.3 as the build | Approve | Smallest lifecycle first, on existing components |
+| D2 | Firecrawl scheduled allowance | Keep the 1,500 a day total. Inside it, give rendered entry-page fetches a share of 400 a day for the initial load, then 50 a day | The 480-day figure assumed 5 a day, which the 24 Nov change replaced. At 400 a day the estimated 2,400 credits take 6 days |
+| D3 | Firecrawl on-demand control | Make the on-demand allowance an enforced, separate limit again, at 500 a day | Today on-demand is limited by the plan only, and the last 7 days' 13,164 units were all on demand |
+| D4 | Correct the records | Gates register and `CURRENT-STATE.md` still say 5 a day; `S1-Build` aligns them to the setting once D2 is decided | Records disagree with live |
+| D5 | Confirm Supabase tier, provisioned disk and Firecrawl plan balance from the dashboards | Platform Admin or `S1-Build` | Not readable from here |
+| D6 | AI ledger columns (interface 7) | Approve | Cost per retained outcome can't be shown without them |
+| D7 | Permissions | No change. Build to the ranks in 6.1 after confirming each backend check | Protected |
+
+No spend is activated, no permission changed and no production work started until D1 to D7 are answered.
+
 ## 24 November 2026 — AER extraction-to-admission recovery
 
 Apply the [standing AER recovery mandate](AGENT-OPERATING-MODEL.md#aer-source-to-admission-recovery-mandate--24-november-2026-platform-admin-direction) and [F-AER acceptance contract](STUDYSEARCH-FEATURE-ACCEPTANCE.md). S1-AER-Claude AU, S3-AER-ChatGPT NZ/CA, S2-AER (formerly S2-RM-Design AER lane) shared mapping/admission, S1-Build shared runner and register regeneration. Prioritise existing 149 sourced providers without active matrix, steps 3/4 through eligible canonical admission, consumer readback and two unattended cycles. No duplicate pipeline or relaxed gates. This is a delivery requirement, not a claim of new admissions. Preserve historical entries and use the existing lane status and execution register for measured outcomes.
@@ -557,3 +638,4 @@ Close only on verified evidence or explicit recorded disposition; retain true ho
 - 25 Nov 2026 18:00 AEDT, S1-API-Frontend-Delivery (Admin PR with Pilot s1144 to s1149): **Portal Release 1 screens.** Shell with role-aware menu and the "Study in" bar; Universities & Providers (24 a page, setting); Scholarships (20 a page, setting); Saved courses with compare (50 saved, 4 compared, settings); Courses built to the `portal_course_search_v1` contract with a calm "not switched on yet" state; Dashboard using the `recent_searches_shown` setting. Checked at desktop and 412px against fixtures of the live function output (no horizontal overflow), and by specs `s1144` to `s1149`. No migration, no Admin app change, no new job; G3 75/48, 7,585 manual locks, 139 active cron and $0 spend unchanged. **Open for S1-Build:** the search function and its public entry, to the shape in the design document ("Release 1 screens as built"). **Not built, needs data first:** City filter on providers; scholarship-to-course links.
 - 25 Nov 2026 13:00 AEDT, S1-Build (Platform Admin 12:37 AEDT, delivery acceleration): **component ownership and release boundaries.** S1-Build, sole release controller: worker `coverage-sweep` (index.ts, lean-*.ts, course-entry.ts, entry-pdf-sniff.ts, cascade.ts and its version), the qualification and recall harnesses (`svc_lean_*`, `security.lean_*`), the entry fetch and fire functions, AI routes and settings writers, `scripts/ci/*`; any other lane's Pilot change to the worker is integrated by S1-Build. **S2-AER:** `security.aer_*` identity, course binding, mapping, admission validation and D-R3 (the 62 gate_incomplete courses, stale course bindings), the 252 D-R2 corrected reads of 18 and 19 Nov and its own 15 s1115 re-reads now waiting in the AI queue (outcome verification after their bounded window). **S1-AER:** AU readers (`entry-pdf-columns.ts`, `entry-cells.ts`), AU source registration, the 172-course outcome read-back after activation, and the CQU (112) and Top Education (228) proposed rows waiting in Layer 4. **S3-AER:** NZ and CA sources and readers, including the 10 Auckland University of Technology items in the AI queue. **Scholarship lanes:** unchanged. Each lane numbers its own s-numbers and migrations above the live head at push time (pre-flight now applies the deploy's drop rule).
 - 25 Nov 2026 17:15 AEDT, StudySearch requirements register (Claude; design only, no Pilot PR, no live change): consolidated review of the Global Autonomous PIM design, with sizing and an interactive control-plane mockup, in `docs/platform/data-ingestion/2026-11-25-pim-control-plane-review-and-mockup.md` and `mockups/pim-control-plane-mockup.html` (Drive mirror: M3 / Data ingestion). Reconciles Intake Engine v0.1 with the existing `enrich_plan_*` planner and standing gap queue (no new planner lane, ledger table or dashboard); every proposed view sits on an existing page. Five findings for the orchestrator (planner lacks an AER step; planner run time is the demonstrated bottleneck; applicability undefined; five status registers to generate from one source; supersession check) and seven Platform Admin decisions in its section 9. Not an implementation plan; Feature Acceptance and this plan stay authoritative.
+- 25 Nov 2026 19:10 AEDT, StudySearch requirements register (Claude; design only, no Pilot PR, no live change; read-only live reads): Global Autonomous PIM final consolidation recorded as section 6 of this plan and F-OPS.13 to F-OPS.20, applying the Platform Admin's ten corrections of 18:25 (existing planner and gap queue kept; matrix inside the existing Data Delivery panel on Layer 2/3 › Operations; AER decisions Platform Admin only, no grouped approval; four separate AI actions; cost from actual spend and retained verified outcomes; replacement guard before supersession). Mockup updated. Live reads: Firecrawl scheduled budget is 1,500 credits a day (s1035, 24 Nov), not 5; cron 136 of 140; database 7,585 MiB. Awaiting decisions D1 to D7 in section 6.5; nothing is approved or built.
