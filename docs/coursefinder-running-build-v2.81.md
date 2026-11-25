@@ -6,6 +6,15 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Deterministic admission recovery, verified (S1-Build, 26 Nov 2026 08:55 AEDT)
+
+- **s1192 live 08:39:** first canonical admission under the approved rule (082307B), consumer read-back verified.
+- **Remaining deterministic blockers:**
+  - 370 active rows already exist (no overwrite);
+  - 422 rows at confidence 0.70 below the 0.80 machine threshold, so Layer 4 decides;
+  - 6 gate incomplete (the reader dropped printed requirements).
+- **s1193:** Window 5, 346 courses that pass the proven sibling page, in release.
+
 ## Deterministic admission recovery (S1-Build, 26 Nov 2026 08:40 AEDT)
 
 - **s1192 (Pilot, migration `20261129010000`):** proven sibling page in `security.aer_machine_check_v1`, `security.enrich_fields_slice_v1` (entry only) and `security.enrich_entry_record_v1`; the 20 s1191 proposals checked through the existing machine admission.
