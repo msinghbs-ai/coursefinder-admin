@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 25 Nov 2026 19:10 AEDT: course entry Window 1 done; Window 2 (the 267) in release.**
+- Window 1 (s1154, 172 courses, gpt-4.1-mini, whole page) finished at 18:49 AEDT, about US$0.08. Before: 0 active, 0 proposed rows. After: 28 active rows (7 courses), 14 proposed rows to Layer 4 (3 courses). 91 courses held by the course-page identity gate E16 before any AI call; 60 pages do not state entry requirements; 6 had no quoted requirement; 5 had no row meeting the admission rules.
+- **S1-AER:** read back Window 1 (the 7 filled and 3 Layer 4 courses). **S2-AER:** the 91 E16 identity holds are in your lane.
+- s1155 (Pilot, migration `20261127040000`): Window 1 closed (route off, request closed); Window 2 opened for the 267 waiting reads at 22 providers, US$0 cap, one request. Estimate US$0.48.
+
 **S1-Build, 25 Nov 2026 18:40 AEDT: Window 1 (the 172 courses) approved on gpt-4.1-mini, whole page (Platform Admin 18:26).**
 - s1154 (Pilot, migration `20261127030000`): gpt-4.1-mini qualified for course entry requirements; `reading.course_entry_sections_on` 0; route on with a US$0 cap (the scheduled reader stays held); one on-demand request for the 20 providers; the 172 queued through the entry Read now; `lean-qualify` and `lean-sections-eval` paused. Estimate US$0.31.
 - Next: monitor Window 1, then switch the route off and hand read-back to S1-AER; then Window 2 (the 267) the same way, then notify S2-AER and S3-AER. Converter fix `lean-md-v3` after both windows.
