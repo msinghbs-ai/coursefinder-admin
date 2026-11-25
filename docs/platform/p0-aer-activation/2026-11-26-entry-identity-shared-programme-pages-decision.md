@@ -59,3 +59,16 @@ Option 2 is approved for academic entry requirements only. Each safeguard is a c
 
 **Outstanding:** the AI read gate (`security.enrich_fields_slice_v1`) and the AI recorder (`security.enrich_entry_record_v1`) do not use the rule yet. The 2,028 never-AI-read identity-held courses wait for that.
 
+## Implementation and reconciliation (26 Nov 2026 08:40 AEDT)
+
+- **Correction:** s1191 released **69 deterministic pages belonging to 38 courses**. The count of 69 courses given at 07:45 was wrong, because some courses have more than one stored page version.
+- **The 38 courses:**
+  - 20 proposed to Layer 4;
+  - 11 no row passed the reader's rules;
+  - 6 no reading on the current page;
+  - 1 no reading or no row.
+  Older stored versions of the same courses remain due, and the sweep closes them as page changed.
+- **Why the 20 stayed pending:** the existing machine admission (`aer-machine-admission`, mode 2, validated) declined all 20 on identity, because `security.aer_machine_check_v1` repeated the old identity test. s1192 adds the approved proof there, beside the existing title-identity extension, and in the AI read gate (entry only) and the AI recorder.
+- **Rehearsed result for the 20, through the existing mechanism:** 1 admitted; 13 every row fails a row rule; 6 the reader dropped printed requirements that no row covers. Those last two stay as the existing rules decide.
+- **Other pending deterministic proposals:** 370 are declined because the course already has active rows (no overwrite, a person's decision) and 122 because every waiting row fails a row rule.
+
