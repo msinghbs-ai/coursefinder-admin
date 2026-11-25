@@ -228,7 +228,7 @@ The planner tries the cheapest tool that applies. After `intake.max_attempts_tie
 
 ---
 
-## 6. Rollout (each phase gated; a pass switches nothing on)
+## 6. Rollout (each phase has an exit test; live on deploy where already authorised)
 
 | Phase | What | Exit test | Spend |
 |---|---|---|---|
@@ -240,6 +240,7 @@ The planner tries the cheapest tool that applies. After `intake.max_attempts_tie
 | 5. Agents as ledger workers | Chats claim Tier 4 tickets; wave mandates retired | Two weeks with no hand-picked waves and coverage still rising | As today |
 
 Unless the Platform Admin asks for one, no phase includes a shadow soak or a delayed cutover. Each change ships live with its guard (standing mandate, 21 Nov).
+
 ---
 
 ## 7. Risks and guards
