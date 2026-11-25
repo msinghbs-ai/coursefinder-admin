@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 10:15 AEDT: course entry Window 5 done (s1193 live, Pilot #1648); s1194 closes it.**
+- Window 5: 346 courses passing the proven sibling page. 57 filled with 113 active rows (47 providers, all published), 269 to Layer 4 (923 proposed rows), 20 held, 0 failed; US$0.79.
+- Verified: consumer read-back `website_v2_course('120328M')` returns the admitted requirements under `item.entry`.
+- Hourly measure 10:11: last 24 h 278 courses newly populated, 1,305 entry rows, conversion 13.8%; AU backlog 14,072, clearance about 51 days. Platform AI today US$2.53 of US$5.00; G3 75/48, locks 7,585, cron 138.
+- s1194 (Pilot, migration `20261129030000`): course entry route off and Window 5 request closed.
+
 **S1-API-Frontend-Delivery, 26 Nov 2026 09:20 AEDT: a browser tab left open across a deploy now reloads once and recovers (Pilot s1203; no migration).** Live head `20261129010000`, G3 75/48 no drift, locks 7,585, cron 137, US$0.
 - **Cause (confirmed by the Platform Admin):** the `Failed to fetch dynamically imported module: .../assets/access-roles-entry-*.js` error on `Administration › Users & roles` came from a tab holding the old `index.html` across a Worker deploy. A refresh fixed it; nothing was broken in the deploy.
 - **Fix:** `src/lib/chunkReload.js` (identical copy in `portal/src/lib/`): one reload on a stale chunk, with the time of the last reload kept in sessionStorage so it is never a loop (one a minute at most, none if storage is blocked). The Admin `lazyPage` guard it replaces reloaded once per route and never reset, and `CounsellorApp` and the two AI panes bypassed it. A plain "Failed to fetch" (offline, a database call) never triggers a reload.
@@ -43,7 +49,9 @@
      - At 08:06 AEDT the 40 were still pending in Layer 4.
      - Deterministic (`aer_det`) proposals are not taken by the machine admission. Of all of them ever made, 12 were approved, all by a person; 512 are pending.
      - Dependency (protected, Platform Admin): Layer 4 decisions, or an approved machine-admission rule for deterministic entry proposals.
+     - **10:15 AEDT:** canonical admission under the approved rule **verified** (s1192: 082307B; Window 5: 57 courses, read-back 120328M). Of the 20 s1191 proposals: 1 admitted, 13 row-held at confidence 0.70 (Layer 4), 6 gate incomplete.
   2. The proven sibling-page rule in the AI read gate (`security.enrich_fields_slice_v1`) and AI recorder (`security.enrich_entry_record_v1`), for the 2,028 never-AI-read identity-held courses. Shared identity code; S2-AER to agree.
+     - **10:15 AEDT: done** (s1192, live 08:39); applied unattended in Window 5 (346 courses).
   3. Holmesglen escaped-markup converter fix (`lean-md-v3`), after a check that no lane reads pages again on the version change.
 - **Operational backlog and owners:**
   - AU entry no page (5,432) and page bound not stored (1,503): S1-Build course pages; capped revisits are S1-RM-Design s1171.
