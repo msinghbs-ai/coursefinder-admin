@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 25 Nov 2026 19:40 AEDT: course entry Window 2 held for spend; route off.**
+- Window 2 (s1155, the 267 waiting reads) opened 19:13 AEDT and was held by s1156 at 19:20 AEDT: 630 calls, US$0.80 against a US$0.48 estimate. The corrected-read pages are long and the whole page is read in many slices (1.6 million input tokens).
+- Of the 267: 105 corrected reads (D-R2) were refused when recorded because their Layer 4 item was already superseded (the read was paid and discarded); 15 wait on an earlier Layer 4 read of the course; 8 went to Layer 4; 137 still wait. Rows for those courses: active 23 to 34, proposed 13 to 16 (Layer 4 decisions were also made during the window).
+- Window 1 (s1154): US$0.0762 for 94 calls; 28 active and 14 proposed rows from 0 and 0.
+- Route `course_entry_requirements`: off, gpt-4.1-mini qualified, cap US$0, whole-page input. No open session requests. Platform AI today US$3.59 of US$5.00; Firecrawl not used by either window. Cron 138, locks 7,585, G3 75/48, the 152 inactive rows unchanged.
+- **Decision for the Platform Admin:** how to read the 137 remaining. **For S2-AER:** refuse superseded corrected reads before the AI read.
+
 **S1-Build, 25 Nov 2026 19:10 AEDT: course entry Window 1 done; Window 2 (the 267) in release.**
 - Window 1 (s1154, 172 courses, gpt-4.1-mini, whole page) finished at 18:49 AEDT, about US$0.08. Before: 0 active, 0 proposed rows. After: 28 active rows (7 courses), 14 proposed rows to Layer 4 (3 courses). 91 courses held by the course-page identity gate E16 before any AI call; 60 pages do not state entry requirements; 6 had no quoted requirement; 5 had no row meeting the admission rules.
 - **S1-AER:** read back Window 1 (the 7 filled and 3 Layer 4 courses). **S2-AER:** the 91 E16 identity holds are in your lane.
