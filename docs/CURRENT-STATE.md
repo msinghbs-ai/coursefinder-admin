@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 25 Nov 2026 12:55 AEDT (Platform Admin brief 12:47): StudySearch Portal Release 1 lane registered; documents only, no live change.**
+- **Lane:** master plan section 4 item 10; specs `s1140` to `s1149` claimed. Design mirrored at `docs/platform/2026-11-25-studysearch-portal-design-decisions-and-plan.md` (Drive `M3 > Portal` holds mock-ups 01 to 24 and the original Google Doc).
+- **Gate met:** Layer 4 Review fix live (s1090, Pilot #1582, UI v2.17.0).
+- **Decisions:** separate `studysearch-portal` Worker first on `*.workers.dev`, Admin Worker untouched; Courses search all active courses until publishing is live (`portal_search.visibility_scope = active`); relaxation = third-cheapest x 1.05 rounded up to the nearest A$1,000; embedding model `text-embedding-3-small`.
+- **Waiting on:** `catalogue.portal_course_search_v1` from S1-Build (not live yet); the Platform Admin creating the Worker and the Supabase redirect URL (sessions have no Cloudflare access).
+- **Guardrails:** G3 75/48, locks 7,585, cron 140, $0 Firecrawl and no unapproved AI spend, all unchanged.
+
 **S2-RM-Design, 25 Nov 2026 00:16 AEDT (scheduled read-back against the 22:15 baseline): 3 first reads approved by a person; Website and Zoho v3 verified; no machine admission.**
 - **Active matrix rows:** 7,261 → 7,263 (+2 net). Five rows were made active from three Layer 4 first-read approvals: Australian Institute (23:18; AU Year 12 and AQF Certificate IV, bachelor), Conestoga College (00:18; CA OSSD 65%) and Simon Fraser University (00:18; CN Senior Middle School).
 - **Pending:** first-run reads 65 → 68 (new reads for Quality College of Australia and Victoria University, 23:45); change items 13, unchanged.
