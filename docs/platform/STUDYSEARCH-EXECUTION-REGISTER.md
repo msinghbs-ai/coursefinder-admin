@@ -815,3 +815,25 @@ Platform Admin authorises the same 40 S1-AER AU IDs under Admin #1049 to advance
 | TrEd College | 8 | 0 | 0 | 0 | 9 | 0 |
 | WIN College | 19 | 25 | 15 | 1 | 5 | 0 |
 | West Australian Institute of Further Studies | 16 | 3 | 3 | 0 | 13 | 0 |
+
+
+## S2-AER AU wave 1 — reconciliation and current-state recovery review (Admin #1066 follow-up) — 25 November 2026, 12:40 AEDT
+
+**1. Reconciliation (distinct course IDs, newest item per course, read live and rolled back).**
+- Eligible courses: **426** distinct (not 478; 478 was an earlier page and item count). Newest state: 292 filled (every one holds an active row), 15 queued (`ai`), 119 skipped, 0 failed, 0 without an item. 292 + 15 + 119 = 426.
+- Reported outcomes **490** = 505 items counted by attempt (292 filled + 159 skipped + 39 failed), including 2 items on courses outside the eligible set. Attempts are not courses.
+- Failed: 36 courses had a failed attempt; all 36 have a later filled or skipped item. **Current failures: 0.** The 47 later outcomes are items (24 filled + 23 skipped on those courses, as counted by attempt).
+- Re-reads: 16 intended, **15 queued**; the 16th has a pending Layer 4 item on another field (rule in the s1115 selection) and is the one course still showing "Layer 4 superseded".
+- Layer 4: pending items for the 30 providers: **11** (8 `course_english`, 3 `course_description_first_read`); **0 entry (academic) items pending**. The 8 "earlier read waits in Layer 4" outcomes are 8 historical skips (the first read they waited for is no longer pending); they are current skips but not current Layer 4 items.
+
+**2. Current-state review of the skipped cohorts (119 courses).** No stored rows exist to replay in any cohort (all `value.rows` empty), so no previously paid answer can be reused. Deterministic reader `aer-det-v1.3` read stored pages for 59/59 not-stated, 33/34 unbound, 8/8 waiting, 7/7 refused, 7/7 admission-rule and 4/4 no-quote courses: **0 readings on all**, with these uncovered lines:
+- **Not stated (59):** 48 pages have no uncovered line; 11 have only generic lines (formal or informal learning, work or life experience; interview; units of competency). No secondary-school qualification, academic prerequisite or conditional entry statement was missed by the deterministic scan in this cohort.
+- **Unbound (34):** all but 1 are now bound and read with a proof (cricos_code 20, exact_title 9, manual 4); 1 is `page_refused` (identity mismatch). They were skipped before the page was proven (E16). The deterministic reader finds no reading on their pages. Re-reading needs the model route, so it waits for S1-Build's qualification.
+- **Genuine academic statements found in held cohorts (6 courses; need the model route or a person):** prior diploma or advanced diploma or two years' workplace experience (waiting); AQF Level 5 or above, or a Certificate III or IV (corrected read refused, Glen Institute); completed units of competency (waiting). The rest of the held lines are interview, language-literacy-numeracy test, placement and job-ready program text, which are not academic requirements.
+- **English kept separate:** none of the above rows is an English requirement; the 8 pending Layer 4 items are the English pipeline.
+
+**3. Not done, and why.** (a) The 15 queued reads have no outcome: 267 `ai` items platform-wide, newest update 08:22 AEDT, none moved in four hours; S1-Build owns the queue and the model qualification, so no AI was enabled or queued here. (b) No migration or re-read was added (Operating Model: no separate migration for routine re-reads). (c) The shared AU/NZ/CA items (503 identity-held, 62 D-R3 declines, 2 all-rows-held, 152 inactive rows over 53 courses, NZ `no_bound_page` and `active_rows_exist`, Canadian identity restriction) were not started in this pass and are the next executable work. (d) Australian College of Technology: 3 stored pages, 1 course read with proof (skipped as unproven) and 2 pages refused or not read by identity (`mismatch`, `page_refused`); no usable course page for the rest.
+
+**4. Acceptance read-back (12:37 AEDT).** Canonical admissions 776 rows, 292 courses covered: unchanged, zero new. G3 75/48 with 0 drift. Manual locks 7,585. Active crons 137. Spend this pass: model US$0, Firecrawl US$0, no calls; wave total model spend recorded on the 30 providers' items US$0.4435 (all earlier). Consumer read-back: none due, nothing changed. Two unattended result-bearing cycles: not started, nothing to observe until the 15 reads complete.
+
+**Next executable actions.** (1) S1-Build: drain the `ai` queue and qualify course-entry; then read the 15 outcomes and request the 33 proven-page re-reads and the 6 courses with academic statements through Run Now. (2) Start the shared AU/NZ/CA groups, beginning with the 503 identity-held courses. (3) Source recovery for Brisbane College, Southern Cross Education Institute, ILSC and The Centre of Excellence stays open.
