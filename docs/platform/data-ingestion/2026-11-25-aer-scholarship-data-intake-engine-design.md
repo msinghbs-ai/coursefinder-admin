@@ -305,6 +305,10 @@ Unless the Platform Admin asks for one, no phase includes a shadow soak or a del
 
 ---
 
+## Related contribution
+
+- [Global Autonomous PIM: design review, sizing and control-plane mockup](2026-11-25-pim-control-plane-review-and-mockup.md) (25 Nov 2026, chat "StudySearch requirements register"), with the interactive mockup [`mockups/pim-control-plane-mockup.html`](mockups/pim-control-plane-mockup.html). It retires this design's separate `intake-planner` lane, per-provider ledger table and "Operations › Intake" screen in favour of the existing enrichment planner, standing gap queue and existing pages (sections 4.1, 4.2 and 4.8 are read with that change).
+
 ## History
 
 | Version | Date | Change |

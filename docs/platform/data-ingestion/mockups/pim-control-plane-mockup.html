@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudySearch PIM Admin: control-plane mockup (design only)</title>
+<style>
+:root{--nav:#0f172a;--nav2:#1e293b;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--bg:#f1f5f9;--card:#fff;--acc:#4f46e5;--acc2:#eef2ff;
+--ok:#15803d;--okb:#dcfce7;--warn:#a16207;--warnb:#fef3c7;--bad:#b91c1c;--badb:#fee2e2;--info:#0369a1;--infob:#e0f2fe;--hold:#6d28d9;--holdb:#ede9fe;--grey:#475569;--greyb:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 Inter,"Segoe UI",system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,select,input{font:inherit}h1{font-size:24px;margin:0}h2{font-size:16px;margin:0 0 4px}h3{font-size:14px;margin:0 0 6px}
+p{margin:0 0 8px}.mut{color:var(--mut)}.sm{font-size:12px}.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+nav{background:var(--nav);color:#cbd5e1;padding:14px 10px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 14px;border-bottom:1px solid var(--nav2);margin-bottom:8px}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--acc);color:#fff;font-weight:700;display:grid;place-items:center}
+.brand b{color:#fff;display:block}.grp{font-size:11px;letter-spacing:.09em;color:#64748b;margin:14px 8px 4px;font-weight:700}
+nav a{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;color:#cbd5e1;text-decoration:none;cursor:pointer}
+nav a:hover{background:var(--nav2)}nav a.on{background:#312e81;color:#fff}nav a.off{color:#475569;cursor:default}nav a.off:hover{background:none}
+nav a .dot{width:7px;height:7px;border-radius:50%;background:#818cf8}
+main{padding:0 26px 60px;min-width:0}.banner{background:#fef9c3;border-bottom:1px solid #fde047;margin:0 -26px 14px;padding:7px 26px;font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}.crumb{font-size:12px;color:var(--mut)}
+.role{display:flex;gap:8px;align-items:center}.role select{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:10px 0 14px;flex-wrap:wrap}
+.tabs button{border:0;background:none;padding:8px 12px;border-bottom:2px solid transparent;color:var(--mut);cursor:pointer;font-weight:600}
+.tabs button.on{color:var(--acc);border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;overflow-x:auto}
+.row{display:grid;gap:14px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c32{grid-template-columns:3fr 2fr}
+.kpi b{font-size:22px;display:block}.kpi span{font-size:12px;color:var(--mut)}
+table{border-collapse:collapse;width:100%}th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid #f1f5f9;vertical-align:top}tr.click{cursor:pointer}tr.click:hover{background:#f8fafc}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ok{background:var(--okb);color:var(--ok)}.warn{background:var(--warnb);color:var(--warn)}.bad{background:var(--badb);color:var(--bad)}
+.info{background:var(--infob);color:var(--info)}.hold{background:var(--holdb);color:var(--hold)}.grey{background:var(--greyb);color:var(--grey)}
+.tag{font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;letter-spacing:.04em;vertical-align:middle}
+.t-ex{background:#e2e8f0;color:#334155}.t-xt{background:#dbeafe;color:#1d4ed8}.t-pr{background:#fae8ff;color:#a21caf}.t-s{background:#fef9c3;color:#854d0e}.t-l{background:#dcfce7;color:#166534}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:600}.btn:hover{background:#f8fafc}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}.btn.pri:hover{background:#4338ca}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.bar{display:flex;height:9px;border-radius:5px;overflow:hidden;background:#e2e8f0;min-width:90px}.bar i{display:block;height:100%}
+.s-f{background:#16a34a}.s-p{background:#38bdf8}.s-st{background:#f59e0b}.s-n{background:#94a3b8}.s-x{background:#ef4444}.s-h{background:#8b5cf6}.s-u{background:#e2e8f0}
+.cell{cursor:pointer;border-radius:8px;padding:6px 8px}.cell:hover{background:#f8fafc;outline:1px solid var(--line)}.cell b{font-size:15px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--mut)}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}.seg button{border:0;background:none;padding:6px 11px;cursor:pointer;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--acc2);color:var(--acc)}
+.drawer{position:fixed;top:0;right:0;width:min(560px,96vw);height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-12px 0 30px rgba(15,23,42,.14);padding:18px 20px;overflow:auto;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;z-index:30}.modal>div{background:#fff;border-radius:14px;padding:20px;width:min(520px,94vw)}
+.modal textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.steps button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;cursor:pointer;font-weight:600;color:var(--mut)}
+.steps button.on{border-color:var(--acc);color:var(--acc);background:var(--acc2)}.steps button.done{color:var(--ok)}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:5px 12px}.kv dt{color:var(--mut)}.kv dd{margin:0}
+pre{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:10px 12px;white-space:pre-wrap;font:12px/1.5 ui-monospace,Consolas,monospace;margin:0;max-height:280px;overflow:auto}
+pre del{color:#64748b;text-decoration:line-through}pre mark{background:#365314;color:#ecfccb}
+.q{border-left:3px solid var(--acc);background:#f8fafc;padding:6px 10px;margin:6px 0;font-style:italic}
+.side{display:grid;grid-template-columns:1fr 1fr;gap:10px}.side>div{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+label.f{display:block;font-size:12px;color:var(--mut);margin-bottom:8px}label.f input,label.f select{display:block;width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:8px;margin-top:3px}
+.meter{height:8px;border-radius:5px;background:#e2e8f0;overflow:hidden}.meter i{display:block;height:100%;background:var(--acc)}
+ul.t{margin:4px 0 8px 18px;padding:0}.hide{display:none!important}.right{text-align:right}.nowrap{white-space:nowrap}
+@media (max-width:900px){.app{grid-template-columns:1fr}nav{position:static;height:auto}.c2,.c3,.c4,.c32,.side{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav id="nav"></nav>
+<main>
+  <div class="banner"><b>Design mockup, not the live system.</b>
+    <span><span class="tag t-l">LIVE READ</span> figure read from the platform or its registers on the date shown</span>
+    <span><span class="tag t-s">SAMPLE</span> illustrative value</span>
+    <span><span class="tag t-ex">EXISTING</span> <span class="tag t-xt">EXTENDED</span> <span class="tag t-pr">PROPOSED</span> control status</span></div>
+  <div class="top"><div><div class="crumb" id="crumb"></div><h1 id="title"></h1><div class="mut" id="sub"></div></div>
+    <div class="role"><span class="sm mut">Viewing as</span><select id="role"></select></div></div>
+  <div id="page"></div>
+</main>
+</div>
+<div id="overlay"></div>
+<script>
+"use strict";
+const $=(s,e=document)=>e.querySelector(s), h=(s)=>s;
+const ROLES=["Viewer","Counsellor","Curator","Pipeline Operator","PIM Admin","Platform Admin"];
+let role=6, page="coverage", tab={}, audit=[];
+const T={ex:'<span class="tag t-ex">EXISTING</span>',xt:'<span class="tag t-xt">EXTENDED</span>',pr:'<span class="tag t-pr">PROPOSED</span>',s:'<span class="tag t-s">SAMPLE</span>',l:'<span class="tag t-l">LIVE READ 25 NOV</span>'};
+const pill=(t,c)=>`<span class="pill ${c}">${t}</span>`;
+const can=(r)=>role>=r;
+const gate=(r,html)=>can(r)?html:html.replace('<button','<button disabled title="Needs '+ROLES[r-1]+' or above"');
+
+/* ---------- navigation: the existing menu (docs/UI-MAP.md, release 2.17.0) ---------- */
+const NAV=[["OVERVIEW",[["dashboard","Dashboard",1,0]]],
+["CATALOGUE",[["courses","Courses",1,1],["providers","Providers",1,0],["contacts","Provider contacts",1,0],["scholarships","Scholarships",1,0],["entry","Entry requirements",1,0],["rankings","Rankings & statistics",1,0],["destination","Destination data",3,0],["reference","Reference data",3,0]]],
+["DATA PIPELINE",[["coverage","Coverage & completeness",1,1],["layer1","Layer 1 Register",3,1],["layer2","Layer 2/3 Build & enrich",3,0],["layer4","Layer 4 Review",3,1]]],
+["DATA & GOVERNANCE",[["governance","Human Edits & Periodic Audit",4,0]]],
+["OPERATIONS",[["health","Platform health",3,0],["jobs","Scheduled jobs",4,1],["evidence","Evidence",3,0]]],
+["PLATFORM SETTINGS",[["environment","Settings",4,0],["services","Models & services",3,1],["migration","Go-live checklist",6,0]]],
+["ADMINISTRATION",[["users","Users & roles",6,0]]],
+["GUIDES",[["guide","Guides",1,1]]],
+["ABOUT THIS MOCKUP",[["map","Screen and route mapping",1,1]]]];
+function drawNav(){
+  $("#nav").innerHTML=`<div class="brand"><div class="logo">SS</div><div><b>StudySearch</b><span class="sm">PIM Admin · mockup</span></div></div>`+
+  NAV.map(([g,items])=>{const vis=items.filter(i=>role>=i[2]); if(!vis.length)return"";
+    return `<div class="grp">${g}</div>`+vis.map(([k,l,r,m])=>m?`<a class="${page===k?"on":""}" data-p="${k}"><span>${l}</span><span class="dot" title="Changed in this design"></span></a>`:`<a class="off" title="Unchanged by this design"><span>${l}</span></a>`).join("")}).join("");
+  $("#nav").querySelectorAll("a[data-p]").forEach(a=>a.onclick=()=>go(a.dataset.p));
+}
+function go(p,t){page=p;if(t)tab[p]=t;closeAll();draw()}
+function head(c,t,s){$("#crumb").textContent=c;$("#title").textContent=t;$("#sub").innerHTML=s}
+function tabs(p,list){const cur=tab[p]||list[0][0];return `<div class="tabs">`+list.map(([k,l,tg])=>`<button class="${cur===k?"on":""}" data-t="${k}">${l} ${tg||""}</button>`).join("")+`</div>`}
+function bindTabs(p){document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{tab[p]=b.dataset.t;draw()})}
+function closeAll(){$("#overlay").innerHTML=""}
+function drawer(html){$("#overlay").innerHTML=`<div class="drawer"><div style="display:flex;justify-content:flex-end"><button class="btn" id="x">Close</button></div>${html}</div>`;$("#x").onclick=closeAll}
+function confirmBox(title,body,minRole,done){
+  $("#overlay").innerHTML=`<div class="modal"><div><h2>${title}</h2><div class="mut" style="margin:6px 0 10px">${body}</div>
+  <label class="f">Reason (required, kept in the audit log)<textarea id="why"></textarea></label>
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="no">Cancel</button><button class="btn pri" id="yes">Confirm</button></div>
+  <div class="sm mut" style="margin-top:8px">Needs ${ROLES[minRole-1]} or above. Nothing is changed in this mockup.</div></div></div>`;
+  $("#no").onclick=closeAll;$("#yes").onclick=()=>{const w=$("#why").value.trim();if(w.length<8){$("#why").style.borderColor="#ef4444";return}
+    audit.unshift({t:new Date().toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"}),who:ROLES[role-1],what:title,why:w});closeAll();done&&done();draw()}
+}
+const auditCard=()=>`<div class="card"><h3>Audit history ${T.ex} <span class="sm mut">pipeline.admin_control_events</span></h3>`+(audit.length?`<table><tr><th>Time</th><th>Who</th><th>Action</th><th>Reason</th></tr>`+audit.map(a=>`<tr><td>${a.t}</td><td>${a.who}</td><td>${a.what}</td><td>${a.why}</td></tr>`).join("")+`</table>`:`<span class="mut">No actions taken in this session. Confirm any action in the mockup to see its audit line here.</span>`)+`</div>`;
+
+/* ---------- A. Global data delivery (Coverage & completeness) ---------- */
+/* state mix per cell: filled, in progress, stale, evidenced no-source, failed (retryable), protected hold; remainder = not attempted */
+const DOM=["Academic entry","English","Scholarships","Tuition fees","Intakes","Descriptions","Course links","Campuses","Rankings","Destination rules"];
+const CTRY=["Australia","New Zealand","Canada"];
+const LIVE={"Australia|Academic entry":37.8,"New Zealand|Academic entry":15.0,"Canada|Academic entry":4.0,"Australia|Scholarships":43.4,"New Zealand|Scholarships":32.2,"Canada|Scholarships":47.2};
+const ALL={"Academic entry":30.1,"English":59.2,"Scholarships":41.8,"Intakes":8.8,"Descriptions":44.5,"Course links":66.8,"Campuses":83.1};
+function mix(c,d){const live=LIVE[c+"|"+d];const seed=(c.length*7+d.length*13)%17;const f=live!=null?live:Math.max(6,Math.min(92,(ALL[d]||55)+seed-8));
+  const p=Math.round((100-f)*.22),st=Math.round(f*.06),n=Math.round((100-f)*.12),x=Math.round((100-f)*.07),hd=Math.round((100-f)*.09);return {f,p,st,n,x,hd,live:live!=null}}
+let measure="canonical", drill=null;
+const MEAS={canonical:["Canonical filled","Verified applicable field instances ÷ applicable field instances"],published:["Published and consumer-verified","Canonical values that also pass the consumer read-back"],fresh:["Fresh","Filled values verified inside the domain's refresh window"],accounted:["Accounted for","Filled, evidenced no-source, or an open tracked action ÷ applicable"]};
+function cellVal(m){return measure==="canonical"?m.f:measure==="published"?m.f*.93:measure==="fresh"?m.f*.81:Math.min(100,m.f+m.p+m.n+m.x+m.hd)}
+function pCoverage(){
+  head("Home / Data pipeline / Coverage & completeness","Coverage & completeness","What is filled, what is moving, and what needs a person. Job activity is never counted as delivery.");
+  const t=tab.coverage||"delivery";
+  let out=tabs("coverage",[["delivery","Data delivery",T.xt],["requests","Requests & feedback",T.pr],["refresh","Refresh & maintenance",T.pr],["courses","Courses",T.ex],["attributes","Attributes",T.ex]]);
+  if(t==="delivery"){
+    out+=`<div class="row c4">
+      <div class="card kpi"><b>36,052</b><span>active courses · 1,886 providers ${T.l}</span></div>
+      <div class="card kpi"><b>+380</b><span>courses gained an admitted entry requirement since the last snapshot ${T.l}</span></div>
+      <div class="card kpi"><b>1,204</b><span>published scholarship awards, 136 providers ${T.l}</span></div>
+      <div class="card kpi"><b>US$0.00</b><span>paid spend logged 24–25 Nov, cap US$5.00 a day ${T.l}</span></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+      <div><h2>Country and domain matrix ${T.xt}</h2><div class="sm mut">${MEAS[measure][1]}. Click a cell to drill to provider, course or award, field and evidence.</div></div>
+      <div class="seg" id="meas">${Object.keys(MEAS).map(k=>`<button data-m="${k}" class="${measure===k?"on":""}">${MEAS[k][0]}</button>`).join("")}</div></div>
+      <div style="overflow:auto"><table><tr><th>Domain</th>${CTRY.map(c=>`<th>${c}</th>`).join("")}<th>Open requests</th><th>Next automatic action</th></tr>`+
+      DOM.map((d,i)=>`<tr><td><b>${d}</b></td>`+CTRY.map(c=>{const m=mix(c,d),v=cellVal(m);return `<td><div class="cell" data-c="${c}" data-d="${d}"><b>${v.toFixed(1)}%</b> ${m.live&&measure==="canonical"?T.l:T.s}
+        <div class="bar" title="filled ${m.f.toFixed(0)} · in progress ${m.p} · stale ${m.st} · no source ${m.n} · failed ${m.x} · held ${m.hd}"><i class="s-f" style="width:${m.f-m.st}%"></i><i class="s-st" style="width:${m.st}%"></i><i class="s-p" style="width:${m.p}%"></i><i class="s-n" style="width:${m.n}%"></i><i class="s-x" style="width:${m.x}%"></i><i class="s-h" style="width:${m.hd}%"></i></div></div></td>`}).join("")+
+        `<td>${[3,2,4,1,2,1,0,1,2,7][i]} ${T.s}</td><td class="sm">${["Read stored course pages with the entry reader","Rendered fetch where the stored copy lacks the section","Read award pages; approve scope cards","Re-read on new fee year","Read academic calendars","Describe from the bound course page","Search for the official course page","Bind campus from the register","Wait for the next edition","Confirm on the official site"][i]}</td></tr>`).join("")+`</table></div>
+      <div class="legend" style="margin-top:10px"><span><i class="s-f"></i>Filled and verified</span><span><i class="s-st"></i>Filled but stale</span><span><i class="s-p"></i>In progress</span><span><i class="s-n"></i>Evidenced no source</span><span><i class="s-x"></i>Failed, retry due</span><span><i class="s-h"></i>Protected hold</span><span><i class="s-u"></i>Not attempted</span></div>
+      <div class="sm mut" style="margin-top:8px">Live cells: academic entry and scholarship coverage by country from the reader-status trackers, 25 Nov. All other cells and the state mix are sample values until the planner state exists.</div></div>
+    <div class="row c2"><div class="card"><h2>Next executable actions ${T.xt}</h2><div class="sm mut">From the existing enrichment plans and the standing gap queue. Ranked by missing values, then request weight.</div>
+      <table><tr><th>Action</th><th>Scope</th><th>Method</th><th>State</th></tr>
+      <tr><td>Read entry requirements</td><td>1,563 courses, 297 providers ${T.l}</td><td>Stored copy, $0</td><td>${pill("Ready","info")}</td></tr>
+      <tr><td>Approve scholarship scope cards</td><td>78 providers ${T.l}</td><td>Person, Layer 4</td><td>${pill("Needs a person","warn")}</td></tr>
+      <tr><td>Find the official entry page</td><td>1,655 providers ${T.l}</td><td>Link crawl, $0</td><td>${pill("Ready","info")}</td></tr>
+      <tr><td>Rendered fetch, collapsed sections</td><td>214 pages ${T.s}</td><td>Firecrawl</td><td>${pill("Held: budget","hold")}</td></tr></table></div>
+     <div class="card"><h2>Actual gains ${T.xt}</h2><div class="sm mut">Canonical and published rows only. Proposed rows and finished jobs are not gains.</div>
+      <table><tr><th>Domain</th><th class="right">Canonical 24 h</th><th class="right">Published 24 h</th><th class="right">7 days</th></tr>
+      <tr><td>Academic entry</td><td class="right">+380 ${T.l}</td><td class="right">+352 ${T.s}</td><td class="right">+1,140 ${T.s}</td></tr>
+      <tr><td>Scholarships</td><td class="right">+4 ${T.l}</td><td class="right">+4 ${T.l}</td><td class="right">+64 ${T.s}</td></tr>
+      <tr><td>Descriptions</td><td class="right">+72 ${T.s}</td><td class="right">+72 ${T.s}</td><td class="right">+1,343 ${T.s}</td></tr></table></div></div>`;
+    if(drill)out+=drillCard();
+  }
+  if(t==="requests")out+=pRequests();
+  if(t==="refresh")out+=pRefresh();
+  if(t==="courses"||t==="attributes")out+=`<div class="card"><h2>${t==="courses"?"Courses":"Attributes"} ${T.ex}</h2><p class="mut">Unchanged. The existing ${t==="courses"?"Coverage telemetry, Pipeline ETA and link refresh":"Fill the gaps (standing queue), Stalled fields, Every field by country and Cross-check"} panels stay as they are. The Data delivery tab reads the same sources.</p></div>`;
+  $("#page").innerHTML=out;bindTabs("coverage");
+  document.querySelectorAll("#meas button").forEach(b=>b.onclick=()=>{measure=b.dataset.m;draw()});
+  document.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{drill={c:c.dataset.c,d:c.dataset.d,lvl:0};draw();$("#drill").scrollIntoView({behavior:"smooth"})});
+  bindDrill();bindReq();
+}
+function drillCard(){const {c,d,lvl}=drill;
+  const prov=[["EQUALS International",21,9,"Read stored pages"],["Charles Darwin University",312,188,"Approve Layer 4 card"],["Griffith College, QIBT",44,12,"Find official page"],["Ara Institute of Canterbury",86,3,"Held: site blocked"]];
+  let b=`<div class="card" id="drill"><div class="crumb"><a href="#" data-l="-1">Matrix</a> › <a href="#" data-l="0">${c} · ${d}</a>${lvl>0?` › <a href="#" data-l="1">EQUALS International</a>`:""}${lvl>1?` › Advanced Diploma of Nursing`:""}</div>`;
+  if(lvl===0)b+=`<h2>${c} · ${d}: providers ${T.s}</h2><table><tr><th>Provider</th><th class="right">Courses</th><th class="right">Filled</th><th>Next action</th></tr>`+prov.map((p,i)=>`<tr class="click" data-l="${i===0?1:0}"><td><b>${p[0]}</b></td><td class="right">${p[1]}</td><td class="right">${p[2]}</td><td>${p[3]}</td></tr>`).join("")+`</table><div class="sm mut">Sample list. The EQUALS row opens a real example.</div>`;
+  if(lvl===1)b+=`<h2>EQUALS International: courses ${T.l}</h2><div class="sm mut">21 active courses · 9 with an active entry requirement · 8 with English · 14 with intakes (read 25 Nov 08:56).</div>
+    <table><tr><th>Course</th><th>Code</th><th>${d}</th><th>Next action</th></tr><tr class="click" data-l="2"><td><b>Advanced Diploma of Nursing</b></td><td>108164E</td><td>${pill("Missing","bad")}</td><td>Re-read stored copy with all entry kinds</td></tr>
+    <tr><td>Diploma of Nursing</td><td class="mut">sample</td><td>${pill("Filled","ok")}</td><td>Refresh due 12 Dec ${T.s}</td></tr></table>`;
+  if(lvl===2)b+=`<h2>Advanced Diploma of Nursing · 108164E ${T.l}</h2><p><button class="btn pri" id="openCourse">Open the course field status</button></p>`;
+  return b+`</div>`}
+function bindDrill(){document.querySelectorAll("#drill [data-l]").forEach(a=>a.onclick=(e)=>{e.preventDefault();const l=+a.dataset.l;if(l<0)drill=null;else drill.lvl=l;draw()});
+  const o=$("#openCourse");if(o)o.onclick=()=>go("courses")}
+
+/* ---------- H. Requests & feedback ---------- */
+let reqSel=null;
+const REQ=[["REQ-69","Intakes","AU","Intake year, start date and deadline per intake","Raghav","Partly delivered",3,"Live in API v3","8.8%","8.2%","61%","What intake coverage do you need before launch?"],
+["REQ-93","Academic entry","AU · NZ · CA","Entry requirements on the course detail","Saurabh","Open",2,"Not built (screen)","30.1%","28.0%","88%",""],
+["REQ-95","Scholarships","AU · NZ · CA","Scholarships missing for many institutes","Saurabh","Partly delivered",2,"Live in API v2","41.8%","41.8%","74%",""],
+["REQ-61","Descriptions","AU","Course descriptions and official links","Raghav","Partly delivered",1,"Live in API v3","44.5%","44.5%","92%","What coverage do you need before launch?"]];
+function pRequests(){
+  let o=`<div class="card"><h2>Stakeholder requests ${T.pr}</h2><div class="sm mut">Read from the request register (Rules v1.3). A request's validated scope reaches the existing planner as a priority weight. There is no separate request engine. Four measures are shown apart, never as one percentage.</div>
+  <div style="overflow:auto"><table><tr><th>Request</th><th>Scope</th><th>Status</th><th>Weight</th><th>API delivery</th><th>Canonical</th><th>Consumer</th><th>Fresh</th><th>Clarification</th></tr>`+
+  REQ.map((r,i)=>`<tr class="click" data-r="${i}"><td><b>${r[0]}</b><div class="sm mut">${r[3]} · ${r[4]}</div></td><td>${r[1]}<div class="sm mut">${r[2]}</div></td><td>${pill(r[5],r[5]==="Open"?"bad":"warn")}</td>
+   <td><select data-w="${i}" ${can(6)?"":"disabled"}>${[0,1,2,3].map(n=>`<option ${n===r[6]?"selected":""}>${n}</option>`).join("")}</select></td>
+   <td>${r[7]}</td><td>${r[8]} ${i<4&&r[8]!=="44.5%"?T.l:T.l}</td><td>${r[9]} ${T.s}</td><td>${r[10]} ${T.s}</td><td>${r[11]?pill("Waiting on "+r[4],"warn"):'<span class="mut">None</span>'}</td></tr>`).join("")+`</table></div>
+  <div class="sm mut" style="margin-top:8px">Weight 0 to 3 is a setting changed by the Platform Admin with a reason. Canonical figures are live reads of 25 Nov; consumer and freshness figures are samples until those measures exist. An open clarification holds only this request, never unrelated work.</div></div>`;
+  if(reqSel!=null){const r=REQ[reqSel];o+=`<div class="card"><h2>${r[0]}: scope, evidence and delivery rule ${T.pr}</h2>
+   <dl class="kv"><dt>Validated scope</dt><dd>Field: ${r[1]} · Countries: ${r[2]} · Providers: all active</dd><dt>Reaches the planner as</dt><dd>Weight ${r[6]} on that scope in the existing priority order</dd>
+   <dt>Moves to Delivered when</dt><dd>Canonical coverage of the scope meets the agreed threshold <b>and</b> the consumer read-back passes. A finished job never changes the status.</dd>
+   <dt>Outstanding clarification</dt><dd>${r[11]||"None"}</dd><dt>Shown to stakeholders</dt><dd>ID, module, request, status, requested by, date, API v2, API v3, clarification. Never evidence, internal replies, staff comments or the gap register.</dd></dl></div>`}
+  o+=`<div class="card"><h2>Reported data issues: report to verified fix ${T.xt}</h2><div class="sm mut">Counsellor "Report a data issue" and My reports exist today. Proposed: an accepted report marks that course and field as due in the standing gap queue, and the report closes only after the next read is verified.</div>
+   <table><tr><th>Report</th><th>Course and field</th><th>Accepted</th><th>Re-check</th><th>Result</th><th>Reporter sees</th></tr>
+   <tr><td>25 Nov, Counsellor ${T.s}</td><td>Advanced Diploma of Nursing · Entry requirements</td><td>${pill("Accepted","ok")}</td><td>${pill("Queued","info")}</td><td class="mut">Waiting</td><td>In progress</td></tr>
+   <tr><td>24 Nov, Counsellor ${T.s}</td><td>Bachelor of Nursing · Tuition fee year</td><td>${pill("Accepted","ok")}</td><td>${pill("Read","ok")}</td><td>${pill("Fixed, verified","ok")}</td><td>Fixed, with the new value</td></tr>
+   <tr><td>24 Nov, Counsellor ${T.s}</td><td>Diploma of IT · Intakes</td><td>${pill("Not changed","grey")}</td><td class="mut">None</td><td>Provider publishes no dates</td><td>Not changed, with the reason</td></tr></table></div>`;
+  return o}
+function bindReq(){document.querySelectorAll("tr[data-r]").forEach(r=>r.onclick=(e)=>{if(e.target.tagName==="SELECT")return;reqSel=+r.dataset.r;draw()});
+  document.querySelectorAll("select[data-w]").forEach(s=>s.onchange=()=>{const i=+s.dataset.w,v=+s.value,old=REQ[i][6];confirmBox(`Change priority weight for ${REQ[i][0]} from ${old} to ${v}`,"The weight changes the order of work for this request's scope only.",6,()=>{REQ[i][6]=v});s.value=old})}
+
+/* ---------- E. Refresh & maintenance ---------- */
+function pRefresh(){const R=[["Provider and course pages","Weekly change check","Content hash, $0","24 Nov","1 Dec","412 pages changed"],["Tuition fees","Monthly, and on a new fee year","Hash, then fee reader","18 Nov","18 Dec","2027 fees seen at 61 providers"],
+["Academic entry","Monthly, and on a new edition","Hash, then entry reader","20 Nov","20 Dec","14 new matrix editions"],["English requirements","Monthly","Hash, then English reader","20 Nov","20 Dec","None"],
+["Scholarships","Weekly; closer near closing dates","Listing reader, round dates","25 Nov","2 Dec","37 rounds closing in 14 days"],["Academic calendars and intakes","Monthly; weekly near a new period","Calendar reader, Rule B","22 Nov","29 Nov","3 calendars are a stale 2026 edition"],
+["Destination and regulatory data","Publisher's cadence","Layer 1 scheduled acquisition","19 Nov","Per source","2 successor editions waiting"],["Rankings","Publication cycle","THE and ARWU readers; QS upload","22 Nov","Next edition","THE 2027 file not yet uploaded"]];
+  return `<div class="card"><h2>Refresh policy and maintenance ${T.pr}</h2><div class="sm mut">Every filled and every no-source record stays in the cycle. A cheap change check runs before any paid read, and a change re-opens only the affected fields. Cadences are the umbrella design's proposals, not live settings.</div>
+  <div style="overflow:auto"><table><tr><th>Domain</th><th>Cadence (proposed)</th><th>Change detection</th><th>Last successful</th><th>Next due</th><th>Changes found</th></tr>`+R.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]} ${T.s}</td><td>${r[4]} ${T.s}</td><td>${r[5]} ${T.s}</td></tr>`).join("")+`</table></div></div>
+  <div class="row c2"><div class="card"><h3>Successor editions ${T.xt}</h3><p class="mut">A new verified edition supersedes only its predecessor. A failed re-read never removes a valid value.</p>
+   <table><tr><th>Source</th><th>Current</th><th>Successor</th><th>State</th></tr><tr><td>JCU entry matrix</td><td>2026</td><td>2027</td><td>${pill("Read, 2 rows to review","warn")}</td></tr><tr><td>Curtin academic calendar</td><td>2026</td><td>None found</td><td>${pill("Held: budget","hold")}</td></tr></table><div class="sm mut">${T.s}</div></div>
+  <div class="card"><h3>Supersession check ${T.pr}</h3><p class="mut">Two cycles after any replacement, the platform checks that a successor value exists. If not, the earlier reading is restored for review.</p>
+   <table><tr><th>Change</th><th>Replaced</th><th>With a successor</th><th>State</th></tr><tr><td>s871 entry re-read, 20 Nov</td><td>1,818 courses ${T.l}</td><td>255 ${T.l}</td><td>${pill("1,563 without a successor","bad")}</td></tr></table></div></div>`}
+
+/* ---------- B. Country onboarding (Layer 1 Register) ---------- */
+let step=0, activated=false;
+const STEPS=["Reference pack","Official sources","Mappings","Ingest preview","Domains and readiness","Cost estimate","Activate"];
+function pLayer1(){head("Home / Data pipeline / Layer 1 Register","Layer 1 Register","Official registers and sources for each country. A new country is set up once here; enrichment then starts by itself.");
+  const t=tab.layer1||"onboard";let o=tabs("layer1",[["onboard","Country onboarding",T.pr],["registers","Registers (Layer 1)",T.ex],["all","All layers",T.ex]]);
+  if(t!=="onboard"){o+=`<div class="card"><h2>${t==="registers"?"Registers (Layer 1)":"All layers"} ${T.ex}</h2><p class="mut">Unchanged. The existing source list, last source error and configuration folds stay as they are.</p></div>`}
+  else{o+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><h2>United Kingdom ${T.s} ${activated?pill("Active, enrichment running","ok"):pill("Draft, not active","grey")}</h2><div class="sm mut">Sample country to show the journey. No country is being added by this mockup.</div></div>
+    <div class="sm mut">Live countries: Australia, New Zealand, Canada</div></div>
+    <div class="steps" style="margin-top:10px">${STEPS.map((s,i)=>`<button data-s="${i}" class="${i===step?"on":i<step?"done":""}">${i<step?"✓ ":""}${i+1}. ${s}</button>`).join("")}</div>${stepBody()}
+    <div style="display:flex;gap:8px;justify-content:space-between;margin-top:12px"><button class="btn" id="prev" ${step?"":"disabled"}>Back</button><button class="btn pri" id="next" ${step<6?"":"disabled"}>Next</button></div></div>`+auditCard()}
+  $("#page").innerHTML=o;bindTabs("layer1");document.querySelectorAll(".steps button").forEach(b=>b.onclick=()=>{step=+b.dataset.s;draw()});
+  const p=$("#prev"),n=$("#next");if(p){p.onclick=()=>{step--;draw()};n.onclick=()=>{step++;draw()}}
+  const a=$("#act");if(a)a.onclick=()=>confirmBox("Activate United Kingdom (sample) for automatic enrichment","Scope: 5 universities, 6 data domains, $0 methods only. Paid reads, publication and protected admission stay under their own controls.",6,()=>{activated=true});
+}
+function stepBody(){const S=T.s;return [
+ `<h3>1. Country reference configuration ${T.xt} <span class="sm mut">existing ref tables</span></h3><dl class="kv"><dt>Country and regions</dt><dd>${pill("Ready","ok")} GB, 4 nations ${S}</dd><dt>Currency and language</dt><dd>${pill("Ready","ok")} GBP · en-GB ${S}</dd><dt>Study levels</dt><dd>${pill("Ready","ok")} mapped to the shared level list ${S}</dd><dt>Academic year</dt><dd>${pill("Missing","bad")} set the usual start month ${S}</dd></dl>`,
+ `<h3>2. Official source registration ${T.ex} <span class="sm mut">Layer 1 Register</span></h3><table><tr><th>Source</th><th>Kind</th><th>Licence</th><th>Refresh</th><th>State</th></tr><tr><td>Official provider register</td><td>Register</td><td>Open, attribution</td><td>Weekly</td><td>${pill("Read","ok")}</td></tr><tr><td>Course data set</td><td>Register</td><td>${pill("Terms to confirm","warn")}</td><td>Annual</td><td>${pill("Held: licence","hold")}</td></tr><tr><td>Student visa rules</td><td>Regulatory</td><td>Open</td><td>On change</td><td>${pill("Read","ok")}</td></tr></table><div class="sm mut">${S} A source with unconfirmed terms holds only itself.</div>`,
+ `<h3>3. Qualification, grading, currency and language mappings ${T.xt}</h3><table><tr><th>Pack</th><th>Entries</th><th>State</th></tr><tr><td>Student-country qualifications into this country</td><td>10 countries plus Global</td><td>${pill("Reused","ok")}</td></tr><tr><td>Local grading scale (classifications)</td><td>5 bands</td><td>${pill("Needs a person once","warn")}</td></tr><tr><td>English tests accepted</td><td>Shared list</td><td>${pill("Reused","ok")}</td></tr></table><div class="sm mut">${S} A missing pack gives a configuration hold, never a guessed equivalence.</div>`,
+ `<h3>4. Provider and course ingestion preview ${T.xt}</h3><div class="row c3"><div class="kpi"><b>163</b><span>providers found ${S}</span></div><div class="kpi"><b>4</b><span>possible duplicates to check ${S}</span></div><div class="kpi"><b>31,400</b><span>courses found ${S}</span></div></div><p class="mut" style="margin-top:8px">Identities are matched by register code first, then name with country. Nothing is created until activation.</p>`,
+ `<h3>5. Country readiness and applicable domains ${T.pr}</h3><table><tr><th>Domain</th><th>Applies</th><th>Reader</th><th>Ready</th></tr>${[["Courses and descriptions","Yes","Shared","ok","Ready"],["Academic entry","Yes","Shared + country pack","warn","Waiting on the grading pack"],["English","Yes","Shared","ok","Ready"],["Scholarships","Yes","Shared","ok","Ready"],["Tuition fees","Yes","Shared","ok","Ready"],["Intakes","Yes","Shared, Rule B","bad","Academic year not set"],["Rankings","Yes","THE, ARWU, QS upload","ok","Ready"]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${pill(r[4],r[3])}</td></tr>`).join("")}</table><div class="sm mut">${S}</div>`,
+ `<h3>6. Estimated expenditure ${T.pr}</h3><dl class="kv"><dt>First population</dt><dd>About 31,400 course pages. $0 methods first; an estimated 20% need one small AI read: US$1.90 at measured rates ${S}</dd><dt>Rendered pages</dt><dd>About 10% need a rendered fetch: 3,140 Firecrawl credits ${S}</dd><dt>Steady state</dt><dd>About US$0.10 a day ${S}</dd><dt>Fits today's limits?</dt><dd>${pill("AI: yes, inside US$5.00 a day","ok")} ${pill("Firecrawl: no, scheduled budget is 5 credits a day","bad")}</dd></dl><p class="sm mut">The estimate uses the calculator on Models & services. Adding a country grants no new spend.</p>`,
+ `<h3>7. Governed activation ${T.pr}</h3><p>2 items are not ready (academic year, grading pack). They hold only their own domains.</p><p>On activation the official records are imported through Layer 1, and every new provider, campus and course enters the standing gap queue. No wave prompt is needed.</p>${gate(6,`<button class="btn pri" id="act" ${activated?"disabled":""}>${activated?"Activated":"Activate for 5 universities"}</button>`)} <span class="sm mut">Platform Admin only. Asks for a reason and writes an audit line.</span>`][step]}
+
+/* ---------- C. Catalogue and enrichment: course field status ---------- */
+function pCourses(){head("Home / Catalogue / Courses","Courses","Every course, with its sources and evidence. This view shows the proposed field status on one real course.");
+  const F=[["Tuition (provider, 2026)","A$15,500 a year","ok","Filled","Course page · read 5 Oct","Monthly; next 5 Dec","None","l"],
+  ["Tuition (CRICOS registered)","Tuition A$16,950 · non-tuition A$590 · total A$17,540","ok","Filled","CRICOS register · 26 Sep","With each register load","None","l"],
+  ["Entry requirements","None active. An earlier read found 2 rules (enrolled nurse registration; interview)","bad","Missing","Stored page of 29 Sep · re-read 20 and 23 Nov found nothing","Monthly","Re-read the stored copy with all entry kinds","l"],
+  ["English requirements","None","hold","Held","Reader: “page states no English test requirement”","Monthly","Rendered fetch: the live page has a collapsed section","l"],
+  ["Intakes","None, and no reason recorded","bad","Missing","No reading","Weekly","Read the course page for intake dates","l"],
+  ["Scholarships","None linked","grey","No source","No scholarship page names this course","Weekly","Revisit on 2 Dec","s"],
+  ["Description","Held","ok","Filled","Course page · approved 16 Nov","On change","None","l"]];
+  $("#page").innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h2>Advanced Diploma of Nursing ${T.l}</h2><div class="mut">EQUALS International · CRICOS 108164E · Adelaide · Blended · 52 weeks</div></div>
+   <div>${gate(4,'<button class="btn" id="fill">Fill fields</button>')} ${gate(4,'<button class="btn pri" id="run">Run now</button>')} ${T.ex}</div></div>
+   <div class="tabs" style="margin-top:8px"><button>Overview</button><button>Fees & intakes</button><button>Entry & English</button><button>Links</button><button class="on">Field status ${T.pr}</button></div>
+   <div style="overflow:auto"><table><tr><th>Field</th><th>Current canonical value</th><th>State</th><th>Evidence and last verification</th><th>Refresh</th><th>Next action</th></tr>`+
+   F.map((f,i)=>`<tr class="click" data-f="${i}"><td><b>${f[0]}</b></td><td>${f[1]}</td><td>${pill(f[3],f[2])}</td><td class="sm">${f[4]}</td><td class="sm">${f[5]} ${T.s}</td><td class="sm">${f[6]}</td></tr>`).join("")+`</table></div>
+   <div class="sm mut" style="margin-top:8px">Values and states are a live read of 25 Nov 08:56. Refresh dates are samples. Click a row for its evidence and history.</div></div>`+auditCard();
+  document.querySelectorAll("tr[data-f]").forEach(r=>r.onclick=()=>{const f=F[+r.dataset.f];drawer(`<h2>${f[0]}</h2><p>${pill(f[3],f[2])}</p><dl class="kv"><dt>Current value</dt><dd>${f[1]}</dd><dt>Evidence</dt><dd>${f[4]}</dd><dt>Source</dt><dd>equals.edu.au/courses/nursing-health/advanced-diploma-of-nursing/</dd><dt>Stored copy</dt><dd>29 Sep 2026 · 10,728 characters · hash eabe4ad4…</dd><dt>Refresh</dt><dd>${f[5]}</dd><dt>Next action</dt><dd>${f[6]}</dd><dt>Manual lock</dt><dd>None</dd></dl>
+   ${+r.dataset.f===2?`<h3 style="margin-top:12px">History</h3><table><tr><th>Date</th><th>What happened</th></tr><tr><td>12 Nov</td><td>AI read proposed 2 rules; held for a person</td></tr><tr><td>20 Nov</td><td>Replaced by a rule-based re-read (s871)</td></tr><tr><td>20, 23 Nov</td><td>Re-read found nothing: it reads academic results only</td></tr></table><div class="q">“Applicants must be currently working in Australia as an enrolled nurse and hold current registration as an enrolled nurse without notation with the Nursing and Midwifery Board of Australia.”</div>`:""}`)});
+  const scope=(t)=>confirmBox(t+": Advanced Diploma of Nursing","Scoped preview: 1 course · fields Entry requirements, English, Intakes · stored copy first, then one rendered fetch (1 credit) · existing values are not overwritten · manual locks respected.",4);
+  if($("#run")&&!$("#run").disabled){$("#run").onclick=()=>scope("Run now");$("#fill").onclick=()=>scope("Fill fields")}
+}
+
+/* ---------- D. Operations and automated processing (Scheduled jobs) ---------- */
+let paused={}, pri={AU:3,NZ:2,CA:2};
+function pJobs(){head("Home / Operations / Scheduled jobs","Scheduled jobs","The planner, the dispatcher lanes and the scheduled jobs, with what they actually delivered.");
+  const t=tab.jobs||"automations";let o=tabs("jobs",[["automations","Automations",T.xt],["jobs","Jobs",T.ex],["tasks","Task manager",T.ex]]);
+  if(t!=="automations")o+=`<div class="card"><h2>${t==="jobs"?"Jobs":"Task manager"} ${T.ex}</h2><p class="mut">Unchanged.</p></div>`;
+  else{const Q=[["Enrichment plans (planner)","Planner",26,4,0,0,0,"40 plans/h","12 min",34,"l"],["Fill the gaps (standing queue)","Planner",1,1,0,0,0,"1 task/h","58 min",0,"s"],["Academic entry: stored-copy reads","Lane",1563,40,0,74,31,"480/h","5 d",12,"s"],["Scholarship candidates","Lane",1706,24,0,821,0,"271/run","3 d",9,"l"],["Course page fetch","Lane",312,60,18,0,6,"1,900/h","41 min",22,"s"],["Layer 4 drain","Own job",661,0,661,0,0,"n/a","7 d",0,"l"]];
+   o+=`<div class="row c4"><div class="card kpi"><b>138 / 140</b><span>active scheduled jobs ${T.l}<div class="meter" style="margin-top:6px"><i style="width:98.6%;background:#f59e0b"></i></div></span></div>
+    <div class="card kpi"><b>7,370 MiB</b><span>database size, 21 Nov; alert level 7,168 ${T.l}<div class="meter" style="margin-top:6px"><i style="width:100%;background:#ef4444"></i></div></span></div>
+    <div class="card kpi"><b>:26</b><span>busiest minute of the hour; 3 time-outs in 7 days ${T.l}</span></div>
+    <div class="card kpi"><b>5 credits/day</b><span>scheduled Firecrawl budget; 66,863 credits left on the plan, 21 Nov ${T.l}</span></div></div>
+   <div class="card"><h2>Work queues ${T.xt} <span class="sm mut">pipeline.queue_watch · s768 design</span></h2><div class="sm mut">Technical failures are retried here and stay out of Layer 4. “Delivered” counts canonical rows, not finished jobs.</div>
+   <div style="overflow:auto"><table><tr><th>Queue</th><th>Tier</th><th class="right">Queued</th><th class="right">Running</th><th class="right">Waiting</th><th class="right">Held</th><th class="right">Failed</th><th>Throughput</th><th>Oldest</th><th class="right">Auto-recovered 24 h</th><th>Control</th></tr>`+
+   Q.map((q,i)=>`<tr><td><b>${q[0]}</b> ${q[10]==="l"?T.l:T.s}</td><td>${q[1]}</td><td class="right">${q[2].toLocaleString()}</td><td class="right">${paused[i]?0:q[3]}</td><td class="right">${q[4]}</td><td class="right">${q[5]}</td><td class="right">${q[6]}</td><td>${paused[i]?pill("Paused by a person","grey"):q[7]}</td><td>${q[8]}</td><td class="right">${q[9]}</td>
+    <td class="nowrap">${gate(6,`<button class="btn" data-pz="${i}">${paused[i]?"Resume":"Pause"}</button>`)} ${gate(4,`<button class="btn" data-rn="${i}">Run now</button>`)}</td></tr>`).join("")+`</table></div>
+   <div class="sm mut" style="margin-top:8px">Pause, drain and resume are Platform Admin actions on the existing controls (s768). Run now is a bounded, scoped request with no overwrite. Figures marked live come from the 23 to 25 Nov records; the rest are samples.</div></div>
+   <div class="row c2"><div class="card"><h2>Country and domain priority ${T.pr}</h2><div class="sm mut">A weight on the existing priority order. It changes what goes first, not what is allowed.</div>
+     ${Object.keys(pri).map(k=>`<label class="f">${{AU:"Australia",NZ:"New Zealand",CA:"Canada"}[k]}: weight <b>${pri[k]}</b><input type="range" min="0" max="5" value="${pri[k]}" data-pr="${k}" ${can(6)?"":"disabled"}></label>`).join("")}<div class="sm mut">${T.s} Platform Admin only.</div></div>
+    <div class="card"><h2>Bottlenecks ${T.xt}</h2><table><tr><th>Constraint</th><th>Now</th><th>Effect</th></tr>
+     <tr><td>Planner run time</td><td>Runs have hit the 120 s limit ${T.l}</td><td>No new plans in that hour</td></tr><tr><td>Scheduled job ceiling</td><td>138 of 140 ${T.l}</td><td>New work must use the dispatchers</td></tr>
+     <tr><td>Rendered fetch budget</td><td>5 credits a day ${T.l}</td><td>Collapsed pages wait</td></tr><tr><td>People in Layer 4</td><td>661 entry items waiting ${T.l}</td><td>Admission waits on approval</td></tr></table></div></div>`+auditCard()}
+  $("#page").innerHTML=o;bindTabs("jobs");
+  document.querySelectorAll("[data-pz]").forEach(b=>{if(!b.disabled)b.onclick=()=>{const i=b.dataset.pz;confirmBox((paused[i]?"Resume":"Pause")+" queue "+(+i+1),"In-flight items finish; nothing is cancelled. Other queues carry on.",6,()=>{paused[i]=!paused[i]})}});
+  document.querySelectorAll("[data-rn]").forEach(b=>{if(!b.disabled)b.onclick=()=>confirmBox("Run now, bounded","Scope preview: up to 50 items of this queue, $0 methods only, existing values not overwritten.",4)});
+  document.querySelectorAll("[data-pr]").forEach(s=>{if(!s.disabled)s.onchange=()=>{const k=s.dataset.pr,v=+s.value;confirmBox(`Set ${k} priority weight to ${v}`,"Applies from the next planner run.",6,()=>{pri[k]=v});s.value=pri[k]}});
+}
+
+/* ---------- F. Models & services › AI ---------- */
+const SVC=[{k:"Course entry requirements",act:"Off unless authorised",models:[["mistral-small-3.2","Qualified (provisional)",0.10,0.30,88,2,3,2.1],["qwen3-30b-a3b-instruct","Qualified (provisional)",0.08,0.28,85,3,4,1.8],["gpt-4.1-mini","Qualified",0.40,1.60,93,1,1,2.6]],tin:1704,tout:420},
+{k:"Scholarship extraction",act:"qwen3-30b-a3b-instruct",models:[["qwen3-30b-a3b-instruct","Active",0.08,0.28,90,2,2,1.9],["gpt-4.1-mini","Qualified",0.40,1.60,94,1,1,2.4]],tin:2100,tout:520},
+{k:"Course description",act:"qwen3-30b-a3b-instruct",models:[["qwen3-30b-a3b-instruct","Active",0.08,0.28,91,0,2,1.7],["gpt-4.1-mini","Qualified",0.40,1.60,95,0,1,2.2]],tin:3408,tout:380}];
+let svc=0, mdl=0, wl={pages:5000,chg:10,ai:25,cap:5}, pv=0;
+function pServices(){head("Home / Platform settings / Models & services","Models & services","Choose models from measured quality and cost. Qualifying a model and switching it on are separate steps.");
+  const t=tab.services||"ai";let o=tabs("services",[["services","Services & limits",T.ex],["ai","AI",T.xt]]);
+  if(t==="services")o+=`<div class="card"><h2>Services & limits ${T.ex}</h2><p class="mut">Unchanged: page-fetching services, toolsets and limits, Firecrawl allowance and credits.</p></div>`;
+  else{const s=SVC[svc],m=s.models[mdl];const calls=wl.pages*wl.chg/100*wl.ai/100,tin=calls*s.tin,tout=calls*s.tout,cost=tin/1e6*m[2]+tout/1e6*m[3];
+   const PV=[["Original source","10,728 characters · about 3,411 tokens",`<del>EQUALS · Search courses · Study · Courses · Apply · Contact · Student Portal</del>
+Advanced Diploma of Nursing
+<del>Nurses enjoy a supportive learning environment where care and attention is given…</del>
+Entry Requirements
+Applicants must be currently working in Australia as an enrolled nurse and hold current registration…
+An entry health & skills questionnaire and interview may be required prior to enrolment.
+<del>Course Structure · Work Integrated Learning · Fees and Funding Options · Credit Transfer</del>
+<del>Footer · Privacy · CRICOS 02804C · Social links</del>`],
+   ["Cleaned content","Navigation, footer and scripts removed · about 2,480 tokens",`Advanced Diploma of Nursing
+Nurses enjoy a supportive learning environment…
+Entry Requirements
+Applicants must be currently working in Australia as an enrolled nurse and hold current registration…
+An entry health & skills questionnaire and interview may be required prior to enrolment.
+Course Structure … Fees and Funding Options … Credit Transfer`],
+   ["Selected for this field","Entry requirements sections only · about 1,704 tokens",`[heading] Entry Requirements
+<mark>Applicants must be currently working in Australia as an enrolled nurse and hold current registration as an enrolled nurse without notation with the Nursing and Midwifery Board of Australia.</mark>
+<mark>An entry health & skills questionnaire and interview may be required prior to enrolment.</mark>
+[kept] tables, footnotes and conditions under this heading
+[dropped] course structure, fees, credit transfer`],
+   ["Actual AI payload","1 chunk · static instructions about 700 tokens + selection",`system: course-entry instructions (fixed, sent once)
+input: the selected sections above
+rules: quote every value from the page; no outside knowledge
+fallback to the whole page only if: nothing selected · no likely signal · page too long for the selector`]];
+   o+=`<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div><h2>Service comparison ${T.xt}</h2><div class="sm mut">One row per qualified model. Quality is checked against the stored page, never against an earlier AI answer.</div></div>
+     <div class="seg">${SVC.map((x,i)=>`<button data-sv="${i}" class="${i===svc?"on":""}">${x.k}</button>`).join("")}</div></div>
+    <div style="overflow:auto;margin-top:8px"><table><tr><th>Model</th><th>Status</th><th class="right">In / out, US$ per 1M</th><th class="right">Recall</th><th class="right">Critical misses</th><th class="right">Unsupported claims</th><th class="right">Speed</th><th class="right">Cost per verified admission</th><th>Order</th></tr>`+
+    s.models.map((x,i)=>`<tr class="click" data-md="${i}" style="${i===mdl?"background:#eef2ff":""}"><td><b>${x[0]}</b></td><td>${pill(x[1],x[1]==="Active"?"ok":x[1]==="Qualified"?"info":"warn")}</td><td class="right">${x[2].toFixed(2)} / ${x[3].toFixed(2)}</td><td class="right">${x[4]}%</td><td class="right">${x[5]}</td><td class="right">${x[6]}</td><td class="right">${x[7]} s</td><td class="right">US$${((s.tin/1e6*x[2]+s.tout/1e6*x[3])/(x[4]/100)).toFixed(5)}</td><td>${i+1}${i?" (fallback)":""}</td></tr>`).join("")+`</table></div>
+    <div class="sm mut" style="margin-top:8px">${T.s} Prices and quality figures are placeholders. Live: median input for course entry fell from 3,411 to 1,704 tokens with selection (83-page cohort); course description averages 3,408 input tokens. Active route today: ${s.act}.</div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">${gate(4,'<button class="btn" id="qual">Qualify selected model (bounded test)</button>')} ${gate(6,'<button class="btn pri" id="actv">Activate selected model</button>')} ${gate(6,'<button class="btn" id="roll">Roll back to previous</button>')}</div>
+    <div class="sm mut" style="margin-top:6px">Qualify runs a capped test and records the evidence; it switches nothing on. Activate and roll back are Platform Admin actions with a reason.</div></div>
+   <div class="row c2"><div class="card"><h2>Workload estimate ${T.pr}</h2><div class="sm mut">Change the inputs. Uses the selected service and model.</div>
+     <div class="row c2" style="margin-top:8px"><label class="f">Source checks a day<input type="number" id="w1" value="${wl.pages}" min="0" step="500"></label><label class="f">Pages changed (%)<input type="number" id="w2" value="${wl.chg}" min="0" max="100"></label>
+     <label class="f">Changed pages needing AI (%)<input type="number" id="w3" value="${wl.ai}" min="0" max="100"></label><label class="f">Daily cap (US$)<input type="number" id="w4" value="${wl.cap}" min="0" step="1" disabled></label></div>
+     <dl class="kv"><dt>AI calls a day</dt><dd><b>${Math.round(calls).toLocaleString()}</b></dd><dt>Tokens a day</dt><dd>${Math.round(tin).toLocaleString()} in · ${Math.round(tout).toLocaleString()} out</dd><dt>Cost</dt><dd><b>US$${cost.toFixed(3)}</b> a day · US$${(cost*30).toFixed(2)} a month</dd>
+     <dt>Share of the daily cap</dt><dd><div class="meter"><i style="width:${Math.min(100,cost/wl.cap*100)}%;background:${cost>wl.cap?"#ef4444":"#4f46e5"}"></i></div><span class="sm">${(cost/wl.cap*100).toFixed(1)}% of US$${wl.cap.toFixed(2)} ${cost>wl.cap?pill("Over the cap: held","bad"):pill("Inside the cap","ok")}</span></dd></dl></div>
+    <div class="card"><h2>What is sent to the model ${T.xt}</h2><div class="sm mut">The existing selector and input function, shown step by step on a real page (EQUALS 108164E).</div>
+     <div class="seg" style="margin:8px 0">${PV.map((x,i)=>`<button data-pv="${i}" class="${i===pv?"on":""}">${i+1}. ${x[0]}</button>`).join("")}</div>
+     <div class="sm" style="margin-bottom:6px"><b>${PV[pv][1]}</b></div><pre>${PV[pv][2]}</pre>
+     <div class="sm mut" style="margin-top:6px">Struck-through text is removed; highlighted text is the evidence kept. Reduction: 50% fewer input tokens ${T.l}; token counts for steps 2 and 4 are samples.</div></div></div>`+auditCard()}
+  $("#page").innerHTML=o;bindTabs("services");
+  document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=()=>{svc=+b.dataset.sv;mdl=0;draw()});document.querySelectorAll("[data-md]").forEach(b=>b.onclick=()=>{mdl=+b.dataset.md;draw()});
+  document.querySelectorAll("[data-pv]").forEach(b=>b.onclick=()=>{pv=+b.dataset.pv;draw()});
+  [["w1","pages"],["w2","chg"],["w3","ai"]].forEach(([id,k])=>{const e=$("#"+id);if(e)e.onchange=()=>{wl[k]=Math.max(0,+e.value||0);draw()}});
+  const s=SVC[svc],m=s.models[mdl];const b=(id,t,d,r)=>{const e=$("#"+id);if(e&&!e.disabled)e.onclick=()=>confirmBox(t,d,r)};
+  b("qual",`Qualify ${m[0]} for ${s.k}`,"Bounded test: 83 stored pages, cap US$2.00, compared with the whole-page baseline. Records evidence only.",4);
+  b("actv",`Activate ${m[0]} for ${s.k}`,"Pins this exact model and version. Scope and cap stay as set. The previous model becomes the fallback.",6);
+  b("roll",`Roll back ${s.k} to the previous model`,"Restores the previous pinned model at once.",6);
+}
+
+/* ---------- G. Layer 4 ---------- */
+let l4done={};
+function pLayer4(){head("Home / Data pipeline / Layer 4 Review","Layer 4 Review","Only decisions that need a person. Technical retries live in Operations.");
+  const t=tab.layer4||"decide";let o=tabs("layer4",[["decide","Needs a decision",T.xt],["policy","Protected policy holds",T.xt],["tech","Technical recovery",T.pr],["done","Decided",T.ex]]);
+  const G=[["Charles Darwin University","Scholarships","Scope: which courses the award covers","8 awards","additive","Current: no course link","Proposed: all bachelor courses, international","“Open to international students commencing any undergraduate degree at CDU.”"],
+  ["James Cook University","Academic entry","New 2027 matrix edition","2 rows","conflict","Current: India, CBSE, 65% (2026 edition)","Proposed: India, CBSE, 70% (2027 edition)","“All India Senior School Certificate: 70% average of best four subjects.”"],
+  ["University of Wollongong","Academic entry","Same rule read twice","27 rows","duplicate","Current: 222 admitted rows","Proposed: 27 rows that repeat admitted rows","“South Korea: High School Diploma, grade average 80%.”"]];
+  if(t==="decide"){o+=`<div class="row c4"><div class="card kpi"><b>661</b><span>academic entry items waiting ${T.l}</span></div><div class="card kpi"><b>81</b><span>scholarship providers waiting on cards ${T.l}</span></div><div class="card kpi"><b>3</b><span>groups shown below ${T.s}</span></div><div class="card kpi"><b>7 d</b><span>oldest item ${T.s}</span></div></div>`+
+   G.map((g,i)=>`<div class="card" style="${l4done[i]?"opacity:.55":""}"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div><h2>${g[0]} · ${g[1]}</h2><div class="mut">${g[2]} · ${g[3]} · AU · international students</div></div>
+     <div>${pill({additive:"Adds to what is held",conflict:"Conflicts with the current value",duplicate:"Duplicate of admitted rows"}[g[4]],{additive:"info",conflict:"bad",duplicate:"grey"}[g[4]])} ${l4done[i]?pill(l4done[i],"ok"):""}</div></div>
+     <div class="side" style="margin-top:8px"><div><div class="sm mut">Current canonical</div>${g[5]}</div><div><div class="sm mut">Proposed</div><b>${g[6]}</b></div></div><div class="q">${g[7]}</div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap">${gate(3,`<button class="btn pri" data-ap="${i}" ${l4done[i]?"disabled":""}>Approve group</button>`)} ${gate(3,`<button class="btn" data-rj="${i}" ${l4done[i]?"disabled":""}>Reject group</button>`)} <button class="btn" data-ev="${i}">Evidence and rows</button></div></div>`).join("")+`<div class="sm mut">${T.s} Groups are illustrative; the wording of each quote is a sample. Bulk decisions use the existing standard bulk bar and need a reason.</div>`}
+  if(t==="policy")o+=`<div class="card"><h2>Protected policy holds ${T.xt}</h2><table><tr><th>Hold</th><th>Scope</th><th>Why a person</th><th>Who decides</th></tr><tr><td>Manual lock</td><td>7,585 records ${T.l}</td><td>A person set the value</td><td>Curator and above, with a reason</td></tr><tr><td>Pathway-college scope</td><td>About 470 scholarship candidates ${T.l}</td><td>Policy not decided</td><td>Platform Admin</td></tr><tr><td>Award value to confirm</td><td>4 awards ${T.l}</td><td>Money shown to students</td><td>Platform Admin</td></tr></table></div>`;
+  if(t==="tech")o+=`<div class="card"><h2>Technical recovery ${T.pr}</h2><p>These items need no decision. They are retried automatically and shown in Operations.</p><table><tr><th>Reason</th><th class="right">Items</th><th>What happens</th></tr><tr><td>Partial table read (gate incomplete)</td><td class="right">248 ${T.s}</td><td>Re-read from the stored copy</td></tr><tr><td>No page bound to the course</td><td class="right">132 ${T.s}</td><td>Search for the official page</td></tr><tr><td>Model timed out</td><td class="right">25 ${T.s}</td><td>Next qualified model</td></tr></table><p style="margin-top:8px"><button class="btn" id="toOps">Open Scheduled jobs › Automations</button></p></div>`;
+  if(t==="done")o+=`<div class="card"><h2>Decided ${T.ex}</h2><table><tr><th>When</th><th>Who</th><th>Group</th><th>Decision</th><th>Reason</th></tr>${Object.keys(l4done).map(i=>`<tr><td>Now</td><td>${ROLES[role-1]}</td><td>${G[i][0]} · ${G[i][1]}</td><td>${l4done[i]}</td><td>See audit history</td></tr>`).join("")||'<tr><td colspan="5" class="mut">Decisions made in this session appear here. The existing decided history and audit trail are unchanged.</td></tr>'}</table></div>`+auditCard();
+  $("#page").innerHTML=o;bindTabs("layer4");
+  document.querySelectorAll("[data-ap]").forEach(b=>{if(!b.disabled)b.onclick=()=>confirmBox("Approve: "+G[b.dataset.ap][0]+" · "+G[b.dataset.ap][1],"Preview: "+G[b.dataset.ap][3]+" become active. Manual locks are respected.",3,()=>{l4done[b.dataset.ap]="Approved"})});
+  document.querySelectorAll("[data-rj]").forEach(b=>{if(!b.disabled)b.onclick=()=>confirmBox("Reject: "+G[b.dataset.rj][0]+" · "+G[b.dataset.rj][1],"The proposed rows are declined and kept as evidence. Current values stay.",3,()=>{l4done[b.dataset.rj]="Rejected"})});
+  document.querySelectorAll("[data-ev]").forEach(b=>b.onclick=()=>{const g=G[b.dataset.ev];drawer(`<h2>${g[0]} · ${g[1]}</h2><p class="mut">${g[2]}</p><div class="q">${g[7]}</div><dl class="kv"><dt>Source page</dt><dd>Official page, stored copy and hash kept</dd><dt>Applies to</dt><dd>AU · international students</dd><dt>Rows</dt><dd>${g[3]}</dd><dt>Reader</dt><dd>Shown under Technical detail</dd></dl><p class="sm mut">${T.s}</p>`)});
+  const tO=$("#toOps");if(tO)tO.onclick=()=>go("jobs","automations");
+}
+
+/* ---------- I. Guides ---------- */
+const GUIDE=[["Viewer","Read published course, provider and scholarship facts, and coverage.","Open Courses or Providers; use Coverage & completeness to see what is filled.","Change anything; open Layer 1, Layer 4 or Settings.","Tell a Counsellor or Curator if a value looks wrong."],
+["Counsellor","Everything a Viewer can, plus Report a data issue and My reports.","Find a course; if a value is wrong or missing, report it from the course; follow the outcome in My reports.","Edit values; approve anything; run jobs.","A report goes to Layer 4 triage; you are told Fixed or Not changed with a reason."],
+["Curator","Review and decide Layer 4 groups; inspect evidence; see models and health.","Layer 4 › Needs a decision: read the quote, compare current and proposed, approve or reject with a reason.","Run or pause jobs; change settings, models or budgets.","Policy questions and anything touching a manual lock go to the Platform Admin."],
+["Pipeline Operator","Curator actions, plus scoped Run now and Fill fields, job monitoring, and model qualification tests.","Scheduled jobs › Automations: check queue age and failures; use Run now on a bounded scope.","Pause or resume lanes; activate models; change caps.","A held budget or a job at the ceiling goes to the Platform Admin."],
+["PIM Admin / PIM Operator","Pipeline Operator actions, plus catalogue management and human edits governance.","Human Edits & Periodic Audit; provider and course lifecycle; contacts.","Protected settings: spend caps, model activation, country activation, users.","Protected changes go to the Platform Admin."],
+["Platform Admin","Everything: countries, source licences, budgets and caps, model activation and roll-back, priority weights, pause and resume, users and roles.","Daily: read the exceptions list. Decide only what is held for you.","Bypass a bot challenge; change the frozen consumer API; overwrite a manual lock without a reason.","Nothing escalates further; record each decision with its reason."]];
+function pGuide(){head("Home / Guides","Guides","What each role can do, where, and when to hand over.");
+  const t=tab.guide||"role-guides";let o=tabs("guide",[["guide","Platform guide",T.ex],["role-guides","Role guides",T.xt],["admin-sop","Platform Admin SOP",T.ex],["operator-sop","Operator SOP",T.ex]]);
+  if(t!=="role-guides")o+=`<div class="card"><h2>Unchanged ${T.ex}</h2><p class="mut">This tab is not changed by the design.</p></div>`;
+  else{const g=GUIDE[role-1];o+=`<div class="card"><h2>${g[0]} ${T.xt}</h2><div class="sm mut">Shown for the role chosen at the top right. Switch role to see the menu and buttons change.</div>
+    <div class="row c2" style="margin-top:10px"><div><h3>You can</h3><p>${g[1]}</p><h3>Your usual path</h3><p>${g[2]}</p></div><div><h3>You cannot</h3><p>${g[3]}</p><h3>When to hand over</h3><p>${g[4]}</p></div></div></div>
+   <div class="card"><h2>Role and permission matrix ${T.ex}</h2><div class="sm mut">Page access is the existing rank from the UI map (release 2.17.0). Proposed actions use existing ranks; no new authority.</div><div style="overflow:auto"><table><tr><th>Action</th>${ROLES.map(r=>`<th>${r.replace("Pipeline ","Pipeline ")}</th>`).join("")}</tr>`+
+   [["Read catalogue, coverage and guides",1,"ex"],["Report a data issue; My reports",2,"ex"],["Open Layer 1, Layer 2/3, Layer 4, Evidence, health",3,"ex"],["Decide Layer 4 groups",3,"ex"],["Open Scheduled jobs and Settings",4,"ex"],["Run now and Fill fields, scoped",4,"ex"],["Qualify a model (bounded test)",4,"pr"],["Pause, drain or resume a lane or queue",6,"pr"],["Set country, domain or request priority weight",6,"pr"],["Activate or roll back a model",6,"pr"],["Activate a country",6,"pr"],["Users & roles; Go-live checklist",6,"ex"]].map(a=>`<tr><td>${a[0]} ${T[a[2]]}</td>${ROLES.map((r,i)=>`<td>${i+1>=a[1]?"✓":"–"}</td>`).join("")}</tr>`).join("")+`</table></div></div>`}
+  $("#page").innerHTML=o;bindTabs("guide")}
+
+/* ---------- mapping ---------- */
+function pMap(){head("About this mockup","Screen and route mapping","Every proposed view sits inside an existing page. No new dashboard or settings page.");
+  const M=[["A. Global data delivery","Coverage & completeness › Data delivery tab","#coverage","Extend","Country and domain state from the existing coverage reads; needs per-state counts (filled, stale, no source, failed, held) from planner state"],
+  ["B. Country onboarding","Layer 1 Register › Country onboarding view","#layer-1-register","Extend","Existing source register and ref tables; needs a readiness read and an audited activate action"],
+  ["C. Catalogue and enrichment","Courses › course detail › Field status tab","#courses","Extend","Existing course detail, Run now and Fill fields; needs next action and next due per field"],
+  ["D. Operations","Scheduled jobs › Automations","#scheduled-jobs","Extend (s768)","queue_watch, job_effective_state_v1, admin_control_events; needs planner rows and delivered counts"],
+  ["E. Refresh and maintenance","Coverage & completeness › Refresh & maintenance tab","#coverage?tab=refresh","Build tab","Needs refresh policy settings and last and next due per domain"],
+  ["F. Models and AI","Models & services › AI","#models-services?tab=ai","Extend","ai_invocations, ai_route_qualifications, the lean selector; needs quality and cost-per-admission reads and the preview"],
+  ["G. Layer 4","Layer 4 Review › Inbox, regrouped into four tabs","#layer-4-review","Extend","Existing Inbox, bulk bar and decisions; needs the routing class per item"],
+  ["H. Requests and feedback","Coverage & completeness › Requests & feedback tab","#coverage?tab=requests","Build tab","Request register and the in-app counsellor reports; needs request scope and weight, and the re-check link"],
+  ["I. Role guides","Guides › Role guides","#platform-guide?tab=role-guides","Extend","Existing role guides, generated from the UI map"]];
+  $("#page").innerHTML=`<div class="card"><table><tr><th>Brief section</th><th>Where it lives</th><th>Route</th><th>Change</th><th>Data it needs</th></tr>`+M.map(m=>`<tr><td><b>${m[0]}</b></td><td>${m[1]}</td><td><code>${m[2]}</code></td><td>${pill(m[3],m[3].startsWith("Build")?"hold":"info")}</td><td class="sm">${m[4]}</td></tr>`).join("")+`</table></div>
+  <div class="card"><h2>What can retire once these exist</h2><ul class="t"><li>Hand-maintained status trackers and the provider enrichment queue file: generated from planner state instead.</li><li>Wave lists and per-wave prompts.</li><li>Separate "why it waits" lists for technical failures inside Layer 4.</li></ul>
+  <p class="mut">The umbrella design names the existing Data Delivery view. Its route is not in the generated UI map I read, so this mockup places the matrix on Coverage & completeness. S1-API-Frontend-Delivery should confirm the right home.</p></div>`}
+
+function pDash(){head("Home","Dashboard","Unchanged in this design.");$("#page").innerHTML=`<div class="card"><p class="mut">Unchanged. Open Coverage & completeness for the proposed data delivery view.</p></div>`}
+const PAGES={coverage:pCoverage,layer1:pLayer1,courses:pCourses,jobs:pJobs,services:pServices,layer4:pLayer4,guide:pGuide,map:pMap,dashboard:pDash};
+function minRank(p){for(const [,it] of NAV)for(const i of it)if(i[0]===p)return i[2];return 1}
+function draw(){if(role<minRank(page))page="coverage";drawNav();PAGES[page]()}
+$("#role").innerHTML=ROLES.map((r,i)=>`<option value="${i+1}" ${i+1===role?"selected":""}>${i+1}. ${r}</option>`).join("");
+$("#role").onchange=(e)=>{role=+e.target.value;draw()};
+draw();
+</script>
+</body>
+</html>
