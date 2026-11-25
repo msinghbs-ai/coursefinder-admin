@@ -1,5 +1,9 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 25 Nov 2026 18:00 AEDT: Portal Release 1 screens (Pilot s1144 to s1149).**
+- `portal/` now has Dashboard, Courses, Universities & Providers, Scholarships and Saved courses with compare, role-aware menu and a "Study in" bar. Front end only: no migration, no new job, no Admin app change.
+- Courses waits on S1-Build's `portal_course_search_v1` (shape in the portal design document); until then it says search is not switched on. Live migration head and cron count are unchanged by this release.
+
 **S1-API-Frontend-Delivery, 25 Nov 2026 16:30 AEDT: Portal data layer, migration `20261126230000` (Pilot s1143).**
 - New `portal` schema and read functions for providers, scholarships and saved shortlists; 5 settings under toolset `portal`. Additive; G3 75/48 checked in the migration. Live when Pilot s1143 merges and deploys.
 - Course search (`catalogue.portal_course_search_v1`) still belongs to S1-Build; the response shape the portal reads is in the design document.

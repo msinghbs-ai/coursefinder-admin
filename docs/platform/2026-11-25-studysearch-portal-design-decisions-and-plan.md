@@ -194,3 +194,42 @@ Added 25 Nov 2026 by S1-API-Frontend-Delivery. Built and rehearsed (rolled back,
 | `recent_searches_shown` | 5 searches | 1 to 10 | Dashboard |
 
 **Course search contract the portal's Courses screen reads (for S1-Build, `catalogue.portal_course_search_v1` and its public entry `public.portal_course_search_v1(args jsonb)`):** returns `{understood: [{key, label, value, removable}], exact: [course], near_misses: [{course, misses: key}], relaxation: {key, label, from, to, would_return} | null, total}`; a course is `{course_id, title, provider_id, provider_name, level, country_code, state_code, city, duration_value, duration_unit, fee: {per_year, currency, year} | null, next_intake: {label, start_date} | null, topic_match: boolean, saved: boolean}`. A missing value is `null`, never a guess. Until the function is live the Courses screen says search is not switched on yet.
+
+
+## Release 1 screens as built (Pilot s1144 to s1149, 25 Nov 2026)
+
+Added 25 Nov 2026 by S1-API-Frontend-Delivery. All screens are in Pilot `portal/` and read only the `portal_*` functions above, plus `admin_read('context')` for the person's role.
+
+| Screen | Route | Who | What it does |
+| :---- | :---- | :---- | :---- |
+| Dashboard | `#/` | Viewer and above | Greeting, plain-English search box, example searches, last and recent searches (count from setting `recent_searches_shown`), quick start; Counsellors also see a saved-courses panel (as many as `compare_courses_max`) |
+| Courses | `#/courses` | Viewer and above; Save is Counsellor only | Plain-English search built to the contract below; "Understood as" chips (removable), "Topic match" badge, near misses, relaxation buttons; says "not switched on yet" until the function is live |
+| Universities & Providers | `#/providers` | Viewer and above | Published providers, server-paged ("Show more"), filters from the returned facets, student-market select, Study Square route in plain words |
+| Scholarships | `#/scholarships` | Viewer and above | Published scholarships, server-paged; status pills, intake select, value built from the structured award fields |
+| Saved courses | `#/saved` | Counsellor and above | Own shortlist; tick up to `compare_courses_max` courses to compare side by side |
+
+The "Study in" bar (All plus every destination the database says has published providers) sits at the top of Courses, Providers, Scholarships and Saved courses and is kept across them for the person on that browser. The student market is chosen on Universities & Providers and kept the same way.
+
+**Honest labels.** "Not recorded" means the platform has not captured the value. "Not published" means the provider does not state it (scholarship dates). The two are never mixed. A route with no row in `pipeline.provider_representation` reads "Status not recorded"; no route is promised.
+
+**Saved-course compare columns in Release 1:** tuition per year (with the lowest marked), total course cost (the yearly fee over the course length, marked "about"), duration, level, delivery, state and campus, next intake, last checked. Academic entry, English scores, scholarships per course and the Study Square route per course join the compare with the student profile in the next release; the saved-list function does not return them yet.
+
+**Course search contract, as the portal reads it (supersedes the sketch in the data layer section).** Call `public.portal_course_search_v1(p_args jsonb)` (parameter named `p_args`, like the other portal functions).
+
+| Part | Shape |
+| :---- | :---- |
+| `p_args` | `{ q: text, countries: [ISO code] (the Study in choice, empty for All), provider_id: uuid or null, removed: [chip key], relax: [{ key, to }] }`. `removed` lists chips the person took off; `relax` lists relaxations the person chose. Neither is ever applied by the function on its own. |
+| `understood` | `[{ key, label, removable, kind }]`; `kind: "topic"` marks the topic chip. |
+| `exact` | List of courses that match every filter, ranked. |
+| `near_misses` | `[{ misses: chip key, miss_text: "A$2,000 over budget", course }]`, closest first. |
+| `relaxations` (or one `relaxation`) | `[{ key, to, label, would_return, note }]`; the first is the suggested one. `note` carries the sentence that explains the figure. |
+| `total` | How many courses match, if more than `exact` holds. |
+| Course | `{ course_id, title, provider_name, level, state_code, city, duration_value, duration_unit, fee: { per_year, currency, year } or null, next_intake or `intakes[]`: { label, start_date }, topic_match, topic_score (0 to 1, optional), why: [text] (optional), course_url (optional) }` |
+
+A value the function leaves out is shown as "Not recorded". The screen never works out a budget, a score or a relaxation itself; those numbers and their rounding are the function's settings (G2).
+
+**Open for S1-Build:** build `catalogue.portal_course_search_v1` and the public entry to this shape, or tell this lane what differs. The Courses screen needs no further change when it goes live. `provider_id` is what "View courses" on a provider card sends.
+
+**Data findings from the live read (for the data lanes, not screen work):** the scholarship intake list holds mixed wording ("Feb 2027", "February 2027", "Semester 1, 2027") and old years (2013 onwards), so the Eligible intake select is long; some provider names are in capitals and some providers have no type, state or city; 501 of 888 Australian scholarships have no published dates. The screens show these as they are held.
+
+**Not in Release 1 screens (needs a data change first):** the City filter on Universities & Providers (the provider function has no city argument), "Only scholarships linked to a course" and "See the courses it applies to" on Scholarships (no link in the scholarship function), and Proposals, My reports and Guide from the mock-ups (later releases).
