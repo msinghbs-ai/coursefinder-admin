@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 04:20 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`. A live UAT defect is being fixed: course search times out (the "Something went wrong on our side" banner) on some searches. The fix is s1181 (S2-Build), built and rehearsed, not yet merged.
+**Status at the last checkpoint (26 Nov 2026 05:45 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`. The course search time-outs are fixed (s1181, live): any spelling of a search reads the same, malformed requests are ignored, and searches answer in about 0.1 to 1.4 s (the first after a quiet spell in about 2.7 s), well inside the 8 s limit. Awaiting the Platform Admin's repeat of the UAT searches.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -45,7 +45,7 @@
 | 25 Nov 20:09 | s1153 follow-up: vector batch 25 (writes of 150 timed out) | S2-Build | [#1622](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1622) | [#1106](https://github.com/msinghbs-ai/coursefinder-admin/pull/1106) | Live; backfill 34,362 of 34,362, US$0.051567 |
 | 25 Nov 22:45 | Scope decision recorded (published providers only) | S2-Build | n/a | [#1110](https://github.com/msinghbs-ai/coursefinder-admin/pull/1110) | Done |
 | 26 Nov 00:15 | s1180 hotfix: "Master of Nursing in Victoria" failed once its phrase vector was cached; the ranker's meaning branch had an ambiguous `course_id` (42702). Migration `20261128075000` | S2-Build | [#1633](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1633) | [#1113](https://github.com/msinghbs-ai/coursefinder-admin/pull/1113), [#1116](https://github.com/msinghbs-ai/coursefinder-admin/pull/1116) | Live |
-| 26 Nov 05:10 | s1181 hardening: search timed out (57014, limit 8 s) in the filter step, which read every candidate course's vector (10 to 15 s). Fix: typed text folded one way; malformed fields ignored; the vector index searched once, words through the text index, ranking fused over the matches; city matching in one query; empty searches answer at once; grad dip and grad cert as levels; 3 new settings. Migration `20261128105000` | S2-Build | branch `s2-s1181-search-hardening` | recorded before merge | Rehearsed: 30 messy inputs 0.03 to 1.55 s, 20 malformed shapes, no error |
+| 26 Nov 05:10 | s1181 hardening: search timed out (57014, limit 8 s) in the filter step, which read every candidate course's vector (10 to 15 s). Fix: typed text folded one way; malformed fields ignored; the vector index searched once, words through the text index, ranking fused over the matches; city matching in one query; empty searches answer at once; grad dip and grad cert as levels; 3 new settings. Migration `20261128105000` | S2-Build | [#1637](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1637) | [#1121](https://github.com/msinghbs-ai/coursefinder-admin/pull/1121), live record (this checkpoint) | Live; read back as a Counsellor: every spelling 21 courses in about 0.55 s |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -72,25 +72,20 @@
 
 ## 6. Open issues seen during UAT
 
-- Course search time-outs on some phrases (s1181 in progress, above).
-- The first search after a quiet spell is slower than the rest (cold database cache); s1181 measures and reduces it.
-- "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too).
+- Course search time-outs on some phrases: fixed by s1181 (live 26 Nov 05:45). Superseded, kept for history.
+- The first search after a quiet spell is slower than the rest (cold database cache): reduced from 10 to 15 s to about 2.7 s by s1181.
+- "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too). Done in s1181.
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
 
 ## 7. Next executable action
 
-S2-Build: finish s1181 by:
-1. adding the level abbreviations;
-2. cutting the cold first-search time;
-3. re-running the input matrix with every search under 8 s;
-4. merging (admin first, then Pilot);
-5. reading back live as a signed-in Counsellor;
-6. updating this document.
+Platform Admin: repeat the UAT searches on the phone, including "Master of  Nursing  in victoria" with extra spaces, and any other wording.
 
-The Platform Admin can then repeat the UAT searches, including "Master of  Nursing  in victoria" with extra spaces.
+S2-Build: act on anything the repeat finds. Then record the acceptance here, or the next defect as a new checkpoint.
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 05:45 AEDT, S2-Build: s1181 live (Pilot #1637); read back as a signed-in Counsellor: every spelling of "Master of Nursing in Victoria" returns the same 21 courses in about 0.55 s; G3, locks and cron unchanged; US$0. Drive mirror replaced.
 - 26 Nov 2026 05:10 AEDT, S2-Build: s1181 finished and rehearsed (30 messy inputs, 0.03 to 1.55 s; 20 malformed request shapes; no error), recorded before merge.
 - 26 Nov 2026 04:20 AEDT, S2-Build: document created at the Platform Admin's request (03:59). Release 1 live; s1180 live; s1181 built and rehearsed.
