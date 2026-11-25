@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 25 Nov 2026 15:30 AEDT: Portal sign-in fix (Pilot s1142); no live data change.**
+- Portal sign-ins reached Supabase Auth and were refused with 401 (the connection key), not 400 (wrong password). The screen now says which; it also trims and unquotes the build values and refuses a secret key in a browser. Left brand panel added.
+- **Platform Admin action:** set `VITE_SUPABASE_PUBLISHABLE_KEY` on the `studysearch-portal` Worker as a **Build** variable (the `sb_publishable_` key from Supabase > Project Settings > API Keys, no quotes or spaces) and redeploy.
+- Next: Providers, Scholarships and Saved screens (publish predicates confirmed above); Courses search waits for `catalogue.portal_course_search_v1` (S1-Build).
+
 **S1-API-Frontend-Delivery, 25 Nov 2026 13:30 AEDT: StudySearch Portal scaffold in Pilot (`portal/`, spec s1141); no live data change.**
 - Separate `studysearch-portal` Worker, sign-in, Viewer/Counsellor guard and Dashboard search bar; Courses is a placeholder until `catalogue.portal_course_search_v1` (S1-Build) exists. Admin Worker untouched. Lane specs are now `s1141` to `s1149` (`s1140` went to S1-Build).
 - **Waiting on the Platform Admin:** Build variables, build settings and the Supabase redirect URL for `studysearch-portal.techm.workers.dev`.
