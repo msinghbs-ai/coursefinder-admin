@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 05:45 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`. The course search time-outs are fixed (s1181, live): any spelling of a search reads the same, malformed requests are ignored, and searches answer in about 0.1 to 1.4 s (the first after a quiet spell in about 2.7 s), well inside the 8 s limit. Awaiting the Platform Admin's repeat of the UAT searches.
+**Status at the last checkpoint (26 Nov 2026 08:25 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`, with course search hardened (s1181). The Release 2 screens are live (s1200 to s1202) and wait for their database layer. s1210 (S2-Build) is built to the screens' contract and rehearsed as real users; it is recorded before merge.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -15,7 +15,7 @@
 | :---- | :---- | :---- |
 | Platform Admin (Mandeep) | Acceptance; Cloudflare Worker, domain `portal.studysearch.ai` and Supabase redirect URLs (sessions have no Cloudflare access); users and roles (in Admin) | n/a |
 | S1-API-Frontend-Delivery | `portal/` Worker, sign-in and role guards, Dashboard, Courses screen, Universities & Providers, Scholarships, Saved courses; the `portal` data layer | s1141 to s1149 |
-| S2-Build | Course search function (`catalogue.portal_course_search_v1`, public entry), `portal_search` settings, the course meaning vectors (`portal-default` profile), search hotfixes | s1153, s1180, s1181 |
+| S2-Build | Course search function (`catalogue.portal_course_search_v1`, public entry), `portal_search` settings, the course meaning vectors (`portal-default` profile), search hotfixes; the Release 2 proposals data layer | s1153, s1180, s1181, s1210 |
 | S1-RM-Design (PIM) | Not portal work; holds s1162 to s1179 and migration versions `20261128010000` to `20261128190000`, which shapes the numbering of portal fixes | n/a |
 
 ## 2. Decisions (carried forward)
@@ -31,6 +31,8 @@
 | 25 Nov 22:43 | Search scope stays on the 34,362 courses of published providers. The 1,690 courses at 261 unpublished or archived providers stay out of the shared search documents, and join automatically when the provider is published. | Platform Admin |
 | 26 Nov 03:45 | Course search must tolerate any typing ("make it idiot proof"): extra or leading spaces, case, punctuation and similar never cause a failure. | Platform Admin |
 | 26 Nov 03:59 | This running build document is kept in Drive `M3 > Portal` and updated at every delivery checkpoint until final acceptance. | Platform Admin |
+| 26 Nov 07:30 | Release 2 data layer: the screens' contract functions (list, get, save, refresh) on the brief's pipeline tables, row level security and append-only versions; the student record holds identity (reference, given name, family initial) plus academic facts (country of education, qualification, result, English result, destination, preferred intake, budget); a save on an older version writes nothing unless forced; `ready` is a status. | Platform Admin (question answers) |
+| 26 Nov 07:37 | Release 2 backend matches the live screens one to one; proposals expire for review 12 months after the last save (`expires_at`), nothing removed automatically. | Platform Admin brief |
 
 ## 3. Implementation history
 
@@ -47,6 +49,7 @@
 | 26 Nov 00:15 | s1180 hotfix: "Master of Nursing in Victoria" failed once its phrase vector was cached; the ranker's meaning branch had an ambiguous `course_id` (42702). Migration `20261128075000` | S2-Build | [#1633](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1633) | [#1113](https://github.com/msinghbs-ai/coursefinder-admin/pull/1113), [#1116](https://github.com/msinghbs-ai/coursefinder-admin/pull/1116) | Live |
 | 26 Nov 05:10 | s1181 hardening: search timed out (57014, limit 8 s) in the filter step, which read every candidate course's vector (10 to 15 s). Fix: typed text folded one way; malformed fields ignored; the vector index searched once, words through the text index, ranking fused over the matches; city matching in one query; empty searches answer at once; grad dip and grad cert as levels; 3 new settings. Migration `20261128105000` | S2-Build | [#1637](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1637) | [#1121](https://github.com/msinghbs-ai/coursefinder-admin/pull/1121), live record (this checkpoint) | Live; read back as a Counsellor: every spelling 21 courses in about 0.55 s |
 | 26 Nov 07:15 | s1200 to s1202 Release 2 screens: Proposals list, proposal editor (reorder, notes, soft-lock and conflict handling), live refresh difference (Accept all / Keep my version), and the two-page student sheet with Save as PDF / Print from browser print CSS. Built against the contract in the design document; the `portal_proposal_*_v1` functions are not live yet, so the screens show "not switched on yet". No migration | S1-API-Frontend-Delivery | Pilot (this change) | this change | Built; waiting for the functions |
+| 26 Nov 08:25 | s1210 Release 2 proposals layer: `pipeline.portal_proposals`, append-only `portal_proposal_versions`, `portal_activity`, `portal_user_prefs` (RLS, no table grants); `portal_proposal_list/get/save/refresh_v1` matching the screens, `portal_proposal_archive_v1`, `portal_activity_touch/list_v1`, `portal_prefs_save_v1`; eleven portal settings. Migration `20261129003000` | S2-Build | branch `s2-s1210-portal-proposals` | recorded before merge | Rehearsed as real users: clash, kept snapshot, refresh keep/accept, duplicate, archive/restore, access refusals |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -64,7 +67,8 @@
 | :---- | :---- | :---- |
 | Connect `portal.studysearch.ai` to the Worker, and add its Supabase redirect URL | Platform Admin | Production address (UAT runs on `*.workers.dev`) |
 | Confirm Browser Rendering on the free Cloudflare plan | Closed 26 Nov: not needed. The student sheet uses the browser's own print, so no Browser Rendering quota is used | n/a |
-| Retention period and privacy notice wording | Platform Admin | Proposals (not in Release 1) |
+| Privacy notice wording | Platform Admin | Proposals (retention decided 26 Nov 07:37: 12 months after the last save, `expires_at`) |
+| A paste file to remove expired or privacy-requested proposals (versions are append only, so it lifts the trigger inside one reviewed transaction) | S2-Build drafts, Platform Admin runs | Retention and privacy requests being acted on |
 | City filter on Universities & Providers; "only with scholarships" | Data lanes (function change first) | Release 1 screen gaps listed in the design document |
 | Scholarship intake wording is mixed ("Feb 2027", "February 2027") | Scholarships data lane | Clean intake filter |
 | Career outcome rows | Course data lanes | Outcome matching (wired automatically as rows admit) |
@@ -83,11 +87,13 @@
 
 ## 7. Next executable action
 
-Platform Admin: repeat the UAT searches on the phone, including "Master of  Nursing  in victoria" with extra spaces, and any other wording.
+S2-Build: merge s1210 (admin first, then Pilot), read it back live as a signed-in Counsellor (list, save, the clash, refresh, get), and update this document.
 
-S2-Build: act on anything the repeat finds. Then record the acceptance here, or the next defect as a new checkpoint.
+Platform Admin: then open Proposals on the portal and create, edit, refresh, duplicate, print and archive a proposal. Repeat the earlier course search UAT on the phone.
 
 ## 8. Checkpoint log
+
+- 26 Nov 2026 08:25 AEDT, S2-Build: s1210 Release 2 proposals layer built to the screens' contract (Platform Admin decisions 07:30, brief 07:37), rehearsed as real users (rolled back), recorded before merge.
 
 - 26 Nov 2026 05:45 AEDT, S2-Build: s1181 live (Pilot #1637); read back as a signed-in Counsellor: every spelling of "Master of Nursing in Victoria" returns the same 21 courses in about 0.55 s; G3, locks and cron unchanged; US$0. Drive mirror replaced.
 - 26 Nov 2026 05:10 AEDT, S2-Build: s1181 finished and rehearsed (30 messy inputs, 0.03 to 1.55 s; 20 malformed request shapes; no error), recorded before merge.

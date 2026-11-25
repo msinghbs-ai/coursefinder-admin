@@ -328,6 +328,30 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 08:25 AEDT: s1210 Portal Release 2 proposals layer recorded before merge (Pilot branch `s2-s1210-portal-proposals`, migration `20261129003000`).**
+- **What:** the database layer the live Release 2 screens (Pilot #1645, s1200 to s1202) are waiting for.
+  - Tables:
+    - `pipeline.portal_proposals`: student_ref, given name and family initial, plus academic facts; statuses draft, ready, sent, accepted and archived; archived_at/by/reason; expires_at.
+    - `pipeline.portal_proposal_versions`: append only, with last_editor_id and saved_after_other_edit.
+    - `pipeline.portal_activity` and `pipeline.portal_user_prefs`.
+  - Row level security is on, with no table privilege granted.
+  - Contract functions with one `p_args jsonb`: `public.portal_proposal_list_v1`, `get_v1`, `save_v1` and `refresh_v1`, plus `portal_proposal_archive_v1`; all Counsellor and above.
+  - `portal_activity_touch_v1`, `portal_activity_list_v1` and `portal_prefs_save_v1`: Viewer and above. Anon has no execute.
+  - Eleven portal settings: course, message, note and "why" limits; soft-lock 15 minutes; page size 20; retention 12 months; resume items; themes; default steps and documents.
+- **Platform Admin decisions (26 Nov 07:30, asked because the 07:01 brief and the screens' 07:15 contract differed):**
+  - the contract's functions on the brief's tables;
+  - the student record may hold academic facts (country of education, qualification, result, English result, destination, preferred intake, budget), with identity kept to reference, given name and initial;
+  - a save on an older version writes nothing unless forced;
+  - `ready` is a status.
+  - The 07:37 brief confirmed the contract alignment and set 12-month retention.
+- **Behaviour:**
+  - The server builds every course snapshot from live rows: fee, length, delivery, place, next intake, entry, English and international scholarships.
+  - An ordinary save keeps the snapshots already held. Only refresh `accept` (or a new or duplicated proposal) takes live values, and `keep` clears the notice until values move again.
+  - `needs_refresh` watches fee, intake and availability.
+  - Archive is a save with status archived (default reason) or `portal_proposal_archive_v1` with a reason; restore is a save with another status. Nothing is deleted. Removing expired or privacy-requested proposals is a Platform Admin paste file.
+- **Rehearsed on live data, rolled back, acting as real users** (a temporary Viewer, two Counsellors, an unassigned sign-in): every contract path behaves as specified, including the clash with and without force, the kept snapshot, refresh keep and accept, duplicate, ready and sent, archive and restore, paging and facets, append-only enforcement and access refusals. G3 75/48; locks 7,585; cron 136 (s1210 adds none); US$0.
+- **The superseded s1182 branch** (built to the 07:01 brief before the screens' contract was known) was never merged or claimed.
+
 **S2-Build, 26 Nov 2026 05:45 AEDT: s1181 portal search hardening live (Pilot #1637, migration `20261128105000`); read back as a signed-in Counsellor.**
 - **Live read-back (through `public.portal_course_search_v1` with a real rank-2 user's identity, rolled back):** every spelling of "Master of Nursing in Victoria" (extra, leading or trailing spaces, upper case, a tab, a non-breaking space, a comma and a full stop) returns the same 21 courses, ranked by meaning, chips Victoria / Master / Nursing.
   - Each took 0.54 to 0.59 s; the first, cold search took 2.7 s including the sign-in setup.
