@@ -58,6 +58,7 @@ Applies to every AI read on the platform, in both repositories, by every lane.
 4. **Qualify the input that will be sent.** A model is qualified for a service on the preprocessed input, against a whole-text baseline, through the existing harness and recorded in `pipeline.ai_route_qualifications` with its evidence. The most economical model that meets the criteria is preferred. A pass switches nothing on: enabling a route, its scope and its cap stay the Platform Admin's decision.
 5. **Measure, do not assume.** Content size, input and output tokens and cost are measured on the qualification run and reported with every activation request; estimates for a cohort come from those measurements.
 6. **Controls unchanged.** Admission gates, Layer 4, manual locks, provider publication holds, the spending limits (route caps, the platform's US$5.00 daily micro-budget, the OpenRouter key and balance holds) and the Consumer API controls apply as before.
+7. **Approved exception: course entry requirements (Platform Admin, 25 Nov 2026 18:26 AEDT).** Course entry reads send the whole page (`reading.course_entry_sections_on` 0) on gpt-4.1-mini. Measured on 216 source-verified labels, the whole page gave 95% academic recall where the v6 selection gave 81% (`p0-aer-activation/2026-11-25-course-entry-model-comparison.md`). Every other read type keeps rules 1 to 6, and so does any future course entry model.
 
 
 ## Identity and role
