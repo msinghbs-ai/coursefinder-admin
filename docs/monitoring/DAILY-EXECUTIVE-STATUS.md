@@ -230,3 +230,4 @@ Every `HELD:*` cell in the queue is one line of `docs/monitoring/S1-BLOCKER-QUEU
 
 - 25 Nov 2026 12:00 AEDT, S1-Build (P0 AER preprocessing qualification, Tier 2 micro-spend): run s1125-entry-qualify-2026-11-25 US$0.149 so far (ceiling US$2.00, on-demand request 0de69556); platform AI today US$2.01 of US$5.00.
 - 25 Nov 2026 15:45 AEDT, S1-Build (Decision 1, Tier 2 micro-spend): run s1125-entry-qualify-2026-11-25 complete at US$0.284; confirming re-read s1150 (83 DeepSeek V4 Flash pages) estimated US$0.07 under the same US$2 ceiling; platform AI today US$2.34 of US$5.00.
+- 25 Nov 2026 15:35 AEDT, S1-Build (Decision 1, Tier 2 micro-spend): confirming re-read s1150 complete, US$0.0659 (estimate US$0.07); platform AI today US$2.41 of US$5.00; Firecrawl 0.

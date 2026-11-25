@@ -4,9 +4,13 @@
 - New `portal` schema and read functions for providers, scholarships and saved shortlists; 5 settings under toolset `portal`. Additive; G3 75/48 checked in the migration. Live when Pilot s1143 merges and deploys.
 - Course search (`catalogue.portal_course_search_v1`) still belongs to S1-Build; the response shape the portal reads is in the design document.
 
-**S1-Build, 25 Nov 2026 15:45 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 in progress.**
-- s1150 (Pilot, migration `20261126233000`): confirming re-read of DeepSeek V4 Flash on the 83 benchmark pages under `lean-sections-v6`, about US$0.07. The course entry route stays off; nothing is admitted.
-- Next: if no-loss is met, DeepSeek V4 Flash is recorded as qualified, `lean-qualify` and `lean-sections-eval` pause, and Window 1 (the 172 courses, 20 AU providers) runs under a US$0 route cap and one scoped on-demand request; Window 2 (the 267 backlog) follows. Otherwise the exact failure is reported and nothing is activated.
+**S1-Build, 25 Nov 2026 15:35 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 not met; nothing activated.**
+- s1150 live (Pilot #1611): DeepSeek V4 Flash read the 83 benchmark pages again under `lean-sections-v6` (worker v1.0.44), US$0.0659.
+- Criteria: read 83/83; valid 83/83; median input tokens 3,411 to 1,704 (50% less); unsupported quotes dropped 5 (whole page 17); **no loss NOT met: 12 pages found fewer label rows on the selection than on the whole page (9 found more)**.
+- Run-to-run noise measured on identical input: the whole page read twice differs on 21 of 83 pages (11 lower). Total recall: whole page 156 and 162 rows of 216 in the two runs; selection 151 and 164.
+- Causes of the 16 missed labels (12 pages): the model returned no rows on 5 pages although the label was in the selection; 3 labels outside the selection (an AQF Level 9 line, a previous-completion line, a "may also be considered if" list); 7 where the model quoted other sentences in the selection; 1 label that is not an entry requirement (credit points to qualify for the award).
+- Not done, as the approval required: no qualification recorded, route unchanged (off, cap US$5, qwen3-30b), no window opened, the 172 and the 267 not queued. Jobs `lean-qualify` and `lean-sections-eval` stay active (idle). Request 0de69556 expires 16:40 AEDT.
+- Waiting on: the Platform Admin's decision on the corrective action.
 
 **S1-API-Frontend-Delivery, 25 Nov 2026 15:30 AEDT: Portal sign-in fix (Pilot s1142); no live data change.**
 - Portal sign-ins reached Supabase Auth and were refused with 401 (the connection key), not 400 (wrong password). The screen now says which; it also trims and unquotes the build values and refuses a secret key in a browser. Left brand panel added.
