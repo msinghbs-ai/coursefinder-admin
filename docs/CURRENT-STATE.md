@@ -1,5 +1,9 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 25 Nov 2026 18:40 AEDT: Window 1 (the 172 courses) approved on gpt-4.1-mini, whole page (Platform Admin 18:26).**
+- s1154 (Pilot, migration `20261127030000`): gpt-4.1-mini qualified for course entry requirements; `reading.course_entry_sections_on` 0; route on with a US$0 cap (the scheduled reader stays held); one on-demand request for the 20 providers; the 172 queued through the entry Read now; `lean-qualify` and `lean-sections-eval` paused. Estimate US$0.31.
+- Next: monitor Window 1, then switch the route off and hand read-back to S1-AER; then Window 2 (the 267) the same way, then notify S2-AER and S3-AER. Converter fix `lean-md-v3` after both windows.
+
 **S1-Build, 25 Nov 2026 18:05 AEDT: course entry model comparison complete; Platform Admin decision needed.**
 - On source-verified labels (83 pages, 119 academic, 89 pathway lines), only gpt-4.1-mini on the whole page reaches 90%: academic 95%, pathways 94%, fewest rows matching no label (17%), US$0.0018 a page. On the v6 selection no model reaches 90% (Qwen3 30B 87% with 65% rows matching no label; gpt-4.1-mini 81%; DeepSeek 81%).
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
