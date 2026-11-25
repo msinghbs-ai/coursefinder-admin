@@ -18,7 +18,10 @@
   - s1191 live 07:40: 69 deterministic pages released. 40 courses proposed from their own stored readings (48 rows; no row copied from a sibling); 23 no row.
   - Route off and no session request open. G3 75/48, locks 7,585, cron 138. Platform AI today US$1.54 of US$5.00; Firecrawl 0 for every window.
 - **Outstanding acceptance criteria (not complete):**
-  1. s1191 canonical admission of the 40 proposals and consumer read-back (`website_v2_course`), after `aer-machine-admission` (next 08:03).
+  1. s1191 canonical admission of the 40 proposals and consumer read-back (`website_v2_course`): **not verified.**
+     - At 08:06 AEDT the 40 were still pending in Layer 4.
+     - Deterministic (`aer_det`) proposals are not taken by the machine admission. Of all of them ever made, 12 were approved, all by a person; 512 are pending.
+     - Dependency (protected, Platform Admin): Layer 4 decisions, or an approved machine-admission rule for deterministic entry proposals.
   2. The proven sibling-page rule in the AI read gate (`security.enrich_fields_slice_v1`) and AI recorder (`security.enrich_entry_record_v1`), for the 2,028 never-AI-read identity-held courses. Shared identity code; S2-AER to agree.
   3. Holmesglen escaped-markup converter fix (`lean-md-v3`), after a check that no lane reads pages again on the version change.
 - **Operational backlog and owners:**
