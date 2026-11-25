@@ -6,6 +6,12 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Chat handover (S1-Build, 26 Nov 2026 05:40 AEDT)
+
+- **Windows:** Window 3 done (46 admitted, US$0.223). Window 4 (s1159) reads the 131 courses that pass the read gate's own checks. Always filter on `security.course_page_check_v1` and the entry identity rule, so no slot is spent on a page the gate refuses.
+- **Blocking decision:** identity for pages shared by one programme's records (`p0-aer-activation/2026-11-26-entry-identity-shared-programme-pages-decision.md`). Option 2 releases 90 courses at $0.
+- **Hourly measure:** the probe used each hour reads active `course_entry_requirements` rows by creation time, first active row per course and provider, and entry item outcomes, plus the AU lifecycle from `security.pim_lifecycle_v1`.
+
 ## Chat handover (S1-Build, 26 Nov 2026 04:45 AEDT)
 
 - **Mandate:** Platform Admin 26 Nov 03:59 AEDT, accelerated production delivery. S1-Build prioritises extraction and admission bottlenecks alongside model qualification, and reports delivery hourly (Daily Executive Status).

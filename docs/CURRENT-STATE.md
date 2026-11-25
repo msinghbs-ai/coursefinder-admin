@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 05:40 AEDT: course entry Window 3 done; Window 4 in release; identity decision prepared.**
+- Window 3 (s1158, 446 university courses): 46 admitted with 153 active rows, 58 to Layer 4, 299 held at $0 by the read gate, US$0.223.
+- Delivery 05:29: last hour 62 courses newly populated (all published), 220 rows admitted; last 24 h 80 courses, conversion 6.2%, US$0.024 entry AI per new course; AU backlog 14,270, clearance about 178 days at the 24 h rate.
+- s1159 (Pilot, migration `20261128220000`): Window 4, the 131 courses passing the gate's own identity and page checks.
+- **Platform Admin decision:** identity for pages shared by records of one programme. It is the dominant block (2,028 unread courses, 513 deterministic readings). See `docs/platform/p0-aer-activation/2026-11-26-entry-identity-shared-programme-pages-decision.md`.
+
 **S1-RM-Design, 26 Nov 2026 05:15 AEDT: s1171 live (Pilot #1636 + deploy fix #1639, applied by a hand-started deploy, md5 cfa271d9). Live head `20261128200000` (S1-Build s1157; s1171 applied below it, history matches).** G3 75/48, locks 7,585, cron 137, US$0.
 - **Bounded source revisit is live:** `security.pim_source_revisit_v1` and `_due_v1`, history in `pipeline.coverage_page_revisits`, setting `pim.source_revisit_batch` = 25.
   - Backoff on the existing `gaps.recheck_days` = 60 days, doubled per revisit. Never blocked, robots-refused or access-refused pages; no bulk reset.
