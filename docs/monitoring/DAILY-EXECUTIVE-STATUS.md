@@ -233,3 +233,4 @@ Every `HELD:*` cell in the queue is one line of `docs/monitoring/S1-BLOCKER-QUEU
 - 25 Nov 2026 15:35 AEDT, S1-Build (Decision 1, Tier 2 micro-spend): confirming re-read s1150 complete, US$0.0659 (estimate US$0.07); platform AI today US$2.41 of US$5.00; Firecrawl 0.
 - 25 Nov 2026 16:10 AEDT, S1-Build (model comparison, Tier 2 micro-spend): s1151 estimate US$1.06 to 1.66 (gpt-4.1-mini 0.31, gpt-5-mini 0.65 to 1.10, gpt-5-nano 0.10 to 0.25), run ceiling US$2.00; platform AI today US$2.41 of US$5.00.
 - 25 Nov 2026 18:05 AEDT, S1-Build (model comparison): s1151 actual US$0.256 (gpt-4.1-mini; GPT-5 mini and nano US$0, not served); platform AI today US$2.67 of US$5.00; Firecrawl 0.
+- 25 Nov 2026 19:40 AEDT, S1-Build (course entry windows): Window 1 US$0.0762 (94 calls); Window 2 US$0.8048 (630 calls) then held (estimate US$0.48); platform AI today US$3.59 of US$5.00; Firecrawl 0 for both windows.
