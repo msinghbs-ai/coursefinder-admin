@@ -2,6 +2,12 @@
 
 From `S1-RM-Design` to `S1-API-Frontend-Delivery`. Platform Admin 25 Nov 2026 19:52 and 21:37: Data Delivery is the primary monitoring screen; queue and lane detail stays under Operations and Scheduled jobs; no new dashboard, queue or framework. A backend read alone does not satisfy F-OPS.21.
 
+## Update 26 Nov 2026 (s1167): snapshot, freshness and excluded reasons
+
+- `pim` is now a **snapshot** counted in the background by the existing `data-delivery` job, so the Data Delivery read stays fast. Show its age from `pim.snapshot_at`; when `pim.snapshot_error` is set, show the figures as Stale with the error (the same treatment as the other Data Delivery counts).
+- New key `pim.excluded`: `totals` (gaps by reason) and `by_field` (field, reason, gaps, next_revisit). Reasons: `eligible`, `eligible_unconfirmed` (both are worked), `no_reader`, `country_not_covered`, `closed_to_international`, `recorded_not_applicable`, `no_source_revisit_pending`. Label excluded gaps as workload not being worked now, never as delivered data.
+- Priority: the Platform Admin asked for this block to be drawn immediately (25 Nov 23:12). F-OPS.21 stays open until it is on screen and read back at 1440 and 412 px.
+
 ## Interface (live when Pilot s1162 merges)
 
 `public.admin_layer23('data_delivery')` (rank 3 and above, unchanged) returns the existing object plus one new top-level key, `pim`, from `security.pim_progress_v1()`. Nothing else in the payload moves. `src/DataDelivery.jsx` already reads it (`rpc('admin_layer23', {p_action:'data_delivery', p_args:{}})`).
