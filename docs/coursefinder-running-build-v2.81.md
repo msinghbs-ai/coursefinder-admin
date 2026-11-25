@@ -6,6 +6,17 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Chat handover (S1-Build, 26 Nov 2026 04:45 AEDT)
+
+- **Mandate:** Platform Admin 26 Nov 03:59 AEDT, accelerated production delivery. S1-Build prioritises extraction and admission bottlenecks alongside model qualification, and reports delivery hourly (Daily Executive Status).
+- **Course entry route:** gpt-4.1-mini qualified (whole page, source-verified criteria, 25 Nov 18:26). It is opened only in bounded windows: a US$0 daily cap keeps the scheduled reader held, and one scoped on-demand request covers each window.
+- **Windows so far:** Window 1 (172) done. Window 2 held for spend (s1156). Its remainder is s1157: 130 superseded corrections skipped, 7 read.
+- **Next for S1-Build:** Window 3, the AU courses read with no admissible rows and never AI-read, shortest stored pages first under a stated spend bound. Then the `exact_title` identity evidence for the Platform Admin: 521 courses, 4,735 deterministic readings.
+- **Not S1-Build:**
+  - capped page revisits: S1-RM-Design s1171;
+  - the 1,425 superseded losses: the EQUALS decision;
+  - Layer 4 (571 pending): the Platform Admin.
+
 ## Accepted Pilot source candidate
 
 `msinghbs-ai/Coursefinder-Pilot@95f2991e97e76e644bd74f73512b8bf2725fd4b7`.

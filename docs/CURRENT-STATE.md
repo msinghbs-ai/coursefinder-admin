@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 04:45 AEDT: accelerated delivery (Platform Admin 03:59); course entry bottlenecks measured, s1157 in release.**
+- Baseline (04:38, last 24 h): 18 courses newly populated with active entry rows (all published), 56 rows, 2.6% conversion of resolved entry reads, AU backlog 14,332, clearance about 796 days at that rate, US$0.083 entry AI per new course.
+- s1157 (Pilot, migration `20261128200000`): Window 2's 130 superseded corrections skipped at $0; its 7 genuine re-reads read under a US$0 cap and one scoped request.
+- Next (S1-Build): Window 3, the AU courses read with no admissible rows and never AI-read, shortest stored pages first under a set spend bound; the `exact_title` identity decision for 521 courses with 4,735 deterministic readings goes to the Platform Admin with evidence.
+
 **S1-RM-Design, 26 Nov 2026 04:20 AEDT: takeover checkpoint for the Platform Admin's 03:48 priorities (no new migration since s1170; live head `20261128100000`, G3 75/48, locks 7,585, cron 137, US$0; Window 2 and its 90 spend-held leases untouched).**
 
 Verified live this session. These are the facts the next slices build on.
