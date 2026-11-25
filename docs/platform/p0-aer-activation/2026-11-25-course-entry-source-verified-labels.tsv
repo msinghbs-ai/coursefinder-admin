@@ -26,7 +26,7 @@ label_id	class	pathway_or_conditional	reason	quote_opening
 24871	other admission condition	no		Participate in a suitability interview, only if required prior to enrolment and be able to demonstrate an enth
 24872	academic	no		You will also need approval of the Academic Program Coordinator for Health Science.
 24873	academic	no		Have successfully completed a General English course which articulates into the EAP course.
-24874	academic	no		Graduate with an AUSTRALIAN DEGREE (AQF Level 9)
+24874	not an entry requirement	no	award outcome card ("Graduate with an Australian degree"), not an entry requirement	Graduate with an AUSTRALIAN DEGREE (AQF Level 9)
 24875	academic	no		All applicants who have completed their Diploma of Screen and Media externally to ACMUSE will be required to u
 24876	academic	yes		Completion of year 12 or equivalent
 24877	academic	yes		Successfully completed an Australian Year 12 certificate, or Hold a qualification at AQF Level 3 or above
@@ -52,7 +52,7 @@ label_id	class	pathway_or_conditional	reason	quote_opening
 24897	academic	no		Be competent in written and spoken English with sound workplace numeracy and digital literacy appropriate to t
 24898	academic	no		All students must hold a current National Police Certificate (NPC) prior to commencement.
 24899	academic	yes		Have completed a qualification equivalent to Australian Diploma level (AQF Level 5) or higher.
-24900	academic	yes		Previous completion of a Diploma of Information Technology (equivalent or higher) qualification OR ability to 
+24900	not an entry requirement	yes	commented out in the page markup (<!-- -->), never shown	Previous completion of a Diploma of Information Technology (equivalent or higher) qualification OR ability to 
 24901	academic	yes		International Students: Have at least a few years of high school education or completed high school.
 24902	academic	yes		Entry to this qualification is limited to those who: Have completed a Diploma or Advanced Diploma from the BSB
 24903	other admission condition	yes		Be 18 years of age or over
