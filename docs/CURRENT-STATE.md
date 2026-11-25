@@ -8,6 +8,11 @@
 - New `portal` schema and read functions for providers, scholarships and saved shortlists; 5 settings under toolset `portal`. Additive; G3 75/48 checked in the migration. Live when Pilot s1143 merges and deploys.
 - Course search (`catalogue.portal_course_search_v1`) still belongs to S1-Build; the response shape the portal reads is in the design document.
 
+**S1-Build, 25 Nov 2026 16:10 AEDT: course entry model comparison (Platform Admin 15:40); DeepSeek-only cycles stopped.**
+- s1151 (Pilot, migration `20261127000000`): the 83-page cohort read on gpt-4.1-mini, gpt-5-mini and gpt-5-nano in the existing harness, same v6 selection, prompt and schema; estimate US$1.06 to 1.66 (run ceiling US$2). Earlier DeepSeek, Qwen, MiMo and Mistral results reused.
+- Scoring: against source-verified requirements (recall, unsupported rows, qualification and score accuracy, conditions and pathways, audience, consistency, tokens, cost, time), not row-count equality. The proposed acceptance criteria go to the Platform Admin for approval.
+- Then: the three missed lines corrected; bounded activation of the 172 and reconciliation of the 267 prepared on the selected model.
+
 **S1-Build, 25 Nov 2026 15:35 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 not met; nothing activated.**
 - s1150 live (Pilot #1611): DeepSeek V4 Flash read the 83 benchmark pages again under `lean-sections-v6` (worker v1.0.44), US$0.0659.
 - Criteria: read 83/83; valid 83/83; median input tokens 3,411 to 1,704 (50% less); unsupported quotes dropped 5 (whole page 17); **no loss NOT met: 12 pages found fewer label rows on the selection than on the whole page (9 found more)**.
