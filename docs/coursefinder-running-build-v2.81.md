@@ -13,7 +13,7 @@
   - 269 to Layer 4 (923 proposed rows); 20 held by the read gate or row rules; 0 failed.
   - US$0.79 on gpt-4.1-mini; Firecrawl $0.
 - **Verified:** `website_v2_course('120328M')` returns its admitted requirements under `item.entry`. The AI gate and recorder accept the proven sibling page unattended.
-- **s1194:** Window 5 closed (route off, request closed).
+- **s1194 live (Pilot #1650, 10:26):** Window 5 closed (route off, request closed); read back.
 
 ## Deterministic admission recovery, verified (S1-Build, 26 Nov 2026 08:55 AEDT)
 
