@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 26 Nov 2026 09:20 AEDT: a browser tab left open across a deploy now reloads once and recovers (Pilot s1203; no migration).** Live head `20261129010000`, G3 75/48 no drift, locks 7,585, cron 137, US$0.
+- **Cause (confirmed by the Platform Admin):** the `Failed to fetch dynamically imported module: .../assets/access-roles-entry-*.js` error on `Administration › Users & roles` came from a tab holding the old `index.html` across a Worker deploy. A refresh fixed it; nothing was broken in the deploy.
+- **Fix:** `src/lib/chunkReload.js` (identical copy in `portal/src/lib/`): one reload on a stale chunk, with the time of the last reload kept in sessionStorage so it is never a loop (one a minute at most, none if storage is blocked). The Admin `lazyPage` guard it replaces reloaded once per route and never reset, and `CounsellorApp` and the two AI panes bypassed it. A plain "Failed to fetch" (offline, a database call) never triggers a reload.
+- **Cache headers:** `/` and `/index.html` are `no-cache, must-revalidate`; `/assets/*` is `public, max-age=31536000, immutable`; set in `public/_headers` and `portal/public/_headers`, not the Cloudflare dashboard.
+- **Not covered by design:** a tab that is already stale only recovers when it next loads a lazy screen or fails a preload; the portal has no lazy screens today, so it recovers on its next preload error. Unsaved form entries in a tab are lost on the reload, which is the same as the manual refresh.
+
 **S1-RM-Design, 26 Nov 2026 08:30 AEDT: PIM operational verification, read 1 (no change deployed).**
 - **Planner dispatch:** two automatic plans since s1172. One carries the `academic_entry` step: Collarts, 2 pages due, state pending, not yet started. The hand-off has not run through a scheduled plan yet.
 - **Audit of the 50 deploy-triggered revisits.** The s1172 closing check ran 2 × 25 real revisits on Adelaide University at deploy. They were not from a planner step.
