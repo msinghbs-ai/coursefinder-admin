@@ -1,5 +1,9 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 25 Nov 2026 13:30 AEDT: StudySearch Portal scaffold in Pilot (`portal/`, spec s1141); no live data change.**
+- Separate `studysearch-portal` Worker, sign-in, Viewer/Counsellor guard and Dashboard search bar; Courses is a placeholder until `catalogue.portal_course_search_v1` (S1-Build) exists. Admin Worker untouched. Lane specs are now `s1141` to `s1149` (`s1140` went to S1-Build).
+- **Waiting on the Platform Admin:** Build variables, build settings and the Supabase redirect URL for `studysearch-portal.techm.workers.dev`.
+
 **S1-API-Frontend-Delivery, 25 Nov 2026 12:55 AEDT (Platform Admin brief 12:47): StudySearch Portal Release 1 lane registered; documents only, no live change.**
 - **Lane:** master plan section 4 item 10; specs `s1140` to `s1149` claimed. Design mirrored at `docs/platform/2026-11-25-studysearch-portal-design-decisions-and-plan.md` (Drive `M3 > Portal` holds mock-ups 01 to 24 and the original Google Doc).
 - **Gate met:** Layer 4 Review fix live (s1090, Pilot #1582, UI v2.17.0).
