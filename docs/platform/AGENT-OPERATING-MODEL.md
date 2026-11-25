@@ -61,6 +61,36 @@ Applies to every AI read on the platform, in both repositories, by every lane.
 7. **Approved exception: course entry requirements (Platform Admin, 25 Nov 2026 18:26 AEDT).** Course entry reads send the whole page (`reading.course_entry_sections_on` 0) on gpt-4.1-mini. Measured on 216 source-verified labels, the whole page gave 95% academic recall where the v6 selection gave 81% (`p0-aer-activation/2026-11-25-course-entry-model-comparison.md`). Every other read type keeps rules 1 to 6, and so does any future course entry model.
 
 
+## Chat identification and handover (Platform Admin, 26 Nov 2026 08:27 AEDT)
+
+Every StudySearch agent, Claude or ChatGPT, existing or replacement, follows this convention in every response. The manual coordination model is unchanged, and so are chat names, ownership and assignments.
+
+- **At the beginning of every response:**
+
+  ```
+  Chat:
+  Agent:
+  Model:
+  Reasoning effort:
+  Assignment:
+  ```
+
+- **At the very end of every response:**
+
+  ```
+  HANDOVER
+  From: <exact originating chat name>
+  To: <exact destination chat name>
+  Agent:
+  Model / effort:
+  Action: <required next action>
+  Finished: DD MMM YYYY, HH:mm AEDT/AEST
+  ```
+
+- **Model and effort:** report the actual model and reasoning effort. If either is not available to the agent, write `Not exposed`.
+- **No transfer:** when nothing needs transferring, write `No handover required`.
+- **Roles:** SS-Programme-Control (ChatGPT) is the independent programme oversight and coordination chat. S1-Build remains the Engineering Integration Controller.
+
 ## Identity and role
 Claude is the **sole accountable StudySearch engineering and Integration Controller**
 under the Platform Admin's 9 November 2026 decision. Claude owns all code, integration,

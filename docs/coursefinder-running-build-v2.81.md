@@ -6,6 +6,15 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Deterministic admission recovery (S1-Build, 26 Nov 2026 08:40 AEDT)
+
+- **s1192 (Pilot, migration `20261129010000`):** proven sibling page in `security.aer_machine_check_v1`, `security.enrich_fields_slice_v1` (entry only) and `security.enrich_entry_record_v1`; the 20 s1191 proposals checked through the existing machine admission.
+- **Blockers of the 512 pending deterministic proposals:**
+  - 370 active rows already exist (no overwrite, a person's decision);
+  - 122 every row fails a row rule;
+  - 20 identity, fixed by s1192.
+- **Chat convention:** from 26 Nov 08:27, every response starts with Chat / Agent / Model / Reasoning effort / Assignment and ends with a HANDOVER block (Agent Operating Model).
+
 ## Development closure (S1-Build, 26 Nov 2026 07:55 AEDT)
 
 - **Delivered functionality (course entry, S1-Build lane):**
