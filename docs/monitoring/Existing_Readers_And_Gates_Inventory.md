@@ -73,7 +73,7 @@ Modules: `scholarship.ts` (`scholarshipListing`, `awardSections`, `awardSection`
 2. $0 plain-HTTP direct read: `lanes.stored_first_on` = 0 (s992), and robots.txt is respected.
 3. Firecrawl only through `public.svc_fc_spend` (lane `sch_scrape`), gated by `firecrawl.daily_budget_on` and `firecrawl.daily_budget_total`.
    - The total was 0 under s976, so every fallback was refused.
-   - s1010 raised it to **5 credits a day**, so scholarship fallbacks can spend again. Today: 5 `scholarship_read` credits.
+   - s1010 raised it to **5 credits a day**, so scholarship fallbacks can spend again. Today: 5 `scholarship_read` credits. **Superseded (verified live 25 Nov 2026): the setting is 1,500 credits a day since s1035, 24 Nov 13:08; Master Plan 6.4.**
 
 ### 2.3 Discovery to publication: tables and functions
 
@@ -120,7 +120,7 @@ De-duplicated by `evidence-storage-dedupe`; linked by `evidence-link-index`.
 ### 3.4 Firecrawl metering
 
 - **Per-call ledger:** `pipeline.firecrawl_calls` (`use_case`, `endpoint`, `provider_id`, `credits_used`, `outcome`).
-- **Gate:** `public.svc_fc_spend`, with `firecrawl.daily_budget_on` = true and `firecrawl.daily_budget_total` = 5 credits a day (s1010).
+- **Gate:** `public.svc_fc_spend`, with `firecrawl.daily_budget_on` = true and `firecrawl.daily_budget_total` = 5 credits a day (s1010). **Superseded (verified live 25 Nov 2026): the setting is 1,500 credits a day since s1035, 24 Nov 13:08; Master Plan 6.4.**
 - **Platform caps:** `budgets.paid_daily_cap_usd` = 5 and `budgets.ai_daily_ceiling_usd` = 5 (s997).
 - **Monitor:** a separate weekly cap, `firecrawl.monitor_weekly_credits` = 150 (s1027).
 - **On-demand windows:** `security.on_demand_open_v1`, `on_demand_scope_v1`, `on_demand_close_v1`.

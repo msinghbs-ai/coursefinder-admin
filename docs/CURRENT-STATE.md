@@ -324,7 +324,7 @@
 - **Deployed UAT red on Pilot `main`, including `af26ad7` (s992):** every sign-in by the UAT account fails with `400: Invalid login credentials` (Supabase auth log). A password reset was requested for that account at 22 Nov 2026 22:51 UTC (23 Nov 09:51 AEDT), and the password was changed a minute later. Every UAT run since then has failed at sign-in (`tests/uat/support/runtime-evidence.mjs` line 95), whatever the change under test. `Deploy on merge` and `Security gates` are green on the same commits. **Fix:** the Platform Admin sets the repository secret `UAT_PASSWORD` (Coursefinder-Pilot, Actions) to the account's current password, or resets the account to the stored one. No code change can fix it, and Claude does not handle passwords.
 - **s997** (Pilot #1503): every check green, including the live dry run; merging by label.
 - **s1010** (claimed, rehearsed):
-  - `firecrawl.daily_budget_total` goes from 0 to 5 with the reason "Standing Authority Charter Section 10 — Tier 1 micro-budget cap US$5.00/day". The setting counts credits, so this is 5 credits a day, inside the US$5.00 platform cap.
+  - `firecrawl.daily_budget_total` goes from 0 to 5 with the reason "Standing Authority Charter Section 10 — Tier 1 micro-budget cap US$5.00/day". The setting counts credits, so this is 5 credits a day, inside the US$5.00 platform cap. **Superseded (verified live 25 Nov 2026): the setting is 1,500 credits a day since s1035, 24 Nov 13:08; Master Plan 6.4.**
   - The 33 settings with no or short help get plain-English help for the v1.2 Settings screen.
 - **08:00 run:** it now also refreshes the Drive mirror of the master plan and the digest.
 
