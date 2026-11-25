@@ -1,5 +1,9 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 25 Nov 2026 15:45 AEDT: P0 AER bounded activation (Platform Admin 14:36), Decision 1 in progress.**
+- s1150 (Pilot, migration `20261126233000`): confirming re-read of DeepSeek V4 Flash on the 83 benchmark pages under `lean-sections-v6`, about US$0.07. The course entry route stays off; nothing is admitted.
+- Next: if no-loss is met, DeepSeek V4 Flash is recorded as qualified, `lean-qualify` and `lean-sections-eval` pause, and Window 1 (the 172 courses, 20 AU providers) runs under a US$0 route cap and one scoped on-demand request; Window 2 (the 267 backlog) follows. Otherwise the exact failure is reported and nothing is activated.
+
 **S1-API-Frontend-Delivery, 25 Nov 2026 15:30 AEDT: Portal sign-in fix (Pilot s1142); no live data change.**
 - Portal sign-ins reached Supabase Auth and were refused with 401 (the connection key), not 400 (wrong password). The screen now says which; it also trims and unquotes the build values and refuses a secret key in a browser. Left brand panel added.
 - **Platform Admin action:** set `VITE_SUPABASE_PUBLISHABLE_KEY` on the `studysearch-portal` Worker as a **Build** variable (the `sb_publishable_` key from Supabase > Project Settings > API Keys, no quotes or spaces) and redeploy.
