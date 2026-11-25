@@ -1,5 +1,5 @@
 # Agent Operating Model — StudySearch platform (formerly CourseFinder)
-v1.24, 25 Nov 2026 (v1.24 adds the mandatory AI preprocessing requirement, Platform Admin 25 Nov 2026 08:16 AEDT; v1.23 adds section 5 of the production architecture baseline: the s768 design for queue and lane control and on-demand runs; v1.22 adds the production architecture baseline for handover: one migration baseline after the squash, the three cron dispatchers, Layer 1 Register first for destination data, and the API v3 full-shape contract; v1.21 adds mandatory roadmap milestone and 15-minute minimum human-engagement logging across ChatGPT and Claude; v1.20 adds shared runner throughput and cross-session settings change control after S2-CF stalled; v1.19 adds S2-Scholarship independent module ownership, source-backed detail completion, narrow re-admission checks, Website/Zoho v3 UI acceptance; v1.18 adds scoped parallel-module ownership, developer-request-to-API-v3-and-Admin acceptance and intake throughput; v1.17: on-demand work a Claude session asks for is not held by toolset limits, only by the account; it shows its estimate and credit left before and its actual use and credit left after, Platform Admin 12 Nov 2026 21:07, Data pipeline operating model 3.3.2; v1.16: a Website API version the website does not yet read (v3) is open to additions and its PRs merge on green; at go-live it joins the frozen surface, Decision 277; v1.15: the one exception to merge on green is a change affecting the consumer APIs, held until the Wix and Zoho developers are told, Platform Admin 12 Nov 2026 09:14; v1.14 restates rule 9 of the working rules, merge on green, Platform Admin 12 Nov 2026 08:46; v1.13 replaces rule 3 of "Switching on a gated rule" with the platform qualification register and one approval for all qualified universities, Decision 275; v1.12 adds rule 7 of "Switching on a gated rule": check the inputs the rule reads for each provider, learnt from RMIT; v1.8 to v1.11 retained; v1.11 adds "Switching on a gated rule, one provider at a time" (Decision 271, Rule B); v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
+v1.25, 26 Nov 2026 (v1.25 amends chat identification and handover: assignment routing header, response header and HANDOVER block, Platform Admin 26 Nov 2026 10:40 AEDT; v1.24 adds the mandatory AI preprocessing requirement, Platform Admin 25 Nov 2026 08:16 AEDT; v1.23 adds section 5 of the production architecture baseline: the s768 design for queue and lane control and on-demand runs; v1.22 adds the production architecture baseline for handover: one migration baseline after the squash, the three cron dispatchers, Layer 1 Register first for destination data, and the API v3 full-shape contract; v1.21 adds mandatory roadmap milestone and 15-minute minimum human-engagement logging across ChatGPT and Claude; v1.20 adds shared runner throughput and cross-session settings change control after S2-CF stalled; v1.19 adds S2-Scholarship independent module ownership, source-backed detail completion, narrow re-admission checks, Website/Zoho v3 UI acceptance; v1.18 adds scoped parallel-module ownership, developer-request-to-API-v3-and-Admin acceptance and intake throughput; v1.17: on-demand work a Claude session asks for is not held by toolset limits, only by the account; it shows its estimate and credit left before and its actual use and credit left after, Platform Admin 12 Nov 2026 21:07, Data pipeline operating model 3.3.2; v1.16: a Website API version the website does not yet read (v3) is open to additions and its PRs merge on green; at go-live it joins the frozen surface, Decision 277; v1.15: the one exception to merge on green is a change affecting the consumer APIs, held until the Wix and Zoho developers are told, Platform Admin 12 Nov 2026 09:14; v1.14 restates rule 9 of the working rules, merge on green, Platform Admin 12 Nov 2026 08:46; v1.13 replaces rule 3 of "Switching on a gated rule" with the platform qualification register and one approval for all qualified universities, Decision 275; v1.12 adds rule 7 of "Switching on a gated rule": check the inputs the rule reads for each provider, learnt from RMIT; v1.8 to v1.11 retained; v1.11 adds "Switching on a gated rule, one provider at a time" (Decision 271, Rule B); v1.9 added "Spend and throughput authority" for calendar refresh, Decision 273, superseding the 5 Nov 2026 R2 40-credit cap; v1.10 adds bounded work on worker write paths and measured throughput; history in Git). This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.
 
@@ -61,34 +61,50 @@ Applies to every AI read on the platform, in both repositories, by every lane.
 7. **Approved exception: course entry requirements (Platform Admin, 25 Nov 2026 18:26 AEDT).** Course entry reads send the whole page (`reading.course_entry_sections_on` 0) on gpt-4.1-mini. Measured on 216 source-verified labels, the whole page gave 95% academic recall where the v6 selection gave 81% (`p0-aer-activation/2026-11-25-course-entry-model-comparison.md`). Every other read type keeps rules 1 to 6, and so does any future course entry model.
 
 
-## Chat identification and handover (Platform Admin, 26 Nov 2026 08:27 AEDT)
+## Chat identification and handover (Platform Admin, 26 Nov 2026 08:27 AEDT; amended 26 Nov 2026 10:40 AEDT)
 
-Every StudySearch agent, Claude or ChatGPT, existing or replacement, follows this convention in every response. The manual coordination model is unchanged, and so are chat names, ownership and assignments.
+Every StudySearch agent, Claude or ChatGPT, existing or replacement, follows this convention in every assignment and every response. The amendment of 10:40 AEDT (relayed by SS-Programme-Control) replaces the 08:27 headers. Manual coordination is unchanged, and so are chat names, ownership and assignments.
+
+- **Every outgoing assignment** (a prompt one chat passes to another) starts with:
+
+  ```
+  CALLING CHAT: <exact name of the chat sending it>
+  CALLING AGENT / MODEL / EFFORT: <agent> / <model> / <effort>
+  PASSING TO CHAT: <exact name of the receiving chat>
+  REQUIRED AGENT: <Claude Code, ChatGPT, ...>
+  REQUIRED or RECOMMENDED MODEL: <model>
+  REQUIRED or RECOMMENDED EFFORT: <effort>
+  ASSIGNMENT: <what is to be done>
+  RETURN RESPONSE TO: <exact name of the chat that gets the reply>
+  ```
 
 - **At the beginning of every response:**
 
   ```
-  Chat:
-  Agent:
-  Model:
-  Reasoning effort:
-  Assignment:
+  Calling chat: <the chat that sent the assignment>
+  Responding chat: <this chat>
+  Actual agent / model / effort: <agent> / <model> / <effort>
+  Assignment: <what is being answered>
   ```
 
 - **At the very end of every response:**
 
   ```
   HANDOVER
-  From: <exact originating chat name>
-  To: <exact destination chat name>
-  Agent:
-  Model / effort:
-  Action: <required next action>
+  Calling chat:
+  Responding chat:
+  Actual agent / model / effort:
+  Next destination: <exact chat name>
+  Receiving agent:
+  Recommended model / effort:
+  Required action:
+  Return response to: <exact chat name>
   Finished: DD MMM YYYY, HH:mm AEDT/AEST
   ```
 
-- **Model and effort:** report the actual model and reasoning effort. If either is not available to the agent, write `Not exposed`.
-- **No transfer:** when nothing needs transferring, write `No handover required`.
+- **Model and effort:** report the actual configuration. If the model or the effort is not available to the agent, write `Not exposed`. A configured model the runtime may change is reported as configured and marked so.
+- **Several destinations:** give one separate, copyable prompt for each destination, each with the full assignment header above, and name every destination in the HANDOVER block.
+- **No transfer:** when nothing needs transferring, write `No handover required` under Next destination and Required action.
 - **Roles:** SS-Programme-Control (ChatGPT) is the independent programme oversight and coordination chat. S1-Build remains the Engineering Integration Controller.
 
 ## Identity and role
