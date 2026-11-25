@@ -302,3 +302,35 @@ All three screens are Counsellor-only (a Viewer sees "Proposals are for Counsell
 Starting a proposal: **Saved courses** has "Create a proposal from the N ticked" (or all saved), and **Courses** has "+ Add to proposal" on each card; both fill a small session basket that the new proposal reads. A save the same moment another counsellor saves shows what they changed with "Use their version" and "Keep mine and save".
 
 Checked on 26 Nov 2026 with the live screens against a mocked contract (the functions do not exist yet): desktop 1280 px and phone 412 px with no sideways scroll, every tap target 44 px or more on the phone, print preview exactly two A4 pages with the internal note and the shell absent, new, duplicate, conflict, up to date, keep, accept, missing-function and Viewer paths. Guards: `s1200` (helpers), `s1201` (sheet privacy and print), `s1202` (screen wiring, no hard-coded limits, no secrets). Live read-back before the PR: G3 75 functions and 48 relations, no drift; 7,585 manual locks; 138 active cron jobs; US$0.
+
+## Release 2 data layer as built (Pilot s1210, S2-Build, 26 Nov 2026)
+
+The functions the screens call, built to the contract above on pipeline tables (Platform Admin decisions, 26 Nov 2026 07:30; brief 07:37). Every function is a public SECURITY DEFINER function taking one `p_args jsonb` and checking the caller's own role.
+
+| Function | Who | Arguments | Notes beyond the contract |
+| :---- | :---- | :---- | :---- |
+| `portal_proposal_list_v1` | Counsellor | `scope`, `status` (also `ready`, `accepted`, `all`), `q` (name, reference or title), `page` | Items also carry `expires_at`. `facets.counts` count proposals that are not archived |
+| `portal_proposal_get_v1` | Counsellor | `id` or null | `counsellor` is the proposal's owner (the caller for a new one): name, work title, email, work phone, office. Opening records the open, which `others_recent` reads |
+| `portal_proposal_save_v1` | Counsellor | as the contract, plus optional `refreshed_from` | Courses are kept in `position` order, each once; unknown ids are dropped. The reply also carries `saved_after_other_edit` (true when forced over a newer save). A status of `archived` archives (reason from `note`, else "Archived in the proposal editor"); saving an archived proposal with another status restores it |
+| `portal_proposal_refresh_v1` | Counsellor | as the contract | Differences cover availability, fee, next intake, entry, English, scholarship and name; `needs_refresh` watches fee, intake and availability |
+| `portal_proposal_archive_v1` | Counsellor | `id`, `reason` | Archives as a new version with the reason |
+| `portal_activity_touch_v1` | Viewer | `kind` (`courses_search`, `proposal`, `provider`, `scholarship`), `ref`, `label`, `state` | Own rows; proposal items need Counsellor |
+| `portal_activity_list_v1` | Viewer | `limit` | `{items}`, newest first, at most the setting `resume_items_shown` |
+| `portal_prefs_save_v1` | Viewer | `theme`, `title`, `phone`, `office`; `{}` reads | Theme from the setting `themes`; title, phone and office print on the sheet |
+
+**Data held.**
+- `pipeline.portal_proposals` holds the student reference (assigned `SS-000001` onwards when blank; an existing reference is reused) and the given name and family initial. It also holds the academic facts: country of education, qualification, result, English result, destination, preferred intake and budget.
+- It holds no family name, contact, passport or birth date.
+- It also records the status, owner, last editor, current version, `expires_at` (last save plus `proposal_retention_months`, 12), `details_checked_at`, and `archived_at`, `archived_by` and `archived_reason`.
+- `pipeline.portal_proposal_versions` is append only: a trigger refuses update and delete. Each version holds the whole content, `last_editor_id`, a note and `saved_after_other_edit`.
+
+**Snapshots.** The server builds each course snapshot from live rows: title, provider, level, place, length, delivery, fee, next intake, entry (preferring the student's country of education), English, international scholarships and availability. An ordinary save keeps the snapshots already held, so nothing in the PDF changes until a refresh is accepted. A newly added course is snapshotted when it is added.
+
+**Settings (portal toolset).** All appear on Settings › Toolsets & limits:
+- `proposal_max_courses` 12, `proposal_message_max_chars` 3,000, `proposal_note_max_chars` 2,000, `proposal_why_max_chars` 300;
+- `edit_lock_minutes` 15, `proposals_page_size` 20, `proposal_retention_months` 12, `resume_items_shown` 6;
+- `themes`, `proposal_default_steps`, `proposal_default_documents`.
+
+**Not in this change.**
+- Removing expired or privacy-requested proposals: a Platform Admin paste file, because nothing is deleted by an applied migration.
+- `portal_dashboard_v1`.
