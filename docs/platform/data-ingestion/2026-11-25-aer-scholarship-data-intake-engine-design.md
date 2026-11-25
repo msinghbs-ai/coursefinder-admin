@@ -74,6 +74,29 @@ Chats and agents stay useful, but they become **workers on the same ledger**. Th
 
 ## 4. Target design
 
+### 4.0 Target platform architecture — missing capability
+
+```mermaid
+flowchart TD
+    A["<b>Layer 1 — Authoritative catalogue</b><br/>Providers, courses, registers and official identities"]
+    B["<b>Data completeness and coverage</b><br/>What is missing? What is incomplete? What requires verification?"]
+    C["<b>Missing capability</b><br/><b>Closed-loop orchestration</b><br/>Next-action selection · Priority and eligibility<br/>Execution and ownership · Outcome and recovery<br/>Extend the existing enrichment planner and field-gap mechanism."]
+    D["<b>Existing production pipelines</b><br/>AER · Scholarships · Intakes<br/>Fees · Descriptions · ELR<br/>Source acquisition → Meaningful extraction → Normalisation → Validation"]
+    E["<b>Admission and genuine Layer 4 exceptions</b>"]
+    F["<b>Canonical catalogue and consumer publication</b>"]
+    G["<b>Outcome verification and continuous improvement</b><br/>Feeds verified results and unresolved gaps back into orchestration"]
+    A --> B --> C --> D --> E --> F --> G
+    G -->|Continuous feedback loop| C
+    classDef gap fill:#e7f7f5,stroke:#0d9488,stroke-width:3px,color:#123c39
+    class C gap
+```
+
+*Figure 1. Target platform architecture: closed-loop orchestration connects existing capabilities and returns verified outcomes and unresolved gaps to the planner.*
+
+The diagram is a target architecture for planning, not a claim that the missing orchestration capability is already implemented. Extend the existing enrichment planner and field-gap mechanism rather than creating a competing planner or execution queue. AER and scholarships are the initial implementation scope; other domains are shown as future consumers of the common mechanism.
+
+The [M3 design document](https://docs.google.com/document/d/1QiU6Z79vWYCK4WaDnrLyYqdgbial2Jej27WOZHJrphQ/edit) contains the corresponding visual diagram.
+
 ### 4.1 Intake ledger (Step state per provider and domain)
 
 **One row per (provider, domain).** Domain is `aer_matrix`, `aer_course` or `scholarship`. Fields:
