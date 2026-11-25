@@ -236,16 +236,16 @@ A value the function leaves out is shown as "Not recorded". The screen never wor
 
 ## Course search as built (Pilot s1153, 25 Nov 2026)
 
-Added 25 Nov 2026 by S2-Build (Platform Admin 17:13). Built to the "Course search contract, as the portal reads it" above; the Courses screen needs no change. Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`.
+Added 25 Nov 2026 by S2-Build (Platform Admin 17:13). Built to the "Course search contract, as the portal reads it" above; the Courses screen needs no change. Pilot #1616, migration `20261127020000`, worker `coverage-sweep` v1.0.46 mode `portal_search_embed` (only the worker calls OpenRouter, Platform Admin 13 Nov 2026, so no separate edge function).
 
 | Object | What it does |
 | :---- | :---- |
 | `public.portal_course_search_v1(p_args)` | The entry the screen calls (Viewer and above); passes to the catalogue function |
 | `catalogue.portal_course_search_v1(p_args)` | Stage 1 filters, Stage 2 ranking, near misses and relaxations; returns `understood`, `exact`, `near_misses`, `relaxations` (and `relaxation`), `total` and `ranking` (meaning, words or title) |
 | `search.profiles` row `portal-default` | Portal vectors live here only. `api.zoho_course_candidates_v1` (frozen G3) calls the same ranker under `zoho-default`, so Zoho and the website get no vectors and their results cannot change |
-| Lane `portal-search-embed` (coverage-lane-dispatch) | Tops the embedding queue up by `enqueue_chunk` and starts the edge function only when jobs wait; no pg_cron job |
+| Lane `portal-search-embed` (coverage-lane-dispatch) | Tops the embedding queue up by `enqueue_chunk` and starts the worker mode only when jobs wait; no pg_cron job |
 | Trigger on `search.course_documents` | Re-queues a course whenever its semantic text changes (a description or career outcome admitted and projected) |
-| Edge function `portal-search-embed` | Embeds courses in batches and typed topics on demand with `openai/text-embedding-3-small` (1536 dimensions) through OpenRouter, provider data collection denied; spend logged as `portal_search_embedding` |
+| Worker mode `portal_search_embed` (coverage-sweep v1.0.46) | Embeds courses in batches and typed topics on demand with `openai/text-embedding-3-small` (1536 dimensions) through OpenRouter, provider data collection denied; spend logged as `portal_search_embedding` |
 
 **How words become filters (Stage 1).** Country (live countries that have courses; intersected with the Study in choice), state (live subdivisions, and Australian short codes such as VIC), campus city (live campus table). A city also matches campuses whose postcode lies mostly in that city's ABS urban area (`destination.abs_postcode_sua_shares`, read only), because campus cities are usually suburbs and no campus has coordinates: "Melbourne" finds ACU Fitzroy and IHM North Melbourne. Study level (live level codes; "Master" covers every masters code). Budget ("under $40,000", "40k"), compared with the provider's annual tuition in the budget's currency. Intake and English score are not parsed in Release 1.
 
@@ -253,7 +253,7 @@ Added 25 Nov 2026 by S2-Build (Platform Admin 17:13). Built to the "Course searc
 
 **Relaxation.** When fewer than `relax_min_matches` (3) courses match: the suggested budget is the third-cheapest course matching everything else, plus `relax_budget_headroom_pct` (5%), rounded up to `relax_budget_round_to` (A$1,000), and is offered only within `relax_budget_max_raise_pct` (30%); "Remove the budget" is always offered; a city can be widened to its state. Near misses say what they miss ("A$9,672 over budget"). Nothing is applied until the person chooses it (`removed`, `relax`).
 
-**Settings (toolset `portal_search`, 15 rows, Settings › Toolsets & limits):** `result_page_size` 20, `relax_min_matches` 3, `relax_budget_headroom_pct` 5, `relax_budget_round_to` 1000, `relax_budget_max_raise_pct` 30, `city_postcode_min_share` 0.5, `topic_min_similarity` 0.35, `query_cache_hours` 24, `query_embed_daily_max` 5000, `embed_batch` 150, `enqueue_chunk` 1500, `embed_daily_ceiling_usd` 1, `embed_usd_per_mtok` 0.02, `embedding_model` openai/text-embedding-3-small, `visibility_scope` active.
+**Settings (toolset `portal_search`, 15 rows, Settings › Toolsets & limits):** `result_page_size` 20, `relax_min_matches` 3, `relax_budget_headroom_pct` 5, `relax_budget_round_to` 1000, `relax_budget_max_raise_pct` 30, `city_postcode_min_share` 0.5, `topic_min_similarity` 0.35, `query_cache_hours` 24, `query_embed_daily_max` 5000, `embed_batch` 25 (150 timed out once the vector index passed about 21,000 rows), `enqueue_chunk` 1500, `embed_daily_ceiling_usd` 1, `embed_usd_per_mtok` 0.02, `embedding_model` openai/text-embedding-3-small, `visibility_scope` active.
 
 **Rehearsed on live data (rolled back):** "Bachelor of Nursing in Melbourne under $40,000 per year": ACU Fitzroy (A$39,672) and IHM North Melbourne (A$20,000) first. At $30,000: 2 exact matches, near misses at A$9,672 over, "Remove the budget" (50 courses) and "Widen Melbourne to Victoria"; the A$42,000 suggestion is beyond the 30% cap so it is not offered. "Master of Data Science with internship in Sydney or Brisbane": QUT, CDU, Sydney, UTS and Western Sydney data science masters.
 
