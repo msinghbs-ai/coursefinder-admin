@@ -46,6 +46,7 @@
 | 25 Nov 22:45 | Scope decision recorded (published providers only) | S2-Build | n/a | [#1110](https://github.com/msinghbs-ai/coursefinder-admin/pull/1110) | Done |
 | 26 Nov 00:15 | s1180 hotfix: "Master of Nursing in Victoria" failed once its phrase vector was cached; the ranker's meaning branch had an ambiguous `course_id` (42702). Migration `20261128075000` | S2-Build | [#1633](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1633) | [#1113](https://github.com/msinghbs-ai/coursefinder-admin/pull/1113), [#1116](https://github.com/msinghbs-ai/coursefinder-admin/pull/1116) | Live |
 | 26 Nov 05:10 | s1181 hardening: search timed out (57014, limit 8 s) in the filter step, which read every candidate course's vector (10 to 15 s). Fix: typed text folded one way; malformed fields ignored; the vector index searched once, words through the text index, ranking fused over the matches; city matching in one query; empty searches answer at once; grad dip and grad cert as levels; 3 new settings. Migration `20261128105000` | S2-Build | [#1637](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1637) | [#1121](https://github.com/msinghbs-ai/coursefinder-admin/pull/1121), live record (this checkpoint) | Live; read back as a Counsellor: every spelling 21 courses in about 0.55 s |
+| 26 Nov 07:15 | s1200 to s1202 Release 2 screens: Proposals list, proposal editor (reorder, notes, soft-lock and conflict handling), live refresh difference (Accept all / Keep my version), and the two-page student sheet with Save as PDF / Print from browser print CSS. Built against the contract in the design document; the `portal_proposal_*_v1` functions are not live yet, so the screens show "not switched on yet". No migration | S1-API-Frontend-Delivery | Pilot (this change) | this change | Built; waiting for the functions |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -62,12 +63,14 @@
 | Item | Owner | Blocks |
 | :---- | :---- | :---- |
 | Connect `portal.studysearch.ai` to the Worker, and add its Supabase redirect URL | Platform Admin | Production address (UAT runs on `*.workers.dev`) |
-| Confirm Browser Rendering on the free Cloudflare plan | Platform Admin / S1-API-Frontend-Delivery | Proposal PDFs (not in Release 1) |
+| Confirm Browser Rendering on the free Cloudflare plan | Closed 26 Nov: not needed. The student sheet uses the browser's own print, so no Browser Rendering quota is used | n/a |
 | Retention period and privacy notice wording | Platform Admin | Proposals (not in Release 1) |
 | City filter on Universities & Providers; "only with scholarships" | Data lanes (function change first) | Release 1 screen gaps listed in the design document |
 | Scholarship intake wording is mixed ("Feb 2027", "February 2027") | Scholarships data lane | Clean intake filter |
 | Career outcome rows | Course data lanes | Outcome matching (wired automatically as rows admit) |
 | Google Docs connector in these sessions | Platform Admin (optional) | Updating this document in place with one link |
+| Deploy `portal_proposal_list_v1`, `_get_v1`, `_save_v1`, `_refresh_v1` and the proposal tables to the contract in the design document ("Release 2 contract: student proposals"), with the limits and soft-lock window as settings | S1-Build | Every Release 2 screen (they show "not switched on yet" until then). On deploy, repeat the checks signed in as a Counsellor: create, reorder, save, conflict, refresh, print |
+| Retention period and privacy notice wording for proposals (already listed above, now needed before real students are entered) | Platform Admin | Using Proposals with real student data |
 | Leftover Pilot branch `s2-s1170-portal-hybrid-fix` (no PR); the session proxy refuses branch deletion (HTTP 403) | Any session with delete rights | Housekeeping only |
 
 ## 6. Open issues seen during UAT
@@ -89,3 +92,4 @@ S2-Build: act on anything the repeat finds. Then record the acceptance here, or 
 - 26 Nov 2026 05:45 AEDT, S2-Build: s1181 live (Pilot #1637); read back as a signed-in Counsellor: every spelling of "Master of Nursing in Victoria" returns the same 21 courses in about 0.55 s; G3, locks and cron unchanged; US$0. Drive mirror replaced.
 - 26 Nov 2026 05:10 AEDT, S2-Build: s1181 finished and rehearsed (30 messy inputs, 0.03 to 1.55 s; 20 malformed request shapes; no error), recorded before merge.
 - 26 Nov 2026 04:20 AEDT, S2-Build: document created at the Platform Admin's request (03:59). Release 1 live; s1180 live; s1181 built and rehearsed.
+- 26 Nov 2026 07:15 AEDT, S1-API-Frontend-Delivery: Release 2 screens built (Pilot s1200 to s1202) and checked at 1280 px and 412 px; the contract the screens call is in the design document. The functions are S1-Build's to deploy. Read back before the PR: G3 75/48 no drift, locks 7,585, cron 138, US$0, no `portal_proposal_*` function live yet.

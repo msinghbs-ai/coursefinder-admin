@@ -261,3 +261,44 @@ Added 25 Nov 2026 by S2-Build (Platform Admin 17:13). Built to the "Course searc
 
 **Known limits.** 1,690 of the 36,052 active courses have no search document, because the shared document builder leaves out the courses of unpublished or archived providers (v2.15.236, Feature 4); there are 261 such providers. The portal does not search them, and they have no vector. Backfill finished 25 Nov 2026 20:27 AEDT: 34,362 of 34,362 documents embedded, 2,577,857 tokens, US$0.051567. Platform Admin decision, 25 Nov 2026 22:43 AEDT: the portal keeps this published-provider scope; a provider's courses enter the index automatically when it is published. The builder is unchanged, so website search and the frozen Zoho candidates are unaffected. Topic words also match provider names held in the search text (a provider called "... Nursing School" matches "nursing").
 
+## Release 2 contract: student proposals (S1-API-Frontend-Delivery, 26 Nov 2026 07:15 AEDT)
+
+The screens were built before the database functions, so this is the contract the screens call. `S1-Build` deploys functions that match it. Any difference is a change to one file, `portal/src/lib/proposalApi.js` (and the helpers in `portal/src/lib/proposals.js`), not to the screens. Every function takes one `p_args jsonb`, is a public SECURITY DEFINER function that checks the caller's role rank (Counsellor, rank 2 or above) and returns an error, not rows, for a Viewer. Until the functions exist each screen shows "Proposals are not switched on yet."
+
+**Rules the screens already follow**
+
+- A proposal holds a **student reference**, a **given name** and **one family initial**. No full family name, phone, email, passport or date of birth is asked for or sent. The reference is assigned by the server when blank.
+- The screens send only course ids, positions, the counsellor's "why this course" lines, steps, documents and the two note fields. **The server builds and owns the course snapshots** (fees, intakes, entry, English, scholarships) and the version history. The screens never send a snapshot.
+- Every limit (courses per proposal, message length, note length, "why" length) and the soft-lock window are server settings returned by `portal_proposal_get_v1`. The screens hold no number for any of them (G2). Settings go in `pipeline.platform_toolset_settings` with a label, range, unit and `used_by` line.
+- Statuses: `draft`, `ready`, `sent`, `accepted`, `archived`. `ready` is new in the build ("Mark ready to send"); the first plan listed Draft, Sent, Accepted and Archived. If `ready` is not wanted, the status button is one line in `ProposalEditor.jsx`.
+- The counsellor note (`internal_note`) is stored with the proposal and **never reaches the sheet**. The sheet reads only the saved proposal; the print rules hide the shell.
+
+**Functions**
+
+| Function | Arguments | Returns |
+| :---- | :---- | :---- |
+| `portal_proposal_list_v1` | `scope` (`mine` or `team`), `status` (`''`, `draft`, `needs_refresh`, `sent`, `archived`), `q` (student name or reference), `page` | `{items, total, page, page_size, facets:{counts:{mine, team}, needs_refresh_count}}`. An item: `id, title, status, needs_refresh, version, student{ref, given_name, source_country_name, qualification, result_text, english_text, preferred_intake}, courses[{course_id, title, provider_name}], change_note, updated_at, updated_by_name, updated_by_me, details_checked_at, last_pdf_version` |
+| `portal_proposal_get_v1` | `id`, or `null` for a new proposal | `{proposal, defaults{steps, documents} (new only), limits{courses_max, message_max_chars, note_max_chars, why_max_chars}, others_recent[{name, opened_at}], soft_lock_minutes, counsellor{name, title, email, phone, office}}`. `others_recent` is already filtered to the soft-lock window (15 minutes by setting); the screens show whoever the server returns |
+| `portal_proposal_save_v1` | `id` (null to create), `base_version`, `force`, `proposal` (title, status, student, courses[{course_id, position, why}], steps, documents, message_to_student, internal_note), `note`, `duplicate_of` | `{status:'saved', id, version, proposal}`, or `{status:'saved_after_other_edit', current_version, by_name, saved_at, changes[{label}], proposal}` when someone else saved after `base_version` (nothing is written unless `force` is true) |
+| `portal_proposal_refresh_v1` | `id`, `base_version`, `decision` (`accept`, `keep`, or absent) | Absent: `{checked_at, built_at, changes[{course_id, course_title, provider_name, field, label, from_text, to_text}]}` and nothing changes. `accept`: `{status:'saved'` or `'saved_after_other_edit', proposal}`, a new version with the live values. `keep`: `{status:'kept', checked_at}`, no new version, the notice is cleared until the next change |
+
+**Behaviour the server owns**
+
+- Each save is a new version (`versions[{version, at, by_name, note}]`); a save by someone else is never overwritten without `force`.
+- `needs_refresh` is true when the live catalogue differs from the saved snapshots in a fee, an intake or availability. A refresh never changes a proposal on its own.
+- A counsellor can open and edit any proposal on the team (Platform Admin decision, 25 Nov). The list shows who saved last.
+- Retention and the privacy notice wording are still the Platform Admin's decisions (see the build document, Outstanding dependencies).
+
+## Release 2 screens as built (Pilot s1200 to s1202, 26 Nov 2026)
+
+All three screens are Counsellor-only (a Viewer sees "Proposals are for Counsellors" and no function is called). They sit under the new **Proposals** menu item, after Courses. No migration, setting, consumer API, edge function or Admin screen was changed.
+
+| Screen | Route | What it does |
+| :---- | :---- | :---- |
+| Proposals | `#/proposals` | Mine and Whole team tabs with counts, search by student name or reference, filters (All, Drafts, Needs refresh, Sent, Archived), a "built on details that have since changed" notice, and a card per proposal with status, student facts, course chips, what changed, who saved last and when, and Open, Refresh, Duplicate and PDF. Server-paged |
+| Proposal editor | `#/proposals/new`, `#/proposals/:id` | Student block (minimal fields), courses with move up, move down, remove and a "why this course" line, "+ Add from saved courses", next steps, documents, a message to the student (printed) and counsellor notes (never printed), version history, Archive, and a save bar. Refresh from live data opens the difference list with Accept all changes and Keep my version, and says "Nothing changes in the PDF until you choose". It warns before leaving with unsaved changes |
+| Student sheet | `#/proposals/:id/sheet` | Two A4 pages: study options side by side with fees, length, next intake, entry, English and scholarship, then next steps, documents, dates and the counsellor's details. **Save as PDF / Print** opens the browser's print window; no server renders anything, so no Cloudflare Browser Rendering quota is used and it works on desktop and phone. A missing fee or date says "Confirm with the provider", never a made-up figure |
+
+Starting a proposal: **Saved courses** has "Create a proposal from the N ticked" (or all saved), and **Courses** has "+ Add to proposal" on each card; both fill a small session basket that the new proposal reads. A save the same moment another counsellor saves shows what they changed with "Use their version" and "Keep mine and save".
+
+Checked on 26 Nov 2026 with the live screens against a mocked contract (the functions do not exist yet): desktop 1280 px and phone 412 px with no sideways scroll, every tap target 44 px or more on the phone, print preview exactly two A4 pages with the internal note and the shell absent, new, duplicate, conflict, up to date, keep, accept, missing-function and Viewer paths. Guards: `s1200` (helpers), `s1201` (sheet privacy and print), `s1202` (screen wiring, no hard-coded limits, no secrets). Live read-back before the PR: G3 75 functions and 48 relations, no drift; 7,585 manual locks; 138 active cron jobs; US$0.
