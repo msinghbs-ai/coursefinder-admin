@@ -1,0 +1,167 @@
+<!-- Mirror of the Google Doc "StudySearch Portal - design decisions and plan" (M3 > Portal, id 1G67VeSMpwsTLCQjo0cP13XWa_beLfKwh7iVB5m3tSbo), mirrored 25 Nov 2026 by S1-API-Frontend-Delivery. This file is the source of truth once merged; the Drive copy is a mirror. Mockups 01 to 24 stay in Drive (M3 > Portal > Mockups). -->
+
+> **Lane (Platform Admin brief, 25 Nov 2026 12:47 AEDT):** the Portal is Lane 1 work, `S1-API-Frontend-Delivery`, Release 1: read-only Portal, hybrid search and saved shortlists, first on the Worker's default `*.workers.dev` address. `portal.studysearch.ai` is connected later by the Platform Admin. The existing Admin Worker's build settings and watch paths are not touched. The search function `catalogue.portal_course_search_v1` is built by `S1-Build` (additive; G3 untouched).
+>
+> **Course visibility (Platform Admin, 25 Nov 2026 12:26 AEDT):** the full course search covers all active courses for now, because the published switch is not active yet (`portal_search.visibility_scope = active`). Providers and scholarships show published records only.
+
+# StudySearch Portal: design decisions and plan
+Prepared 25 Nov 2026 for the Platform Admin. Status: design only. Nothing has been built, deployed or migrated. This work still needs a lane assigned in the Continuous Delivery master plan before any build starts.
+
+## Executive summary
+Counsellors and Viewers get their own StudySearch Portal at **portal.studysearch.ai**, a separate Cloudflare Worker from the Admin UI, built from the same Pilot repository. Admin keeps managing users and roles; the portal only reads them. The portal opens on a Dashboard that greets the user by name and role and lets them resume where they left off. Counsellors can also build, edit, refresh and export student proposals as a PDF. Viewers can browse but cannot save courses or see proposals.  
+The free Cloudflare plan works for the portal, with two constraints that shape the design: one build at a time across the account, and 10 minutes a day of server-side browser time for PDFs. The design handles both (path-limited builds, and an automatic fall-back to browser print).
+
+## Decisions
+| Topic | Decision | Why |
+| :---- | :---- | :---- |
+| Address | portal.studysearch.ai, its own Worker | Separate from Admin so a portal release can never disturb Admin, and the reverse. |
+| Repository | Same Pilot repo, a second Worker with its own root directory and watch paths | Shares the Supabase client, themes, lookups and Counsellor screens. Cloudflare Workers Builds supports connecting one repo to several Workers. |
+| Users and roles | Managed only in Admin (Users and Roles). Same Supabase project and user pool. | One place to grant or remove access. The portal never writes roles. |
+| Who can use the portal | Counsellor (rank 2\) and above. Viewer (rank 1\) sees courses, providers and scholarships only. | Matches the Admin role descriptions. |
+| Viewers | Cannot save courses or view proposals | Platform Admin decision, 25 Nov 10:37. |
+| Student record | Reference (for example SS-000142), given name and family initial only | Enough to find and recognise a student. No full name, phone, email or passport number is held, which keeps privacy exposure low. |
+| Proposal visibility | Every Counsellor and above sees every proposal (all counsellors treated as one team for now) | Platform Admin direction, 25 Nov 10:45. Row-level security is written so a partner-visibility rule can be added later without a rebuild. |
+| Editing someone else's proposal | Allowed. Every save is a new version naming the editor. A soft note warns when someone else has it open or saved after you opened it. | Counsellors cover for each other. Versions mean nothing is lost. |
+| Deleting | Proposals are archived, not deleted. Privacy deletions are done by a Platform Admin. | Matches the platform rule that no applied migration deletes data. |
+| PDF | Made on the server with Cloudflare Browser Rendering; automatic fall-back to browser print when the free daily allowance is used up | Server PDFs look the same for every counsellor. Free-plan allowance is small, so a fall-back is built in. |
+
+## Proposal lifecycle and refresh
+> * Create a proposal from a shortlist: pick the student, choose courses, add next steps and student-facing notes, and an internal team note that never appears in the PDF.  
+> * Statuses: Draft, Sent, Accepted, Archived.  
+> * Refresh compares each saved course to the live catalogue (fees, intakes, availability). The counsellor sees a difference list and chooses Accept all or Keep my version. Refresh never changes a proposal on its own.  
+> * The PDF holds the student reference and given name, the chosen courses with fees and intakes, next steps, and the student-facing notes. It excludes the team note, internal data-quality flags and other students.
+
+## Cloudflare findings (free plan)
+| Area | What the Cloudflare documentation says | Effect on this design |
+| :---- | :---- | :---- |
+| Builds | Free: 3,000 build minutes a month, 1 concurrent build, 20-minute timeout. Paid: 6,000 minutes and 6 concurrent builds. Concurrency is counted across the account. | Admin and portal builds queue behind each other. Watch paths keep a portal-only change from also rebuilding Admin. |
+| Two Workers, one repo | Connect the repo to each Worker, set a root directory per Worker (where its Wrangler config sits), optional per-Worker build and deploy commands, and optional build watch paths so a Worker builds only when its paths change. | Supported. Portal gets its own directory, config, commands and watch paths. |
+| Not stated in the docs | Whether the config file name must match the Worker name, and whether a non-default config file name is supported. | Test with a throwaway Worker before relying on either. Fallback: a portal config in its own directory with the default file name. |
+| Workers runtime | Free: 100,000 requests a day, 10 ms CPU a request, 50 subrequests, 100 Workers an account. | Fine for a counsellor team. The Worker only serves the app and fetches proposal data with the user's own sign-in; the heavy PDF work is in the browser service. |
+| Browser Rendering | Free: 10 minutes of browser time a day, 3 concurrent browsers. The docs do not say whether the Workers binding is available on Free. | Roughly dozens of PDFs a day, assuming about 10 seconds each (an assumption, to be measured). Check the binding on Free before Phase 5; if it is unavailable, PDFs are browser-print only until the plan is upgraded. |
+
+One governance point: an admin runbook records the Admin Worker as a GitHub-connected Workers Builds deploy (main, npm run build, npx wrangler deploy) with the note "Do not reconfigure Cloudflare". Setting watch paths on the existing Admin Worker is a change to it, so the Platform Admin needs to approve that one setting. A Pilot repo marker file also mentions a past paid-plan retry; this plan assumes the Free plan as the Platform Admin stated.
+
+## Phases and estimated hours
+| Phase | Scope | Hours |
+| :---- | :---- | :---- |
+| 0 | Decisions, lane assignment, Cloudflare test with a throwaway Worker | 8 to 16 |
+| 1 | Worker, domain, sign-in, role gate, security headers, deploy | 24 to 40 |
+| 2 | Dashboard, last visited, name and role greeting, themes | 16 to 24 |
+| 3 | Courses and Providers refresh (progressive filters, source country, sort) | 40 to 60 |
+| 4 | Proposal tables, access rules, versions | 40 to 60 |
+| 5 | Student PDF | 24 to 32 |
+| 6 | Refresh and compare | 24 to 40 |
+| 7 | Cutover, tests, documents | 16 to 24 |
+| **Total** |  | **192 to 296** |
+
+## Risks and hidden effort
+> * Sign-in: invite and reset emails currently open the Admin sign-in. The portal needs its own redirect URL allowed in Supabase Auth and clear wording for counsellors.  
+> * Build queue: one concurrent build on Free means a portal build and an Admin build wait for each other.  
+> * PDF allowance: a busy day could exhaust 10 browser-minutes. Fall-back to browser print is part of the build, not an extra.  
+> * Fonts: server PDFs must load their fonts at render time.  
+> * Privacy: even a first name and initial is personal information. A privacy notice and an agreed retention period are needed before real use.  
+> * Partner counsellors: all counsellors see every proposal for now. If partners are added later, visibility rules and a data review are needed.  
+> * Frozen consumer API (G3): the portal only adds new objects and never changes the website or Zoho surface.
+
+## Governance checklist before any build
+> * A Platform Admin assigns this work a lane in the Continuous Delivery master plan; the lane's status table and log are updated in the same admin PR.  
+> * Platform Admin approves any change to the existing Admin Worker's build settings.  
+> * New portal API key registered per standing rule s935 (one key per consumer and version).  
+> * Migration pre-flight, rehearsal, then the live-dry-run label; every number in a G2 setting; every new table commented; each spec starts with "Guards:".  
+> * Admin repo documents updated in the same release cycle (design document, UI map, SOP mirror, test register, component register, CURRENT-STATE).
+
+## Open items
+> * Confirm whether the Browser Rendering binding works on the Free plan.  
+> * Confirm the config file naming rules with a throwaway Worker.  
+> * Agree retention and the privacy notice wording.  
+> * Mirror this plan into docs/platform in the admin repository once a lane is assigned in CONTINUOUS-DELIVERY-MASTER-PLAN.md. Not done yet.
+
+## Plain-English course search (hybrid pgvector)
+Added 25 Nov 2026 from the pgvector brief. Design only: nothing has been built, migrated or deployed, and a Platform Admin still needs to assign a lane before any build. Screens 21 to 24 in the Mockups folder show the flow. Match scores on those screens are illustrative, because no course has an embedding yet.
+
+### What the user sees
+* Dashboard (screen 21): a large search bar under the greeting, with example prompts as chips, recent searches and the Counsellor quick actions. A Viewer sees the same bar with read-only actions. Searching opens Courses with the query carried across.  
+* Results (screen 22): the query "Master of Data Science with internship in Sydney or Brisbane" turns into removable chips for Australia, Sydney / Brisbane and Master, plus one topic chip for Data Science and internship. Each course card shows a match badge with the reason, 2026 and 2027 annual and total fees, open intake pills, Save and Add to Proposal.  
+* No exact match (screen 23): for "Bachelor of Nursing in Melbourne under $40,000 per year", a banner says no course matched exactly and offers one click to raise the budget to A$49,000, widen Melbourne to Victoria, or remove the budget. Near-miss nursing courses at A$42,000 to A$45,800 a year are listed underneath, each marked as a near miss.  
+* Phone (screen 24): at 412 px the chips stack and can be removed one by one, and the result cards run in a single column with the same match badges.  
+* Wording on screen is plain: "Understood as" for the parsed chips and "Topic match" for the meaning-based part. The words pgvector and embedding never appear.
+
+### Embedding pipeline
+* Reuse what is already live. The search schema already holds search.course_embeddings (vector(1536), HNSW index on cosine distance, 0 rows), search.embedding_jobs and search.query_embedding_cache (both 0 rows), and the fusion profiles website-default and zoho-default. pgvector 0.8.2 and pg_trgm are installed. No second embedding table or index is created.  
+* Text embedded per course: title and field of education for all 36,052 active courses, even where enrichment_semantic_text is still empty. Description text is added where held, and a course is queued again automatically when a description or career outcome is admitted. Career outcomes are wired in as those rows admit; there is no course-level source today.  
+* One-time backfill across the 36,052 active courses with text-embedding-3-small (1536 dimensions, matching search.course_embeddings), pinned in portal_search.embedding_model with provider data collection denied. The cost is about US$0.20 and counts against the US$5.00 a day cap.  
+* Incremental updates: when a description or outcome is admitted, a trigger adds the course to search.embedding_jobs and the existing queue processes it. No new pg_cron job is added; active jobs are at 140, which is the ceiling.  
+* Query embedding: SQL cannot call the model, so an edge function or the portal Worker embeds the typed query (cached in search.query_embedding_cache) and passes the vector to the search function.
+
+### Two-stage search function
+The function is named catalogue.portal_course_search_v1 in the brief. The API gateway serves only the public schema (s951), so a thin public entry point is added if the portal reads through it. Both are new and read-only. Stage 1 turns the typed words into filters and chips:
+
+| Phrase in the query | Becomes | Valid values come from |
+| :---- | :---- | :---- |
+| Country | Country filter | Live ref country table |
+| City or state | Campus city or subdivision filter | catalogue.campuses and subdivision codes, with city names normalised for case |
+| Study level | Study level filter (Bachelor, Master and so on) | Live ref study levels |
+| Maximum annual tuition | Annual fee at or under the amount, for the chosen fee year | provider_annual_tuition_amount, and course_fees where the year matters |
+| Intake | Intake month or year filter | Course intake rows (active only), rolling years |
+| IELTS or PTE score | English requirement at or under the score given | Course English requirements, where held |
+
+Stage 2 ranks the courses that pass Stage 1:
+
+* The remaining words are matched by cosine similarity to the course embeddings, combined with full-text rank as search.course_candidates_v1 already does (reciprocal rank fusion, k \= 60). The existing function is called, not changed.  
+* A course with no embedding is ranked by trigram and full-text match instead, so nothing drops out of results while the backfill runs.  
+* If fewer than 3 courses match exactly, relaxed passes run: the budget first, then the location. The function returns the exact matches, the near misses (each flagged with the filter it misses) and a relaxation block naming what changed, the suggested value and how many courses it would return. Filters are never relaxed silently; the original chips stay visible.  
+* The suggested budget is the fee of the third-cheapest otherwise matching course, plus 5%, rounded up to the nearest A$1,000. For the sample nursing courses on screen 23 (third-cheapest fee A$45,800) that is A$49,000.
+
+Settings follow G2 and are read with security.pipeline_num_v1 or the toolset reader. Names and defaults are proposed and are confirmed at build:
+
+| Setting (proposed key) | Proposed default | What it controls |
+| :---- | :---- | :---- |
+| portal_search.relax_min_matches | 3 | Relaxation starts when fewer exact matches than this |
+| portal_search.relax_budget_round_to | 1000 (A$) | Step the suggested budget is rounded up to |
+| portal_search.relax_budget_headroom_pct | 5 | Percentage added to the third-cheapest matching fee before rounding |
+| portal_search.relax_budget_max_raise_pct | 30 | Largest budget raise offered; beyond it only Remove the budget is offered |
+| portal_search.result_page_size | 20 | Courses returned per page |
+| portal_search.embedding_model | text-embedding-3-small | Model used for course and query vectors; changed only with a reason and a re-embed |
+| portal_search.query_cache_hours | 24 | How long a typed query's vector is reused |
+| portal_search.visibility_scope | active | Which courses are searched: active (all active courses) or published (published courses only). Set to published once publishing is live |
+
+### Guardrails
+* Strictly additive: one new function (and its public entry point), plus rows in existing settings tables. Nothing existing is altered or dropped, and the search schema is only read.  
+* The consumer API stays frozen: 75 functions and 48 relations untouched, with the consumer-api guard run before merge.  
+* The 7,585 manual locks are not touched. Search only reads.  
+* Active cron jobs stay at 140 or below. This design adds none.  
+* Model calls use a pinned, individually qualified model with provider data collection denied. Course page text is treated as untrusted. Spend is logged against the US$5.00 daily cap.  
+* Migration pre-flight and a rolled-back live dry run before merge, a spec headed with its Guards line, and the admin repository documents (design, SOP mirror, UI map, test register, current state) updated in the same release.  
+* Per the standing mandate, it goes live as soon as the backfill has finished, with no shadow period unless the Platform Admin asks for one.
+
+### Checked against live data on 25 Nov 2026
+* No course has an embedding yet, so every match score on screens 21 to 24 is illustrative.  
+* "Internship" is not stated in the stored text of the sample data science courses. The card therefore says "internship not stated in the course text" instead of claiming a match, and a real internship filter needs a source for it.  
+* The zero-match nursing example is a demonstration. On live data two Melbourne nursing courses are under A$40,000 (Institute of Health and Management, North Melbourne, A$20,000; Australian Catholic University, Fitzroy, A$39,672). The relaxation panel would still appear, because fewer than 3 courses match.  
+* Some courses have no fee year or intake year set. The card shows "year not set" rather than guessing.  
+* course_documents holds 34,362 rows, 25,558 with semantic text, against 36,052 active courses. The difference is checked before the backfill.  
+* Parser vocabulary (cities, states, study levels, countries) is read from the live ref and campus tables, and fee and intake years roll with the calendar, as the dynamic-lookups rule (s930) requires.  
+* The published switch is not active yet: 10 of the 36,052 active courses are published. Search therefore covers all active courses for now. Before visibility_scope is set to published, the source of the provider publish state is confirmed, because it was not found as a catalogue column.
+
+### Estimated hours
+Separate from the 192 to 296 hours in the phases above. These are estimates, not quotes.
+
+* Embedding pipeline and backfill: 12 to 20  
+* Query parser and live lookups: 16 to 24  
+* Search function, relaxation and settings: 20 to 32  
+* Portal screens (dashboard search, results, relaxation, phone): 16 to 24  
+* Tests, security review and documents: 8 to 12  
+* Total: 72 to 112
+
+### Decisions confirmed 25 Nov 2026
+* Embedding model: text-embedding-3-small, 1536 dimensions, pinned in portal_search.embedding_model.  
+* Consumer API: catalogue.portal_course_search_v1 and its public entry point are strictly additive and are checked against the G3 guard (75 functions and 48 relations untouched) before merge.  
+* Career outcomes and internships: Release 1 matches on title, field of education and existing descriptions, and never infers an internship the text does not state. Career outcomes are wired in automatically as those rows admit.  
+* Visibility: for now Counsellors and Viewers search all active courses (36,052), because the published switch is not active yet. The setting portal_search.visibility_scope moves the search to published courses only once publishing is live. Inactive, suspended and unknown-status courses are never searched.
+
+## Contents of this folder
+> * Combined mock-up PDF: not included. It was over the Drive connector's size limit, so only the individual images below were uploaded.  
+> * Mockups folder: all 24 screens as individual images (courses in five colour themes, Dashboard for Counsellor and Viewer, Proposals, Proposal editor, the two PDF pages, Saved, Providers, Scholarships, phone views, architecture, and the four plain-English search screens 21 to 24).  
+> * Live design canvas (editable): https\://claude.ai/artifact/Se7Yzvcd4Uq6NDzpYeWzNi  
+> * DRAFT-portal-proposals-schema.sql: reference only, not applied.
