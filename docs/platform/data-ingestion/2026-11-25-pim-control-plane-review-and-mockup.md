@@ -12,6 +12,8 @@
 
 > **Corrected 25 Nov 2026 19:10 AEDT (Platform Admin, 18:25).** Accepted in principle with ten corrections. The final position is section 6 of `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md` and F-OPS.13 to F-OPS.20; where this review differs, that section wins. Superseded here: the matrix on Coverage & completeness (it sits in the existing Data Delivery panel on Layer 2/3 Build & enrich › Operations); Layer 4 decisions at Curator and "Approve group" (academic entry decisions are the Platform Admin's; no grouped approval); Qualify at Pipeline Operator (qualification is the Platform Admin's; routes, caps and switches the PIM Admin's); cost per admission from estimated cost and recall (actual spend ÷ retained verified canonical outcomes); the supersession check as the main safeguard (a guard before replacement comes first); Firecrawl at 5 credits a day (the live scheduled budget is 1,500 a day since 24 Nov). The mockup has been updated to match.
 
+> **Closed 25 Nov 2026 18:42 AEDT.** The design is approved and the consultation closed. The final record, decisions D1 to D7, ownership and the development entry point are in Master Plan section 6. This document is background only.
+
 ## 1. Independent feedback on the architecture
 
 **Will it meet the objective?** Yes in shape, with five conditions. The umbrella design is right that the missing piece is the closed loop, and right to extend the existing planner. The conditions below are where it would otherwise fall short.
@@ -222,3 +224,4 @@ These add to the umbrella's ten scenarios and map to existing Feature Acceptance
 |---|---|---|
 | 0.1 | 25 Nov 2026 17:15 AEDT | First issue, with the mockup (chat "StudySearch requirements register") |
 | 0.2 | 25 Nov 2026 19:10 AEDT | Correction note added; final consolidation moved to the Master Plan (section 6) and Feature Acceptance (F-OPS.13 to .20); mockup updated |
+| 0.3 | 25 Nov 2026 19:40 AEDT | Closure note; final record is Master Plan section 6; mockup v3 |
