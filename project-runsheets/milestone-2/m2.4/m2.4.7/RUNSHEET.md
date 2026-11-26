@@ -328,6 +328,26 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 11:00 AEDT: s1211 portal course search latency claimed and recorded before merge (migration `20261129040000`, branch `s2-s1211-portal-search-latency`); Atlas brief 09:30 (Platform Admin UAT: search slow).**
+- **Measured live (rolled back), each step timed inside the search:**
+  - UAT calls at 08:45 took 0.3 to 3.9 s.
+  - A first search on a new database session took 1.96 s; the same search warm took 0.13 s.
+  - 1.94 s of that was the meaning step reading the 255 MB full-vector index from disk (about 2,000 blocks; shared memory is 1 GB).
+  - A city search read every course campus three times (55,922 rows each) and every course (44,743).
+  - Only one typed phrase was cached, because meanings were kept for 24 hours.
+  - A phrase not yet embedded never waits: its vector is fetched in the background (about 1 s), and that search ranks by words.
+- **Fix:**
+  - A 16 MB one-bit meaning index (`search.course_embeddings_bq_hnsw_idx`) gives 300 candidates, which are scored exactly (new setting `portal_search.topic_vector_candidates`).
+  - City and filter steps read the topic's courses by key; countries and levels come through their indexes.
+  - `portal_search.query_cache_hours` goes from 24 to 720, and each use renews a cached phrase.
+  - The Dashboard example searches are a setting (`portal_search.prewarm_phrases`, held equal to EXAMPLE_PROMPTS by spec s1211) and are pre-warmed when the change is applied.
+- **Rehearsed against s1181:** same totals, chips and near misses on every phrase.
+  - Master of Nursing in Victoria: 0.16 s (s1181 1.52 s cold).
+  - City searches: 0.2 to 0.48 s (s1181 0.38 to 1.05 s).
+  - First search on a new session: 0.27 s.
+  - The whole migration runs in 38 s.
+- G3 75/48 untouched; locks 7,585; no cron added; spend is US$0.00 (pre-warm about 20 tokens, under US$0.000001). The full-vector index stays, because `search.course_candidates_v1` reads it.
+
 **S2-Build, 26 Nov 2026 09:00 AEDT: s1210 Portal Release 2 proposals layer live (Pilot #1646, migration `20261129003000`); read back as signed-in Counsellors.**
 - **Live read-back (through the deployed public functions, two real Counsellors, rolled back):**
   - `save` as Counsellor 1 created v1, `SS-000001`, with the server course snapshot (fee held).
