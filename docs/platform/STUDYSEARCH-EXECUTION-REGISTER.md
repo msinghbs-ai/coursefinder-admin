@@ -1467,7 +1467,7 @@ Assignment from SS-Programme-Control (26 Nov 16:28). Decision pack: `docs/platfo
 | F-OPS.18 requests | Open | `pim.requests` has no database source (`not_projected`) |
 | F-OPS.19 permissions | Partly evidenced | Role gate read per role and role-gate tests (Pilot #1663) |
 | F-OPS.20 model and spend | Not verified by S1-Build | — |
-| F-OPS.21 monitoring | Open | s1175 and s1221 delivered workers, stalls, consumer read-back and freshness; requests and phone read-back open |
+| F-OPS.21 monitoring | Open | s1175 and s1221 delivered workers, stalls, consumer read-back and freshness. s1176 (live 26 Nov 22:34) adds every cron job by jobid, every lane, rule and target with state, heartbeat, next run and outcomes; read back signed in at measured 1024 and 412 px. Still open: requests, AER and description consumer read-back |
 
 **PIM go-live is not complete.**
 
@@ -1620,3 +1620,12 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
 - **Group D, misclassified rows (reader limitation, not level).** English-test rows read as academic (CDU English scores, TasTAFE CELPIP and Cambridge, Victoria University exchange). They should not be admitted as academic entry whatever the level.
 - **Outcome.** Admitted by this assignment: 0 rows, 0 providers. Consumer delivery: unchanged (no record recovered, `website_v2_course` and `website_v3_course` untouched). Protected controls: D-R3, Layer 4 decisions, 7,585 locks, G3 75/48 and the cron count were not touched.
 - **Unresolved, exact reason and next action.** Groups A and B: source states no study level; next action is a provider or Platform Admin statement per provider (for example UWA's ATAR table applies to Bachelor), recorded as evidence, then the existing S671 or mapper path takes it. Group D: needs the entry-matrix prompt to separate English-test rows; routed to S1-Build and Platform Admin (AER v1 frozen, no new reader).
+
+## 26 Nov 2026 22:50 AEDT — S1-RM-Design s1176 live and read back (Pilot #1693)
+
+- **Deploy:** run 45811790352 succeeded; head `20261130020000`; live bodies match the file (md5 `8834aabe`, `f6d87f0b`, `7c0bb6da`).
+- **Gate:** the first dry-run gate failed on a lock timeout, because the first version added columns to `pipeline.data_delivery_job_runs`, which the every-minute count holds. Moved to the new table `pipeline.pim_jobs_snapshot`; passed on the next push.
+- **Background count:** the first unattended run was at 22:45:23, 15.6 s, no error, on its own run.
+- **UAT:** signed in as Platform Admin, measured 1024 × 768 and 412 × 915, no sideways scroll; "0 of 136 scheduled jobs" stalled.
+- **Finding:** course sync copies (website and Zoho) hold no academic entry and no course description. The v2 course read serves entry at about 1.5 s per course. Next: a rotating verified sample.
+
