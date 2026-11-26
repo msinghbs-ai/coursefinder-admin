@@ -7,6 +7,14 @@
 - 11 canonical course descriptions matched a limited residual HTML entity pattern in a read-only query. Candidate count, not 11 proved bad descriptions. S1-Build to coordinate shared normalisation/description owners; verify source semantics, preserve literal text and immutable evidence, repair through existing governed admission only, no mass replacement. Read-side s1279 snippet cleanup is not a canonical repair.
 - Generated TEST-REGISTER lacks `cf-247-s1279-portal-card-description-contract` at this check. S1-Build to regenerate with full Pilot runner, review existing lightweight shim matcher coverage (toEqual/toBeLessThan), and coordinate real UAT if outstanding; no manual generated file edit. Zero migrations, production mutations or paid calls by oversight. No new launch dependency.
 
+**S2-RM-Design, 26 Nov 2026 23:05 AEDT (DR-19 slice 3, SS-Programme-Control 22:32): s1282 claimed and rehearsed. Recorded before merge.**
+- **Causes kept apart** under the stable class: account refusal (configured `service_limit` rows), technical failure, insufficient evidence, no source, unproven identity.
+- **Second opinion:** the trace names the existing human-assisted recovery class and reads its stronger-model step live. It is off (`har.ai_escalate_on` = 0) with no pinned model, so no AI second opinion runs. Switching it on is a Platform Admin spend and qualification decision.
+- **Audience:** held entry and fee rows by audience. In the UWA rehearsal, 2 of 40 courses hold only domestic entry rows. The v3 resolver serves no domestic row (0 of 2,607 courses holding them, for an India applicant). The four domestic-labelled requirements in API responses need naming by S2-AER and S1-Build.
+- **Retained strategy:** recovery policy `ai_account_refusal` (defer and recheck, no attempt used).
+- **Budgets:** AI ceiling US$10 a day and paid cap US$5 a day (live settings). The entry route is set at US$1.00 a day but spent US$1.94 today. No US$5.00 AER-only setting exists.
+- **s1277 realised (22:49):** 52 skipped, 2 to Layer 4, 500 waiting, 0 filled.
+- **Guardrails:** G3 75/48, locks 7,585, cron unchanged, no new spend.
 
 **S1-RM-Design, 26 Nov 2026 22:50 AEDT: s1176 slice A live and read back (Pilot #1693 merged; deploy run 45811790352 success; head `20261130020000`).**
 - **Deploy checks:** live bodies of `security.data_delivery_jobs_v1`, `security.pim_operations_v1` and `public.admin_pim_jobs_v1` match the file byte for byte (md5 `8834aabe`, `f6d87f0b`, `7c0bb6da`). Five `pim.jobs_*` settings are present.

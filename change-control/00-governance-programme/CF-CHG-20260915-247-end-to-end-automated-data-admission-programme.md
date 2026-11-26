@@ -178,6 +178,15 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 26 Nov 2026 23:05 AEDT (DR-19 slice 3, SS-Programme-Control 22:32): s1282 claimed and rehearsed. Recorded before merge.**
+- **Causes kept apart** under the stable class: account refusal (configured `service_limit` rows), technical failure, insufficient evidence, no source, unproven identity.
+- **Second opinion:** the trace names the existing human-assisted recovery class and reads its stronger-model step live. It is off (`har.ai_escalate_on` = 0) with no pinned model, so no AI second opinion runs. Switching it on is a Platform Admin spend and qualification decision.
+- **Audience:** held entry and fee rows by audience. In the UWA rehearsal, 2 of 40 courses hold only domestic entry rows. The v3 resolver serves no domestic row (0 of 2,607 courses holding them, for an India applicant). The four domestic-labelled requirements in API responses need naming by S2-AER and S1-Build.
+- **Retained strategy:** recovery policy `ai_account_refusal` (defer and recheck, no attempt used).
+- **Budgets:** AI ceiling US$10 a day and paid cap US$5 a day (live settings). The entry route is set at US$1.00 a day but spent US$1.94 today. No US$5.00 AER-only setting exists.
+- **s1277 realised (22:49):** 52 skipped, 2 to Layer 4, 500 waiting, 0 filled.
+- **Guardrails:** G3 75/48, locks 7,585, cron unchanged, no new spend.
+
 **S2-RM-Design, 26 Nov 2026 22:25 AEDT: DR-19 s1277 live (Pilot #1690, migration `20261130010000`; dry run and test evidence green after one s42 fix: the recovery function is quoted `$function$`).**
 - **Read back live:** the recovery ran at deploy (22:18): 554 items handed back to the existing AI worker (506 descriptions, 45 deadlines, 2 intakes, 1 English) and 554 absences resolved; 0 eligible operational failures left.
 - **Not yet claimed:** at 22:22 all 554 were still `ai`. The measure's `cost_usd` (US$0.23) is the cost already recorded on those items from earlier attempts, not new spend. AI spend today is US$3.11 of the US$5.00 ceiling.
