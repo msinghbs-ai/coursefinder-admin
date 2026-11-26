@@ -1,3 +1,10 @@
+**S2-RM-Design, 26 Nov 2026 23:20 AEDT: DR-19 s1282 live (Pilot #1698, migration `20261130040000`) and read back. s1277 realised gain measured at the field level.**
+- **s1282 live:** the trace returns cause, second opinion and audience; policy `ai_account_refusal` is present; G3 75/48, locks 7,585, cron 135.
+- **s1277 realised (23:13) of 554 handed back:** 5 filled, 109 skipped, 2 sent to Layer 4, 27 being read, 411 waiting. AI spend today is US$3.23 of the US$10.00 ceiling.
+  - All 5 filled descriptions are verified in the catalogue and served by Website v3 matching the catalogue text exactly (`served_and_verified`, `matches_canonical = true`).
+  - The skips are genuine evidence holds (date not in the quote 11, quote not on the page 5, rolling applications 5, sentence count 7). They are insufficient evidence, not account refusals.
+- **Open:** the Platform Admin decision on the human-assisted stronger-model step (off, no pinned model). S2-AER and S1-Build to name the four domestic-labelled requirements by course. S1-Build to check the entry-route spend (US$1.94 against US$1.00) and to make account refusals non-counting in the worker. S1-RM-Design to update the field register's academic_entry producer.
+
 **S2-RM-Design, 26 Nov 2026 23:05 AEDT (DR-19 slice 3, SS-Programme-Control 22:32): s1282 claimed and rehearsed. Recorded before merge.**
 - **Causes kept apart** under the stable class: account refusal (configured `service_limit` rows), technical failure, insufficient evidence, no source, unproven identity.
 - **Second opinion:** the trace names the existing human-assisted recovery class and reads its stronger-model step live. It is off (`har.ai_escalate_on` = 0) with no pinned model, so no AI second opinion runs. Switching it on is a Platform Admin spend and qualification decision.
