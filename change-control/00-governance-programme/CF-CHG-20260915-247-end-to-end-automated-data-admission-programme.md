@@ -178,6 +178,14 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 26 Nov 2026 22:15 AEDT (DR-19 slice 2, SS-Programme-Control 21:36): s1277 claimed and rehearsed: operational-failure recovery, resolution history and field-level delivery. Recorded before merge.**
+- **Diagnosis:** the 554 open absences are account refusals (OpenRouter weekly key limit and HTTP 401), not evidence. Their items used all 3 attempts during the outage. They were due again from 13 to 23 Nov, but nothing re-read them: the worker claims only items in state `ai` under 3 attempts.
+- **Recovery (live on deploy):** each item goes back once to the existing AI worker (attempts at most 2, so the cap of 3 holds). Manual locks are honoured and the absences resolved; nothing is deleted. Rehearsed: 554 handed back (506 descriptions, 45 deadlines, 2 intakes, 1 English) and 0 eligible left. The estimated cost is about US$0.21 within the worker's caps; today's AI spend before this is US$3.04 of the US$5.00 ceiling.
+- **Configurable classification:** three `recovery_error_classes` rows (`service_limit`) name the refusal wording.
+- **Trace additions:** resolution history (resolved absences; Layer 4 decisions with change references) and field-level Website v3 delivery set against the platform state. Presence is never treated as accuracy.
+- **Routed:** academic entry still shows "no automatic producer" (`field_register.reader = none` despite the s1274 planner step; S1-RM-Design). Refusals still count as attempts in the worker (S1-Build). Today's course_entry_requirements AI spend was US$1.94 against s1261's US$1.00 a day route (S1-Build to check).
+- **Guardrails:** G3 75/48, locks 7,585, cron unchanged, no new job.
+
 **S2-RM-Design, 26 Nov 2026 20:00 AEDT: DR-19 s1273 live (Pilot #1682, migration `20261129210000`; dry run, security gates and six test shards green).**
 - **Read back live:** migration history holds `20261129210000`. The four functions and four `pim.trace_*` settings are present. UWA academic entry reads 190 verified, 84 data exceptions and 54 software defects, as rehearsed. A UWA course's trace returns Website v3 and Zoho v3 `returned: true` with `checked_at`.
 - **Guardrails:** G3 75/48, locks 7,585, $0. Active cron is 136; s1273 adds none, and the migration asserts the count unchanged.
