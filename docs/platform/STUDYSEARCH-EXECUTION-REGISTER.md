@@ -1207,3 +1207,13 @@ The 566 is growth, not a defect: 184 partial admissions were made in the last 24
 **Not done:** no admission opportunity was found that the existing approved rules do not already take; no reusable mapping defect (applicant country, qualification, level, grading scale) was found in these populations. Two unattended result-bearing cycles are not verified: admission-bearing cycles ran at about 10:48 to 10:59 AEDT and none since.
 
 **Next executable action:** prove or disprove the quote-capture defect on 10 sampled D-R3 items (stored page text against the dropped quote); if proven, ship the smallest AER v2 reader correction through the governed route and re-read only the affected stored items. Coordination: S1-AER-Claude and S3-AER-ChatGPT for their territorial queues, S1-Build for the corrected-read route.
+
+### s1240: AU AER source identity verification and alias decisions (S1-AER-Claude, 26 Nov 2026, 17:05 AEDT)
+
+Assignment from SS-Programme-Control (26 Nov 16:28). Decision pack: `docs/platform/p0-aer-activation/2026-11-26-s1240-au-aer-source-identity-alias-decisions.md`. No setting, migration or data change.
+
+- **CQU:** provider `f02d9d9b-0eb2-4f0e-8215-27a36ae63aa6`; proposed alias host `delivery-cqucontenthub.stylelabs.cloud` for this provider only; source `50e4031c`, evidence `fb856fec`, hash `976f3c5e…db42`, 112 rows kept. The page-to-CDN link target is to be confirmed in stored evidence `d5e12d94` before approval.
+- **AIBT:** provider `eb9e3903-6d92-4502-a2b3-51cb231b21fc` (CRICOS 03430J); proposed alias `aibtglobal.edu.au`. AIBT International `fc6f01a7…` (CRICOS 03610E) must not be aliased.
+- **Consumer read-back:** `website_v3_course` takes the course stable key, not the UUID. Eight newly admitted courses (Aventia, Box Hill, Collarts, Excelsia, Gold Coast Learning Centre, La Trobe, Lead College, York) read back with entry rows.
+- **PDFs:** Le Cordon Bleu Table B is on pages 16 to 33; the run fails on prose page 3, so the reader needs a page scope (S1-Build/S2-AER). The Excelsia guide holds no entry table; retire that source, no layout recovery needed.
+- **Held:** Greenwich unpublished; protected settings untouched; gate_incomplete and D-R3 items stay with S2-AER.
