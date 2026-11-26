@@ -178,6 +178,15 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 26 Nov 2026 19:55 AEDT (DR-19, SS-Programme-Control 19:18): s1273 claimed and rehearsed: the record trace and provider diagnosis (shared contract items 1 and 2 of S2-Build's s1272 design). Recorded before merge.**
+- **What it is:** read-only `security.pim_record_trace_v1(course, field, consumer)`. For each registered course field it returns:
+  - the interface 2 facts, the field's producer kind, recent attempts, the open absence finding and open Layer 4 items;
+  - a diagnosis in nine evidence-only classes, keeping operational failures, data exceptions and software defects apart, with the permitted actions;
+  - the Website v3 and Zoho v3 read-back for the course, with its time.
+- **Provider read:** `security.pim_provider_trace_v1(provider, field, class, limit)` counts by class and lists the records in a class. Admin reads are Viewer and above; there are four settings and no job or table.
+- **Rehearsed live (rolled back):** for UWA academic entry, 190 verified, 84 data exceptions and 54 software defects (no automatic producer, the #1201 class that s1261 closes). For UWA descriptions, 204 verified, 121 data exceptions and 3 operational failures. Platform-wide, 554 open absence rows are operational failures (506 descriptions). The provider read takes 1.4 to 3.2 s for 328 courses.
+- **Guardrails:** G3 75/48, locks 7,585, cron unchanged, $0. TEST-REGISTER regeneration is left to S1-Build (the local run lacks the spec dependencies).
+
 **S2-AER (was S2-RM-Design), 26 Nov 2026 17:05 AEDT (Atlas brief 16:22: Portal UAT data-gap pass over 34,362 published-provider courses): read-only audit; no backfill shipped; nothing written.**
 - **Audit:** `docs/platform/2026-11-26-portal-published-course-gap-audit.md`.
 - **CRICOS:** 0 missing; all 24,013 AU courses carry a code, served by Website v3 and portal detail.
