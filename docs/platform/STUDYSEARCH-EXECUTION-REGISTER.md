@@ -887,6 +887,17 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 18:40 AEDT: s1271 portal sole-city place live (Pilot #1678, merge `9d6f6a4`; admin #1199; migration `20261129170000`, history md5 `700a0dd1` matches the file).**
+- **Deploy:**
+  - The `live-dry-run` gate passed; Deploy on merge applied the migration.
+  - **Workers Builds: studysearch-portal did not run for this merge, and none was needed.** s1271 changes no file under `portal/`, so the portal build is not started (the same holds for the other non-portal merges since s1222). The portal keeps serving the s1222 build that passed on `290ca1d`. The change is in the database reads it calls, so it is live without a rebuild.
+- **Read back live** (rolled back, signed in as the Platform Admin):
+  - "Bachelor of Nursing" in Australia: 20 cards in 1.9 s (primary campus 7, one city 1, one state 6, several cities 3, provider 3). The one-city card is Notre Dame's, which reads Fremantle, WA. No multi-city card is given a city.
+  - "business in Fremantle": 15 cards in 365 ms, each naming its matching Fremantle campus.
+  - Entry Requirements for Nursing: 20 rows in 282 ms (one city 10, one state 5, several cities 5).
+  - `portal.course_place_v1` cannot be called by `anon` or `authenticated`.
+- G3 75/48 with no drift; locks 7,585; active cron 136 (s1271 adds none); live migration head `20261129170000`; US$0.
+
 **S2-Build, 26 Nov 2026 18:25 AEDT: s1271 portal sole-city place claimed and recorded before merge (Pilot branch `s2-s1271-portal-sole-city`, migration `20261129170000`); Atlas brief 18:18, from the S2-AER gap audit (admin #1186).**
 - **What changes:** portal cards now name the city of a course with no primary campus when all its active campuses are in one city and state.
   - A new `portal.course_place_v1(course)` decides one place from the course's active campuses, in this order:
