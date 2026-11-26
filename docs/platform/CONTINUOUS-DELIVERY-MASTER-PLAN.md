@@ -187,6 +187,7 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1285` | S1-Build (SS-Programme-Control 26 Nov 2026 23:58 AEDT, P0 Keep Main Green) | Deployed Layer 1 specs read the current list classes (`ui-xl-*`). Auto-merge: named required checks on the exact head, one release at a time, a red main admits only a `main-green-fix` pull request. Duplicate triggers removed: per-check-suite auto-merge, label-triggered dry-run re-runs, probe clean-up for non-probe branches. No migration | In release |
 | `s1286` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, consumer integrity item 2) | Shared entry payload (`security.entry_course_payload_v1`): domestic-only rows not served to international readers; a minimum grade with no numeric score served in `requirements_note`. Website v2, v3 and Zoho v2 output changes. **HELD** for Platform Admin approval and the Wix/Zoho notice (Pilot #1709, draft). Its version `20261130061500` now collides with s1176c and is renumbered at approval | Held |
 | `s1287` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, items 3 to 5) | Rollup starvation: `ops-cost-guard` and the data quality overview run first in their due ticks (priority 3); four often-deferred targets priority 4; `course-field-readiness` priority 11. `layer2-onboarding-snapshot` cutover finished byte for byte; cron job 36 off and retiring (paste file held to 11 Dec) | Live (Pilot #1711, migration `20261130064500`) |
+| `s1289` | S1-Build (SS-Programme-Control 27 Nov 2026 06:46 AEDT, items 3 and 4, s1287 read-back) | `data-delivery` (Data Delivery screen counts) priority 10 → 9: a 103.5 s run (01:15) put its 14-day estimate past the tick finish time, so as second target it never ran (341 deferrals, none run since 01:59) | In release |
 | `s1034` | S1-API-Frontend-Delivery | Human Edits & Periodic Audit carries the Periodic Audit - Locked Field Update list with bulk Yes (Approve & Keep Lock) / No (Reject), select all up to 100, one reason of 8+ characters, via `admin_layer4_locked_update_bulk` (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1036` | S1-API-Frontend-Delivery | Settings opens on a Key controls panel (plain titles, reason on every change, governed write through `admin_toolsets_write`) with the ~1,700 low-level keys in a collapsed, searchable Advanced System Keys drawer that matches labels and keys (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1010` | S1-Build | Settings registry for the v1.2 Settings screen (plain-English help on every setting) and the Firecrawl Tier 1 micro-budget: `firecrawl.daily_budget_total` 0 to 5 credits a day with the Platform Admin's reason (Standing Authority Charter section 10; Platform Admin 23 Nov 2026 19:59) | Pilot PR after s997 (rehearsed) |
@@ -1194,3 +1195,23 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
     - #1664 (s1236 candidate, draft since 26 Nov 04:21) and #1502 (S2-RM-Design s995, draft since 23 Nov): left as drafts for their owners; neither is S1-Build's to close.
 
 **S2-Scholarship-Readers, 27 Nov 2026 ~03:10 AEDT, s1237 read-back (closed, canonical gain confirmed).** The four Canadian awards held for "no stated award value" were requeued once through the existing detail queue (items 94220 to 94223, 26 Nov 09:05 UTC, no retry reset, no Firecrawl) and all four completed after worker v1.0.48: Brock Agnes and Rudy Soucie Scholarship CAD 165, College of New Caledonia Gurdeep Singh Bindra Memorial CAD 500, Niagara Award amounts CAD 4,000, Sheridan Pathway and achievement awards CAD 1,000. Each now has award_value_type fixed_amount, an empty scholarship_publishability_for_v1 list and publication_status published. Canada now 420 active, 206 published, 54 publishing providers (404 / 197 / 54 on the morning of 26 Nov). Website read-back for Canadian scholarships: 205 of 205 matched, 0 missing (the 1 missing at 08:52 UTC cleared). Shared AI queue cost from 09:00 UTC 26 Nov to the read-back: US$0.5946 (not attributable to Canada alone; this lane's four items cost about US$0.01 each); Firecrawl US$0. 81 items remain queued platform-wide. Two unattended result-bearing publish cycles are confirmed (Memorial 26 Nov 00:29 and 08:29 UTC) plus the s1237 gains. The 4 Australian awards with the same defect (Family Scholarship, PhD Scholarship in Measuring Community V, Global Taste of Research India Summer, Graduate School of Medicine Critical Care) belong to S1-Scholarship-Claude and are fixed by a re-read. Still open for this lane: George Brown hub recheck; the Operating Model v1.25 response and handover format is not held in this repository (the only 1.25 documents are PIM design decisions v1.25), so the SS-Programme-Control response uses the headings of earlier lane reports; country-wise Google Sheet for S1-Build; Humber website defect and null Canadian provider_type_id (S1-Build); Nipissing, Toronto and Lethbridge caps (about 13, 15 and 19 Dec).
+- 27 Nov 2026 07:05 AEDT, S1-Build (SS-Programme-Control 06:46, re-issued assignment; s1287 read-back over 14 hours, live, rolled-back reads):
+  - **Main:** green on `069e0666` since 01:03; no merges since.
+  - **s1287 results, since 00:52 against the same span before:**
+
+    | Job | Since 00:52 | Same span before |
+    |---|---|---|
+    | `ops-cost-guard` | 6 runs, 0 deferrals | 2 runs, 283 deferrals |
+    | Data quality overview | ran at 03:17 | had not run since 21 Nov |
+    | `course-completeness-build` | 6 runs, 0 deferrals | 5 runs, 6 deferrals |
+    | `adapter-build-readiness` | 6 runs, 1 deferral | 6 runs, 4 deferrals |
+    | `layer2-onboarding-snapshot` (on rollup-scheduler) | 3 runs | (cron job 36 then) |
+    | `course-field-readiness` | 72 runs, 202 deferrals | 22 runs, 315 deferrals |
+
+    Active cron 135; G3 75/48; locks 7,585.
+  - **New starvation:** `data-delivery` has not run since 01:59 (11 runs, 341 deferrals).
+    - Its 01:15 run took 103.5 s, which put its estimate above the 100 s finish time.
+    - Not caused by s1287's priorities. It is the same estimate mechanism.
+    - Fixed by s1289 (priority 9).
+  - **The estimator decision is still open:** the 14-day longest run as the estimate. It changes the live-only `security.rollup_tick_v1`.
+
