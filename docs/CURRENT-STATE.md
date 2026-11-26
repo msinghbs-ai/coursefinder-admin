@@ -58,6 +58,8 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 09:55 AEDT: morning check.** The 24×7 jobs are running. AER read 1 course overnight (115246M); the eligible backlog is 0; no automatic academic-entry plan yet. AI $0.78 today.
+
 **S1-Build, 27 Nov 2026 09:40 AEDT: D10 and D11 live; D9 held for the notice.**
 - **Live migration head:** `20261130091500`.
 - **D10:** `data-delivery` ran 28 times with 0 deferrals in the first 28 minutes (12 runs and 15 deferrals before).

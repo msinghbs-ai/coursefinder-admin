@@ -1767,3 +1767,22 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
   - Website v3 serves the Year 12 route as a note with no domestic label.
 - **New finding: an age read as a score.** Website v2 served `min_score 18` for an age (1,402 rows on 1,365 courses). s1284 is in release.
 
+
+### 27 Nov 2026 09:55 AEDT: S1-Build morning check (scheduled)
+
+- **24×7 operation.** The five former quiet-hours jobs ran after 08:00 with every run succeeded: `coverage-ai-match-prepare` 48, `fee-reader` 97, `scholarship-ai-extract` 97, `course-description-machine` 42 and `provider-description-read` 20. Model calls since 08:00 (counts and outcomes are in the AI invocation log):
+  - course entry: 1 (answered);
+  - scholarship extraction: 2;
+  - scholarship eligibility: 6;
+  - Portal search embedding: 12.
+
+  Portal search latency was not measured.
+- **AER unattended cycles since run 593 (22:13).**
+  - The hourly runs from 23:13 to 07:13 and at 09:13 read 0 courses.
+  - The 08:13 run read 1 course: 115246M, through the stored page and gpt-4.1-mini ($0.0012). It admitted 4 rows (prior qualification, two general notes, interview), and all are served on Website v2.
+  - One row is an application instruction classed as a prior qualification ("Applicants should submit certified transcripts..."). S2-AER should reclassify it to `general_note`. If it is not reclassified, D9 `course_general` would serve it, so the S2-AER fix should come first.
+  - The eligible backlog (`security.aer_schedule_courses_v1(100000, true)`, rolled back) is 0 courses: the eligible pool is exhausted.
+  - Layer 4 waiting is 859.
+- **Spend today (AEDT).** AI US$0.78 in total, of which academic entry is US$0.0012. Both are within the US$5 entry cap and the US$10 platform ceiling (D8).
+- **s1274 planner hand-off.** All 34 enrich plans since 22:13 were requested by a person. 0 automatic plans have an `academic_entry` step with entry reads; the step shows only a page revisit (`est_credits` 1). The automatic planner stays held by the redo interval (about 3 Dec), so the second result-bearing cycle depends on new eligible courses.
+

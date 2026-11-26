@@ -1256,4 +1256,10 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
     - CDU OT has three CRICOS-active registrations (no merge).
     - Kaplan's campuses are recorded under suburb names (Docklands, Southport).
   - **Register write incident.** One batched Sheets write dropped its placeholder rows, and entries landed in rows 98–108 and 70. All were restored the same hour from the standard category wording and read back. The FB-6.C02-04 earlier note could not be recovered and is marked as reconstructed.
+- 27 Nov 2026 09:55 AEDT, S1-Build (scheduled morning check):
+  - **24×7:** the five former quiet-hours jobs all ran with success after 08:00.
+  - **AER:** cycles since run 593 read 0 courses, except 08:13 (1 course, 115246M: 4 rows admitted and served, $0.0012). The eligible backlog is 0. One row is misclassified (an application instruction stored as a prior qualification), passed to S2-AER before D9 serves it.
+  - **Spend today:** AI $0.78, entry $0.0012.
+  - **s1274:** no automatic plan has an academic entry step with reads.
+  - Detail is in the Execution Register.
 
