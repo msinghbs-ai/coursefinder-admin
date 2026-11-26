@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 16:20 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220). Daytime quiet hours (s1213) are live. The seven UAT fixes from the Platform Admin's review (Atlas 15:59) are s1222, recorded before merge. After it is live: the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
+**Status at the last checkpoint (26 Nov 2026 16:40 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220), and the seven UAT fixes from the Platform Admin's review (s1222: full-width card grids, Cards/List, Course details drawer, concise cards with one annual fee and course code, India and Nepal pinned, country rows in Course details). Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -63,7 +63,7 @@
 | 26 Nov 12:45 | s1215 Course details, Entry Requirements (AER) and new-tab links (migration `20261129090000`): inline Course details panel on Courses, Saved courses and Entry Requirements (overview, campuses and delivery, fee lines as recorded, intakes and deadlines, entry and English, provider-level career outcomes, official source); new Entry Requirements screen after Courses (Viewer and Counsellor; Save and Add to proposal Counsellor only); one `ExtLink` component so every outside link opens in a new tab; reads S2-Build's `portal_course_detail_v1` and `portal_aer_list_v1`; new `portal_study_levels_v1` for the level filter | S1-API-Frontend-Delivery | Pilot branch `s1-portal-details-aer-s1215` | plan log | Recorded before merge |
 | 26 Nov 13:15 | s1216 detail fields (migration `20261129100000`): `provider_website`, `entry_matrix` (capped by `portal.entry_matrix_max_rows`) and `entry_matrix_total` in the course detail read; `city`, `state_code`, `duration_value`, `duration_unit` and `annual_tuition_fee` on Entry Requirements rows | S2-Build | [#1658](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1658) | [#1158](https://github.com/msinghbs-ai/coursefinder-admin/pull/1158), live record (this checkpoint) | Live; read back as the Platform Admin |
 | 26 Nov 15:40 | s1220 screens (frontend only): Course details shows the provider website and the provider's entry matrix (for the student's country when chosen; count note when capped); Entry Requirements cards show location, length and tuition per year. Checked in Chromium at 1280 px and 412 px | S2-Build | [#1666](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1666) | [#1174](https://github.com/msinghbs-ai/coursefinder-admin/pull/1174), live record (this checkpoint) | Live; Workers build passed |
-| 26 Nov 16:20 | s1222 UAT fixes (migration `20261129130000`): fluid layout and card grids, Cards/List, Course details drawer, concise cards with `portal.primary_fee_v1` and the course code badge, pinned student countries (`portal.priority_source_countries`), `portal_entry_matrix_v1` for the chosen country. Checked in Chromium at 1,440, 1,280 and 412 px | S2-Build | branch `s2-s1222-portal-uat-fixes` | recorded before merge (this checkpoint) | Rehearsal, specs and browser check passed |
+| 26 Nov 16:20 | s1222 UAT fixes (migration `20261129130000`): fluid layout and card grids, Cards/List, Course details drawer, concise cards with `portal.primary_fee_v1` and the course code badge, pinned student countries (`portal.priority_source_countries`), `portal_entry_matrix_v1` for the chosen country. Checked in Chromium at 1,440, 1,280 and 412 px | S2-Build | [#1670](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1670) | [#1183](https://github.com/msinghbs-ai/coursefinder-admin/pull/1183) | Live 26 Nov 16:40; Workers Builds studysearch-portal passed; read back live |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -114,8 +114,8 @@
 
 ## 7. Next executable action
 
-**After s1222 is live (S2-Build, then the Platform Admin):**
-1. S2-Build: merge, confirm Workers Builds studysearch-portal, read the new functions back live, record live.
+**s1222 is live (26 Nov 16:40). Platform Admin, final UAT:**
+1. Done by S2-Build: merged, Workers Builds studysearch-portal passed, read back live.
 2. Platform Admin, at 1,440 px and on a phone:
    - switch Cards and List on Courses, Saved courses and Entry Requirements;
    - open Course details and close it with Escape;
@@ -139,6 +139,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 16:40 AEDT, S2-Build: s1222 live (Pilot #1670, admin #1183; Workers Builds studysearch-portal passed). Live read-back: India and Nepal pinned; one annual fee and course code on the reads; India 4 rows in 15 ms and Nepal 1 row in 3 ms on a sample course; 2,637 and 2,029 courses with an India and a Nepal row. G3 75/48, locks 7,585, active cron 139 (none added), US$0. Next: Platform Admin final UAT and the portal.studysearch.ai cutover. Drive mirrors replaced.
 - 26 Nov 2026 16:20 AEDT, S2-Build: s1222 portal UAT fixes recorded before merge (migration `20261129130000`; rehearsal passed; Chromium checks at 1,440, 1,280 and 412 px passed). Feedback 5 data items handed to the data lanes. Revised mock-ups 25 to 28 in Drive.
 - 26 Nov 2026 15:45 AEDT, S2-Build: s1220 live (Pilot #1666; Workers Builds studysearch-portal passed). Release 1 and 2 screens complete; next: Platform Admin UAT and portal.studysearch.ai cutover. Drive mirrors replaced.
 - 26 Nov 2026 15:40 AEDT, S2-Build: s1220 portal screens for the s1216 fields recorded before merge (cross-lane on the Platform Admin's authority).
