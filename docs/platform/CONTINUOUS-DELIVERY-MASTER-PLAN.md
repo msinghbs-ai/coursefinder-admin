@@ -188,6 +188,11 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1286` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, consumer integrity item 2) | Shared entry payload (`security.entry_course_payload_v1`): domestic-only rows not served to international readers; a minimum grade with no numeric score served in `requirements_note`. Website v2, v3 and Zoho v2 output changes. **HELD** for Platform Admin approval and the Wix/Zoho notice (Pilot #1709, draft). Its version `20261130061500` now collides with s1176c and is renumbered at approval | Held |
 | `s1287` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, items 3 to 5) | Rollup starvation: `ops-cost-guard` and the data quality overview run first in their due ticks (priority 3); four often-deferred targets priority 4; `course-field-readiness` priority 11. `layer2-onboarding-snapshot` cutover finished byte for byte; cron job 36 off and retiring (paste file held to 11 Dec) | Live (Pilot #1711, migration `20261130064500`) |
 | `s1289` | S1-Build (SS-Programme-Control 27 Nov 2026 06:46 AEDT, items 3 and 4, s1287 read-back) | `data-delivery` (Data Delivery screen counts) priority 10 → 9: a 103.5 s run (01:15) put its 14-day estimate past the tick finish time, so as second target it never ran (341 deferrals, none run since 01:59) | In release |
+| `s1290` | S1-Build (Platform Admin D10, 27 Nov 2026) | Permanent rollup scheduler fix in `security.rollup_tick_v1` (now held in the repository; capture md5 `36a8d4f3`).
+- Estimate: p95 + 25%, capped at the longest run; the longest run below 20 runs.
+- Order: protected (≤ 5), then starved (> 30 min), then priority.
+- Budget, finish rule, lock and due-minute record unchanged.
+- Five settings added; capture and replay in `docs/platform/2026-11-27-rollup-tick-v1-capture.md` | In release |
 | `s1034` | S1-API-Frontend-Delivery | Human Edits & Periodic Audit carries the Periodic Audit - Locked Field Update list with bulk Yes (Approve & Keep Lock) / No (Reject), select all up to 100, one reason of 8+ characters, via `admin_layer4_locked_update_bulk` (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1036` | S1-API-Frontend-Delivery | Settings opens on a Key controls panel (plain titles, reason on every change, governed write through `admin_toolsets_write`) with the ~1,700 low-level keys in a collapsed, searchable Advanced System Keys drawer that matches labels and keys (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1010` | S1-Build | Settings registry for the v1.2 Settings screen (plain-English help on every setting) and the Firecrawl Tier 1 micro-budget: `firecrawl.daily_budget_total` 0 to 5 credits a day with the Platform Admin's reason (Standing Authority Charter section 10; Platform Admin 23 Nov 2026 19:59) | Pilot PR after s997 (rehearsed) |
@@ -1218,4 +1223,7 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
     - Not caused by s1287's priorities. It is the same estimate mechanism.
     - Fixed by s1289 (priority 9).
   - **The estimator decision is still open:** the 14-day longest run as the estimate. It changes the live-only `security.rollup_tick_v1`.
+- 27 Nov 2026 09:05 AEDT, S1-Build (SS-Programme-Control 08:28; D9, D10 and D11 approved):
+  - Admin #1260 integrated (merged).
+  - **D10:** `security.rollup_tick_v1` captured from live (2,795 characters, md5 `36a8d4f3`), with the 14-day history replayed (61,944 runs, 17,090 deferrals). s1290 is in release, rehearsed rolled back; the after-release measures follow in this log.
 
