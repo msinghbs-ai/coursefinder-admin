@@ -311,6 +311,7 @@ The `entry.resolution` steps, outcomes (`minimum_published`, `case_by_case`, `co
 - **`case_by_case`**, or a row with no minimum on a scale: "This qualification is considered case by case".
 - **`scale_stated` false:** "Published requirement: [min_grade]. The provider does not state a grading scale on this page; check the source or contact the provider."
 - **`contact_provider`:** "Requirements for your qualification aren't published — contact the provider", with `contact`.
+- **`course_general`** (PROPOSED, D9; not released): the course's own requirement for all international applicants (`scope` `all_countries`), shown in the provider's words with "Applies to all international applicants"; never a statement of equivalence or eligibility. It comes after the country-specific steps and before `contact_provider`.
 
 The API looks requirements up. It never decides whether a student is eligible. Coverage is still low (section 8): keep "contact the provider" as the normal path.
 

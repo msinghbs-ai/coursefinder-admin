@@ -472,12 +472,13 @@ Show "Not ranked" only between an institution's first and latest held editions; 
 2. the provider's row for this course and country;
 3. the course's band, looked up in the provider's table for the country;
 4. the provider's minimum for the country and the course level;
-5. otherwise, contact the provider.
+5. the course's own requirement for all international applicants, as the course states it (`course_general`; PROPOSED, D9);
+6. otherwise, contact the provider (also `step` 5).
 
 | Field | Notes |
 |---|---|
 | `country` | The `edu_country` you sent, in capitals |
-| `step`, `rule` | 1–5: `course_override`, `course_country_row`, `band_ladder`, `provider_minimum`, `contact_provider` |
+| `step`, `rule` | 1–5: `course_override`, `course_country_row`, `band_ladder`, `provider_minimum`, then `course_general` or `contact_provider` (both `step` 5). `course_general` also carries `scope: "all_countries"` (PROPOSED, D9) |
 | `outcome` | `minimum_published`, `case_by_case` or `contact_provider` |
 | `rows[]` | `qualification`, `study_level`, `min_grade`, `scale`, `scale_stated`, `band`, `conditions`, `quote`, `as_at`, `edition`, `case_by_case` |
 | `note` | Why no table row applied, when `step` is 5. One of: "The provider publishes a band table for this country, but the course page prints no band to enter it with."; "The course band … has no published row for this country and level."; "The provider publishes rows for this country, none for this course's level."; "No published requirement for this country." You may show it under the "contact the provider" message |
@@ -489,6 +490,7 @@ Show it like this:
 - **`case_by_case`**, or a row with `case_by_case` true: show **"This qualification is considered case by case"**. Never show "no data", and never treat it as met. A row is `case_by_case` when it states no minimum on a scale: `min_grade` is null, or `scale` is `"none"`. Where `min_grade` holds the provider's words (for example "Completion of Senior High School Diploma"), show them as printed with the case-by-case message.
 - **A row with `scale_stated` `false`:** the provider prints a grade but does not state the grading scale on its page. Show **"Published requirement: [min_grade]. The provider does not state a grading scale on this page; check the source or contact the provider."** Show `min_grade` exactly as printed. Do not add a percentage, an ATAR equivalent, a band or any other scale, and do not compare it with the student's results. This is a published minimum, not case by case: `case_by_case` is `false` and `outcome` stays `minimum_published`.
 - **`contact_provider`:** show **"Requirements for your qualification aren't published — contact the provider"**, with the provider's website.
+- **`course_general`** (PROPOSED, D9): show each row's `text` as the provider states it, with **"Applies to all international applicants"** and `as_at`, beside the "check with the provider" link. It is the course's general requirement, never a statement that the student's qualification is equivalent or that the student is eligible. Rows have the `course_override` fields (`text`, `min_grade`, `min_score`, `min_score_basis`, `quote`, `as_at`, `case_by_case`).
 
 The API looks requirements up. It never decides whether a student is eligible.
 
@@ -697,3 +699,4 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 31 October 2026 (issue 6) | `entry_matrix[]` items and `entry.resolution.rows[]` items gain `scale_stated`: `false` when the provider prints a grade but does not state its grading scale (`scale` is `null`; show the "does not state a grading scale" wording), `true` when the scale is stated, `null` for case by case. Section 7.9 and acceptance test 23 updated |
 | 31 October 2026 (issue 7) | The course detail's `entry` gains `min_scores[]`: every entry score the course publishes, as printed (`score`, `basis`, `audience`, `scale`, `quote`, `source_url`, `as_at`). `min_score` and `min_score_basis` are unchanged. Section 7.9 and acceptance test 24 added |
 | PROPOSED (issue 8; not released) | Provider `campuses[]`: one item per campus (campuses sharing a city are no longer merged), each gaining `campus_id`, `campus_name` and `course_count`; existing campus fields unchanged. Scholarships gain `nationality_eligibility_status` (`restricted`, `unrestricted`, `unknown`, `under_review`); `citizenship_eligibility` and `eligible_countries_list` unchanged. Sections 7.4, 7.5 and 9 updated; acceptance tests 25 and 26 added |
+| PROPOSED (D9; not released) | `entry.resolution.rule` gains `course_general` (`step` 5, `scope` `all_countries`): the course's own requirement for all international applicants, used when no country-specific answer applies, before `contact_provider`. `entry.requirements_note` no longer includes domestic-only requirements and now includes minimum grades without a numeric score. Nothing renamed or removed |
