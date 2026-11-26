@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 23:15 AEDT.**
+- **First autonomous AER cycle (run 593):** 53 rows on 20 courses.
+- **Audience defect:** "Australian Year 12 or equivalent" was labelled domestic on 701 rows. s1280 fixes it (worker v1.0.52 plus the row correction); recorded as IQ-00683.
+- **121558M BSB wording:** it is on the provider's own page. Recorded as source conflict IQ-00684.
+
 **SS-Programme-Control — s1279 post-implementation lessons, 26 Nov 2026 22:55 AEDT (docs only).**
 - Portal card description and provider-name display: Pilot #1695 merged `6500835d`; Admin #1226 merged; final migration `20261130023000` independently present. Effective `portal.card_description_chars=220`; 80–400 bounds recorded by owner. Clean migration ordering and downstream CI reported by owner; no independent browser/full-suite rerun.
 - Master Plan §3b Rules 7–10: G2 registered settings for configurable UI data limits (retain explicit structural/security bounds); stand-in matcher parity and real-runner evidence distinction; early-warning review at >=137/140 active crons and dated per-lane before/after delta; source-aware HTML entity normalisation at admission, preserving raw evidence and manual locks.
