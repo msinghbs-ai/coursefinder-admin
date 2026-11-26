@@ -887,6 +887,45 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 19:40 AEDT: DR-19 increment 1 (s1272) built and recorded before merge (Pilot branch `s2-s1272-dr19-record-journey`, migration `20261129200000`).**
+- **Admin UI:** every Layer 4 card has a closed fold, **Processing journey and diagnosis**. The focused view and the list views share the card, so both get it.
+  - When opened, it reads the new `public.admin_record_journey_v1` and shows the eight stages as a strip that wraps on a phone.
+  - It names where processing stopped ("Stopped at validation (held): Held by the course entry completeness gate"). Every later stage reads "Not reached: waits for …".
+  - Its diagnosis lists:
+    - failure reason;
+    - stored evidence (page, time, type, hash);
+    - attempts;
+    - reader and model;
+    - gate;
+    - AI analysis (shown when an intervention made one; otherwise "Not run … nothing was spent");
+    - similar resolved cases (same field and hold reason, last 90 days, with counts and the latest 5);
+    - references;
+    - recommended recovery;
+    - cost (US$0.00 for a stored-copy re-read of an entry read; the recent average for an AI re-interpretation);
+    - potential or realised gain;
+    - the card's own decision buttons with the role each needs;
+    - outcome.
+  - Not available, Not verified and 0 are shown differently.
+  - No new page, tab or navigation. The Layer 4 guide names the fold. UI-MAP is regenerated (233 folds) and mirrored here.
+- **Read contract** (read only, Curator and above, no model call, no job, no spend):
+  - Review items (course link, entry, matrix, description, no page, conjoint) get the full journey.
+  - Interventions and other kinds show validation, admission and publication; the earlier stages read Not available.
+  - Website and Zoho verification reads **Not verified**, because no per-record check is recorded yet (shared contract item 1, S2-RM-Design).
+  - Two G2 settings: `layer4.journey_similar_days` (90) and `layer4.journey_similar_max` (5).
+- **Rolled-back rehearsal**, as a Platform Admin account, one item of each kind:
+  - entry read: stopped at validation, held by the completeness gate (149 ms);
+  - course link: stopped at validation; 13 rejected and 8 superseded similar cases (64 ms);
+  - provider description: stopped at validation by machine rule pdesc-machine-v1; 105 approved similar cases (42 ms);
+  - intervention: held, "Whether international students may apply is not established" (29 ms);
+  - fee check: held (28 ms).
+  - G3 75/48; locks 7,585; cron unchanged.
+- **Correction:** the portal read-backs recorded for s1222 and s1271 earlier today ran as account `25269f74…`. That account holds the **Counsellor** role, not the Platform Admin role as those entries say. The portal checks Viewer or Counsellor, so the results stand.
+- **Specs:**
+  - The new `cf-247-s1272-dr19-record-journey-contract` passes, with s931, s557, s42, s57, s120 and s980.
+  - The s32 and s931 mocked-browser tests need the local dev server, which this session lacks; CI runs them.
+  - TEST-REGISTER is updated.
+- **Production UAT** follows the merge, on the signed-in browser.
+
 **S2-Build, 26 Nov 2026 19:25 AEDT: DR-19 received and claimed (SS-Programme-Control 19:19, Platform Admin execution mandate "Intelligent monitoring and human-assisted resolution"); design adjustments recorded; increment 1 is `s1272`.**
 - **Design:** `docs/platform/2026-11-26-dr19-record-journey-and-diagnosis-design.md`.
   - No new page, tab or navigation level.
