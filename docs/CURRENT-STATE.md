@@ -1,5 +1,14 @@
 # StudySearch – current state (read this first)
 
+**S2-RM-Design, 26 Nov 2026 23:05 AEDT (DR-19 slice 3, SS-Programme-Control 22:32): s1282 claimed and rehearsed. Recorded before merge.**
+- **Causes kept apart** under the stable class: account refusal (configured `service_limit` rows), technical failure, insufficient evidence, no source, unproven identity.
+- **Second opinion:** the trace names the existing human-assisted recovery class and reads its stronger-model step live. It is off (`har.ai_escalate_on` = 0) with no pinned model, so no AI second opinion runs. Switching it on is a Platform Admin spend and qualification decision.
+- **Audience:** held entry and fee rows by audience. In the UWA rehearsal, 2 of 40 courses hold only domestic entry rows. The v3 resolver serves no domestic row (0 of 2,607 courses holding them, for an India applicant). The four domestic-labelled requirements in API responses need naming by S2-AER and S1-Build.
+- **Retained strategy:** recovery policy `ai_account_refusal` (defer and recheck, no attempt used).
+- **Budgets:** AI ceiling US$10 a day and paid cap US$5 a day (live settings). The entry route is set at US$1.00 a day but spent US$1.94 today. No US$5.00 AER-only setting exists.
+- **s1277 realised (22:49):** 52 skipped, 2 to Layer 4, 500 waiting, 0 filled.
+- **Guardrails:** G3 75/48, locks 7,585, cron unchanged, no new spend.
+
 **S1-RM-Design, 26 Nov 2026 22:50 AEDT: s1176 slice A live and read back (Pilot #1693 merged; deploy run 45811790352 success; head `20261130020000`).**
 - **Deploy checks:** live bodies of `security.data_delivery_jobs_v1`, `security.pim_operations_v1` and `public.admin_pim_jobs_v1` match the file byte for byte (md5 `8834aabe`, `f6d87f0b`, `7c0bb6da`). Five `pim.jobs_*` settings are present.
 - **Unattended background count:** the first one ran at 22:45:23 on its own run (15.6 s, no error); the PIM progress ran separately at 22:36 (39 s). The latest count has active 191, idle 20, held 13, degraded 2, retired 85 and shadow 1.
