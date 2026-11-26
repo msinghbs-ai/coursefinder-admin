@@ -191,7 +191,7 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1290` | S1-Build (Platform Admin D10, 27 Nov 2026) | Permanent rollup scheduler fix in `security.rollup_tick_v1` (now held in the repository; capture md5 `36a8d4f3`).
 | `s1291` | S1-Build (Platform Admin D11, 27 Nov 2026) | Holds of jobs 87 `scholarship-discover-refill`, 378 `calendar-reread` and 108 `firecrawl-runs` recorded in `pipeline.component_register` notes (decision, owner, replacement, dependency, spend) with a `hold_recorded` control event each. No cron row changes | Live (Pilot #1714, merged 09:06) |
 | `s1292` | S1-Build (SS-Programme-Control 27 Nov 2026 10:05, AOM v1.29, §6.8) | Operational learning in the existing recovery knowledge.
-- Eight lessons are held with 14 actual outcomes (10 successful, 4 failed), recorded once per evidence signature; none is automatic.
+- Eight lessons are held with 14 actual outcomes (9 successful, 5 failed; corrected from 10 and 4 at read-back), recorded once per evidence signature; none is automatic.
 - The existing retry check refuses the unchanged 115246M read and keeps D9 held.
 - `public.admin_ops_learning_v1` feeds Recovery knowledge under Platform health > Technical details | In release |
 - Estimate: p95 + 25%, capped at the longest run; the longest run below 20 runs.
@@ -1303,3 +1303,10 @@ Assignment from SS-Programme-Control (27 Nov 09:57 AEDT). Live reads 27 Nov 10:0
 - **D9.** The D9 `course_general` source set (active `minimum_grade` or `prior_qualification`, international or all, no country) holds 0 rows for 115246M and 0 for the 112659C wording, so #1709 cannot promote them. The sibling wordings that name a level or a qualification stay as read.
 - **Consumer read (shared payload `security.entry_course_payload_v1`, India).** 115246M gives no `prerequisites` entry for the transcripts sentence; it appears once in `requirements_note` with the other two general notes; `selection_tasks` still holds the international application form; resolution `contact_provider` (no country row, D9 not live). Website v2, v3 and Zoho v2 take this payload.
 - **Guardrails.** Consumer API 75 functions / 48 relations, no drift; locks 7,585; active cron 137; nothing dropped; US$0.
+- 27 Nov 2026 10:50 AEDT, S1-Build (operational learning, proved live; evidence in the Execution Register):
+  1. **Retained:** 23 patterns (6 automatic), including the 8 new lessons with 14 outcomes (9 successful, 5 failed).
+  2. **Recurrence handled without an agent:** IQ-00598 recurred on 18, 19, 21 and 27 Nov, and each time the controller applied `confirm_condition_cleared` and verified it. Independent read: the job ran 3 of 3 successfully after the 08:54 remedy, against 2 failures in 48 runs the day before.
+  3. **Ineffective repeat prevented:** the retry check refuses the unchanged 115246M read; `record_capacity_profile` was refused 243 times in 7 days; 2 no-yield blocks are active.
+  4. **Protected case held:** D9 is refused (admin authority); jobs 87, 108 and 378 remain off.
+  5. **Unaffected production:** 0 failed scheduled runs out of 1,922 in the hour; Data Delivery current; G3 75/48; locks 7,585; cron 137; AI today $0.79.
+

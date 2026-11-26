@@ -1806,3 +1806,16 @@ Assignment from SS-Programme-Control (27 Nov 09:57 AEDT). Live reads 27 Nov 10:0
 - **D9.** The D9 `course_general` source set (active `minimum_grade` or `prior_qualification`, international or all, no country) holds 0 rows for 115246M and 0 for the 112659C wording, so #1709 cannot promote them. The sibling wordings that name a level or a qualification stay as read.
 - **Consumer read (shared payload `security.entry_course_payload_v1`, India).** 115246M gives no `prerequisites` entry for the transcripts sentence; it appears once in `requirements_note` with the other two general notes; `selection_tasks` still holds the international application form; resolution `contact_provider` (no country row, D9 not live). Website v2, v3 and Zoho v2 take this payload.
 - **Guardrails.** Consumer API 75 functions / 48 relations, no drift; locks 7,585; active cron 137; nothing dropped; US$0.
+
+### 27 Nov 2026 10:50 AEDT: operational learning acceptance (s1292, AOM v1.29, Master Plan §6.8)
+
+| Proof | Production evidence (live, read-only) |
+|---|---|
+| 1. Successful and unsuccessful knowledge retained | 23 patterns in `pipeline.ops_remedy_knowledge` (6 automatic). The 8 new lessons hold 14 outcomes (9 successful, 5 failed), recorded through `security.ops_learning_record_v1` once per evidence signature. Visible at Platform health > Technical details > Recovery knowledge (`public.admin_ops_learning_v1`) |
+| 2. Known recurring issue detected, recovered and independently verified | IQ-00598 (`job_failed:layer4-interventions`), recurrences 18, 19, 21 and 27 Nov. Controller runs 1952, 2206, 2444 and 2725, all `confirm_condition_cleared` verified with no agent. Independent: `layer4-interventions` ran 3 of 3 successfully after 08:54, against 2 failures in 48 runs the 24 hours before |
+| 3. Ineffective unchanged attempt prevented | `security.ops_learning_retry_check_v1` refuses the unchanged 115246M read ("the same evidence already failed"). `record_capacity_profile` was refused 243 times in 7 days. Blocks active: `fee_integrity_recheck` (prevented 1) and `layer4_admission_recheck` (prevented 1) |
+| 4. Protected exception held | `consumer_projection:frozen_correction_needs_notice` is refused ("needs admin authority"), so D9 (#1709) stays held. Jobs 87, 108 and 378 remain inactive (D11) |
+| 5. Unaffected production | 0 failed scheduled runs out of 1,922 in the hour; rollup deferrals 20 of 306; Data Delivery current at 10:21; main Deployed UAT passed (45911343052); G3 75/48; locks 7,585; active cron 137; AI today US$0.79, of which s1292 US$0 |
+
+Open: the AER selector and the other lanes do not yet call the retry check before a repeat. Only provider description and the controller gate consult it today. The next slice is for the lane owners: S2-AER for the AER selector.
+
