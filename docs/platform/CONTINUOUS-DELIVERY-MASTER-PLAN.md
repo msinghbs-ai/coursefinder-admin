@@ -183,6 +183,7 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1281` | S1-Build (SS-Programme-Control 26 Nov 2026 22:22 AEDT, Reported Data Issues R1) | R1 backend contract: submission extension (field, displayed value, audience, year, origin, idempotency, duplicate check), `report_summary_v1`, `report_inbox_v1`, `report_detail_v1`, `report_ack_v1`, per-reporter state table, stages, Fixed only after catalogue and consumer verification. Contract: `docs/platform/2026-11-26-reported-issues-r1-backend-contract.md`. Migration `20261130054500` (renumbered from `20261130041500` above s1176b's `20261130044500` and s1284's `20261130051500`) | In release |
 | `s1283` | S1-API-Frontend-Delivery (SS-Programme-Control "Complete job and lane monitoring UI", 26 Nov 2026 22:51; `s1280` went to S2-AER, `s1281` to S1-Data-Gaps and `s1282` to S2-RM-Design, so this took the first free number) | Job and lane monitoring UI on the existing screens, on the live s1176 contract (Pilot #1693): Data Delivery shows the backend-classified summary in place of the 138-row worker table; Scheduled jobs › Automations lists every component of `public.admin_pim_jobs_v1` with search, filters, pagination and a drill-down. Frontend only; no migration, no new page or tab; consumer API untouched. Design note `docs/platform/2026-11-26-pim-jobs-monitoring-ui-s1283.md` | Pilot #1700, recorded before merge; production desktop and 412 px read-back follows the deploy |
 | `s1284` | S1-Build (SS-Programme-Control 26 Nov 2026 22:27 AEDT, first autonomous AER cycle, consumer read-back) | A printed minimum age ("18 years of age") was admitted as a minimum entry score (Website v2 `min_score 18`). Worker v1.0.53 `entryAgeNotScore` for new reads; 1,402 admitted rows on 1,365 courses become `general_note` with no score, earlier values kept. Integration issue recorded. Migration `20261130051500` | In release |
+| `s1285` | S1-Build (SS-Programme-Control 26 Nov 2026 23:58 AEDT, P0 Keep Main Green) | Deployed Layer 1 specs read the current list classes (`ui-xl-*`). Auto-merge: named required checks on the exact head, one release at a time, a red main admits only a `main-green-fix` pull request. Duplicate triggers removed: per-check-suite auto-merge, label-triggered dry-run re-runs, probe clean-up for non-probe branches. No migration | In release |
 | `s1034` | S1-API-Frontend-Delivery | Human Edits & Periodic Audit carries the Periodic Audit - Locked Field Update list with bulk Yes (Approve & Keep Lock) / No (Reject), select all up to 100, one reason of 8+ characters, via `admin_layer4_locked_update_bulk` (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1036` | S1-API-Frontend-Delivery | Settings opens on a Key controls panel (plain titles, reason on every change, governed write through `admin_toolsets_write`) with the ~1,700 low-level keys in a collapsed, searchable Advanced System Keys drawer that matches labels and keys (Platform Admin brief 24 Nov 2026 12:42) | Pilot (this PR) |
 | `s1010` | S1-Build | Settings registry for the v1.2 Settings screen (plain-English help on every setting) and the Firecrawl Tier 1 micro-budget: `firecrawl.daily_budget_total` 0 to 5 credits a day with the Platform Admin's reason (Standing Authority Charter section 10; Platform Admin 23 Nov 2026 19:59) | Pilot PR after s997 (rehearsed) |
@@ -1108,6 +1109,33 @@ Approvals relayed by SS-Programme-Control recorded in the s1240 decision pack, s
       - no bulk replace, and no consumer-side-only fix.
     - Not corrected here.
   - **G2 thresholds (rule 7):** S1-Build's new reads use registered settings (feedback.*, lookups.intake_years_ahead, the aer.* batch settings). Page-size and bulk bounds are documented `-- fixed:` safety bounds.
+- 27 Nov 2026 00:15 AEDT, S1-Build (SS-Programme-Control 23:58, P0 "Restore Main Green and Eliminate Repetitive CI/CD Failures"):
+  - **Cause of red main.**
+    - `tests/uat/layer1-operations-deployed.spec.mjs` still selected `.xl-summary`, `.xl-head`, `.xl-field`, `.xl-body` and `.xl-chev`. `Layer1RegisterView` renders `ExpandList` with `ui-xl-*`.
+    - Two tests failed on every deployed revision: "AU and NZ expose the production-shaped operator journey" and "Administration preserves the Platform Admin boundary". 9 failed Deployed UAT runs on main in the 2 hours to 00:00.
+    - `cf-068-qs-xhr-layer1-deployed` had the same selectors.
+  - **Fix.** Selectors only; every assertion is unchanged.
+  - **Verified.** Deployed UAT on the fix branch against production, signed in: 3 of 3 passed (run 45825844902, 18 s).
+  - **Auto-merge (s1285).**
+    - Named required checks on the exact head: build-and-smoke, test-evidence and the three security gates, as well as `MIN_CHECKS`.
+    - No merge while a Deployed UAT of main is running.
+    - While the latest Deployed UAT of main failed, only a `main-green-fix` pull request merges.
+    - The admin copy of the script is byte-identical; its gates are off there (no env).
+  - **Duplicate runs, measured over the 2 hours to 00:00 AEDT** (395 Pilot workflow runs):
+    - Auto-merge: 255 runs (104 per finished check suite, 117 probe clean-ups, 38 PR events).
+    - Dry runs: 117, of which 76 hand-started probes. Many were S1-Build's own read-only probes, retried when the shared queue cancelled them; S1-Build now batches its probes.
+    - 18 dry runs cancelled.
+  - **Removed triggers:**
+    - auto-merge on every finished check suite: now one look per finished Test evidence run;
+    - wait runs for non-automerge labels;
+    - dry-run re-runs when another label is added;
+    - probe clean-up for non-probe branches.
+  - **Kept unchanged:** the six-shard suite, every mandatory check and the live dry-run gate.
+  - **PR dispositions.**
+    - #1702 (R1) and #1703 (AER age) were merged and verified live earlier.
+    - #1700 (s1283, S2-Build): open; its owner fixes colour tokens, read-only role assertions and the Scheduled jobs contract. It is held by the Keep Main Green gate until main is green.
+    - #1664: stale scholarship draft (S3-Scholarship), kept as a draft; its spec lacks `// Guards:` and needs stored evidence 0071e251 qualified.
+    - #1502: held policy-dependent draft (S2-RM-Design), kept.
 - 26 Nov 2026 22:40 AEDT, S1-RM-Design (SS-Programme-Control 21:34, DR-16 takeover): s1176 slice A recorded before merge (Pilot #1693, migration `20261130020000`, rehearsed rolled back). PIM monitoring reads jobs by jobid and covers all 312 components (cron, lanes, targets, rules) with state, heartbeat, next run, failure reason, and 24 h and 7 d outcomes. Unmeasured is never 0, and idle pauses by flag-recheck show as idle. It is counted in the background on the alternate run. `pim.operations` gains `states`, `by_component`, `attention`, `holds`, `toolset` and `jobs_snapshot`; the full list is `admin_pim_jobs_v1` (S1-API-Frontend-Delivery). Findings for S1-Build: `ops-cost-guard` deferred 9,349 of 9,380 (last run 25 Nov); `coursefinder-data-quality-overview-refresh` 910 of 912 (21 Nov). Admin #1173 and #1177 folded in. Spend US$0.
 - 26 Nov 2026 22:50 AEDT, S1-RM-Design: s1176 live (Pilot #1693, deploy 45811790352; bodies match the file). First unattended jobs count at 22:45, 15.6 s, on its own run. Signed-in UAT at measured 1024 and 412 px: no sideways scroll; 0 of 136 stalled. Consumer finding: website and Zoho sync copies carry no academic entry or course description; next slice is a rotating verified sample via the consumer reads. Spend US$0.
 - 26 Nov 2026 23:10 AEDT, S1-Data-Gaps (Atlas brief 22:19): s1281 live and read back from the live database (Pilot #1696, Admin #1230 first). `fid.provider_types` has its eight types, `fees.provider_types` is unchanged, the sweep function carries the expected checksum, and the Course page needed list holds the 23 courses (open, none locked, addresses kept). The sweep began 30-page batches over the private VET, school and wananga pages at 23:00 (30 pages recorded, 0 Layer 4 items, no value admitted yet; about six hours to clear 6,935 pages at the first rate). G3 75/48, locks 7,585, cron 135 (none added), the 7 past-dated intake rows unchanged, US$0. Open: S1-DG-4.
