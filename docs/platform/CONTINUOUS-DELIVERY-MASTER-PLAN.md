@@ -185,11 +185,11 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1288` | S1-API-Frontend-Delivery (SS-Programme-Control "Complete existing Data Delivery integration", 27 Nov 2026 00:09; first free number above `s1287`) | Data Delivery: the rotating consumer sample (`pim.operations.consumer_fields`, s1176b) inside the existing Verified consumer read-back section: canonical population, sampled coverage, verified delivery, international applicability, failure reasons and last verification, counted on the sampled courses only and never extrapolated; unrecorded checks read Not checked. s1283 polish from production UAT. Hardens the `s1202` frozen-surface pattern (G3 central guard stays `s57`). Frontend only | Live 27 Nov 2026 (Pilot #1710, Workers build green); signed-in production read-back at desktop and 412 px passed against `security.data_delivery_v1()` |
 | `s1284` | S1-Build (SS-Programme-Control 26 Nov 2026 22:27 AEDT, first autonomous AER cycle, consumer read-back) | A printed minimum age ("18 years of age") was admitted as a minimum entry score (Website v2 `min_score 18`). Worker v1.0.53 `entryAgeNotScore` for new reads; 1,402 admitted rows on 1,365 courses become `general_note` with no score, earlier values kept. Integration issue recorded. Migration `20261130051500` | In release |
 | `s1285` | S1-Build (SS-Programme-Control 26 Nov 2026 23:58 AEDT, P0 Keep Main Green) | Deployed Layer 1 specs read the current list classes (`ui-xl-*`). Auto-merge: named required checks on the exact head, one release at a time, a red main admits only a `main-green-fix` pull request. Duplicate triggers removed: per-check-suite auto-merge, label-triggered dry-run re-runs, probe clean-up for non-probe branches. No migration | In release |
-| `s1286` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, consumer integrity item 2) | Shared entry payload (`security.entry_course_payload_v1`): domestic-only rows not served to international readers; a minimum grade with no numeric score served in `requirements_note`. Website v2, v3 and Zoho v2 output changes. **HELD** for Platform Admin approval and the Wix/Zoho notice (Pilot #1709, draft). Its version `20261130061500` now collides with s1176c and is renumbered at approval | Held |
+| `s1286` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, consumer integrity item 2) | Shared entry payload (`security.entry_course_payload_v1`): domestic-only rows not served to international readers; a minimum grade with no numeric score served in `requirements_note`. Website v2, v3 and Zoho v2 output changes. **HELD** for Platform Admin approval and the Wix/Zoho notice (Pilot #1709, draft). Its version `20261130061500` now collides with s1176c and is renumbered at approval | Held: D9 approved with safeguards; notice drafted (admin #1263); waits for the Platform Admin's notice confirmation |
 | `s1287` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, items 3 to 5) | Rollup starvation: `ops-cost-guard` and the data quality overview run first in their due ticks (priority 3); four often-deferred targets priority 4; `course-field-readiness` priority 11. `layer2-onboarding-snapshot` cutover finished byte for byte; cron job 36 off and retiring (paste file held to 11 Dec) | Live (Pilot #1711, migration `20261130064500`) |
 | `s1289` | S1-Build (SS-Programme-Control 27 Nov 2026 06:46 AEDT, items 3 and 4, s1287 read-back) | `data-delivery` (Data Delivery screen counts) priority 10 → 9: a 103.5 s run (01:15) put its 14-day estimate past the tick finish time, so as second target it never ran (341 deferrals, none run since 01:59) | In release |
 | `s1290` | S1-Build (Platform Admin D10, 27 Nov 2026) | Permanent rollup scheduler fix in `security.rollup_tick_v1` (now held in the repository; capture md5 `36a8d4f3`).
-| `s1291` | S1-Build (Platform Admin D11, 27 Nov 2026) | Holds of jobs 87 `scholarship-discover-refill`, 378 `calendar-reread` and 108 `firecrawl-runs` recorded in `pipeline.component_register` notes (decision, owner, replacement, dependency, spend) with a `hold_recorded` control event each. No cron row changes | In release |
+| `s1291` | S1-Build (Platform Admin D11, 27 Nov 2026) | Holds of jobs 87 `scholarship-discover-refill`, 378 `calendar-reread` and 108 `firecrawl-runs` recorded in `pipeline.component_register` notes (decision, owner, replacement, dependency, spend) with a `hold_recorded` control event each. No cron row changes | Live (Pilot #1714, merged 09:06) |
 - Estimate: p95 + 25%, capped at the longest run; the longest run below 20 runs.
 - Order: protected (≤ 5), then starved (> 30 min), then priority.
 - Budget, finish rule, lock and due-minute record unchanged.
@@ -1234,4 +1234,26 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
     | 87 `scholarship-discover-refill` | 17 Nov 13:35 (migration 20261117051700, the temporary REQ and Roadmap pause); left off by s1054 | S1-Build (Scholarships) | s1054 picker: requested providers first | No spend itself; discovery then searches the added providers under the scheduled Firecrawl limits |
     | 378 `calendar-reread` | 17 Nov 13:35, same pause; left off by s1054 | S1-RM-Design (intake dates) | None scheduled; Run Now on stored documents | Stored documents only; no Firecrawl fetch |
     | 108 `firecrawl-runs` | 22 Nov, S3-Backend-Pipeline (after 0 running runs and 0 leased items were verified); kept by s1010 | S3-Backend-Pipeline | None | A run started from the Firecrawl panel would not advance (today 0 running; latest run 2 Nov). Resuming spends credits under the daily budget guard |
+- 27 Nov 2026 09:40 AEDT, S1-Build (D9, D10, D11 and Feedback 3–6):
+  - **D10 live.** `security.rollup_tick_v1` md5 is now `8334604e`; head `20261130091500`. First 28 minutes against the same span before release:
+
+    | Target | After release (runs/deferrals) | Same span before |
+    |---|---|---|
+    | `data-delivery` | 28/0 | 12/15 |
+    | `course-field-readiness` | 7/4 | 0/24 (yesterday 4/20) |
+    | `admin-read-snapshots` | 28/0 | 27/0 |
+    | `course-coverage-build` | 14/0 | 13/1 |
+
+    Protected targets keep their slots; the longest tick is 63 s; no overlap. The cost guard and the daily overview are next due at :43 and 03:17. A longer unattended read is due at the 08:30 scheduled check.
+  - **D11 live.** The three holds are recorded in the register; jobs 87, 108 and 378 remain inactive.
+  - **D9 held.** #1709 now carries the safeguards: duration and pathway wording is never `course_general` (792 of 16,842 rows excluded); `scope` is `all_countries`; the approval line is recorded.
+    - Rehearsed for India: 8,763 `course_general`, 793 `contact_provider`.
+    - Feedback cohort: seven courses move to `course_general`.
+    - Wix/Zoho notice and guide drafts: admin #1263.
+  - **Feedback P0 catalogue, live traces.** The register is updated for FB-4A.7-01, FB-5.3-25, FB-5.3-30, FB-6.C03-01, FB-6.C05-01 and the FB-6 academic entry cohort.
+    - The CDU Doctor of Pharmacy is in the Portal search; searching the provider code returns nothing.
+    - WSU 064020M is present, but the Health Service Management specialisation is not captured.
+    - CDU OT has three CRICOS-active registrations (no merge).
+    - Kaplan's campuses are recorded under suburb names (Docklands, Southport).
+  - **Register write incident.** One batched Sheets write dropped its placeholder rows, and entries landed in rows 98–108 and 70. All were restored the same hour from the standard category wording and read back. The FB-6.C02-04 earlier note could not be recovered and is marked as reconstructed.
 
