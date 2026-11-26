@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 27 Nov 2026 00:15 AEDT: P0 Keep Main Green (s1285).**
+- **Cause:** main was red because the deployed Layer 1 spec still used the old `.xl-*` selectors.
+- **Fix:** selectors only. Verified 3 of 3 on production.
+- **Auto-merge:** now checks named required checks, runs one release at a time, and lets only a `main-green-fix` through while main is red.
+- **Duplicate runs:** per-check-suite and label-triggered duplicates removed.
+- **Cron:** no change by S1-Build.
+
 **S1-Build, 27 Nov 2026 00:20 AEDT: cron and s1279 safeguards.**
 - **Cron:** 138 active at 23:34 AEDT. S1-Build changed 0 jobs today. No redundant job was found.
 - **Entities:** the 11 entity-pattern descriptions are UQ `&#039;` from the adapter path. They go to the description owner for a shared decoder and source-backed re-admission.
