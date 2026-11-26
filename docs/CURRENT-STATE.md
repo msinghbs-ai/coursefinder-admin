@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 23:20 AEDT: Reported Data Issues R1 backend (s1281) in release.**
+- **Contract:** `docs/platform/2026-11-26-reported-issues-r1-backend-contract.md`.
+- **Next:** R2 (UI) and R3 (Layer 4) can build on it now.
+- **Zoho R4:** held.
+
 **S1-RM-Design, 26 Nov 2026 23:05 AEDT (SS-Programme-Control 22:51, Priority 1): s1176b consumer field verification, recorded before merge (Pilot #1699, migration `20261130044500`, rehearsed rolled back).**
 - **What it does:** a bounded rotating sample reads academic entry and course descriptions back through the reads the consumers call: `website_v2_course` and `zoho_v2_course` (actual delivery today), and for entry also `website_v3_course` as an international student. Each read records returned, populated, matches canonical and international applicability separately, then delivery verified and international verified.
 - **Size and cadence:** 2 courses per stream every 10 minutes (settings), never-checked first, on a background run where neither the PIM progress nor the jobs read is due.
