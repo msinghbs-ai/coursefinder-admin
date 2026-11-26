@@ -872,6 +872,26 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 12:25 AEDT: s1213 live (Pilot #1654, migration renumbered to `20261129070000` above another lane's `20261129061000`; history md5 checked); s1214 portal course detail and entry requirements reads claimed and recorded before merge (migration `20261129080000`, branch `s2-s1214-portal-detail-aer`); Atlas brief 12:02 for S1-API-Frontend-Delivery.**
+- **s1213:** the five background jobs carry the quiet-hours check live. The daytime read-back follows in the next entry.
+- **s1214** adds read-only `portal` functions behind public wrappers. Each needs Viewer rank or above; anon is refused.
+  - **`public.portal_course_detail_v1(p_course_id uuid)`:** one published-provider course in full. A course outside the portal scope answers not found (P0002). It returns:
+    - the description and campuses;
+    - every active fee row, plus the annual tuition;
+    - upcoming intakes;
+    - academic entry and English requirements;
+    - the provider's QILT employment and salary figures for the course's cohort (UG, PGC or PGR);
+    - the official page and when it was last checked.
+  - **`public.portal_aer_list_v1(p_args jsonb)`:** pages of published-provider courses with their active academic and English requirements.
+    - Filters: `q`, `country`, `source_country`, `level` (a code or its family, e.g. masters), `provider_id`, and `has` (academic, english, both or any). Malformed fields are ignored.
+    - Page size: new setting `portal.aer_page_size` (20).
+    - No active entry requirement records a qualification country yet, so `source_country` also returns requirements that name no country, since those apply to everyone.
+- **Coverage today:** 22,286 of 34,362 portal courses carry a requirement (10,634 academic, 21,063 English).
+- **Rehearsed:**
+  - Master of Nursing Practice detail in 21 to 51 ms, with 2 entry requirements, 1 English requirement, 4 fees, 2 intakes and 7 outcome figures.
+  - The list: masters nursing in AU found 55 courses in 78 ms; the unfiltered list took 0.37 s.
+- G3 75/48; locks 7,585; active cron 138; no job; US$0.
+
 **S2-Build, 26 Nov 2026 12:20 AEDT: s1213 daytime quiet hours claimed and recorded before merge (migration `20261129060000`, branch `s2-s1213-quiet-hours`); Atlas brief 11:59, Platform Admin approval.**
 - **Measured** (cron run history, last 24 hours): 363,920 job-seconds a day, 177,899 of them between 08:00 and 20:00 Melbourne time. Database at CPU 78% and disk 79%.
 - **The five heaviest direct background jobs**, 95,352 job-seconds a day (about 47,700 of them by day), serve no screen:
