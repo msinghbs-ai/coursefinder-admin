@@ -937,6 +937,41 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 23:05 AEDT: DR-19 increments 2 to 4 (s1282) built and recorded before merge (Pilot branch `s2-s1282-dr19-record-trace-ui-2`; no migration); SS-Programme-Control 22:52.**
+- **Reuse only.** The UI reads S2-RM-Design's existing contract and creates no new diagnostic read or framework:
+  - `admin_pim_record_trace_v1`, `admin_pim_provider_trace_v1` and `admin_pim_operational_recovery_measure_v1` (Pilot #1682 and #1690);
+  - `admin_record_journey_v1`, through the existing Processing journey and diagnosis fold (s1272).
+- **Increment 2, Data Delivery:**
+  - a **Records** drill in every stream body and under the PIM matrix;
+  - pick a field (from the field register) and a provider (through the existing admin search);
+  - the provider's courses are counted by diagnosis class: value held, protected or in review, service failure (retry), explained gap, needs engineering, not read yet;
+  - a class lists its records, and a record opens its trace and a link to the course record.
+- **Increment 3, course record drawer:** a closed fold, **Field processing status and diagnosis**, listing every registered field, with the fields needing attention first. Each field shows:
+  - its class and exact reason;
+  - source evidence ids;
+  - attempts;
+  - recovery history (resolved findings, decided Layer 4 items with their change-control reference);
+  - authorised actions;
+  - open Layer 4 items with their journey fold and a link (Curator and above).
+- **Increment 4, seven facts kept apart:**
+  - record returned by consumer (Website v3 and Zoho v3; "a returned record says nothing about whether this field is right");
+  - field populated;
+  - field value verified: Not verified, because the backend's "verified" means a value is held. The Website text of the description equalling the catalogue is shown as delivery consistency, not as a source check;
+  - international applicability verified: Not available, because the field trace holds no such evidence;
+  - canonical admission;
+  - consumer delivery (Website v3 per field; Zoho per field not measured);
+  - actual recovery gain (per field, plus the platform-wide recovery measure).
+- **Live read times** (rolled back, Platform Admin account):
+  - record trace: 15 fields in 2.9 s;
+  - provider trace: a 41-course provider in 0.7 s.
+  - **Dependency for S2-RM-Design:** at that rate a 667-course provider takes about 11 s, past the 8 s statement limit for signed-in users, so its drill would time out. The screen shows the error plainly. The fix belongs in `pim_provider_trace_v1` (paging or a lower `pim.trace_max_courses`).
+- **Section 3b:**
+  - Cross-spec search: 122 specs read the changed files. Their static tests pass, and the colour-literal token check passes after one fix.
+  - Browser and build specs need the dev server, which this session lacks; CI runs them.
+  - Production acceptance: `cf-247-s1282-dr19-record-trace-deployed` (read only, desktop and phone) runs on merge through the Deployed UAT targeted rule.
+- **Shared files** (S1-API-Frontend-Delivery informed through this plan line): one drill line each in `DataDelivery.jsx` and `PimDelivery.jsx`, and one line in the course drawer in `mature-main.jsx`. Page search is not touched.
+- G3 untouched; no setting, job or spend.
+
 **S2-Build, 26 Nov 2026 22:40 AEDT: DR-19 increment 1 (s1272) live and accepted on production (Pilot #1681, migration `20261129200000`, history md5 `06dda010`; acceptance spec through #1687, #1689, #1692, #1694; admin #1204, #1205, #1216, #1222).**
 - **Live:** every Layer 4 card in the production Admin has the **Processing journey and diagnosis** fold, reading `public.admin_record_journey_v1`. Workers Builds coursefinder-pilot passed on the merge.
 - **Production UAT, authenticated** (Deployed UAT run 45812223349, `cf-247-s1272-dr19-record-journey-deployed`, read only):
