@@ -107,6 +107,8 @@ Every StudySearch agent, Claude or ChatGPT, existing or replacement, follows thi
 - **No transfer:** when nothing needs transferring, write `No handover required` under Next destination and Required action.
 - **Roles:** SS-Programme-Control (ChatGPT) is the independent programme oversight and coordination chat. S1-Build remains the Engineering Integration Controller.
 
+**Parallel-lane prompt and handover standard (s1275 lessons, 26 Nov 2026):** Every implementation assignment and its closing handover references [Master Plan §3b](CONTINUOUS-DELIVERY-MASTER-PLAN.md#3b-parallel-lane-preflight-and-handover-standard--lessons-from-portal-international-availability-s1275-26-nov-2026). Before push, reconcile live/main/open migration claims with S1-Build (lane minute offsets preferred, never override monotonic uniqueness); cross-search affected shared interfaces and all specs; record live count scope/time; split local from authenticated live UAT and assign unavailable checks to a capable runner; generated TEST-REGISTER is S1-Build's existing generator only; refresh derived Drive mirrors at milestones without breaking stable links; preserve saved snapshot semantics. Use existing guardrails and release controls, no new queue, schedule or approval wait. Describe the capability first, then its technical IDs.
+
 ## Autonomous production UAT (Platform Admin, 26 Nov 2026 17:39 AEDT, relayed by SS-Programme-Control)
 
 Every development chat, Claude or ChatGPT, existing or replacement, completes its own user acceptance testing on production. Routine UAT is not handed to the Platform Admin.

@@ -326,6 +326,9 @@ The functions the screens call, built to the contract above on pipeline tables (
 
 **Snapshots.** The server builds each course snapshot from live rows: title, provider, level, place, length, delivery, fee, next intake, entry (preferring the student's country of education), English, international scholarships and availability. An ordinary save keeps the snapshots already held, so nothing in the PDF changes until a refresh is accepted. A newly added course is snapshotted when it is added.
 
+**Location snapshot boundary (s1275 post-implementation review, 26 Nov 2026):** Proposals deliberately retain the saved server-owned city/state location snapshot (and the rest of their saved course facts) until a counsellor accepts an authorised refresh. Live Courses and Entry Requirements search cards use the current state-aware `placeText`/`portal.place_label_v1` projection; this live formatting change must not silently rewrite an existing proposal, its saved/printed snapshot or version history. New additions and accepted refreshes follow the existing server snapshot contract. Any future change to saved location semantics requires the existing Portal owner's contract review and regression coverage of both frozen and refreshed proposals.
+
+
 **Settings (portal toolset).** All appear on Settings › Toolsets & limits:
 - `proposal_max_courses` 12, `proposal_message_max_chars` 3,000, `proposal_note_max_chars` 2,000, `proposal_why_max_chars` 300;
 - `edit_lock_minutes` 15, `proposals_page_size` 20, `proposal_retention_months` 12, `resume_items_shown` 6;
