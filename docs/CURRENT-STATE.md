@@ -58,6 +58,8 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 09:20 AEDT: D11 (s1291) in release.** Jobs 87, 378 and 108 stay off. Their holds (decision, owner, replacement, spend) are recorded in the component register notes. No runtime change.
+
 **S1-Build, 27 Nov 2026 09:05 AEDT: D10 scheduler fix (s1290) in release.** `security.rollup_tick_v1` is now held in the repository.
 - Estimate: p95 + 25% (capped at the longest run; the longest run below 20 runs).
 - Order: protected ≤ 5, then starved > 30 min.
