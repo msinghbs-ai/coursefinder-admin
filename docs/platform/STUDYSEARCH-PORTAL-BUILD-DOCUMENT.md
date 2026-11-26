@@ -57,6 +57,8 @@
 | 26 Nov 11:25 | s1212 (migration `20261129050000`): the s1211 live read-back showed the compact meaning index pushed out of memory by the pipeline's load and slower warm, so the meaning step reads the full-vector index again by default (`portal_search.meaning_index`, full or compact); the other s1211 changes stay. Rehearsed: same results as s1181; city searches 0.21 to 0.42 s (were 0.40 to 0.80 s) | S2-Build | [#1653](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1653) | [#1147](https://github.com/msinghbs-ai/coursefinder-admin/pull/1147), live record (this checkpoint) | Live; read back paired with s1181 |
 | 26 Nov 12:20 | s1213 daytime quiet hours (migration `20261129060000`): coverage-ai-match-prepare, fee-reader, scholarship-ai-extract, course-description-machine and provider-description-read do no work 08:00 to 20:00 Melbourne (95,352 job-seconds a day, about 47,700 by day); settings `pipeline.quiet_hours.*` | S2-Build | [#1654](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1654) (migration renumbered `20261129070000`) | [#1150](https://github.com/msinghbs-ai/coursefinder-admin/pull/1150) | Live |
 | 26 Nov 12:25 | s1214 portal reads (migration `20261129080000`): `public.portal_course_detail_v1` (one course in full) and `public.portal_aer_list_v1` (paged academic and English requirements; setting `portal.aer_page_size`), Viewer and above | S2-Build | [#1656](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1656) | [#1151](https://github.com/msinghbs-ai/coursefinder-admin/pull/1151), live record (this checkpoint) | Live; read back as the Platform Admin |
+| 26 Nov 12:25 | s1214 portal reads (migration `20261129080000`): `public.portal_course_detail_v1` (one course in full) and `public.portal_aer_list_v1` (paged academic and English requirements; setting `portal.aer_page_size`), Viewer and above | S2-Build | branch `s2-s1214-portal-detail-aer` | recorded before merge (this checkpoint) | Rehearsed |
+| 26 Nov 12:45 | s1215 Course details, Entry Requirements (AER) and new-tab links (migration `20261129090000`): inline Course details panel on Courses, Saved courses and Entry Requirements (overview, campuses and delivery, fee lines as recorded, intakes and deadlines, entry and English, provider-level career outcomes, official source); new Entry Requirements screen after Courses (Viewer and Counsellor; Save and Add to proposal Counsellor only); one `ExtLink` component so every outside link opens in a new tab; reads S2-Build's `portal_course_detail_v1` and `portal_aer_list_v1`; new `portal_study_levels_v1` for the level filter | S1-API-Frontend-Delivery | Pilot branch `s1-portal-details-aer-s1215` | plan log | Recorded before merge |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -94,6 +96,7 @@
 - "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too). Done in s1181.
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
+- Entry Requirements and Course details show only what is admitted; gaps close as the data lanes admit rows and need no screen change. Career outcomes are provider-level, never course-level. Two things the screens cannot show from S2-Build's reads yet (passed to S2-Build in the Master Plan): the provider's country-by-country entry matrix and website in the detail read, and city, length and fee on the Entry Requirements list items.
 
 ## 7. Next executable action
 
@@ -105,6 +108,9 @@ Platform Admin: open Proposals on the portal (desktop and phone):
 5. Repeat the course search UAT (first-time phrases, broad words, a city, the Dashboard examples).
 6. Daytime quiet hours approved (s1213); after a day of UAT, say whether more jobs should join the list or the window should change (Settings › Pipeline settings › Scheduling).
 7. Decide the privacy notice wording.
+8. Open a course on Courses and choose Course details; check each section and that missing values say Not recorded. Repeat on Saved courses.
+9. Open Entry Requirements: choose Study in, a student's country of education and a study level; save a course and add one to a proposal. Sign in as a Viewer and check Save and Add to proposal are not shown.
+10. Click an outside link (course page, provider website, scholarship page) and check it opens in a new tab.
 
 S2-Build: act on anything the UAT finds, including the course detail and entry requirements reads (s1214) once S1-API-Frontend-Delivery wires them; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
 
