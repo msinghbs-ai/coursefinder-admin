@@ -334,3 +334,21 @@ The functions the screens call, built to the contract above on pipeline tables (
 **Not in this change.**
 - Removing expired or privacy-requested proposals: a Platform Admin paste file, because nothing is deleted by an applied migration.
 - `portal_dashboard_v1`.
+
+## Course details and Entry Requirements as built (Pilot s1214, S1-API-Frontend-Delivery, 26 Nov 2026)
+
+Atlas brief 12:02 AEDT from the Platform Admin's live UAT. Migration `20261129080000`; screens in `portal/`. Read only; no table is written, nothing is calculated, nothing is dropped. Access is Viewer (rank 1) and above through `security.portal_rank_v1(1)`; execute is granted to `authenticated` only. Visibility is the search's own: active course, active provider, a search document, and `portal_search.visibility_scope`. Admitted rows only (`status = 'active'`); audience `all` or `international`; a requirement with a country applies to that country only.
+
+**`public.portal_course_detail_v1(p_args)`**: `course_id` (required) and `market` (the student's country of education, two letters, optional). Returns `{found, market, course, campuses, fees, intakes, entry, provider_entry, provider_entry_countries, english, outcomes}`.
+- `course`: title, code, level, description, duration, delivery mode, `open_to_international`, `course_url` (the official page), `last_verified_at`, `provider {id, name, website, country_code}`.
+- `fees`: each admitted international line as recorded (`fee_type`, `basis`, `period` year or course, `amount`, `currency`, `fee_year`, `campus`, `notes`). Lines are never added together.
+- `intakes`: upcoming or undated admitted intakes with `start_date` and `application_deadline` where held.
+- `entry`: the course's own lines (kind, description, grade, basis, source, checked date), for the student's country when `market` is given.
+- `provider_entry`: the provider's entry-matrix lines for that country, for this course or its level; empty until a market is chosen. `provider_entry_countries` says how many countries the provider publishes.
+- `english`: test, overall score and component scores. `outcomes`: the provider's current outcome figures (employment, salary, employer satisfaction, student experience), always provider-level.
+
+**`public.portal_entry_requirements_v1(p_args)`**: `country` (Study in), `level` (a study level code; its child levels are included), `market`, `q` (provider or course text), `has` (`entry` or `english`), `page`, and `lookups: true` to add the live study levels. Returns `{total, page, page_size, market, country, level, results, levels?}`. A result is a course card (the fields the Courses cards use, so Save and Add to proposal work unchanged) with `entry`, `provider_entry` and `english` lines, at most `portal_search.entry_rows_per_course` each. Only courses holding a recorded academic or English requirement are listed. The page size is `portal_search.result_page_size`.
+
+**Settings (G2)**: `portal_search.entry_rows_per_course` (6, 1 to 20 lines) and `portal_search.detail_rows_max` (40, 10 to 100 rows).
+
+**Screens**: `components/CourseDetails.jsx` (the panel, loaded when opened), `screens/EntryRequirements.jsx`, `components/ExtLink.jsx` (new tab, `noopener noreferrer`, web addresses only). The menu is Dashboard, Courses, Entry Requirements, Universities & Providers, Scholarships, Saved courses, Proposals. Guards: Pilot specs `cf-247-s1214-portal-course-details-and-entry-requirements-contract` and `cf-247-s1214-portal-course-read-functions-migration-contract`.

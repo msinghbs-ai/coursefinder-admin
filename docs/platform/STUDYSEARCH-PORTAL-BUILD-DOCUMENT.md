@@ -55,6 +55,7 @@
 | 26 Nov 11:00 | s1211 search latency (migration `20261129040000`): 16 MB one-bit meaning index with exact scoring of 300 candidates; city and filter steps by key from the topic set; countries and levels through their indexes; phrase meanings kept 30 days and renewed on use; Dashboard example searches pre-warmed. Rehearsed: same results as s1181; Master of Nursing in Victoria 0.16 s (was 1.52 s cold), city searches 0.2 to 0.48 s (were 0.38 to 1.05 s) | S2-Build | [#1651](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1651) | [#1145](https://github.com/msinghbs-ai/coursefinder-admin/pull/1145) | Live; meaning step superseded by s1212 |
 | 26 Nov 11:25 | s1212 (migration `20261129050000`): the s1211 live read-back showed the compact meaning index pushed out of memory by the pipeline's load and slower warm, so the meaning step reads the full-vector index again by default (`portal_search.meaning_index`, full or compact); the other s1211 changes stay. Rehearsed: same results as s1181; city searches 0.21 to 0.42 s (were 0.40 to 0.80 s) | S2-Build | [#1653](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1653) | [#1147](https://github.com/msinghbs-ai/coursefinder-admin/pull/1147), live record (this checkpoint) | Live; read back paired with s1181 |
 | 26 Nov 12:20 | s1213 daytime quiet hours (migration `20261129060000`): coverage-ai-match-prepare, fee-reader, scholarship-ai-extract, course-description-machine and provider-description-read do no work 08:00 to 20:00 Melbourne (95,352 job-seconds a day, about 47,700 by day); settings `pipeline.quiet_hours.*` | S2-Build | branch `s2-s1213-quiet-hours` | recorded before merge (this checkpoint) | Rehearsed |
+| 26 Nov 12:20 | s1214 Course details, Entry Requirements (AER) and new-tab links (migration `20261129080000`): inline Course details panel on Courses, Saved courses and Entry Requirements (overview, campuses and delivery, fee lines as recorded, intakes and deadlines, entry and English, provider-level career outcomes, official source); new Entry Requirements screen after Courses (Viewer and Counsellor; Save and Add to proposal Counsellor only); one `ExtLink` component so every outside link opens in a new tab; read-only `portal_course_detail_v1` and `portal_entry_requirements_v1` | S1-API-Frontend-Delivery | Pilot branch `s1-portal-details-aer-s1214` | plan log | Recorded before merge |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -84,6 +85,9 @@
 
 ## 6. Open issues seen during UAT
 
+- Entry Requirements and Course details show only what is admitted: 10,041 active courses hold a course-level entry line and 21,753 an English requirement (of 34,362); the provider's country-by-country requirement (131 countries) appears once a student's country is chosen. Career outcomes are provider-level (118 providers hold them), never course-level. Gaps close as the data lanes admit rows; the screens need no change.
+- The Entry Requirements list for a wide filter (masters in Australia, student's country India, 3,589 courses) took about 1.8 s cold; unfiltered 0.3 s. Watch it with the other portal search timings.
+
 - Course search time-outs on some phrases: fixed by s1181 (live 26 Nov 05:45). Superseded, kept for history.
 - The first search after a quiet spell is slower than the rest (cold database cache): reduced from 10 to 15 s to about 2.7 s by s1181.
 - Course search still felt slow in UAT on 26 Nov (Atlas brief 09:30): calls of 0.3 to 3.9 s, the cold meaning index read from disk and city searches reading whole tables. Fix s1211 (recorded before merge); a phrase not yet embedded ranks by words on its first search and by meaning from the next.
@@ -102,6 +106,9 @@ Platform Admin: open Proposals on the portal (desktop and phone):
 5. Repeat the course search UAT (first-time phrases, broad words, a city, the Dashboard examples).
 6. Daytime quiet hours approved (s1213); after a day of UAT, say whether more jobs should join the list or the window should change (Settings › Pipeline settings › Scheduling).
 7. Decide the privacy notice wording.
+8. Open a course on Courses and choose Course details; check each section and that missing values say Not recorded. Repeat on Saved courses.
+9. Open Entry Requirements: choose Study in, a student's country of education and a study level; save a course and add one to a proposal. Sign in as a Viewer and check Save and Add to proposal are not shown.
+10. Click an outside link (course page, provider website, scholarship page) and check it opens in a new tab.
 
 S2-Build: act on anything the UAT finds; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
 
