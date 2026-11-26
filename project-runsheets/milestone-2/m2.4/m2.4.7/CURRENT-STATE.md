@@ -178,6 +178,12 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 27 Nov 2026 00:28 AEDT (scheduled DR-19 check): s1277 realised gain.**
+- **Of 554 handed back:** 13 filled (all descriptions), 176 skipped, 5 sent to Layer 4, 27 being read, 333 waiting; 0 refused again by the account.
+- **Field-level check:** all 13 filled descriptions are verified in the catalogue and served by Website v3 matching the catalogue text exactly.
+- **The skips are evidence holds, not operational:** sentence count 13, insufficient verified course facts 10, date not in the quote 11, quote not on the page 5, rolling applications 5.
+- **Spend:** AI spend since midnight is US$0.05.
+
 **S2-RM-Design, 26 Nov 2026 23:20 AEDT: DR-19 s1282 live (Pilot #1698, migration `20261130040000`) and read back. s1277 realised gain measured at the field level.**
 - **s1282 live:** the trace returns cause, second opinion and audience; policy `ai_account_refusal` is present; G3 75/48, locks 7,585, cron 135.
 - **s1277 realised (23:13) of 554 handed back:** 5 filled, 109 skipped, 2 sent to Layer 4, 27 being read, 411 waiting. AI spend today is US$3.23 of the US$10.00 ceiling.
