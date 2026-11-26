@@ -349,3 +349,17 @@ Atlas brief 12:02 AEDT from the Platform Admin's live UAT. The screens (`portal/
 **Screens**: `components/CourseDetails.jsx` (panel, loaded when opened), `screens/EntryRequirements.jsx`, `components/ExtLink.jsx` (new tab, `noopener noreferrer`, web addresses only; a spec fails any other outside `href`). Menu: Dashboard, Courses, Entry Requirements, Universities & Providers, Scholarships, Saved courses, Proposals. Guards: Pilot specs `cf-247-s1215-portal-course-details-and-entry-requirements-contract` and `cf-247-s1215-portal-study-levels-migration-contract`.
 
 **Lane note**: I first built a duplicate read layer under the same s1214 number; it was withdrawn before merge once S2-Build's PR was seen, and the screens were rebuilt on theirs.
+
+## Course details and Entry Requirements fields added (Pilot s1216, S2-Build, 26 Nov 2026)
+
+Additive keys on the s1214 reads (same names, arguments and privileges); null means the catalogue does not hold the value.
+
+- `public.portal_course_detail_v1(p_course_id)`:
+  - `provider_website`: the provider's website.
+  - `entry_matrix`: an array of the provider's active country-by-country entry rows (`catalogue.provider_entry_matrix`, international or all applicants). Rows naming the course come first; then rows for the course's study level, or the level above or below it, that name no course; then provider-wide rows; by country within each. Each row holds `{country_code, country_name, qualification, min_grade, min_value, grade_scale, benchmark_band, level_label, course_label, for_this_course, audience, edition, intake_year, conditions, as_at, source_url}`. At most `portal.entry_matrix_max_rows` rows (300).
+  - `entry_matrix_total`: the number of rows that matched before the cap.
+- `public.portal_aer_list_v1(p_args)` items:
+  - `city` and `state_code`: the course's primary campus, otherwise the provider.
+  - `duration_value` and `duration_unit`: as in the detail read, for `durationText`.
+  - `annual_tuition_fee`: `{amount, currency}`, the provider's annual tuition that the search shows.
+
