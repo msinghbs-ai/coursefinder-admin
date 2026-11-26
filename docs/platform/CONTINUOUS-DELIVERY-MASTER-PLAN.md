@@ -189,6 +189,7 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1287` | S1-Build (SS-Programme-Control 27 Nov 2026 00:08 AEDT, items 3 to 5) | Rollup starvation: `ops-cost-guard` and the data quality overview run first in their due ticks (priority 3); four often-deferred targets priority 4; `course-field-readiness` priority 11. `layer2-onboarding-snapshot` cutover finished byte for byte; cron job 36 off and retiring (paste file held to 11 Dec) | Live (Pilot #1711, migration `20261130064500`) |
 | `s1289` | S1-Build (SS-Programme-Control 27 Nov 2026 06:46 AEDT, items 3 and 4, s1287 read-back) | `data-delivery` (Data Delivery screen counts) priority 10 → 9: a 103.5 s run (01:15) put its 14-day estimate past the tick finish time, so as second target it never ran (341 deferrals, none run since 01:59) | In release |
 | `s1290` | S1-Build (Platform Admin D10, 27 Nov 2026) | Permanent rollup scheduler fix in `security.rollup_tick_v1` (now held in the repository; capture md5 `36a8d4f3`).
+| `s1291` | S1-Build (Platform Admin D11, 27 Nov 2026) | Holds of jobs 87 `scholarship-discover-refill`, 378 `calendar-reread` and 108 `firecrawl-runs` recorded in `pipeline.component_register` notes (decision, owner, replacement, dependency, spend) with a `hold_recorded` control event each. No cron row changes | In release |
 - Estimate: p95 + 25%, capped at the longest run; the longest run below 20 runs.
 - Order: protected (≤ 5), then starved (> 30 min), then priority.
 - Budget, finish rule, lock and due-minute record unchanged.
@@ -1226,4 +1227,11 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
 - 27 Nov 2026 09:05 AEDT, S1-Build (SS-Programme-Control 08:28; D9, D10 and D11 approved):
   - Admin #1260 integrated (merged).
   - **D10:** `security.rollup_tick_v1` captured from live (2,795 characters, md5 `36a8d4f3`), with the 14-day history replayed (61,944 runs, 17,090 deferrals). s1290 is in release, rehearsed rolled back; the after-release measures follow in this log.
+  - **D11 (s1291) reconciliation, read live 09:10.** The register status stays `active` (lifecycle vocabulary is active, retiring and retired, and these jobs are kept); the hold is recorded in the register note.
+
+    | Job | Paused by | Owner | Replacement | Dependency and spend if resumed |
+    |---|---|---|---|---|
+    | 87 `scholarship-discover-refill` | 17 Nov 13:35 (migration 20261117051700, the temporary REQ and Roadmap pause); left off by s1054 | S1-Build (Scholarships) | s1054 picker: requested providers first | No spend itself; discovery then searches the added providers under the scheduled Firecrawl limits |
+    | 378 `calendar-reread` | 17 Nov 13:35, same pause; left off by s1054 | S1-RM-Design (intake dates) | None scheduled; Run Now on stored documents | Stored documents only; no Firecrawl fetch |
+    | 108 `firecrawl-runs` | 22 Nov, S3-Backend-Pipeline (after 0 running runs and 0 leased items were verified); kept by s1010 | S3-Backend-Pipeline | None | A run started from the Firecrawl panel would not advance (today 0 running; latest run 2 Nov). Resuming spends credits under the daily budget guard |
 
