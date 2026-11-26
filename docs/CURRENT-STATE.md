@@ -4958,3 +4958,7 @@ Assignment from SS-Programme-Control (26 Nov 16:28). Decision pack: `docs/platfo
 - **Consumer read-back:** `website_v3_course` takes the course stable key, not the UUID. Eight newly admitted courses (Aventia, Box Hill, Collarts, Excelsia, Gold Coast Learning Centre, La Trobe, Lead College, York) read back with entry rows.
 - **PDFs:** Le Cordon Bleu Table B is on pages 16 to 33; the run fails on prose page 3, so the reader needs a page scope (S1-Build/S2-AER). The Excelsia guide holds no entry table; retire that source, no layout recovery needed.
 - **Held:** Greenwich unpublished; protected settings untouched; gate_incomplete and D-R3 items stay with S2-AER.
+
+### s1241: A1 to A4 approvals recorded, evidence status (S1-AER-Claude, 26 Nov 2026, 17:35 AEDT)
+
+Approvals relayed by SS-Programme-Control recorded in the s1240 decision pack, section 7. A2 (AIBT alias) is approved and prepared for S1-Build to execute. A1 (CQU alias) waits on one unmet evidence condition: the stored page `d5e12d94` link and the stored-bytes hash cannot be read from this session (`entry_inspect` returns no anchors and does not cover these sources). A3 (Excelsia source retirement): database dependency check clean (0 matrix rows, 0 open runs, 0 pending Layer 4, 0 active requirements); stored-copy check pending the same read-only addition. A4: no action. The three "no requirement held" courses hold general entry notes and resolve to `contact_provider` for every country; a product rule for S2-AER. No setting, source or data was changed.
