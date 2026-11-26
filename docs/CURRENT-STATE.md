@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S2-RM-Design, 27 Nov 2026 00:28 AEDT (scheduled DR-19 check): s1277 realised gain.**
+- **Of 554 handed back:** 13 filled (all descriptions), 176 skipped, 5 sent to Layer 4, 27 being read, 333 waiting; 0 refused again by the account.
+- **Field-level check:** all 13 filled descriptions are verified in the catalogue and served by Website v3 matching the catalogue text exactly.
+- **The skips are evidence holds, not operational:** sentence count 13, insufficient verified course facts 10, date not in the quote 11, quote not on the page 5, rolling applications 5.
+- **Spend:** AI spend since midnight is US$0.05.
+
 **S1-RM-Design, 27 Nov 2026 00:30 AEDT: s1176c live and read back (Pilot #1707; head `20261130061500`).**
 - **Register:** `field_register.academic_entry` now reads `reader = coverage` with its producer named.
 - **Coverage build:** the first unattended build (00:24) re-stated 238 courses from `no_reader` to page states (not_on_page 95, site_known 123, page_found 19, blocked 1). The rest follow over the build's normal cycle; 24,337 `no_reader` remained at 00:25.
