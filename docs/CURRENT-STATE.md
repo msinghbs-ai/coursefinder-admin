@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**SS-Programme-Control — Portal international eligibility and location display (s1275), post-implementation reconciliation, 26 Nov 2026 22:02 AEDT.**
+- Pilot #1686 merged `ce56de42`; final migration `20261129230000` independently present live. Admin #1210/#1215 merged. Original PR text `20261129220000` is historical, superseded by the renumbered version.
+- Generated `docs/platform/TEST-REGISTER.md` already contains `cf-247-s1275-portal-intl-availability-contract` (6 source tests, #1686, local status `not run`). No regeneration or hand edit for this documentation-only change. Owner's rolled-back rehearsal recorded; authenticated 1440/1280/412 px production evidence not independently established; S1-Build/authorised capable runner owns outstanding checks.
+- Dated s1275 finding: 92 pending AER first reads, none machine-eligible then; 423 proposed rows across 15 providers held for missing explicit study level (51 India/Nepal). S2-AER to reconcile current cohort and resolve only through official evidence and existing reader/mapping/admission path; no inferred level, protected holds unchanged. Earlier 68-count scope not equivalent; CA false 0 is not proof of course eligibility.
+- See Master Plan §3b for the six parallel-lane guardrails and Portal design snapshot boundary. Live read-only 22:02: active cron 135/140, existing lock count 7,585; previous 136/137 counts dated. G3 75/48 owner evidence for s1275, not re-run here. No migrations, vendor calls, schedule or production mutation in this docs-only review.
+
+
 **S1-Build, 26 Nov 2026 21:55 AEDT.**
 - **Live:** s1261, entry route on (21:22 AEDT); s1276, quiet hours off.
 - **In release:** s1277, the initial AI allocations: entry US$5 a day, platform AI ceiling US$10 a day (D8).
