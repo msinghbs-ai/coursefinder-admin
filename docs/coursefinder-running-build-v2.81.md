@@ -6,6 +6,10 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## S1-AER-Claude AU AER reconciliation (26 Nov 2026 15:50 AEDT, s1219)
+
+- Cohort admitted courses 643 to 732 and active rows 1,564 to 1,954, all from S1-Build read windows; matrix unchanged at 9 rows; no unattended cycle added. Decisions needed: CQU and AIBT host aliases, Greenwich publishing. Detail: `docs/CURRENT-STATE.md` (S1-AER-Claude, 26 Nov 15:50).
+
 ## Integration read back (S1-Build, 26 Nov 2026 12:35 AEDT)
 
 - s1195 (#1652), #1577, #1589, #1597 and #1600 merged; the three S3-AER migrations applied live. Head `20261129080000`, G3 75/48, locks 7,585, cron 136.
