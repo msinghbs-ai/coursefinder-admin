@@ -1,5 +1,15 @@
 # StudySearch – current state (read this first)
 
+**S2-AER (was S2-RM-Design), 26 Nov 2026 17:05 AEDT (Atlas brief 16:22: Portal UAT data-gap pass over 34,362 published-provider courses): read-only audit; no backfill shipped; nothing written.**
+- **Audit:** `docs/platform/2026-11-26-portal-published-course-gap-audit.md`.
+- **CRICOS:** 0 missing; all 24,013 AU courses carry a code, served by Website v3 and portal detail.
+- **Campus city:** already unambiguous and served for a further 15,469 courses (no primary campus, all campuses in one city). The card's "Not recorded" is a mapping gap for S2-Build and S1-API-Frontend-Delivery. 8,509 multi-city courses need evidence; no manufactured primary.
+- **Fees:** 15,585 courses hold only the register total. An annual figure from it would be inference. One canonical fee is `portal.primary_fee_v1` (s1222).
+- **Intakes:** 3,160 future-dated (9.2%); 20,711 with no row; nothing staged waits (S1-RM-Design).
+- **Description and URL:** 18,261 and 10,624 missing (S1-Build).
+- **AER:** `IN` at providers covering 8,449 courses, `NP` 5,170; 0 matrix rows without a country. Coverage grows only by admitted reads.
+- **Not changed:** no spec claimed, no migration, no test change. G3 75/48, locks 7,585, cron 135, $0.
+
 **S1-RM-Design, 26 Nov 2026 16:35 AEDT: DR-16 (permanent PIM data-completeness controls) received and claimed; not started. This session is at its working limit; a fresh S1-RM-Design session takes over from here.**
 - **Slices, in order** (each extends the existing field register, applicability, field state, gap queue and Data Delivery snapshot; no separate pipeline, no cron, no blanket block or withdrawal):
   - **s1176:** the 15:47 items: every active worker and effective hold (join `cron.job` on jobid); read-only request register projection from `CONSUMER-REQUESTS.csv`; AER and cdesc consumer coverage.

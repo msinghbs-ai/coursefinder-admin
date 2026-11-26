@@ -178,6 +178,16 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-AER (was S2-RM-Design), 26 Nov 2026 17:05 AEDT (Atlas brief 16:22: Portal UAT data-gap pass over 34,362 published-provider courses): read-only audit; no backfill shipped; nothing written.**
+- **Audit:** `docs/platform/2026-11-26-portal-published-course-gap-audit.md`.
+- **CRICOS:** 0 missing; all 24,013 AU courses carry a code, served by Website v3 and portal detail.
+- **Campus city:** already unambiguous and served for a further 15,469 courses (no primary campus, all campuses in one city). The card's "Not recorded" is a mapping gap for S2-Build and S1-API-Frontend-Delivery. 8,509 multi-city courses need evidence; no manufactured primary.
+- **Fees:** 15,585 courses hold only the register total. An annual figure from it would be inference. One canonical fee is `portal.primary_fee_v1` (s1222).
+- **Intakes:** 3,160 future-dated (9.2%); 20,711 with no row; nothing staged waits (S1-RM-Design).
+- **Description and URL:** 18,261 and 10,624 missing (S1-Build).
+- **AER:** `IN` at providers covering 8,449 courses, `NP` 5,170; 0 matrix rows without a country. Coverage grows only by admitted reads.
+- **Not changed:** no spec claimed, no migration, no test change. G3 75/48, locks 7,585, cron 135, $0.
+
 **S2-RM-Design, 25 Nov 2026 00:16 AEDT (scheduled read-back against the 22:15 baseline): 3 first reads approved by a person; Website and Zoho v3 verified; no machine admission.**
 - **Active matrix rows:** 7,261 → 7,263 (+2 net). Five rows were made active from three Layer 4 first-read approvals: Australian Institute (23:18; AU Year 12 and AQF Certificate IV, bachelor), Conestoga College (00:18; CA OSSD 65%) and Simon Fraser University (00:18; CN Senior Middle School).
 - **Pending:** first-run reads 65 → 68 (new reads for Quality College of Australia and Victoria University, 23:45); change items 13, unchanged.

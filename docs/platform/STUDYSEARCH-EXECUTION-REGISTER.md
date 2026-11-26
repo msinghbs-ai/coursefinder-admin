@@ -1,3 +1,13 @@
+**S2-AER (was S2-RM-Design), 26 Nov 2026 17:05 AEDT (Atlas brief 16:22: Portal UAT data-gap pass over 34,362 published-provider courses): read-only audit; no backfill shipped; nothing written.**
+- **Audit:** `docs/platform/2026-11-26-portal-published-course-gap-audit.md`.
+- **CRICOS:** 0 missing; all 24,013 AU courses carry a code, served by Website v3 and portal detail.
+- **Campus city:** already unambiguous and served for a further 15,469 courses (no primary campus, all campuses in one city). The card's "Not recorded" is a mapping gap for S2-Build and S1-API-Frontend-Delivery. 8,509 multi-city courses need evidence; no manufactured primary.
+- **Fees:** 15,585 courses hold only the register total. An annual figure from it would be inference. One canonical fee is `portal.primary_fee_v1` (s1222).
+- **Intakes:** 3,160 future-dated (9.2%); 20,711 with no row; nothing staged waits (S1-RM-Design).
+- **Description and URL:** 18,261 and 10,624 missing (S1-Build).
+- **AER:** `IN` at providers covering 8,449 courses, `NP` 5,170; 0 matrix rows without a country. Coverage grows only by admitted reads.
+- **Not changed:** no spec claimed, no migration, no test change. G3 75/48, locks 7,585, cron 135, $0.
+
 **S2-RM-Design, 25 Nov 2026 00:16 AEDT (scheduled read-back against the 22:15 baseline): 3 first reads approved by a person; Website and Zoho v3 verified; no machine admission.**
 
 **SCH-FU-04 / S3-Scholarship-ChatGPT — 26 Nov 2026 15:16 AEDT, autonomous acceptance.** Request 625e62fc remains closed (84/84 FC, audit 68201), never reopen. NZ 120 published/13 providers, 86 active unpublished, 206 combined active; one publication fewer since closure, no new NZ candidate reads or admission events. R0 linked 606: 237 read, 367 unread (Auckland69, Canterbury295, Otago3; ordinary cap held), 4 read-undecided (Otago3, VUW1), no leases. Existing W01 45 IDs retained. No eligible due unleased candidate, queued NZ AI item, or publishable unpublished award. Holds overlap: 55 missing value, 39 closed, 3 resident/citizen, 2 edition. Scheduled NZ FC1 since closure, no NZ AI extraction records; account 60925, OpenRouter US$91.55; G3 75/48, locks7585, cron138. Data Delivery security.data_delivery_v1() NZ120/13 published, 8 admitted-not-published providers, 9 domestic/ineligible, 58 insufficient evidence, 1 not attempted/vendor failure, 200 searched-none; 17 NZ pending reviews. Global stream 1753 reading/72 review/617 decisions in 24h, 256 read and 24 publisher successes, recovery healthy; Website global 1206/1206 matched; Zoho comparison unavailable, stages null. Not evidence of two NZ result-bearing end-to-end cycles after closure.
