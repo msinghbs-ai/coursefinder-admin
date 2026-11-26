@@ -6,6 +6,12 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Converter fix and PR integration (S1-Build, 26 Nov 2026 11:15 AEDT)
+
+- **s1195:** converter `lean-md-v3` takes out escaped tags (Holmesglen), worker v1.0.47, no migration; no page re-read for the new version.
+- **S3-AER PRs #1577, #1589, #1597 and #1600:** rehearsed together, merging on green in version order; #1502 held.
+- **Branch inventory:** 2,107 of 2,492 branches safe to remove; decision with the Platform Admin.
+
 ## Window 5 result (S1-Build, 26 Nov 2026 10:15 AEDT)
 
 - **s1193 live (Pilot #1648):** Window 5 read 346 courses that pass the proven sibling page, by 10:07.

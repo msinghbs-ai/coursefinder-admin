@@ -7,6 +7,11 @@
 **Continuation:** 86 active unpublished NZ; 0 pass current publication checks. Holds (overlapping): 55 no stated value, 39 closed, 3 citizen/resident restriction, 2 another edition. Verified-benefit replay query found no eligible missing scalar value; no unleased due eligible candidate or queued NZ AI item in focused checks. Four scoped universities ordinary cap-held; preserve 367 unread linked candidates for normal eligibility/cadence, don't reset retries. Review exact Lincoln tier/grade mapping defect and WITT listing split through existing qualified/gated reader path with Integration Controller, retain W01 claims (#1024/#1034), continue eligible NZ providers as they become due. No direct canonical edits, no new cron, request, pipeline or cap. G3 75/48 drift [], manual locks 7585, active cron 138 at 10:41. S1-Build canonical register writer; country-wise Sheet evidence and Running Build checkpoint follow. Completion of request closure does not close SCH-FU-04 whole territory.
 
 
+**S1-Build, 26 Nov 2026 11:15 AEDT: converter fix and pending PR integration.**
+- s1195 (Pilot, no migration): converter `lean-md-v3` reads escaped markup (Holmesglen) as words; worker v1.0.47. No page is read again for the version.
+- S3-AER-ChatGPT PRs #1577, #1589, #1597 and #1600: rebased by S3-AER, rehearsed together by S1-Build (29 sources, locks, G3 and cron unchanged); merging on green in order #1589, #1597, #1600. #1502 held (protected draft).
+- Branch inventory (admin `docs/platform/2026-11-26-repository-branch-inventory.md`): Pilot 1,720 branches, Admin 772; 2,107 safe to remove. Removing them and enabling automatic deletion wait for the Platform Admin.
+
 **S1-Build, 26 Nov 2026 10:15 AEDT: course entry Window 5 done (s1193 live, Pilot #1648); s1194 closes it.**
 - Window 5: 346 courses passing the proven sibling page. 57 filled with 113 active rows (47 providers, all published), 269 to Layer 4 (923 proposed rows), 20 held, 0 failed; US$0.79.
 - Verified: consumer read-back `website_v2_course('120328M')` returns the admitted requirements under `item.entry`.
@@ -61,6 +66,7 @@
   2. The proven sibling-page rule in the AI read gate (`security.enrich_fields_slice_v1`) and AI recorder (`security.enrich_entry_record_v1`), for the 2,028 never-AI-read identity-held courses. Shared identity code; S2-AER to agree.
      - **10:15 AEDT: done** (s1192, live 08:39); applied unattended in Window 5 (346 courses).
   3. Holmesglen escaped-markup converter fix (`lean-md-v3`), after a check that no lane reads pages again on the version change.
+     - **11:15 AEDT:** in release as s1195; the check found no re-read on the version.
 - **Operational backlog and owners:**
   - AU entry no page (5,432) and page bound not stored (1,503): S1-Build course pages; capped revisits are S1-RM-Design s1171.
   - Read with no admissible rows (7,056):
