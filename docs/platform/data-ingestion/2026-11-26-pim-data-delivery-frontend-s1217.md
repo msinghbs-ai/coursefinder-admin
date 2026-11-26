@@ -83,3 +83,18 @@ Unavailable still (S1-RM-Design to resolve): the request register (`pim.requests
 
 Built and checked in real Chromium: new desktop spec (13 tests) and 412 px phone spec (4 tests, Pixel 7 emulation) against a mock shaped like the live read, plus s1217, s1218 and the central guards. No migration, no setting, no consumer API change, US$0.
 
+## Live 412 px phone check (open; needs the Platform Admin)
+
+26 Nov 2026 17:10 AEDT, S1-API-Frontend-Delivery (S1-Build hand-off). The one connected Chrome here reports a successful window resize to 412 px but the page still measures 1,894 px, and the site denies framing by design (CSP `frame-ancestors 'none'`, `X-Frame-Options: DENY`; not changed). So no browser available to the session can show the live site at phone width. F-OPS.17 and F-OPS.21 stay open only on this check.
+
+**Signed-in phone check (Platform Admin, a real phone or a browser at 412 px; about 3 minutes).** Open `https://coursefinder-pilot.techm.workers.dev/#layer-2-discovery?tab=operations` signed in as Platform Admin, find Data Delivery › Autonomous PIM, and confirm:
+
+1. The page does not scroll sideways at any point.
+2. Delivery matrix: each row is a stacked, labelled block (Domain, All countries, Australia, New Zealand, Canada); the country and measure selectors and the three tabs are easy to tap.
+3. Processing: Stalled workers shows a number, and the Workers table is labelled rows (Worker, State, Last success, Last start, Failed in 24 h, Schedule).
+4. Verified consumer read-back: each stream and country is a labelled block with Expected, Website, Zoho and Read; "pending · missing · not served" is readable.
+5. Refresh & maintenance: the country selector works and the by-country table is labelled rows.
+6. Requests & feedback says Not available with its reason; no status, weight or coverage is shown.
+
+Reply with pass, or what failed and a screenshot. Request data stays Not available until a request register source exists (`operations.requests` is `not_projected`).
+
