@@ -372,3 +372,33 @@ Additive keys on the s1214 reads (same names, arguments and privileges); null me
   - "Showing X of Y rows recorded for this provider" appears when `entry_matrix_total` is larger than the rows returned.
 - **Entry Requirements cards:** Location, Length and Tuition per year (provider), each "Not recorded" when the read holds no value.
 
+## Portal UAT fixes (Pilot s1222, S2-Build, 26 Nov 2026; Atlas brief 15:59)
+
+These supersede the inline Course details panel (s1215) and the "Not recorded" facts on cards (s1220). Earlier sections are kept for history.
+
+- **Layout.** The content area is fluid up to 1,680 px. Results sit in a card grid: each card is at least 360 px wide, so 3 columns at 1,440 px, 2 at 1,280 px and 1 on a phone.
+- **Cards or List.** A toggle on Courses, Saved courses and Entry Requirements, kept per person (browser preference `view`).
+  - The list has columns for Course (with its code badge and provider), Level, Location, Length, Tuition per year, and actions.
+  - Below 1,100 px, each row stacks and labels each value.
+- **Course details drawer.** Course details is a right-hand drawer, up to 760 px wide, or a full-height sheet at 640 px and below.
+  - It is a modal dialog: Escape, the close button or the shaded area closes it, and focus is kept inside while it is open.
+  - It holds the title with its code badge, the provider and "Course page ↗".
+  - The page behind does not scroll, and its position is restored when the drawer closes.
+- **Concise cards.**
+  - A card shows only what is held: the level, location, length and next intake as pills; one fee line; why it matched.
+  - "Not recorded" is said only inside Course details.
+  - Actions, in order: Course details, Course page ↗, then Save and Add to proposal for a Counsellor.
+- **One annual tuition fee.** `portal.primary_fee_v1(options, amount, currency)` returns `{per_year, amount, currency, year, basis: 'annual'}`.
+  - It picks the current Melbourne year, else the nearest later year, else the latest earlier year, from the provider's annual fee options. It falls back to the stored annual fee.
+  - Courses search cards (`fee`), Entry Requirements (`annual_tuition_fee`), course detail (`primary_fee`) and saved courses (`primary_fee`) all use it.
+  - Course details shows it first. Other recorded fee lines are folded, and lines are never added together.
+- **National course code.** `portal.regulator_code_v1(course_id)` returns `{scheme, label, code}` from the active CRICOS, NZQA or MTCU registration. It is shown as a badge beside the title on cards, list rows and the drawer, and as "CRICOS code" in the Overview.
+- **Student countries.** The G2 setting `portal.priority_source_countries` (list, `["IN","NP"]`) sets which countries are listed first in every student-country list: Entry Requirements, the Course details selector, Universities & Providers and Proposals.
+  - After them comes a divider, then every other country A to Z.
+  - Codes the market list does not hold are ignored.
+- **Entry requirements for the chosen country.** `public.portal_entry_matrix_v1({course_id, source_country})` (Viewer and above, signed in only) returns `{rows, country_rows, provider_has_matrix}`.
+  - `rows` holds the provider's rows for that country plus rows for every country, each with `scope` (`course`, `study_level` or `provider`).
+  - Course details groups them as This course, This study level, and Every course at the provider, then the course's own requirement lines.
+  - With no row for the country it says "<provider> has no entry requirement recorded for <country>", and notes when the provider has no country-by-country table at all.
+- **Revised mock-ups:** images of the built screens are in `M3 > Portal > Mockups` (25 Courses cards 1,440 px; 26 Courses cards 412 px; 27 Course details drawer with India selected; 28 Entry Requirements 412 px). They are rendered from the portal code with fixture data.
+

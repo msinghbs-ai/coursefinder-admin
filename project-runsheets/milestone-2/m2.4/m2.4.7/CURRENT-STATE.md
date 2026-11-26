@@ -328,6 +328,41 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 16:20 AEDT: s1222 portal UAT fixes claimed and recorded before merge (Pilot branch `s2-s1222-portal-uat-fixes`, migration `20261129130000`); Atlas brief 15:59, from the Platform Admin's live UAT of `studysearch-portal.techm.workers.dev`.**
+- **Layout:** the content area is fluid to 1,680 px (it was capped at 1,100 px), and results sit in a card grid: 3 columns at 1,440 px, 2 at 1,280 px, 1 at 412 px.
+- **Cards or List:** a toggle on Courses, Saved courses and Entry Requirements. The choice is kept for the person across screens and visits.
+- **Course details drawer:** Course details open in a right-hand drawer, or a full-height sheet on a phone, instead of inside the card.
+  - Escape, the close button or the shaded area closes it.
+  - Focus moves into the drawer and back to the button that opened it.
+  - The list keeps its place.
+- **Concise cards:**
+  - no "Not recorded" boxes on a card ("Not recorded" is said only inside Course details);
+  - one annual tuition fee with its year and "per year · provider", from the new `portal.primary_fee_v1`: the current Melbourne year first, then the nearest later year, then the latest earlier year (feedback 5: a 2027 fee showed beside a 2026 fee);
+  - the national course code (CRICOS, NZQA or MTCU) as a badge beside the title;
+  - "Course page ↗" (new tab, `noopener noreferrer`) directly beside Course details.
+- **Student countries pinned:** every student-country list shows India and Nepal first, a divider, then every other country A to Z. This covers Entry Requirements, the Course details selector, Universities & Providers and Proposals. The pinned countries are the new G2 setting `portal.priority_source_countries` (`["IN","NP"]`), changed on Settings with a reason; none is written into a screen.
+- **Course details entry requirements (blank-country fix):** one "Academic entry requirements" section.
+  - Choosing a country reads that country's rows in full through the new `public.portal_entry_matrix_v1` (Viewer and above), so the detail read's row cap can no longer hide a country.
+  - Rows are grouped as This course, This study level, and Every course at the provider, plus rows that apply to every country and the course's own requirement lines.
+  - When the provider holds nothing for the country, the panel says so plainly.
+  - Other fee lines fold under "Other recorded fee lines".
+- **Migration** `20261129130000_cf247_s1222_portal_uat_data.sql` (additive):
+  - the four replaced function bodies were checked by md5 before replacement;
+  - G3, cron and lock guards run before and after;
+  - nothing is dropped.
+  - **Rolled-back rehearsal passed:** 20 of 20 sample cards carry a course code; the India matrix read for a sample course returned 3 rows in 39 ms; a multi-year fee picked 2026.
+- **Checked in Chromium** at 1,440, 1,280 and 412 px, on an esbuild bundle of the portal with fixture data, across Courses (cards, list, drawer), Saved courses and Entry Requirements:
+  - horizontal overflow 0 px;
+  - no tap target under 44 px (the search-chip remove buttons were raised from 36 to 44 px);
+  - every outside link opens in a new tab with `noopener noreferrer`;
+  - no "Not recorded" on cards;
+  - the drawer closes on Escape and the list position is kept;
+  - no page errors.
+- **Specs:** the new `cf-247-s1222-portal-uat-fixes-contract` passes. The s1145, s1148, s1215 and s1220 assertions were amended to the s1222 rule, with their guards amended. The 142 portal and governance specs run pass. TEST-REGISTER updated.
+- **Drive Feedback folder scanned:** nothing newer than feedback 5 (25 Nov). Its data items go to the owning lanes in the plan (campuses, entry minimums, PTE/TOEFL bands, scholarships, intakes, fee year at source). The portal parts are fixed here: fee year, and Nepal pinned.
+- **Revised mock-ups** (images of the built screens) are in Drive `M3 > Portal > Mockups`, numbers 25 to 28.
+- G3 75/48; locks 7,585; no cron change; Admin Worker untouched; US$0.
+
 **S2-Build, 26 Nov 2026 15:45 AEDT: s1220 portal screens live (Pilot #1666, merge `d00a416`; frontend only).**
 - **Workers Builds: studysearch-portal** passed on the merge commit, so the portal at `studysearch-portal.techm.workers.dev` serves:
   - the provider website and the provider's entry matrix in Course details;

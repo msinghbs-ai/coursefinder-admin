@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 15:45 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220). Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
+**Status at the last checkpoint (26 Nov 2026 16:20 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220). Daytime quiet hours (s1213) are live. The seven UAT fixes from the Platform Admin's review (Atlas 15:59) are s1222, recorded before merge. After it is live: the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -37,6 +37,7 @@
 | 26 Nov 11:59 | Zero-cost daytime CPU and I/O isolation: the heaviest per-minute background jobs run overnight so portal searches stay sub-second in counsellor and UAT hours, without a larger compute tier; no retired job activated, active cron jobs at most 138. | Platform Admin, through Atlas |
 | 26 Nov 12:02 | Expandable Course Details and an Entry Requirements screen in the portal (S1-API-Frontend-Delivery), backed by read-only portal reads of published-provider courses that leave the consumer API untouched. | Atlas brief |
 | 26 Nov 15:18 | S2-Build may wire the s1216 fields into the portal screens while S1-API-Frontend-Delivery is busy, so the Release 1 and 2 screens are complete. | Platform Admin, through Atlas |
+| 26 Nov 15:59 | Seven UAT fixes before acceptance: full-width layout with card grids; Cards/List toggle; Course details in a right-hand drawer; concise cards with one annual fee and no Not recorded boxes; course code badge and Course page link beside Course details; India and Nepal pinned first from a G2 setting; Course details country selector shows that country's rows with a fallback. | Platform Admin, through Atlas |
 
 ## 3. Implementation history
 
@@ -62,6 +63,7 @@
 | 26 Nov 12:45 | s1215 Course details, Entry Requirements (AER) and new-tab links (migration `20261129090000`): inline Course details panel on Courses, Saved courses and Entry Requirements (overview, campuses and delivery, fee lines as recorded, intakes and deadlines, entry and English, provider-level career outcomes, official source); new Entry Requirements screen after Courses (Viewer and Counsellor; Save and Add to proposal Counsellor only); one `ExtLink` component so every outside link opens in a new tab; reads S2-Build's `portal_course_detail_v1` and `portal_aer_list_v1`; new `portal_study_levels_v1` for the level filter | S1-API-Frontend-Delivery | Pilot branch `s1-portal-details-aer-s1215` | plan log | Recorded before merge |
 | 26 Nov 13:15 | s1216 detail fields (migration `20261129100000`): `provider_website`, `entry_matrix` (capped by `portal.entry_matrix_max_rows`) and `entry_matrix_total` in the course detail read; `city`, `state_code`, `duration_value`, `duration_unit` and `annual_tuition_fee` on Entry Requirements rows | S2-Build | [#1658](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1658) | [#1158](https://github.com/msinghbs-ai/coursefinder-admin/pull/1158), live record (this checkpoint) | Live; read back as the Platform Admin |
 | 26 Nov 15:40 | s1220 screens (frontend only): Course details shows the provider website and the provider's entry matrix (for the student's country when chosen; count note when capped); Entry Requirements cards show location, length and tuition per year. Checked in Chromium at 1280 px and 412 px | S2-Build | [#1666](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1666) | [#1174](https://github.com/msinghbs-ai/coursefinder-admin/pull/1174), live record (this checkpoint) | Live; Workers build passed |
+| 26 Nov 16:20 | s1222 UAT fixes (migration `20261129130000`): fluid layout and card grids, Cards/List, Course details drawer, concise cards with `portal.primary_fee_v1` and the course code badge, pinned student countries (`portal.priority_source_countries`), `portal_entry_matrix_v1` for the chosen country. Checked in Chromium at 1,440, 1,280 and 412 px | S2-Build | branch `s2-s1222-portal-uat-fixes` | recorded before merge (this checkpoint) | Rehearsal, specs and browser check passed |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -87,6 +89,7 @@
 | Google Docs connector in these sessions | Platform Admin (optional) | Updating this document in place with one link |
 | Deploy `portal_proposal_list_v1`, `_get_v1`, `_save_v1`, `_refresh_v1` and the proposal tables to the contract in the design document ("Release 2 contract: student proposals"), with the limits and soft-lock window as settings | S1-Build | Every Release 2 screen (they show "not switched on yet" until then). On deploy, repeat the checks signed in as a Counsellor: create, reorder, save, conflict, refresh, print |
 | Retention period and privacy notice wording for proposals (already listed above, now needed before real students are entered) | Platform Admin | Using Proposals with real student data |
+| Feedback 5 data items (campuses, entry minimums, PTE/TOEFL bands, scholarships, intakes, 2026 fees at source) for 13 providers | S2-CF, S2-AER and S1-ELR, the Scholarships lane, S2-Intakes and the fees lane (handed in the plan, 26 Nov 16:20) | Accurate cards for those providers. No screen change is needed: rows show as they admit |
 | Leftover Pilot branches `s2-s1170-portal-hybrid-fix` and `s2-s1182-portal-proposals` (no PR); the session proxy refuses branch deletion (HTTP 403) | Any session with delete rights | Housekeeping only |
 
 ## 6. Open issues seen during UAT
@@ -99,9 +102,26 @@
 - "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too). Done in s1181.
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
+- UAT 26 Nov (Atlas 15:59), fixed by s1222:
+  - the narrow 1,100 px layout;
+  - no list view;
+  - the inline details panel pushed the list down;
+  - cards full of "Not recorded" and several fee rows;
+  - no course code;
+  - India and Nepal buried in the country lists;
+  - the Course details country selector showed nothing for India or Nepal, because the detail read is capped and course lines carry no country.
 - Entry Requirements and Course details show only what is admitted; gaps close as the data lanes admit rows and need no screen change. Career outcomes are provider-level, never course-level. Two things the screens cannot show from S2-Build's reads yet (passed to S2-Build in the Master Plan): the provider's country-by-country entry matrix and website in the detail read, and city, length and fee on the Entry Requirements list items.
 
 ## 7. Next executable action
+
+**After s1222 is live (S2-Build, then the Platform Admin):**
+1. S2-Build: merge, confirm Workers Builds studysearch-portal, read the new functions back live, record live.
+2. Platform Admin, at 1,440 px and on a phone:
+   - switch Cards and List on Courses, Saved courses and Entry Requirements;
+   - open Course details and close it with Escape;
+   - choose India, then Nepal, in Course details and on Entry Requirements;
+   - check the fee year and the CRICOS badge on a course you know;
+   - check India and Nepal head each country list.
 
 Platform Admin: open Proposals on the portal (desktop and phone):
 1. Create a proposal from Saved courses.
@@ -119,6 +139,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 16:20 AEDT, S2-Build: s1222 portal UAT fixes recorded before merge (migration `20261129130000`; rehearsal passed; Chromium checks at 1,440, 1,280 and 412 px passed). Feedback 5 data items handed to the data lanes. Revised mock-ups 25 to 28 in Drive.
 - 26 Nov 2026 15:45 AEDT, S2-Build: s1220 live (Pilot #1666; Workers Builds studysearch-portal passed). Release 1 and 2 screens complete; next: Platform Admin UAT and portal.studysearch.ai cutover. Drive mirrors replaced.
 - 26 Nov 2026 15:40 AEDT, S2-Build: s1220 portal screens for the s1216 fields recorded before merge (cross-lane on the Platform Admin's authority).
 - 26 Nov 2026 13:28 AEDT, S2-Build: s1216 live (Pilot #1658): provider website and entry matrix in course detail (2 rows in 112 ms on a sample course), city, length and fee on Entry Requirements rows; G3 75/48, locks 7,585, cron 135, US$0; Drive mirrors replaced.
