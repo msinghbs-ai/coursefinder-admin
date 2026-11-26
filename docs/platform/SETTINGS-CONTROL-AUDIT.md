@@ -216,4 +216,5 @@ The v1.0 search for readers missed functions in the `l4_api` and `admin_api` sch
 | `pipeline.quiet_hours.enabled` (Daytime quiet hours: on) | 1 (08:00 to 20:00 Melbourne, five jobs) | 0 | Platform Admin 26 Nov 2026 21:01 AEDT, permanent 24×7 operation | s1276, with the reason in the setting and `admin_control_events` |
 | `pipeline.aer.retry_now_error_pattern` | `Key limit exceeded\|Insufficient credits\|requires more credits\|HTTP 402` | the same plus `\|AI route is switched off` | Platform Admin 26 Nov 2026 19:06 and 19:13 AEDT (planner correction) | s1274 (live) |
 | Route `course_entry_requirements` | off, US$0 | on, US$1.00 a day, gpt-4.1-mini | Platform Admin 26 Nov 2026 18:21 AEDT | s1261 |
-
+| `pipeline.budgets.ai_daily_ceiling_usd` | 5 | 10 | Platform Admin 26 Nov 2026 21:43 AEDT, confirmed in session (D8) | s1277 |
+| Route `course_entry_requirements` daily cap | US$1.00 | US$5.00 | the same (D8) | s1277 |
