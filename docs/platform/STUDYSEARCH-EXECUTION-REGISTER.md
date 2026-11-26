@@ -872,6 +872,19 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 12:35 AEDT: s1213 daytime quiet hours read back live; s1214 portal course detail and entry requirements reads live (Pilot #1656, migration `20261129080000`, history md5 checked).**
+- **s1213 live** (cron run history):
+  - The five held jobs average 0.07 to 0.10 s a run by day, against 10 to 40 s before.
+  - All cron job-seconds per 10 minutes: 1,800 to 3,400 before 12:18, 1,002 in the 12:20 window, and 49 in the first minutes of 12:30.
+  - A fixed CPU benchmark (counting 3 million generated rows) took 2.36 s at 12:26 and 1.28 s at 12:30.
+- **Database finding:** the database is on Medium compute. Supabase documents sizes up to Medium as shared CPU, with Large and above on dedicated vCPUs. On shared CPU the same warm search took 0.15 s at one moment and over 2 s at another, with few blocks read. The quiet hours remove about 47,700 job-seconds by day. If searches still vary, the remaining lever is compute size, a Platform Admin cost decision.
+- **s1214 live**, read back as the signed-in Platform Admin:
+  - `public.portal_course_detail_v1`: Master of Nursing Practice in 60 ms, with 4 fees, 2 intakes, 1 campus, 2 entry requirements, 1 English requirement and 7 graduate outcome figures (PGC, full-time employment 84.6%).
+  - `public.portal_aer_list_v1`: masters nursing in AU with both kinds of requirement found 20 courses in 147 ms, page size 20.
+  - anon cannot execute either function.
+- G3 75/48, drift 0; locks 7,585; active cron 136; head `20261129080000`; US$0.
+- TEST-REGISTER regenerated: s1213, s1214 and three other lanes' specs now on main added.
+
 **S2-Build, 26 Nov 2026 12:25 AEDT: s1213 live (Pilot #1654, migration renumbered to `20261129070000` above another lane's `20261129061000`; history md5 checked); s1214 portal course detail and entry requirements reads claimed and recorded before merge (migration `20261129080000`, branch `s2-s1214-portal-detail-aer`); Atlas brief 12:02 for S1-API-Frontend-Delivery.**
 - **s1213:** the five background jobs carry the quiet-hours check live. The daytime read-back follows in the next entry.
 - **s1214** adds read-only `portal` functions behind public wrappers. Each needs Viewer rank or above; anon is refused.
