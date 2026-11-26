@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 16:40 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220), and the seven UAT fixes from the Platform Admin's review (s1222: full-width card grids, Cards/List, Course details drawer, concise cards with one annual fee and course code, India and Nepal pinned, country rows in Course details). Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
+**Status at the last checkpoint (26 Nov 2026 18:25 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220), and the seven UAT fixes from the Platform Admin's review (s1222: full-width card grids, Cards/List, Course details drawer, concise cards with one annual fee and course code, India and Nepal pinned, country rows in Course details). s1271 (city from campuses for 15,466 more course cards) is recorded before merge. Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -38,6 +38,7 @@
 | 26 Nov 12:02 | Expandable Course Details and an Entry Requirements screen in the portal (S1-API-Frontend-Delivery), backed by read-only portal reads of published-provider courses that leave the consumer API untouched. | Atlas brief |
 | 26 Nov 15:18 | S2-Build may wire the s1216 fields into the portal screens while S1-API-Frontend-Delivery is busy, so the Release 1 and 2 screens are complete. | Platform Admin, through Atlas |
 | 26 Nov 15:59 | Seven UAT fixes before acceptance: full-width layout with card grids; Cards/List toggle; Course details in a right-hand drawer; concise cards with one annual fee and no Not recorded boxes; course code badge and Course page link beside Course details; India and Nepal pinned first from a G2 setting; Course details country selector shows that country's rows with a fallback. | Platform Admin, through Atlas |
+| 26 Nov 18:18 | Cards name the one city a course's campuses share when it has no primary campus (15,469 courses in the S2-AER audit). Courses in several cities get no city: no guess. $0, no new cron. | Atlas, from the S2-AER gap audit |
 
 ## 3. Implementation history
 
@@ -64,6 +65,7 @@
 | 26 Nov 13:15 | s1216 detail fields (migration `20261129100000`): `provider_website`, `entry_matrix` (capped by `portal.entry_matrix_max_rows`) and `entry_matrix_total` in the course detail read; `city`, `state_code`, `duration_value`, `duration_unit` and `annual_tuition_fee` on Entry Requirements rows | S2-Build | [#1658](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1658) | [#1158](https://github.com/msinghbs-ai/coursefinder-admin/pull/1158), live record (this checkpoint) | Live; read back as the Platform Admin |
 | 26 Nov 15:40 | s1220 screens (frontend only): Course details shows the provider website and the provider's entry matrix (for the student's country when chosen; count note when capped); Entry Requirements cards show location, length and tuition per year. Checked in Chromium at 1280 px and 412 px | S2-Build | [#1666](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1666) | [#1174](https://github.com/msinghbs-ai/coursefinder-admin/pull/1174), live record (this checkpoint) | Live; Workers build passed |
 | 26 Nov 16:20 | s1222 UAT fixes (migration `20261129130000`): fluid layout and card grids, Cards/List, Course details drawer, concise cards with `portal.primary_fee_v1` and the course code badge, pinned student countries (`portal.priority_source_countries`), `portal_entry_matrix_v1` for the chosen country. Checked in Chromium at 1,440, 1,280 and 412 px | S2-Build | [#1670](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1670) | [#1183](https://github.com/msinghbs-ai/coursefinder-admin/pull/1183) | Live 26 Nov 16:40; Workers Builds studysearch-portal passed; read back live |
+| 26 Nov 18:25 | s1271 place from campuses (migration `20261129170000`): `portal.course_place_v1` for the search cards, Entry Requirements rows and saved courses; sole-city courses named, multi-city courses no longer given a guessed city | S2-Build | branch `s2-s1271-portal-sole-city` | recorded before merge (this checkpoint) | Rehearsed |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -102,6 +104,7 @@
 - "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too). Done in s1181.
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
+- 15,469 course cards showed no city although every campus of the course is in one city (S2-AER audit, admin #1186). Fixed by s1271. Multi-city courses had shown the first campus's city alphabetically, a guess; they now show the state alone or no place.
 - UAT 26 Nov (Atlas 15:59), fixed by s1222:
   - the narrow 1,100 px layout;
   - no list view;
@@ -139,6 +142,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 18:25 AEDT, S2-Build: s1271 recorded before merge (migration `20261129170000`; rehearsal passed: primary 4,279, one city 15,466, one state 5,054, several cities 4,186, no campus 5,377; G3 75/48, cron 135, locks 7,585, US$0).
 - 26 Nov 2026 16:40 AEDT, S2-Build: s1222 live (Pilot #1670, admin #1183; Workers Builds studysearch-portal passed). Live read-back: India and Nepal pinned; one annual fee and course code on the reads; India 4 rows in 15 ms and Nepal 1 row in 3 ms on a sample course; 2,637 and 2,029 courses with an India and a Nepal row. G3 75/48, locks 7,585, active cron 139 (none added), US$0. Next: Platform Admin final UAT and the portal.studysearch.ai cutover. Drive mirrors replaced.
 - 26 Nov 2026 16:20 AEDT, S2-Build: s1222 portal UAT fixes recorded before merge (migration `20261129130000`; rehearsal passed; Chromium checks at 1,440, 1,280 and 412 px passed). Feedback 5 data items handed to the data lanes. Revised mock-ups 25 to 28 in Drive.
 - 26 Nov 2026 15:45 AEDT, S2-Build: s1220 live (Pilot #1666; Workers Builds studysearch-portal passed). Release 1 and 2 screens complete; next: Platform Admin UAT and portal.studysearch.ai cutover. Drive mirrors replaced.
