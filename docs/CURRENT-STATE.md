@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 27 Nov 2026 00:45 AEDT (SS-Programme-Control 00:09, "Complete existing Data Delivery integration"): s1283 live and verified; s1288 built, recorded before merge (Pilot #1710, frontend only).**
+- **s1283 verified signed in on production:** Scheduled jobs › Automations 312 components, 20 a page; Data Delivery has no workers table, six state tiles and 28 attention items paged 10; no sideways scroll at desktop or 412 x 915.
+- **s1288:** Data Delivery shows `consumer_fields` inside Verified consumer read-back: canonical population, sampled coverage, verified delivery, international applicability, failure reasons and last verification. Counted on the sampled courses only, never extrapolated; an unrecorded check reads Not checked.
+- **s1202 review:** pattern hardened (grant branch and G3 name families) with a two-way self-test; `s57` stays the central G3 guard.
+- **Not this lane:** `s1285` is claimed by two lanes in the Master Plan; the domestic-only entry rows in international reads (v2 is G3) wait on the Platform Admin and developer notice via S1-Build.
+
 **S2-RM-Design, 27 Nov 2026 00:28 AEDT (scheduled DR-19 check): s1277 realised gain.**
 - **Of 554 handed back:** 13 filled (all descriptions), 176 skipped, 5 sent to Layer 4, 27 being read, 333 waiting; 0 refused again by the account.
 - **Field-level check:** all 13 filled descriptions are verified in the catalogue and served by Website v3 matching the catalogue text exactly.

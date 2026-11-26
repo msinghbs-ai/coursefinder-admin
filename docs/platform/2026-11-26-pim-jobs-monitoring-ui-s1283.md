@@ -20,3 +20,12 @@ SS-Programme-Control, 26 Nov 2026 22:51 AEDT: "Complete job and lane monitoring 
 
 ## Guards
 `cf-247-s1283-pim-jobs-monitoring-ui` (desktop), `cf-247-s1283-pim-jobs-monitoring-phone` (`@responsive`). Retired: two s1221 tests that guarded the worker table (see the retirement log).
+
+## Production read-back and follow-on (27 Nov 2026 00:45 AEDT)
+Signed in on production after Pilot #1700 deployed (built-in browser, desktop pane and 412 x 915): Scheduled jobs › Automations showed 312 of 312 components, 20 a page, counted 27 Nov 12:06 am (the count took 21.3 s), states Degraded 1, Held 13, Shadow 1, Idle 18, Active 194, Retired 85; the stalled rollup `coursefinder-data-quality-overview-refresh` showed its backend reason and findings. Data Delivery showed no workers table, six state tiles and 28 attention items paged 10. No sideways scroll. Two polish items were fixed in `s1288`: a future next-run time repeated the date (now "in 10 min"), and the state chip was cropped on a phone.
+
+## s1288: sampled delivery read-back (SS-Programme-Control 27 Nov 2026 00:09)
+`pim.operations.consumer_fields` (s1176b) is drawn inside Data Delivery's Verified consumer read-back section, per stream (academic entry, descriptions): canonical population and what it counts, sampled coverage (courses checked in the window of the population, with the backend's coverage figure), verified delivery and international applicability as "n of the sampled courses", failure reasons with the latest failing courses, and the last verification. Nothing is extrapolated: the sample and the population are separate figures. A check the backend does not record (descriptions have no international check) reads Not checked, never 0. Guards: `cf-247-s1288-pim-consumer-sample-ui`, `cf-247-s1288-pim-consumer-sample-phone`.
+
+## s1202 review
+S1-RM-Design's correction (a read-only call to a frozen read is allowed in a later migration) is right. Its grant branch missed `grant ... on public.<name>` with no object word and named only two of G3's families. `cf-247-s1202` now names `website_v2_`, `website_edge_`, `website_api_v2_`, `zoho_edge_`, `svc_website_settings_v1` and schema `api`, with a self-test (seven change forms fail, four read-only forms pass). G3's central guard stays `cf-247-s57`.
