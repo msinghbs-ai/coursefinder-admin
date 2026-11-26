@@ -1129,3 +1129,37 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 - **Autonomous mechanism, verified from live state and Admin #1146 to #1166 (not re-derived):** `coverage-read` and `aer-det-sweep` run unattended on stored pages; the revisit step s1171 has 0 pages due until 5 Dec; course entry AI runs only as bounded windows (route off between); 2,028 never-AI-read courses wait on the shared programme page identity decision. 176 cohort courses still match the read-skipped definition at 15:05. Consumer read-back: all 89 new courses are at published providers (database state); the read through `website_v3_course` with the course UUID returned NOT_FOUND, so the identifier form is not established and **the consumer read-back by this lane is not verified**; S1-Build's records carry read-backs by official course identifier (for example 120328M). Data Delivery: the AU AER counts above can be compared to the snapshot; no screen change from this lane.
 - **Next, in order:** (1) Platform Admin: the two host aliases and the Greenwich publishing decision; (2) S1-Build or S2-AER: PDF layout reader for Le Cordon Bleu and Excelsia guides, then requeue by reader version; (3) S2-AER: George Brown, TasTAFE and Angliss `gate_incomplete`; (4) this lane, after (1): re-read machine decisions for CQU and AIBT and verify admission and consumer read-back by official identifier; (5) this lane: record the next two scheduled cycles' new cohort rows (none expected until the next window or identity decision).
 
+
+
+## S2-AER — Global Autonomous PIM, shared AER mechanisms: admission failures reconciled by rule — 26 November 2026, about 15:30 AEDT
+
+Read live (read-only queries; the matrix check `security.aer_matrix_machine_check_v1` is stable). No Pilot change, no migration, no AI, US$0 model, 0 Firecrawl credits. Pilot #1502 (s995) is still an open draft, last updated 23 Nov; its UWA course-to-ATAR-band dependency and decision are unresolved, so it is retained and not touched.
+
+**1. Course-level entry (Layer 4 `course_entry_first_read`, pending, newest machine decision).**
+
+| Rule | Items | Kind | Owner of the next step |
+|---|---|---|---|
+| `active_rows_exist` | 566 (386 at 25 Nov 13:00) | Protected: partial admissions (s983) leave the remaining printed requirements pending; replacing admitted rows is a person's decision | Person, or a corrected read when the AI route is open (S1-Build) |
+| `all_rows_held` | 147 | Policy: row rules (domestic-audience rows, quote length) | Platform Admin policy on audience |
+| `no_bound_page` | 38 | Protected: manual locks on the page address (39 of 41 sampled 25 Nov) | Territorial lanes |
+| `identity_not_admitted` | 11 | Policy: NZ accepts nzqa_code, adapter_code, manual only | Platform Admin |
+| `partial` (admitted, item still pending for the rest) | 4 | Working as designed | n/a |
+
+The 566 is growth, not a defect: 184 partial admissions were made in the last 24 h and each leaves a pending residual.
+
+**2. Country matrix (`entry_matrix_first_run` 92, `entry_matrix_change` 17), checked with the matrix machine rule.**
+- `gate_incomplete` (D-R3) 56: the reader dropped published rows whose quote was not on the page (`quote_not_on_page`) or whose grade was not inside the stored quote (`grade_not_in_quote`). Sampled dropped quotes are real requirements (for example NCEA Level 2 credits, IB passes), and are cut at about 120 characters.
+- `all_rows_held` 29; `change_of_admitted_table` 17 (a change to an admitted table is a person's decision); `host_shared` 3; `source_not_official_host` 2 (aibtglobal.edu.au for aibt.qld.edu.au; a CQU content-hub host); `earlier_rejection` 1; `no_rows` 1.
+- All 109 carry the check's own next action: a person decides in Layer 4. None is eligible for the approved matrix machine rule today.
+
+**3. Machine ledger, last 24 h (`pipeline.aer_machine_admissions`).** Admitted 363 courses (`aer-machine-v1`), 184 partial admissions; declined `active_rows_exist` 364 rows on 180 courses, `gate_incomplete` 185 (181 courses), `all_rows_held` 45 (24), `identity_not_admitted` 21 (20). The last admission was 10:59 AEDT and the last decline 14:48 AEDT, so cycles are running and the machine-eligible queue is spent. Historic D-R3: 1,503 courses had `gate_incomplete` as their newest decision at 25 Nov; all have no rows, their items are superseded, 1,488 are skipped "Layer 4 superseded (not admitted)" and 15 are the s1115 queued reads.
+
+**4. Technical versus Layer 4.**
+- Genuine Layer 4 or protected: every rule above except D-R3 quote handling.
+- One candidate technical defect, **not yet proven**: D-R3 `quote_not_on_page` and `grade_not_in_quote`, where stored quotes are capped near 120 to 300 characters and the grade can sit beyond the cap. Proving it needs the stored page text beside the dropped quote (storage object, not reachable by SQL). It is the reader's quote check, which is an approved evidence safeguard; the confidence threshold (0.8 course, 0.9 matrix) and the D-R3 gate are not changed by this finding. If proven, the smallest correction is in the AER v2 reader's quote capture, not the gate.
+
+**5. Consumer resolution (not matrix counts).** Sample of 25 courses admitted in the last 24 h: all 25 resolve through `public.website_v2_course` and all 25 return a populated `item.entry` (requirements_note, scores, prerequisites). The consumer `entry_requirements` object carries only the English basis; that frozen shape is unchanged (G3). The first sample course has 6 canonical active prior-qualification rows and their text is in `entry.requirements_note`. A full 363-course read times out the function, so 25 is a sample, not a census.
+
+**Not done:** no admission opportunity was found that the existing approved rules do not already take; no reusable mapping defect (applicant country, qualification, level, grading scale) was found in these populations. Two unattended result-bearing cycles are not verified: admission-bearing cycles ran at about 10:48 to 10:59 AEDT and none since.
+
+**Next executable action:** prove or disprove the quote-capture defect on 10 sampled D-R3 items (stored page text against the dropped quote); if proven, ship the smallest AER v2 reader correction through the governed route and re-read only the affected stored items. Coordination: S1-AER-Claude and S3-AER-ChatGPT for their territorial queues, S1-Build for the corrected-read route.
