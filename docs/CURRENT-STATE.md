@@ -116,6 +116,11 @@
 **Continuation:** 86 active unpublished NZ; 0 pass current publication checks. Holds (overlapping): 55 no stated value, 39 closed, 3 citizen/resident restriction, 2 another edition. Verified-benefit replay query found no eligible missing scalar value; no unleased due eligible candidate or queued NZ AI item in focused checks. Four scoped universities ordinary cap-held; preserve 367 unread linked candidates for normal eligibility/cadence, don't reset retries. Review exact Lincoln tier/grade mapping defect and WITT listing split through existing qualified/gated reader path with Integration Controller, retain W01 claims (#1024/#1034), continue eligible NZ providers as they become due. No direct canonical edits, no new cron, request, pipeline or cap. G3 75/48 drift [], manual locks 7585, active cron 138 at 10:41. S1-Build canonical register writer; country-wise Sheet evidence and Running Build checkpoint follow. Completion of request closure does not close SCH-FU-04 whole territory.
 
 
+**S1-Build, 26 Nov 2026 17:00 AEDT: D1 to D5 executed where permitted; PIM go-live not complete.**
+- s1196 live (Adelaide retired host kept out; guard trigger; 14 re-bound so far, 42 still on the retired host while relink works). s1197 verified `lean-md-v3` live; s1198 switches the recall job off.
+- F-OPS.16: scholarships have three unattended end-to-end cycles with consumer read-back; academic entry has none. Protected decision: a scheduled `course_entry_requirements` daily cap.
+- D3, D4 and D5 need the Platform Admin: settings writes and branch deletion are refused in this session. Revalidated lists are in `docs/platform/2026-11-26-repository-branch-inventory.md`.
+
 **S1-Build, 26 Nov 2026 15:15 AEDT: Platform Admin decisions D1 to D5 (15:09).**
 - D1: s1196 approved (retired hosts out of relink and site-map binding; Adelaide rediscovered on the current site).
 - D2: the 35 Adelaide courses with no new-site page are retained; no withdrawal without provider or registration evidence.

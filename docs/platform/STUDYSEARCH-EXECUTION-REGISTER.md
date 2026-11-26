@@ -1227,3 +1227,68 @@ Assignment from SS-Programme-Control (26 Nov 16:28). Decision pack: `docs/platfo
 - **Consumer read-back:** `website_v3_course` takes the course stable key, not the UUID. Eight newly admitted courses (Aventia, Box Hill, Collarts, Excelsia, Gold Coast Learning Centre, La Trobe, Lead College, York) read back with entry rows.
 - **PDFs:** Le Cordon Bleu Table B is on pages 16 to 33; the run fails on prose page 3, so the reader needs a page scope (S1-Build/S2-AER). The Excelsia guide holds no entry table; retire that source, no layout recovery needed.
 - **Held:** Greenwich unpublished; protected settings untouched; gate_incomplete and D-R3 items stay with S2-AER.
+
+## S1-Build — PIM go-live acceptance evidence and D1 to D5 execution — 26 November 2026, 17:00 AEDT
+
+**Decisions D1 to D5** (Platform Admin, relayed 15:09) are recorded in Admin #1167 before execution.
+
+**D1, Adelaide retired host (s1196, Pilot #1667, live 16:00).**
+- **Impact:** exactly one provider, Adelaide University: `adelaide.edu.au`, with 56 active courses' pages and 9,399 stored addresses. Official subdomains and alternative domains at other providers are untouched.
+- **Reconciliation, 56 not 55:** 35 found nothing on the new site, 14 had a verified new-host page later replaced, 4 found, 2 queued, 1 never queued. The 12:37 "55" was a miscount.
+- **Change:**
+  - relink and the site-map binder never use a retired host;
+  - the trigger `course_page_retired_host_guard` refuses any machine write onto one, from all 14 writers;
+  - 75 courses asked again; 4 left open (2 locked, 2 other).
+- **No regression, proven in a rolled-back rehearsal:**
+  - 0 retired-host candidates;
+  - no retired-host binding created;
+  - a machine move onto the retired host is refused; manual moves and moves onto the new host apply.
+- **Live by 16:50:**
+  - 14 courses re-bound to `adelaideuni.edu.au`;
+  - 54 of 75 requests settled;
+  - 42 pages remain on the retired host while relink keeps trying;
+  - canonical requirements and the 7,585 locks are unchanged.
+- **Site-map finding:** the current site's own site map still lists old-host addresses (9,462 stored, none on the new host). s1196 keeps the binder from using them; relink builds new-host addresses from verified page forms.
+
+**D2.** The 35 courses are retained. No lifecycle change, unpublishing or row removal.
+
+**Holmesglen `lean-md-v3`, first live verification (s1197, Pilot #1669).**
+- The stored Holmesglen page went through the existing recall job under worker v1.0.48.
+- The labelled line is in the lean text (`gold_in_lean` true; false under v1.0.45 and `lean-md-v2`). $0.
+- s1198 switches the job off again.
+
+**F-OPS.16, unattended result-bearing cycles, measured live:**
+- **Scholarships: three cycles evidenced end to end.** Each was found by the site-map scan, read and extracted on the scheduled qwen3-30b route (US$20 daily cap), admitted, published and read back through `website_v2_scholarship`, with no on-demand request for the provider:
+  - 26 Nov 02:27, UNSW Academic Excellence Award;
+  - 08:44, International Priority Program Scholarship;
+  - 11:14, IUGS Entrance Scholarship.
+- **Academic entry: none.**
+  - Every row admitted in 72 hours came from S1-Build's bounded on-demand windows.
+  - The machine admission job ran unattended but admitted window output.
+  - Blocked by the scheduled course entry route's US$0 daily cap (Platform Admin, 25 Nov 18:26).
+  - **Protected decision required:** a scheduled daily cap for `course_entry_requirements` (gpt-4.1-mini, qualified), inside the US$5.00 platform limit.
+
+**F-OPS.13 to F-OPS.21, against evidence:**
+
+| Item | State | Evidence or what is open |
+|---|---|---|
+| F-OPS.13 field state | Delivered by S1-RM-Design (s1160, s1161, read back 25 Nov); not re-verified by S1-Build | — |
+| F-OPS.14 one planner | Partly evidenced | Planner proposes academic entry steps; cron 138 of 140. Automatic enrolment of a new provider not yet evidenced |
+| F-OPS.15 replacement safety | Open | Changed, unchanged and recovered-page evidence (S1-RM-Design). s1196 adds that no binding moves onto a retired host |
+| F-OPS.16 unattended cycles | Open | Scholarships evidenced (3). Academic entry 0, pending the protected cap decision |
+| F-OPS.17 Data Delivery | Open | s1217, s1218, s1221 live and desktop read back (S1-API-Frontend-Delivery); live 412 px phone read-back not done |
+| F-OPS.18 requests | Open | `pim.requests` has no database source (`not_projected`) |
+| F-OPS.19 permissions | Partly evidenced | Role gate read per role and role-gate tests (Pilot #1663) |
+| F-OPS.20 model and spend | Not verified by S1-Build | — |
+| F-OPS.21 monitoring | Open | s1175 and s1221 delivered workers, stalls, consumer read-back and freshness; requests and phone read-back open |
+
+**PIM go-live is not complete.**
+
+**D3, D4, D5 and reservations:**
+- D3: the compatibility check passed, but the session proxy refuses settings writes (HTTP 403). The Platform Admin enables **Automatically delete head branches**.
+- D4: 2,107 branches revalidated with recovery SHAs; deletion refused in this session; 0 deleted.
+- D5: 118 snapshot branches removable, 44 kept.
+- Lists and steps: `2026-11-26-repository-branch-inventory.md`.
+- 32 stale reservation statuses corrected; `s1042`, `s1049` and `s1106` closed.
+
+**Spend:** US$0 this session. Firecrawl: none called directly; Adelaide's site-map read uses the existing $0 sitemap path.
