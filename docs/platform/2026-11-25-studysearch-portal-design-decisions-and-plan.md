@@ -363,3 +363,12 @@ Additive keys on the s1214 reads (same names, arguments and privileges); null me
   - `duration_value` and `duration_unit`: as in the detail read, for `durationText`.
   - `annual_tuition_fee`: `{amount, currency}`, the provider's annual tuition that the search shows.
 
+## Course details and Entry Requirements screens show the s1216 fields (Pilot s1220, S2-Build, 26 Nov 2026)
+
+- **Course details, Official source:** "Open the provider website" (new tab), or "Provider website: Not recorded".
+- **Course details, "Entry requirements by country (provider)":** one item per matrix row.
+  - Each item shows: the country (or "Every country"), "this course" when the row names it, the qualification, grade and band pills, the scale and the level or course, the conditions (best subjects, subject minimums, alternatives), the checked date, and a Source link.
+  - When the student's country of education is chosen, the section shows that country's rows and the rows for every country, with "Show all N rows".
+  - "Showing X of Y rows recorded for this provider" appears when `entry_matrix_total` is larger than the rows returned.
+- **Entry Requirements cards:** Location, Length and Tuition per year (provider), each "Not recorded" when the read holds no value.
+
