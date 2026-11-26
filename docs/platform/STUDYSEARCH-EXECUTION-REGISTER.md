@@ -922,6 +922,26 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 22:45 AEDT: DR-19 increment 1 (s1272) live and accepted on production (Pilot #1681, migration `20261129200000`, history md5 `06dda010`; acceptance spec through #1687, #1689, #1692, #1694; admin #1204, #1205, #1216, #1222).**
+- **Live:** every Layer 4 card in the production Admin has the **Processing journey and diagnosis** fold, reading `public.admin_record_journey_v1`. Workers Builds coursefinder-pilot passed on the merge.
+- **Production UAT, authenticated** (Deployed UAT run 45812223349, `cf-247-s1272-dr19-record-journey-deployed`, read only):
+  - Signed in as the Platform Admin (rank 6) and as a Pipeline Operator (rank 4), with the existing UAT accounts in Actions secrets.
+  - On the focused Layer 4 card, the fold opened with eight stages, the stopping stage and all thirteen diagnosis rows, with no error and no server error.
+  - Measured viewport: desktop 1440 × 1100 (DPR 1); phone 412 × 839 (DPR 2.625, Pixel 7). scrollWidth equals clientWidth at both widths.
+  - Live record shown: a course description held by machine rule cdesc-machine-v2 (identity_margin_thin). Discovery, acquisition, extraction and normalisation read done; validation held; admission and publication not reached; verification not verified.
+  - Screenshots are attached to the run.
+- **Method, and the limit met:**
+  - Claude in Chrome reached the Admin sign-in page, but no session was open, and agents never type passwords.
+  - So acceptance ran in the deployed Playwright suite.
+  - Two spec fixes before it passed: the Admin routes by hash; the phone gate runs only `@responsive` tests.
+  - Operator actions were not exercised. The fold adds none: its authorised actions are the card's existing decisions, whose own deployed and live-acting tests are unchanged.
+- **Remaining genuine gaps:** the design's shared-contract items 1 to 4 (S2-RM-Design), and increments 2 to 4:
+  - Data Delivery record drill;
+  - Course record drawer;
+  - per-record website and Zoho verification;
+  - realised recovery gain.
+- G3 75/48; locks 7,585; no cron added; US$0.
+
 **S2-Build, 26 Nov 2026 19:40 AEDT: DR-19 increment 1 (s1272) built and recorded before merge (Pilot branch `s2-s1272-dr19-record-journey`, migration `20261129200000`).**
 - **Admin UI:** every Layer 4 card has a closed fold, **Processing journey and diagnosis**. The focused view and the list views share the card, so both get it.
   - When opened, it reads the new `public.admin_record_journey_v1` and shows the eight stages as a strip that wraps on a phone.
