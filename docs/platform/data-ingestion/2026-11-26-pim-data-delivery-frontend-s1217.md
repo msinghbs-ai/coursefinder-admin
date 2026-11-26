@@ -83,18 +83,15 @@ Unavailable still (S1-RM-Design to resolve): the request register (`pim.requests
 
 Built and checked in real Chromium: new desktop spec (13 tests) and 412 px phone spec (4 tests, Pixel 7 emulation) against a mock shaped like the live read, plus s1217, s1218 and the central guards. No migration, no setting, no consumer API change, US$0.
 
-## Live 412 px phone check (open; needs the Platform Admin)
+## Mobile acceptance (Platform Admin narrow-viewport UAT, 26 Nov 2026)
 
-26 Nov 2026 17:10 AEDT, S1-API-Frontend-Delivery (S1-Build hand-off). The one connected Chrome here reports a successful window resize to 412 px but the page still measures 1,894 px, and the site denies framing by design (CSP `frame-ancestors 'none'`, `X-Frame-Options: DENY`; not changed). So no browser available to the session can show the live site at phone width. F-OPS.17 and F-OPS.21 stay open only on this check.
+26 Nov 2026 17:45 AEDT, S1-API-Frontend-Delivery (SS-Programme-Control hand-off 17:38). No session browser could show the live site at phone width (the connected Chrome accepts a resize but the page stays 1,894 px, and framing is denied by design; neither was changed). The Platform Admin then checked the live Autonomous PIM block signed in, in Chrome Developer Tools device emulation, Samsung Galaxy A55, 360 x 800.
 
-**Signed-in phone check (Platform Admin, a real phone or a browser at 412 px; about 3 minutes).** Open `https://coursefinder-pilot.techm.workers.dev/#layer-2-discovery?tab=operations` signed in as Platform Admin, find Data Delivery › Autonomous PIM, and confirm:
+| Evidence | What it shows | What it does not show |
+|---|---|---|
+| Platform Admin, live site, Chrome DevTools emulation, Galaxy A55 360 x 800 (reported to SS-Programme-Control, 26 Nov 2026) | The live Autonomous PIM layout is readable and does not scroll sideways at 360 px, which is narrower than 412 px | Not a physical device. The report does not say which views, taps or selectors were exercised, so none of those is claimed from it. |
+| Automated, Pixel 7 emulation at 412 px (`cf-247-s1217-pim-data-delivery-phone`, `cf-247-s1221-pim-operations-phone`; 9 tests, `@responsive`, mocked data shaped like the live read) | Stacked labelled rows, no sideways page scroll, 44 px tap targets for tabs, selectors and cells, and the workers, consumer read-back, freshness and requests views | Not the live site; mocked data |
+| Signed-in desktop read-back, about 1,900 px, 26 Nov 2026 | Figures match the live read; no overflow | Not a phone |
 
-1. The page does not scroll sideways at any point.
-2. Delivery matrix: each row is a stacked, labelled block (Domain, All countries, Australia, New Zealand, Canada); the country and measure selectors and the three tabs are easy to tap.
-3. Processing: Stalled workers shows a number, and the Workers table is labelled rows (Worker, State, Last success, Last start, Failed in 24 h, Schedule).
-4. Verified consumer read-back: each stream and country is a labelled block with Expected, Website, Zoho and Read; "pending · missing · not served" is readable.
-5. Refresh & maintenance: the country selector works and the by-country table is labelled rows.
-6. Requests & feedback says Not available with its reason; no status, weight or coverage is shown.
-
-Reply with pass, or what failed and a screenshot. Request data stays Not available until a request register source exists (`operations.requests` is `not_projected`).
+**Reconciliation.** The mobile acceptance components of F-OPS.17 (phone width works) and F-OPS.21 (operable from a phone) are met on layout readability and no horizontal scrolling, on live evidence from an emulated 360 px viewport plus the automated 412 px tests. Tap sizes and the interactions (tabs, selectors, drill-down links) are covered by the automated tests only; the live phone interactions were not separately reported, and a physical-device check was not done. The other F-OPS.21 component, response time, was accepted earlier (404 to 739 ms signed in, limit 8 s). F-OPS.18 stays open: request data waits for a register source (`operations.requests` is `not_projected`), as do verified feedback, oldest verified by country and a per-worker heartbeat, and the outstanding backend monitoring requirements (S1-RM-Design). Whether F-OPS.17 and F-OPS.21 close is the decision of SS-Programme-Control; this lane has no other open item against them.
 
