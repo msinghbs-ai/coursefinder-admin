@@ -1,5 +1,11 @@
 # StudySearch – current state (read this first)
 
+**S1-API-Frontend-Delivery, 26 Nov 2026 13:25 AEDT: Data Delivery PIM frontend built (s1217, recorded before merge; Pilot branch `s1-pim-frontend-s1217`, no migration); live read-back follows the merge.** G3 75/48 untouched, locks 7,585, cron 136, US$0.
+- **What is on screen.** An "Autonomous PIM" block inside the existing Data Delivery panel (Layer 2/3 Build & enrich › Operations), from `pim` in `admin_layer23('data_delivery')`. Delivery matrix (country selector, domain × country, measure switch, funnel, gains, throughput, measured clearance, oldest outstanding, last and next run, scheduler, leases and recovery, AI and Firecrawl use, human interventions), Requests & feedback and Refresh & maintenance views. No new control, setting, migration or backend read. Detail: `docs/platform/data-ingestion/2026-11-26-pim-data-delivery-frontend-s1217.md`.
+- **Labelled, not counted.** Request register (Requests view says Not available), consumer coverage as a share, worker heartbeat, freshness by country, billed AI cost when null, clearance where nothing was gained. None is shown as 0.
+- **Open for S1-RM-Design.** Request register read (`pim.requests[]`, shape in the design document above). F-OPS.17 and F-OPS.21 stay open until the live read-back at 1440 and 412 px; F-OPS.18 until the request read exists.
+- **Spec number.** `s1216` went to S2-Build during the build, so this change is `s1217`.
+
 **S1-RM-Design, 26 Nov 2026 13:30 AEDT: PIM monitoring reconciled (s1173 live, Pilot #1655, md5 9c8ea25b); operational verification read 2.** G3 75/48, locks 7,585, cron 136, US$0.
 - **Reconciliation.**
   - The 11:57 snapshot showed 0 academic entry gains because `pim_progress_v1` counted only enrich items in state `filled` (key `entry_requirements`, never the register's `academic_entry`). AER admissions write no enrich items. Fixed.
