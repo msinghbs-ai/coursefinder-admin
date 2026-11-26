@@ -7,7 +7,7 @@ Every live admin route and top-level tab comes from the menu (`src/nav-map.js`);
 
 **Rule (Platform Admin 16 Nov 2026):** a PR that moves, renames or folds UI controls updates the inline screen help text and regenerates this document in the same release. Every release bump regenerates it with the test register sync, and it is mirrored to `coursefinder-admin` `docs/UI-MAP.md`. Spec `cf-247-s557-ui-map-contract` fails the build when this document and the source disagree. What each screen shows and does, in words, is in the admin `docs/platform/UI-CATALOGUE.md` and the in-app Guides.
 
-**Counts:** 22 pages · 58 tabs (a page without tabs counts as one) · 27 sub-tab or view bars · 240 folds · 46 drawers and dialogs · 39 old addresses.
+**Counts:** 22 pages · 58 tabs (a page without tabs counts as one) · 27 sub-tab or view bars · 234 folds · 46 drawers and dialogs · 39 old addresses.
 
 Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 PIM Admin · 6 Platform Admin.
 
@@ -36,8 +36,6 @@ Page key `courses` · opens for Viewer and above · no tabs
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
-  - Field processing status and diagnosis (details) — RecordTrace.jsx
-  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -79,8 +77,6 @@ Tab key `providers` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
-  - Field processing status and diagnosis (details) — RecordTrace.jsx
-  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -118,8 +114,6 @@ Tab key `campuses` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
-  - Field processing status and diagnosis (details) — RecordTrace.jsx
-  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -182,7 +176,6 @@ Tab key `list` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
-  - Field processing status and diagnosis (details) — RecordTrace.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -626,8 +619,9 @@ Page key `jobs` · opens for Pipeline Operator and above · 3 tabs
 
 Tab key `automations` · Pipeline Operator and above
 
-- **Screen:** `PimBacklink` (PimDelivery.jsx), `Automations` (ui-v1/AutomationsView.jsx), `ScheduledRuntimeHealth` (ui-v1/ScheduledRuntimeHealthView.jsx)
+- **Screen:** `PimBacklink` (PimDelivery.jsx), `JobsMonitor` (PimJobsMonitor.jsx), `Automations` (ui-v1/AutomationsView.jsx), `ScheduledRuntimeHealth` (ui-v1/ScheduledRuntimeHealthView.jsx)
 - **Folds:**
+  - AI and Firecrawl use by service (details) — PimJobsMonitor.jsx
   - Checks before removal (details) — ui-v1/AutomationsView.jsx
 
 #### Scheduled jobs › Jobs — `#scheduled-jobs?tab=jobs`
