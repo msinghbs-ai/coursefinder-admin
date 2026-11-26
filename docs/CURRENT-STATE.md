@@ -1,5 +1,10 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 27 Nov 2026 00:20 AEDT: cron and s1279 safeguards.**
+- **Cron:** 138 active at 23:34 AEDT. S1-Build changed 0 jobs today. No redundant job was found.
+- **Entities:** the 11 entity-pattern descriptions are UQ `&#039;` from the adapter path. They go to the description owner for a shared decoder and source-backed re-admission.
+- **s1281:** renumbered `20261130054500`.
+
 **S1-RM-Design, 26 Nov 2026 23:45 AEDT: s1176b live (Pilot #1699, deploy 45820200452, head `20261130044500`); job effectiveness assessment; academic entry producer analysis.**
 - **s1176b deploy checks:** live bodies of `pim_consumer_sample_v1`, `pim_consumer_fields_v1`, `pim_consumer_text_v1` and `pim_norm_v1` match the file. The seed checks at 23:30 were clean.
 - **First unattended sample (23:41):** 2 entry and 2 description courses, all delivery verified, entry international verified. It took about 13 s inside a 52 s background run (limit 120 s).
