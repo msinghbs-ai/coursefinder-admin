@@ -1308,3 +1308,28 @@ Assignment from SS-Programme-Control (26 Nov 16:28). Decision pack: `docs/platfo
 - 32 stale reservation statuses corrected; `s1042`, `s1049` and `s1106` closed.
 
 **Spend:** US$0 this session. Firecrawl: none called directly; Adelaide's site-map read uses the existing $0 sitemap path.
+
+## S2-AER — William Angliss, George Brown and TasTAFE: matrix holds classified; shared course-label defect corrected (s1252) — 26 November 2026, about 17:30 AEDT
+
+Read live; one reusable defect found and corrected through the existing shared validator `security.entry_course_link_v1` (Pilot s1252, branch `s2-aer-link`). Rolled-back rehearsal passed (run 45762396713). Spend US$0, no Firecrawl, no AI. G3 75/48 untouched; confirmed and rejected course links are asserted unchanged by the migration itself.
+
+**Where the three providers stand.** All 15 course-level entry decisions for TasTAFE (11) and William Angliss (4) are machine-admitted. George Brown has none at course level. What is outstanding is four pending `entry_matrix_first_run` items (created 24 Nov):
+
+| Item | Page | Rule | Verdict |
+|---|---|---|---|
+| William Angliss `2d93558d` | International entry requirements page | D-R3 `gate_incomplete` | **Genuine evidence hold.** The page names no applicant countries ("your home country" placeholders, 3 unknown_country) and the reader also dropped 5 rows from one narrative sentence. The gate is correct; no matrix can be built from this page. |
+| TasTAFE `fd87539f` | English entry requirements (LANGUAGECERT, MET, DET, English programme tables) | D-R3 `gate_incomplete`, 5 unknown_country | **Wrong domain, not a validator defect.** These are English-test rows, offered to the academic matrix lane. They belong to the English AER lane; a person rejects or redirects the academic item. |
+| George Brown `d15783d6` | English Language Requirements Policy PDF | D-R3, 2 `grade_not_in_quote` | **Wrong domain**, same as TasTAFE (English policy wording). |
+| George Brown `00fdaefe` | Recruitment, Admissions and Enrolment Policy PDF (NSW) | `all_rows_held`: course_unlinked 4, no_minimum 1, minimum_not_in_quote 1 | **Mixed.** The course_unlinked hold is a reusable technical defect (below). no_minimum (unit-completion rows with no score) and minimum_not_in_quote are genuine row holds. |
+
+**The defect.** Labels such as "RII60520 Advanced Diploma of Civil Construction Design" could never link to a catalogue course, for two reasons in shared code: `security.entry_course_label_levels_v1` names only degree-level words, so a Diploma or Advanced Diploma label never reached the exact-title step; and a printed national training package code (RII60520) is not part of the catalogue title. The catalogue holds the courses (for example CRICOS 111102D Advanced Diploma of Civil Construction Design).
+
+**The correction (s1252, migration `20261129133000`).** One md5-guarded edit of `entry_course_link_v1` (live md5 f6ef02c5…): only when the established level helper names no level, take the level from the existing mapper `security.entry_label_levels_v1`, strip a leading training package code, and link only on this provider, an active course, the level named, and exactly one exact title. Conjoint and slashed labels are excluded; cached "unresolved" labels that name no level are evaluated again. Nothing is forced and nothing decided is changed.
+
+**Measured effect (rehearsal, rolled back).** 27 unresolved labels name no level; **9 link** (6 providers; 5 carry a training package code, including 3 of George Brown's 6); 0 ambiguous. Unresolved links 162 to 153. The other George Brown labels stay unresolved because the catalogue has no such title ("Marketing & Communications" against "Marketing and Communication", Community Services (Case Management), the ICT telecommunications title).
+
+**What the correction does not do.** It does not admit anything. A linked label reaches admission only when its matrix item is read again through the existing governed route; the George Brown item `00fdaefe` keeps its stored `course_linked: false` rows until then, and its other holds remain. So the gain is 9 course links now, with admission to follow from a re-read, not a count of rows.
+
+**CQU and AIBT source identity (S1-AER-Claude).** Both are `source_not_official_host` on pending first-run items: AIBT source host `aibtglobal.edu.au` against the provider host `aibt.qld.edu.au`; CQU source host `delivery-cqucontenthub.stylelabs.cloud` against `cqu.edu.au`. Verification needs official evidence that each source host is the provider's own (a page on the provider's own site linking to or naming it). This session could not fetch the AIBT site (approval not granted) and holds both for S1-AER-Claude to verify; the host rule is not relaxed and no alias is added.
+
+**Register:** the generated TEST-REGISTER is not regenerated here. A from-main regeneration would drop rows for lanes whose Admin entries are merged ahead of their Pilot PRs. S1-Build to include `cf-247-s1252-vet-course-label-identity-contract` (3 tests) in its next regeneration.

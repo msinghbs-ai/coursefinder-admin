@@ -10,6 +10,11 @@
 - **AER:** `IN` at providers covering 8,449 courses, `NP` 5,170; 0 matrix rows without a country. Coverage grows only by admitted reads.
 - **Not changed:** no spec claimed, no migration, no test change. G3 75/48, locks 7,585, cron 135, $0.
 
+**S2-AER, 26 Nov 2026 17:30 AEDT: reusable AER course-label defect corrected (Pilot s1252, branch `s2-aer-link`); William Angliss, George Brown and TasTAFE matrix holds classified.**
+- William Angliss: genuine D-R3 hold (no applicant countries on the page). TasTAFE and George Brown English pages: wrong domain for the academic matrix (English AER lane). George Brown recruitment policy: `course_unlinked` was a shared defect, other row holds genuine.
+- s1252: `entry_course_link_v1` reads VET levels from the existing mapper and strips training package codes, only when the level helper names no level; exact title, level and one active course still required. Rehearsal (rolled back): 9 labels link across 6 providers; decided links unchanged. Admission follows from re-read. G3 75/48, locks 7,585, US$0.
+- CQU and AIBT source host identity: with S1-AER-Claude, not relaxed. Test register: S1-Build to add `cf-247-s1252-vet-course-label-identity-contract` at its next regeneration.
+
 **S1-RM-Design, 26 Nov 2026 16:35 AEDT: DR-16 (permanent PIM data-completeness controls) received and claimed; not started. This session is at its working limit; a fresh S1-RM-Design session takes over from here.**
 - **Slices, in order** (each extends the existing field register, applicability, field state, gap queue and Data Delivery snapshot; no separate pipeline, no cron, no blanket block or withdrawal):
   - **s1176:** the 15:47 items: every active worker and effective hold (join `cron.job` on jobid); read-only request register projection from `CONSUMER-REQUESTS.csv`; AER and cdesc consumer coverage.
