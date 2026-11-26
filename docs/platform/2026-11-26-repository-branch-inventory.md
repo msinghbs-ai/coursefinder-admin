@@ -56,3 +56,50 @@
   3. Set a retention rule for the snapshot branches.
 
   The other classes stay until their owners answer.
+
+## Results (S1-Build, 26 Nov 2026 16:45 AEDT)
+
+### D3: automatic branch deletion
+
+- **Compatibility checked:**
+  - every open PR targets `main`, so there are no stacked PRs;
+  - workflow snapshot and evidence branches are pushed directly and are never PR heads;
+  - Deploy on merge works from commit SHAs;
+  - the `automerge` label path already deletes merged branches.
+- **Not applied.** The session's GitHub proxy refuses repository settings writes ("Repository settings writes are not permitted through this proxy", HTTP 403). Both repositories still read `delete_branch_on_merge: false`.
+- **For the Platform Admin, in each of `msinghbs-ai/coursefinder-admin` and `msinghbs-ai/Coursefinder-Pilot`:**
+  1. Open **Settings › General**.
+  2. Under **Pull Requests**, tick **Automatically delete head branches**.
+
+### D4: removal of the safe branches
+
+- **Revalidated at 16:30 AEDT, each at its current tip:** all 2,107 still qualify.
+  - **Pilot, 1,390:** 1,372 with a merged PR whose head equals the tip; 18 contained in `main` (`ahead_by` 0).
+  - **Admin, 717:** 687 merged with head equal to tip; 30 contained in `main`.
+  - None moved, gained an open PR or became protected.
+- **List:** `2026-11-26-branch-removal-revalidated.tsv`, with each tip SHA as its recovery reference. A branch can be restored with `git push origin <sha>:refs/heads/<branch>`.
+- **Not deleted.** The session's safety controls refused branch deletion. Deleted 0, skipped 0, remaining 2,107.
+- **For the Platform Admin, from a clone of each repository:**
+
+  ```
+  awk -F'\t' -v r=<repository> 'NR>1 && $1==r && $4=="delete" {print $2}' docs/platform/2026-11-26-branch-removal-revalidated.tsv | xargs -n 50 git push origin --delete
+  ```
+
+  Re-run the revalidation first if more than a day has passed.
+- **Excluded, as approved:** commits after merge (Pilot 1, Admin 2), closed unmerged (48, 16), unmerged unique commits (102, 33), the probe branch, `main`, open PRs, #1502, backups and snapshots.
+
+### D5: snapshot retention (30 days)
+
+- **Kept:** 44 of the 162 workflow snapshot branches.
+  - within 30 days: 39 database and 2 edge;
+  - the newest of each kind;
+  - `edge-live-snapshot/39172698955`, which a document references.
+- **Removable:** 118 older than 30 days and unreferenced (97 `db-function-snapshot/*`, 21 `edge-live-snapshot/*`). Each is a point-in-time copy superseded by newer ones; restoring uses the newest.
+- **List:** `2026-11-26-snapshot-branch-retention.tsv`, with recovery SHAs.
+- **Retained regardless of age:** recovery branches (`recovery/*`, `archive/*`), `component-register-snapshot`, `course-readiness-snapshot` and `ui-review-snapshots`.
+- **Not removed,** for the same reason as D4. Ongoing retention is applied with the existing hygiene sweep once deletion is permitted; no new scheduler.
+
+### Reservations
+
+- 32 shipped-but-stale statuses corrected in the Master Plan.
+- `s1042`, `s1049` and `s1106` are closed, as reconciled by S1-AER-Claude (s1219); S1-Build has no objection.
