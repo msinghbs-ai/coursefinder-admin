@@ -626,6 +626,17 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 27 Nov 2026 00:35 AEDT: DR-19 increments 2 to 4 (s1282) and Reported data issues R3 (s1285) live and accepted on production, desktop and phone (Pilot #1701, #1704, #1705, #1708).**
+- **Acceptance:** Deployed UAT run 45829529456 on production, both specs: desktop success, mobile success.
+- **s1282:**
+  - **Platform Admin, 1440 px and 412 px:** Data Delivery drill on Lincoln University by diagnosis class (Not read yet 86, Explained gap 65, Value held 41, Being read now 4, Protected or in review 3). A record's description trace opened.
+  - **Course drawer fold:** 15 fields (Not read yet 6, Value held 3, Explained gap 5, Does not apply 1), each with the seven facts. No sideways scroll.
+- **s1285:**
+  - **Platform Admin and Pipeline Operator, 1440 px and 412 px:** the Layer 4 Reported data issues panel shows its figures (all 0 today) and Admin (0), Portal (0) and Zoho (0), with the Reported, Resolved and All states. No sideways scroll.
+- **Observed on the shared Operations and Layer 4 pages, not these releases:** HTTP 500 from `admin_aer_delivery_progress` (13:11 UTC) and `admin_progress_read` (13:30 UTC) at 412 px. Each cleared on retry. They are flagged to the Data Delivery and Progress owners.
+- **Branches:** the three `…-probe` branches used to rerun acceptance are left for the Auto-merge sweep (this session's proxy refuses branch deletion).
+- **Guards:** G3 75/48, cron and locks unchanged; $0.
+
 **S2-Build, 27 Nov 2026 00:15 AEDT: s1285 Reported data issues R3 live (Pilot #1705, migration `20261130060000` applied, history md5 `4bbc99b5`); s1282 drill fix merged (Pilot #1704); a field-list race fix recorded before merge.**
 - **s1285 live and read back on production.** Deployed UAT run 45827096343, desktop:
   - **Platform Admin and Pipeline Operator:** the Layer 4 panel opens and shows its figures (Submitted 0, Reported (open) 0, Awaiting verification 0, Resolved 0, median time to resolve Not available, recurring 0 in 90 days).
