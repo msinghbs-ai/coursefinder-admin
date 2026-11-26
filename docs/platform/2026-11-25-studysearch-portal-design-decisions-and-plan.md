@@ -334,3 +334,18 @@ The functions the screens call, built to the contract above on pipeline tables (
 **Not in this change.**
 - Removing expired or privacy-requested proposals: a Platform Admin paste file, because nothing is deleted by an applied migration.
 - `portal_dashboard_v1`.
+
+## Course details and Entry Requirements as built (Pilot s1215, S1-API-Frontend-Delivery, 26 Nov 2026)
+
+Atlas brief 12:02 AEDT from the Platform Admin's live UAT. The screens (`portal/`) read S2-Build's s1214 functions; one small read is added. Nothing is written, calculated or dropped. Access is Viewer (rank 1) and above; execute is `authenticated` only.
+
+**Reads used**
+- `public.portal_course_detail_v1(p_course_id uuid)` (s1214): description, campuses, fee lines, upcoming intakes, academic entry and English requirements, the provider's QILT employment and salary figures for the course's cohort, official page, last checked. A course outside the portal's scope answers `P0002`, shown as "This course is no longer listed".
+- `public.portal_aer_list_v1(p_args)` (s1214): `q`, `country` (taught in), `source_country` (student's country of education), `level` (a code or its family), `provider_id`, `has` (academic, english, both), `page`. Returns `items`, `total`, `page`, `page_size`, `facets`.
+- `public.portal_study_levels_v1()` (s1215, migration `20261129090000`): `[{code, name}]`, the active top-level study levels that have courses; a top-level code also matches its children in the list. Keeps the Study level filter on the live table (s930).
+
+**Rules in the screens**: a requirement that names no country applies to everyone, one that names a country applies to that country only (so the student's country adds to the shared lines). Fee lines are shown as recorded and never added together. Career outcomes are the provider's, labelled so. A value not held reads "Not recorded".
+
+**Screens**: `components/CourseDetails.jsx` (panel, loaded when opened), `screens/EntryRequirements.jsx`, `components/ExtLink.jsx` (new tab, `noopener noreferrer`, web addresses only; a spec fails any other outside `href`). Menu: Dashboard, Courses, Entry Requirements, Universities & Providers, Scholarships, Saved courses, Proposals. Guards: Pilot specs `cf-247-s1215-portal-course-details-and-entry-requirements-contract` and `cf-247-s1215-portal-study-levels-migration-contract`.
+
+**Lane note**: I first built a duplicate read layer under the same s1214 number; it was withdrawn before merge once S2-Build's PR was seen, and the screens were rebuilt on theirs.
