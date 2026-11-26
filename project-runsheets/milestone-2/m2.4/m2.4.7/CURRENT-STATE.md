@@ -178,6 +178,10 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 26 Nov 2026 20:00 AEDT: DR-19 s1273 live (Pilot #1682, migration `20261129210000`; dry run, security gates and six test shards green).**
+- **Read back live:** migration history holds `20261129210000`. The four functions and four `pim.trace_*` settings are present. UWA academic entry reads 190 verified, 84 data exceptions and 54 software defects, as rehearsed. A UWA course's trace returns Website v3 and Zoho v3 `returned: true` with `checked_at`.
+- **Guardrails:** G3 75/48, locks 7,585, $0. Active cron is 136; s1273 adds none, and the migration asserts the count unchanged.
+
 **S2-RM-Design, 26 Nov 2026 19:55 AEDT (DR-19, SS-Programme-Control 19:18): s1273 claimed and rehearsed: the record trace and provider diagnosis (shared contract items 1 and 2 of S2-Build's s1272 design). Recorded before merge.**
 - **What it is:** read-only `security.pim_record_trace_v1(course, field, consumer)`. For each registered course field it returns:
   - the interface 2 facts, the field's producer kind, recent attempts, the open absence finding and open Layer 4 items;

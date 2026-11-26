@@ -1,3 +1,7 @@
+**S2-RM-Design, 26 Nov 2026 20:00 AEDT: DR-19 s1273 live (Pilot #1682, migration `20261129210000`; dry run, security gates and six test shards green).**
+- **Read back live:** migration history holds `20261129210000`. The four functions and four `pim.trace_*` settings are present. UWA academic entry reads 190 verified, 84 data exceptions and 54 software defects, as rehearsed. A UWA course's trace returns Website v3 and Zoho v3 `returned: true` with `checked_at`.
+- **Guardrails:** G3 75/48, locks 7,585, $0. Active cron is 136; s1273 adds none, and the migration asserts the count unchanged.
+
 **S2-RM-Design, 26 Nov 2026 19:55 AEDT (DR-19, SS-Programme-Control 19:18): s1273 claimed and rehearsed: the record trace and provider diagnosis (shared contract items 1 and 2 of S2-Build's s1272 design). Recorded before merge.**
 - **What it is:** read-only `security.pim_record_trace_v1(course, field, consumer)`. For each registered course field it returns:
   - the interface 2 facts, the field's producer kind, recent attempts, the open absence finding and open Layer 4 items;
