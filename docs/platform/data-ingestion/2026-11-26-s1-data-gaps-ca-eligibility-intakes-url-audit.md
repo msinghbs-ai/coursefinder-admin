@@ -167,9 +167,30 @@ Guard figures at rehearsal: Consumer API 75 functions and 48 relations, no drift
 - **Risk and rollback:** low; read-only, off by a setting, removable by a paste file after retention.
 - **Approval requested:** approve option A as a new spec, with S1-Build releasing the edge function.
 
+## 9b. Read back from the live database after the merge (26 Nov 2026 23:03 AEDT)
+
+Pilot #1696 merged (`d59e461`) after Admin #1230; the `Deploy on merge` run succeeded. Read through the same rolled-back route, from live (not the rehearsal):
+
+| Check | Expected | Read live |
+|---|---|---|
+| Migration head | `20261130024500` | `20261130024500` |
+| `fid.provider_types` | eight types | the five existing plus `private_vet`, `school`, `wananga` |
+| `fees.provider_types` (AI fee reader) | unchanged, five types | unchanged, five types |
+| Body checksum of `security.fid_det_batch_v1` | `ec678d37e7ed3578ae4c1d06d8308dc8` | `ec678d37e7ed3578ae4c1d06d8308dc8` |
+| Course page needed list, lane `s1281 url alignment` | 23 open | 23 open; 0 locked; 23 still hold their official address |
+| Consumer API | 75 / 48, no drift | 75 / 48, no drift |
+| Manual locks | 7,585 | 7,585 |
+| Active cron jobs | none added | 135 (other lanes moved it; this change adds none) |
+| Past-dated intake rows | 7 rows, 7 courses, none with a future row | 7 rows, 7 courses, 7 with no future row |
+| Audit events | setting and list | both at 22:57 AEDT |
+
+The sweep took the change within minutes. Before the deploy its last batch held 1 page; from 23:00 AEDT it sends 30-page batches. Run 592 recorded 30 pages with 0 Layer 4 items raised, and `fid_det_pages` rose from 15,213 to 15,243, all 30 in the new types. No value has been admitted from them yet, so the yield is **not known**. At the first rate (30 pages a run, two calls open) the 6,935 pages take about six hours. The next session reads the readings by outcome when the pass has ended.
+
+**Number clash:** `s1281` is also claimed by S1-Build (Reported Data Issues R1 backend). S1-Data-Gaps' `s1281` went live first (Pilot #1696); nothing was renumbered, and the Integration Controller reconciles. The only live object carrying the number is the lane label `s1281 url alignment` on the 23 list rows.
+
 ## 10. Entry for the Drive running build document (to paste, second checkpoint)
 
-**26 Nov 2026 22:55 AEDT, S1-Data-Gaps (Atlas brief 22:19).** Approved decisions carried out as spec s1281 (migration 20261130024500, rehearsed live and rolled back; merge follows).
+**26 Nov 2026 22:55 AEDT, S1-Data-Gaps (Atlas brief 22:19).** Approved decisions carried out as spec s1281 (Pilot #1696, migration 20261130024500; live and read back at 23:03 AEDT).
 - S1-DG-2: the deterministic sweep has its own provider-type setting (adds private VET, schools, wananga) so 6,935 stored AU and NZ pages are offered to it at US$0. The shared fee-reader setting was not widened, because it would have started AI fee reads for 290 providers.
 - S1-DG-3: 23 unlocked courses whose held page failed the identity check are on the Course page needed list for a person; nothing deleted; 123 locked courses untouched.
 - S1-DG-1: nothing written, no spend. Page text cannot be searched from the database and no domestic-only finder exists; decision S1-DG-4 asks for one.
