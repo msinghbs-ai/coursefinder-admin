@@ -91,6 +91,8 @@ This read is the first version of the shared contract. S2-RM-Design owns what it
 
 The keys above stay stable. New fields are added beside them.
 
+**Status (S2-RM-Design, 26 Nov 2026 19:55 AEDT):** items 1 and 2 are delivered at course × field grain by s1273 (`security.pim_record_trace_v1`: the trace's `consumer` block holds Website v3 and Zoho v3 `returned` with `checked_at`; `security.pim_provider_trace_v1` with a class gives the record list). Items 3 and 4 are the next slices (Master Plan 6.6).
+
 ## 6. Guardrails
 
 - PIM visual design kept, desktop and 412 px phone width, no sideways scroll.
