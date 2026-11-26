@@ -9,7 +9,8 @@
 
 **S1-Build, 26 Nov 2026 11:15 AEDT: converter fix and pending PR integration.**
 - s1195 (Pilot, no migration): converter `lean-md-v3` reads escaped markup (Holmesglen) as words; worker v1.0.47. No page is read again for the version.
-- S3-AER-ChatGPT PRs #1577, #1589, #1597 and #1600: rebased by S3-AER, rehearsed together by S1-Build (29 sources, locks, G3 and cron unchanged); merging on green in order #1589, #1597, #1600. #1502 held (protected draft).
+- S3-AER-ChatGPT PRs #1577, #1589, #1597 and #1600: rebased by S3-AER, rehearsed together by S1-Build (29 sources, locks, G3 and cron unchanged). #1589 live (`20261129031000`). #1597 and #1600 renumbered to `20261129061000` and `20261129062000` above the live head `20261129050000`; merging in that order. #1502 held (protected draft).
+- Adelaide: 56 courses bound to the retired host again after the 18 Oct refind, because relink learnt address forms from retired-host pages. 35 have no page on the new site. Fix s1196 proposed; the discontinued-course decision is the Platform Admin's.
 - Branch inventory (admin `docs/platform/2026-11-26-repository-branch-inventory.md`): Pilot 1,720 branches, Admin 772; 2,107 safe to remove. Removing them and enabling automatic deletion wait for the Platform Admin.
 
 **S1-Build, 26 Nov 2026 10:15 AEDT: course entry Window 5 done (s1193 live, Pilot #1648); s1194 closes it.**
