@@ -183,6 +183,11 @@ A shared spec, `// Guards: P0 cross-domain operator contract (Platform Admin 10 
 
 ### F-AER — Academic entry requirements (IQ-00060 / IQ-00293 / current AER families)
 
+**F-AER.SCHED (scheduled course entry reading; s1274 and s1261, S1-Build, 26 Nov 2026 19:45 AEDT): open.**
+- **Accepted when:** an automatic plan queues entry reads, the route reads them within US$1.00 a day, and two unattended result-bearing cycles are traced from gap to consumer read-back. Each trace runs: gap → plan → item → stored evidence → gpt-4.1-mini extraction → validation → canonical admission → publication → `website_v2_course` read-back → field state and refresh date.
+- **Does not count:** manual batches, on-demand windows, empty ticks or publication-only cycles.
+- **Now:** built and rehearsed; not deployed.
+
 ### AU AER staged ownership — Platform Admin direction, 24 November 2026 (supersedes combined AU discovery/reader assignment)
 
 - S1-RM-Design exclusively owns AU AER Steps 1–2: official-source identification, registration, acquisition and durable stored evidence, using the existing governed pipeline. Start with 1,401 active-course providers without a registered matrix source or active matrix and alternate official sources for the 74 previously unsuitable pages. These are discovery/assessment cohorts, not guaranteed data yields. Prioritise high-course providers, including Newcastle, Bond, UNE, Deakin, Torrens, ECU, CQU, UniSQ, Melbourne Polytechnic, SAE, JMC, Sydney Metro College and ICMS. Use up to 15 per technical batch; standing 450-provider coverage target, then entire eligible territory. No new engine, cron, spending authority or speculative source association.
