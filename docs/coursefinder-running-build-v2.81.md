@@ -521,3 +521,8 @@ Added to active pre-Production backlog:
 - ranking acquisition by both uploaded parser and governed API/Parse.bot adapter using one validation/apply contract.
 
 No CF-091 runtime/schema change is claimed by this Running Build entry. Current accepted DB Architecture remains v2.10.50 and Admin/PIM Decisions v1.31.
+
+
+## AU Scholarships — Autonomous PIM reconciliation, 26 November 2026 (S1-Scholarship-Claude)
+
+AU scholarships: 889 published across 70 providers, 1,754 active, none eligible and unpublished. Website v2 and v3 scholarship reads return 1,206 items, equal to canonical published (all countries); Data Delivery shows AU 889 / 70. No published AU award fails publication checks, holds, domestic-only or lifecycle. Automated read, discover, AI extract and auto-publish jobs run; AU reading is now limited by the per-university Firecrawl cap (451 stored candidates at Monash, QUT, Melbourne, JCU, UTAS, Newcastle, Curtin), recorded for S1-Build in SCH-FU-02. No cap, hold, lock, G3 surface or Layer 4 decision changed. Wave R6 queued (44 providers). Detail: `docs/platform/CONTINUOUS-DELIVERY-MASTER-PLAN.md` SCH-FU-02 and `docs/platform/S1-SCHOLARSHIP-WAVE-LEDGER.md`.
