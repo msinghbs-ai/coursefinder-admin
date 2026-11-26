@@ -58,6 +58,8 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 10:45 AEDT: operational learning (s1292) in release.** Eight lessons with their outcomes are held in the recovery knowledge, none automatic. Platform health > Technical details > Recovery knowledge shows the patterns, the 7-day outcomes, blocks and automatic recoveries.
+
 **S1-Build, 27 Nov 2026 09:55 AEDT: morning check.** The 24×7 jobs are running. AER read 1 course overnight (115246M); the eligible backlog is 0; no automatic academic-entry plan yet. AI $0.78 today.
 
 **S1-Build, 27 Nov 2026 09:40 AEDT: D10 and D11 live; D9 held for the notice.**
