@@ -22,6 +22,13 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 00:50 AEDT: production reliability and consumer integrity (s1286 held, s1287).**
+- **Consumer entry (s1286, held):** draft Pilot #1709. It removes domestic-only rows from international reads and serves a grade-only minimum. It waits for Platform Admin approval and the Wix/Zoho notice.
+- **Starved rollups (s1287):** `ops-cost-guard` (32 runs in 7 days) and the data quality overview (last run 21 Nov) run first in their due ticks. Four often-deferred targets move ahead.
+- **Layer 2 onboarding snapshot:** live on rollup-scheduler. Cron job 36 is off and retiring. Paste file `docs/paste/PASTE-20261127-s1287-l2-snapshot-unschedule.sql` from 11 Dec.
+- **Cron reconciliation:** three jobs registered active are paused by decision (`scholarship-discover-refill`, `calendar-reread`, `firecrawl-runs`). A Platform Admin decision is needed.
+- **Unchanged:** G3 75/48; locks; no job created; US$0.
+
 **S1-Build, 27 Nov 2026 00:15 AEDT: P0 Keep Main Green (s1285).**
 - **Cause:** main was red because the deployed Layer 1 spec still used the old `.xl-*` selectors.
 - **Fix:** selectors only. Verified 3 of 3 on production.
