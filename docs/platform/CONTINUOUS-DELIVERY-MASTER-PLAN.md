@@ -1295,3 +1295,11 @@ Assignment from SS-Programme-Control (27 Nov 09:57 AEDT). Live reads 27 Nov 10:0
   - **s1292** adds the eight lessons of 26 and 27 Nov (scheduler, AER semantics, refusal vs no value, supply vs producer, held consumer correction, feedback register write, release gate split, catalogue tracing) with their outcomes, and the Platform health Recovery knowledge section.
   - **Not yet done:** retry-check calls in the AER selector beyond provider description.
 
+
+#### s1293 live and read back (S2-AER, 27 Nov 2026, about 11:30 AEDT; Pilot #1715 `197fadf8`, Admin #1267)
+
+- **Deployed.** Pilot #1715 merged; `Deploy on merge` run 45911082014 succeeded (worker v1.0.54 and migration `20261130110000`); live migration head `20261130110000`.
+- **Corrected rows (read live).** 115246M `22128bf6`: `prior_qualification` to `general_note`, still active, audience all. 112659C `b8e01ffa`: `minimum_grade` to `general_note`, still active, audience all. Provenance keeps the earlier kind; 1 `admin_control_events` row (`document_instruction_not_requirement`) lists both ids; 1 integration issue (`aer:kind:document-instruction-read-as-requirement`). No other row changed.
+- **D9.** The D9 `course_general` source set (active `minimum_grade` or `prior_qualification`, international or all, no country) holds 0 rows for 115246M and 0 for the 112659C wording, so #1709 cannot promote them. The sibling wordings that name a level or a qualification stay as read.
+- **Consumer read (shared payload `security.entry_course_payload_v1`, India).** 115246M gives no `prerequisites` entry for the transcripts sentence; it appears once in `requirements_note` with the other two general notes; `selection_tasks` still holds the international application form; resolution `contact_provider` (no country row, D9 not live). Website v2, v3 and Zoho v2 take this payload.
+- **Guardrails.** Consumer API 75 functions / 48 relations, no drift; locks 7,585; active cron 137; nothing dropped; US$0.
