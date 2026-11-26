@@ -872,7 +872,19 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
-**S2-Build, 26 Nov 2026 11:50 AEDT: s1211 live (Pilot #1651, migration `20261129040000`, history md5 checked); s1212 claimed and recorded before merge (migration `20261129050000`, branch `s2-s1212-portal-meaning-full`).**
+**S2-Build, 26 Nov 2026 11:45 AEDT: s1212 live (Pilot #1653, migration `20261129050000`, history md5 checked): the portal meaning step reads the full-vector index again; s1211's other speed-ups stay.**
+- **Live read-back** (the live search and an s1181 copy run turn about, at the same moments): same totals, chips, near misses and top 20 on every phrase.
+  - Bachelor of Nursing in Melbourne under $40,000: 0.18 to 0.24 s (s1181 0.44 to 1.12 s).
+  - accounting in Brisbane: 0.54 to 0.87 s (s1181 0.74 to 1.27 s).
+  - Master of Nursing in Victoria warm: 0.15 s (s1181 0.16 s).
+  - nursing: within the load noise of s1181.
+- `portal_search.meaning_index` = full. Five phrases are cached, and all four Dashboard examples rank by meaning.
+- G3 75/48, drift 0; locks 7,585; active cron 138; head `20261129050000`.
+- Portal embedding spend since 11:00 is US$0.00044. That covers the pre-warm requests and the queued course vectors that ride along with each request.
+- TEST-REGISTER regenerated: s1211, s1212 and s3-witt-source-recovery added; s1195, from a pending branch, kept.
+- The 11:50 timestamps in the 11:25 record were corrected to 11:25.
+
+**S2-Build, 26 Nov 2026 11:25 AEDT: s1211 live (Pilot #1651, migration `20261129040000`, history md5 checked); s1212 claimed and recorded before merge (migration `20261129050000`, branch `s2-s1212-portal-meaning-full`).**
 - **s1211 live read-back** (the live search and an s1181 copy run in turn, three times each, at the same moments):
   - City searches are faster: Bachelor of Nursing in Melbourne under $40,000 0.40 to 0.61 s (s1181 0.72 to 1.03 s); accounting in Brisbane 0.47 to 0.58 s (0.82 to 1.00 s).
   - The compact one-bit meaning index did not hold its gain. The scheduled pipeline runs about 13,500 job-seconds an hour, with 29 to 41 job runs overlapping each minute, and the 16 MB index was pushed out of memory within 15 minutes (a cold search read 3,146 blocks against 2,302).
