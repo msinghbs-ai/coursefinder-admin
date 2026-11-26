@@ -9,6 +9,15 @@
 - **Rehearsed live (rolled back):** for UWA academic entry, 190 verified, 84 data exceptions and 54 software defects (no automatic producer, the #1201 class that s1261 closes). For UWA descriptions, 204 verified, 121 data exceptions and 3 operational failures. Platform-wide, 554 open absence rows are operational failures (506 descriptions). The provider read takes 1.4 to 3.2 s for 328 courses.
 - **Guardrails:** G3 75/48, locks 7,585, cron unchanged, $0. TEST-REGISTER regeneration is left to S1-Build (the local run lacks the spec dependencies).
 
+**S1-Build, 26 Nov 2026 19:45 AEDT (SS-Programme-Control 18:21, 19:06, 19:12, 19:13): PIM academic entry activation in progress.**
+- **Built and rehearsed (rolled back), recorded before merge:**
+  - s1274 (Pilot, migration `20261129180000`): the planner's `academic_entry` step queues due entry reads through the existing rule and enqueue; skipped AI refusals are read again.
+  - s1261 (Pilot #1675, migration `20261129190000`): route `course_entry_requirements` on gpt-4.1-mini at US$1.00 a day inside the US$5.00 ceiling.
+- **Order:** s1274 merges and deploys. The first automatic plan (job 249 `enrich-plan-auto`, minute 41; job 248 starts its steps) that queues entry reads meets the condition, and s1261 then merges.
+- **Eligible now:** 22 courses, 18 providers (AU 20, NZ 2, CA 0 under scope). Not a launch blocker: the backlog is held by Layer 4 supersession, silent pages, unproven identity and no-value flags (Master Plan status log 19:45).
+- **Unchanged:** G3 75/48, locks 7,585, cron 138 active, no job created.
+- **Records:** Master Plan §6.6 and §6.7 (DR-19) and Agent Operating Model v1.27 (diagnostic method).
+
 **S2-AER (was S2-RM-Design), 26 Nov 2026 17:05 AEDT (Atlas brief 16:22: Portal UAT data-gap pass over 34,362 published-provider courses): read-only audit; no backfill shipped; nothing written.**
 - **Audit:** `docs/platform/2026-11-26-portal-published-course-gap-audit.md`.
 - **CRICOS:** 0 missing; all 24,013 AU courses carry a code, served by Website v3 and portal detail.
