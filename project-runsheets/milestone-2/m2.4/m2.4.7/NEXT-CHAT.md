@@ -328,6 +328,27 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 12:20 AEDT: s1213 daytime quiet hours claimed and recorded before merge (migration `20261129060000`, branch `s2-s1213-quiet-hours`); Atlas brief 11:59, Platform Admin approval.**
+- **Measured** (cron run history, last 24 hours): 363,920 job-seconds a day, 177,899 of them between 08:00 and 20:00 Melbourne time. Database at CPU 78% and disk 79%.
+- **The five heaviest direct background jobs**, 95,352 job-seconds a day (about 47,700 of them by day), serve no screen:
+  - coverage-ai-match-prepare: 28,216 s
+  - fee-reader: 27,581 s
+  - scholarship-ai-extract: 14,203 s
+  - course-description-machine: 13,498 s
+  - provider-description-read: 11,854 s
+- **Change:** each job's own command now checks `security.quiet_hours_open_v1(job)`.
+  - The jobs do no work from 08:00 to 20:00 Melbourne time, so daylight saving needs no change, and run exactly as before at night.
+  - The settings `pipeline.quiet_hours.enabled`, `start_hour`, `end_hour` and `jobs` are changed on Settings › Pipeline settings › Scheduling, with a reason.
+  - No job is added, removed, activated or deactivated: active cron jobs stay at 138.
+- **Kept all day:**
+  - website-sync-check and zoho-sync-check, the change feeds the website and Zoho read;
+  - admin-jobs (Task manager);
+  - the rollup and admission-rule dispatchers;
+  - every light handler.
+- **Rehearsed:** the commands are gated, a held run returns in 1 ms, and the gate is closed at noon and open at 23:00.
+- **Effect on owning lanes** (S2-CF, Scholarships, Descriptions): these jobs, and on-demand items queued for them, now work overnight only. The Platform Admin can lift the hold on Settings.
+- G3 75/48; locks 7,585; US$0.
+
 **S2-Build, 26 Nov 2026 11:45 AEDT: s1212 live (Pilot #1653, migration `20261129050000`, history md5 checked): the portal meaning step reads the full-vector index again; s1211's other speed-ups stay.**
 - **Live read-back** (the live search and an s1181 copy run turn about, at the same moments): same totals, chips, near misses and top 20 on every phrase.
   - Bachelor of Nursing in Melbourne under $40,000: 0.18 to 0.24 s (s1181 0.44 to 1.12 s).
