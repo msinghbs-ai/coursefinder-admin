@@ -58,6 +58,11 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 09:40 AEDT: D10 and D11 live; D9 held for the notice.**
+- **Live migration head:** `20261130091500`.
+- **D10:** `data-delivery` ran 28 times with 0 deferrals in the first 28 minutes (12 runs and 15 deferrals before).
+- **D9 (#1709):** waits for the Platform Admin's Wix/Zoho notice confirmation (draft: `docs/integrations/handover/2026-11-27-D9-entry-course-general-HANDOVER-DRAFT.md`).
+
 **S1-Build, 27 Nov 2026 09:20 AEDT: D11 (s1291) in release.** Jobs 87, 378 and 108 stay off. Their holds (decision, owner, replacement, spend) are recorded in the component register notes. No runtime change.
 
 **S1-Build, 27 Nov 2026 09:05 AEDT: D10 scheduler fix (s1290) in release.** `security.rollup_tick_v1` is now held in the repository.
