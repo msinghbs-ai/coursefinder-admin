@@ -64,3 +64,22 @@ Built and checked in real Chromium at 1440 px and 412 px against a mock of the l
 F-OPS.17 is met live at desktop width. F-OPS.21 stays open until the phone read-back and the Data Delivery read is reliably under the limit; F-OPS.18 stays open until the request register read exists.
 
 **Final authenticated UAT, 26 Nov 2026 15:30 AEDT (after s1174, Pilot #1660).** Signed-in browser call to `admin_layer23('data_delivery')`: 404 to 739 ms over 10 calls (limit 8 s), 200, 85 KB. Database read 0.05 s warm. Snapshot every 10 min; the screen shows its age, and a failed count as Stale beside the last good figures. Role gate in the database: rank 2 refused (42501), ranks 4 to 6 read 42 rows; browser specs for ranks 2, 3, 4 and 6 (Pilot #1663). Still open: the 412 px live read-back (framing is denied by the site's headers, and the browser session cannot resize or zoom, so a phone or a resizable browser is needed) and request data (`pim.requests`).
+
+## s1221 operations integration (SS-Programme-Control 26 Nov 2026 15:46; Pilot #1668; backend s1175, Pilot #1662)
+
+The deployed `pim.operations` read was checked against the live snapshot, `security.data_delivery_v1()` and the s1175 migration (`20261129113000_cf247_s1175_pim_operations_no_sync_fallback.sql`) before building. The screen draws it as delivered; it adds no control beyond a country filter on the new freshness table, no setting and no write.
+
+| `pim.operations` key | Shape (live) | What the screen does |
+|---|---|---|
+| `workers[]`, `stalled_workers`, `jobs_summary_at`, `meaning` | `{job, running, stalled, schedule, failed_24h, last_start, last_success}`; `stalled_workers` counts workers with a null or old last success against `plans.auto_stall_hours` | Processing shows Stalled workers (a measured 0 reads "0"). A Workers table lists each worker's state (Stalled, Running, Idle on time), last success (a null reads "Never" and counts as stalled), last start, failures in 24 h (a counted none reads "measured: none") and schedule. |
+| `expired_leases` | number | Shown beside the existing leases tile only when `pim.leases` is absent. |
+| `consumer[]` | `{stream, measured_at, error, rows[{cc, expected, w_*, z_*}]}`; streams live: disc, eng, fee, int, pdesc, sch; Zoho keys are null for `sch` | Verified consumer read-back: one row per stream and country, website and Zoho matched out of expected with pending, missing and not served kept apart; a null Zoho reads "Not measured"; a stream with an error shows the error and the age of the last read; each row says how old the read is and flags it Stale past `stale_after_minutes`. Streams are different kinds of record and are never added; there is no total. |
+| `freshness_by_country[]` | `{country, field, held, refresh_due}` | Refresh & maintenance: a by-country and field table (held, due, fresh share, "None held" where nothing is held) with a country filter. The oldest verified date is still counted by field across all countries only. |
+| `requests` | `{status: 'not_projected', reason}` | Requests & feedback still says Not available and now gives the backend's reason (no registered database source holds the request register). No status, weight or coverage is shown. |
+| verified feedback | no key in the read | Not available, with the reason that no authoritative source is resolved. |
+| `snapshots` (top level) | aer, pdesc, intake, cdesc_stages: `{as_at, error, took_ms, failed_at}` | One line under the PIM stamp lists each helper count's age and flags a failed or stale one (its last good result is kept). |
+
+Unavailable still (S1-RM-Design to resolve): the request register (`pim.requests[]`), verified feedback, the oldest verified date by country, and a per-worker heartbeat beyond the job summary.
+
+Built and checked in real Chromium: new desktop spec (13 tests) and 412 px phone spec (4 tests, Pixel 7 emulation) against a mock shaped like the live read, plus s1217, s1218 and the central guards. No migration, no setting, no consumer API change, US$0.
+
