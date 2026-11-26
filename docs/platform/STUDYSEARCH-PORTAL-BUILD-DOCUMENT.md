@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 11:45 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`; Release 2 is complete end to end (screens s1200 to s1202, data layer s1210). Search speed work is live (s1211, s1212): city searches 1.5 to 2.5 times faster, phrase meanings kept 30 days, the Dashboard examples pre-warmed, the same results as before. Search time still follows the scheduled pipeline's load; that is a Platform Admin decision.
+**Status at the last checkpoint (26 Nov 2026 12:35 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`; Release 2 is complete end to end (screens s1200 to s1202, data layer s1210). Search speed work is live (s1211, s1212), and daytime quiet hours (s1213) keep five heavy background jobs off the database from 08:00 to 20:00 Melbourne. The reads for Expandable Course Details and Entry Requirements (s1214) are live for S1-API-Frontend-Delivery.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -56,7 +56,7 @@
 | 26 Nov 11:00 | s1211 search latency (migration `20261129040000`): 16 MB one-bit meaning index with exact scoring of 300 candidates; city and filter steps by key from the topic set; countries and levels through their indexes; phrase meanings kept 30 days and renewed on use; Dashboard example searches pre-warmed. Rehearsed: same results as s1181; Master of Nursing in Victoria 0.16 s (was 1.52 s cold), city searches 0.2 to 0.48 s (were 0.38 to 1.05 s) | S2-Build | [#1651](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1651) | [#1145](https://github.com/msinghbs-ai/coursefinder-admin/pull/1145) | Live; meaning step superseded by s1212 |
 | 26 Nov 11:25 | s1212 (migration `20261129050000`): the s1211 live read-back showed the compact meaning index pushed out of memory by the pipeline's load and slower warm, so the meaning step reads the full-vector index again by default (`portal_search.meaning_index`, full or compact); the other s1211 changes stay. Rehearsed: same results as s1181; city searches 0.21 to 0.42 s (were 0.40 to 0.80 s) | S2-Build | [#1653](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1653) | [#1147](https://github.com/msinghbs-ai/coursefinder-admin/pull/1147), live record (this checkpoint) | Live; read back paired with s1181 |
 | 26 Nov 12:20 | s1213 daytime quiet hours (migration `20261129060000`): coverage-ai-match-prepare, fee-reader, scholarship-ai-extract, course-description-machine and provider-description-read do no work 08:00 to 20:00 Melbourne (95,352 job-seconds a day, about 47,700 by day); settings `pipeline.quiet_hours.*` | S2-Build | [#1654](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1654) (migration renumbered `20261129070000`) | [#1150](https://github.com/msinghbs-ai/coursefinder-admin/pull/1150) | Live |
-| 26 Nov 12:25 | s1214 portal reads (migration `20261129080000`): `public.portal_course_detail_v1` (one course in full) and `public.portal_aer_list_v1` (paged academic and English requirements; setting `portal.aer_page_size`), Viewer and above | S2-Build | branch `s2-s1214-portal-detail-aer` | recorded before merge (this checkpoint) | Rehearsed |
+| 26 Nov 12:25 | s1214 portal reads (migration `20261129080000`): `public.portal_course_detail_v1` (one course in full) and `public.portal_aer_list_v1` (paged academic and English requirements; setting `portal.aer_page_size`), Viewer and above | S2-Build | [#1656](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1656) | [#1151](https://github.com/msinghbs-ai/coursefinder-admin/pull/1151), live record (this checkpoint) | Live; read back as the Platform Admin |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -90,6 +90,7 @@
 - The first search after a quiet spell is slower than the rest (cold database cache): reduced from 10 to 15 s to about 2.7 s by s1181.
 - Course search still felt slow in UAT on 26 Nov (Atlas brief 09:30): calls of 0.3 to 3.9 s, the cold meaning index read from disk and city searches reading whole tables. Fix s1211 (recorded before merge); a phrase not yet embedded ranks by words on its first search and by meaning from the next.
 - Search time on the shared database follows the scheduled pipeline's load (about 13,500 job-seconds an hour; 29 to 41 runs overlap each minute): the same warm search took 0.15 s at one moment and 6 s at another. A Platform Admin decision: compute size, or keeping the heaviest per-minute jobs off UAT hours. Recorded in the plan.
+- Daytime quiet hours (s1213) are live: the five held jobs return in about 0.1 s by day, cron load per 10 minutes fell by half and more, and a fixed CPU benchmark went from 2.36 s to 1.28 s within minutes. Medium compute is shared CPU (Supabase documentation; Large and above have dedicated vCPUs); if searches still vary in UAT, compute size is the remaining lever (a cost decision).
 - "Grad dip" and "grad cert" are not yet read as study levels; s1181 adds them ("adv dip" and "assoc degree" too). Done in s1181.
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
@@ -105,10 +106,11 @@ Platform Admin: open Proposals on the portal (desktop and phone):
 6. Daytime quiet hours approved (s1213); after a day of UAT, say whether more jobs should join the list or the window should change (Settings › Pipeline settings › Scheduling).
 7. Decide the privacy notice wording.
 
-S2-Build: act on anything the UAT finds; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
+S2-Build: act on anything the UAT finds, including the course detail and entry requirements reads (s1214) once S1-API-Frontend-Delivery wires them; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 12:35 AEDT, S2-Build: s1213 read back live (held jobs about 0.1 s by day, cron load halved, CPU benchmark 2.36 s to 1.28 s); s1214 live (Pilot #1656): course detail 60 ms, entry requirements 147 ms, anon refused; G3 75/48, locks 7,585, cron 136, US$0; Drive mirror replaced.
 - 26 Nov 2026 12:25 AEDT, S2-Build: s1213 live (Pilot #1654); s1214 portal course detail and entry requirements reads recorded before merge.
 - 26 Nov 2026 12:20 AEDT, S2-Build: s1213 daytime quiet hours recorded before merge (five background jobs, 95,352 job-seconds a day, overnight only); active cron 138; G3 75/48; locks 7,585; US$0.
 - 26 Nov 2026 11:45 AEDT, S2-Build: s1212 live (Pilot #1653); paired live read-back with s1181: same results, city searches faster, meaning searches on par; G3 75/48, locks 7,585, cron 138; Drive mirror replaced.
