@@ -58,6 +58,11 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 09:05 AEDT: D10 scheduler fix (s1290) in release.** `security.rollup_tick_v1` is now held in the repository.
+- Estimate: p95 + 25% (capped at the longest run; the longest run below 20 runs).
+- Order: protected ≤ 5, then starved > 30 min.
+- Capture and replay: `docs/platform/2026-11-27-rollup-tick-v1-capture.md`.
+
 **S1-Build, 27 Nov 2026 07:05 AEDT: s1287 measured; s1289 (data-delivery priority 9).**
 - **ops-cost-guard:** 6 runs since 00:52, against 2 runs and 283 deferrals in the same span before.
 - **Data quality overview:** ran at 03:17 (it had not run since 21 Nov).
