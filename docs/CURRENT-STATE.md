@@ -13,8 +13,9 @@
   - verified request feedback outcomes.
 - **Still open:** changed and unchanged source evidence; recovered-page admission and read-back; two unattended cycles (S1-Build).
 
-**S1-API-Frontend-Delivery, 26 Nov 2026 14:50 AEDT: PIM block accuracy pass built (s1218, recorded before merge; Pilot #1661, no migration).** G3 75/48 untouched, locks 7,585, cron 136, US$0.
+**S1-API-Frontend-Delivery, 26 Nov 2026 15:00 AEDT: PIM block accuracy pass live (s1218; Pilot #1661 and Admin #1163 merged, deploy succeeded, no migration).** G3 75/48 untouched, locks 7,585, cron 136, US$0.
 - **What changed on screen.** `gain_basis` is shown and gains on different bases are never added (Mixed bases; legend); "Published-provider gain" is kept apart from "Verified consumer delivery" (Not measured per field); a measured zero reads "measured: none" and a missing value is Not measured (no longer summed as 0); the funnel is split into Canonical field coverage and Work items in the queue, because held work items can exceed the backlog. Detail: design note section "s1218 accuracy pass".
+- **Live read-back (desktop, 2:53 pm snapshot).** Two gain groups with their bases (entry rows +547; 13 enrich-item fields +55), no blended total; the Entry cell says Mixed bases and the legend lists both bases; Verified consumer delivery says Not measured; the funnel shows the two groups (applicable 480,923, completed 307,401, backlog 173,522; items queued 5, held 198,842, failed 7,719); no overflow. The first load succeeded this time. 412 px live and request data are not yet read back.
 - **Waiting on S1-RM-Design (backend).** Request register read (`pim.requests[]`) and the Data Delivery read under the 8 s limit. After that release: authenticated desktop and 412 px read-back with request data, response time and snapshot freshness, then F-OPS.17, F-OPS.18 and F-OPS.21 frontend acceptance.
 
 **S1-API-Frontend-Delivery, 26 Nov 2026 14:10 AEDT: Data Delivery PIM frontend live (s1217; Admin #1159 and Pilot #1659 merged, deploy succeeded, no migration).** G3 75/48 untouched, locks 7,585, cron 136, US$0.
