@@ -10,6 +10,15 @@
 
 - Cohort admitted courses 643 to 732 and active rows 1,564 to 1,954, all from S1-Build read windows; matrix unchanged at 9 rows; no unattended cycle added. Decisions needed: CQU and AIBT host aliases, Greenwich publishing. Detail: `docs/CURRENT-STATE.md` (S1-AER-Claude, 26 Nov 15:50).
 
+## PIM readiness (S1-Build, 26 Nov 2026 18:15 AEDT)
+
+- **s1199 (DR-15):** free scholarship reads separated from paid Firecrawl caps.
+- **s1260 (s1240 A1 to A3):** aliases and retirement; CQU and AIBT now wait on Layer 4 (D-R3).
+- **s1261:** scheduled course entry at US$1.00 a day, prepared and waiting for approval.
+- **Verified:** F-OPS.20 backend; scholarship cycle lineage.
+- **Adelaide:** 0 recovered admissions yet (new-host guesses return 404).
+- **Cron:** 138 against a 135 target.
+
 ## D1 to D5 and PIM acceptance (S1-Build, 26 Nov 2026 17:00 AEDT)
 
 - **s1196 live:** Adelaide retired host kept out of relink and the binder, with a guard trigger; rediscovery running.

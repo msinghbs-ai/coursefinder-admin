@@ -726,6 +726,39 @@ Close only on verified evidence or explicit recorded disposition; retain true ho
 - 26 Nov 2026 00:20 AEDT, S1-RM-Design (Platform Admin 25 Nov 23:12): s1167 Pilot #1630 (migration 20261128060000, rehearsal passed, md5 a3295bf8): the PIM count moves out of the Data Delivery screen read into the existing `data-delivery` background count (snapshot in `pipeline.data_delivery_job_runs`), excluded-gap reasons added (`pim.excluded`), and the s1166 planner made null-safe (it dropped 337 eligible gaps). s1168 (branch `s1-pim-s1168`, migration 20261128070000) extends the replacement guard to Layer 4 entry and description reads, scholarship reviews and active entry rows, and holds the s871 reread when no successor exists (evidence: 1,650 + 132 courses left with no entry read or row by aer-det-reread and aer-det-propose; past supersessions unchanged pending the EQUALS decision). Second block s1170 to s1179 and versions 20261128100000 to 190000 reserved. **For S1-API-Frontend-Delivery:** draw the Autonomous PIM block in Data Delivery from `pim` now (snapshot fields `snapshot_at`, `snapshot_error`; `excluded`); hand-off doc updated. Spend US$0.
 - 26 Nov 2026 00:55 AEDT, S1-RM-Design: s1167 live (Pilot #1630, deploy fix #1632, hand-started deploy), s1168 live (Pilot #1631), s1169 in merge (Pilot #1634, migration 20261128080000, md5 3dcf2ab1). Read back: head 20261128070000, G3 75/48, locks 7,585, cron 136; PIM snapshot 37.6 s in the background, screen read no longer runs it; planner 154,972 eligible gaps; three deferred replacement triggers, six scope rows, reread patched. **For the owner of Pilot #1633 (s1180, migration 20261128075000):** that version is inside the S1-RM-Design reserved range 20261128010000 to 090000 and will fall below the live head when s1169 merges; renumber above the live head (outside 20261128100000 to 190000, also reserved) before merging. **For the Data Delivery owner:** `security.data_delivery_v1()` measured 34.9 s without PIM (sub-reads cdesc_stages 4.5 s, intake 1.4 s, pdesc 0.9 s, aer 0.8 s; rest in providers page, consumer or net reads). Next: s1170 Step 5 refresh windows and source-change detection. Spend US$0.
 - 26 Nov 2026 01:55 AEDT, S1-RM-Design: s1169 live (Pilot #1634) and s1170 live (Pilot #1635); head 20261128100000, G3 75/48, locks 7,585, cron 137. Replacement re-check flags 2,217 of 2,803 guarded supersessions (7 days) without a successor (EQUALS decision). Refresh window 365 days live, 0 due; 2x planner 13.9 s. s1170 is the first spec of the second block (s1170 to s1179; versions from 20261128100000). Next: refresh executor ($0 change check), planner academic entry step, deadline rule, UI block (S1-API-Frontend-Delivery). Spend US$0.
+- 26 Nov 2026 18:15 AEDT, S1-Build (SS-Programme-Control 17:01, "Final PIM production readiness"):
+  - **Reserved:** `s1260` to `s1269` for S1-Build.
+  - **DR-15 (s1199, in release, migration `20261129141500`):**
+    - The scholarship candidate picker held every candidate of a provider over its paid Firecrawl limits, so the free direct read was held too. Measured: 1,526 candidates at 20 providers (CA 663, AU 496, NZ 367).
+    - The picker no longer holds on paid limits. Paid reads stay decided by `svc_fc_spend` (per-university cap, shares, month limit); a provider outside the spend rule cannot scrape new candidate pages.
+    - A held candidate waiting for a paid read retries after the existing `retry.scholarship_waiting_scraper_hours` (1 h).
+    - Unpublished, search-off (UTAS and directory restrictions), directory-host and skip-rule holds unchanged.
+    - Rehearsal: 60 picks from held providers; a new-page scrape outside the spend rule refused, an admitted page allowed; a deferred held candidate waits 60 min.
+  - **s1240 (s1260, in release, migration `20261129150000`):**
+    - A1 evidence confirmed on the live CQU page (two links to the content hub file).
+    - A1 and A2 aliases added, one provider each, never AIBT International; A3 Excelsia guide source set inactive.
+    - Re-decided: CQU and AIBT pass the host rule and stop at the D-R3 gate (CQU: two Papua New Guinea rows dropped as unknown country; AIBT: one row's course not linked). Layer 4 decides both; nothing is machine-admitted.
+    - A4 (Le Cordon Bleu page scope) needs the stored-copy `entry_inspect` check first; with S2-AER.
+  - **Scheduled course entry activation (s1261) prepared, not merged:** draft Pilot PR with the route on gpt-4.1-mini at US$1.00 a day inside the US$5.00 limit; rehearsed rolled back.
+    - It activates nothing until the Platform Admin approves.
+    - No entry item is queued now: the planner's academic entry steps are proposed, not queued (S1-RM-Design).
+  - **F-OPS.20, backend verified:**
+    - 7 days billed US$13.93 (catalogue list price US$14.34), failed attempts US$0.59 included; platform maximum day US$4.16.
+    - Every scheduled route stayed under its cap; course entry spend ran only under on-demand requests.
+    - Every model in a route cascade is qualified.
+    - Retained outcomes: US$0.00147 per active course entry row (2,331 rows, 551 courses); US$0.0113 per retained scholarship (301 active, 138 published).
+    - Sent payloads recorded in `ai_input_observations` (latest today).
+    - The AI screen's side-by-side display was not checked in this change.
+  - **Scholarship cycles, lineage verified:** each of the three (UNSW 02:27, Melbourne Polytechnic 08:44, Memorial 11:14) traces candidate, stored evidence (hash, path), active published award, consumer detail with official URL.
+  - **Adelaide:**
+    - 14 re-bound pages are `url_pattern` guesses returning 404 on the new host; 0 recovered-page admissions so far.
+    - 42 pages remain on the retired host while relink works; 54 of 75 requests settled.
+    - Canonical rows unchanged (0 left active since 16:00; 467 active). D2: 35 retained.
+  - **Cron:** 138 active (Atlas target 135, ceiling 140); all catalogued; none failing every run. No-run-in-7-days jobs are monthly or weekly. `ai-eval` is the one evaluation-type job active; reductions to 135 need the owners' agreement.
+  - **PRs:**
+    - #1672 (S2-AER s1252) merged and live.
+    - #1664 (S3-Scholarship s1236) stays the owner's draft: its spec lacks `// Guards:` (s120 fails) and its header requires qualification against stored evidence `0071e251` before release.
+    - #1502 protected.
 - 26 Nov 2026 17:45 AEDT, S1-Build (Platform Admin 17:39, via SS-Programme-Control): **Agent Operating Model v1.26, autonomous production UAT.** Every development chat completes its own functional, visual, responsive and authenticated UAT on production, with the available browsers, Chrome Developer Tools, Playwright and authorised automation. It measures the viewport rather than trusting a resize; mock tests do not substitute; it hands UAT over only after naming each method tried; authentication and protections are unchanged. Applies to all existing and replacement chats.
 - 26 Nov 2026 17:00 AEDT, S1-Build:
   - **`lean-md-v3` verified live** (s1197, Pilot #1669): the Holmesglen line is in the lean text under worker v1.0.48 (`gold_in_lean` true). s1198 switches the recall job off.
