@@ -31,8 +31,8 @@
 
 **S1-Build, 26 Nov 2026 19:45 AEDT (SS-Programme-Control 18:21, 19:06, 19:12, 19:13): PIM academic entry activation in progress.**
 - **Built and rehearsed (rolled back), recorded before merge:**
-  - s1274 (Pilot, migration `20261129180000`): the planner's `academic_entry` step queues due entry reads through the existing rule and enqueue; skipped AI refusals are read again.
-  - s1261 (Pilot #1675, migration `20261129190000`): route `course_entry_requirements` on gpt-4.1-mini at US$1.00 a day inside the US$5.00 ceiling.
+  - s1274 (Pilot #1683, migration `20261129220000`), **live 20:12 AEDT**: the planner's `academic_entry` step queues due entry reads through the existing rule and enqueue; skipped AI refusals are read again.
+  - s1261 (Pilot #1675, migration `20261129230000`, not merged): route `course_entry_requirements` on gpt-4.1-mini at US$1.00 a day inside the US$5.00 ceiling.
 - **Order:** s1274 merges and deploys. The first automatic plan (job 249 `enrich-plan-auto`, minute 41; job 248 starts its steps) that queues entry reads meets the condition, and s1261 then merges.
 - **Eligible now:** 22 courses, 18 providers (AU 20, NZ 2, CA 0 under scope). Not a launch blocker: the backlog is held by Layer 4 supersession, silent pages, unproven identity and no-value flags (Master Plan status log 19:45).
 - **Unchanged:** G3 75/48, locks 7,585, cron 138 active, no job created.
