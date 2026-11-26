@@ -137,3 +137,40 @@ The other 372 failed pages are a different candidate page while a different URL 
 ## 7. Entry for the Drive running build document (to paste)
 
 > **S1-Data-Gaps, 26 Nov 2026 20:20 AEDT: CA eligibility, $0 intakes and URL alignment audit (read only, nothing written, US$0).** Scope 34,362 reconciled. CA: all 3,829 courses `open_to_international = true` from an institution rule, none with page evidence; 288 nursing and regulated-health courses (96 nursing and midwifery, 192 other), all true, none locked; no stored domestic-only statement for Canada; the governed writer only fills nulls so it cannot lower a true. Intakes: 3,160 future-dated; 19,951 stored pages read, 11,982 already processed by `fid-det-sweep`, 211 in-type pages left, 6,922 in provider types outside `fees.provider_types`; observed yield 1.2%, so about 80 more courses at most. URLs: 146 courses hold an active URL whose own page failed identity or host (CA 64, NZ 47, AU 35); 123 locked; 23 unlocked; Decision 179 keeps held pages with a person. Decisions S1-DG-1 to S1-DG-3 open. G3 75/48 untouched, locks 7,585, cron 137, US$0.
+
+## 8. Execution of the approved decisions (Atlas brief 26 Nov 2026 22:19 AEDT)
+
+The Platform Admin approved S1-DG-1 option B, S1-DG-2 option B and S1-DG-3 option A. Reading the live definitions before writing changed how two of them are carried out. Each change is plain below, with the reason.
+
+| Decision | What was approved | What was done (spec `s1281`, migration `20261130024500`, rehearsed live and rolled back) | Where it differs from the wording, and why |
+|---|---|---|---|
+| S1-DG-2 | Widen `fees.provider_types` and `intake_dates.*` so the deterministic sweep reads the remaining stored pages | A new setting, `fid.provider_types`, now scopes the sweep (the five types it read, plus `private_vet`, `school`, `wananga`). `security.fid_det_batch_v1` reads it (counted edit, body checksum `23f4c294` to `ec678d37`). `fees.provider_types` and every `intake_dates.*` value are unchanged. | `fees.provider_types` also scopes the AI fee reader (`fee_reader_in_scope_v1`, `fee_reader_tick_v1`). Its recorded reason (26 Oct 2026) keeps `private_vet` and `school` out. Widening it would have queued AI fee reads for 290 providers (308 fee-schedule sources) and broken the US$0 promise. No `intake_dates.*` value needed to change: the sweep reads its limits from `fid.*` and `intake_dates.deadline_max_days_before`. |
+| S1-DG-3 | Add the 23 unlocked misaligned courses to Course page needed with `course_page_needed_add_v1`; leave the 123 locked rows; delete no URL | The 23 (AU 18, NZ 5) are added, each gate repeated at apply time (active, still failing with the held address, no `official_url` or `course_url` lock, not already listed, no pending `official_course_url` item), with an exact count guard. Active official addresses are 25,218 before and after. | None in what was written. One thing to know: these courses hold an active link, so the hourly `layer4-page-needed-search` rule skips them and `course_page_needed_settle_v1` would mark them `page_added`. They are a worklist for a person. |
+| S1-DG-1 | Capture and store official admission pages for the 288 CA courses (within 1,500 Firecrawl credits a day) and prepare the list that explicitly says domestic-only | Nothing written; 0 credits spent; no on-demand request opened. | Page text sits in Storage and only edge functions read it, so SQL cannot scan it. No deterministic reader for domestic-only wording exists, and the enrichment route fills only empty values (all CA flags are `true`). The list cannot be prepared without new code. See S1-DG-4. |
+
+Live figures behind S1-DG-2 (read 26 Nov 2026 22:2x AEDT, rolled-back rehearsal): 22,303 stored pages, 15,149 processed, 219 in scope waiting, 6,935 outside the sweep's types: AU `private_vet` 6,152 pages at 651 providers, NZ `private_vet` 449 at 111, AU `school` 246 at 97, NZ `wananga` 88 at 3. The sweep runs every 5 minutes at 150 courses a batch, so the backlog clears in hours, not days. Expect few admissions (1.2% overall so far); anything that needs a person goes to Layer 4 under the existing cap of 20 a run.
+
+Guard figures at rehearsal: Consumer API 75 functions and 48 relations, no drift; manual locks 7,585 before and after; active cron 138 (this change adds none; other lanes moved it from 137); course links, intake rows and `fees.provider_types` unchanged inside the migration; the list grew by exactly 23.
+
+## 9. Decision S1-DG-4 required: a domestic-only statement finder for CA nursing and regulated health
+
+- **Original reference:** S1-DG-1 option B (admin PR #1213 follow-up, Atlas brief 26 Nov 2026 22:19).
+- **Problem:** the approved list ("courses whose stored official page text explicitly says domestic-only") cannot be produced. Page text is stored as files; only edge functions read them. No reader looks for domestic-only wording, and the enrichment route never re-reads a field that already holds a value.
+- **Verified evidence:** all 3,829 CA flags are `true` from an institution rule with no page evidence. At the 20:20 read, 175 of the 288 nursing and regulated-health courses had a stored page that was read; 113 did not (fetch failed 52, identity mismatch 51, other 10). Nothing stored says domestic-only for CA.
+- **Options:**
+  - **A.** Build a narrow, read-only finder in the same family as the fee, intake and deadline reader: US$0, no model; it reads stored pages for the CA health set and records each hit with its verbatim quote, the page and the course in a candidate list that Curators see. It never writes the flag. Needs an edge function release (shared `coverage-sweep`, S1-Build as Integration Controller), a small table and two SQL functions.
+  - **B.** Re-read the 175 stored pages with the existing AI worker (a spend; the enrichment route would first need a way to re-queue a field that is already filled).
+  - **C.** Leave CA as it is.
+- **Recommendation:** A. It is deterministic and auditable, costs nothing to run, and the same finder can later serve NZ and AU. The 113 courses without a read page need the right page first (the Course page needed list and the existing fetch retries), so the finder should start with the 175.
+- **Expected impact:** a list of explicit domestic-only statements with quotes for Curators to act on through `admin_course_applicants_edit`; any course a Curator lowers disappears from Portal search (s1275).
+- **Consumer API impact:** none (new table and functions beside the frozen surface).
+- **Risk and rollback:** low; read-only, off by a setting, removable by a paste file after retention.
+- **Approval requested:** approve option A as a new spec, with S1-Build releasing the edge function.
+
+## 10. Entry for the Drive running build document (to paste, second checkpoint)
+
+**26 Nov 2026 22:55 AEDT, S1-Data-Gaps (Atlas brief 22:19).** Approved decisions carried out as spec s1281 (migration 20261130024500, rehearsed live and rolled back; merge follows).
+- S1-DG-2: the deterministic sweep has its own provider-type setting (adds private VET, schools, wananga) so 6,935 stored AU and NZ pages are offered to it at US$0. The shared fee-reader setting was not widened, because it would have started AI fee reads for 290 providers.
+- S1-DG-3: 23 unlocked courses whose held page failed the identity check are on the Course page needed list for a person; nothing deleted; 123 locked courses untouched.
+- S1-DG-1: nothing written, no spend. Page text cannot be searched from the database and no domestic-only finder exists; decision S1-DG-4 asks for one.
+- Guards: Consumer API 75/48, manual locks 7,585, no cron added, US$0.00.
