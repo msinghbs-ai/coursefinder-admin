@@ -328,6 +328,24 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 15:40 AEDT: s1220 portal screens for the s1216 fields claimed and recorded before merge (Pilot branch `s2-s1220-portal-detail-wiring`, frontend only, no migration); Atlas brief 15:18, Platform Admin authority while S1-API-Frontend-Delivery is busy.**
+- **Course details panel** (`portal/src/components/CourseDetails.jsx`):
+  - "Open the provider website" opens in a new tab through ExtLink; "Provider website: Not recorded" when it is missing.
+  - New section "Entry requirements by country (provider)", for each row:
+    - country, qualification, grade, band, scale, level and course, and conditions;
+    - checked date and a Source link (new tab).
+  - When the student's country is chosen, the section shows that country's rows plus rows that apply to every country, with "Show all N rows".
+  - "Showing X of Y rows" appears when the read was capped; "Not recorded" when empty.
+- **Entry Requirements cards** (`portal/src/screens/EntryRequirements.jsx`): Location (city, state), Length (the existing `durationText`) and Tuition per year (provider); "Not recorded" for each when null.
+- **Formatting:** pure helpers `matrixLine`, `matrixForMarket` and `conditionsText` in `courseDetailFormat.js`.
+- **Checked in Chromium** at 1280 px and 412 px, on an esbuild bundle of the portal with fixture data:
+  - horizontal overflow 0 px;
+  - no tap target under 44 px;
+  - every outside link has `target="_blank" rel="noopener noreferrer"`;
+  - no page errors.
+- **Specs:** portal specs (76) pass, including s1215 and the new s1220.
+- G3 75/48; locks 7,585; no migration or cron change; Admin Worker untouched; US$0.
+
 **S2-Build, 26 Nov 2026 13:28 AEDT: s1216 portal detail fields live (Pilot #1658, migration `20261129100000`, history md5 checked).**
 - **Read back as the signed-in Platform Admin:**
   - `public.portal_course_detail_v1` for Advanced Diploma of Accounting (Gold Coast Learning Centre): `provider_website` https://www.goldcoaststudy.com and `entry_matrix` 2 of 2 rows (Australia, Certificate IV, international) in 112 ms.

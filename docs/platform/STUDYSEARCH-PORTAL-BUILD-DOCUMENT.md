@@ -36,6 +36,7 @@
 | 26 Nov 09:30 | Course search must not feel slow, most on first-time and broad phrases: profile it live, tune the meaning index and plan, pre-warm the Dashboard example searches, and never wait on the embedding service; US$0, no new cron. | Atlas brief for the Platform Admin |
 | 26 Nov 11:59 | Zero-cost daytime CPU and I/O isolation: the heaviest per-minute background jobs run overnight so portal searches stay sub-second in counsellor and UAT hours, without a larger compute tier; no retired job activated, active cron jobs at most 138. | Platform Admin, through Atlas |
 | 26 Nov 12:02 | Expandable Course Details and an Entry Requirements screen in the portal (S1-API-Frontend-Delivery), backed by read-only portal reads of published-provider courses that leave the consumer API untouched. | Atlas brief |
+| 26 Nov 15:18 | S2-Build may wire the s1216 fields into the portal screens while S1-API-Frontend-Delivery is busy, so the Release 1 and 2 screens are complete. | Platform Admin, through Atlas |
 
 ## 3. Implementation history
 
@@ -60,6 +61,7 @@
 | 26 Nov 12:25 | s1214 portal reads (migration `20261129080000`): `public.portal_course_detail_v1` (one course in full) and `public.portal_aer_list_v1` (paged academic and English requirements; setting `portal.aer_page_size`), Viewer and above | S2-Build | branch `s2-s1214-portal-detail-aer` | recorded before merge (this checkpoint) | Rehearsed |
 | 26 Nov 12:45 | s1215 Course details, Entry Requirements (AER) and new-tab links (migration `20261129090000`): inline Course details panel on Courses, Saved courses and Entry Requirements (overview, campuses and delivery, fee lines as recorded, intakes and deadlines, entry and English, provider-level career outcomes, official source); new Entry Requirements screen after Courses (Viewer and Counsellor; Save and Add to proposal Counsellor only); one `ExtLink` component so every outside link opens in a new tab; reads S2-Build's `portal_course_detail_v1` and `portal_aer_list_v1`; new `portal_study_levels_v1` for the level filter | S1-API-Frontend-Delivery | Pilot branch `s1-portal-details-aer-s1215` | plan log | Recorded before merge |
 | 26 Nov 13:15 | s1216 detail fields (migration `20261129100000`): `provider_website`, `entry_matrix` (capped by `portal.entry_matrix_max_rows`) and `entry_matrix_total` in the course detail read; `city`, `state_code`, `duration_value`, `duration_unit` and `annual_tuition_fee` on Entry Requirements rows | S2-Build | [#1658](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1658) | [#1158](https://github.com/msinghbs-ai/coursefinder-admin/pull/1158), live record (this checkpoint) | Live; read back as the Platform Admin |
+| 26 Nov 15:40 | s1220 screens (frontend only): Course details shows the provider website and the provider's entry matrix (for the student's country when chosen; count note when capped); Entry Requirements cards show location, length and tuition per year. Checked in Chromium at 1280 px and 412 px | S2-Build | branch `s2-s1220-portal-detail-wiring` | recorded before merge (this checkpoint) | Specs and browser check passed |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -117,6 +119,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 15:40 AEDT, S2-Build: s1220 portal screens for the s1216 fields recorded before merge (cross-lane on the Platform Admin's authority).
 - 26 Nov 2026 13:28 AEDT, S2-Build: s1216 live (Pilot #1658): provider website and entry matrix in course detail (2 rows in 112 ms on a sample course), city, length and fee on Entry Requirements rows; G3 75/48, locks 7,585, cron 135, US$0; Drive mirrors replaced.
 - 26 Nov 2026 13:15 AEDT, S2-Build: s1216 detail fields recorded before merge (provider website, entry matrix, city, length, annual tuition).
 - 26 Nov 2026 12:35 AEDT, S2-Build: s1213 read back live (held jobs about 0.1 s by day, cron load halved, CPU benchmark 2.36 s to 1.28 s); s1214 live (Pilot #1656): course detail 60 ms, entry requirements 147 ms, anon refused; G3 75/48, locks 7,585, cron 136, US$0; Drive mirror replaced.
