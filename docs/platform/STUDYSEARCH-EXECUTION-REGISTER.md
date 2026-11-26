@@ -1553,3 +1553,26 @@ Spec `cf-247-s1253-entry-pdf-table-page-scope-contract.spec.mjs`; test register 
 - **Status:** rehearsed rolled back; in release.
 - **Live as of 21:55:** s1261 (21:22 AEDT) and s1276.
 
+## 26 Nov 2026 22:40 AEDT — S1-RM-Design s1176 (DR-16) slice A: PIM monitoring by jobid, every worker, lane, rule and target (Pilot #1693, recorded before merge)
+
+- **Assignment:** SS-Programme-Control 21:34 AEDT, session takeover. Discovery from admin #1173, #1177 and #1184 reused, not repeated.
+- **Defect corrected:** s1175 joined the scheduler summary to `cron.job` by job name and covered only the Data Delivery primary jobs (7). s1176 reads `cron.job_run_details` by `jobid` and covers every `cron.job` row, `pipeline.field_execution_registry` lane, `pipeline.rollup_targets` target and `pipeline.admission_rules` rule.
+- **Objects:**
+  - `security.data_delivery_jobs_v1()` (the jobs read);
+  - columns `ops`, `ops_measured_at`, `ops_took_ms`, `ops_error` and `ops_failed_at` on `pipeline.data_delivery_job_runs`;
+  - one block in `security.data_delivery_refresh_v1`;
+  - `security.pim_operations_v1()` replaced with additions;
+  - `public.admin_pim_jobs_v1()`;
+  - five `pim.jobs_*` settings.
+- **Rehearsals:** five rolled-back runs. Defects found and fixed before the PR:
+  - an ambiguous column;
+  - a non-inlinable classifier function (300,000 calls; replaced by an inline expression);
+  - planner re-running aggregates (CTEs materialised);
+  - the helper table's CHECK constraint (moved to new columns, no drop);
+  - the payload size (full list moved to the admin read);
+  - idle pauses read as held;
+  - stalls judged on unknown periods.
+- **Rehearsal result:** 312 components, active 190, idle 19, held 13, degraded 2, retired 85, shadow 1; 135 workers; read 18.4 s in the background.
+- **Owner findings (evidence only, nothing changed):** `ops-cost-guard` deferred 9,349 of 9,380 (last ran 25 Nov); `coursefinder-data-quality-overview-refresh` 910 of 912 (21 Nov). S1-Build owns dispatcher capacity.
+- **Guardrails:** G3 75/48, locks 7,585, cron count asserted unchanged; no job, schedule or register row changed; nothing dropped; US$0.
+
