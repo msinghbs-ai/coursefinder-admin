@@ -1529,3 +1529,13 @@ Spec `cf-247-s1253-entry-pdf-table-page-scope-contract.spec.mjs`; test register 
 - **Not done.** D-R3 quote-capture: no dropped quote has yet been compared with its stored page text (the stored dropped-row quotes are capped near 120 to 300 characters; the inspection can now return the page text, so this is the next read). Test register for s1252 and s1253 (S1-Build).
 - **Owners.** S1-Build: AER-FU-11 time-out decision and test register. S1-AER-Claude: CQU alias (A1) and Excelsia retirement (A3) on the evidence above. Platform Admin: whether LCB gets a deterministic reader or waits for the model route.
 
+### S1-Build, 26 Nov 2026 21:10 AEDT: 24×7 operation (s1276) and scheduled entry activation (s1261)
+
+- **s1274:** live 20:12 AEDT.
+- **s1261:** activated on the existing dispatcher, job 358. No automatic plan was due for the eligible providers until about 3 Dec (redo interval).
+- **s1276:** daytime quiet hours off through their audited setting; no job, cap or limit changed.
+- **Policy:** Agent Operating Model v1.28 and Master Plan §2.
+- **Verification:**
+  - continuous processing: the five jobs run by day, and entry items are handed out within the US$1.00 cap;
+  - delivery: admissions and consumer read-back are recorded at the next checkpoint.
+
