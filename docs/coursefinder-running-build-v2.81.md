@@ -6,6 +6,11 @@
 **Master Project Plan:** `docs/coursefinder-master-project-plan-v1.81.md`  
 **Active Change Control:** `CF-CHG-20260901-049`
 
+## Integration read back (S1-Build, 26 Nov 2026 12:35 AEDT)
+
+- s1195 (#1652), #1577, #1589, #1597 and #1600 merged; the three S3-AER migrations applied live. Head `20261129080000`, G3 75/48, locks 7,585, cron 136.
+- Adelaide: s1196 proposed (retired hosts kept out of relink and the site-map binder); the discontinued-course decision is the Platform Admin's.
+
 ## Converter fix and PR integration (S1-Build, 26 Nov 2026 11:15 AEDT)
 
 - **s1195:** converter `lean-md-v3` takes out escaped tags (Holmesglen), worker v1.0.47, no migration; no page re-read for the new version.

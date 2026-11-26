@@ -7,6 +7,8 @@
 **Continuation:** 86 active unpublished NZ; 0 pass current publication checks. Holds (overlapping): 55 no stated value, 39 closed, 3 citizen/resident restriction, 2 another edition. Verified-benefit replay query found no eligible missing scalar value; no unleased due eligible candidate or queued NZ AI item in focused checks. Four scoped universities ordinary cap-held; preserve 367 unread linked candidates for normal eligibility/cadence, don't reset retries. Review exact Lincoln tier/grade mapping defect and WITT listing split through existing qualified/gated reader path with Integration Controller, retain W01 claims (#1024/#1034), continue eligible NZ providers as they become due. No direct canonical edits, no new cron, request, pipeline or cap. G3 75/48 drift [], manual locks 7585, active cron 138 at 10:41. S1-Build canonical register writer; country-wise Sheet evidence and Running Build checkpoint follow. Completion of request closure does not close SCH-FU-04 whole territory.
 
 
+**S1-Build, 26 Nov 2026 12:35 AEDT: integration read back.** s1195 (#1652), #1577, #1589, #1597 and #1600 merged and live; head `20261129080000`, G3 75/48, locks 7,585, cron 136.
+
 **S1-Build, 26 Nov 2026 11:15 AEDT: converter fix and pending PR integration.**
 - s1195 (Pilot, no migration): converter `lean-md-v3` reads escaped markup (Holmesglen) as words; worker v1.0.47. No page is read again for the version.
 - S3-AER-ChatGPT PRs #1577, #1589, #1597 and #1600: rebased by S3-AER, rehearsed together by S1-Build (29 sources, locks, G3 and cron unchanged). #1589 live (`20261129031000`). #1597 and #1600 renumbered to `20261129061000` and `20261129062000` above the live head `20261129050000`; merging in that order. #1502 held (protected draft).
