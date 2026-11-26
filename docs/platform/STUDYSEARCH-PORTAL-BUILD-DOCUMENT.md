@@ -66,6 +66,7 @@
 | 26 Nov 15:40 | s1220 screens (frontend only): Course details shows the provider website and the provider's entry matrix (for the student's country when chosen; count note when capped); Entry Requirements cards show location, length and tuition per year. Checked in Chromium at 1280 px and 412 px | S2-Build | [#1666](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1666) | [#1174](https://github.com/msinghbs-ai/coursefinder-admin/pull/1174), live record (this checkpoint) | Live; Workers build passed |
 | 26 Nov 16:20 | s1222 UAT fixes (migration `20261129130000`): fluid layout and card grids, Cards/List, Course details drawer, concise cards with `portal.primary_fee_v1` and the course code badge, pinned student countries (`portal.priority_source_countries`), `portal_entry_matrix_v1` for the chosen country. Checked in Chromium at 1,440, 1,280 and 412 px | S2-Build | [#1670](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1670) | [#1183](https://github.com/msinghbs-ai/coursefinder-admin/pull/1183) | Live 26 Nov 16:40; Workers Builds studysearch-portal passed; read back live |
 | 26 Nov 18:25 | s1271 place from campuses (migration `20261129170000`): `portal.course_place_v1` for the search cards, Entry Requirements rows and saved courses; sole-city courses named, multi-city courses no longer given a guessed city | S2-Build | [#1678](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1678) | [#1199](https://github.com/msinghbs-ai/coursefinder-admin/pull/1199) | Live 26 Nov 18:40; read back live; no portal rebuild needed (no `portal/` change) |
+| 26 Nov 20:15 | s1275 data display (migration `20261129220000`): domestic-only courses leave search and Entry Requirements; `open_to_international` returned and "Check international availability" shown when null; multi-campus courses name the one campus city in the searched state or say "Multiple campuses (VIC)" / "Multiple campuses" (`portal.place_label_v1`) | S2-Data-Gaps | [#1686](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1686) | this checkpoint | Rehearsed; recorded before merge |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -105,6 +106,7 @@
 - An empty or stopword-only search returns every course by title (no error); after s1181 it returns no courses at once unless Study in or a provider is chosen.
 - Seen in passing, another lane's work: `public.api_request_log_v1` logs fail with `request_id` uuid versus text (Postgres log 26 Nov 03:31). Not portal work.
 - 15,469 course cards showed no city although every campus of the course is in one city (S2-AER audit, admin #1186). Fixed by s1271. Multi-city courses had shown the first campus's city alphabetically, a guess; they now show the state alone or no place.
+- UAT 26 Nov (Atlas 19:51), fixed by s1275: domestic-only courses appeared in search (144 in scope, NZ 140 and AU 4; none in Canada); 4,287 courses with no international answer had no warning; 8,509 multi-campus courses showed a blank location even with a state in the search. Not fixed here: a campus city typed in capitals in the source data (for example BANYO) is shown as stored.
 - UAT 26 Nov (Atlas 15:59), fixed by s1222:
   - the narrow 1,100 px layout;
   - no list view;
@@ -116,6 +118,11 @@
 - Entry Requirements and Course details show only what is admitted; gaps close as the data lanes admit rows and need no screen change. Career outcomes are provider-level, never course-level. Two things the screens cannot show from S2-Build's reads yet (passed to S2-Build in the Master Plan): the provider's country-by-country entry matrix and website in the detail read, and city, length and fee on the Entry Requirements list items.
 
 ## 7. Next executable action
+
+**s1275 (recorded before merge, 26 Nov 20:15). Platform Admin, once live, at 1,440 px and on a phone:**
+1. Search "Bachelor of Nursing" with Study in New Zealand: no domestic-only course is listed.
+2. Find a course with the amber **Check international availability** badge (a New Zealand course) on Courses (cards and list) and Entry Requirements.
+3. Search "Bachelor of Nursing (Honours) in Victoria": ACU (CRICOS 061896E) reads **Multiple campuses (VIC)**; without a state it reads **Multiple campuses**.
 
 **s1222 is live (26 Nov 16:40). Platform Admin, final UAT:**
 1. Done by S2-Build: merged, Workers Builds studysearch-portal passed, read back live.
@@ -142,6 +149,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
+- 26 Nov 2026 20:15 AEDT, S2-Data-Gaps: s1275 recorded before merge (Pilot [#1686](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1686), migration `20261129220000`; rehearsal passed; ACU 061896E place read for no state, VIC, NSW, QLD and ACT). G3 75/48, locks 7,585, cron 136, US$0. Portal Workers build to follow the merge.
 - 26 Nov 2026 18:40 AEDT, S2-Build: s1271 live (Pilot #1678, admin #1199). Read back: a one-city card reads Fremantle, WA; no multi-city card has a city; a Fremantle search names each matching campus (15 cards, 365 ms). G3 75/48, locks 7,585, cron 136, US$0. The portal Workers build was not triggered (no `portal/` change); s1222's build stays live. Drive mirrors replaced.
 - 26 Nov 2026 18:25 AEDT, S2-Build: s1271 recorded before merge (migration `20261129170000`; rehearsal passed: primary 4,279, one city 15,466, one state 5,054, several cities 4,186, no campus 5,377; G3 75/48, cron 135, locks 7,585, US$0).
 - 26 Nov 2026 16:40 AEDT, S2-Build: s1222 live (Pilot #1670, admin #1183; Workers Builds studysearch-portal passed). Live read-back: India and Nepal pinned; one annual fee and course code on the reads; India 4 rows in 15 ms and Nepal 1 row in 3 ms on a sample course; 2,637 and 2,029 courses with an India and a Nepal row. G3 75/48, locks 7,585, active cron 139 (none added), US$0. Next: Platform Admin final UAT and the portal.studysearch.ai cutover. Drive mirrors replaced.
