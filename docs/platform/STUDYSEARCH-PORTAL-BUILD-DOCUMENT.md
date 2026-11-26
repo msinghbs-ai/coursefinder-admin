@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 11:50 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`; Release 2 is complete end to end (screens s1200 to s1202, data layer s1210). Search speed: s1211 is live (city searches faster, Dashboard examples pre-warmed); s1212 (meaning step back on the full index) is rehearsed and recorded before merge.
+**Status at the last checkpoint (26 Nov 2026 11:45 AEDT):** Release 1 is live for UAT on `studysearch-portal.techm.workers.dev`; Release 2 is complete end to end (screens s1200 to s1202, data layer s1210). Search speed work is live (s1211, s1212): city searches 1.5 to 2.5 times faster, phrase meanings kept 30 days, the Dashboard examples pre-warmed, the same results as before. Search time still follows the scheduled pipeline's load; that is a Platform Admin decision.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -52,7 +52,7 @@
 | 26 Nov 07:15 | s1200 to s1202 Release 2 screens: Proposals list, proposal editor (reorder, notes, soft-lock and conflict handling), live refresh difference (Accept all / Keep my version), and the two-page student sheet with Save as PDF / Print from browser print CSS. Built against the contract in the design document; the `portal_proposal_*_v1` functions are not live yet, so the screens show "not switched on yet". No migration | S1-API-Frontend-Delivery | Pilot (this change) | this change | Built; waiting for the functions |
 | 26 Nov 08:25 | s1210 Release 2 proposals layer: `pipeline.portal_proposals`, append-only `portal_proposal_versions`, `portal_activity`, `portal_user_prefs` (RLS, no table grants); `portal_proposal_list/get/save/refresh_v1` matching the screens, `portal_proposal_archive_v1`, `portal_activity_touch/list_v1`, `portal_prefs_save_v1`; eleven portal settings. Migration `20261129003000` | S2-Build | [#1646](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1646) | [#1133](https://github.com/msinghbs-ai/coursefinder-admin/pull/1133), live record (this checkpoint) | Live; read back as two Counsellors: save, get (others_recent), clash (nothing written), refresh, list |
 | 26 Nov 11:00 | s1211 search latency (migration `20261129040000`): 16 MB one-bit meaning index with exact scoring of 300 candidates; city and filter steps by key from the topic set; countries and levels through their indexes; phrase meanings kept 30 days and renewed on use; Dashboard example searches pre-warmed. Rehearsed: same results as s1181; Master of Nursing in Victoria 0.16 s (was 1.52 s cold), city searches 0.2 to 0.48 s (were 0.38 to 1.05 s) | S2-Build | [#1651](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1651) | [#1145](https://github.com/msinghbs-ai/coursefinder-admin/pull/1145) | Live; meaning step superseded by s1212 |
-| 26 Nov 11:50 | s1212 (migration `20261129050000`): the s1211 live read-back showed the compact meaning index pushed out of memory by the pipeline's load and slower warm, so the meaning step reads the full-vector index again by default (`portal_search.meaning_index`, full or compact); the other s1211 changes stay. Rehearsed: same results as s1181; city searches 0.21 to 0.42 s (were 0.40 to 0.80 s) | S2-Build | branch `s2-s1212-portal-meaning-full` | recorded before merge (this checkpoint) | Rehearsed |
+| 26 Nov 11:25 | s1212 (migration `20261129050000`): the s1211 live read-back showed the compact meaning index pushed out of memory by the pipeline's load and slower warm, so the meaning step reads the full-vector index again by default (`portal_search.meaning_index`, full or compact); the other s1211 changes stay. Rehearsed: same results as s1181; city searches 0.21 to 0.42 s (were 0.40 to 0.80 s) | S2-Build | [#1653](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/1653) | [#1147](https://github.com/msinghbs-ai/coursefinder-admin/pull/1147), live record (this checkpoint) | Live; read back paired with s1181 |
 
 ## 4. Protected controls (unchanged by any portal change)
 
@@ -97,15 +97,16 @@ Platform Admin: open Proposals on the portal (desktop and phone):
 2. Edit it, mark it ready and refresh it.
 3. Save from two sign-ins at once and check the clash notice.
 4. Duplicate it, print the sheet and archive it.
-5. Repeat the course search UAT once s1212 is live (first-time phrases, broad words, a city, the Dashboard examples).
+5. Repeat the course search UAT (first-time phrases, broad words, a city, the Dashboard examples).
 6. Decide whether to change the compute size or keep the heaviest per-minute pipeline jobs off UAT hours (search time follows their load).
 7. Decide the privacy notice wording.
 
-S2-Build: merge s1212 and read back its live timings; act on anything the UAT finds; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
+S2-Build: act on anything the UAT finds; draft the paste file that removes expired or privacy-requested proposals when the Platform Admin asks; record acceptance here.
 
 ## 8. Checkpoint log
 
-- 26 Nov 2026 11:50 AEDT, S2-Build: s1211 live (Pilot #1651, admin #1145); live paired read-back: city searches faster, compact meaning index not holding its gain under the pipeline's load; s1212 recorded before merge; Dashboard examples pre-warmed live (five phrases cached). G3 75/48, locks 7,585, cron 138, US$0.00.
+- 26 Nov 2026 11:45 AEDT, S2-Build: s1212 live (Pilot #1653); paired live read-back with s1181: same results, city searches faster, meaning searches on par; G3 75/48, locks 7,585, cron 138; Drive mirror replaced.
+- 26 Nov 2026 11:25 AEDT, S2-Build: s1211 live (Pilot #1651, admin #1145); live paired read-back: city searches faster, compact meaning index not holding its gain under the pipeline's load; s1212 recorded before merge; Dashboard examples pre-warmed live (five phrases cached). G3 75/48, locks 7,585, cron 138, US$0.00.
 - 26 Nov 2026 11:00 AEDT, S2-Build: s1211 search latency claimed and recorded before merge (migration 20261129040000): measured live, rehearsed against s1181 with the same results, migration 38 s; G3 75/48, locks 7,585, no cron, US$0.00.
 - 26 Nov 2026 09:00 AEDT, S2-Build: s1210 live (Pilot #1646); read back as two signed-in Counsellors (save, get, clash with nothing written, refresh, list); G3 75/48, locks 7,585, cron 136, US$0. Release 2 complete end to end; Drive mirror replaced.
 - 26 Nov 2026 08:25 AEDT, S2-Build: s1210 Release 2 proposals layer built to the screens' contract (Platform Admin decisions 07:30, brief 07:37), rehearsed as real users (rolled back), recorded before merge.
