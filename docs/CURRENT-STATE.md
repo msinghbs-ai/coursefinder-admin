@@ -2,6 +2,7 @@
 
 **S1-API-Frontend-Delivery, 27 Nov 2026 00:45 AEDT (SS-Programme-Control 00:09, "Complete existing Data Delivery integration"): s1283 live and verified; s1288 built, recorded before merge (Pilot #1710, frontend only).**
 - **s1283 verified signed in on production:** Scheduled jobs › Automations 312 components, 20 a page; Data Delivery has no workers table, six state tiles and 28 attention items paged 10; no sideways scroll at desktop or 412 x 915.
+- **Live and verified (27 Nov 2026 01:20 AEDT):** Pilot #1710 deployed; signed-in production read-back at desktop and 412 x 915 matches the database (AER 13 of 10,192, 10 verified; descriptions 13 of 16,126, 13 verified; international Not checked for descriptions).
 - **s1288:** Data Delivery shows `consumer_fields` inside Verified consumer read-back: canonical population, sampled coverage, verified delivery, international applicability, failure reasons and last verification. Counted on the sampled courses only, never extrapolated; an unrecorded check reads Not checked.
 - **s1202 review:** pattern hardened (grant branch and G3 name families) with a two-way self-test; `s57` stays the central G3 guard.
 - **Not this lane:** `s1285` is claimed by two lanes in the Master Plan; the domestic-only entry rows in international reads (v2 is G3) wait on the Platform Admin and developer notice via S1-Build.
