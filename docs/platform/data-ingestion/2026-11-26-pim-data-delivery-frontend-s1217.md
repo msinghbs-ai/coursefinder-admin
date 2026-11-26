@@ -39,6 +39,19 @@ Each item: `id`, `title`, `scope` (text), `status` (Rules v1.3 word), `weight` (
 
 Out of the block: Operations lane funnels, Scheduled jobs, Platform health › Queues & yield (watchdog) and Layer 4 Review. Back in: a one-line link on Scheduled jobs › Automations and Platform health › Queues & yield to Data Delivery › Autonomous PIM.
 
+## s1218 accuracy pass (SS-Programme-Control 26 Nov 2026 14:25; Pilot #1661)
+
+The live snapshot showed three things the first build did not separate, so the screen now does (no new control, no backend change):
+
+| Point | Live evidence (26 Nov 2026 snapshot) | What the screen does |
+|---|---|---|
+| `gain_basis` | Academic entry is counted as "courses whose first active entry row was created in the window"; every other field as "enrich items filled in the window". The first build added them. | Each gain group names its basis. Fields on different bases are never added: the gains panel has one group per basis, and a matrix cell that spans two says "Mixed bases" (a legend lists the bases and their domains). The field table shows each row's basis. Clearance names the basis of the longest measured field and says fields are not combined. |
+| Published provider vs verified consumer delivery | `published_gain_window` is "canonical gains for courses of a published provider" (the Published switch), not a delivery check. | Renamed "Published-provider gain". A separate "Verified consumer delivery" tile says Not measured per field and points to the stream cards (Website and Zoho read-back). |
+| Measured zero vs unavailable | A missing value was summed as 0. | A counted none reads "measured: none"; a missing value is "Not measured"; a sum over rows with a gap says "at least" and how many rows were not counted. |
+| Canonical backlog vs work-item holds | Held work items exceed the backlog (AU description: 35,357 held items against a backlog of 13,018; AU English 12,929 against 8,799). | Two groups: Canonical field coverage (applicable, completed, backlog) and Work items in the queue (queued, running, held, failed). Field-table columns read Items queued, running, held, failed. The note says work items are per queue item, can be larger than the backlog and are never subtracted from it. |
+
+Request data (F-OPS.18), response performance and the 412 px live check wait for the S1-RM-Design backend release (request register read and the Data Delivery read under the 8 s limit); the Requests view already renders `pim.requests[]`.
+
 ## Acceptance state
 
 Built and checked in real Chromium at 1440 px and 412 px against a mock of the live `pim` shape (desktop spec 17 tests, phone spec 4 tests; 131 related and central-guard specs green).
