@@ -1,6 +1,6 @@
 # StudySearch Portal: running build document
 
-**Status at the last checkpoint (26 Nov 2026 15:55 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220). Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
+**Status at the last checkpoint (26 Nov 2026 15:45 AEDT):** Release 1 and Release 2 screens are complete and live on `studysearch-portal.techm.workers.dev`: course search (s1181 to s1212), proposals (s1200 to s1202, s1210), Course details and Entry Requirements (s1214 to s1216, s1220). Daytime quiet hours (s1213) are live. Awaiting the Platform Admin's final UAT and the `portal.studysearch.ai` cutover.
 
 **How this document is kept.**
 - It is updated at every material delivery checkpoint until the Platform Admin accepts the portal: a change claimed, recorded, merged, live, or blocked.
@@ -119,7 +119,7 @@ S2-Build: act on anything the UAT finds, including the course detail and entry r
 
 ## 8. Checkpoint log
 
-- 26 Nov 2026 15:55 AEDT, S2-Build: s1220 live (Pilot #1666; Workers Builds studysearch-portal passed). Release 1 and 2 screens complete; next: Platform Admin UAT and portal.studysearch.ai cutover. Drive mirrors replaced.
+- 26 Nov 2026 15:45 AEDT, S2-Build: s1220 live (Pilot #1666; Workers Builds studysearch-portal passed). Release 1 and 2 screens complete; next: Platform Admin UAT and portal.studysearch.ai cutover. Drive mirrors replaced.
 - 26 Nov 2026 15:40 AEDT, S2-Build: s1220 portal screens for the s1216 fields recorded before merge (cross-lane on the Platform Admin's authority).
 - 26 Nov 2026 13:28 AEDT, S2-Build: s1216 live (Pilot #1658): provider website and entry matrix in course detail (2 rows in 112 ms on a sample course), city, length and fee on Entry Requirements rows; G3 75/48, locks 7,585, cron 135, US$0; Drive mirrors replaced.
 - 26 Nov 2026 13:15 AEDT, S2-Build: s1216 detail fields recorded before merge (provider website, entry matrix, city, length, annual tuition).
