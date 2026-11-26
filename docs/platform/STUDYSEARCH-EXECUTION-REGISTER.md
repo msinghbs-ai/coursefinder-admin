@@ -1697,3 +1697,10 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
 - **UAT:** signed in as Platform Admin, measured 1024 × 768 and 412 × 915, no sideways scroll; "0 of 136 scheduled jobs" stalled.
 - **Finding:** course sync copies (website and Zoho) hold no academic entry and no course description. The v2 course read serves entry at about 1.5 s per course. Next: a rotating verified sample.
 
+### S1-Build, 26 Nov 2026 23:45 AEDT: AER consumer read-back
+
+- **s1280 live:**
+  - 701 rows corrected; 0 domestic equivalent-route rows remain.
+  - Website v3 serves the Year 12 route as a note with no domestic label.
+- **New finding: an age read as a score.** Website v2 served `min_score 18` for an age (1,402 rows on 1,365 courses). s1284 is in release.
+
