@@ -74,3 +74,38 @@ Proposed recovery for Le Cordon Bleu, within the existing qualified framework (`
 4. Approve S1-Build/S2-AER scoping Le Cordon Bleu's reader to its Table B pages.
 
 After approval, the CQU and AIBT machine decisions are re-read and admission and consumer read-back are verified in the next cycle.
+
+## 7. Platform Admin approvals A1 to A4 (26 Nov 2026, relayed by SS-Programme-Control, recorded before execution)
+
+| Ref | Decision | Condition | State at 26 Nov 17:30 AEDT |
+|---|---|---|---|
+| A1 | CQU alias `f02d9d9b-0eb2-4f0e-8215-27a36ae63aa6` : `delivery-cqucontenthub.stylelabs.cloud` approved | Inspect stored page `d5e12d94` link, verify PDF `fb856fec` and its SHA-256, keep the retired duplicate inactive; then re-evaluate the 112 rows through existing admission controls (alias is not admission) | **Evidence condition not yet met** (see 7.1). Alias not applied. |
+| A2 | AIBT alias `eb9e3903-6d92-4502-a2b3-51cb231b21fc` : `aibtglobal.edu.au` approved (CRICOS 03430J, RTO 41138); AIBT International `fc6f01a7…` excluded | Preserve manual locks and provenance; catalogue website correction goes to the provider identity owner; re-evaluate decisions | Approved unconditionally. Change prepared for S1-Build execution (7.2). Not applied by this lane. |
+| A3 | Retire Excelsia source `a9e409bc-0560-4598-a940-994fde3374a2` | Stored guide holds no applicable entry table; nothing depends on it; retire only the source registration | **Dependency condition met; stored-copy condition not yet met** (7.3). Not retired yet. |
+| A4 | Greenwich stays unpublished and hidden | None | No action taken. |
+
+### 7.1 A1 evidence checks completed from the database
+
+- PDF evidence `fb856fec…`: recorded content hash `976f3c5eb6af5d4013840e4fe81d107f3d741d624093ebfb7e8e7954b543db42` equals the hash in its storage path; stored object is 343,063 bytes; metadata names source `50e4031c…`. Run `87dec4ea…` is done with 112 rows kept.
+- Page evidence `d5e12d94…`: hash `670d076b…5ed1`, 48,301 bytes, metadata names source `4ff4010f…`.
+- Retired duplicate `55de8e6d…` is inactive, same content hash, unchanged.
+
+**Unmet evidence condition (not an implementation failure).** This session has no storage access, so it cannot open the stored page to see the link target or re-hash the stored bytes. The existing read-only worker mode `entry_inspect` returns only title, h1 and table markup for a page (no anchors), and its workflow `aer-entry-inspect` exports only waiting Layer 4 first reads, not these sources. Needed, as a read-only addition: a `source_ids` input to that workflow and anchors that point at the registered host in the export. This is prepared for S2-AER to scope and S1-Build to integrate, with no new framework, queue or spend.
+
+### 7.2 Prepared alias change (not applied)
+
+Protected setting `aer.provider_host_aliases`, entries added to the existing list (reason recorded on Settings):
+- `eb9e3903-6d92-4502-a2b3-51cb231b21fc:aibtglobal.edu.au` (A2, ready now)
+- `f02d9d9b-0eb2-4f0e-8215-27a36ae63aa6:delivery-cqucontenthub.stylelabs.cloud` (A1, only after 7.1 is met)
+
+Then re-read the AIBT sources `cfd07ffe…` and `5bf468bf…` and CQU source `50e4031c…` through `admin_entry_matrix_reread`, and check the machine decisions leave `source_not_official_host`. Execution belongs to S1-Build as owner of protected-setting changes.
+
+### 7.3 A3 dependency check (database)
+
+Excelsia source `a9e409bc…`: 1 run (failed), 0 matrix rows, 0 open runs, 0 pending Layer 4 items, 0 active requirements citing it or the guide address. Nothing depends on it. The live guide reads as having no entry table (living costs, climate, help desk), but the stored copy (1,130,315 bytes) has not been inspected. Retirement uses the existing precedent: source `status = 'inactive'` with a reason in `error`; evidence, runs and audit stay.
+
+### 7.4 Parallel recovery
+
+- **Le Cordon Bleu pages.** Table A (non-country qualifications) is page 15 and Table B (by country) is pages 16 to 33, so the earlier 15 to 33 and the 16 to 33 are both right; scope the reader to 15 to 33 to keep both tables. Confirm against the stored PDF with `entry_inspect` when the 7.1 addition exists.
+- **The three "no requirement held" courses** (`course:cricos:03426e:0100514`, `…:03687f:119781m`, `…:02899b:094065e`). Each has active course-level data (2, 1 and 1 rows, outcome `admitted_course`). The consumer read returns step 5 (`contact_provider`, "No published requirement for this country") for both AU and IN, with the course's general entry text carried in `requirements_note` (for example Year 12 or equivalent). So the data is held and delivered as a general note; it is not country-specific, which is why no country row resolves. Whether a general note should resolve for every country is a product rule for S2-AER and the Platform Admin, not a data loss.
+- Valid admitted rows, manual locks and Layer 4 decisions untouched.
