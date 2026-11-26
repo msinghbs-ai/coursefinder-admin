@@ -597,6 +597,34 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 26 Nov 2026 23:45 AEDT: s1282 merged (Pilot #1701); production UAT found a drill fault, fixed in the same lane and recorded before merge. Reported data issues R3 built as s1285 and recorded before merge. SS-Programme-Control 22:52.**
+- **s1282 merged and deployed:**
+  - Pilot #1701, merge `fc0dc1e`; Workers Builds `coursefinder-pilot` succeeded.
+  - Before the merge, CI found that the drill's nested `<summary>` broke the Data Delivery and PIM folds' own controls. The drill now opens with a button, and its body (and every read) mounts only when opened.
+- **Production UAT (Deployed UAT run 45821870207, Platform Admin, desktop):**
+  - The drill opened, the provider search found Lincoln University, the diagnosis classes were shown, and a record was listed.
+  - The opened record's field trace did not appear within 60 s. Cause: a class list mounted every listed record's trace at once, so the opened record's read queued behind them.
+  - **Fix (s1282, Pilot branch `s2-s1282-drill-lazy-fix`):** a record reads its trace only when it is opened. The deployed spec now prints a trace error before failing on it. s1282 is not called live until this passes production UAT.
+- **s1285, Reported data issues R3** (numbered s1285 because s1283 and s1284 were taken by other lanes; plan row s1283 renamed):
+  - **Read:** `public.admin_reported_issues_v1` (Curator and above), migration `20261130060000`. It needs R1 (s1281, Pilot #1702) and joins both stores without changing either:
+    - in-app reports (`pipeline.counsellor_feedback`, origin Admin or Portal from R1's `origin`);
+    - Zoho reports (`pipeline.data_flags` `reported`, origin Zoho).
+  - **List mode:** counts by origin and state, figures (submitted, open, awaiting verification, resolved, fixed, not changed, median time to resolve, recurring course fields) and one page of reports, each with origin, Layer 4 kind and reference, course, provider, register field, issue, value at report, stage, resolution and evidence.
+  - **Course mode:** Reported and Resolved per field.
+  - **Evidence-backed resolution:** R1's verification when held; otherwise the current field state, said to be current state and not a check made at closing. A report closed as fixed with no held value is flagged.
+  - **New objects:** reference table `pipeline.report_origin_field_map` (which register field a Zoho field answers); settings `reports.l4_view_page_max` (50) and `reports.recurrence_days` (90).
+  - **Rehearsal (rolled back, with R1 and five test reports across both stores, 26 Nov 2026 23:40 AEDT):** total 5; by origin Zoho 1 open and 1 resolved, Admin 1 and 1, Portal 0 and 1; the Zoho report closed as fixed with no held English value was flagged; the Portal report showed R1's verification; recurrence 1 (English on one course from Admin and Zoho); list 38 ms, course 3 ms. Live stores hold 0 reports today.
+  - **UI:**
+    - Layer 4 gains a closed **Reported data issues (Admin, Portal and Zoho)** panel, read only when opened. It has origin and state choices, the figures, and a page of reports. Each report opens the s1282 field trace and the existing Processing journey and diagnosis fold, and links to its existing card and the course record.
+    - The course record's Field processing status fold shows Reported and Resolved beside each field and for the course.
+    - Decisions stay on the existing cards (`counsellor_feedback`, `counsellor_report`).
+  - **Coordination:**
+    - S1-Build R1 (#1702) must merge first: the R3 migration's pre-check refuses to run without R1's columns.
+    - S1-API-Frontend-Delivery R2 (the reporter UI) is untouched.
+    - R4 (Zoho v3) stays held; the Zoho store is read, never altered (G3).
+  - **Guards:** G3 75/48 unchanged; cron and manual locks unchanged; no job; $0.
+  - **Tests:** `cf-247-s1285-reported-issues-r3-contract` (6) and `cf-247-s1285-reported-issues-r3-deployed` (3, desktop and phone, read only). The register also gains the two s1282 specs (5 and 3).
+
 **S2-Build, 26 Nov 2026 23:05 AEDT: DR-19 increments 2 to 4 (s1282) built and recorded before merge (Pilot branch `s2-s1282-dr19-record-trace-ui-2`; no migration); SS-Programme-Control 22:52.**
 - **Reuse only.** The UI reads S2-RM-Design's existing contract and creates no new diagnostic read or framework:
   - `admin_pim_record_trace_v1`, `admin_pim_provider_trace_v1` and `admin_pim_operational_recovery_measure_v1` (Pilot #1682 and #1690);
