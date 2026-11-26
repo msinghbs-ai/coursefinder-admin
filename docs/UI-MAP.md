@@ -7,7 +7,7 @@ Every live admin route and top-level tab comes from the menu (`src/nav-map.js`);
 
 **Rule (Platform Admin 16 Nov 2026):** a PR that moves, renames or folds UI controls updates the inline screen help text and regenerates this document in the same release. Every release bump regenerates it with the test register sync, and it is mirrored to `coursefinder-admin` `docs/UI-MAP.md`. Spec `cf-247-s557-ui-map-contract` fails the build when this document and the source disagree. What each screen shows and does, in words, is in the admin `docs/platform/UI-CATALOGUE.md` and the in-app Guides.
 
-**Counts:** 22 pages · 58 tabs (a page without tabs counts as one) · 27 sub-tab or view bars · 234 folds · 46 drawers and dialogs · 39 old addresses.
+**Counts:** 22 pages · 58 tabs (a page without tabs counts as one) · 27 sub-tab or view bars · 241 folds · 46 drawers and dialogs · 39 old addresses.
 
 Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 PIM Admin · 6 Platform Admin.
 
@@ -36,6 +36,8 @@ Page key `courses` · opens for Viewer and above · no tabs
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
+  - Field processing status and diagnosis (details) — RecordTrace.jsx
+  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -77,6 +79,8 @@ Tab key `providers` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
+  - Field processing status and diagnosis (details) — RecordTrace.jsx
+  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -114,6 +118,8 @@ Tab key `campuses` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
+  - Field processing status and diagnosis (details) — RecordTrace.jsx
+  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -176,6 +182,7 @@ Tab key `list` · Viewer and above
   - Changes made by hand (details) — RecordEditor.jsx
   - Advanced: one direct read of this course’s stored page (details) — EntryRequirements.jsx
   - Corrections shown instead of the source A correction changes only what is shown and pub… (details) — Layer4Intervention.jsx
+  - Field processing status and diagnosis (details) — RecordTrace.jsx
   - Location & weather (card, `location`) — CorrelatedBlade.jsx
   - Career pathway, jobs & salary outlook (card, `careers`) — CorrelatedBlade.jsx
   - Visa & living-cost snapshot (card, `visa`) — CorrelatedBlade.jsx
@@ -523,6 +530,7 @@ Tab key `inbox` · Curator and above
 
 - **Screen:** `Layer4Inbox` (Layer4Inbox.jsx)
 - **Folds:**
+  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Why it waits (details) — Layer4HoldReasons.jsx
   - (i) Hint (details) — Layer4Inbox.jsx
   - Technical detail (details) — Layer4Inbox.jsx
@@ -535,7 +543,6 @@ Tab key `inbox` · Curator and above
   - The page's own words (details) — DescriptionEditAdmit.jsx
   - What the platform holds (details) — Layer4ItemLifecycle.jsx
   - Event history, times and steps (details) — Layer4ItemLifecycle.jsx
-  - Processing journey and diagnosis (details) — Layer4Journey.jsx
   - Course links: … (details) — AerCourseLinks.jsx
   - Technical detail (details) — Layer4Focus.jsx
   - Decide several at once (details) — Layer4StandardBulk.jsx
