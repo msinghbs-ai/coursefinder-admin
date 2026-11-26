@@ -338,6 +338,22 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 16:40 AEDT: s1222 portal UAT fixes live (Pilot #1670, merge `290ca1d`; admin #1183; migration `20261129130000`, history md5 `129bcb6c` matches the file).**
+- **Deploy:**
+  - **Workers Builds: studysearch-portal** passed on the merge commit, so the portal at `studysearch-portal.techm.workers.dev` serves the s1222 screens: full-width card grids, Cards/List, the Course details drawer, concise cards with one annual fee and the course code badge, and India and Nepal first in the country lists.
+  - Deploy on merge applied the migration.
+  - The `live-dry-run` gate passed before the merge.
+- **Read back live** (rolled back, signed in as the Platform Admin):
+  - `portal_settings_v1` returns `priority_source_countries` `["IN","NP"]`.
+  - Entry Requirements for Nursing in Australia: 205 courses in 281 ms. The first item carries one annual fee (2026, A$48,600, basis annual) and CRICOS 115738B.
+  - On a course with India and Nepal rows, `portal_entry_matrix_v1` returned 4 India rows in 15 ms and 1 Nepal row in 3 ms. That course's detail carries NZQA LI1012.
+  - On a course whose provider holds India rows only for other study levels, the read returns 0 country rows in 6 ms, and the screen shows the plain "no entry requirement recorded for India" fallback.
+  - Of the 34,362 searchable courses, 2,637 have an India row that applies to them and 2,029 a Nepal row. Every other course shows the fallback until the data lanes admit rows (feedback 5 handoffs in the plan).
+  - Anonymous callers cannot run `portal_entry_matrix_v1`.
+- G3 75/48, no drift; locks 7,585; live migration head `20261129130000`; US$0; Admin Worker untouched.
+- **Active cron jobs: 139.** s1222 adds none (the count was 135 to 138 earlier today). It is under the charter limit of 140 but above the 135 in the brief. Other lanes' work today raised it; for Atlas to note.
+- **Not read from here:** the live bundle itself. The session's network refuses the workers.dev host, so the build result is the deploy evidence. The Platform Admin's UAT is the visual check on live data.
+
 **S2-Build, 26 Nov 2026 16:20 AEDT: s1222 portal UAT fixes claimed and recorded before merge (Pilot branch `s2-s1222-portal-uat-fixes`, migration `20261129130000`); Atlas brief 15:59, from the Platform Admin's live UAT of `studysearch-portal.techm.workers.dev`.**
 - **Layout:** the content area is fluid to 1,680 px (it was capped at 1,100 px), and results sit in a card grid: 3 columns at 1,440 px, 2 at 1,280 px, 1 at 412 px.
 - **Cards or List:** a toggle on Courses, Saved courses and Entry Requirements. The choice is kept for the person across screens and visits.
