@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S1-Build, 26 Nov 2026 21:10 AEDT: 24×7 operation.**
+- **s1276:** daytime quiet hours off.
+- **s1261:** scheduled entry route on at US$1.00 a day.
+- **Status:** both in release, admin first.
+- **s1274:** live.
+- **Policy:** Agent Operating Model v1.28.
+
 **S1-Data-Gaps, 26 Nov 2026 20:20 AEDT (Atlas brief 19:50, Platform Admin Portal UAT data-gap pass): CA international eligibility, $0 intakes and official URL alignment audited; read only, nothing written, no spec or migration claimed.**
 - **Record:** `docs/platform/data-ingestion/2026-11-26-s1-data-gaps-ca-eligibility-intakes-url-audit.md`. Every figure was read through the hand-started rolled-back rehearsal (no interactive SQL).
 - **International eligibility:** all 3,829 CA courses are `open_to_international = true` from an `institution_rule` with no page evidence; 288 nursing and regulated-health courses (96 nursing and midwifery, 192 other) at 40 providers, all true, none locked. No stored statement says domestic-only for Canada (false readings platform-wide: AU 4, NZ 265, CA 0). `security.enrich_apply_v1` fills only a null flag, so the governed path cannot lower a `true`; nothing was set.
