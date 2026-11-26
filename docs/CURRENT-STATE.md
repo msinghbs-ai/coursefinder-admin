@@ -7,6 +7,12 @@
   - The skips are genuine evidence holds (date not in the quote 11, quote not on the page 5, rolling applications 5, sentence count 7). They are insufficient evidence, not account refusals.
 - **Open:** the Platform Admin decision on the human-assisted stronger-model step (off, no pinned model). S2-AER and S1-Build to name the four domestic-labelled requirements by course. S1-Build to check the entry-route spend (US$1.94 against US$1.00) and to make account refusals non-counting in the worker. S1-RM-Design to update the field register's academic_entry producer.
 
+**S1-API-Frontend-Delivery, 26 Nov 2026 23:40 AEDT (SS-Programme-Control 22:51, "Complete job and lane monitoring UI"): s1283 built; recorded before merge (Pilot #1700, frontend only, no migration).**
+- **Data Delivery:** the 138-row workers table is replaced by the backend-classified summary (snapshot time, state counts, counts by component type, attention items with the platform's reason and findings, searchable and paged). The Processing stalled count stays.
+- **Scheduled jobs › Automations:** "Job and lane monitoring" reads `public.admin_pim_jobs_v1` once per visit (Curator and above) with search, type, state, finding and 24 h outcome filters, 20 a page and a drill-down. Labels are the backend's own; an unrecorded figure reads Not recorded, never 0.
+- **Open for S1-RM-Design:** `toolset.ai` `not_ok` equals `attempts` on every service (the count treats the answered outcome as not OK); the UI leaves it out until corrected.
+- **Reported Data Issues:** R2 waits on the R1 backend contract (S1-Build); Admin #1220 still open.
+
 **S1-Build, 26 Nov 2026 23:20 AEDT: Reported Data Issues R1 backend (s1281) in release.**
 - **Contract:** `docs/platform/2026-11-26-reported-issues-r1-backend-contract.md`.
 - **Next:** R2 (UI) and R3 (Layer 4) can build on it now.
