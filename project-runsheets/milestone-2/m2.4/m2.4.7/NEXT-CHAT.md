@@ -402,6 +402,24 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 27 Nov 2026 00:15 AEDT: s1285 Reported data issues R3 live (Pilot #1705, migration `20261130060000` applied, history md5 `4bbc99b5`); s1282 drill fix merged (Pilot #1704); a field-list race fix recorded before merge.**
+- **s1285 live and read back on production.** Deployed UAT run 45827096343, desktop:
+  - **Platform Admin and Pipeline Operator:** the Layer 4 panel opens and shows its figures (Submitted 0, Reported (open) 0, Awaiting verification 0, Resolved 0, median time to resolve Not available, recurring 0 in 90 days).
+  - **Origins:** Admin (0), Portal (0), Zoho (0). The Reported, Resolved and All states are shown. No sideways scroll at 1440 px.
+  - **Live stores:** they hold 0 reports today. The items, evidence and flags paths were proven in the rolled-back rehearsal with R1 and five test reports.
+  - **Phone acceptance:** it follows the next run, because that run's phone gate was skipped when the s1282 desktop test failed.
+- **s1282, production UAT after the fix (run 45826521071, merge `ce1d8fd`):**
+  - **Desktop passed:** drill classes on Lincoln University (Not read yet 86, Explained gap 65, Value held 41, Being read now 4, Protected or in review 3); a record's description trace opened; the course drawer fold listed 15 fields (Not read yet 5, Value held 3, Explained gap 5, Does not apply 1, Needs engineering 1) with the seven facts; 1440 px with no sideways scroll.
+  - **Phone (412 px):** the drill and the drawer read and showed the same figures with no sideways scroll.
+  - **Phone failures:**
+    1. Data Delivery's own `admin_aer_delivery_progress` returned HTTP 500 on the Operations page. That read is not s1282's; it is flagged to the Data Delivery owner.
+    2. The drill's field list sometimes arrived after the test tried to choose a field. Run 45827096343 hit the same race on desktop.
+- **Fix recorded before merge (Pilot branch `s2-s1282-spec-option-wait`):**
+  - A failed field-list read in the drill now says so, with Read again; it never shows an empty register.
+  - The deployed spec waits for the register's field option, or for that error, which it reads again once.
+- **For S1-API-Frontend-Delivery / Data Delivery owner:** `admin_aer_delivery_progress` returned 500 on the live Operations page at 412 px (26 Nov 2026 13:11 UTC).
+- **Guards:** G3 75/48 (the s1285 pre-check and post-check passed on apply); cron and locks unchanged; $0.
+
 **S2-Build, 26 Nov 2026 23:45 AEDT: s1282 merged (Pilot #1701); production UAT found a drill fault, fixed in the same lane and recorded before merge. Reported data issues R3 built as s1285 and recorded before merge. SS-Programme-Control 22:52.**
 - **s1282 merged and deployed:**
   - Pilot #1701, merge `fc0dc1e`; Workers Builds `coursefinder-pilot` succeeded.
