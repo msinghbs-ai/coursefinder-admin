@@ -2,7 +2,7 @@
 
 **Owner:** S2-Build (UI and the read contract's first version), with S2-RM-Design (shared diagnostic and recovery contract). S1-Build stays integration and release owner.
 **Mandate:** SS-Programme-Control, 26 Nov 2026 19:19 AEDT, "DR-19: intelligent monitoring and human-assisted resolution" (Platform Admin execution mandate).
-**Status:** design recorded 26 Nov 2026 19:25 AEDT; increment 1 is `s1272`.
+**Status:** design recorded 26 Nov 2026 19:25 AEDT. Increment 1 (`s1272`) built, rehearsed and recorded before merge at 19:40.
 
 ## 1. What changes, and what does not
 
