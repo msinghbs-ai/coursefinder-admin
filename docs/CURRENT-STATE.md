@@ -29,6 +29,11 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 01:10 AEDT: main green; s1287 live.**
+- **Main:** green on `069e0666` (Deployed UAT 45835518048). Auto-merge required checks are now split on ';' (a comma split blocked every Pilot merge).
+- **s1287:** live; live migration head `20261130064500`; active cron 137.
+- **Open decision:** the rollup tick's longest-run estimate still defers `course-field-readiness` and `data-delivery`.
+
 **S1-Build, 27 Nov 2026 00:50 AEDT: production reliability and consumer integrity (s1286 held, s1287).**
 - **Consumer entry (s1286, held):** draft Pilot #1709. It removes domestic-only rows from international reads and serves a grade-only minimum. It waits for Platform Admin approval and the Wix/Zoho notice.
 - **Starved rollups (s1287):** `ops-cost-guard` (32 runs in 7 days) and the data quality overview (last run 21 Nov) run first in their due ticks. Four often-deferred targets move ahead.
