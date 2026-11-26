@@ -29,6 +29,12 @@
   - Projection, not a measurement: about +22,800 eligible gaps once the build has re-stated every course (about 90 minutes).
 - **Unchanged:** G3 75/48; locks; cron; no job or setting; US$0. The measurement probe branch is a `-probe` branch, swept automatically.
 
+**S1-Build, 27 Nov 2026 07:05 AEDT: s1287 measured; s1289 (data-delivery priority 9).**
+- **ops-cost-guard:** 6 runs since 00:52, against 2 runs and 283 deferrals in the same span before.
+- **Data quality overview:** ran at 03:17 (it had not run since 21 Nov).
+- **Layer 2 onboarding snapshot:** runs on rollup-scheduler.
+- **data-delivery:** starved since 01:59 by a 103.5 s estimate; s1289 moves it to priority 9.
+
 **S1-Build, 27 Nov 2026 01:10 AEDT: main green; s1287 live.**
 - **Main:** green on `069e0666` (Deployed UAT 45835518048). Auto-merge required checks are now split on ';' (a comma split blocked every Pilot merge).
 - **s1287:** live; live migration head `20261130064500`; active cron 137.
