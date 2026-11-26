@@ -1,6 +1,6 @@
 # StudySearch – current state (read this first)
 
-**S1-API-Frontend-Delivery, 26 Nov 2026 15:56 AEDT: PIM operations integration built (s1221, recorded before merge; Pilot #1668; frontend only, no migration, no setting, US$0, G3 untouched).**
+**S1-API-Frontend-Delivery, 26 Nov 2026 16:10 AEDT: PIM operations integration live (s1221; Pilot #1668 and Admin #1179 merged; signed-in desktop read-back matches the live read: 7 workers, 0 stalled, 17 consumer rows across six streams, 43 freshness rows; no overflow; frontend only, no migration, no setting, US$0, G3 untouched).**
 - The deployed `pim.operations` (s1175) was verified against the live snapshot and migration, then drawn as delivered: stalled workers and a Workers table, verified consumer read-back per stream and country (website and Zoho matched out of expected, pending, missing and not served apart; Zoho Not measured where null; streams never added), freshness by country with a country filter, and the age of each helper count.
 - Still Not available, with reasons: the request register (`operations.requests` is `not_projected`: no registered database source) and verified feedback (no authoritative source); oldest verified by country and a per-worker heartbeat are not in the read.
 - Open: live 412 px read-back (needs a phone or a resizable browser; the site's `frame-ancestors 'none'` is deliberate and unchanged). F-OPS.17, F-OPS.18 and F-OPS.21 stay open until verified.
