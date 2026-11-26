@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S2-Data-Gaps, 26 Nov 2026 23:05 AEDT (Atlas brief 22:25, Platform Admin live UAT): s1279 Portal card description and provider clamp built and rehearsed (Pilot #1695, migration `20261130023000`). Recorded before merge.**
+- **Short description on search cards.** `catalogue.portal_course_cards_v1` returns `description_snippet`: white space collapsed, `&#039;` read as an apostrophe, cut at the last whole word with an ellipsis, null when no description is held. Today 16,112 of 44,743 courses hold one (13,345 are longer than 220 characters); S1-Data-Gaps backfills the rest and owns the writers, and this change only reads, so new descriptions appear on cards with no further change. The card shows two lines only when held and never says "Not recorded".
+- **Length is a setting (G2):** Settings › Pipeline settings, Portal, **Course cards: description length** (`portal.card_description_chars`, default 220, range 80 to 400, characters).
+- **Long provider names clamp to two lines** on search cards, Entry Requirements cards, saved cards and list rows, with the full name as the tooltip and in full in Course details (for example Torrens University Australia, CRICOS 095357G).
+- **Rehearsal (rolled back, live):** passed with its post-checks; one anchored edit of the cards body (md5-guarded); the search function is not touched.
+- **Guardrails:** G3 75/48, manual locks and active cron asserted unchanged in the migration, nothing dropped, no job, US$0. TEST-REGISTER regeneration for the new spec is left to S1-Build (the local run lacks Playwright). The 1,440, 1,280 and 412 px layouts could not be viewed here (the live portal needs a sign-in); the Platform Admin checks are in the Portal build document, section 7.
+
 **S2-RM-Design, 26 Nov 2026 22:25 AEDT: DR-19 s1277 live (Pilot #1690, migration `20261130010000`; dry run and test evidence green after one s42 fix: the recovery function is quoted `$function$`).**
 - **Read back live:** the recovery ran at deploy (22:18): 554 items handed back to the existing AI worker (506 descriptions, 45 deadlines, 2 intakes, 1 English) and 554 absences resolved; 0 eligible operational failures left.
 - **Not yet claimed:** at 22:22 all 554 were still `ai`. The measure's `cost_usd` (US$0.23) is the cost already recorded on those items from earlier attempts, not new spend. AI spend today is US$3.11 of the US$5.00 ceiling.
