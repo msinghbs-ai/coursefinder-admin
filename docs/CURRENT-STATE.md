@@ -64,6 +64,13 @@
 **Continuation:** 86 active unpublished NZ; 0 pass current publication checks. Holds (overlapping): 55 no stated value, 39 closed, 3 citizen/resident restriction, 2 another edition. Verified-benefit replay query found no eligible missing scalar value; no unleased due eligible candidate or queued NZ AI item in focused checks. Four scoped universities ordinary cap-held; preserve 367 unread linked candidates for normal eligibility/cadence, don't reset retries. Review exact Lincoln tier/grade mapping defect and WITT listing split through existing qualified/gated reader path with Integration Controller, retain W01 claims (#1024/#1034), continue eligible NZ providers as they become due. No direct canonical edits, no new cron, request, pipeline or cap. G3 75/48 drift [], manual locks 7585, active cron 138 at 10:41. S1-Build canonical register writer; country-wise Sheet evidence and Running Build checkpoint follow. Completion of request closure does not close SCH-FU-04 whole territory.
 
 
+**S1-Build, 26 Nov 2026 15:15 AEDT: Platform Admin decisions D1 to D5 (15:09).**
+- D1: s1196 approved (retired hosts out of relink and site-map binding; Adelaide rediscovered on the current site).
+- D2: the 35 Adelaide courses with no new-site page are retained; no withdrawal without provider or registration evidence.
+- D3: automatic branch deletion approved in both repositories.
+- D4: removal of the 2,107 safe branches approved, each revalidated.
+- D5: snapshot branches kept at least 30 days.
+
 **S1-Build, 26 Nov 2026 12:35 AEDT: integration read back.** s1195 (#1652), #1577, #1589, #1597 and #1600 merged and live; head `20261129080000`, G3 75/48, locks 7,585, cron 136.
 
 **S1-Build, 26 Nov 2026 11:15 AEDT: converter fix and pending PR integration.**

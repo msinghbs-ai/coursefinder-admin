@@ -1,7 +1,7 @@
 # Repository branch inventory (26 Nov 2026)
 
 **Prepared:** S1-Build, 26 Nov 2026 11:10 AEDT, for SS-Programme-Control.
-**Status:** inventory only. No branch has been deleted and no setting changed. Deleting branches and changing repository settings need the Platform Admin's approval.
+**Status:** inventory taken 26 Nov 2026 10:55 AEDT. **Platform Admin decisions, 26 Nov 2026 15:09 AEDT:** D3 automatic deletion approved; D4 removal of the 2,107 safe branches approved, each revalidated; D5 snapshot branches kept at least 30 days. Results are recorded at the end of this document.
 **Data:** every branch with its class is listed in `2026-11-26-repository-branch-inventory.tsv`, read through the GitHub REST API at 10:55 AEDT.
 
 ## How each branch was classed
