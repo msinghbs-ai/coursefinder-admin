@@ -328,6 +328,23 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 13:30 AEDT: s1216 portal detail fields claimed and recorded before merge (migration `20261129100000`, branch `s2-s1216-portal-detail-fields`); Atlas brief 13:07, from S1-API-Frontend-Delivery's plan item 13.**
+- **`public.portal_course_detail_v1` adds:**
+  - `provider_website` (`catalogue.providers.website`).
+  - `entry_matrix`: the provider's active country-by-country entry rows from `catalogue.provider_entry_matrix`, for international or all applicants.
+    - Order: rows naming the course first; then rows for its study level, or the level above or below it, that name no course; then provider-wide rows; by country within each.
+    - Each row: `country_code`, `country_name`, `qualification`, `min_grade`, `min_value`, `grade_scale`, `benchmark_band`, `level_label`, `course_label`, `for_this_course`, `audience`, `edition`, `intake_year`, `conditions`, `as_at`, `source_url`.
+    - Capped by the new setting `portal.entry_matrix_max_rows` (300).
+  - `entry_matrix_total`: the number of matrix rows that matched before the cap.
+- **`public.portal_aer_list_v1` items add:**
+  - `city` and `state_code` (the primary campus, otherwise the provider);
+  - `duration_value` and `duration_unit` (the keys the screens' `durationText` already reads);
+  - `annual_tuition_fee` `{amount, currency}`.
+- **Keys:** `portal/src` had no keys for these fields yet. These are additive keys on the same functions, documented in the design document for S1-API-Frontend-Delivery to wire.
+- **Coverage today:** 12,573 portal courses are at providers holding an entry matrix; 4,129 match one by course or level, before provider-wide rows.
+- **Rehearsed:** detail 11 to 16 ms; list 87 to 100 ms.
+- G3 75/48; locks 7,585; active cron 138 when read (other lanes; s1216 adds none); US$0.
+
 **S2-Build, 26 Nov 2026 12:35 AEDT: s1213 daytime quiet hours read back live; s1214 portal course detail and entry requirements reads live (Pilot #1656, migration `20261129080000`, history md5 checked).**
 - **s1213 live** (cron run history):
   - The five held jobs average 0.07 to 0.10 s a run by day, against 10 to 40 s before.
