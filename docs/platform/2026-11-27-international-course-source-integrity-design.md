@@ -103,6 +103,8 @@ S1-Build: integrate design and confirm existing selection functions, writer boun
 
 Maintain this design in Admin repo; existing Master Plan and Execution Register hold claims, owner, dates, tested recipe IDs, evidence and releases; CURRENT-STATE holds latest measured cohort and resume point. Google Drive M3/Data ingestion reference mirrors the design and material updates on the same file/link; refresh at material checkpoints (version/date/commit and concise change history), not multiple conflicting copies. Agents must read canonical GitHub first, then mirror for cross-tool coordination. Update existing Feedback register by stable IDs for relevant issues, no second tracker. Record approved decisions/holds, not merely chat promises. No production writes or paid acquisitions authorised by this design alone.
 
+**Stable cross-chat reference:** [M3 / Data ingestion — International Course Source Integrity (Markdown)](https://docs.google.com/document/d/1_aqEA5Z6K2n8xmMtSUb5mfa7VD26siPC/edit). Update the same Drive file at material checkpoints; its summary and progress ledger are derived from GitHub, not a second authority.
+
 ## Version history
 
 - v1.0, 27 Nov 2026: initial design, live baseline/schema inventory, acquisition/qualification/processing/acceptance contract. Implementation pending governed integration.
