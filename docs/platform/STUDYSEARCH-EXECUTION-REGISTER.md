@@ -1630,6 +1630,16 @@ Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 N
 - **Outcome.** Admitted by this assignment: 0 rows, 0 providers. Consumer delivery: unchanged (no record recovered, `website_v2_course` and `website_v3_course` untouched). Protected controls: D-R3, Layer 4 decisions, 7,585 locks, G3 75/48 and the cron count were not touched.
 - **Unresolved, exact reason and next action.** Groups A and B: source states no study level; next action is a provider or Platform Admin statement per provider (for example UWA's ATAR table applies to Bachelor), recorded as evidence, then the existing S671 or mapper path takes it. Group D: needs the entry-matrix prompt to separate English-test rows; routed to S1-Build and Platform Admin (AER v1 frozen, no new reader).
 
+### S1-Build, 26 Nov 2026 23:15 AEDT: first autonomous AER cycle integrity (s1280)
+
+| Check | Outcome |
+|---|---|
+| Source identity (4 courses) | Right: each row quotes its own official course page |
+| Audience | Defect: "Australian Year 12 or equivalent" labelled domestic. Fixed by worker v1.0.52 and s1280 (701 rows, 671 courses). IQ-00683 |
+| Extraction (121558M BSB wording) | Faithful to the page; provider page conflict. IQ-00684, Layer 4 |
+| Normalisation and admission | Rows admitted as read; no lock affected |
+| Consumer projection | Website v2 and v3 read back after deploy (pending) |
+
 ## 26 Nov 2026 22:50 AEDT — S1-RM-Design s1176 live and read back (Pilot #1693)
 
 - **Deploy:** run 45811790352 succeeded; head `20261130020000`; live bodies match the file (md5 `8834aabe`, `f6d87f0b`, `7c0bb6da`).
