@@ -7,6 +7,11 @@
 - See Master Plan §3b for the six parallel-lane guardrails and Portal design snapshot boundary. Live read-only 22:02: active cron 135/140, existing lock count 7,585; previous 136/137 counts dated. G3 75/48 owner evidence for s1275, not re-run here. No migrations, vendor calls, schedule or production mutation in this docs-only review.
 
 
+**S1-API-Frontend-Delivery, 26 Nov 2026 22:10 AEDT: reported data issues, mock-ups done (s1278).**
+- **Done:** 19 screens and states for Admin, the Portal and the Zoho journey, desktop and 412 px, in the Drive document "StudySearch — Reported Data Issues & Resolution Tracking | UI Mock-ups" (https://docs.google.com/document/d/1Pafu45ifemADUHiBV2NSY3eesnfiTkwLLeqexyqj-kY/edit), linked from architecture document section 6.9. Illustrative data only.
+- **Next:** R1 additive backend contract (S1-Build); then R2 reporter UI (this lane), R3 Layer 4 unified view (S2-Build, S2-RM-Design). R4 Zoho v3 is held for the developer notice and Platform Admin approval.
+- **Record:** `docs/platform/2026-11-26-reported-data-issues-ui-mockups.md`. Nothing in Pilot, no migration, no setting changed.
+
 **S1-Build, 26 Nov 2026 21:55 AEDT.**
 - **Live:** s1261, entry route on (21:22 AEDT); s1276, quiet hours off.
 - **In release:** s1277, the initial AI allocations: entry US$5 a day, platform AI ceiling US$10 a day (D8).
