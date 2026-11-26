@@ -1547,3 +1547,9 @@ Spec `cf-247-s1253-entry-pdf-table-page-scope-contract.spec.mjs`; test register 
   - continuous processing: the five jobs run by day, and entry items are handed out within the US$1.00 cap;
   - delivery: admissions and consumer read-back are recorded at the next checkpoint.
 
+### S1-Build, 26 Nov 2026 21:55 AEDT: initial AI allocations (s1277, D8)
+
+- **Change:** academic entry route US$5.00 a day; platform AI ceiling US$10 a day; Firecrawl unchanged at 1,500 credits a day.
+- **Status:** rehearsed rolled back; in release.
+- **Live as of 21:55:** s1261 (21:22 AEDT) and s1276.
+
