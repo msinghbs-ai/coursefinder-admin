@@ -73,3 +73,9 @@ Under these criteria only gpt-4.1-mini on the whole page qualifies (95%, 94%, ro
 - **SP Jain:** "Graduate with an / AUSTRALIAN DEGREE (AQF Level 9)" is a card about the award a graduate receives, not an entry requirement. The label is wrong (reclassified).
 - **Holmesglen:** the requirements are published as escaped HTML (`&lt;br&gt;`). The lean converter strips tags before decoding entities, so `<br>` stays in the text. The fix is a new converter version `lean-md-v3`, shared by the AER v2 readers. The Platform Admin chose to ship it after Windows 1 and 2, once it is checked that no lane reads pages again because the converter version changed.
 
+## lean-md-v3 (s1195, 26 Nov 2026)
+
+- **Fix:** the shared converter takes out an escaped tag of a known HTML element (`&lt;br&gt;`, `&lt;/strong&gt;`, `&lt;a href=&#34;…&#34;&gt;`) like a real tag. Text such as "a &lt; b" stays text. Nothing else in the conversion changes. Worker v1.0.47.
+- **Checked on the stored Holmesglen markup:** s1152 recorded it. The missed line "You may also be considered if you have: • Completed an Australian Diploma …" is now in the lean text.
+- **No page is read again for the new version.** Checked live at 26 Nov 10:55 AEDT: no function, job or setting names a converter. The name is only recorded in `pipeline.ai_input_observations` and `pipeline.lean_section_eval_cases`.
+- **Holmesglen now:** 43 international courses; 25 have entry requirements. Of the 21 entry reads not filled, 10 failed on the OpenRouter weekly key limit before the windows, 1 found no answer, and 10 were skipped for other reasons (identity, Layer 4, the page states none). No targeted re-read is run: the existing queue retries them, and every future read uses v3.
