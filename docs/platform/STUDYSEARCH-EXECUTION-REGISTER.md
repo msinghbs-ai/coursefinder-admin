@@ -1,3 +1,9 @@
+**S2-RM-Design, 26 Nov 2026 22:25 AEDT: DR-19 s1277 live (Pilot #1690, migration `20261130010000`; dry run and test evidence green after one s42 fix: the recovery function is quoted `$function$`).**
+- **Read back live:** the recovery ran at deploy (22:18): 554 items handed back to the existing AI worker (506 descriptions, 45 deadlines, 2 intakes, 1 English) and 554 absences resolved; 0 eligible operational failures left.
+- **Not yet claimed:** at 22:22 all 554 were still `ai`. The measure's `cost_usd` (US$0.23) is the cost already recorded on those items from earlier attempts, not new spend. AI spend today is US$3.11 of the US$5.00 ceiling.
+- **Realised gain:** fields filled, and descriptions served by Website v3 equal to the catalogue, are read by `security.pim_operational_recovery_measure_v1` and the record trace at the next check.
+- **Guardrails:** G3 75/48, locks 7,585, active cron 137 (s1277 adds none and asserts the count unchanged).
+
 **S2-RM-Design, 26 Nov 2026 22:15 AEDT (DR-19 slice 2, SS-Programme-Control 21:36): s1277 claimed and rehearsed: operational-failure recovery, resolution history and field-level delivery. Recorded before merge.**
 - **Diagnosis:** the 554 open absences are account refusals (OpenRouter weekly key limit and HTTP 401), not evidence. Their items used all 3 attempts during the outage. They were due again from 13 to 23 Nov, but nothing re-read them: the worker claims only items in state `ai` under 3 attempts.
 - **Recovery (live on deploy):** each item goes back once to the existing AI worker (attempts at most 2, so the cap of 3 holds). Manual locks are honoured and the absences resolved; nothing is deleted. Rehearsed: 554 handed back (506 descriptions, 45 deadlines, 2 intakes, 1 English) and 0 eligible left. The estimated cost is about US$0.21 within the worker's caps; today's AI spend before this is US$3.04 of the US$5.00 ceiling.
