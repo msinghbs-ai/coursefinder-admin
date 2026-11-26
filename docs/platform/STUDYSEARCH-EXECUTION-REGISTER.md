@@ -887,6 +887,42 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 19:25 AEDT: DR-19 received and claimed (SS-Programme-Control 19:19, Platform Admin execution mandate "Intelligent monitoring and human-assisted resolution"); design adjustments recorded; increment 1 is `s1272`.**
+- **Design:** `docs/platform/2026-11-26-dr19-record-journey-and-diagnosis-design.md`.
+  - No new page, tab or navigation level.
+  - Each Layer 4 card (the focused view and the list views share it) gets one more fold, **Processing journey and diagnosis**. It shows eight stages:
+    1. discovery;
+    2. acquisition;
+    3. extraction;
+    4. normalisation and mapping;
+    5. validation;
+    6. canonical admission;
+    7. publication;
+    8. website and Zoho verification.
+  - The fold shows the stage where processing stopped, and why later stages are not reached.
+  - The diagnosis covers:
+    - failure reason;
+    - stored evidence;
+    - attempts;
+    - reader and model;
+    - gate;
+    - the AI analysis where the platform already made one;
+    - similar resolved cases;
+    - references;
+    - recommended recovery;
+    - cost estimate;
+    - potential gain;
+    - the card's own authorised actions;
+    - outcome.
+- **Read contract:** read-only `public.admin_record_journey_v1` (Curator and above). It needs no AI call, no job and no spend, and leaves G3 untouched.
+  - Unavailable, not verified and zero are kept apart.
+  - S2-RM-Design is asked for the shared contract's next items: per-record website and Zoho verification, a record list behind Data Delivery's holds, resolution references, and measured recovery gain.
+- **Increments:**
+  1. Layer 4 card (s1272);
+  2. Data Delivery record drill;
+  3. Course record drawer;
+  4. verification and realised gain.
+
 **S2-Build, 26 Nov 2026 18:40 AEDT: s1271 portal sole-city place live (Pilot #1678, merge `9d6f6a4`; admin #1199; migration `20261129170000`, history md5 `700a0dd1` matches the file).**
 - **Deploy:**
   - The `live-dry-run` gate passed; Deploy on merge applied the migration.
