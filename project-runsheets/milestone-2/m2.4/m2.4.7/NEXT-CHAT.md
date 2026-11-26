@@ -338,6 +338,30 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 26 Nov 2026 18:25 AEDT: s1271 portal sole-city place claimed and recorded before merge (Pilot branch `s2-s1271-portal-sole-city`, migration `20261129170000`); Atlas brief 18:18, from the S2-AER gap audit (admin #1186).**
+- **What changes:** portal cards now name the city of a course with no primary campus when all its active campuses are in one city and state.
+  - A new `portal.course_place_v1(course)` decides one place from the course's active campuses, in this order:
+    - the course's primary campus (`course_campuses.is_primary`);
+    - else the one city and state every campus shares;
+    - else the one state, with no city;
+    - else nothing (no tie-break, no guess);
+    - the provider's own place only when the course has no campus at all, as before.
+  - The search cards (`catalogue.portal_course_cards_v1` behind `public.portal_course_search_v1`), Entry Requirements rows (`portal.aer_list_v1`) and saved courses (`public.portal_saved_list_v1`) read it, with `place_basis`.
+  - A search that names a city or postcode still shows the matching campus first.
+- **What it fixes beyond the brief:**
+  - Before, a course with campuses in several cities showed the alphabetically first campus's city: a guess. It now shows only the state when there is one state, or no place.
+  - Saved courses showed the provider's city; they now show the course's place.
+- **Rolled-back rehearsal** (the migration and a probe in one transaction, as the Platform Admin):
+  - Places for the searchable courses: primary campus 4,279; one city 15,466; one state 5,054; several cities 4,186; no campus (provider) 5,377.
+  - The audit's 15,469 counted city alone; 3 courses have the same city name in two states, so they get no city here.
+  - "Bachelor of Nursing" in Australia: 20 cards in 1.9 s; a sole-city card reads Fremantle, WA.
+  - Entry Requirements for Nursing: 20 rows in 289 ms.
+  - The migration's own post-check proves a sole-city card names its city and a multi-city card gets none.
+  - G3 75/48 with no drift; active cron 135; locks 7,585; US$0.
+- **Specs:** the new `cf-247-s1271-portal-sole-city-contract` passes, with the governance specs (s42, s57, s120, s980, s32 static checks). TEST-REGISTER updated.
+- **Pre-flight** passed above main's `20261129150000`. Version `20261129160000` is held by the open s1261 (#1675), so this takes `20261129170000`.
+- No screen change: the cards already show city and state when they are returned.
+
 **S2-Build, 26 Nov 2026 16:40 AEDT: s1222 portal UAT fixes live (Pilot #1670, merge `290ca1d`; admin #1183; migration `20261129130000`, history md5 `129bcb6c` matches the file).**
 - **Deploy:**
   - **Workers Builds: studysearch-portal** passed on the merge commit, so the portal at `studysearch-portal.techm.workers.dev` serves the s1222 screens: full-width card grids, Cards/List, the Course details drawer, concise cards with one annual fee and the course code badge, and India and Nepal first in the country lists.
