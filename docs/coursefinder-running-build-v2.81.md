@@ -10,6 +10,13 @@
 
 - Cohort admitted courses 643 to 732 and active rows 1,564 to 1,954, all from S1-Build read windows; matrix unchanged at 9 rows; no unattended cycle added. Decisions needed: CQU and AIBT host aliases, Greenwich publishing. Detail: `docs/CURRENT-STATE.md` (S1-AER-Claude, 26 Nov 15:50).
 
+## D1 to D5 and PIM acceptance (S1-Build, 26 Nov 2026 17:00 AEDT)
+
+- **s1196 live:** Adelaide retired host kept out of relink and the binder, with a guard trigger; rediscovery running.
+- **s1197:** `lean-md-v3` verified live. s1198 switches the job off.
+- **PIM:** scholarships 3 unattended cycles; academic entry 0 (protected cap decision). Go-live not complete.
+- **Housekeeping:** D3, D4 and D5 prepared and revalidated; applying them needs the Platform Admin.
+
 ## Integration read back (S1-Build, 26 Nov 2026 12:35 AEDT)
 
 - s1195 (#1652), #1577, #1589, #1597 and #1600 merged; the three S3-AER migrations applied live. Head `20261129080000`, G3 75/48, locks 7,585, cron 136.
