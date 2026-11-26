@@ -1,5 +1,13 @@
 # StudySearch – current state (read this first)
 
+**SS-Programme-Control — s1279 post-implementation lessons, 26 Nov 2026 22:55 AEDT (docs only).**
+- Portal card description and provider-name display: Pilot #1695 merged `6500835d`; Admin #1226 merged; final migration `20261130023000` independently present. Effective `portal.card_description_chars=220`; 80–400 bounds recorded by owner. Clean migration ordering and downstream CI reported by owner; no independent browser/full-suite rerun.
+- Master Plan §3b Rules 7–10: G2 registered settings for configurable UI data limits (retain explicit structural/security bounds); stand-in matcher parity and real-runner evidence distinction; early-warning review at >=137/140 active crons and dated per-lane before/after delta; source-aware HTML entity normalisation at admission, preserving raw evidence and manual locks.
+- Live count at 22:55 AEDT: active crons 138/140 (2 headroom), locks 7,585. This review changed zero jobs (delta 0 attributable to this lane); earlier 135/137/138 are dated snapshots, not proof of additions. S1-Build to review dispatcher capacity/consolidation now through existing monitoring, no arbitrary job disable or new cron. G3 75/48 owner release evidence; not independently rerun here.
+- 11 canonical course descriptions matched a limited residual HTML entity pattern in a read-only query. Candidate count, not 11 proved bad descriptions. S1-Build to coordinate shared normalisation/description owners; verify source semantics, preserve literal text and immutable evidence, repair through existing governed admission only, no mass replacement. Read-side s1279 snippet cleanup is not a canonical repair.
+- Generated TEST-REGISTER lacks `cf-247-s1279-portal-card-description-contract` at this check. S1-Build to regenerate with full Pilot runner, review existing lightweight shim matcher coverage (toEqual/toBeLessThan), and coordinate real UAT if outstanding; no manual generated file edit. Zero migrations, production mutations or paid calls by oversight. No new launch dependency.
+
+
 **S1-RM-Design, 26 Nov 2026 22:50 AEDT: s1176 slice A live and read back (Pilot #1693 merged; deploy run 45811790352 success; head `20261130020000`).**
 - **Deploy checks:** live bodies of `security.data_delivery_jobs_v1`, `security.pim_operations_v1` and `public.admin_pim_jobs_v1` match the file byte for byte (md5 `8834aabe`, `f6d87f0b`, `7c0bb6da`). Five `pim.jobs_*` settings are present.
 - **Unattended background count:** the first one ran at 22:45:23 on its own run (15.6 s, no error); the PIM progress ran separately at 22:36 (39 s). The latest count has active 191, idle 20, held 13, degraded 2, retired 85 and shadow 1.
