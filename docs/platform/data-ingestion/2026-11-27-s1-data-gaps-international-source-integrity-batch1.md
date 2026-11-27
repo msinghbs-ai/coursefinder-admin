@@ -84,7 +84,7 @@ All five recipes are domain-scoped regexes (host plus an exclusion list). None c
 
 > **v1.1 | 27 Nov 2026 | S1-Data-Gaps batch 1.** Read-only. Swinburne 411 active, 172 without a current official link; CDU 175, 21; Kaplan Business School 34, 5; WSU 306, 29. 33 international-tagged links have domestic paths (Canberra Training School 17, Step Into 5, others 11), suspect only. Observed patterns, unqualified: Swinburne dedicated `/study/course/international/` plus banner switch; CDU shared URL with audience header and `?year=`; WSU shared handbook, current `hbook.` host, retired year paths. Identity suspects: WSU Graduate Diploma in Health Service Management (stale 2023-2024 path, same CRICOS); CDU Master of Engineering 107552A (3-year record on the 2-year page). No link or value changed; no spend. Next: worker-path verification (Decision S1-DG-5). Canonical record: `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`.
 
-## 11. Batch 2: S1-DG-5 disposition and executable recovery (27 Nov 2026, 12:00 to 13:00 AEDT)
+## 11. Batch 2: S1-DG-5 disposition and executable recovery (27 Nov 2026, 12:00 to 12:45 AEDT)
 
 **Disposition (SS-Programme-Control 12:00):** option A under the existing source-integrity mandate; not a new spending or activation approval. Stored page evidence first, then free HTTP, then existing Firecrawl only where necessary.
 
