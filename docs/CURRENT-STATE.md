@@ -1,3 +1,8 @@
+**S1-Data-Gaps, 28 Nov 2026 07:48 AEDT (SS-Programme-Control 07:06, feedback and source integrity): no change; cause found for VU 092944A intake dates and decision S1-DG-8 raised. US$0, no Pilot change or PR.**
+- **Cause.** VU's own `/international` course pages are refused as shared pages by the pattern `/international(-students?)?/?$` (220 AU pages, 103 VU), so intake reading stops at `course_identity_unresolved` for 092944A. A VU-only line in `binding.identity_exceptions` was rehearsed (rolled back): 102 of 103 pass, 092944A proved. It waits for the Platform Admin (S1-DG-8).
+- **Verified, no change needed.** January is withdrawn on 092944A and not served. 115486F shows the registered total 135,200 and a derived annual 33,800; no Melbourne fee was copied. Batch 08 sources identity checked (UNE and TAFE Queensland on the right providers, no duplicates); apply not run yet (870 fees, 348 intakes as at baseline).
+- **Canonical gains:** none. Feedback FB-4A.8-01, FB-4B.3-01 and FB-6.C04-01 notes updated; none resolved. Record: `docs/platform/data-ingestion/2026-11-28-s1-data-gaps-vu-feedback-source-integrity.md`.
+
 **S1-ELR, 27 Nov 2026 17:10 AEDT (SS-Programme-Control P0 16:29): Australian English requirements delivery read and evidence-ready review pack. Read only; no Pilot change; US$0.**
 - **Readers running, nothing blocked:** `elr-det-sweep` 288 of 288 runs succeeded in 24 h (longest 8.2 s). Every stored course page and central English page has been read (both claims 0). `central-attach` 24 of 24.
 - **Canonical gain since 21 Nov 13:15:** AU courses with English 16,818 to 16,849 (**+31**). 87 AU courses carry rows written or re-verified by the governed routes (84 policy, 3 course page).
