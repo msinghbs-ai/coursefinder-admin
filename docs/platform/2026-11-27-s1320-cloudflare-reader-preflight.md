@@ -78,3 +78,21 @@ Model and Firecrawl spend are separate and unchanged.
 - Supabase stays the default runtime and the queue, lease, evidence, qualification and admission authority.
 - There is no new cron job, queue, admission engine or storage system.
 - G3 is untouched, and no setting or spend changed.
+
+## 8. Preflight result (run 45989015838, 27 Nov 2026 22:20 AEDT, read only, $0)
+
+| Check | Result |
+|---|---|
+| Secret `CLOUDFLARE_READER_API_TOKEN` | Present as a **repository** secret and visible to Pilot workflows (value not shown) |
+| Token | A **user-owned** token, active, expires 27 Dec 2026. The account-token verify endpoint answers 401, so it is not an account-owned token. |
+| Accounts the token reaches | **Two**: "Techm" (`e792d0…`), which holds the Workers `coursefinder-pilot`, `coursefinder-admin`, `coursefinder-demo` and `studysearch-portal`, and a personal account (`f20962…`, free plan) |
+| Techm subscriptions | `workers_paid` (Paid), `observability_paid`, `images_v2_stream_basic` |
+| Containers on Techm | Applications listing HTTP 200: available, with **no existing application** (so there is no default-policy application to migrate) |
+| Containers on the personal account | 401: "requires the Workers Paid plan" (not the StudySearch account) |
+| Image build (runner, no token) | Built for linux/amd64 with Docker 29.4.2 |
+| `wrangler@4.161.0 deploy --dry-run` | Passed. Worker 4.63 KiB (gzip 1.96 KiB) with Durable Object `ReaderContainer`, then "--dry-run: exiting now" |
+| Offline health check | The check command was wrong (`deno eval` takes no `--allow-net`); fixed in Pilot s1320 follow-up |
+
+**Points for the Platform Admin before deployment approval**
+- The token reaches a second, personal account. The runbook (§3.1) asks for the StudySearch account only. Re-scope it to Techm, or replace it with an account-owned token.
+- Write permissions (Workers Admin for the first creation, Containers Write) are not proven by a read-only run. They are proven only by the approved deploy step.
