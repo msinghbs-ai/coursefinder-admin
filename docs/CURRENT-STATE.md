@@ -729,6 +729,28 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 27 Nov 2026 12:10 AEDT: Autonomous PIM reader lifecycle, academic entry (s1296), recorded before merge; s1297 (scholarships) claimed. SS-Programme-Control 11:27.**
+- **What it does:**
+  - **Detect:** held entry-matrix templates are detected on the existing entry-matrix read.
+  - **Reuse or propose:** an active provider reader configuration is reused, or one is proposed as a versioned Layer 2 source profile. The configuration is data only: the address country and registered `reading.entry_*` overrides.
+  - **Qualify:** each proposal is qualified on stored copies by the same worker code, with deterministic readers only (no model, no fetch, $0).
+  - **Activate:** a separate, audited step, only under the standing authority the class's knowledge pattern records (Charter item 1). Otherwise `HELD:ACTIVATION_AUTHORITY`.
+  - **Process:** held pages are read again through `admin_entry_matrix_reread`.
+  - **Learn:** every outcome goes into the s1292 recovery knowledge, with prevention and no-yield blocks.
+- **Structures the existing readers cannot prove** (14 PDFs) are held as `HELD:READER_RELEASE_REQUIRED`.
+- **Release:** migration `20261130123000`; worker v1.0.55; implementation record `docs/platform/2026-11-27-autonomous-pim-reader-lifecycle.md`.
+- **Live baseline:** 452 entry-matrix sources at 259 providers; 50 held_unparsed at 15 providers, including RMIT's 36 country pages.
+- **Rehearsal (rolled back, 12:03 AEDT):**
+  - RMIT proposal: 8 samples, 6 positive and 2 negative.
+  - Simulated sample reads: a model-dependent pass.
+  - Activation step: 35 pages re-queued; India resolved from the address.
+  - 13 PDF providers classified.
+- **Guards:** G3 75/48; locks and cron unchanged; no new job; $0 at qualification. Re-reads after activation use the existing entry_matrices route and its caps.
+- **For S2-AER:** the entry-matrix loop now carries an optional `reader_config` (`svc_entry_matrix_next` one key; worker `reader-config.ts`). Nothing changes when none is active.
+- **For S1-Build:**
+  - regenerate the TEST-REGISTER for `cf-247-s1296-reader-lifecycle-contract` (6 tests), per §3b;
+  - s1296 uses Layer 2 source profiles as the reader-configuration store, the store the #1271 design prefers. Please agree the shared interface before #1271's recipe replay uses the same profiles.
+
 **S2-Build, 27 Nov 2026 00:35 AEDT: DR-19 increments 2 to 4 (s1282) and Reported data issues R3 (s1285) live and accepted on production, desktop and phone (Pilot #1701, #1704, #1705, #1708).**
 - **Acceptance:** Deployed UAT run 45829529456 on production, both specs: desktop success, mobile success.
 - **s1282:**
