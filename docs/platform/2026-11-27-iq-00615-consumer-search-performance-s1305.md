@@ -25,11 +25,29 @@ Same expressions, same inputs, 5 rows a page, Australia. Before is live now (war
 | Zoho `bachelor`, page 1 | 2,306 ms | 678 ms | yes |
 | Zoho `master`, page 2 (the probe case) | 1,733 ms | 596 ms | yes |
 | Website v2 `master` (keyword) | 1,785 ms | 555 ms | yes |
-| Cold, recorded before-runs (`bachelor`) | 3.4 to 7.7 s | see production read-back | |
+| Cold, recorded before-runs (`bachelor`) | 3.4 to 7.7 s | 1.2 to 2.5 s in the batch snapshots (3 so far) | yes |
 
 Predicate alone on a copy of the live table (cold, Australia): bachelor 671 to 123 ms, master 674 to 101 ms, engineering 596 to 46 ms, nursing 748 to 10 ms, no match 544 to 0.4 ms.
 
-The remaining 550 to 680 ms is in the frozen function itself (the blocked-course set, about 143 ms a call, then counting and paging). Reducing it further needs a change to a frozen function and the Platform Admin's approval; it is not needed for the check and is not part of this change.
+## Production read-back (27 Nov 2026, after the deploy at about 02:08 UTC)
+The indexes are live and valid, the real plan now uses them (bitmap OR over the tsvector, title and provider-name indexes), and results are byte-identical (page-2 md5 `1d6d5fcd` in every run that executed it). The probe is not yet green:
+
+| Evidence | Before the deploy | After the deploy |
+|---|---|---|
+| Hourly Platform health, consumer snapshot step | 5.7 to 8.4 s (8 runs) | 6.3 s (03:08 UTC run, 1 run) |
+| Admission-batch snapshots (average total) | 5.9 s, 9 of 38 with a skipped read | 6.0 s, 2 of 3 with a skipped read |
+| `search_bachelor_au` in those snapshots (average) | 1.76 s | 2.19 s (3 runs; too few to tell) |
+
+The warm, isolated gain (about 3.5 times) does not carry into the snapshot, which runs on the minute boundary beside other cron jobs with a cold cache. So the indexes removed the unindexed scan, but they were not the whole cause.
+
+## Residual cause (measured, 27 Nov 2026) and decision needed
+On the same predicate with the same plan, the frozen function costs 730 ms warm (2.1 s cold, 5,186 block reads), against 132 ms warm for the same match with only the three columns the page needs. The difference is in the function body, not the data or the index:
+- `api.zoho_course_search_v2` selects `d.*` into one CTE (`base`) that it reads twice (the page and the `count(*)`), so PostgreSQL materialises every matching wide row, about 1.7 KB with its TOAST values, into a temporary tuplestore (1,209 temporary blocks, over the 7 MB `work_mem`). For `bachelor` that is 5,627 rows.
+- It also rebuilds the blocked-course set on every call (about 130 ms).
+
+Reducing this is a change to a frozen consumer function with an identical result: select only the columns the page and the count use, and keep the blocked-course test as it is. It cannot be shipped by this lane. It touches the G3 surface (the Authority Charter escalation case (a)), needs the Platform Admin's recorded approval (`-- Consumer API change approved: …`), the baseline re-taken, and S1-Build, who own the `website_v2_*` copies of the same pattern. Expected effect, measured on the live table with no change made: Zoho `bachelor` about 730 to about 130 ms warm, no temporary-file writes.
+
+Not done, by design: raising the probe budget or statement timeout, reordering reads, setting `work_mem` inside the probe (it would make the probe unlike a consumer), and compacting `search.course_documents` (a paste file with an exclusive lock; it helps only the cold read and is not the cause).
 
 ## Recurrence-prevention lesson
 Recorded in the recovery knowledge as `consumer_search:unindexed_free_text:latency` (authority release, not automatic):
