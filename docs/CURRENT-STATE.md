@@ -814,6 +814,29 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 28 Nov 2026 08:05 AEDT: s1332 recorded before merge (Pilot branch `s2-s1332-scholarship-reader-recovery`, migration `20261201010000`, no worker change). Scholarship reader exceptions (SS-Programme-Control 28 Nov 2026 07:22 AEDT, P0).**
+
+- **Found live (rolled-back reads, DR-19 and the worker ledger):**
+  - Candidate reading is stalled for every provider, not only QUT. Every `scholarship_discover` call since 27 Nov 2026 20:00 AEDT failed with `svc_scholarship_candidate_next: canceling statement due to statement timeout` (`pipeline.mode_outcome_ledger`, HTTP 500). 2,073 candidates are due; QUT's 75 have not been leased since 24 Nov.
+  - Cause: the directory-site rule `security.third_party_host_v1` is asked once per page of the 600-page window and takes 6.6 s of the 8 s limit. It reads only the page's site host, and the window holds about 40 hosts.
+  - QUT listing 1429: read on 24 Nov through Firecrawl (pages 1 to 3, 30 items; the direct copy gives no items). Page 4, and every first page since, was refused `university_cap`. QUT has used its whole per-university scholarship allowance (150 units in the rolling 30-day window, spent 12 to 24 Nov), so paid reads wait until mid-December. Across providers, 1,655 `university_cap` refusals in two days.
+  - UQ College candidate 22521 (`/scholarships`, now `/apply/scholarships`) is a hub of award blocks. It was read once as one page (8 Oct, direct, HTTP 200) and rejected `no_named_title`. It is not a listing source, so the existing award-section readers (s1035 headings, s1037 labels and tiers) never split it.
+- **Change (existing mechanisms only):**
+  1. `public.svc_scholarship_candidate_next` asks the directory-site rule once per distinct site host of its window. Every other rule, order and limit is unchanged.
+  2. QUT gets one Claude-session on-demand Firecrawl request (`security.on_demand_open_v1`), scoped to the `scholarships` purpose group and capped at 150 units (s903), for the existing six-hour window. Listing 1429 is read again now. The scheduled listing and candidate lanes do the reads.
+  3. UQ College's hub is registered as a manual listing source and read now, as s1043 registered the Charles Darwin hub.
+     - Candidate 22521, the provider type and every admission and eligibility rule are untouched; the migration checks that 22521 is byte-for-byte unchanged.
+     - Each award candidate takes the normal read and admission route, with its holds.
+     - Decision 1 (provider type) stays with the Platform Admin.
+- **Rehearsed (rolled back, live data):**
+  - The picker returns 30 in 439 ms; before the change it took 4.8 s warm and timed out under load.
+  - The same pages pass: 2,325 due rows, 0 differ, 2 on directory sites.
+  - The on-demand request opens scoped and capped, with Firecrawl 59,133 left on the plan and OpenRouter US$81.63.
+  - The listing picker leases 1429 and the UQ College hub first.
+  - Spend: Firecrawl within the monthly plan (`ops_cost.fc_usd_per_credit` 0), at most 150 units; no model is called by this change.
+- **Guards:** pre-flight passed; the scholarship picker contracts (s1199, s1054, s226, s29, s34, r4b) and the governance contracts (s42, s57, s980, s120, s616) pass locally. G1 to G3 unchanged; 7,585 locks and the active cron jobs are checked unchanged; nothing is dropped or deleted. No new reader, queue, job, setting or admission path.
+- **Next:** merge, then verify recovered pages, extracted candidates and admission outcomes for QUT and UQ College, and record them here.
+
 **S2-Build, 27 Nov 2026 14:20 AEDT: s1304 merged (Pilot #1725, migration `20261130160000`, worker v1.0.59). The reader lifecycle runs unattended in production for academic entry and scholarships; first results below. Acceptance is not complete.**
 - **Academic entry, RMIT (production, read back 14:15 AEDT):**
   - **Detected and proposed:** the held template `country_page_generic_heading` at 13:49, by job 337's lifecycle step.
