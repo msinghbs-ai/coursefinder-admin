@@ -27,17 +27,17 @@ The VU Sydney record of the Bachelor of Early Childhood Education and Leadership
 | Field | Value |
 |---|---|
 | Course | 115486F, the active VU course record of the Bachelor of Early Childhood Education and Leadership. Resolve the course by the CRICOS code under its own provider record; there are two VU provider records, a known duplicate identity |
-| Fee year | 2027 |
+| Fee years | Two rows, as s1056 did for 105139H: 2026 and 2027 |
 | Audience | international |
 | Kind | `provider_current_tuition` |
-| Amount | AUD 35,500 |
+| Amounts | 2026 AUD 33,800 and 2027 AUD 35,500 |
 | Basis | `indicative_annual` (shown as a calculated equivalent by `security.course_fee_selected_v1`) |
 | Load | `full_time` |
-| Derivation | AUD 17,750 a semester × 2 semesters a year, full time. Proof: "4 years (8 semesters of study)", and "Fees for full-time international student (2027)" |
+| Derivation | 2026: AUD 16,900 a semester × 2, from the VU Sydney and VU Brisbane campus pages ("Fees (2026)", confirmed by S1-Data-Gaps / DOT for FB-4B.3-01). 2027: AUD 17,750 a semester × 2, from the international page ("Fees for full-time international student (2027)") and the VU Sydney page. Full-time load proof for both: "4 years (8 semesters of study)" |
 | Campus | No campus split on the official international page, so the row is course-level (both Sydney and Brisbane). If the writer requires campus rows, write the same amount for each of the course's two campuses; never only for Sydney while Brisbane is inferred |
-| Note text | `Calculated annual equivalent: AUD 17,750 a semester (2027) x 2 semesters, full-time; official international page and VU Sydney course page (FB-4B.3-01)`, the same wording as the s1056 105139H rows |
+| Note text | `Calculated annual equivalent: AUD <16,900 or 17,750> a semester (<2026 or 2027>) x 2 semesters, full-time; official VU pages for 115486F (FB-4B.3-01)`, the same wording as the s1056 105139H rows |
 | Keep | The CRICOS registered total tuition, as its own line (never turned into an annual amount, and never compared with it as a defect) |
-| 2026 | Not part of this correction. The Brisbane page states AUD 16,900 a semester for 2026 (AUD 33,800 equivalent). Add it only if the fee route wants a 2026 history row for 115486F |
+| Existing derived figure | Website API currently shows a derived annual AUD 33,800 with no year (S1-Data-Gaps, 28 Nov). After apply, it is replaced in the selection by the dated provider rows; the derived figure is not deleted |
 
 **Checks the existing route already makes, and which apply here:**
 - the code is bound to one active course of the provider;
@@ -57,7 +57,7 @@ An annual fee above the CRICOS total is not a defect on its own:
 - it covers the registered duration;
 - it is a different basis.
 
-For example, for 115486F, 35,500 × 4 years = 142,000, against a registered total of AUD 128,800. Before raising a fee defect, compare on the same basis and year: annual against annual, total against total, the same fee year, and the same full-time load.
+For example, for 115486F, 35,500 × 4 years = 142,000, against the registered total of AUD 135,200 the Website API serves (Study Australia shows AUD 128,800, an older registration figure). Before raising a fee defect, compare on the same basis and year: annual against annual, total against total, the same fee year, and the same full-time load.
 
 Also: a course page that states a fee per semester is turned into an annual equivalent only when the page proves the full-time load (semesters a year). The amount is then recorded as `indicative_annual`, never as `annual`.
 
@@ -69,3 +69,7 @@ S1-Build's s1327 (`docs/platform/2026-11-28-s1327-batch08-fees-and-intakes.md`) 
 - the 13 TAFE Queensland whole-of-course totals are parked.
 
 At 07:05 AEDT it was in release: Pilot branch `s1-build-s1327-fee-html-une-tafeqld`, migration `20261130223000`, and Pilot main still at head `20261130220000`.
+
+## Revision, 28 Nov 2026 09:20 AEDT (S1-RM-Design, CHAT-INIT-20261128)
+
+Added the 2026 row asked for by S1-Data-Gaps (`2026-11-28-s1-data-gaps-vu-feedback-source-integrity.md`, row for S1-RM-Design). Corrected the CRICOS total in the lesson to the live AUD 135,200. Still not applied: this lane has no fee writer and no Pilot or live-read access. s1327 is now merged in Pilot (#1738); its UNE and TAFE Queensland apply has not been run (CURRENT-STATE, 28 Nov).
