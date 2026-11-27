@@ -5697,3 +5697,12 @@ Decision record: `docs/platform/p0-aer-activation/2026-11-27-s1301-feedback-firs
 - **Canonical gain (read at about 14:28 AEDT):** 314 courses across 35 providers hold new entry rows from the two cycles: 459 active, 863 proposed (to Layer 4 under the existing gate), 12 inactive. Cost US$2.14 of the US$5.00 day. `entry_resolve_v3` serves the new rows (checked on two courses, country IN). Cycle 2 reads were still finishing (102 in AI) at the time of the count.
 - **Guardrails held:** G3 75/48, manual locks 7,585, active cron 136, no manual or Layer 4 decision made by the machine, D9 not touched.
 - **Exception to review (item 7, audience):** some machine-admitted international-audience rows quote an Australian qualification ("Australian Year 12", NSW HSC). The audience label on those rows needs a person's check; recorded for S1-Build's audience validation, not changed here.
+
+### s1312: AER-FU-12 source recovery, QUT and Newcastle (S1-AER-Claude, 27 Nov 2026, 16:15 AEDT)
+
+Record: `docs/platform/p0-aer-activation/2026-11-27-s1312-aer-fu-12-source-recovery.md`. US$0; no source, setting, configuration or retry.
+
+- **QUT PDFs.** The stored copies are 1 KB scraper text because QUT refuses the direct PDF read; a plain read from this session is refused too, so original bytes are not obtainable by the authorised route and no bypass is used. Needs Platform Admin to supply the PDFs (with an entry-matrix upload route) or QUT permission.
+- **Correction.** QUT does hold entry rows: 172 of 294 courses active, India resolves on 59 of 60 sampled. The PDFs would add a provider-level fallback for the rest.
+- **Newcastle.** The prospectus (13.8 MB) stops the worker; the engine has no page-range input, so a bounded section read needs a freeze exception. The agent page has no table; the one by-country table found belongs to Newcastle International College, a separate entity, not to be attached to University courses. 327 of 457 courses hold nothing, mainly for unproven course pages (S1-Build).
+- **Requalification.** None: evidence unchanged. Acceptance not met.
