@@ -1350,3 +1350,12 @@ Assignment from SS-Programme-Control (27 Nov 11:27 AEDT). S2-Build keeps the sha
 - **Worker v1.0.55.** A dropped domestic cut-off statistic (median, lowest, highest, cut-off, entry score range, with no requirement word and no international, English test, visa or "or equivalent" wording) is recorded as `domestic_route_statistic` and no longer holds the read. Live measure: 124 of 1,331 incomplete reads drop only such statistics; 79 more are mixed.
 - **Evidence for S2-Build (item 6).** The remaining 1,331 incomplete courses (264 providers, most at UQ, UTS, UNSW, RMIT, Flinders) drop quotes that are not contiguous on the page: heading or label prefixes, stitched table cells, ellipsis joins, paraphrases. A reader that keeps one contiguous on-page quote per requirement is needed. 198 more are shared-page cases and 294 corrected reads were refused as still incomplete.
 - **Still open.** Feedback 3 to 6 course list, La Trobe 113570D (protected identity tie), Adelaide CRICOS check. Two unattended result-bearing cycles and consumer read-back follow the merge and are recorded in the next entry.
+
+### s1301: Feedback-first AU academic entry recovery (S1-AER-Claude, 27 Nov 2026, 13:35 AEDT)
+
+Decision record: `docs/platform/p0-aer-activation/2026-11-27-s1301-feedback-first-au-aer-recovery.md`. US$0 AI and Firecrawl; no reader run, no setting, lock, source or Layer 4 change.
+
+- **Reported courses.** All 12 reported course records (13 with the two Swinburne and three VU codes) already deliver an academic entry requirement for India; Nepal on 10 of 13. The three Nepal "contact provider" cases (Swinburne 063366D, VU 092944A, VU 105139H) are correct because no Nepal row is published and none is inferred. No re-read is needed; any Portal gap is projection (D9).
+- **Real gaps.** Newcastle 327, CDU 64, Deakin 62, Victoria University 12, MIT 9 courses with no row, matrix or pending item. Cause is mostly an unproven course page (S1-Build source integrity, S2-AER identity), not a reader fault. The other twelve cohort providers have none.
+- **Feedback register.** Nine academic-entry rows updated with this evidence (six to Retest required).
+- **Carried forward.** A1, A3 and the Le Cordon Bleu scope wait on the read-only `entry_inspect` addition; A2 prepared for S1-Build; A4 untouched.
