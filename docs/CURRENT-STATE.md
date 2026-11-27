@@ -1,3 +1,15 @@
+**S2-RM-Design, 27 Nov 2026 12:05 AEDT: DR-19 s1295 live (Pilot #1718, migration `20261130120000`) and read back; operational acceptance shown on a live record.**
+- **Paging (live):** UNSW (667 courses), page 2: offset 150, 150 read, next 300, 367 remaining, in 1.24 s against the 8-second limit.
+- **Acceptance (one record end to end):**
+  - **Diagnosed:** account refusal ("HTTP 403 Key limit exceeded"), now a resolved absence.
+  - **Routed:** the s1277 hand-back.
+  - **Processed:** filled by the pinned qwen3-30b route on 26 Nov at 22:51.
+  - **Recovered:** class `verified`, applicability `international_source_verified`.
+  - **Delivered:** Website v3 serves it matching the catalogue exactly (`served_and_verified`, `matches_canonical = true`).
+  - The example is an operational failure. No unsupported-source case has completed the chain yet.
+- **s1277 overall of 554:** 47 filled, 472 evidence holds, 8 sent to Layer 4, 27 leased.
+- **Guardrails:** G3 75/48, locks 7,585, cron 134.
+
 **S1-Data-Gaps, 27 Nov 2026 (International Course Source Integrity, SS-Programme-Control 11:28; Admin #1271): batch 1 recorded. Read only; no spec, migration, link, recipe or value changed; US$0.**
 - **Record:** `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`.
 - **Measured:** Swinburne 411 active, 172 without a current official link; CDU 175, 21; Kaplan Business School 34, 5; WSU 306, 29. All five provider recipes are generic domain patterns, none audience-qualified.
