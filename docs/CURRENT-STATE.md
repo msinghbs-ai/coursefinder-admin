@@ -1,3 +1,12 @@
+**S1-Data-Gaps, 27 Nov 2026 (International Course Source Integrity, SS-Programme-Control 11:28; Admin #1271): batch 1 recorded. Read only; no spec, migration, link, recipe or value changed; US$0.**
+- **Record:** `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`.
+- **Measured:** Swinburne 411 active, 172 without a current official link; CDU 175, 21; Kaplan Business School 34, 5; WSU 306, 29. All five provider recipes are generic domain patterns, none audience-qualified.
+- **33 suspect links** (international-tagged, domestic path): Canberra Training School 17, Step Into 5, others 11 (AU 32, NZ 1). Suspects only; a URL is a signal, not proof.
+- **Observed patterns (unqualified, search extracts):** Swinburne has a dedicated `/study/course/international/` path plus a banner switch; CDU is one shared URL with an audience header and `?year=`; WSU is a shared handbook (current `hbook.` host, retired year paths).
+- **Identity suspects:** WSU Graduate Diploma in Health Service Management links to the retired 2023-2024 handbook path (same CRICOS 0101796, not a missing course); CDU Master of Engineering 107552A (156 weeks) points at the 2-year `seng02` page.
+- **Limit:** no rendered page was opened (no SQL-readable page text, shell has no provider access). Nothing is verified.
+- **Decision S1-DG-5 (open):** worker-path verification of the named cohorts, then corrections only through `cf245_admit_official_url_record_v1` or the Layer 4 course-link route.
+
 # StudySearch – current state (read this first)
 
 **S2-RM-Design, 27 Nov 2026 11:45 AEDT (DR-19 slice 4, SS-Programme-Control 11:28): s1295 claimed and rehearsed. Recorded before merge.**
