@@ -1,5 +1,12 @@
 # StudySearch – current state (read this first)
 
+**S2-RM-Design, 27 Nov 2026 11:45 AEDT (DR-19 slice 4, SS-Programme-Control 11:28): s1295 claimed and rehearsed. Recorded before merge.**
+- **Paging:** `public.admin_pim_provider_trace_v1(provider, field, class, limit, offset)` pages at `pim.trace_page_size` (150) and accounts for the whole provider (`active_courses`, `next_offset`, `remaining`, `complete`). Rehearsed on the largest provider (UNSW, 667 courses): a 67-course page took 504 ms, so a 150-course page takes about 1.1 s against the 8-second limit.
+- **International applicability:** six evidence-only states, taken from the link audience (S1-Build source integrity) and the held rows, never from a URL; s1294's domestic-path suspects read as ambiguous. On UNSW descriptions, page 1: 100 international source verified, 50 not checked.
+- **Recovery cause:** taken from the route register, attempts and planner state. On UWA academic entry: 33 identity unproven, 17 insufficient evidence, 22 no eligible work from the planner.
+- **Knowledge:** history lists the course's integration issues and the recovery-knowledge patterns their remedies use, referenced rather than recorded again.
+- **Not built here:** the common reader-creation interface (S2-Build). Frontend exposure is for the Admin UI owner through the existing admin reads.
+
 **S1-RM-Design, 27 Nov 2026 07:20 AEDT (SS-Programme-Control 07:01, remaining DR-16 slices): request register projection parked on S1-Build; s1177 annual tuition identified and routed (measured live; no code change).**
 - **Request register projection: parked.** No load path into the database is agreed with S1-Build, and none is recorded in this file or the Master Plan. S1-Build owns the deploy and sync workflows; the projection must use one of them, with GitHub as the authoritative register and no new scheduler. Waiting on S1-Build.
 - **s1177 annual tuition, measured 27 Nov 07:15 AEDT.** Read with the governed selection rule (`security.course_fee_selected_v1`, S1-Build s1056: active `provider_current_tuition` rows, basis annual or indicative annual, international audience, the nearest current or future year). Population: 34,362 active courses at published providers.

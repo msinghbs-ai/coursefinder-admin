@@ -1,3 +1,10 @@
+**S2-RM-Design, 27 Nov 2026 11:45 AEDT (DR-19 slice 4, SS-Programme-Control 11:28): s1295 claimed and rehearsed. Recorded before merge.**
+- **Paging:** `public.admin_pim_provider_trace_v1(provider, field, class, limit, offset)` pages at `pim.trace_page_size` (150) and accounts for the whole provider (`active_courses`, `next_offset`, `remaining`, `complete`). Rehearsed on the largest provider (UNSW, 667 courses): a 67-course page took 504 ms, so a 150-course page takes about 1.1 s against the 8-second limit.
+- **International applicability:** six evidence-only states, taken from the link audience (S1-Build source integrity) and the held rows, never from a URL; s1294's domestic-path suspects read as ambiguous. On UNSW descriptions, page 1: 100 international source verified, 50 not checked.
+- **Recovery cause:** taken from the route register, attempts and planner state. On UWA academic entry: 33 identity unproven, 17 insufficient evidence, 22 no eligible work from the planner.
+- **Knowledge:** history lists the course's integration issues and the recovery-knowledge patterns their remedies use, referenced rather than recorded again.
+- **Not built here:** the common reader-creation interface (S2-Build). Frontend exposure is for the Admin UI owner through the existing admin reads.
+
 **S2-RM-Design, 27 Nov 2026 00:28 AEDT (scheduled DR-19 check): s1277 realised gain.**
 - **Of 554 handed back:** 13 filled (all descriptions), 176 skipped, 5 sent to Layer 4, 27 being read, 333 waiting; 0 refused again by the account.
 - **Field-level check:** all 13 filled descriptions are verified in the catalogue and served by Website v3 matching the catalogue text exactly.
