@@ -37,3 +37,16 @@ AU published 898 (889 on 26 Nov), AU unpublished 373, none eligible under `secur
 - Listing picker holds 333 AU due listing pages for held providers (SCH-FU-10; owner S1-Build, one-line change recorded there).
 - Candidate and AI calls return `waiting_scraper`; 273 AU candidates due and unread (SCH-FU-02, 27 Nov entry; owner S2-Build).
 - Tier tables with an international tier not mapped to the canonical value; value kind set without a number; linked rates (SCH-FU-02).
+
+
+## Appendix: exact evidence for the five ready reviews (27 Nov 2026)
+
+All five were read by the existing qwen3-30b extractor; each quote is stored in the review's `recheck`. A person decides; this lane has not.
+
+| Review | Award | Value quote | Audience quote | Eligibility |
+|---|---|---|---|---|
+| 1184 | Macquarie Vice-Chancellor's International Scholarship | "This scholarship provides up to AUD $10,000 applied towards your tuition fee." | "...is awarded to recognise academic excellence for international students." | International. The stored URL is a staging host; the public page is review 2270, so approve against that page. |
+| 1230 | Bond Abedian Foundation Master of Architecture Scholarship | "...you will be awarded with 100% tuition remission for a Master of Architecture/Master of Architecture (Professional) to commence in January 2026 only." | "...a broad offering for both domestic and international applicants..." (hub wording) | Both. The intake is January 2026 only, so check it is still open before publishing. |
+| 2316 | Murdoch Trillion Trees | "Scholarship Value: $5,000" | "Student Type: International Domestic" | Both. |
+| 2335 | CSU Jacob Berry | "Value: $2,500" | "Any international students who are classified as an international student in Australia with either a full unconditional offer from Charles Sturt..." | International. |
+| 2337 | CSU Elders Rural | "Value: $24,000" | same CSU wording | International. |
