@@ -73,3 +73,16 @@ At 07:05 AEDT it was in release: Pilot branch `s1-build-s1327-fee-html-une-tafeq
 ## Revision, 28 Nov 2026 09:20 AEDT (S1-RM-Design, CHAT-INIT-20261128)
 
 Added the 2026 row asked for by S1-Data-Gaps (`2026-11-28-s1-data-gaps-vu-feedback-source-integrity.md`, row for S1-RM-Design). Corrected the CRICOS total in the lesson to the live AUD 135,200. Still not applied: this lane has no fee writer and no Pilot or live-read access. s1327 is now merged in Pilot (#1738); its UNE and TAFE Queensland apply has not been run (CURRENT-STATE, 28 Nov).
+
+## Verification by year and campus, 28 Nov 2026 10:05 AEDT (PC-20261128-0931-S1-RM-Design)
+
+Each year is checked separately for campus, audience and full-time basis. Nothing is copied from Melbourne 105139H.
+
+| Year | Sydney (160–166 Sussex St) | Brisbane (269 Wickham St) | International audience | Full-time basis (2 semesters a year) | Verdict |
+|---|---|---|---|---|---|
+| 2027 | VU Sydney course page: "Fees (2027): AU$17,750 per semester", CRICOS 115486F | VU international page names Sydney and Brisbane campuses with one fee; the Brisbane campus page still shows 2026 only | International page: "Fees for full-time international student (2027): AU$17,750 per semester" | Stated "full-time" (international page); "4 years (8 semesters of study)" (Sydney page) | **Proven for both campuses.** AUD 35,500 calculated annual equivalent |
+| 2026 | No live VU page states 2026 any more (the Sydney page now shows 2027). DOT's stored campus-page copy for FB-4B.3-01 gives 16,900 a semester (per S1-Data-Gaps, 28 Nov). VU Sydney and Brisbane 2026 International Scholarship flyer (issued under VU CRICOS 02475D, hosted on eca.edu.au, VU's delivery partner): "2026 tuition fee / 4 units" A$16,900 for this course | VU Brisbane course page: "Fees (2026): AU$16,900 per semester", CRICOS 115486F | Flyer is for "all new international students" at VU Sydney and Brisbane; the campus pages do not name the audience | VU international fees page: fees are charged per semester on a full-time enrolment of 48 credit points (0.5 EFTSL); 4 units × 12 credit points = 48 = one full-time semester; "4 years (8 semesters of study)" | **Proven for both campuses, on VU's own pages plus DOT's stored Sydney copy.** AUD 33,800 calculated annual equivalent. The flyer is corroboration only (partner-hosted), not the cited evidence |
+
+- **Evidence rules for apply:** the 2027 row cites the VU international page and the VU Sydney page. The 2026 row cites the VU Brisbane page and DOT's stored Sydney copy. All are stored by the fee reader first.
+- **If DOT's Sydney 2026 copy is not in storage:** write 2026 for the course as a whole only if the writer accepts the Brisbane page plus the international fee-basis page. Otherwise apply 2027 only and hold 2026 with that reason. The derived 33,800 the API already shows agrees either way.
+- **Not used:** web archive copies (blocked for this session, not routed around); Study Australia (Study Australia comparison is out of scope by standing rule; its AUD 128,800 total is noted only).
