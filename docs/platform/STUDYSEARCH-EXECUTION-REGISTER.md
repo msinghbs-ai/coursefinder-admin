@@ -1,3 +1,10 @@
+**S1-Data-Gaps, 27 Nov 2026 13:05 AEDT (S1-DG-5 option A, SS-Programme-Control 12:00; Admin #1271): s1302 claimed and rehearsed, recorded before merge (Pilot branch `s1-data-gaps-s1302`, migration `20261130134500`).**
+- **Record:** `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`, section 11.
+- **Measured (stored worker data, $0):** Swinburne has 165 bound pages that return HTTP 404 and WSU 35 (retired year handbook paths); 227 courses at Swinburne (176), WSU (38), CDU (9) and Kaplan Business School (4) are parked as held, no route.
+- **Change:** one counted update moves those 227 requests to the existing relink route. No link, page, value, lock, job or setting is written. Rehearsed rolled back on live: 227 queued, cron 135, locks 7,585, consumer API 75/48.
+- **Not done, with reason:** no page was opened from this session, so no audience is proved and no link is admitted. The 33 suspect links, the CDU Master of Engineering 107552A identity and the WSU Graduate Diploma year path wait for S1-Build's worker verification or the relink result. Kaplan's 5 unlinked courses already had three futile relinks and are not requeued.
+- **For S1-Build:** 5,031 requests platform-wide held `no_route`; the year rollover refuses a host change or year range (WSU `handbook.` to `hbook.`).
+
 **S2-RM-Design, 27 Nov 2026 12:05 AEDT: DR-19 s1295 live (Pilot #1718, migration `20261130120000`) and read back; operational acceptance shown on a live record.**
 - **Paging (live):** UNSW (667 courses), page 2: offset 150, 150 read, next 300, 367 remaining, in 1.24 s against the 8-second limit.
 - **Acceptance (one record end to end):**
