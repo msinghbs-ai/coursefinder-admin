@@ -762,6 +762,24 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 27 Nov 2026 14:20 AEDT: s1304 merged (Pilot #1725, migration `20261130160000`, worker v1.0.59). The reader lifecycle runs unattended in production for academic entry and scholarships; first results below. Acceptance is not complete.**
+- **Academic entry, RMIT (production, read back 14:15 AEDT):**
+  - **Detected and proposed:** the held template `country_page_generic_heading` at 13:49, by job 337's lifecycle step.
+  - **Qualified at 13:49** on stored copies with deterministic readers only, $0. Of 8 samples, 6 positive pages passed the completeness guard with the country taken from the address. No deterministic reader proved the RMIT tables. The 2 negative pages (foundation, global assessment) stayed held. Mode: guard then routed model.
+  - **Activated at 13:54** as a separate step, under the Charter item 1 authority recorded in the knowledge pattern. 35 held pages were re-queued.
+  - **Re-reads:** they now go through the existing `entry_matrices` route (Mistral Small 3.2). At 14:15: 21 queued, 12 queued after `time budget`, 1 `held_incomplete` (a column left out), 1 with no model answer. No rows yet.
+  - **Throughput:** job 337 called the worker 6 times in 30 minutes, and the model reads of RMIT pages exceed the call's time budget. This is the existing route's throughput, flagged to S2-AER. Admission, publication and consumer read-back for RMIT are pending these reads.
+- **Academic entry, unsupported structures:** 7 PDF providers recorded as `HELD:READER_RELEASE_REQUIRED` (pattern `reader_config:aer_matrix:pdf_layout_unproven`). They are not proposed again until the stored copy changes.
+- **Scholarships (production):**
+  - 123 zero-item pages recorded as `HELD:NOT_A_LISTING` for the scholarship owner.
+  - 2 provider proposals qualified at 13:52 on stored copies (link hosts). Neither gained an item, so both are `HELD:READER_RELEASE_REQUIRED` and prevented from repeating on the same copies.
+  - No scholarship configuration has qualified yet, so activation (held for the Platform Admin) has not been exercised in production.
+- **Knowledge (s1292 store):** 133 outcomes so far, 1 successful.
+- **Guards:** G3 75/48, locks and cron unchanged (all migrations' post-checks passed). No new job; $0 at qualification.
+- **Next for this lane:**
+  - watch the RMIT re-reads to admission and consumer read-back, then the next proposals each cycle;
+  - for scholarships, extend the qualified configuration options where stored copies show the reason (listing cards without award words), as a governed reader release.
+
 **S2-Build, 27 Nov 2026 13:10 AEDT: s1303 merged and deployed (Pilot #1724, migration `20261130143000`, worker v1.0.57); live correction and s1304 (scholarships) recorded before merge.**
 - **s1303 live read-back (12:58 AEDT):**
   - The functions are present.

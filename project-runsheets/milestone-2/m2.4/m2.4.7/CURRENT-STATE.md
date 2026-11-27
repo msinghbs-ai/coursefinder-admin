@@ -427,6 +427,24 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 27 Nov 2026 14:20 AEDT: s1304 merged (Pilot #1725, migration `20261130160000`, worker v1.0.59). The reader lifecycle runs unattended in production for academic entry and scholarships; first results below. Acceptance is not complete.**
+- **Academic entry, RMIT (production, read back 14:15 AEDT):**
+  - **Detected and proposed:** the held template `country_page_generic_heading` at 13:49, by job 337's lifecycle step.
+  - **Qualified at 13:49** on stored copies with deterministic readers only, $0. Of 8 samples, 6 positive pages passed the completeness guard with the country taken from the address. No deterministic reader proved the RMIT tables. The 2 negative pages (foundation, global assessment) stayed held. Mode: guard then routed model.
+  - **Activated at 13:54** as a separate step, under the Charter item 1 authority recorded in the knowledge pattern. 35 held pages were re-queued.
+  - **Re-reads:** they now go through the existing `entry_matrices` route (Mistral Small 3.2). At 14:15: 21 queued, 12 queued after `time budget`, 1 `held_incomplete` (a column left out), 1 with no model answer. No rows yet.
+  - **Throughput:** job 337 called the worker 6 times in 30 minutes, and the model reads of RMIT pages exceed the call's time budget. This is the existing route's throughput, flagged to S2-AER. Admission, publication and consumer read-back for RMIT are pending these reads.
+- **Academic entry, unsupported structures:** 7 PDF providers recorded as `HELD:READER_RELEASE_REQUIRED` (pattern `reader_config:aer_matrix:pdf_layout_unproven`). They are not proposed again until the stored copy changes.
+- **Scholarships (production):**
+  - 123 zero-item pages recorded as `HELD:NOT_A_LISTING` for the scholarship owner.
+  - 2 provider proposals qualified at 13:52 on stored copies (link hosts). Neither gained an item, so both are `HELD:READER_RELEASE_REQUIRED` and prevented from repeating on the same copies.
+  - No scholarship configuration has qualified yet, so activation (held for the Platform Admin) has not been exercised in production.
+- **Knowledge (s1292 store):** 133 outcomes so far, 1 successful.
+- **Guards:** G3 75/48, locks and cron unchanged (all migrations' post-checks passed). No new job; $0 at qualification.
+- **Next for this lane:**
+  - watch the RMIT re-reads to admission and consumer read-back, then the next proposals each cycle;
+  - for scholarships, extend the qualified configuration options where stored copies show the reason (listing cards without award words), as a governed reader release.
+
 **S2-Build, 27 Nov 2026 13:10 AEDT: s1303 merged and deployed (Pilot #1724, migration `20261130143000`, worker v1.0.57); live correction and s1304 (scholarships) recorded before merge.**
 - **s1303 live read-back (12:58 AEDT):**
   - The functions are present.
