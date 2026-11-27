@@ -1440,3 +1440,6 @@ Record only. No Pilot change, setting, re-read or admission (US$0). No canonical
   3. Curtin and UWA: a person confirms in Layer 4, or a source-level printed-level reading is added if the stored PDF or page prints one.
 - **Consumer:** nothing changed, so there is nothing new to read back.
 - 27 Nov 2026 16:40 AEDT, S1-Build: D12 approved by the Platform Admin. s1313 is in release (Pilot branch `s1-build-s1313-sch-listing-picker`): a narrow production recovery exception to the development freeze, not a lift of it. The rolled-back rehearsal (run 45944753654) shows 362 of 437 due listing pages released for their free direct read; 74 pages at 45 providers stay held by eligibility and country. No cap, budget, reserve, share, on-demand control, hold, lock, job or setting is changed.
+
+## s1313 — AU AER review queue and parked exceptions (S1-AER-Claude, 27 Nov 2026 16:50 AEDT)
+- QUT, Newcastle, UniSQ and ECU parked as unsupported; ranked Layer 4 queue and owner routes in docs/platform/p0-aer-activation/2026-11-27-s1313-au-aer-review-queue-and-parked-exceptions.md. No data change; consumer unchanged.
