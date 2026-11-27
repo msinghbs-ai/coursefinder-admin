@@ -5735,3 +5735,6 @@ Record only. No Pilot change, setting, re-read or admission (US$0). No canonical
   2. `quote_not_on_page` (ALG Cuba, CIT Ghana and the other 22): needs a read-only comparison of the quote with the stored page text (accents, line breaks, the 120-character cut) before any change; S1-AER-Claude's `entry_inspect` can do it.
   3. Curtin and UWA: a person confirms in Layer 4, or a source-level printed-level reading is added if the stored PDF or page prints one.
 - **Consumer:** nothing changed, so there is nothing new to read back.
+
+## s1313 — AU AER review queue and parked exceptions (S1-AER-Claude, 27 Nov 2026 16:50 AEDT)
+- QUT, Newcastle, UniSQ and ECU parked as unsupported; ranked Layer 4 queue and owner routes in docs/platform/p0-aer-activation/2026-11-27-s1313-au-aer-review-queue-and-parked-exceptions.md. No data change; consumer unchanged.
