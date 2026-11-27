@@ -645,3 +645,12 @@ Standing authority for Firecrawl credits spent on calendar refresh, successor-ed
 5. **Reporting:** monthly credits used, pages refreshed, rows newly filled and credits per filled row in the existing admin metrics; a cap that blocked a legitimate refresh is reported with evidence.
 6. **Review:** the Platform Admin re-approves the allowance each October as one recorded line.
 7. **Unchanged:** auto-approval, qualifier rules and thresholds, blocked and excluded words; a refreshed calendar still qualifies and is approved before it fills anything. A passing test never switches anything on.
+
+## Chat coordination documents (SS-Programme-Control, 28 Nov 2026 09:10 AEDT)
+
+Each named chat has one permanent Google Drive document in M3 / Chats (folder `1kj4K_xTASrBBary5H3Ewspk-Gfq6ExPu`; protocol `00 — Chats operating protocol`).
+Programme Control writes the latest assignment with a unique instruction ID; the lane acknowledges it, writes its own latest outcome, and appends every
+material instruction, result and decision to the document's chronological history (never replaced or erased). Read it on every engagement, resume and
+active checkpoint; record outcomes at material checkpoints, hourly during active work and at session end. It is a coordination mirror: GitHub, this
+repository's records, the central handover, the feedback registers and production controls stay authoritative, and a document starts no session.
+A lane that cannot edit its document reports that exact blocker and records in the existing handover (S1-Build, 28 Nov 2026: read-only access).
