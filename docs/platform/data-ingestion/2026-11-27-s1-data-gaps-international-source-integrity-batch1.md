@@ -112,3 +112,55 @@ Limit: a relinked page is proved for identity, not audience. The audience proof 
 **Finding for S1-Build (shared, not changed here):** 5,031 requests platform-wide are held `no_route`, and the year-rollover rule cannot follow a host change or a year range (WSU `handbook.` to `hbook.`). Both belong to the shared source-selection work.
 
 **Access:** this session still cannot open provider pages (fetch approval unanswered; Swinburne's site returned an error). Public search extracts are used only to choose what to verify. No page was admitted from them.
+
+## 12. Batch 3: why the 227 were not taken, the fix (s1306), no_route classification and WSU findings (27 Nov 2026, 13:07 to 13:30 AEDT)
+
+SS-Programme-Control 13:07 AEDT: S1-DG-6 disposition A plus bounded C under #1271; B optional where access exists (it does not here). No new spend, no protected activation. Independent check at 13:05: 227 still queued, four later course-relink runs succeeded with no recovery, 265 relink requests queued platform-wide, 5,026 held `no_route`.
+
+### 12.1 Trace (live reads through the rolled-back probe route, 13:15 to 13:30)
+
+| Step | Function or object | Finding |
+|---|---|---|
+| Eligibility | `security.work_item_eligible_v1('course_relink', provider, 'relink')` | Not the cause. The four providers' `course_relink` work items are stage `done` (eligible); lane not paused; `wc.relink_fair_on` = 1. |
+| Asked signal | `security.source_proof_relink_asked_v1(course, since)` | Not the cause. A queued relink request newer than the last relink decision counts as asked, so a course with an old row is selectable again. |
+| Order | `security.course_relink_order_v1()` | Counts a provider's pages only when `read_status` is in `relink.statuses` (`identity_mismatch`, `identity_refused`, `page_refused`, `refused_host`, `not_course_page`) or the page is on a retired host. |
+| Selection | `security.course_relink_provider_v1()` | Same page test. The cohort's pages are `fetch_failed`: 186 HTTP 404, 1 no status; plus 31 read HTTP 200 (the audience suspects) and 1 unread. A dead page is on no list, so nothing in the cohort was ever selected. |
+| Settlement | `security.course_relink_tick_v1()` step 2 | 156 cohort courses already had a relink row `trying` (Swinburne 134, WSU 22, started 18 Oct to 18 Nov). Their search rows were reset to `queued`, cand_idx 0, candidates kept, on 12 Nov by a person's Find course pages task (`provider_task_prepare_v1`). Step 2 moves on only a search row in state `found`; the paid title search cannot send (course page search share left today: 0). Nothing could move them. |
+
+Cohort page state (227): fetch_failed/404 186, read/200 31, fetch_failed/no status 1, unread 1 (the 8 not listed are courses with no page row). Swinburne's dead pages are 2020 course-planner PDFs (164, `/app/web-course-planners/files/...`); WSU's are `/future/study/courses/<level>/<slug>` addresses (35) where the level folder does not fit the course.
+
+### 12.2 Fix: s1306 (Pilot, migration `20261130153000`; three existing functions, no new queue, job, scheduler, table or setting)
+
+- A page whose read failed with HTTP 404 or 410 is due for relink while a relink request is queued for its course. The request is the owner's release, so nothing is taken in bulk (1,029 other gone-page courses stay parked until their owners release them).
+- A course's relink does not bind an address its own earlier relink already tried (all candidates when it ended absent; otherwise those up to and including the page now bound), so a dead address is not bound again.
+- The md5 of the three live sources equals the s1196 text (checked before replacing); only these two changes differ. Shared with S1-Build (s1196 owner): both parts are additive and keep the retired-host rule.
+- Rehearsal (rolled back, live data, after the migration): Swinburne 105 courses given candidates, 15 absent (limit 120); WSU 24 trying, 2 absent (limit 60); CDU 0 and Kaplan Business School 0 (their pages are not gone pages; CDU 9 are held for other reasons). A page counts as recovered only when the reader proves the CRICOS code on a candidate page.
+
+### 12.3 The 5,025 held `no_route` requests by root cause
+
+| Root cause (page state) | Requests | Existing mechanism | Release rule |
+|---|---|---|---|
+| No page row | 1,686 | Site map and course page search (discovery, then search within its share) | Not relink; owners release by provider after the site map lists the provider's course pages |
+| Page read with identity | 1,665 | Not a source problem; the page is proved. Audience proof (S1-Build phase B, Pilot #1722) and the owner of the value held | Wait for audience inspection |
+| Page gone (HTTP 404/410) | 1,029 | Course relink (now able to take them, s1306) | Per provider in priority order, feedback institutes first; never all at once |
+| Fetch failed, other | 212 | Reader retry within its attempts | Reader's own retry |
+| Blocked / robots disallowed | 164 / 149 | Existing rendering or the provider's permitted route | Not relink; routed to S1-Build / S2-Build reader qualification |
+| Unread / too thin / needs render | 95 / 13 / 9 | Reader | Reader's own queue |
+| Inactive course / other | 3 | None | Leave |
+
+### 12.4 WSU and Swinburne findings (stored worker data)
+
+- WSU has three handbook shapes in stored data: `handbook.westernsydney.edu.au/<YYYY-YYYY>/programs/<slug>/` (2021-2022 to 2024-2025; 104 bound pages, 103 read HTTP 200 and proved by CRICOS code, so stale-year, not dead), the older `handbook.westernsydney.edu.au/hbook/course.aspx?course=` form, and the current `hbook.westernsydney.edu.au/programs/<slug>/` seen in provider-published links (one program page, plus the root). The year rollover (`course_relink_year_url_v1`) matches a single four-digit segment only, so a year range is never rolled; it also keeps the same host.
+- hbook is on the provider's own domain, but it is not on the provider's site map: discovery maps the recorded website host only (WSU mapped 29 Oct, 9,826 addresses, 53 course-like stored). No `provider_extra_domains` row exists for any of the four providers. Mapping hbook is the existing mechanism that lets relink find the current address from the provider's own list, with no URL guessing and no host replacement. Decision S1-DG-7.
+- Swinburne's recorded website is `https://www.swinburne.edu.au/international` (map 157 addresses, 69 kept). Stored verified pages show the current course form `/course/<level>/<slug>/` (188 `degree-pathway` and others proved by CRICOS code; 49 by exact title). Stored lists hold a title match for only 9 of the 176 courses, so relink depends on learnt forms (3 forms, rehearsed above).
+- CDU: 692 stored course-like addresses of the form `/study/course/<slug>-<code>?year=2026`; the 9 cohort courses are not gone pages (held for other reasons). Kaplan Business School: 48 stored addresses, `/courses/<slug>`; 4 courses, no title match.
+
+### 12.5 Decision S1-DG-7 (raised in the reply to SS-Programme-Control)
+
+Approve `hbook.westernsydney.edu.au` as an extra domain of Western Sydney University (`pipeline.provider_extra_domains`, a logged Platform Admin action), so discovery maps the current handbook and relink can take program pages from the provider's own list. No code change; withdraw by setting the row to `withdrawn`.
+
+### 12.6 Handed on
+
+- S1-Build: s1306 shares three of its functions (additive); phase B audience inspection (#1722) is the gate for every international or shared page; the `no_route` classification above; blocked and robots_disallowed pages (313) belong to reader qualification.
+- S2-Build: Swinburne `/course/<level>/<slug>/` (with banner switch), CDU shared selector with `?year=`, WSU handbook (`handbook.` year ranges, `hbook.` `/programs/<slug>/`), Kaplan `/courses/<slug>`: observed in stored worker data, unqualified.
+- Not done, with reason: no audience proof (needs #1722 or a person's access), so no link was corrected and no field recovery was routed yet.
