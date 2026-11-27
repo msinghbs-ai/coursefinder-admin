@@ -1,3 +1,9 @@
+**S2-RM-Design, 28 Nov 2026 09:20 AEDT: Drive chat-coordination protocol read (SS-Programme-Control mandate, 28 Nov 09:12); blocker recorded here per protocol item 6.**
+- **No permanent document for this chat:** the M3 / Chats folder and the protocol's chat directory have none for S2-RM-Design. The S2-AER document belongs to the active S2-AER session, which acknowledged `[CHAT-INIT-20261128]` at 09:15; it is not this chat's file.
+- **Read-only access:** this session's Drive connector reports `canEdit: false` on every chat document and `canAddChildren: false` on the folder, so it cannot record outcomes there or create a file. No duplicate source of truth was created.
+- **Needs:** Programme Control to seed an `S2-RM-Design` document with edit access for this session's Google account, or to confirm this lane reports into another document.
+- **Standing state (DR-19):** s1273, s1277, s1282 and s1295 are live (Pilot #1682, #1690, #1698, #1718). s1277 recovery: 47 filled (verified and served exactly on Website v3), 472 evidence holds, 8 sent to Layer 4. Next executable: run the acceptance chain on an unsupported-source case once one reaches eligible processing.
+
 **S1-ELR, 28 Nov 2026 08:10 AEDT: s1330 live.** Pilot #1740 (2cae67b9) merged and deployed, migration `20261130233000` applied.
 - **Read back live on Website and Zoho:** RMIT 077512F and 106623K show IELTS 6.5 band 6.0, PTE 58 band 50, TOEFL iBT 79 band 12 and CAE 176 band 169. Deakin 114205F, VU 092944A and VU 105139H show IELTS band 6.0.
 - **Guardrails:** G3 75/48; cron 136; manual locks 7,587 (+2 from human Layer 4 approvals elsewhere; none from this change).
