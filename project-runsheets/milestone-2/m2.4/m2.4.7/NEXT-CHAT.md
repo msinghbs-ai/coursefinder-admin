@@ -427,6 +427,28 @@ Live 11:11: G3 75/48; locks 7,585; active cron 134; Layer 4 pending 1,483.
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 27 Nov 2026 12:10 AEDT: Autonomous PIM reader lifecycle, academic entry (s1296), recorded before merge; s1297 (scholarships) claimed. SS-Programme-Control 11:27.**
+- **What it does:**
+  - **Detect:** held entry-matrix templates are detected on the existing entry-matrix read.
+  - **Reuse or propose:** an active provider reader configuration is reused, or one is proposed as a versioned Layer 2 source profile. The configuration is data only: the address country and registered `reading.entry_*` overrides.
+  - **Qualify:** each proposal is qualified on stored copies by the same worker code, with deterministic readers only (no model, no fetch, $0).
+  - **Activate:** a separate, audited step, only under the standing authority the class's knowledge pattern records (Charter item 1). Otherwise `HELD:ACTIVATION_AUTHORITY`.
+  - **Process:** held pages are read again through `admin_entry_matrix_reread`.
+  - **Learn:** every outcome goes into the s1292 recovery knowledge, with prevention and no-yield blocks.
+- **Structures the existing readers cannot prove** (14 PDFs) are held as `HELD:READER_RELEASE_REQUIRED`.
+- **Release:** migration `20261130123000`; worker v1.0.55; implementation record `docs/platform/2026-11-27-autonomous-pim-reader-lifecycle.md`.
+- **Live baseline:** 452 entry-matrix sources at 259 providers; 50 held_unparsed at 15 providers, including RMIT's 36 country pages.
+- **Rehearsal (rolled back, 12:03 AEDT):**
+  - RMIT proposal: 8 samples, 6 positive and 2 negative.
+  - Simulated sample reads: a model-dependent pass.
+  - Activation step: 35 pages re-queued; India resolved from the address.
+  - 13 PDF providers classified.
+- **Guards:** G3 75/48; locks and cron unchanged; no new job; $0 at qualification. Re-reads after activation use the existing entry_matrices route and its caps.
+- **For S2-AER:** the entry-matrix loop now carries an optional `reader_config` (`svc_entry_matrix_next` one key; worker `reader-config.ts`). Nothing changes when none is active.
+- **For S1-Build:**
+  - regenerate the TEST-REGISTER for `cf-247-s1296-reader-lifecycle-contract` (6 tests), per §3b;
+  - s1296 uses Layer 2 source profiles as the reader-configuration store, the store the #1271 design prefers. Please agree the shared interface before #1271's recipe replay uses the same profiles.
+
 **S2-Build, 27 Nov 2026 00:35 AEDT: DR-19 increments 2 to 4 (s1282) and Reported data issues R3 (s1285) live and accepted on production, desktop and phone (Pilot #1701, #1704, #1705, #1708).**
 - **Acceptance:** Deployed UAT run 45829529456 on production, both specs: desktop success, mobile success.
 - **s1282:**
