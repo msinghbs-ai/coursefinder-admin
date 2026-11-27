@@ -1,3 +1,8 @@
+**S2-RM-Design, 28 Nov 2026 10:10 AEDT ([PC-20261128-0938-S2-RM-Design]): s1335 claimed; Drive access cleared.**
+- **Drive:** the M3 / Chats document `S2-RM-Design` exists, and this session writes to it (verified 09:45). The 09:20 blocker below is cleared.
+- **s1335 (correctness fix to s1295):** the trace's `unsupported_website_structure` cause matched the bare word "unsupported", so description guard holds read as structure problems (at least 2,413 skipped attempts in the eight commonest reasons). The pattern is now structural only and excludes guard holds. Rehearsed on 25 guard-hold records: 1 misclassified before, 0 after.
+- **Acceptance:** with the corrected pattern, 0 open absences and 0 failed or skipped attempts are structure cases today, so no unsupported-source case is eligible yet.
+
 **S2-RM-Design, 28 Nov 2026 09:20 AEDT: Drive chat-coordination protocol read (SS-Programme-Control mandate, 28 Nov 09:12); blocker recorded here per protocol item 6.**
 - **No permanent document for this chat:** the M3 / Chats folder and the protocol's chat directory have none for S2-RM-Design. The S2-AER document belongs to the active S2-AER session, which acknowledged `[CHAT-INIT-20261128]` at 09:15; it is not this chat's file.
 - **Read-only access:** this session's Drive connector reports `canEdit: false` on every chat document and `canAddChildren: false` on the folder, so it cannot record outcomes there or create a file. No duplicate source of truth was created.
