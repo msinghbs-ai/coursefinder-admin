@@ -47,4 +47,14 @@ Before the change, both reads returned `min_band_score` null for every row.
 
 ## 4. After merge
 
-(Filled in by the closing record.)
+- **Merge and deploy:** admin #1336 (7003e154) merged first, then Pilot #1740 (2cae67b9). Deploy on merge succeeded at 07:59 AEDT, and migration `20261130233000` is applied.
+- **Live read-back, 08:05 AEDT, through `website_v2_course` and `zoho_v2_course`:** both reads match the rehearsal for all five courses.
+  - RMIT 077512F and 106623K: CAE 176 band 169; IELTS 6.5 band 6.0; PTE 58 band 50; TOEFL iBT 79 band 12.
+  - Deakin 114205F, VU 092944A and VU 105139H: IELTS band 6.0.
+- **Guardrails:**
+  - G3: 75/48, no drift. Active cron jobs: 136.
+  - Manual locks: 7,587. The migration's own check confirmed no lock changed; the +2 since 27 Nov are human Layer 4 approvals in other lanes.
+- **Feedback status for the register owner:**
+  - FB-6.C10-02, FB-6.C01-02, FB-6.C13-03, FB-6.C04-03 (092944A) and FB-4B.3-02 (105139H): verified corrected.
+  - FB-6.C02-02: already correct.
+  - FB-6.C06-03: held (CQU source exception).

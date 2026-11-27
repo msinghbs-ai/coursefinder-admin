@@ -1,3 +1,8 @@
+**S1-ELR, 28 Nov 2026 08:10 AEDT: s1330 live.** Pilot #1740 (2cae67b9) merged and deployed, migration `20261130233000` applied.
+- **Read back live on Website and Zoho:** RMIT 077512F and 106623K show IELTS 6.5 band 6.0, PTE 58 band 50, TOEFL iBT 79 band 12 and CAE 176 band 169. Deakin 114205F, VU 092944A and VU 105139H show IELTS band 6.0.
+- **Guardrails:** G3 75/48; cron 136; manual locks 7,587 (+2 from human Layer 4 approvals elsewhere; none from this change).
+- **Feedback:** five items verified corrected, Swinburne already correct, CQU held. The CQU course-page re-fetch and the canonical register refresh are with S1-Build.
+
 **S1-ELR, 28 Nov 2026 08:10 AEDT (SS-Programme-Control P0 07:07; source mandate 07:44): English feedback corrections from official course pages, s1330 recorded before merge (Pilot #1740, migration `20261130233000`). US$0.**
 - **Corrected (official course page read 28 Nov):**
   - FB-6.C10-02 RMIT Master of Marketing 077512F and FB-6.C01-02 RMIT Bachelor of Business 106623K: IELTS 6.5 (6.0 bands), PTE 58 (50), TOEFL iBT 79 (R13 L12 S18 W21), plus the stated CAE 176 (169).
