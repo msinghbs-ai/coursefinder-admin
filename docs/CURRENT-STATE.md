@@ -1,3 +1,16 @@
+**S1-ELR, 28 Nov 2026 08:10 AEDT (SS-Programme-Control P0 07:07; source mandate 07:44): English feedback corrections from official course pages, s1330 recorded before merge (Pilot #1740, migration `20261130233000`). US$0.**
+- **Corrected (official course page read 28 Nov):**
+  - FB-6.C10-02 RMIT Master of Marketing 077512F and FB-6.C01-02 RMIT Bachelor of Business 106623K: IELTS 6.5 (6.0 bands), PTE 58 (50), TOEFL iBT 79 (R13 L12 S18 W21), plus the stated CAE 176 (169).
+  - FB-6.C13-03 Deakin 114205F, FB-6.C04-03 VU 092944A and FB-4B.3-02 VU 105139H: IELTS band 6.0 added.
+  - Nine rows gained bands and two CAE rows were added; overall scores are unchanged and nothing is inferred.
+- **Already correct:** Swinburne 063366D and 088382J (the course page states IELTS only).
+- **Held:**
+  - CQU 084516K: the page refuses plain HTTP, and no course-page Firecrawl re-fetch can be started from this session (S1-Build).
+  - VU 092820B and 115486F: not read yet.
+  - Adelaide College: course not identified.
+- **Verification:** rolled-back rehearsal. Website and Zoho return the band minima for all five courses.
+- **Record:** `docs/platform/data-ingestion/2026-11-28-s1-elr-feedback-english-corrections-s1330.md`.
+
 **S1-Data-Gaps, 28 Nov 2026 07:48 AEDT (SS-Programme-Control 07:06, feedback and source integrity): no change; cause found for VU 092944A intake dates and decision S1-DG-8 raised. US$0, no Pilot change or PR.**
 - **Cause.** VU's own `/international` course pages are refused as shared pages by the pattern `/international(-students?)?/?$` (220 AU pages, 103 VU), so intake reading stops at `course_identity_unresolved` for 092944A. A VU-only line in `binding.identity_exceptions` was rehearsed (rolled back): 102 of 103 pass, 092944A proved. It waits for the Platform Admin (S1-DG-8).
 - **Verified, no change needed.** January is withdrawn on 092944A and not served. 115486F shows the registered total 135,200 and a derived annual 33,800; no Melbourne fee was copied. Batch 08 sources identity checked (UNE and TAFE Queensland on the right providers, no duplicates); apply not run yet (870 fees, 348 intakes as at baseline).
