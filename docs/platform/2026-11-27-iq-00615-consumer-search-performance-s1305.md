@@ -1,6 +1,6 @@
-# IQ-00615 Consumer Search Performance (s1302)
+# IQ-00615 Consumer Search Performance (s1305)
 
-S1-API-Frontend-Delivery, 27 Nov 2026, from SS-Programme-Control's 12:08 AEDT assignment. Pilot migration `20261130130000`, spec `cf-247-s1302-consumer-search-trigram-contract`.
+S1-API-Frontend-Delivery, 27 Nov 2026, from SS-Programme-Control's 12:08 AEDT assignment. Pilot migration `20261130140000` (renumbered from s1302 and 20261130130000: S1-Data-Gaps took both first), spec `cf-247-s1305-consumer-search-trigram-contract`.
 
 ## Finding
 The `search_master_page2` failure was not a probe timeout, pagination or ordering fault. It was a symptom of slow consumer free-text search.
@@ -15,7 +15,7 @@ The `search_master_page2` failure was not a probe timeout, pagination or orderin
 | Result correctness | Unchanged. Count and md5 of the matching course keys were equal before and after for bachelor (5,627), master (4,508), engineering (2,357) and nursing (360). The probe's page-2 md5 `1d6d5fcd` and the bachelor page md5 `8d633cd8` were equal on the live function before and in the rehearsal after. |
 
 ## Fix (G3 kept)
-Migration `20261130130000`: GIN trigram indexes `course_documents_title_trgm_idx` (course_title, 5.1 MB) and `course_documents_provider_name_trgm_idx` (provider_name, 3.6 MB) on `search.course_documents`, a fresh ANALYZE, and one recovery knowledge row. The other three arms already had indexes. No function, column, grant or result changes; the consumer API check (75 functions, 48 relations, no drift) runs before and after inside the migration, and `s57` is untouched (index-only; precedent `course_documents_title_lower_idx`). The probe, its budget and its acceptance check are unchanged: nothing was raised, reordered or weakened. S1-Build is informed because the same table serves the v2 reads they own.
+Migration `20261130140000`: GIN trigram indexes `course_documents_title_trgm_idx` (course_title, 5.1 MB) and `course_documents_provider_name_trgm_idx` (provider_name, 3.6 MB) on `search.course_documents`, a fresh ANALYZE, and one recovery knowledge row. The other three arms already had indexes. No function, column, grant or result changes; the consumer API check (75 functions, 48 relations, no drift) runs before and after inside the migration, and `s57` is untouched (index-only; precedent `course_documents_title_lower_idx`). The probe, its budget and its acceptance check are unchanged: nothing was raised, reordered or weakened. S1-Build is informed because the same table serves the v2 reads they own.
 
 ## Measured before and after
 Same expressions, same inputs, 5 rows a page, Australia. Before is live now (warm); after is the rolled-back rehearsal (the migration run inside the live transaction, then the real functions timed).
