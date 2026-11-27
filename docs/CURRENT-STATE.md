@@ -1,3 +1,15 @@
+**S1-ELR, 27 Nov 2026 17:10 AEDT (SS-Programme-Control P0 16:29): Australian English requirements delivery read and evidence-ready review pack. Read only; no Pilot change; US$0.**
+- **Readers running, nothing blocked:** `elr-det-sweep` 288 of 288 runs succeeded in 24 h (longest 8.2 s). Every stored course page and central English page has been read (both claims 0). `central-attach` 24 of 24.
+- **Canonical gain since 21 Nov 13:15:** AU courses with English 16,818 to 16,849 (**+31**). 87 AU courses carry rows written or re-verified by the governed routes (84 policy, 3 course page).
+- **Website and Creator verification:**
+  - Data Delivery measure: Website and Zoho each 21,039 matched of 21,334, 0 missing, 24 pending, 271 not applicable.
+  - 16 sampled AU gained courses read back through `website_v2_course` and `zoho_v2_course`: 16 of 16 match on both.
+- **Human decisions:** 55 AU university English readings wait in Universities › English; 28 would fill **315 AU courses**.
+  - Pack: `docs/monitoring/AU-ELR-REVIEW-PACK-2026-11-27.csv`. Suggested: approve 13 (178 courses), check 10 (86), reject 5 (51).
+  - Record: `docs/platform/data-ingestion/2026-11-27-s1-elr-au-english-p0-delivery.md`.
+- **Exceptions:** no central page 523 universities / 2,296 courses; no stored course page 5,346 AU courses; 0 band schemes on any central page.
+- **Guardrails:** G3 75/48; locks 7,585; cron 136.
+
 **S1-Data-Gaps, 27 Nov 2026 16:48 AEDT (SS-Programme-Control 16:30, P0 production data delivery): no change; evidence-ready AU review pack and relink exception recorded. US$0, no Pilot change or PR.**
 - **Canonical gains from this lane: none** (no writer; nothing admissible without a person or the reader). Relink took 164 of 227 (read 16:31); the reader has not read the bound candidates (152 found searches, 0 verified rebinds, 0 links changed). Recorded as the known reader exception; not investigated again.
 - **Waiting for a person (live reads, 16:31 to 16:45 AEDT):** AU `judgement_ready` items: 66 academic entry and 22 English. Group A: 33 Newcastle entry rows that are scholarship offers (recommend Reject). Group B: 33 entry rows from 20 providers (Platform Admin review). Group C: 17 clean English requirements; group D: 5 with conflicting readings (Curator). The other 835 AU entry items are technical blocks (completeness gate and nothing_to_admit) owned by S2-AER.
