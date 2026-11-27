@@ -1758,7 +1758,7 @@ Spec `cf-247-s1253-entry-pdf-table-page-scope-contract.spec.mjs`; test register 
 - **Guardrails:** G3 75/48, locks 7,585, cron count asserted unchanged; no job, schedule or register row changed; nothing dropped; US$0.
 
 
-### s1292: Academic entry study-level mapping recovery (S2-AER, 26 Nov 2026, about 22:55 AEDT; documents only; first recorded as s1280, a number S1-Build already holds for the audience rule)
+### s1292-AER: Academic entry study-level mapping recovery (S2-AER, 26 Nov 2026, about 22:55 AEDT; documents only; first recorded as s1280, a number S1-Build already holds for the audience rule)
 
 Assignment from SS-Programme-Control (26 Nov 22:09). Live cohort re-read at 26 Nov 22:15 to 22:50 AEDT; stored pages read from `entry_inspect` (worker v1.0.51, run 45808386521, hash verified). Pilot main `cd5e7af`, live migration head `20261130000000`; no migration, Pilot change, setting, source or data was changed. Spend US$0; no on-demand work opened.
 
@@ -1847,3 +1847,14 @@ Assignment from SS-Programme-Control (27 Nov 09:57 AEDT). Live reads 27 Nov 10:0
 
 Open: the AER selector and the other lanes do not yet call the retry check before a repeat. Only provider description and the controller gate consult it today. The next slice is for the lane owners: S2-AER for the AER selector.
 
+
+### s1296: AER selector, recovery signature and domestic-statistic drops (S2-AER, 27 Nov 2026, about 13:00 AEDT; recorded before merge; Pilot branch `s2-aer-u`, migration `20261130123000`, worker v1.0.55)
+
+Assignment from SS-Programme-Control (27 Nov 11:27 AEDT). S2-Build keeps the shared reader lifecycle; S1-Build keeps international source integrity. Number note: the study-level record first filed here as s1292 is now `s1292-AER` (S1-Build holds s1292 for operational learning; s1295 is Pilot's PIM DR19 migration).
+
+- **Findings (live, read-only).** The AI route was off 19 to 26 Nov (protected control). The flat 30-day timer then blocked every course touched in that window or superseded by the deterministic re-read, so the eligible AER pool read near empty. Genuine unread work is about 1,000 to 1,300 courses (page unproven at the first read, or D-R2 not read). 2,283 "page does not state it" reads are correctly held until the copy changes.
+- **E13 reconciled.** 120 reads made, 306 asks refused because the AI route was off (protected limit), 172 asks already handled, about 400 genuine incomplete reads. The 478 asks that never reached a read no longer count against the pilot total.
+- **Change.** `security.aer_first_read_state_v1` classifies every course (never read, not a read, no result, no row, page limit, row limit, incomplete read) and gives eligibility and a signature (bound copy and reader revision). `aer_schedule_courses_v1` reads from it, so an unchanged copy is not read again, the deterministic outcome is respected, and a technical failure retries after `aer.schedule_technical_retry_hours`. The tick is clamped to `aer.schedule_paid_share` of the paid cap. Outcomes go to the existing `ops_remedy_knowledge` (`aer_first_read:*`). Eleven G2 settings. No cron, lock, consumer object or setting value changed; G3 75/48 held.
+- **Worker v1.0.55.** A dropped domestic cut-off statistic (median, lowest, highest, cut-off, entry score range, with no requirement word and no international, English test, visa or "or equivalent" wording) is recorded as `domestic_route_statistic` and no longer holds the read. Live measure: 124 of 1,331 incomplete reads drop only such statistics; 79 more are mixed.
+- **Evidence for S2-Build (item 6).** The remaining 1,331 incomplete courses (264 providers, most at UQ, UTS, UNSW, RMIT, Flinders) drop quotes that are not contiguous on the page: heading or label prefixes, stitched table cells, ellipsis joins, paraphrases. A reader that keeps one contiguous on-page quote per requirement is needed. 198 more are shared-page cases and 294 corrected reads were refused as still incomplete.
+- **Still open.** Feedback 3 to 6 course list, La Trobe 113570D (protected identity tie), Adelaide CRICOS check. Two unattended result-bearing cycles and consumer read-back follow the merge and are recorded in the next entry.
