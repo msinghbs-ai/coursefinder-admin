@@ -16,6 +16,7 @@
 - **Pack:** `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-au-review-pack.md` and `.csv` (88 rows with Layer 4 item ids). Drive copy in the shared folder.
 
 **S1-Data-Gaps, 27 Nov 2026 13:50 AEDT: s1306 live and read back (Pilot #1726, merge `b2aac678`, migration `20261130153000`; Admin #1292 merged first).**
+- **s1327 (S1-Build, 28 Nov 2026 07:35):** UNE and TAFE Queensland HTML fee schedules (fee-schedule-etl v0.9.0, migration `20261130223000`), in release. Record `docs/platform/2026-11-28-s1327-batch08-fees-and-intakes.md`.
 - **s1326 (S1-Build, 28 Nov 2026 00:10):** structured intake direct transport from the DOT pickup folder (no admin commit per batch), in release. Contract `docs/intake/README.md`.
 - **s1324 and s1325 (S1-Build, 27 Nov 2026 23:20):** Cloudflare reader deployment, gate and benchmark (migration `20261130213000`, worker v1.0.61; deployment waits for the token to reach Techm only) and the course partial admission pass's own clock (migration `20261130220000`). DOT batch01: Avondale 059850D admitted (active). s1321, s1322 and s1323 live. Record `docs/platform/2026-11-27-s1324-s1325-cloudflare-deploy-and-course-partial.md`.
 - **s1322 and s1323 (S1-Build, 27 Nov 2026 22:40):** VU course-specific scholarship tiers (migration `20261130203000`) and the bounded scholarship listing picker (migration `20261130210000`) in release. Record `docs/platform/2026-11-27-s1322-s1323-scholarship-tiers-and-listing-picker.md`.
