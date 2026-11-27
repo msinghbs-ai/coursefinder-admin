@@ -2020,3 +2020,13 @@ Record only. No Pilot change, setting, re-read or admission (US$0). No canonical
 
 ## s1313 — AU AER review queue and parked exceptions (S1-AER-Claude, 27 Nov 2026 16:50 AEDT)
 - QUT, Newcastle, UniSQ and ECU parked as unsupported; ranked Layer 4 queue and owner routes in docs/platform/p0-aer-activation/2026-11-27-s1313-au-aer-review-queue-and-parked-exceptions.md. No data change; consumer unchanged.
+
+### P0 Australian production data delivery (S2-AER, 27 Nov 2026, about 16:50 AEDT; SS-Programme-Control 16:29)
+
+No Pilot change, per-university CI or unchanged read. Known blockers (RMIT matrix time limits, D-R3 drops, Curtin and UWA levels, QUT PDFs) were not re-investigated; they are in the entries above.
+
+- **Actual canonical gains since 13:00 AEDT (entry requirements, existing readers):** 1,567 active course rows on 394 courses across 35 providers, plus 121 proposed rows to Layer 4 (cycles 611 and 612 and the $0 deterministic and AI readers). No matrix rows admitted.
+- **Selector now:** 4,755 courses without an entry row; 123 eligible (all Australian: UNSW 43, UTS 31, Flinders 24, UQ 9, Monash 9, UWA 7). Everything else is held for an unchanged copy, an unchanged reader, a bound page (course-link work) or a Layer 4 decision.
+- **HELD:BUDGET_GATE (Charter d):** run 614 (16:13 AEDT) refused: US$5.85 spent today across all lanes against the US$5.00 cap (UTC day, resets 11:00 AEDT 28 Nov). Entry matrices took US$3.63 of it (80 calls), mostly RMIT re-reads that failed on model and worker time limits and admitted 0 rows; enrich fields took US$2.87; entry reading under the selector US$2.61. The 123 eligible courses read in the first tick after the reset. The RMIT cost is the reason the unblock request (`entry.matrix_slice_concurrency` 6 to 12, in the AER-FU-12 entry) matters: until it is applied each retry spends the cap for no row.
+- **Human decisions prepared:** Curtin 35 and UWA 194 complete matrix rows (level not printed) and QUT's 108 courses with 246 extra proposed rows are Layer 4 items with their evidence attached; Newcastle's 41 scholarship-wording rows are Reject candidates.
+- **Verification:** `website_v3_course` serves the new entry rows (ANU course `course:cricos:00120c:119048g`, country IN: `entry`, `entry_requirements` and `english_requirements` keys, the quoted GPA 4.5/7.0 row). `zoho_edge_course_lookup_v1` (frozen v2) carries no entry field, so Zoho Creator is unchanged by design.
