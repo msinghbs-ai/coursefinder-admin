@@ -1,3 +1,14 @@
+**S1-ELR, 28 Nov 2026 10:20 AEDT: instruction PC-20261128-0931-S1-ELR acknowledged at 09:55 AEDT (the S1-ELR Drive chat document is read-only to this account, so outcomes are recorded here). s1336 recorded before merge (Pilot #1743, migration `20261201023000`).**
+- **Swinburne Bachelor of Business 063366D and 088382J (FB-6.C02-02):** the official international English page's row "Undergraduate: other bachelor degrees" (the course page refers to it) gives PTE 50 (50), TOEFL iBT 64 (R13 L12 S18 W21) and CAE 169 (169). These are added, insert only.
+  - The stored elr-central reading of that page was misaligned (PTE 66) and was never used.
+  - The approved policy 94f140fa gives IELTS only.
+- **VU 115486F (FB-4B.3-02):** the course page names CRICOS 105139H and 115486F and states IELTS 6.5 with no band less than 6.0. Band 6.0 is added. No PTE is stated, so none is added.
+- **VU 092820B (FB-6.C04-03):** verified. IELTS 6.0 with 6.0 bands comes from its own course page (CF-245, 29 Sep), and Website and Zoho return IELTS 6.0 band 6.
+- **Adelaide College (FB-6.C07-04):** identified as provider record 03127E (Murdoch College / The University of Adelaide College / Kaplan International College Adelaide). It has two "Diploma of Business" courses, 113489H and 069094G, and no "Diploma in Business Studies". Exact course identity is held for the register owner.
+- **CQU 084516K:** stays with S1-Build (backend Firecrawl course-page re-fetch).
+- **The 55 policy decisions:** still waiting for a person.
+- **Rehearsal:** Website and Zoho return the new tests and bands. US$0.
+
 **S2-RM-Design, 28 Nov 2026 10:10 AEDT ([PC-20261128-0938-S2-RM-Design]): s1335 claimed; Drive access cleared.**
 - **Drive:** the M3 / Chats document `S2-RM-Design` exists, and this session writes to it (verified 09:45). The 09:20 blocker below is cleared.
 - **s1335 (correctness fix to s1295):** the trace's `unsupported_website_structure` cause matched the bare word "unsupported", so description guard holds read as structure problems (at least 2,413 skipped attempts in the eight commonest reasons). The pattern is now structural only and excludes guard holds. Rehearsed on 25 guard-hold records: 1 misclassified before, 0 after.
