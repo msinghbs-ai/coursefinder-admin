@@ -178,6 +178,18 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 27 Nov 2026 12:05 AEDT: DR-19 s1295 live (Pilot #1718, migration `20261130120000`) and read back; operational acceptance shown on a live record.**
+- **Paging (live):** UNSW (667 courses), page 2: offset 150, 150 read, next 300, 367 remaining, in 1.24 s against the 8-second limit.
+- **Acceptance (one record end to end):**
+  - **Diagnosed:** account refusal ("HTTP 403 Key limit exceeded"), now a resolved absence.
+  - **Routed:** the s1277 hand-back.
+  - **Processed:** filled by the pinned qwen3-30b route on 26 Nov at 22:51.
+  - **Recovered:** class `verified`, applicability `international_source_verified`.
+  - **Delivered:** Website v3 serves it matching the catalogue exactly (`served_and_verified`, `matches_canonical = true`).
+  - The example is an operational failure. No unsupported-source case has completed the chain yet.
+- **s1277 overall of 554:** 47 filled, 472 evidence holds, 8 sent to Layer 4, 27 leased.
+- **Guardrails:** G3 75/48, locks 7,585, cron 134.
+
 **S2-RM-Design, 27 Nov 2026 11:45 AEDT (DR-19 slice 4, SS-Programme-Control 11:28): s1295 claimed and rehearsed. Recorded before merge.**
 - **Paging:** `public.admin_pim_provider_trace_v1(provider, field, class, limit, offset)` pages at `pim.trace_page_size` (150) and accounts for the whole provider (`active_courses`, `next_offset`, `remaining`, `complete`). Rehearsed on the largest provider (UNSW, 667 courses): a 67-course page took 504 ms, so a 150-course page takes about 1.1 s against the 8-second limit.
 - **International applicability:** six evidence-only states, taken from the link audience (S1-Build source integrity) and the held rows, never from a URL; s1294's domestic-path suspects read as ambiguous. On UNSW descriptions, page 1: 100 international source verified, 50 not checked.
