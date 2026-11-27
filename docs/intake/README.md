@@ -13,6 +13,23 @@ A research or processing worker (DOT first, later the Cloudflare reader) puts it
 3. The governed writer `public.svc_structured_intake_v1` stores each candidate once (submitter key and content key). The worker (coverage-sweep `intake_verify`) then proves the quotes. It reuses the stored copy; a page with no copy inside `aer.stale_source_days` is read once directly (robots.txt respected, $0) and kept as evidence. The decision uses the existing writers.
 4. Run the same workflow with action `list` to see each candidate's status. Run it with action `verify` to prove waiting candidates again.
 
+## Direct route from the pickup folder (s1326, 28 Nov 2026)
+
+The route needs no admin commit, pull request or CI (SS-Programme-Control 28 Nov 2026 00:01 AEDT).
+
+1. S1-Build collects a READY_FOR_PICKUP package from the submitter's Drive pickup folder.
+2. It checks the package manifest's sha256 for each ready file and leaves every `DO-NOT-SUBMIT` file out.
+3. It runs **Actions › Structured intake** with:
+   - action `submit`;
+   - file `drive/<submitter>/<batch>.jsonl`;
+   - `content` = base64 of the gzip of the file's bytes;
+   - `sha256` = the manifest's hash;
+   - `source` = `drive:<file id>`;
+   - `by` = who is acting.
+4. If the bytes do not match the stated sha256, nothing is sent.
+
+The source and hash are written to the writer's log (`by`). The writer, the submitter and content keys, the proof on stored copies and every decision are the same as the admin-commit route. The admin-commit route still works.
+
 ## Candidate contract (s1321)
 
 | Field | Rule |
