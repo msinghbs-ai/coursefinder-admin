@@ -1,3 +1,11 @@
+**S1-ELR, 28 Nov 2026 10:50 AEDT: s1336 live.** Pilot #1751 (9457b2ff) merged after admin #1349; deploy succeeded; migration `20261201023000` applied.
+- **Live read-back on Website and Zoho:**
+  - Swinburne 063366D and 088382J: CAE 169 band 169, IELTS 6.0 band 6, PTE 50 band 50, TOEFL iBT 64 band 12.
+  - VU 115486F: IELTS 6.5 band 6.0. VU 092820B: IELTS 6.0 band 6.
+- **Guardrails:** G3 75/48; cron 135; locks 7,587 (unchanged by this change).
+- **Totals today (s1330 and s1336):** 8 courses corrected, 10 rows given band minima and 8 rows added (2 RMIT CAE, plus 6 Swinburne PTE, TOEFL and CAE).
+- **Still held:** CQU 084516K (S1-Build re-fetch), Adelaide College identity, and the 55 university readings (person).
+
 **S1-ELR, 28 Nov 2026 10:20 AEDT: instruction PC-20261128-0931-S1-ELR acknowledged at 09:55 AEDT (the S1-ELR Drive chat document is read-only to this account, so outcomes are recorded here). s1336 recorded before merge (Pilot #1743, migration `20261201023000`).**
 - **Swinburne Bachelor of Business 063366D and 088382J (FB-6.C02-02):** the official international English page's row "Undergraduate: other bachelor degrees" (the course page refers to it) gives PTE 50 (50), TOEFL iBT 64 (R13 L12 S18 W21) and CAE 169 (169). These are added, insert only.
   - The stored elr-central reading of that page was misaligned (PTE 66) and was never used.
