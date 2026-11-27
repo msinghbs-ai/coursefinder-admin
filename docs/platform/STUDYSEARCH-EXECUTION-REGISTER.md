@@ -1021,6 +1021,23 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 28 Nov 2026 10:00 AEDT: s1333 (splitter) live (Pilot #1742, merged 09:01, worker v1.0.62); s1341 recorded before merge (Pilot branch `s2-s1341-candidate-window-free-first`, migration `20261201030000`). Instruction PC-20261128-0931-S2-Build.**
+
+- **Number collision:** S1-Build also used `s1333`, for the Batch 07 scholarship value corrections (migration `20261201014000`). Both rows stay in the plan. This lane's next change takes `s1341`.
+- **The 29 of 30 capped leases, traced live (rolled-back reads, 09:55 to 10:00 AEDT):**
+  - 1,959 candidate pages are due.
+  - Cap-blocked: 1,742 pages at 23 providers (AU 687, CA 1,055). Their paid read is refused by `security.fc_sch_held_v1`: 20 providers by the per-university cap, 3 by the spend rule.
+  - Readable either way: 217 pages at 5 providers (RMIT 191, UQ College 16, three others 10).
+  - In the last two hours, 0 candidates were read directly and 8 through Firecrawl (6 QUT, on demand).
+  - Cause: the window takes each country's oldest pages first, and the cap-blocked pages are older. The one-hour waiting-for-scraper retry returns them every hour, so RMIT's 191 (attempts 0, due, no refusal, no Firecrawl call since 25 Nov) and UQ College's 16 never reach the 600-page window.
+- **s1341 (the existing selector; no setting changed):**
+  - The candidate picker puts the pages of providers readable either way first.
+  - A provider whose paid read is refused, and which no open on-demand request covers, keeps its free direct read (DR-15) after them.
+  - Rehearsed rolled back: 30 leased in 1.26 s, every one readable — QUT 7 (on demand), UQ College 7, RMIT 7, the provider `864f2e01` 7, and 2 more.
+  - The picker contracts and the governance contracts pass locally.
+- **Proposal, not needed for this fix:** `retry.scholarship_waiting_scraper_hours` stays 1. The proposal for raising it (1 to 24) is recorded in the S2-Build Drive document with its population and rollback. It is no longer required for throughput after s1341, and nothing is changed without approval.
+- **UQ College's 14 false labels:** they leave through the existing lifecycle. When an award candidate is read, the v1.0.62 splitter no longer finds its section, so the read records `section_missing`, which the database rejects; no model is called. The next complete read of the hub marks those members as no longer present. Candidate 22521 and its holds are unchanged.
+
 **S2-Build, 28 Nov 2026 08:45 AEDT: s1332 live (Pilot #1741, merged 08:13; migration `20261201010000` applied); s1333 recorded before merge (Pilot branch `s2-s1333-award-field-labels`, worker v1.0.62, no migration).**
 
 - **s1332, read back live:**

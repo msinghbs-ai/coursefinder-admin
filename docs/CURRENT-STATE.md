@@ -826,6 +826,23 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 28 Nov 2026 10:00 AEDT: s1333 (splitter) live (Pilot #1742, merged 09:01, worker v1.0.62); s1341 recorded before merge (Pilot branch `s2-s1341-candidate-window-free-first`, migration `20261201030000`). Instruction PC-20261128-0931-S2-Build.**
+
+- **Number collision:** S1-Build also used `s1333`, for the Batch 07 scholarship value corrections (migration `20261201014000`). Both rows stay in the plan. This lane's next change takes `s1341`.
+- **The 29 of 30 capped leases, traced live (rolled-back reads, 09:55 to 10:00 AEDT):**
+  - 1,959 candidate pages are due.
+  - Cap-blocked: 1,742 pages at 23 providers (AU 687, CA 1,055). Their paid read is refused by `security.fc_sch_held_v1`: 20 providers by the per-university cap, 3 by the spend rule.
+  - Readable either way: 217 pages at 5 providers (RMIT 191, UQ College 16, three others 10).
+  - In the last two hours, 0 candidates were read directly and 8 through Firecrawl (6 QUT, on demand).
+  - Cause: the window takes each country's oldest pages first, and the cap-blocked pages are older. The one-hour waiting-for-scraper retry returns them every hour, so RMIT's 191 (attempts 0, due, no refusal, no Firecrawl call since 25 Nov) and UQ College's 16 never reach the 600-page window.
+- **s1341 (the existing selector; no setting changed):**
+  - The candidate picker puts the pages of providers readable either way first.
+  - A provider whose paid read is refused, and which no open on-demand request covers, keeps its free direct read (DR-15) after them.
+  - Rehearsed rolled back: 30 leased in 1.26 s, every one readable — QUT 7 (on demand), UQ College 7, RMIT 7, the provider `864f2e01` 7, and 2 more.
+  - The picker contracts and the governance contracts pass locally.
+- **Proposal, not needed for this fix:** `retry.scholarship_waiting_scraper_hours` stays 1. The proposal for raising it (1 to 24) is recorded in the S2-Build Drive document with its population and rollback. It is no longer required for throughput after s1341, and nothing is changed without approval.
+- **UQ College's 14 false labels:** they leave through the existing lifecycle. When an award candidate is read, the v1.0.62 splitter no longer finds its section, so the read records `section_missing`, which the database rejects; no model is called. The next complete read of the hub marks those members as no longer present. Candidate 22521 and its holds are unchanged.
+
 **S2-Build, 28 Nov 2026 08:45 AEDT: s1332 live (Pilot #1741, merged 08:13; migration `20261201010000` applied); s1333 recorded before merge (Pilot branch `s2-s1333-award-field-labels`, worker v1.0.62, no migration).**
 
 - **s1332, read back live:**
