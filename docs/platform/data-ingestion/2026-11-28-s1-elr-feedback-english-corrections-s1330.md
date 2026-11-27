@@ -70,3 +70,5 @@ The instruction was acknowledged at 09:55 AEDT, 28 Nov 2026. The S1-ELR chat doc
 | VU 092820B | **Verified.** IELTS 6.0 with 6.0 bands from its own course page (CF-245); Website and Zoho return band 6 |
 | Adelaide College | **Held: identity.** Provider record 03127E has "Diploma of Business" 113489H and 069094G; no "Diploma in Business Studies" |
 | CQU 084516K | **Held** with S1-Build for the backend course-page re-fetch |
+
+- **s1336 live (10:50 AEDT):** Pilot #1751 (9457b2ff). Website and Zoho return the Swinburne PTE, TOEFL and CAE rows and the VU 115486F band.
