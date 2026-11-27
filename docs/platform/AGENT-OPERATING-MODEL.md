@@ -653,4 +653,4 @@ Programme Control writes the latest assignment with a unique instruction ID; the
 material instruction, result and decision to the document's chronological history (never replaced or erased). Read it on every engagement, resume and
 active checkpoint; record outcomes at material checkpoints, hourly during active work and at session end. It is a coordination mirror: GitHub, this
 repository's records, the central handover, the feedback registers and production controls stay authoritative, and a document starts no session.
-A lane that cannot edit its document reports that exact blocker and records in the existing handover (S1-Build, 28 Nov 2026: read-only access).
+A lane whose Drive connector shows the document as view-only first tries the Google Docs connector, which can edit a document the account may write even when the Drive connector cannot (S1-Build, 28 Nov 2026 10:05: written that way); only a lane that still cannot edit reports that exact blocker and records in the existing handover.
