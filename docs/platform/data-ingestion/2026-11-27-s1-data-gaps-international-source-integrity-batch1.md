@@ -83,3 +83,32 @@ All five recipes are domain-scoped regexes (host plus an exclusion list). None c
 ## 10. Entry for the Drive reference (the connector edits file metadata only, so paste this into the International Course Source Integrity document)
 
 > **v1.1 | 27 Nov 2026 | S1-Data-Gaps batch 1.** Read-only. Swinburne 411 active, 172 without a current official link; CDU 175, 21; Kaplan Business School 34, 5; WSU 306, 29. 33 international-tagged links have domestic paths (Canberra Training School 17, Step Into 5, others 11), suspect only. Observed patterns, unqualified: Swinburne dedicated `/study/course/international/` plus banner switch; CDU shared URL with audience header and `?year=`; WSU shared handbook, current `hbook.` host, retired year paths. Identity suspects: WSU Graduate Diploma in Health Service Management (stale 2023-2024 path, same CRICOS); CDU Master of Engineering 107552A (3-year record on the 2-year page). No link or value changed; no spend. Next: worker-path verification (Decision S1-DG-5). Canonical record: `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`.
+
+## 11. Batch 2: S1-DG-5 disposition and executable recovery (27 Nov 2026, 12:00 to 13:00 AEDT)
+
+**Disposition (SS-Programme-Control 12:00):** option A under the existing source-integrity mandate; not a new spending or activation approval. Stored page evidence first, then free HTTP, then existing Firecrawl only where necessary.
+
+**What the stored worker data shows (read through the rolled-back rehearsal, $0).**
+
+| Provider | Bound page state | Parked requests (`source_proof_requests`) |
+|---|---|---|
+| Swinburne (411 active) | read 238 (CRICOS-proved 189, exact title only 49); **fetch_failed 165, every one HTTP 404 (dead address)**; identity mismatch 5; no page 4 | 176 held `no_route`; 9 locked; 1 relink done |
+| WSU (306 active) | read 265 (CRICOS-proved 241, title only 24); **fetch_failed 35, all HTTP 404 (retired year handbook paths)**; no page 5 | 38 held `no_route`; 9 locked |
+| CDU (175 active) | read 153 (CRICOS-proved 124, title only 29); identity mismatch 10; page refused 11 | 9 held `no_route`; 17 exhausted; 1 Layer 4 |
+| Kaplan Business School (34 active) | read 29; identity mismatch 3; page refused 2 | 4 held `no_route`; 5 relink done (`relink_absent`, 1 to 3 attempts) |
+
+**Named Feedback cases, from stored evidence (no page opened):**
+- **FB-6.C02-04 Swinburne Bachelor of Business 063366D and 088382J:** both are bound to one shared page, `/course/undergraduate/bachelor-of-business/` (088382J proved by CRICOS code, evidence ec75a7be; 063366D by exact title, e65252b3). Neither stored read proves the audience; the page is the shared form, not `/study/course/international/`. Verification pending.
+- **FB-6.C03-01 WSU:** Master of Health Science 064020M is bound to its course page by CRICOS code (evidence fb458668). Graduate Diploma 0101796 is a separate course bound to the retired 2023-2024 handbook path (evidence 0eb83389, now 404 on the host `handbook.`). The existing year rollover cannot repair it: the path holds a year range and the current handbook is on a different host (`hbook.`), which the rule refuses (same host only). Specialisation capture for 064020M stays with its owner.
+- **FB-6.C05-01 CDU Doctor of Pharmacy 111117H:** bound to `doctor-pharmacy-spha01` by CRICOS code (evidence b37f2c4b). The course exists and has its link; searching by provider code is a search request for Atlas and the frontend owner.
+- **FB-4A.7-01 CDU Occupational Therapy 118219A, 108296D, 0101041:** all three keep their own record and share one page (evidence 3a01ed5b, read 2 Nov); 118219A is proved by CRICOS code, 108296D by title. Nothing merged or relabelled.
+- **CDU Master of Engineering 107552A (156 weeks):** bound to `seng02` by exact title only, so its identity is unproven (not a proven mismatch).
+- **FB-5.3-25 and FB-5.3-30 Kaplan:** the 34-course provider and the separate Kaplan entities are read live by S1-Build. The five Kaplan Business School courses with no link (Diploma of Commerce, General English, IELTS Preparation, Postgraduate Qualifying Program, Undergraduate Qualifying Program): the first three have a candidate page on `kbs.edu.au/courses/` that the worker read directly (HTTP 200) and called an identity mismatch; the last two were matched to policy documents and refused. Three relinks found nothing, so they are not requeued (no unchanged futile retry).
+- **The 33 suspect links:** all 33 have a stored read (identity: 30 by exact title, 3 by CRICOS code); 11 are parked `no_route`. Their audience can be checked against the stored copy by S1-Build's worker verification. They are deliberately not requeued here.
+
+**Executable recovery released: s1302** (migration `20261130134500`, Pilot branch `s1-data-gaps-s1302`). One counted update moves the 227 parked requests at these four providers (Swinburne 176, WSU 38, CDU 9, Kaplan Business School 4) from held / `no_route` to the existing course relink route, queued. Course relink reads plainly (no model, no Firecrawl by this change), proves the exact CRICOS code, takes no candidate on a retired host and leaves hand-locked pages alone. No link, page, value, lock, job or setting is written by the migration. Rehearsed rolled back on live: 227 queued, cron 135, locks 7,585, consumer API 75/48.
+Limit: a relinked page is proved for identity, not audience. The audience proof remains S1-Build's worker verification (phase B).
+
+**Finding for S1-Build (shared, not changed here):** 5,031 requests platform-wide are held `no_route`, and the year-rollover rule cannot follow a host change or a year range (WSU `handbook.` to `hbook.`). Both belong to the shared source-selection work.
+
+**Access:** this session still cannot open provider pages (fetch approval unanswered; Swinburne's site returned an error). Public search extracts are used only to choose what to verify. No page was admitted from them.
