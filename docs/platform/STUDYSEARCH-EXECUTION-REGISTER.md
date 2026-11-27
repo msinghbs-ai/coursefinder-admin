@@ -997,6 +997,27 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 27 Nov 2026 13:10 AEDT: s1303 merged and deployed (Pilot #1724, migration `20261130143000`, worker v1.0.57); live correction and s1304 (scholarships) recorded before merge.**
+- **s1303 live read-back (12:58 AEDT):**
+  - The functions are present.
+  - No lifecycle step has run yet: the entry-matrix job (`security.entry_matrix_fire_v1`, job 337 every 5 minutes) calls the worker only while entry-matrix work is due. It made 0 entry_ai calls in 2 hours, so no proposal was made. RMIT's 36 pages are still held.
+- **s1304 corrects this:** job 337 runs the lifecycle step itself and counts queued qualification samples as due work (anchored, md5-guarded).
+  - Rehearsal (rolled back, on live s1303): the job's step proposed RMIT, with 8 samples due, and the worker call went out.
+- **s1304, scholarships, on the same lifecycle:**
+  - **0-item listing pages** (347 at 99 providers) are classed:
+    - help, status or application pages, and one award's own page (for example UPEI `display?awardid=`, or Wintec award pages under its own scholarship finder), are recorded once each as `HELD:NOT_A_LISTING` for the scholarship owner;
+    - other listings get a provider proposal. Rehearsal: 196 not a listing, 151 at 83 providers proposed.
+  - **Configuration** (data only): hosts the listing links its awards to, from links whose own words name an award, at least two per host.
+  - **Qualification:** on stored copies with the existing listing readers, before and after adding the hosts; no fetch, no model.
+  - **Activation:** its own step, held as `HELD:ACTIVATION_AUTHORITY`. No standing authority covers scholarship reader configurations; the Platform Admin can grant one through `security.ops_learning_eligibility_set_v1`.
+  - **No gain:** a listing that gains nothing is held as `HELD:READER_RELEASE_REQUIRED`.
+  - **Rehearsal:** samples leased for Langara and Western Sydney.
+- **Release:** migration `20261130150000`; worker v1.0.58.
+- **Guards:** G3 75/48; locks and cron unchanged; no job; $0.
+- **For S1-Scholarship-Claude:**
+  - not-a-listing records are outcomes of `reader_config:sch_listing:not_a_listing` (Recovery knowledge);
+  - an active configuration only adds hosts to the listing read; the listing record, candidates and admission are unchanged.
+
 **S2-Build, 27 Nov 2026 12:45 AEDT: reader lifecycle renumbered s1303 (academic entry) and s1304 (scholarships).**
 - **Why:** S2-AER merged Pilot #1719 as s1296, with migration `20261130123000` and worker v1.0.55, the numbers this lane had claimed at 12:10.
 - **New numbers:** migration `20261130143000`, worker v1.0.57. v1.0.56 is left for S1-Build s1298 (#1722).

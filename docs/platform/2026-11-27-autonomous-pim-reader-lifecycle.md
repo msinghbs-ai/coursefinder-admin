@@ -57,10 +57,12 @@ Same lifecycle on the scholarship listing reader:
 | Item | State |
 |---|---|
 | s1303 academic entry lifecycle (migration `20261130143000`, worker v1.0.57) | Built; rehearsed again 27 Nov 2026 12:44 AEDT after the renumber (same result); first rehearsal (rolled back) 27 Nov 2026 12:03 AEDT. The RMIT proposal took 8 samples (6 positive, 2 negative); simulated reads gave a model-dependent pass; the activation step switched it on; 35 held pages were re-queued; the address country resolved to India. 13 PDF holds were classified, needing a reader release. Pilot PR pending. |
-| s1304 scholarships | Next, in this lane |
+| s1303 release | Merged, Pilot #1724. Its step did not run until job 337 ran it (s1304 correction). |
+| s1304 scholarships (migration `20261130150000`, worker v1.0.58) | Recorded before merge. 0-item listings classed: 196 not a listing, 151 at 83 providers proposed. Configuration = added link hosts. Activation held (`HELD:ACTIVATION_AUTHORITY`). Job 337 now runs the academic entry step. |
 | Production acceptance (§8 of the assignment) | Pending release |
 
 ## Version history
 
 - v0.1, 27 Nov 2026: inventory and s1296 implementation record.
 - v0.2, 27 Nov 2026 12:45: renumbered s1303 and s1304 (S2-AER merged s1296 first).
+- v0.3, 27 Nov 2026 13:10: s1303 merged; the job-337 correction and s1304 scholarships recorded.
