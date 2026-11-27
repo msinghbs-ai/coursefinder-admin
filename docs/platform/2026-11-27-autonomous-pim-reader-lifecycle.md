@@ -28,7 +28,7 @@
 - Recovery knowledge (s1292).
 - `adapter_autobuilds`: 0 rows, course discovery only.
 
-## 2. The lifecycle (s1296, academic entry)
+## 2. The lifecycle (s1303, academic entry; claimed as s1296)
 
 | Step | Where |
 |---|---|
@@ -44,7 +44,7 @@
 
 **Unsupported structures with no configuration in the existing readers' capability** (the 14 PDF layouts) are held with `HELD:READER_RELEASE_REQUIRED`. The hold is recorded once per stored-copy set, for an AER v2 reader release.
 
-## 3. Scholarships (s1297, reserved)
+## 3. Scholarships (s1304, reserved; claimed as s1297)
 
 Same lifecycle on the scholarship listing reader:
 - **Detection:** listing pages read complete with 0 items, and failed or partial pages.
@@ -56,10 +56,11 @@ Same lifecycle on the scholarship listing reader:
 
 | Item | State |
 |---|---|
-| s1296 academic entry lifecycle | Built; rehearsed (rolled back) 27 Nov 2026 12:03 AEDT. The RMIT proposal took 8 samples (6 positive, 2 negative); simulated reads gave a model-dependent pass; the activation step switched it on; 35 held pages were re-queued; the address country resolved to India. 13 PDF holds were classified, needing a reader release. Pilot PR pending. |
-| s1297 scholarships | Next, in this lane |
+| s1303 academic entry lifecycle (migration `20261130143000`, worker v1.0.57) | Built; rehearsed again 27 Nov 2026 12:44 AEDT after the renumber (same result); first rehearsal (rolled back) 27 Nov 2026 12:03 AEDT. The RMIT proposal took 8 samples (6 positive, 2 negative); simulated reads gave a model-dependent pass; the activation step switched it on; 35 held pages were re-queued; the address country resolved to India. 13 PDF holds were classified, needing a reader release. Pilot PR pending. |
+| s1304 scholarships | Next, in this lane |
 | Production acceptance (§8 of the assignment) | Pending release |
 
 ## Version history
 
 - v0.1, 27 Nov 2026: inventory and s1296 implementation record.
+- v0.2, 27 Nov 2026 12:45: renumbered s1303 and s1304 (S2-AER merged s1296 first).
