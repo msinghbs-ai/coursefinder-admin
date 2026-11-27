@@ -58,3 +58,15 @@ Before the change, both reads returned `min_band_score` null for every row.
   - FB-6.C10-02, FB-6.C01-02, FB-6.C13-03, FB-6.C04-03 (092944A) and FB-4B.3-02 (105139H): verified corrected.
   - FB-6.C02-02: already correct.
   - FB-6.C06-03: held (CQU source exception).
+
+## 5. Instruction PC-20261128-0931-S1-ELR (s1336, Pilot #1743)
+
+The instruction was acknowledged at 09:55 AEDT, 28 Nov 2026. The S1-ELR chat document in Drive is read-only to this account, so this record is the outcome.
+
+| Item | Outcome |
+|---|---|
+| Swinburne Bachelor of Business 063366D, 088382J | **Corrected.** The official "Undergraduate: other bachelor degrees" row adds PTE 50 (50), TOEFL iBT 64 (R13 L12 S18 W21) and CAE 169 (169), insert only. The stored central reading was misaligned (PTE 66) and was not used |
+| VU 115486F | **Corrected.** IELTS band 6.0 added; the course page names both 105139H and 115486F. No PTE is stated on the page, so none is added |
+| VU 092820B | **Verified.** IELTS 6.0 with 6.0 bands from its own course page (CF-245); Website and Zoho return band 6 |
+| Adelaide College | **Held: identity.** Provider record 03127E has "Diploma of Business" 113489H and 069094G; no "Diploma in Business Studies" |
+| CQU 084516K | **Held** with S1-Build for the backend course-page re-fetch |
