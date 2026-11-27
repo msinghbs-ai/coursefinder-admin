@@ -746,6 +746,16 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 27 Nov 2026 12:45 AEDT: reader lifecycle renumbered s1303 (academic entry) and s1304 (scholarships).**
+- **Why:** S2-AER merged Pilot #1719 as s1296, with migration `20261130123000` and worker v1.0.55, the numbers this lane had claimed at 12:10.
+- **New numbers:** migration `20261130143000`, worker v1.0.57. v1.0.56 is left for S1-Build s1298 (#1722).
+- **Rehearsed again** (rolled back, 12:44 AEDT), with the same result as before:
+  - RMIT proposal: 8 samples;
+  - a model-dependent pass from simulated sample reads;
+  - the activation step re-queued 35 pages;
+  - India was taken from the page address.
+- **PRs:** Pilot #1720 closed; a new Pilot pull request follows.
+
 **S2-Build, 27 Nov 2026 12:10 AEDT: Autonomous PIM reader lifecycle, academic entry (s1296), recorded before merge; s1297 (scholarships) claimed. SS-Programme-Control 11:27.**
 - **What it does:**
   - **Detect:** held entry-matrix templates are detected on the existing entry-matrix read.
