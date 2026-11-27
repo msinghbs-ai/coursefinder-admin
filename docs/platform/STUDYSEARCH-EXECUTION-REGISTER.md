@@ -1021,6 +1021,33 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 28 Nov 2026 08:45 AEDT: s1332 live (Pilot #1741, merged 08:13; migration `20261201010000` applied); s1333 recorded before merge (Pilot branch `s2-s1333-award-field-labels`, worker v1.0.62, no migration).**
+
+- **s1332, read back live:**
+  - Picker definition md5 `470411a9…`.
+  - Every `scholarship_discover` call since 08:10 returns 200 and leases 30 candidates. Before the change, every call since 27 Nov 20:00 failed with a statement time-out.
+  - Of each 30 leased, 29 wait for a paid read: those providers are held by their paid Firecrawl limits (1,655 `university_cap` refusals in two days). See the decision below.
+- **QUT listing 1429, recovered:**
+  - Read at 08:23 through the on-demand request `272c1e34` (open until 14:14 AEDT, cap 150 units).
+  - 6 pages read, 63 items and 63 members (was 30), state partial; it continues at 09:23 by the existing partial retry.
+  - 17 new QUT candidates.
+  - First candidate reads through Firecrawl: 1 read and waiting in the AI queue, 1 duplicate of an admitted record.
+  - Firecrawl used so far: 8 units of 150 (`sch_scrape`, within the monthly plan, US$0 marginal).
+- **UQ College hub (listing 2412), read directly at 08:22 ($0), complete:**
+  - 20 items. The real awards are Integrated English Scholarship (award section), UQ English Language Scholarship (link to UQ's award, already held under UQ as 09c117a6; the duplicate rule applies), and the 2027–2028 Integrated English block.
+  - **Defect found:** the s1037 label splitter also read the "Scholarship value" fee tables as 14 "awards" named by their rows ("Scholarship value - $8,585.00").
+  - 15 UQ College award candidates were created (1 real, 14 from the defect). None is read yet: UQ College is tier 3, and the window is filled by tier 0 and 1 candidates that wait for paid reads.
+  - Candidate 22521, the provider type and the holds are unchanged; the migration checks 22521 byte for byte.
+- **s1333 (fix for the defect above):**
+  - `catalogue.ts labelSections`: a label that names a field of an award ("Scholarship value", "Award amount", "Scholarship eligibility" and the like) is part of the award above it, and a table cell is never a tier.
+  - A regression case reconstructing UQ College is added to the s1037 spec (same guard). S1-Build: the test register needs regenerating (one test added).
+  - The s1037, s1035 and s1051 splitter specs and the 181 specs that read the worker source pass locally (browser-only specs need the dev server, which this sandbox lacks; CI runs them).
+  - Worker v1.0.62 (v1.0.61 was the latest). S1-Build is told of this shared runner change in this entry and in the handover.
+  - The 14 defect candidates already created take the normal read and admission route; they cannot be admitted under UQ College while its provider-type hold stands. The next weekly read of the hub no longer lists them.
+- **Decision for the Platform Admin (not changed here):** `retry.scholarship_waiting_scraper_hours` is 1.
+  - About 1,500 candidates of providers held by their paid limits re-enter the 600-row window every hour. The free direct read fails for nearly all of them (29 of 30 per call), so readable lower-tier candidates (UQ College, tier 3) do not get a turn.
+  - Raising the setting, for example to 24, would free the window. It is a platform-wide scheduling value, so it is left for a decision.
+
 **S2-Build, 28 Nov 2026 08:05 AEDT: s1332 recorded before merge (Pilot branch `s2-s1332-scholarship-reader-recovery`, migration `20261201010000`, no worker change). Scholarship reader exceptions (SS-Programme-Control 28 Nov 2026 07:22 AEDT, P0).**
 
 - **Found live (rolled-back reads, DR-19 and the worker ledger):**
