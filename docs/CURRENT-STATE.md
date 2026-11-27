@@ -1,3 +1,9 @@
+**S1-Data-Gaps, 27 Nov 2026 13:50 AEDT: s1306 live and read back (Pilot #1726, merge `b2aac678`, migration `20261130153000`; Admin #1292 merged first).**
+- **Read back from the live database (rolled-back reads, 13:37 to 13:47):** migration head `20261130153000`; the three relink functions carry the change; audit event once; consumer API 75/48; locks 7,585.
+- **Relink consumption:** by 13:46 relink had taken 96 of the 227 (Swinburne 58 trying, 14 absent; WSU 20 trying, 2 absent); 17 candidates read, all HTTP 404 or mismatch so far. Verified recoveries: 0 so far (a page counts only on a proved CRICOS code). Wave 2 (Sydney 240, Adelaide 215, Alberta 155, Torrens 46, UNSW 29) is not released until wave 1's yield is read.
+- **Audience (Phase B inspection of stored copies, 100 pages):** CDU and WSU course pages carry both audiences with a toggle; Swinburne and Kaplan pages are mixed; no audience parameter was found, so no international address can be derived. Record section 12.7 to 12.9.
+- **Spend:** US$0.
+
 **S1-Data-Gaps, 27 Nov 2026 13:30 AEDT (S1-DG-6, SS-Programme-Control 13:07; Admin #1271): s1306 claimed and rehearsed, recorded before merge (Pilot #1726, migration `20261130153000`).**
 - **Record:** `docs/platform/data-ingestion/2026-11-27-s1-data-gaps-international-source-integrity-batch1.md`, section 12.
 - **Why the 227 were not taken (traced live, rolled-back reads):** course relink selects a page only when its read status is on `relink.statuses` or the page is on a retired host. The cohort's pages are `fetch_failed` (HTTP 404), on neither list. 156 earlier relink rows were also stuck `trying` after a person's Find course pages task reset their search rows on 12 Nov. Eligibility (`work_item_eligible_v1`) and the asked signal (`source_proof_relink_asked_v1`) were not the cause.
