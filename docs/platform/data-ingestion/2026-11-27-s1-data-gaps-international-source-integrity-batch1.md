@@ -164,3 +164,29 @@ Approve `hbook.westernsydney.edu.au` as an extra domain of Western Sydney Univer
 - S1-Build: s1306 shares three of its functions (additive); phase B audience inspection (#1722) is the gate for every international or shared page; the `no_route` classification above; blocked and robots_disallowed pages (313) belong to reader qualification.
 - S2-Build: Swinburne `/course/<level>/<slug>/` (with banner switch), CDU shared selector with `?year=`, WSU handbook (`handbook.` year ranges, `hbook.` `/programs/<slug>/`), Kaplan `/courses/<slug>`: observed in stored worker data, unqualified.
 - Not done, with reason: no audience proof (needs #1722 or a person's access), so no link was corrected and no field recovery was routed yet.
+
+### 12.7 Read-back after deploy (27 Nov 2026, 13:37 to 13:47 AEDT)
+
+- **Live:** Pilot #1726 merged and deployed (merge `b2aac678`); migration head `20261130153000`; the three relink functions carry the gone-page and tried-address changes; audit event `relink_gone_pages` once; consumer API 75/48; locks 7,585; active cron 136 (other lanes; this change adds none).
+- **Consumption (course-relink runs at :04, :14, ...; first run after deploy 13:44):** by 13:46 relink had taken 96 of the 227: Swinburne 58 trying and 14 absent, WSU 20 trying and 2 absent. Cohort search rows moved from 18 found to 71 found (165 queued to 99). The reader had read 17 of the first candidates, all HTTP 404 (Swinburne 9, WSU 7) or an identity mismatch (WSU 1). **Verified recoveries so far: 0.** A page counts only when the reader proves the CRICOS code on the candidate page; the next runs take the rest (up to 200 a run).
+- **Wave 2 is not released.** Gone-page requests still held `no_route`, by provider: University of Sydney 240 (105 absent, 135 trying), Adelaide University 215 (retired host, s1196 route), University of Alberta 155 (CA), Torrens University 46, UNSW Sydney 29, Southern Institute of Technology 24, University of Western Australia 19, Bond 17. They are released per provider after the first wave's yield is read, so no unchanged futile retry is made (relink now leaves out addresses it already tried).
+
+### 12.8 Audience signals from stored copies (S1-Build Phase B, `audience-inspect` run 45929486962, read only: no fetch, no model, no write; 100 pages)
+
+| Provider and template (courses with a page) | View on the stored copy | Code on page | Reading |
+|---|---|---|---|
+| CDU `/study/course/*` (158) | international and domestic toggle on every page sampled (4/4) | 3 of 4 | One shared page for both audiences; needs an explicit audience instruction (selector and `?year=`), not a swap of address |
+| WSU `/future/study/courses/{undergraduate,postgraduate,research}/*` (177) | toggle on all 11 sampled | 10 of 11 | Shared page with a toggle; same instruction rule |
+| WSU `handbook.` `/YYYY-YYYY/programs/*` (about 104) | international or mixed words, no toggle | 24 of 25 | Stale-year handbook copies; the current handbook is on `hbook.` (S1-DG-7) |
+| Swinburne `/course/{undergraduate,postgraduate,research,degree-pathway,tafe,inbound}/*` (233) | mixed (both audiences named), no toggle | 18 of 24 | Shared page; the international banner switch is not visible in the stored markup, so an instruction is needed |
+| Kaplan Business School `/courses/*` (32) | mixed 2, international 1, none 1 | 3 of 4 | Shared; thin |
+
+No sampled template exposes an audience query parameter, so no international address can be derived from a domestic one. Link integrity for these four providers is therefore "official, identity-proved, shared page" until S2-Build qualifies a template instruction; no link was changed on this evidence.
+
+### 12.9 Lessons retained (operational learning)
+
+- A relink selection list that omits gone pages starves exactly the courses that most need relink; a failed (404) page is a stronger reason to relink than a refused one.
+- A person's Find course pages task resets a search row to queued and silently strands a relink row in trying; relink must re-select such a course rather than wait on the search.
+- A repeat relink must leave out addresses it already tried, or a dead pattern guess is bound again.
+- Stored discovery lists cover the provider's website host only; a sibling subdomain the provider links to (WSU `hbook.`) needs the approved extra-domain route to be mapped.
+- Template audience on these four providers is shared (toggle or mixed); the audience instruction belongs to the template qualification (S2-Build), not to a per-course link swap.
