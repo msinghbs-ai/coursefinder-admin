@@ -42,6 +42,11 @@
 - **Not yet shown:** four minutes after deploy the relink job had not yet taken the queued requests. The earlier relink rows were unchanged in shape (Swinburne 140 trying, 29 absent, 1 found; WSU 28 trying, 10 absent, 3 found; CDU 22 absent; Kaplan Business School 5 absent). No relinked or rebound page is claimed. Next read: relink outcomes per provider, then the pages bound by CRICOS proof.
 - **Spend:** US$0. **Test register:** `cf-247-s1302-s1-data-gaps-relink-priority-providers-contract`, 3 tests.
 
+**S1-API-Frontend-Delivery, 28 Nov 2026 09:30 AEDT (SS-Programme-Control 07:07, consumer data accuracy): read only, nothing changed.**
+- RMIT 077512F and Deakin 114205F still serve wrong entry values on Website v3 and Zoho v3; the cause is source rows (audience `all` on a domestic CSP minimum; Weighted Average Marks stored as entry minimums), owner S2-AER; D9 does not fix either.
+- Scholarships are not filtered by the reader's country on either consumer (RMIT 10 awards, Deakin 4, identical for every country); needs the Platform Admin's G3 approval.
+- UNE and TAFE Queensland (s1327) fees are rehearsed only; the live UNE fee is 2026. No feedback item verified closed. Record: `docs/platform/2026-11-28-consumer-data-accuracy-acceptance.md`.
+
 **S1-API-Frontend-Delivery, 27 Nov 2026 13:30 AEDT (SS-Programme-Control 12:08, IQ-00615 Consumer Search Performance): s1305 built and rehearsed, recorded before merge (Pilot migration `20261130140000`).**
 - **Cause:** not the probe timeout. The frozen consumer free-text search had no index for its `course_title` and `provider_name` ILIKE arms and read every Australian row of `search.course_documents` (46% dead space); cold it took 3.4 to 7.7 s, so the probe's shared 6 s budget skipped `search_master_page2`. Real consumers saw website v2 search p95 10.0 s and v3 p95 17.3 s over 7 days.
 - **Fix:** two GIN trigram indexes (index only; G3, 75 functions and 48 relations, unchanged; probe, budget and check unchanged). Rehearsal: Zoho master page 2 1,733 to 596 ms, bachelor 2,306 to 678 ms, website v2 master 1,785 to 555 ms, identical results. Lesson `consumer_search:unindexed_free_text:latency` in the recovery knowledge. Design note `docs/platform/2026-11-27-iq-00615-consumer-search-performance-s1305.md`.
