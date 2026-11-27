@@ -191,6 +191,7 @@ Applies to all implementation lanes, not just Portal. Platform Admin/Atlas brief
 | `s1290` | S1-Build (Platform Admin D10, 27 Nov 2026) | Permanent rollup scheduler fix in `security.rollup_tick_v1` (now held in the repository; capture md5 `36a8d4f3`).
 | `s1291` | S1-Build (Platform Admin D11, 27 Nov 2026) | Holds of jobs 87 `scholarship-discover-refill`, 378 `calendar-reread` and 108 `firecrawl-runs` recorded in `pipeline.component_register` notes (decision, owner, replacement, dependency, spend) with a `hold_recorded` control event each. No cron row changes | Live (Pilot #1714, merged 09:06) |
 | `s1292` | S1-Build (SS-Programme-Control 27 Nov 2026 10:05, AOM v1.29, §6.8) | Operational learning in the existing recovery knowledge.
+| `s1294` | S1-Build (SS-Programme-Control 27 Nov 2026 10:48; design #1271 §7 and Phase A) | Mandatory closure learning in the existing harvest: engineering and human closures and release regressions are recorded once each in non-automatic closure patterns (rehearsed: 29, repeat 0). The course-link domestic-path signal is held as knowledge and the 33 suspect links raised for S1-Data-Gaps; no link changed | In release |
 - Eight lessons are held with 14 actual outcomes (9 successful, 5 failed; corrected from 10 and 4 at read-back), recorded once per evidence signature; none is automatic.
 - The existing retry check refuses the unchanged 115246M read and keeps D9 held.
 - `public.admin_ops_learning_v1` feeds Recovery knowledge under Platform health > Technical details | In release |
@@ -1317,4 +1318,21 @@ Assignment from SS-Programme-Control (27 Nov 09:57 AEDT). Live reads 27 Nov 10:0
   3. **Ineffective repeat prevented:** the retry check refuses the unchanged 115246M read; `record_capacity_profile` was refused 243 times in 7 days; 2 no-yield blocks are active.
   4. **Protected case held:** D9 is refused (admin authority); jobs 87, 108 and 378 remain off.
   5. **Unaffected production:** 0 failed scheduled runs out of 1,922 in the hour; Data Delivery current; G3 75/48; locks 7,585; cron 137; AI today $0.79.
+- 27 Nov 2026 11:40 AEDT, S1-Build (international course source integrity, design #1271 integrated; learning integration):
+  - **Phase A baseline (live, $0):** reconciled exactly with the design.
+
+    | Country | In scope | Tagged international | Untagged only | Missing current link | Tagged with an international URL marker | Tagged with a domestic URL marker |
+    |---|---|---|---|---|---|---|
+    | AU | 24,009 | 16,981 | 934 | 6,094 | 1,683 | 32 |
+    | NZ | 6,380 | 2,076 | 855 | 3,449 | 59 | 1 |
+    | CA | 3,829 | 1,974 | 778 | 1,077 | 16 | 0 |
+
+    - A URL marker is a signal, not proof; for example, "Building (Domestic)" is a qualification name.
+    - The rest of the tagged links are shared pages whose audience is unproven.
+    - AU's largest missing or untagged cohorts: Sydney 257/655, Newcastle 250/457, VU 249/279, Adelaide 246/499, Monash 223/584, UNSW 204/667, Swinburne 174/411, UTS 170/530.
+  - **Constraint found:** no stored page text is readable from the database. Captures sit in evidence storage and are read only by the worker. Audience verification needs the worker path (stored copy first, then $0 HTTP, then Firecrawl actions within the cap), which is Phase B.
+  - **s1294:** closure learning, plus IQ for the 33 suspect links (S1-Data-Gaps).
+  - **s1292 Recovery knowledge screen, authenticated production UAT** (Platform Admin, built-in browser, 10:55): the section renders under Technical details with 23 patterns (6 automatic), 190 outcomes in 7 days (172 successful), 2 blocks and 10 automatic recoveries.
+  - **Seen on Platform health:** IQ-00615 (P1, since 19 Nov). The consumer snapshot probe `search_master_page2` is skipped on its 6 s budget because `zoho_edge_course_search_v2` (frozen) ran 8.5 s in the rolled-back run. Owner: search (S1-API-Frontend-Delivery and S2-Build); not changed here.
+  - **S2-AER s1293** reclassifies document instructions (the 115246M row).
 
