@@ -178,6 +178,12 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 28 Nov 2026 09:20 AEDT: Drive chat-coordination protocol read (SS-Programme-Control mandate, 28 Nov 09:12); blocker recorded here per protocol item 6.**
+- **No permanent document for this chat:** the M3 / Chats folder and the protocol's chat directory have none for S2-RM-Design. The S2-AER document belongs to the active S2-AER session, which acknowledged `[CHAT-INIT-20261128]` at 09:15; it is not this chat's file.
+- **Read-only access:** this session's Drive connector reports `canEdit: false` on every chat document and `canAddChildren: false` on the folder, so it cannot record outcomes there or create a file. No duplicate source of truth was created.
+- **Needs:** Programme Control to seed an `S2-RM-Design` document with edit access for this session's Google account, or to confirm this lane reports into another document.
+- **Standing state (DR-19):** s1273, s1277, s1282 and s1295 are live (Pilot #1682, #1690, #1698, #1718). s1277 recovery: 47 filled (verified and served exactly on Website v3), 472 evidence holds, 8 sent to Layer 4. Next executable: run the acceptance chain on an unsupported-source case once one reaches eligible processing.
+
 **S2-RM-Design, 27 Nov 2026 12:05 AEDT: DR-19 s1295 live (Pilot #1718, migration `20261130120000`) and read back; operational acceptance shown on a live record.**
 - **Paging (live):** UNSW (667 courses), page 2: offset 150, 150 read, next 300, 367 remaining, in 1.24 s against the 8-second limit.
 - **Acceptance (one record end to end):**
