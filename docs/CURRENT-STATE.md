@@ -1,3 +1,13 @@
+**S1-ELR, 28 Nov 2026 11:05 AEDT: addendum PC-20261128-1018-S1-ELR acknowledged at 10:58 AEDT; the S1-ELR Drive chat document is still read-only to this account, so it is recorded here.**
+- **Container candidates:** 5 distinct stored AU English-requirement PDFs prepared for S1-Build's shared qualified container route (one slot, no duplicates). Each is already stored and read by `elr-central`, but no study-level value could be tied to it:
+  1. Flinders University: 119 gap courses, fact source `2d52f7f3`, `english-language-requirements.pdf`.
+  2. TAFE NSW: 91, `ba24e130`, `TAFE-International-English-Language-Requirements.pdf` (course bands table).
+  3. Macquarie University: 86, `4f399a5f`, `Schedule-1-English-Language-Admission-Requirements-for-Graduate-Research-Courses.pdf`.
+  4. The University of Sydney: 42, `fa8b5b6e`, `english-language-proficiency-tables.pdf`.
+  5. The University of Newcastle: 31, `f64681d8`, `English-Language-Proficiency-Procedure.pdf`.
+- **Left out:** the other 83 stored AU English PDFs are application or enrolment forms, flyers or policies with no test table, or have already been proposed.
+- **What happens to the output:** the container rows come back to the existing central English route (approval, the plan, insert only, regulated disciplines held in Layer 4). Nothing is written from them directly. US$0 so far.
+
 **S1-ELR, 28 Nov 2026 10:50 AEDT: s1336 live.** Pilot #1751 (9457b2ff) merged after admin #1349; deploy succeeded; migration `20261201023000` applied.
 - **Live read-back on Website and Zoho:**
   - Swinburne 063366D and 088382J: CAE 169 band 169, IELTS 6.0 band 6, PTE 50 band 50, TOEFL iBT 64 band 12.
