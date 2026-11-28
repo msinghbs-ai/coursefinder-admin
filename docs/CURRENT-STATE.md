@@ -1,3 +1,22 @@
+**S2-RM-Design, 28 Nov 2026 22:40 AEDT (`PC-20261128-2121-BIND-EXECUTION-RECOVERY`; Platform Admin 22:03 hands the binding performance fix to S2-RM-Design): s1363 coverage-bind fix built, proven locally and rehearsed live (rolled back); Pilot #1772 (migration `20261201161500`). Recorded before merge; S1-Build integrates and deploys.**
+- **Incident:** coverage-bind (cron job 47) has failed every run since 28 Nov 14:25 AEDT (120 s statement timeout; 72 failed, 0 succeeded in 6 h). 37 universities re-mapped at 14:21 to 14:34 AEDT wait.
+- **Cause:** `security.coverage_bind_v2` wrote with `INSERT ... ON CONFLICT DO UPDATE`. PostgreSQL fires BEFORE INSERT triggers for every proposed row, so the E16 guard ran `course_page_check_v1` (about 0.3 s) on every proposed row, including rows the ON CONFLICT WHERE never updates. One timeout rolled back the whole tick, so no run progressed.
+- **What changes:**
+  - Rows the WHERE would not update are no longer proposed (outcome unchanged).
+  - Every row the binder may change keeps the original checked write; an unchanged page is still checked once per mapping cycle.
+  - Writes go in chunks under a time budget and the next run resumes.
+  - Each university binds in its own subtransaction.
+  - New settings `binding.tick_budget_seconds` (50) and `binding.bind_chunk_rows` (15).
+- **Checked:**
+  - local PostgreSQL 16 with md5-identical live definitions: final rows identical to the old binder; checks 14 to 9; resume identical; one parked university does not stop the others; a second run in the same cycle makes 0 checks;
+  - live rolled-back rehearsal, Actions run 46139668196: the real tick finished in 50.3 s; 9d22a19e fully bound; 68022bdf partial and resumes next run;
+  - specs `s1363`, `s42`, `s980`, `s57` and the s32 migration guard pass.
+- **Not changed, for S1-Build to look at:**
+  - the W31 clause is NULL for unread pages, so the binder never rebinds or releases them;
+  - on a rebind, the guard's UPDATE branch checks the previous page's `candidates.final_url`.
+- **Next:** S1-Build labels and integrates #1772, regenerates the test register, and verifies job 47 succeeds and the waiting count falls run by run.
+- **Guardrails:** no timeout change; no job, queue, table or function added; G3 75/48, locks and active jobs asserted; nothing dropped; US$0.
+
 **S1-RM-Design, 28 Nov 2026 18:40 AEDT (`PC-20261128-CONTINUOUS-BUILD-EXECUTE`): s1357 fee writer currency built and verified locally (Pilot #1764, migration `20261201130000`). Recorded before merge; waiting for S1-Build's rolled-back rehearsal.**
 - **What changes:** seven shared fee writers stop assuming Australia.
   - Each writer takes an explicit active ISO currency from the source (a genuine cross-currency fee is kept), or else the provider country's currency.
