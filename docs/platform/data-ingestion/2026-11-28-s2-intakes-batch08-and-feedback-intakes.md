@@ -97,3 +97,16 @@ $0. Read-only queries and one rolled-back rehearsal. No Firecrawl, no AI, no con
 - VU 092944A: the January withdrawal is preserved.
 - RMIT 077512F: the label question needs the Platform Admin's decision, because s994 kept these labels.
 - WSU 064020M: the calendar is set aside. No other campus's dates are used.
+
+## 13:40 AEDT: the UNE re-read is held by the paused `calendar-reread` job (decision needed)
+
+- Pilot #1756 merged, and `coverage-sweep` was deployed (deploy run 46098045093, merge `7ef6e979`). Both parser changes are now live.
+- The UNE stored-copy row is `waiting`, but nothing will read it.
+  - `calendar-reread` (cron job 378) is paused and kept paused by Platform Admin D11 (27 Nov 2026; s1291).
+  - The register note says "read again on demand (Run Now)". That route refuses this job today: it is not on `pipeline.run_now.jobs`, and `security.job_schedule_refusal_v1` answers "job is paused".
+  - Admin › Academic calendars has no re-read for a single document.
+- **Decision for the Platform Admin (D11 owner).** Either:
+  - allow one governed Run Now of `calendar-reread` (add it to the Run now list and let a paused job run once on demand); or
+  - resume the job.
+- Until then, `c914b027` keeps its 15-start reading and stays `proposed`. No UNE date is applied.
+- S2-Intakes has not changed the hold.
