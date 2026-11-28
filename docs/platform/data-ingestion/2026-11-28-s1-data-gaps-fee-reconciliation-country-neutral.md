@@ -1,7 +1,7 @@
 # S1-Data-Gaps: fee reconciliation and country-neutral identity (28 Nov 2026, evening)
 
 **Instruction:** `PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE` (with `PRODUCTION-COMPLETION`); Admin #1293 comment 7234089440, mandate #1271.
-**Written:** 28 Nov 2026 16:10 AEDT. **Method:** read-only queries and rolled-back fixtures through the dry-run route. No production write, no Pilot change, no migration, no new table, no Firecrawl, no container, US$0.
+**Written:** 28 Nov 2026 16:01 AEDT. **Method:** read-only queries and rolled-back fixtures through the dry-run route. No production write, no Pilot change, no migration, no new table, no Firecrawl, no container, US$0.
 
 ## 1. Fee reconciliation (AU, live read)
 
