@@ -1021,6 +1021,32 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 28 Nov 2026 11:57 AEDT: s1341 live (Pilot #1750, merged 10:13; picker md5 `f9cf2487`). Productive selector cycles verified. Instructions: PC-20261128-0931-S2-Build, addenda 1000 and 1018.**
+
+- **Cycles:** ten `scholarship_discover` calls from 10:20 to 11:50, each 200 with 30 leased. From 10:40 every call read 29 and left 1 `waiting_scraper`; before s1341, 29 or 30 of every 30 were `waiting_scraper`.
+- **Reads since 10:13:**
+
+  | Provider | Read | Admitted | Rejected | Waiting for AI admission |
+  |---|---|---|---|---|
+  | RMIT | 158 | 2 | 95 | 61 |
+  | QUT | 107 | 4 | 64 | 39 |
+  | UQ College | 16 | 0 | 16 | 0 |
+
+  - UQ College: the 14 false fee-table labels were rejected `section_missing` through the existing lifecycle after #1742. 1 was refused by the protected provider-type hold, and 1 was rejected as domestic only. Candidate 22521 is unchanged.
+  - `864f2e01` (8 pages) and `1719c3ba` (1 page) came back `scrape_failed`; not yet traced.
+- **Canonical admissions: 7 new active records** (candidates admitted from 10:43 to 11:46 AEDT):
+  - 3 published, and each is returned by the consumer API `public.website_v2_scholarship(stable_key)`:
+    - QUT `e2011942` "From virtual sites to real opportunities: using VR to inspire young women in construction";
+    - `22657140` `7ce3be4d` "SQA Undergraduate Research Scholarship";
+    - RMIT `ee91ea66` "PhD Scholarship in Generative AI for Intelligent Process Safety Management".
+  - 4 unpublished, held by the existing publication checks: QUT `f5e96298`, `12c3d59b` and `d836f9bb`; RMIT `96ea2e03`.
+  - Corrections: 0.
+- **QUT:**
+  - On-demand request `272c1e34` has used 137 of its 150 units; it stops at its cap or at 14:14.
+  - Listing 1429: 68 items, partial; it continues hourly from its saved place (`next_url` page 19).
+- **Costs:** Firecrawl 137 units (monthly plan, US$0 marginal). AI: the existing admission queue's own reads. No Cloudflare container run by S2-Build.
+- **Register:** canonical register refresh is S1-Build's (no refresh by S2-Build). `retry.scholarship_waiting_scraper_hours` stays 1; no approval was requested.
+
 **S2-Build, 28 Nov 2026 10:00 AEDT: s1333 (splitter) live (Pilot #1742, merged 09:01, worker v1.0.62); s1341 recorded before merge (Pilot branch `s2-s1341-candidate-window-free-first`, migration `20261201030000`). Instruction PC-20261128-0931-S2-Build.**
 
 - **Number collision:** S1-Build also used `s1333`, for the Batch 07 scholarship value corrections (migration `20261201014000`). Both rows stay in the plan. This lane's next change takes `s1341`.
