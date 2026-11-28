@@ -11,6 +11,7 @@
 | Zoho API v2 | Zoho | `zoho-api-v2`, `zoho-course-api` | Bearer key; frozen | Frozen by G3 |
 | Website API v3 | The website, after go-live | `website-api-v3` | Its own key (`website_developer_v3`, s935), signed in with `pipeline.api_key_auth_v1('website', 'v3', hash)`; until it is issued the v2 key works on v3 as its previous key for `api.new_key_bridge_days` (14) | Beside v2; joins the frozen list at go-live (Decision 277) |
 | Zoho API v3 | Zoho | `zoho-api-v3` | Its own keys (`zoho_creator_v3`, `zoho_crm_sync_v3`, s935), signed in with `pipeline.api_key_auth_v1('zoho', 'v3', hash)`; a v2 key is refused | Beside v2 |
+| DOT intake connector v1 (s1350) | DOT, the evidence agent (not a consumer) | `dot-intake-connector` (MCP tool server and plain JSON) in front of `dot-intake` | Its own key (`dot_intake_connector_v1`), signed in with `pipeline.api_key_auth_v1('dot', 'v1', hash)`; behind it a short-lived server-side session for the one bounded `dot_submitter` user (no password exists), signed out after each call; `dot-intake` then applies its own gate (switch, role with bounded expiry) | Private; not a consumer API |
 | Admin reads and writes | The admin app | Database functions behind `admin_read` and governed writes | Supabase sign-in plus server-side role rank | Not public |
 
 Every version is a row in `pipeline.api_versions` (platform, version, endpoint, key store, frozen). Settings › API usage reads that register and every key store, so a new version or key shows with no screen change (standing rule Self-Sustaining API & Key Governance, s935).
@@ -26,6 +27,7 @@ Every version is a row in `pipeline.api_versions` (platform, version, endpoint, 
 | Every call logged | `website_api_v2_log` (v2) and `pipeline.api_request_log_v1` (v3 on): version, action, status, time, item count, bytes, error code, request id and the key's name (never the key). v1 (`website-course-api`, `wix-course-api`, `zoho-course-api`) has no per-call log; Settings › API usage shows it as Not logged | Partly (v1) |
 | Least privilege | Each action maps to one fixed database function chosen in code; a caller cannot name a function | Met |
 | Method and input checks | POST only; unknown action, malformed JSON and invalid input are rejected with a fixed code | Met |
+| DOT intake connector (s1350) | The agent never holds a Supabase session or password: the connector key (hash only, Settings › API usage) is the only credential, kept in DOT's connector settings; revocation by switching the key off, letting the role expire (at most `data_intake.role_max_days`) or `data_intake.on` = 0; every call logged as `dot v1`. Per-key rate limit: **not enforced yet** for this key (open item; volume is bounded by the package rules) | Met, one open item |
 | Key rotation and revocation | Keys rotate on Settings › API usage with a dual-key overlap (`api.key_rotate_overlap_hours`); the new key is shown once and only its hash is kept; a new version's key starts Not issued. A rotation schedule is **not** recorded here | Partly |
 
 ## 3. Error handling (ISM-1278)
