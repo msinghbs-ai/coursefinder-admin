@@ -855,6 +855,32 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 28 Nov 2026 11:57 AEDT: s1341 live (Pilot #1750, merged 10:13; picker md5 `f9cf2487`). Productive selector cycles verified. Instructions: PC-20261128-0931-S2-Build, addenda 1000 and 1018.**
+
+- **Cycles:** ten `scholarship_discover` calls from 10:20 to 11:50, each 200 with 30 leased. From 10:40 every call read 29 and left 1 `waiting_scraper`; before s1341, 29 or 30 of every 30 were `waiting_scraper`.
+- **Reads since 10:13:**
+
+  | Provider | Read | Admitted | Rejected | Waiting for AI admission |
+  |---|---|---|---|---|
+  | RMIT | 158 | 2 | 95 | 61 |
+  | QUT | 107 | 4 | 64 | 39 |
+  | UQ College | 16 | 0 | 16 | 0 |
+
+  - UQ College: the 14 false fee-table labels were rejected `section_missing` through the existing lifecycle after #1742. 1 was refused by the protected provider-type hold, and 1 was rejected as domestic only. Candidate 22521 is unchanged.
+  - `864f2e01` (8 pages) and `1719c3ba` (1 page) came back `scrape_failed`; not yet traced.
+- **Canonical admissions: 7 new active records** (candidates admitted from 10:43 to 11:46 AEDT):
+  - 3 published, and each is returned by the consumer API `public.website_v2_scholarship(stable_key)`:
+    - QUT `e2011942` "From virtual sites to real opportunities: using VR to inspire young women in construction";
+    - `22657140` `7ce3be4d` "SQA Undergraduate Research Scholarship";
+    - RMIT `ee91ea66` "PhD Scholarship in Generative AI for Intelligent Process Safety Management".
+  - 4 unpublished, held by the existing publication checks: QUT `f5e96298`, `12c3d59b` and `d836f9bb`; RMIT `96ea2e03`.
+  - Corrections: 0.
+- **QUT:**
+  - On-demand request `272c1e34` has used 137 of its 150 units; it stops at its cap or at 14:14.
+  - Listing 1429: 68 items, partial; it continues hourly from its saved place (`next_url` page 19).
+- **Costs:** Firecrawl 137 units (monthly plan, US$0 marginal). AI: the existing admission queue's own reads. No Cloudflare container run by S2-Build.
+- **Register:** canonical register refresh is S1-Build's (no refresh by S2-Build). `retry.scholarship_waiting_scraper_hours` stays 1; no approval was requested.
+
 **S2-Build, 28 Nov 2026 10:00 AEDT: s1333 (splitter) live (Pilot #1742, merged 09:01, worker v1.0.62); s1341 recorded before merge (Pilot branch `s2-s1341-candidate-window-free-first`, migration `20261201030000`). Instruction PC-20261128-0931-S2-Build.**
 
 - **Number collision:** S1-Build also used `s1333`, for the Batch 07 scholarship value corrections (migration `20261201014000`). Both rows stay in the plan. This lane's next change takes `s1341`.
