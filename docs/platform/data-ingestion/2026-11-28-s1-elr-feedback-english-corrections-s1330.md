@@ -72,3 +72,53 @@ The instruction was acknowledged at 09:55 AEDT, 28 Nov 2026. The S1-ELR chat doc
 | CQU 084516K | **Held** with S1-Build for the backend course-page re-fetch |
 
 - **s1336 live (10:50 AEDT):** Pilot #1751 (9457b2ff). Website and Zoho return the Swinburne PTE, TOEFL and CAE rows and the VU 115486F band.
+
+## 6. TIWA institutional English (s1346, Pilot #1755)
+
+Instructions: PC-20261128-TIWA-INSTITUTION-S1-ELR, PC-20261128-1050-S1-ELR and PC-20261128-DOT-STORAGE-IMPLEMENT-S1-ELR (acknowledged 28 Nov 2026 11:55 AEDT).
+
+**Source.** The TIWA admission requirements page, tafeinternational.wa.edu.au/tafe-courses/tafe-admission-requirements, last updated 9 Sep 2026.
+- DOT captured it on 27 Nov 2026 in package `DOT-TIWA-00020G-Institutional-Coverage-IN_PROGRESS.zip`, file `adm.raw`, sha256 `80b2fa34…7c9c83`.
+- It is the same page as TIWA's approved English policy `e53f450b` (stored copy `ba83a96a`, 2 Oct 2026).
+- I read DOT's stored bytes, so no new fetch was made and nothing was spent.
+
+**Live before (rolled back, 28 Nov 12:30 AEDT).** TIWA has 102 active courses, 88 with English:
+- 76 hold IELTS 6.0 with every band 5.0;
+- 5 Early Childhood and maritime courses hold the bands from their own course pages;
+- 4 rows hold an IELTS overall with no band minimum (the change below);
+- 14 courses have no stored course page and no English.
+
+**Existing route found.** Structured intake does not take English (as PC-1050 says). The routes that do are:
+- the course rows themselves, for exact corrections from official evidence (as in s1330 and s1336);
+- the central English policy, approved by a person in Universities › English.
+
+**Corrected by s1346** (overall unchanged, guarded, insert nothing):
+
+| Course | Row | Before | After | Page words |
+|---|---|---|---|---|
+| Diploma of Nursing 111837J | `61986991` | IELTS 7.0, no bands | L 7.0, R 7.0, S 7.0, W 6.5 | "Nursing: IELTS 7.0 (Academic) with no band below 7.0, excluding writing where the minimum is 6.5" |
+| Certificate IV in Business 107276E | `0321767a` | IELTS 6.0, no bands | 5.0 each | "…Academic IELTS 6.0, with no band lower than 5.0" |
+| Certificate IV in Electronics and Communications 119536B | `7a026fca` | IELTS 6.0, no bands | 5.0 each | same |
+| Certificate III in Carpentry 121507M | `cd920ac5` | IELTS 6.0, no bands | 5.0 each | same |
+
+All four courses are unpublished. The Website and Zoho show nothing for them until they are published, and no publication is forced.
+
+**Held, with the reason and the next owner:**
+- **Proposal `08e66434` (elr-central, in the 55-reading pack):** a person should not approve it as it stands.
+  - It would give the 14 gap courses IELTS 6.0 with no band minimum.
+  - Its Nursing exception reads 6.5 in every band, which is not what the page prints.
+  - The approved policy `e53f450b` has the same misreading for Nursing. It never wrote a row.
+  - Suggested decision: reject `08e66434` and keep `e53f450b`. The Nursing row is now corrected directly.
+- **The 14 courses with no stored course page** (0100606, 103577B, 103797A, 105801E, 108207K, 108208J, 108215K, 108216J, 108218G, 108219F, 109073M, 111989D, 116643A, 117119B):
+  - The page says "some courses may require a higher level", so the standard level is not applied without each course's own page.
+  - Next: S1-Build's coverage sweep reads the course pages (Tier 1, $0). The course rows then come through the normal route.
+- **Certificate IV in Preparation for Health and Nursing Studies 111816C:** its own course page gives IELTS 7.0. The page's "Nursing" line does not name the course, so no band is added.
+- **The equivalent tests for IELTS 6.0 with no band below 5.0** would reach the 79 standard-level courses:
+  - PTE Academic 50, no band below 42;
+  - TOEFL iBT 67 with Listening 8, Reading 8, Speaking 14, Writing 9 for tests before 26 Jan 2026, and 4 on the new scale after;
+  - Cambridge 161;
+  - LanguageCert, MET, Duolingo and others are not in `ref.english_tests`.
+
+  The approved policy carries IELTS only. The policy-add-tests job is off and read none of these on 17 Oct, so adding them is a person's decision (Platform Admin), not something done here. TOEFL's two scales cannot be shown as one number without the date condition.
+- **CELPIP and OET:** CELPIP overall 161 next to bands of 5 stays quarantined. OET "1210" is outside OET's scale, so it is not read.
+- **Nursing PTE 66 and TOEFL iBT 94:** left as they are. The page gives no Nursing equivalents.
