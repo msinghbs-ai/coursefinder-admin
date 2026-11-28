@@ -1,3 +1,20 @@
+**S1-RM-Design, 28 Nov 2026 18:40 AEDT (`PC-20261128-CONTINUOUS-BUILD-EXECUTE`): s1357 fee writer currency built and verified locally (Pilot #1764, migration `20261201130000`). Recorded before merge; waiting for S1-Build's rolled-back rehearsal.**
+- **What changes:** seven shared fee writers stop assuming Australia.
+  - Each writer takes an explicit active ISO currency from the source (a genuine cross-currency fee is kept), or else the provider country's currency.
+  - An unknown currency is held or refused with a reason, never written as AUD or as null.
+  - Writers: `fee_rule_run_v1`, `provider_rule_admit_v1`, `provider_basis_rule_admit_v1`, `svc_coursefacts_apply_record`, `adapter_overwrite_v1`, `layer4_tuition_apply_impl` and `layer3_tuition_admit_assumed_annual_v1`.
+  - The last two also let a missing currency through as null before.
+  - One new function: `security.fee_currency_resolve_v1`.
+- **Live effect:** none expected for AU, NZ and CA (#1372: 0 mismatched fee currencies). GB and IE are compatibility only, not activation.
+- **Checked:**
+  - pre-flight passes;
+  - specs `s1357`, `s42`, `s57`, `s980` and `s120` pass;
+  - on a scratch PostgreSQL 16, the seven definitions from the 27 Nov capture load, the migration applies and compiles, 15 of 15 resolver cases pass, and a rerun stops at its pre-checks.
+- **Next:**
+  - S1-Build runs the rehearsal (exact command in the #1764 comment), then adds `live-dry-run` and `automerge`, and regenerates the test register with the release.
+  - Renumbered from s1355 / `20261201120000`, which #1763 and #1765 hold.
+- **Guardrails:** G3 untouched; locks untouched; no job; no drop or delete; US$0.
+
 **S1-RM-Design, 28 Nov 2026 18:15 AEDT (`PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE`, with `FEEDBACK-TARGETED`, `FEEDBACK7-TARGETED` and `0931`/`1018`): fee evidence and country-neutral identity / fee-grain review recorded; no platform change. US$0, no Pilot change, migration or data write.**
 - **Country-neutral review.** Identity is already country-neutral (registration scheme + code + country; future schemes are added as data by `admin_registration_scheme_register_v1`). `course_fees` has no AUD default, and `course_fee_selected_v1` shows one annual fee per year and never adds components together. Six shared fee writers assume AUD or accept only AUD/NZD/CAD; live impact is 0 (S1-Data-Gaps #1372: no currency mismatch or null currency in any country). Recommended to S1-Build as one consolidated currency-and-scheme gap, together with #1370 (`coverage-sweep`) and #1371 (Portal), with no schema change. Fixtures F1 to F10 (AU, NZ, CA plus roadmap GB and IE, not activated). Record: `docs/platform/2026-11-28-s1-rm-design-country-neutral-identity-and-fee-grain-review.md`.
 - **Fee corrections prepared, not applied (fee writer is S1-Build or the Platform Admin through the existing fee edit):** VU 115486F 2027 AUD 35,500 and 2026 AUD 33,800 calculated annual equivalents, course-level (FB-4B.3-01); CQU 084516K 2027 AUD 30,000 first-year full-time, Rockhampton only (FB-6.C06-05). Record: `docs/platform/data-ingestion/2026-11-28-s1-rm-design-fb4b3-01-vu-115486f-fee-correction-input.md` and the lane's M3 Chats document.

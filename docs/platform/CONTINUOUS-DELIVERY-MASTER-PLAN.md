@@ -465,6 +465,7 @@ The `destination-abs-load`, `destination-climate-load` and `destination-page-fac
 
 One line per session before it parks: date and time (AEDT), lane, what shipped (pull requests), what is next.
 - 28 Nov 2026 18:15 AEDT, S1-RM-Design (fees and evening country-neutral closure): record-only PR; country-neutral identity and fee-grain review (one consolidated currency-and-scheme gap for S1-Build, live impact 0); VU 115486F and CQU 084516K fee corrections prepared for the existing fee edit; next: S1-Build applies them and takes the gap into its next qualified release.
+- 28 Nov 2026 18:40 AEDT, S1-RM-Design (PC-20261128-CONTINUOUS-BUILD-EXECUTE): s1357 fee writer currency built and verified locally (Pilot #1764, `20261201130000`); seven writers take the source or provider-country currency and hold an unknown one; next: S1-Build rehearsal, then merge.
 - 28 Nov 2026 16:01 AEDT, S1-Data-Gaps (evening country-neutral closure): no change; 47 differing AU fee sums are unitemised totals (no correction without source proof), 7,005 zero non-tuition valid, 187 total-only, 0 duplicates; GB/IE stand-in fixtures pass with no new table, three guards not enforced (reusable gap for S1-Build). No Pilot change. US$0.
 - 28 Nov 2026 12:45 AEDT, S1-ELR: TIWA addenda: s1346 (Pilot #1755) gives four TIWA IELTS rows their official band minima (Nursing 111837J L/R/S 7.0 W 6.5; three standard-level courses 5.0); proposal 08e66434 to reject; 14 page-less courses to S1-Build coverage sweep; equivalent tests for 79 courses to the Platform Admin. US$0.
 
