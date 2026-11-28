@@ -76,3 +76,24 @@ $0. Read-only queries and one rolled-back rehearsal. No Firecrawl, no AI, no con
 `cf-247-s541` gained one test; its guard is unchanged.
 - The sandbox could not regenerate the register: `npx playwright test --list` needs `react` and `lucide-react`, which cannot be installed without network.
 - S1-Build's next release regenerates it.
+
+## Follow-up, 12:55 AEDT: PC-20261128-NO-ROUTINE-DATA-PR and PC-20261128-FEEDBACK-TARGETED
+
+**Order of events.** Both directions were acknowledged at 12:30 AEDT. Pilot #1754 had already merged before S2-Intakes read them.
+- #1754 merged at about 12:25 AEDT.
+- It carried the reusable parser change and the one-row UNE re-read as migration `20261201053000`.
+- Under the new direction, that requeue should have gone through the runtime route instead of a migration. A merged migration is not reverted.
+- From now on, S2-Intakes makes requeues and data corrections only through the existing runtime routes.
+
+**Mixed rows (check asked for in PC-20261128-NO-ROUTINE-DATA-PR).**
+- The #1754 rule would have lost a genuine start in a row that names both an event and the period's own start, for example "Orientation Day ; Trimester 1 Starts".
+- Pilot branch `s2-intakes-calendar-mixed-start-rows` fixes this. It is code and a spec only, with no migration:
+  - an event row that also names the period start (period, then "starts", "begins" or "commences"; or "teaching / classes / lectures begin") keeps the start;
+  - when the row prints more than one date, the start takes the date printed after the start words;
+  - when no date follows the start words, the row gives its month only.
+- `cf-247-s541` has the new case. The UNE case is unchanged and still gives the 3 trimester starts. All 18 parser tests pass locally. The 5 browser tests in `cf-247-intakes-english` need the local web server, so they run in CI.
+
+**Feedback courses (PC-20261128-FEEDBACK-TARGETED).** Outcomes are as in the table above. No runtime correction is supported yet:
+- VU 092944A: the January withdrawal is preserved.
+- RMIT 077512F: the label question needs the Platform Admin's decision, because s994 kept these labels.
+- WSU 064020M: the calendar is set aside. No other campus's dates are used.
