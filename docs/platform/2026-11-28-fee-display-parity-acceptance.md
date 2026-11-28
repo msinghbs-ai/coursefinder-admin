@@ -1,6 +1,6 @@
 # Fee display, label and identity parity across AU, NZ and CA (evening closure)
 
-S1-API-Frontend-Delivery, 28 Nov 2026 16:15 AEDT, for PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE (canonical command PR #1293 comment 7234089440). Read only: live database, `website_v3_course`, `zoho_v3_course`, the Portal's own database functions and the Portal source. US$0. No migration, job, table, PR to Pilot or consumer change. Fee evidence and candidate reconciliation stay with S1-Data-Gaps, field applicability and fee grain with S1-RM-Design, reader and writer tracing with S2-RM-Design, and all writes and release with S1-Build.
+S1-API-Frontend-Delivery, 28 Nov 2026 15:50 AEDT, for PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE (canonical command PR #1293 comment 7234089440). Read only: live database, `website_v3_course`, `zoho_v3_course`, the Portal's own database functions and the Portal source. US$0. No migration, job, table, PR to Pilot or consumer change. Fee evidence and candidate reconciliation stay with S1-Data-Gaps, field applicability and fee grain with S1-RM-Design, reader and writer tracing with S2-RM-Design, and all writes and release with S1-Build.
 
 ## Result in one paragraph
 
