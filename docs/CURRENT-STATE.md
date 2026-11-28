@@ -864,6 +864,26 @@ Verified live this session. These are the facts the next slices build on.
 - GPT-5 mini and nano: not served under the existing contract (HTTP 404), US$0. s1151 cost US$0.256.
 - Proposed acceptance criteria and the prepared activation (gpt-4.1-mini, whole page, US$0 cap, one scoped request; Window 1 the 172 at about US$0.31; Window 2 the 267 at about US$0.48): `docs/platform/p0-aer-activation/2026-11-25-course-entry-model-comparison.md`. Nothing is activated until the Platform Admin approves.
 
+**S2-Build, 28 Nov 2026 14:23 AEDT: QUT on-demand request `272c1e34` closed out (s1332). Instruction PC-20261128-0931-S2-Build; read back rolled back at 14:21.**
+
+- **Request:** 150 of 150 units used. It stopped covering spend at its cap (about 12:15) and its window ended at 14:14. `security.on_demand_request_for_v2` returns null for QUT, so the per-university cap applies again. No close call was available or needed.
+- **QUT since 08:13:**
+  - Candidates: 119 read, of which 12 admitted, 102 rejected, 2 duplicates of held awards, 3 waiting for AI admission.
+  - Listing 1429: 68 items and 199 members. The first page after the cap was refused at 12:52; next try 29 Nov 12:52.
+- **Canonical admissions since 08:13 (all providers):**
+  - 16 new active records: QUT 12, RMIT 2, `22657140` 2.
+  - 7 published, and all 7 are returned by the consumer API `public.website_v2_scholarship`.
+  - 9 unpublished, held by the existing publication checks.
+  - Corrections: 0.
+- **UQ College:**
+  - Listing 2412 was read once (08:22) and is next read 4 Dec.
+  - Its 15 award candidates were read under worker v1.0.62:
+    - the 14 false fee-table labels were rejected `section_missing`;
+    - the Integrated English Scholarship was rejected, refused by the provider-type hold.
+  - Candidate 22521 is unchanged (read, rejected `no_named_title`).
+- **Costs:** Firecrawl 150 units (monthly plan, US$0 marginal); AI only through the existing admission queue; no containers.
+- **Now:** the readable candidate pool is used up, so the remaining cap-blocked pages wait for one of the decisions in the S2-Build Drive document (cap headroom, container extraction of stored copies, or the recorded retry change). No PR or data change is made for routine work (PC-20261128-NO-ROUTINE-DATA-PR).
+
 **S2-Build, 28 Nov 2026 11:57 AEDT: s1341 live (Pilot #1750, merged 10:13; picker md5 `f9cf2487`). Productive selector cycles verified. Instructions: PC-20261128-0931-S2-Build, addenda 1000 and 1018.**
 
 - **Cycles:** ten `scholarship_discover` calls from 10:20 to 11:50, each 200 with 30 leased. From 10:40 every call read 29 and left 1 `waiting_scraper`; before s1341, 29 or 30 of every 30 were `waiting_scraper`.

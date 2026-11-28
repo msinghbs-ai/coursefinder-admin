@@ -1021,6 +1021,26 @@ Read live and rolled back; no Pilot change, no migration, no AI call, US$0 model
 
 **S2-Build, 25 Nov 2026 18:30 AEDT (Platform Admin 17:13, Portal Release 1 search activation): s1153 (Pilot #1616, migration `20261127020000`, edge function `portal-search-embed`) recorded before merge.** `public.portal_course_search_v1(p_args)` and `catalogue.portal_course_search_v1` are built to the as-built contract in the portal design doc. Stage 1 reads the words into filters from the live tables: country, state, campus city (with ABS urban-area postcodes so suburbs count), study level and budget. Stage 2 ranks with the existing `search.course_candidates_v1`. Fewer than 3 exact matches bring near misses and relaxations: third-cheapest fee + 5%, rounded up to A$1,000, within +30%. Vectors (`openai/text-embedding-3-small` via OpenRouter, data collection denied) live under a new profile `portal-default`, because the frozen `api.zoho_course_candidates_v1` uses the same ranker; Zoho and website results cannot change. The backfill runs on a new registry lane of the existing dispatcher (no cron job) in steps of 1,500; one statement for all 34,362 jobs timed out in rehearsal. A trigger re-queues a course when its semantic text changes. 1,690 active courses with no search document were sent to the existing refresh. The spec number moved to s1153 because S1-Build took s1152 and `20261127010000` first. Rehearsed on live data, rolled back: nursing under A$40,000 in Melbourne returns ACU Fitzroy and IHM North Melbourne first; data science masters in Sydney or Brisbane returns QUT, CDU, Sydney, UTS and Western Sydney. G3 75/48, 7,585 locks and active cron are unchanged (post-checks).
 
+**S2-Build, 28 Nov 2026 14:23 AEDT: QUT on-demand request `272c1e34` closed out (s1332). Instruction PC-20261128-0931-S2-Build; read back rolled back at 14:21.**
+
+- **Request:** 150 of 150 units used. It stopped covering spend at its cap (about 12:15) and its window ended at 14:14. `security.on_demand_request_for_v2` returns null for QUT, so the per-university cap applies again. No close call was available or needed.
+- **QUT since 08:13:**
+  - Candidates: 119 read, of which 12 admitted, 102 rejected, 2 duplicates of held awards, 3 waiting for AI admission.
+  - Listing 1429: 68 items and 199 members. The first page after the cap was refused at 12:52; next try 29 Nov 12:52.
+- **Canonical admissions since 08:13 (all providers):**
+  - 16 new active records: QUT 12, RMIT 2, `22657140` 2.
+  - 7 published, and all 7 are returned by the consumer API `public.website_v2_scholarship`.
+  - 9 unpublished, held by the existing publication checks.
+  - Corrections: 0.
+- **UQ College:**
+  - Listing 2412 was read once (08:22) and is next read 4 Dec.
+  - Its 15 award candidates were read under worker v1.0.62:
+    - the 14 false fee-table labels were rejected `section_missing`;
+    - the Integrated English Scholarship was rejected, refused by the provider-type hold.
+  - Candidate 22521 is unchanged (read, rejected `no_named_title`).
+- **Costs:** Firecrawl 150 units (monthly plan, US$0 marginal); AI only through the existing admission queue; no containers.
+- **Now:** the readable candidate pool is used up, so the remaining cap-blocked pages wait for one of the decisions in the S2-Build Drive document (cap headroom, container extraction of stored copies, or the recorded retry change). No PR or data change is made for routine work (PC-20261128-NO-ROUTINE-DATA-PR).
+
 **S2-Build, 28 Nov 2026 11:57 AEDT: s1341 live (Pilot #1750, merged 10:13; picker md5 `f9cf2487`). Productive selector cycles verified. Instructions: PC-20261128-0931-S2-Build, addenda 1000 and 1018.**
 
 - **Cycles:** ten `scholarship_discover` calls from 10:20 to 11:50, each 200 with 30 leased. From 10:40 every call read 29 and left 1 `waiting_scraper`; before s1341, 29 or 30 of every 30 were `waiting_scraper`.
