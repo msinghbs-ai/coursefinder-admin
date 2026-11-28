@@ -122,3 +122,5 @@ All four courses are unpublished. The Website and Zoho show nothing for them unt
   The approved policy carries IELTS only. The policy-add-tests job is off and read none of these on 17 Oct, so adding them is a person's decision (Platform Admin), not something done here. TOEFL's two scales cannot be shown as one number without the date condition.
 - **CELPIP and OET:** CELPIP overall 161 next to bands of 5 stays quarantined. OET "1210" is outside OET's scale, so it is not read.
 - **Nursing PTE 66 and TOEFL iBT 94:** left as they are. The page gives no Nursing equivalents.
+
+**s1346 live (28 Nov 2026 13:05 AEDT).** Pilot #1755 merged as fe182b08 and deployed. The four rows read back as above; Website and Zoho return IELTS 7.0 with band minimum 6.5 for Nursing, and IELTS 6.0 with band minimum 5.0 for the other three. G3 75/48, cron 135, locks 7,587. Programme Control's direction PC-20261128-NO-ROUTINE-DATA-PR (admin #1293, comment 7231541424, 12:15 AEDT) came after the PR opened and before it merged. The change is verified, and neither replayed nor reverted. Further English corrections use the existing runtime writers, not PRs.
