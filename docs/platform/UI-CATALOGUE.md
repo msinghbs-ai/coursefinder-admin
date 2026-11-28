@@ -1,13 +1,13 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.22 (19 Nov 2026, platform release v2.16.57; sections 2.2 Providers list, 3.1 Pipeline & field ETA and 6.1 Create user updated; section 2.4 Coverage pages 50 providers at a time; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
+**Version:** 1.23 (29 Nov 2026, aligned to the generated `docs/UI-MAP.md` at platform release v2.17.0: 22 pages, 58 tabs. Adds Destination data (2.8) and Human Edits & Periodic Audit (3.5); the Platform health Country & category completeness tab and Recovery knowledge; Settings › Integrations and the API usage version table; Reference data's two further types; Guides › Role guides; Users & roles › Links & Email Templates; the page search bar; the Data Delivery and Autonomous PIM matrix with its record drill-down; the course field status and record trace; and Layer 4 Reported data issues. Only those screens were re-read for 1.23; the rest is as at 1.22, whose note follows.) Version 1.22 (19 Nov 2026, platform release v2.16.57; sections 2.2 Providers list, 3.1 Pipeline & field ETA and 6.1 Create user updated; section 2.4 Coverage pages 50 providers at a time; section 4.2 re-read from Pilot `origin/main` dae62317, with the planned s768 tabs marked as not built. Other sections are still as read for 1.18; the generated `docs/UI-MAP.md` lists every live route, tab, fold and drawer.)
 **Change control:** CF-247; SS-020 admin menu consolidation (Decision 269)
 **Source:** read from the Pilot repository code at `origin/main` 725fc7f6 (`src/nav-map.js` PAGES, SECTIONS and LEGACY, `src/mature-main.jsx` `pageBody`, each screen's component), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`; the SS-020 decisions are in `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md` (C01–C53) and `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`.
 
 Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 PIM Admin (shown in the header as "PIM Operator") · 6 Platform Admin.
 
-**The menu at v2.15.457: 47 tabs on 20 pages** (counted from `PAGES` in `nav-map.js`; a page without tabs counts as one tab). SS-020 took it from 53 tabs: Toolsets & limits and Fetchers joined Services (step 3); Work queues became Queues & yield, taking Pipeline yield (step 3); Progress left Coverage and Build adapter left Layer 2/3 (step 4); Outcomes (QILT) and Student flow (PRISMS) became View data on Datasets (step 5). No role minimum was lowered or raised, except Rankings › Datasets (see 2.7). Every old address still opens the right place (section 7).
+**The menu at v2.17.0: 58 tabs on 22 pages** (the generated `docs/UI-MAP.md` is the count and the list; the next paragraph is the v2.15.457 baseline of SS-020 and is kept as history). **The menu at v2.15.457: 47 tabs on 20 pages** (counted from `PAGES` in `nav-map.js`; a page without tabs counts as one tab). SS-020 took it from 53 tabs: Toolsets & limits and Fetchers joined Services (step 3); Work queues became Queues & yield, taking Pipeline yield (step 3); Progress left Coverage and Build adapter left Layer 2/3 (step 4); Outcomes (QILT) and Student flow (PRISMS) became View data on Datasets (step 5). No role minimum was lowered or raised, except Rankings › Datasets (see 2.7). Every old address still opens the right place (section 7).
 
 In the tab tables below, **Key** is the tab's address (`#<page slug>?tab=<key>`; the first tab needs no `tab=`), and **Min** is the lowest rank that may open it. A page shows in the menu when the role can open at least one of its tabs. A lower role that follows a link to a tab it cannot open sees which role opens it, and the first tab it may open instead.
 
@@ -22,6 +22,7 @@ In the tab tables below, **Key** is the tab's address (`#<page slug>?tab=<key>`;
 | Credit banner | Firecrawl, OpenRouter, adapter AI allowance, scholarship scraper cap when low (rank ≥3; every 5 min); link to Models & services (opens Services & limits since v2.15.455); × hides until reload | `CreditBanner.jsx` |
 | Snapshot stamp (v2.15.373, W34/W35) | On screens read from a cached snapshot (Coverage › Courses and Attributes, toolset notices, Services & limits, Layer 2/3 › Operations (Progress), Dashboard › Also, Coverage › Every field by country, Platform health › Why values are missing): "Counted <date time> (<age>)" (or "Counted now" when read live) and a **Stale: older than n min** chip past its setting; Completeness shows the build and last-check time. Drill-downs and one university's figures stay live | `SnapshotStamp.jsx`, `SnapshotNote` in `course-coverage.jsx`; jobs `admin-read-snapshots`, `course-coverage-snapshot` |
 | Layer notices | Notices that need a person (Action needed, Action outside StudySearch, Optional), each with the one thing to do and a Go to button that opens the exact card or setting; Acknowledge (Platform Admin, reason). Shown on Layer 1, Layer 4 and **Layer 2/3 › Operations only** (v2.15.454: no longer repeated on every Layer 2/3 tab). Information-only notices are on Services & limits › Notices | `Toolsets.jsx` LayerNotices; `mature-main.jsx` |
+| Page search (s1270) | A search-and-jump bar at the top of the long pages: Layer 2/3, Settings, Models & services, Layer 1 Register, Coverage, Platform health, Scheduled jobs and the Go-live checklist (`SEARCH_PAGES` in `nav-map.js`). It finds the page's tabs (also by the plain words in `TAB_FIND`), the cards, folds and headings drawn on the open tab, and entries a screen registers (every Settings value; the Data Delivery streams and views). Choosing a result opens its tab, expands the card or fold, scrolls to it and highlights it. It reads nothing from the database, changes nothing, and never offers a control the role cannot see | `PageSearch.jsx`, `nav-map.js` |
 | Refused-tab handoff | A tab the role cannot open names the role that can, and shows the first tab the role may open | `nav-map.js` refusedTab, ROLE_NAMES |
 
 ---
@@ -58,6 +59,7 @@ In the tab tables below, **Key** is the tab's address (`#<page slug>?tab=<key>`;
     - Platform Admin: "Read from the stored page" (reason; one course; the rows wait in Layer 4 as Course entry first read).
     - Read only; "Open in Entry requirements" and "Inspect resolution" open the workspace.
   - "More about this course" fold: Layer 4 correction and publishing decision, insights, additional information.
+  - **Field processing status and diagnosis (fold on the Course detail drawer; DR-19, s1272, s1282; `RecordTrace.jsx` `CourseFieldStatus`):** a summary (Value held, Not read yet, Explained gap), two views (Needs attention, All fields) and, per field, each registered field shows its processing state, producer, attempts, absence, open and decided Layer 4 items, the diagnosis and the permitted actions, and field-level Website v3 delivery. Seven facts are kept apart and never stand in for each other, under these labels: Record returned by consumer, Field populated, Field value verified, International applicability verified, Canonical admission, Consumer delivery and Actual recovery gain. Where nothing is held the row reads Not verified or Not available.
 - Operated from a phone (guarded by `s121`).
 
 ### 2.2 Providers — `providers` (4 tabs)
@@ -130,10 +132,22 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
   - **Ranking imports** (rank ≥4): register a publisher file (system, edition, files, metadata), parse and validate, apply edition; imported files with jobs and XLSX export.
   - Because QILT and PRISMS data were open to every role, the tab now opens at rank 1. The register and imports keep their rank 4 minimum inside the tab (confirmation requested, section 8).
 
-### 2.7 Reference data — `reference`, rank 3 (one list with a type filter: All · Key dates · Reference sources, `?type=dates|links`)
+### 2.7 Reference data — `reference`, rank 3 (one list with a type filter: All · Key dates · Reference sources · API field dictionary · Grade scale conversions; `?type=dates|links` for the first two, the last two are read in `ReferenceTables.jsx`)
 - **Key dates** (changed in v2.15.454): the list is **read only, 50 dates a page** (date, what, country and scope, kind, precision, source site, warn days). **Edit** (or Open, below the editing role) opens one date in a drawer with its editors (date, what, source wording, kind, precision, source address, warn days), Cancel date and Restore. Add date; show cancelled; recent changes.
 - **Reference sources:** tiles (sites in use, never a university website, not checked); site list with expandable rows (uses, category, country, status, on); check now or check all; retire or restore; recent changes.
 - Ranking imports are on Rankings & statistics › Datasets.
+
+### 2.8 Destination data — `destination`, rank 3 (5 tabs; `DestinationData.jsx`)
+
+| Tab | Key | Min | What it shows |
+|---|---|---|---|
+| Overview & editions | `overview` | 3 | The country and city datasets the website and Zoho read through the API v3 destination action, by edition, with source, attribution and approval |
+| Localities & postcodes | `localities` | 3 | Localities and their postcodes |
+| City metrics & costs | `metrics` | 3 | City figures and costs |
+| Study rules | `rules` | 3 | Study rules by country |
+| Careers & outcomes | `careers` | 3 | Career outcomes |
+
+- Reads `public.admin_destination_overview` and `admin_destination_review`; the server refuses lower roles. A row's status and an edition's terms and publication are the Platform Admin's and always carry a reason; settling a postcode is Curator and above, also with a reason. A control a role cannot use is shown disabled and names the role it needs. Each tab has a Status filter. Nothing is loaded here: loads are scheduled jobs.
 
 ## 3. Data pipeline
 
@@ -177,6 +191,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
   - Each stage of finding, building, admitting and enriching: universities working, waiting and stopped for a person (each opens Layer 4 › Inbox on that kind), and the scheduled jobs behind it with pause, resume and run now; onboarding switch and pace (Platform Admin, reason).
   - **Governed actions** (Platform Admin, Decision 268): preview against the live system (preconditions, rolled-back dry run, action hash and expiry), then Approve and run once with a reason; result, post-checks, audit event and history.
   - **Progress** (moved here from Coverage in v2.15.456; `?view=` overview or journeys):
+    - **Data Delivery and Autonomous PIM (F-OPS.03A; s1217 to s1221; `DataDelivery.jsx`, `PimDelivery.jsx`; read `admin_layer23('data_delivery')`, rank 3 and above; top of Operations):** one row per data stream: coverage (n of N), net admission gain over a short and a long window, Website and Zoho state, queue, holds with their largest exact reasons, speed, last and next run, automatic recovery. The Autonomous PIM block has three views: **Delivery matrix** (overall, country and domain coverage; stage funnel; gains each with its basis, never added across bases; throughput and clearance estimate; oldest outstanding work; scheduler, lease and recovery; AI and Firecrawl use; human interventions), **Requests & feedback** (request status beside separate coverage figures; says it is not available until the backend read is live, and never estimates) and **Refresh & maintenance** (freshness of held values, source outcomes, excluded gaps, the Academic entry and Scholarships lifecycle). Unknown is never shown as 0: a measure not counted reads Not measured or Unknown with its reason. Each stream has a **Records behind this stream** drill-down (`RecordDrill`, `RecordTrace.jsx`): the courses behind its holds and recoveries, with the diagnosis class and the actions permitted. The panel reloads at the interval in Pipeline settings › Data delivery and has Refresh.
     - **Lane funnels (v2.15.494, read: Curator 3 and above; `LaneFunnels.jsx`, below Operations):** one row per automated lane (intake dates, fees, English, course and provider descriptions, AER, scholarships, discovery): state, jobs on, last attempt and result, stage transfer and published data in the last 24 hours (kept apart from the job result), waiting for a person, oldest waiting, credits. Open a lane for its stage table (now, oldest waiting, last 24 hours, counted-at; a stage not counted shows unknown, never 0), hold and failure reasons, jobs with pause, resume and run now (the job's catalogue rank, with a reason), switches and settings with range and unit, and issue references. Counts refresh every `lane_funnel.refresh_minutes` by job `lane-funnel` (records only, spends nothing).
     - **Overview:** group picker (all universities, pilot, top 50 Australia); tiles; Needs attention (stopped universities by reason, each opening Journeys; Firecrawl and OpenRouter notices); the journey stages and Done; every hour of the last 24 (snapshots kept 90 days). Firecrawl and AI today is on Services & limits.
     - **Journeys:** filter panel (group, country, stage, held up by, only held up, find); one row per university with its stage pills, fields filled, scholarship journey, held up by and Next step; a selected university shows its steps and its run-on-demand actions (find scholarships, read course pages again, Qualify adapter (rank ≥4), read scholarship pages again, search again, retry onboarding (Platform Admin, reason)).
@@ -213,12 +228,22 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 | Inbox | `inbox` | 3 | Everything that needs a person, grouped by university; Decided | Each item's choices, with a reason |
 
 - **Inbox** (`Layer4Inbox.jsx`): items by university, each saying why it is here and what each choice does; filters by kind (`?kind=`) and university (`?provider=`); counsellor reports (Fixed, Not changed); provider and course descriptions (approve as read or reject; the Course description pill shows review capacity and a review pack ordered by university with objective flags, v2.15.494); AER items (Platform Admin approves, rejects or approves except ticked rows, one at a time); Decided lists decisions taken (who, when, choice, reason).
+- **Reported data issues** (`ReportedIssues.jsx`, s1285; opened with the button "Reported data issues (Admin, Portal and Zoho)" on the Layer 4 page, one read `public.admin_reported_issues_v1` made when it is opened): tiles Submitted, Reported (open), Awaiting verification, Resolved, Median time to resolve and Recurring course fields (90 days); filters by origin (All origins, Admin, Portal, Zoho) and by state (Reported, Resolved, All); a note says the Portal reporter is not released yet, so Portal shows only what has arrived. One view of every reported data issue however it arrived (Admin and Portal through the in-app store, Zoho through the Zoho store), with its origin and its state: Reported, Reported: investigating, Reported: asked the reporter, Reported: fixed, awaiting verification, Resolved: fixed, Resolved: not changed. Each shows the evidence behind its state: the check made when it was closed (the catalogue holds a value and the consumer read serves it) or, when none was made, the current field state, said as such; a fix with no value held is flagged "Fixed, but no value is held". Opening one shows the field trace and the Processing journey fold, with links to the Layer 4 card and the course. Decisions stay on the existing cards; this view changes nothing.
 - **Review readiness line** (v2.15.456, moved from Coverage › Attributes): one header line, "Entry-requirement review readiness", with the count in each readiness class. It is drawn after the Inbox loads and stays silent if its read fails, so it never holds the Inbox up. Decisions stay one item at a time.
 - Operated from a phone (guarded by `s121`).
 
+### 3.5 Human Edits & Periodic Audit — `governance`, rank 4 (menu section "Data & Governance"; `HumanEditsAudit.jsx`)
+
+| Tab | Key | Min | What it shows |
+|---|---|---|---|
+| My Human Edits | `mine` | 4 | The signed-in operator's own University or Course description edits made before admission, to acknowledge or re-verify |
+| All Human Edits (Admin Governance) | `all` | 6 | Every such edit, with the Unacknowledged and Due for 6-Month Re-Review counts (due when the next review date has passed; six months is a setting) |
+
+- Tick rows and choose one governed action, all through `public.admin_layer4_inbox` (the server checks role and ownership): **Acknowledge & Keep Lock** (bulk or single; records who and when; next review in six months; no spend); **Re-Verify by Machine** (read only: the human text beside the stored page quotes and the latest machine candidate; nothing is read again or overwritten); **Edit & Re-Lock** (single; a new checked revision); **Release Lock to Machine** and **Accept machine text** (Platform Admin). Folds: Periodic Audit – Locked Field Update; Rule-tuning candidates.
+
 ## 4. Operations
 
-### 4.1 Platform health — `health` (4 tabs)
+### 4.1 Platform health — `health` (5 tabs)
 
 | Tab | Key | Min | What it shows | What it does |
 |---|---|---|---|---|
@@ -226,8 +251,10 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 | Queues & yield | `queues` | 3 | Pipeline yield (rank ≥5) above the work-queue watchdog | Run the watchdog, read its report |
 | Integration queue | `integration` | 5 | The integration defect register and the operating mode | Read only |
 | Storage & retention | `storage` | 6 | Storage categories with rule, size, would go | Preview, purge, stop, audit |
+| Country & category completeness | `completeness` | 3 | Completeness by country and category (`CompletenessReport.jsx`) | Read only |
 
 - **Health checks** (changed in v2.15.452): no Layer 3 block. The queue check of Layer 2 run items and the Layer 4 review backlog shows as "Layer 2 and 4 queues", without its two Layer 3 sub-checks. Database size links to the Go-live checklist (where Capacity is). **Screen use** (Platform Admin): every page and tab with how often people opened it, those not opened first, with the retirement checks.
+- **Recovery knowledge** (inside the "Technical details" fold on Health checks, closed until opened; `PlatformHealthView.jsx`, read `admin_ops_learning_v1`; seen live 29 Nov 2026 12:15 am: 37 patterns, 9 automatic): what the platform has learned from fixes, failed attempts and people's corrections. Tiles: Patterns held (and how many are automatic), Outcomes 7 days (and how many succeeded), Repeats blocked (same remedy, same evidence), Recent automatic recoveries (verified by the controller). A table lists each pattern with who may apply it (Automatic, or the named authority), its verified and failed counts, its last outcome and what to check before repeating it; the last automatic recoveries are listed under it. When the read is missing the card says so. Read only.
 - **Queues & yield** (new in v2.15.455; same key as the old Work queues, so old addresses still open it):
   - **Pipeline yield** (PIM Admin and above, as before; moved from Integration queue): each lane stage by stage, plan outcomes, the field backlog and its forecast.
   - **Work queues** (`QueueWatch.jsx`): each enrichment queue's state every 15 minutes (Stuck and Out of toolset alert the Platform Admin), self-retries logged.
@@ -262,11 +289,12 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 
 ## 5. Platform settings
 
-### 5.1 Settings — `environment` (3 tabs)
+### 5.1 Settings — `environment` (4 tabs)
 
 | Tab | Key | Min | What it shows | What it does |
 |---|---|---|---|---|
 | Settings | `settings` | 6 | Every pipeline setting by step; outside-service keys | Change a value with a reason; set or rotate keys |
+| Integrations | `integrations` | 6 | The outside services and stored key names and their state (`EnvironmentMigrationWorkspace.jsx`) | Read the state; values are set on Settings |
 | API usage | `api` | 4 | Calls to the consumer API version URLs by key and action | Refresh now; rotate, switch or end keys (rank 6) |
 | Backup & restore | `backup` | 6 | Daily backups of the Published switch and setting values | Compare, download as SQL, restore all or part |
 
@@ -275,7 +303,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
   - Settings register: controls check banner; cards (job sizes, re-read and retry, onboarding); each setting with value, unit, range, what uses it, last change and reason; Save needs an inline reason. Policy cards (capacity thresholds, evidence storage thresholds, retention rules, provider fee profiles and basis rules).
   - External services and stored key names: only the services in use are listed (Firecrawl and direct reads; dropped providers left the list in v2.15.452). Address, limits and routing link to Models & services › Services & limits.
   - Keys: page services, Apollo, OpenRouter profile, production automation, consumer API tokens (Zoho, website).
-- **API usage** (`ApiUsagePanel.jsx`): statistics from the daily roll-up (or Refresh now): calls, success and failure, last sign-in, full and delta syncs, bandwidth, load size; key rotation, switch off/on, end an old key early (Platform Admin; a new key is shown once).
+- **API usage** (`ApiUsagePanel.jsx`; v2.16.78, v2.16.86; standing rule Self-Sustaining API & Key Governance): one compact table with a row for every API version and key, read from the database (`public.admin_api_usage` › `versions`): key status (Active, Rotating / Grace, Not issued, Revoked), masked prefix, created, rotated and last-used dates, and 24 hour, 7 day and 30 day calls, 2xx, 4xx, 5xx, error rate and 95th-percentile time. A version or key the register does not name is listed as not registered. Legacy keys and Traffic detail and key controls are folds; New key is a dialog. From the daily roll-up (or Refresh now): calls, success and failure, last sign-in, full and delta syncs, bandwidth, load size; key rotation, switch off/on, end an old key early (Platform Admin; a new key is shown once).
 - **Backup & restore** (`SettingsBackup.jsx`): daily at 6:50 am Melbourne, by hand and before every restore; pick a backup to see what differs and who changed it last; download as SQL; restore all, providers, settings or ticked rows.
 
 ### 5.2 Models & services — `services` (2 tabs)
@@ -307,15 +335,17 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 
 ## 6. Administration and guides
 
-### 6.1 Users & roles — `users`, rank 6 (`access-roles-entry.jsx`)
+### 6.1 Users & roles — `users`, rank 6 (2 tabs: Users & roles `directory`, Links & Email Templates `templates`; `access-roles-entry.jsx`)
 - Role help; tiles; user directory (auth state, roles, effective role, last sign-in); roles with expiry; disable; create user; recent access changes.
+- **Links & Email Templates** (`AuthEmailTemplates.jsx`, Platform Admin; saved with a reason through `admin_auth_template_settings_save`): the Admin site address, the Admin guide link and the Invite user and Reset password emails. The body is edited as formatted text (toolbar, Insert link, a Sign in button, variable chips; Edit HTML shows the code). The route the mail takes (Supabase Built-in or Resend API), the sender and the key are stated at the top; Save Provider Settings and Send Test Email say what they do.
 - Create user (Person, Role, Sign-in, Review) and the role and edit dialogs (v2.16.55): each field is a stack of label, full-width 40 px box and help text underneath.
 
-### 6.2 Guides — `guide` (3 tabs)
+### 6.2 Guides — `guide` (4 tabs)
 
 | Tab | Key | Min | What it shows |
 |---|---|---|---|
 | Platform guide | `guide` | 1 | How it works, who does what, your role, daily routine, the screens, signal → action, admin duties, alert emails, what changed |
+| Role guides | `role-guides` | 1 | One guide per role, the signed-in person's own first; the pages it lists come from the menu, so a guide never names a page the role cannot open (`RoleGuides.jsx`; words in `src/guide/roleGuides.js`) |
 | Platform Admin SOP | `admin-sop` | 3 | Versioned SOP; download as Markdown |
 | Operator SOP | `operator-sop` | 3 | Versioned SOP; download as Markdown |
 
@@ -458,6 +488,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 ## Version history
 | Version | Date | Change |
 |---|---|---|
+| 1.23 | 29 Nov 2026 | Alignment to the generated UI map at v2.17.0 (22 pages, 58 tabs), PC-20261128-UI-DESIGN-DELIVERY-REVIEW: sections 2.8 and 3.5 added; Platform health, Settings, Reference data, Users & roles and Guides tab lists corrected; page search, Data Delivery and Autonomous PIM, record trace and Reported data issues described. No screen changed; verified against the Pilot source at `cd266650e` (v2.17.0). |
 | 1.22 | 19 Nov 2026 | v2.16.54 to v2.16.57 (s776/s777, s778, s781): Pipeline & field ETA panel; Create user field layout; Providers list logos, drawn flags, compact row actions and More filters. |
 | 1.21 | 19 Nov 2026 | v2.16.51 (s769): Scholarships › Coverage lists 50 providers a page with Previous and Next; the page no longer times out (ref 8XEY7B). |
 | 1.20 | 19 Nov 2026 | Planned tabs Queue & lane control and On-demand runs on Scheduled jobs (s768 design, not built), marked in italics in section 4.2. |
