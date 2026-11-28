@@ -1,5 +1,7 @@
 # DOT intake connector (s1350): design, one-time connection steps and verification
 
+**WITHDRAWN 28 Nov 2026 13:40 AEDT: not shipped.** Platform Admin direction PC-20261128-DOT-DROPBOX-POC replaced the connector with a one-package drop-off capability on the existing `dot-intake` endpoint (s1351, `docs/platform/2026-11-28-s1351-dot-dropbox-capability.md`). Pilot #1757 is held unmerged with no labels; its paste file is withdrawn. The steps below are not to be followed.
+
 **Approval:** Platform Admin 28 Nov 2026 13:05 AEDT: "implement a private StudySearch DOT Intake API connector using the existing deployed dot-intake Edge Function ... secure agent authentication, evidence upload, package finalisation and status retrieval ... credentials securely outside the agent conversation and public GitHub repositories ... restricted permissions, expiry, revocation and audit". Shapes it follows: SS-Programme-Control PC-20261128-DOT-AUTH-REVIEW (a private scoped tool with backend credential handling and short-lived authenticated access, reusing the existing endpoint and gate).
 **Pilot change:** migration `20261201080000_cf247_s1350_dot_intake_connector.sql`, edge function `dot-intake-connector` (`verify_jwt` off: it signs callers in with its own key), spec `tests/uat/cf-247-s1350-dot-intake-connector-contract.spec.mjs`. **Paste file:** `docs/paste/PASTE-20261128-s1350-dot-connector-key.sql`.
 Nothing about the drop-off, the `dot-intake` gate, structured intake or admission is redesigned.
