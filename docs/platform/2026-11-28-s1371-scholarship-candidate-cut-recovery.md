@@ -1,8 +1,8 @@
-# s1363: cut scholarship answers get the two-part read; stranded candidate pages get one recovery read
+# s1371: cut scholarship answers get the two-part read; stranded candidate pages get one recovery read
 
-S2-Build, 28 Nov 2026 22:45 AEDT. Instructions: PC-20261128-LEAN-SESSION-BOOTSTRAP and PC-20261128-CONTINUOUS-BUILD-EXECUTE (scope: scholarship reader, listing and coverage machinery; fix reusable bottlenecks only). Agent Operating Model, S2-Scholarship rule 2 (long-page failures are a technical recovery lane) and DR-19.
+S2-Build, 28 Nov 2026 22:45 AEDT (renumbered 23:00 AEDT from s1363, which S2-RM-Design holds for the binding fix; PC-20261128-2223-QUT-SETTLED). Instructions: PC-20261128-LEAN-SESSION-BOOTSTRAP and PC-20261128-CONTINUOUS-BUILD-EXECUTE (scope: scholarship reader, listing and coverage machinery; fix reusable bottlenecks only). Agent Operating Model, S2-Scholarship rule 2 (long-page failures are a technical recovery lane) and DR-19.
 
-Pilot branch `s1363-scholarship-candidate-cut-recovery` (commit on it; PR to be opened by S1-Build, see below). Migration `20261201162000_cf247_s1363_scholarship_candidate_cut_recovery.sql`, spec `tests/uat/cf-247-s1363-scholarship-candidate-cut-recovery-contract.spec.mjs`.
+Pilot branch `s1371-scholarship-candidate-cut-recovery` (commit on it; PR to be opened by S1-Build, see below). Migration `20261201163700_cf247_s1371_scholarship_candidate_cut_recovery.sql`, spec `tests/uat/cf-247-s1371-scholarship-candidate-cut-recovery-contract.spec.mjs`.
 
 ## The defect (live read-only reads, 28 Nov 2026 22:05 to 22:40 AEDT)
 
@@ -21,13 +21,13 @@ At most one recovery item per candidate. Expected first cohort: 103 candidates a
 ## Checks
 
 - Pre-flight: `node scripts/ci/migration-preflight.mjs --base origin/main` passes (above `20261201150000`).
-- Specs (local, minimal runner since packages cannot be installed in this session): s1363 3/3, s42 3/3, s57 3/3, s120 6/6, s980 5/5, s985 2/2, s1360 3/3. s32 has one browser-page case that the minimal runner cannot run; it fails the same way on `main`, unrelated to this change.
+- Specs (local, minimal runner since packages cannot be installed in this session): s1371 3/3, s42 3/3, s57 3/3, s120 6/6, s980 5/5, s985 2/2, s1360 3/3. s32 has one browser-page case that the minimal runner cannot run; it fails the same way on `main`, unrelated to this change.
 - Scratch PostgreSQL 16: the full live recovery-queue definition and a reduced record function with the exact anchored statement. The migration applies; a second run reports all three edits already applied. Behaviour: of seven seeded candidates, only the two stranded ones are queued (cut and no answer), once each; a good read, an existing recovery item, a directory site, no stored copy and a decided candidate are left alone. Record: a cut answer with a try left gets `sectioned-v1`; no answer, the attempt cap and prompt version 2 do not.
 - G3 75/48, manual locks and active cron are asserted inside the migration.
 
 ## For S1-Build (integration owner)
 
-1. Confirm spec `s1363` and version `20261201162000` (no other claim seen on main, the admin current-state index or remote branches at 22:40 AEDT).
+1. Confirm spec `s1371` and version `20261201163700` (no other claim seen on main, the admin current-state index or remote branches at 22:40 AEDT).
 2. Open the Pilot PR from the branch, run the rolled-back rehearsal on the exact head, then add `live-dry-run` and `automerge` after this admin record merges. Regenerate the test register with the release.
 3. After deploy: read back both live md5s, the first recovery items (`recovery = 'sectioned-v1' and candidate_id is not null`), their extractions and any admissions and publications.
 
