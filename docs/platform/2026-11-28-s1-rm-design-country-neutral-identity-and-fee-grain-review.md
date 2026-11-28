@@ -1,6 +1,6 @@
 # Country-neutral identity, field applicability and fee grain: review (S1-RM-Design)
 
-S1-RM-Design, 28 Nov 2026 16:30 AEDT. Instruction: `PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE` (canonical command: admin #1293, comment 7234089440). Lane scope: country-neutral field applicability, identity and fee-grain review, existing roadmap and reference fixtures. This review makes no schema change, no activation and no data write.
+S1-RM-Design, 28 Nov 2026 15:30 AEDT (written 15:38–15:41). Instruction: `PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE` (canonical command: admin #1293, comment 7234089440). Lane scope: country-neutral field applicability, identity and fee-grain review, existing roadmap and reference fixtures. This review makes no schema change, no activation and no data write.
 
 **How it was read.** I read the checked-in live schema capture, Pilot `supabase/live-capture/baseline/schema.sql`. It was captured 27 Nov 2026 03:21 UTC. No later migration on Pilot main (head `4255651`) redefines any function named below. I didn't re-read the live database, because this session has no governed live-read path; S1-Build's read-back confirms the live definitions. The live counts in the command (27,043 tuition, 47 mismatched sums, 187 total-only, 7,005 zero non-tuition) are Programme Control's reading. This review classifies the mechanisms behind them; it does not re-count them.
 
@@ -126,3 +126,26 @@ F4, F7, F8 and F9 become passes with the one consolidated currency fix in sectio
   - No Pilot push access.
   - No governed live read.
   - So this lane cannot open the PR for this branch, run the live read-backs or make the fix.
+
+## 7. Reconciliation with S2-RM-Design (#1370) and S1-API-Frontend-Delivery (#1371), 28 Nov 2026 15:58 AEDT
+
+- **Live impact of section 2 is zero today.** S2-RM-Design's live read (#1370, DR-19 trace) found:
+  - NZ holds 1,656 fees in NZD and CA holds 751 in CAD, with no AUD fee amounts in either;
+  - no published provider lacks a country.
+
+  So the six shared writer defects in section 2 are **latent**: no NZ or CA row was written as AUD. That answers the live check in section 2 for NZ and CA, and no data correction is needed. The defects still block future countries (fixtures F7, F8) and any missing currency (F9).
+- **The same pattern exists in three places.** They should be fixed as **one consolidated currency gap**, in one S1-Build qualified release, rather than three:
+
+  | Layer | Where | Found by |
+  |---|---|---|
+  | Database writers | `fee_rule_run_v1`, `provider_rule_admit_v1`, `provider_basis_rule_admit_v1` (fixed AUD); `svc_coursefacts_apply_record` (missing → AUD); `layer4_tuition_apply_impl`, `layer3_tuition_admit_assumed_annual_v1` (AUD/NZD/CAD only); `adapter_overwrite_v1` (fixed country map) | S1-RM-Design (this record) |
+  | Worker | `coverage-sweep`: missing country → AU; scholarship and fee currency → AUD (`index.ts`, `scholarship.ts`, `extract.ts`) | S2-RM-Design (#1370) |
+  | Portal | `money()` falls back to AUD; `feeLabel` adds "(CRICOS)" by fee type | S1-API-Frontend-Delivery (#1371) |
+
+  One rule for all three:
+  - Currency comes from the record, else the provider country's `ref.countries.default_currency_code`, else **hold** (database and worker) or **show no symbol** (Portal).
+  - The registration label comes from the course's own registration scheme, never from the fee type.
+  - No schema, table, job or setting is needed. The Portal change is UI only; no G3 consumer function is touched.
+- **Future-country fixtures.** #1371 confirms that the registry rows for the UK, Ireland and the US already exist as `planned`. Section 5 uses GB (RM3) and Ireland (RM5) as the roadmap's next two, and the USA (RM6) as the alternate. The command does not name the two countries, so this stays a recommendation for the Platform Admin or Programme Control to confirm. Nothing is activated.
+- **Hidden totals.** #1371 found that 207 AU courses with a registered total and no tuition serve no fee on Website/Zoho v3. That agrees with section 3: a total is never turned into tuition. Showing the total is an additive v3 field, owned by S1-API-Frontend-Delivery (v3 is pre-cutover). It is not a fee-grain defect.
+- **Time correction.** This record's first heading said 16:30 AEDT, and the Drive and central-handover entries said 16:40/16:45. The review was actually written 15:38–15:41 AEDT. Corrected here; the Drive and handover entries carry a correction line.
