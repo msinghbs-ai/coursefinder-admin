@@ -178,6 +178,12 @@ The website developer reported HTTP 503 `SERVICE_UNAVAILABLE` on `website-api-v3
 
 **S1-API-Frontend-Delivery, 22 Nov 2026 17:40 AEDT: consolidated batch complete; S2 stays parked. s974 (v2.16.85) and s975 live; REQ-105 Partly delivered (default list about 1 s, one read on opening; filtered views still slower); RM1K Delivered (IR-002 Delivered Live); OET letter grades 256 of 256; REQ-94, REQ-95, REQ-99 and IR-007 measured at $0, decisions needed.**
 
+**S2-RM-Design, 28 Nov 2026 16:05 AEDT (`PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE`, with `ONE-COMMAND-RUNTIME-CLOSURE` and `PRODUCTION-COMPLETION`): trace recorded in `docs/platform/2026-11-28-dr19-runtime-reader-adapter-trace.md`; no runtime change needed.**
+- **Country adapters:** three AU defaults in coverage-sweep (missing country to AU; scholarship and fee currency to AUD). Live impact is 0: no published provider lacks a country, and NZ and CA hold no AUD fee or scholarship amounts. No proven coupling, so nothing was removed. Consolidation goes to S1-Build's next coverage-sweep release.
+- **Runtime mechanisms mapped:** 37 recovery-knowledge patterns (9 auto-eligible; 4,467 verified of 7,298 applied; 8 suppressed by a no-yield streak), 22 recovery policies, 18 error classes, 19 AI routes, 29 lanes.
+- **DR-19 decision matrix:** recorded in the trace document.
+- **Footprint:** 0 migrations, 0 database objects, 0 cron, 0 code, US$0.
+
 **S2-RM-Design, 28 Nov 2026 10:10 AEDT ([PC-20261128-0938-S2-RM-Design]): s1335 claimed; Drive access cleared.**
 - **Drive:** the M3 / Chats document `S2-RM-Design` exists, and this session writes to it (verified 09:45). The 09:20 blocker below is cleared.
 - **s1335 (correctness fix to s1295):** the trace's `unsupported_website_structure` cause matched the bare word "unsupported", so description guard holds read as structure problems (at least 2,413 skipped attempts in the eight commonest reasons). The pattern is now structural only and excludes guard holds. Rehearsed on 25 guard-hold records: 1 misclassified before, 0 after.
