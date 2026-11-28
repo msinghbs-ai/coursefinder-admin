@@ -25,6 +25,12 @@
 - **Fix (Pilot, migration `20261201120000`, spec `s1356`):** in the record function's error and retry branches, an account refusal (`security.pim_failure_cause_v1`, which reads the configurable `recovery_error_classes` rows) refunds the attempt and waits `pim.refusal_defer_minutes` (new G2 setting, 60, range 5 to 1440). The existing claim then takes the item again, including s1353's capped-lease settling. Every other error keeps the cap exactly. To roll back by configuration, set the policy's `counts_attempt` to true; no release is needed.
 - **Rehearsed, rolled back (run 46120628462), on two real items:** the refusal went from 2 attempts to 1 and is deferred 60 minutes; the ordinary HTTP 500 went to 2 attempts and back to `ai`.
 - **Footprint:** 1 function edit and 1 setting row. 0 tables, 0 jobs, 0 routes, US$0. Consumer API 75/48, locks and active cron asserted inside the migration.
+- **Scope extended 19:25 AEDT (`PC-20261128-CONTINUOUS-BUILD-EXECUTE`: "trace terminal/expired states with existing remedy registry"), same migration and spec:**
+  - `security.pim_record_trace_v1` names a deferred refusal as in progress (attempt not counted, until when).
+  - It names an expired lease at the attempt cap as an operational failure, cause and recovery cause `lease_expired`, with the registry remedies that treat `lease_orphaned` (`lease_orphan_close`); the next claim settles that lease (s1353).
+  - `security.pim_failure_cause_v1` reads s1353's settled reason as `lease_expired`. Before, the 27 settled items read as account refusals because their earlier reason was quoted.
+  - **Rehearsed rolled back (run 46123030606):** four fixtures as expected: refusal deferred 60 min at 1 attempt; ordinary error 2 attempts back to `ai`; expired capped lease and settled item both `lease_expired`. The live claim reclaims a deferred item once its lease expires (attempts under 3).
+  - **Footprint now:** 3 function edits and 1 setting row.
 
 **S1-Data-Gaps, 28 Nov 2026 16:01 AEDT (`PC-20261128-EVENING-COUNTRY-NEUTRAL-CLOSURE`, with `PRODUCTION-COMPLETION`): fee reconciliation and country-neutral identity audited; no change. US$0, no Pilot change, migration or PR.**
 - **Fees (AU, live read).** The 47 differing sums are totals published without itemisation (tuition 0, non-tuition 0): not proven errors, no correction without official source proof, consumer already serves tuition null. 7,005 zero non-tuition are valid. 187 are total-only (5 also have a served provider annual fee). 0 semantic duplicates; 1 distinct-component alias overlap.
